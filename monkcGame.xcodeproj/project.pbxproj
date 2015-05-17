@@ -1,0 +1,617 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */; };
+		FD5E186B1B092FD3006CB737 /* MCCube.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18691B092FD3006CB737 /* MCCube.c */; };
+		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
+		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
+		FDFF060B1B060BE1000064E3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDFF060A1B060BE1000064E3 /* Shader.fsh */; };
+		FDFF060D1B060BE1000064E3 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FDFF060C1B060BE1000064E3 /* Shader.vsh */; };
+		FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF060F1B060BE1000064E3 /* GameViewController.m */; };
+		FDFF06131B060BE1000064E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDFF06111B060BE1000064E3 /* Main.storyboard */; };
+		FDFF06151B060BE1000064E3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FDFF06141B060BE1000064E3 /* Images.xcassets */; };
+		FDFF06181B060BE1000064E3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDFF06161B060BE1000064E3 /* LaunchScreen.xib */; };
+		FDFF06241B060BE1000064E3 /* monkcGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06231B060BE1000064E3 /* monkcGameTests.m */; };
+		FDFF06451B06314C000064E3 /* HashTable.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF063A1B06314C000064E3 /* HashTable.c */; };
+		FDFF06461B06314C000064E3 /* Key.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF063B1B06314C000064E3 /* Key.c */; };
+		FDFF06471B06314C000064E3 /* Lock.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF063C1B06314C000064E3 /* Lock.c */; };
+		FDFF06481B06314C000064E3 /* Log.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF063D1B06314C000064E3 /* Log.c */; };
+		FDFF064C1B06314C000064E3 /* Messaging.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06411B06314C000064E3 /* Messaging.c */; };
+		FDFF064D1B06314C000064E3 /* monkc.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06421B06314C000064E3 /* monkc.c */; };
+		FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06441B06314C000064E3 /* ObjectManage.c */; };
+		FDFF06671B06315B000064E3 /* MCBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06511B06315B000064E3 /* MCBuffer.c */; };
+		FDFF06681B06315B000064E3 /* MCClock.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06531B06315B000064E3 /* MCClock.c */; };
+		FDFF06691B06315B000064E3 /* MCContext.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06551B06315B000064E3 /* MCContext.c */; };
+		FDFF066A1B06315B000064E3 /* MCException.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06571B06315B000064E3 /* MCException.c */; };
+		FDFF066B1B06315B000064E3 /* MCIO.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06591B06315B000064E3 /* MCIO.c */; };
+		FDFF066C1B06315B000064E3 /* MCMath.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF065B1B06315B000064E3 /* MCMath.c */; };
+		FDFF066D1B06315B000064E3 /* MCProcess.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF065D1B06315B000064E3 /* MCProcess.c */; };
+		FDFF066E1B06315B000064E3 /* MCSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF065F1B06315B000064E3 /* MCSocket.c */; };
+		FDFF066F1B06315B000064E3 /* MCString.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06611B06315B000064E3 /* MCString.c */; };
+		FDFF06701B06315B000064E3 /* MCThread.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06631B06315B000064E3 /* MCThread.c */; };
+		FDFF06711B06315B000064E3 /* MCUnitTest.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06651B06315B000064E3 /* MCUnitTest.c */; };
+		FDFF06751B0639C5000064E3 /* MainScene.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06731B0639C5000064E3 /* MainScene.c */; };
+		FDFF067C1B063DB7000064E3 /* MC3DMainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06781B063DB7000064E3 /* MC3DMainLoop.c */; };
+		FDFF067D1B063DB7000064E3 /* MCCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF067A1B063DB7000064E3 /* MCCamera.c */; };
+		FDFF067F1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm in Sources */ = {isa = PBXBuildFile; fileRef = FDFF067E1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		FDFF061E1B060BE1000064E3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FDFF05F81B060BE1000064E3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FDFF05FF1B060BE1000064E3;
+			remoteInfo = monkcGame;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MC3DiOSDriver.m; sourceTree = "<group>"; };
+		FD5E18621B08FFE7006CB737 /* MC3DiOSDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DiOSDriver.h; sourceTree = "<group>"; };
+		FD5E18681B092FD3006CB737 /* MC3DType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DType.h; sourceTree = "<group>"; };
+		FD5E18691B092FD3006CB737 /* MCCube.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCCube.c; sourceTree = "<group>"; };
+		FD5E186A1B092FD3006CB737 /* MCCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCube.h; sourceTree = "<group>"; };
+		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FDFF06071B060BE1000064E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		FDFF06081B060BE1000064E3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FDFF060A1B060BE1000064E3 /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
+		FDFF060C1B060BE1000064E3 /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
+		FDFF060E1B060BE1000064E3 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		FDFF060F1B060BE1000064E3 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		FDFF06121B060BE1000064E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FDFF06141B060BE1000064E3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		FDFF06171B060BE1000064E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		FDFF061D1B060BE1000064E3 /* monkcGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = monkcGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDFF06221B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FDFF06231B060BE1000064E3 /* monkcGameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = monkcGameTests.m; sourceTree = "<group>"; };
+		FDFF063A1B06314C000064E3 /* HashTable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashTable.c; sourceTree = "<group>"; };
+		FDFF063B1B06314C000064E3 /* Key.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Key.c; sourceTree = "<group>"; };
+		FDFF063C1B06314C000064E3 /* Lock.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Lock.c; sourceTree = "<group>"; };
+		FDFF063D1B06314C000064E3 /* Log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Log.c; sourceTree = "<group>"; };
+		FDFF06411B06314C000064E3 /* Messaging.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Messaging.c; sourceTree = "<group>"; };
+		FDFF06421B06314C000064E3 /* monkc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = monkc.c; sourceTree = "<group>"; };
+		FDFF06431B06314C000064E3 /* monkc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = monkc.h; sourceTree = "<group>"; };
+		FDFF06441B06314C000064E3 /* ObjectManage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ObjectManage.c; sourceTree = "<group>"; };
+		FDFF06511B06315B000064E3 /* MCBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCBuffer.c; sourceTree = "<group>"; };
+		FDFF06521B06315B000064E3 /* MCBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBuffer.h; sourceTree = "<group>"; };
+		FDFF06531B06315B000064E3 /* MCClock.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCClock.c; sourceTree = "<group>"; };
+		FDFF06541B06315B000064E3 /* MCClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCClock.h; sourceTree = "<group>"; };
+		FDFF06551B06315B000064E3 /* MCContext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCContext.c; sourceTree = "<group>"; };
+		FDFF06561B06315B000064E3 /* MCContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContext.h; sourceTree = "<group>"; };
+		FDFF06571B06315B000064E3 /* MCException.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCException.c; sourceTree = "<group>"; };
+		FDFF06581B06315B000064E3 /* MCException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCException.h; sourceTree = "<group>"; };
+		FDFF06591B06315B000064E3 /* MCIO.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCIO.c; sourceTree = "<group>"; };
+		FDFF065A1B06315B000064E3 /* MCIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCIO.h; sourceTree = "<group>"; };
+		FDFF065B1B06315B000064E3 /* MCMath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCMath.c; sourceTree = "<group>"; };
+		FDFF065C1B06315B000064E3 /* MCMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMath.h; sourceTree = "<group>"; };
+		FDFF065D1B06315B000064E3 /* MCProcess.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCProcess.c; sourceTree = "<group>"; };
+		FDFF065E1B06315B000064E3 /* MCProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCProcess.h; sourceTree = "<group>"; };
+		FDFF065F1B06315B000064E3 /* MCSocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSocket.c; sourceTree = "<group>"; };
+		FDFF06601B06315B000064E3 /* MCSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSocket.h; sourceTree = "<group>"; };
+		FDFF06611B06315B000064E3 /* MCString.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCString.c; sourceTree = "<group>"; };
+		FDFF06621B06315B000064E3 /* MCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCString.h; sourceTree = "<group>"; };
+		FDFF06631B06315B000064E3 /* MCThread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCThread.c; sourceTree = "<group>"; };
+		FDFF06641B06315B000064E3 /* MCThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCThread.h; sourceTree = "<group>"; };
+		FDFF06651B06315B000064E3 /* MCUnitTest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCUnitTest.c; sourceTree = "<group>"; };
+		FDFF06661B06315B000064E3 /* MCUnitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUnitTest.h; sourceTree = "<group>"; };
+		FDFF06731B0639C5000064E3 /* MainScene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainScene.c; sourceTree = "<group>"; };
+		FDFF06741B0639C5000064E3 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
+		FDFF06771B063DB7000064E3 /* MC3DBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DBase.h; sourceTree = "<group>"; };
+		FDFF06781B063DB7000064E3 /* MC3DMainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DMainLoop.c; sourceTree = "<group>"; };
+		FDFF06791B063DB7000064E3 /* MC3DShapeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DShapeBase.h; sourceTree = "<group>"; };
+		FDFF067A1B063DB7000064E3 /* MCCamera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCCamera.c; sourceTree = "<group>"; };
+		FDFF067B1B063DB7000064E3 /* MCCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCamera.h; sourceTree = "<group>"; };
+		FDFF067E1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = MCRuntimeAsm_X8664_darwin.asm; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FDFF05FD1B060BE1000064E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FDFF061A1B060BE1000064E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FDFF05F71B060BE1000064E3 = {
+			isa = PBXGroup;
+			children = (
+				FDFF06021B060BE1000064E3 /* monkcGame */,
+				FDFF06201B060BE1000064E3 /* monkcGameTests */,
+				FDFF06011B060BE1000064E3 /* Products */,
+				FDFF06391B06314C000064E3 /* MCLib */,
+				FDFF06761B063C9D000064E3 /* MCiOSDriver */,
+				FDFF064F1B06315B000064E3 /* MCSource */,
+			);
+			sourceTree = "<group>";
+		};
+		FDFF06011B060BE1000064E3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FDFF06001B060BE1000064E3 /* monkcGame.app */,
+				FDFF061D1B060BE1000064E3 /* monkcGameTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FDFF06021B060BE1000064E3 /* monkcGame */ = {
+			isa = PBXGroup;
+			children = (
+				FDFF06071B060BE1000064E3 /* AppDelegate.h */,
+				FDFF06081B060BE1000064E3 /* AppDelegate.m */,
+				FDFF060A1B060BE1000064E3 /* Shader.fsh */,
+				FDFF060C1B060BE1000064E3 /* Shader.vsh */,
+				FDFF060E1B060BE1000064E3 /* GameViewController.h */,
+				FDFF060F1B060BE1000064E3 /* GameViewController.m */,
+				FDFF06111B060BE1000064E3 /* Main.storyboard */,
+				FDFF06141B060BE1000064E3 /* Images.xcassets */,
+				FDFF06161B060BE1000064E3 /* LaunchScreen.xib */,
+				FDFF06031B060BE1000064E3 /* Supporting Files */,
+			);
+			path = monkcGame;
+			sourceTree = "<group>";
+		};
+		FDFF06031B060BE1000064E3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FDFF06041B060BE1000064E3 /* Info.plist */,
+				FDFF06051B060BE1000064E3 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FDFF06201B060BE1000064E3 /* monkcGameTests */ = {
+			isa = PBXGroup;
+			children = (
+				FDFF06231B060BE1000064E3 /* monkcGameTests.m */,
+				FDFF06211B060BE1000064E3 /* Supporting Files */,
+			);
+			path = monkcGameTests;
+			sourceTree = "<group>";
+		};
+		FDFF06211B060BE1000064E3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FDFF06221B060BE1000064E3 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FDFF06391B06314C000064E3 /* MCLib */ = {
+			isa = PBXGroup;
+			children = (
+				FDFF067E1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm */,
+				FDFF063A1B06314C000064E3 /* HashTable.c */,
+				FDFF063B1B06314C000064E3 /* Key.c */,
+				FDFF063C1B06314C000064E3 /* Lock.c */,
+				FDFF063D1B06314C000064E3 /* Log.c */,
+				FDFF06411B06314C000064E3 /* Messaging.c */,
+				FDFF06421B06314C000064E3 /* monkc.c */,
+				FDFF06431B06314C000064E3 /* monkc.h */,
+				FDFF06441B06314C000064E3 /* ObjectManage.c */,
+			);
+			path = MCLib;
+			sourceTree = "<group>";
+		};
+		FDFF064F1B06315B000064E3 /* MCSource */ = {
+			isa = PBXGroup;
+			children = (
+				FDFF06501B06315B000064E3 /* Lemontea */,
+				FDFF06721B06339E000064E3 /* Game */,
+			);
+			path = MCSource;
+			sourceTree = "<group>";
+		};
+		FDFF06501B06315B000064E3 /* Lemontea */ = {
+			isa = PBXGroup;
+			children = (
+				FDFF06511B06315B000064E3 /* MCBuffer.c */,
+				FDFF06521B06315B000064E3 /* MCBuffer.h */,
+				FDFF06531B06315B000064E3 /* MCClock.c */,
+				FDFF06541B06315B000064E3 /* MCClock.h */,
+				FDFF06551B06315B000064E3 /* MCContext.c */,
+				FDFF06561B06315B000064E3 /* MCContext.h */,
+				FDFF06571B06315B000064E3 /* MCException.c */,
+				FDFF06581B06315B000064E3 /* MCException.h */,
+				FDFF06591B06315B000064E3 /* MCIO.c */,
+				FDFF065A1B06315B000064E3 /* MCIO.h */,
+				FDFF065B1B06315B000064E3 /* MCMath.c */,
+				FDFF065C1B06315B000064E3 /* MCMath.h */,
+				FDFF065D1B06315B000064E3 /* MCProcess.c */,
+				FDFF065E1B06315B000064E3 /* MCProcess.h */,
+				FDFF065F1B06315B000064E3 /* MCSocket.c */,
+				FDFF06601B06315B000064E3 /* MCSocket.h */,
+				FDFF06611B06315B000064E3 /* MCString.c */,
+				FDFF06621B06315B000064E3 /* MCString.h */,
+				FDFF06631B06315B000064E3 /* MCThread.c */,
+				FDFF06641B06315B000064E3 /* MCThread.h */,
+				FDFF06651B06315B000064E3 /* MCUnitTest.c */,
+				FDFF06661B06315B000064E3 /* MCUnitTest.h */,
+			);
+			path = Lemontea;
+			sourceTree = "<group>";
+		};
+		FDFF06721B06339E000064E3 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				FDFF06731B0639C5000064E3 /* MainScene.c */,
+				FDFF06741B0639C5000064E3 /* MainScene.h */,
+				FD5E18681B092FD3006CB737 /* MC3DType.h */,
+				FDFF06771B063DB7000064E3 /* MC3DBase.h */,
+				FDFF06781B063DB7000064E3 /* MC3DMainLoop.c */,
+				FDFF06791B063DB7000064E3 /* MC3DShapeBase.h */,
+				FDFF067A1B063DB7000064E3 /* MCCamera.c */,
+				FDFF067B1B063DB7000064E3 /* MCCamera.h */,
+				FD5E18691B092FD3006CB737 /* MCCube.c */,
+				FD5E186A1B092FD3006CB737 /* MCCube.h */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		FDFF06761B063C9D000064E3 /* MCiOSDriver */ = {
+			isa = PBXGroup;
+			children = (
+				FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */,
+				FD5E18621B08FFE7006CB737 /* MC3DiOSDriver.h */,
+			);
+			path = MCiOSDriver;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FDFF05FF1B060BE1000064E3 /* monkcGame */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FDFF06271B060BE1000064E3 /* Build configuration list for PBXNativeTarget "monkcGame" */;
+			buildPhases = (
+				FDFF05FC1B060BE1000064E3 /* Sources */,
+				FDFF05FD1B060BE1000064E3 /* Frameworks */,
+				FDFF05FE1B060BE1000064E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = monkcGame;
+			productName = monkcGame;
+			productReference = FDFF06001B060BE1000064E3 /* monkcGame.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FDFF061C1B060BE1000064E3 /* monkcGameTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FDFF062A1B060BE1000064E3 /* Build configuration list for PBXNativeTarget "monkcGameTests" */;
+			buildPhases = (
+				FDFF06191B060BE1000064E3 /* Sources */,
+				FDFF061A1B060BE1000064E3 /* Frameworks */,
+				FDFF061B1B060BE1000064E3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FDFF061F1B060BE1000064E3 /* PBXTargetDependency */,
+			);
+			name = monkcGameTests;
+			productName = monkcGameTests;
+			productReference = FDFF061D1B060BE1000064E3 /* monkcGameTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FDFF05F81B060BE1000064E3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = oreisoft;
+				TargetAttributes = {
+					FDFF05FF1B060BE1000064E3 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					FDFF061C1B060BE1000064E3 = {
+						CreatedOnToolsVersion = 6.3.1;
+						TestTargetID = FDFF05FF1B060BE1000064E3;
+					};
+				};
+			};
+			buildConfigurationList = FDFF05FB1B060BE1000064E3 /* Build configuration list for PBXProject "monkcGame" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FDFF05F71B060BE1000064E3;
+			productRefGroup = FDFF06011B060BE1000064E3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FDFF05FF1B060BE1000064E3 /* monkcGame */,
+				FDFF061C1B060BE1000064E3 /* monkcGameTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FDFF05FE1B060BE1000064E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDFF06181B060BE1000064E3 /* LaunchScreen.xib in Resources */,
+				FDFF06131B060BE1000064E3 /* Main.storyboard in Resources */,
+				FDFF06151B060BE1000064E3 /* Images.xcassets in Resources */,
+				FDFF060D1B060BE1000064E3 /* Shader.vsh in Resources */,
+				FDFF060B1B060BE1000064E3 /* Shader.fsh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FDFF061B1B060BE1000064E3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FDFF05FC1B060BE1000064E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDFF064D1B06314C000064E3 /* monkc.c in Sources */,
+				FDFF06701B06315B000064E3 /* MCThread.c in Sources */,
+				FDFF06691B06315B000064E3 /* MCContext.c in Sources */,
+				FDFF06471B06314C000064E3 /* Lock.c in Sources */,
+				FDFF066D1B06315B000064E3 /* MCProcess.c in Sources */,
+				FDFF06451B06314C000064E3 /* HashTable.c in Sources */,
+				FDFF066A1B06315B000064E3 /* MCException.c in Sources */,
+				FDFF066B1B06315B000064E3 /* MCIO.c in Sources */,
+				FDFF067D1B063DB7000064E3 /* MCCamera.c in Sources */,
+				FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */,
+				FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */,
+				FDFF064C1B06314C000064E3 /* Messaging.c in Sources */,
+				FDFF06751B0639C5000064E3 /* MainScene.c in Sources */,
+				FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */,
+				FDFF067C1B063DB7000064E3 /* MC3DMainLoop.c in Sources */,
+				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,
+				FDFF066C1B06315B000064E3 /* MCMath.c in Sources */,
+				FDFF066F1B06315B000064E3 /* MCString.c in Sources */,
+				FDFF066E1B06315B000064E3 /* MCSocket.c in Sources */,
+				FDFF06671B06315B000064E3 /* MCBuffer.c in Sources */,
+				FDFF06061B060BE1000064E3 /* main.m in Sources */,
+				FD5E186B1B092FD3006CB737 /* MCCube.c in Sources */,
+				FDFF06681B06315B000064E3 /* MCClock.c in Sources */,
+				FDFF06461B06314C000064E3 /* Key.c in Sources */,
+				FDFF06711B06315B000064E3 /* MCUnitTest.c in Sources */,
+				FDFF06481B06314C000064E3 /* Log.c in Sources */,
+				FDFF067F1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FDFF06191B060BE1000064E3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FDFF06241B060BE1000064E3 /* monkcGameTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		FDFF061F1B060BE1000064E3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FDFF05FF1B060BE1000064E3 /* monkcGame */;
+			targetProxy = FDFF061E1B060BE1000064E3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		FDFF06111B060BE1000064E3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FDFF06121B060BE1000064E3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		FDFF06161B060BE1000064E3 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FDFF06171B060BE1000064E3 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FDFF06251B060BE1000064E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FDFF06261B060BE1000064E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FDFF06281B060BE1000064E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = monkcGame/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FDFF06291B060BE1000064E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = monkcGame/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		FDFF062B1B060BE1000064E3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = monkcGameTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/monkcGame.app/monkcGame";
+			};
+			name = Debug;
+		};
+		FDFF062C1B060BE1000064E3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = monkcGameTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/monkcGame.app/monkcGame";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FDFF05FB1B060BE1000064E3 /* Build configuration list for PBXProject "monkcGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDFF06251B060BE1000064E3 /* Debug */,
+				FDFF06261B060BE1000064E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FDFF06271B060BE1000064E3 /* Build configuration list for PBXNativeTarget "monkcGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDFF06281B060BE1000064E3 /* Debug */,
+				FDFF06291B060BE1000064E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FDFF062A1B060BE1000064E3 /* Build configuration list for PBXNativeTarget "monkcGameTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FDFF062B1B060BE1000064E3 /* Debug */,
+				FDFF062C1B060BE1000064E3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FDFF05F81B060BE1000064E3 /* Project object */;
+}
