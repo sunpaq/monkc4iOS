@@ -17,8 +17,8 @@ method(MCCamera, void, reset, xxx)
     var(modelViewMatrix) = MCMatrix4Identity();
     //spherical coor
     var(R) = 1;
-    var(tht) = 5.0;
-    var(fai) = 45.0;
+    var(tht) = 20.0;
+    var(fai) = 30;
     call(obj, MCCamera, update, nil);
 }
 
@@ -34,7 +34,8 @@ method(MCCamera, MCVertex, position, xxx)
 
 method(MCCamera, MCVertex, up, xxx)
 {
-    return MCVertexFromSpherical(obj->R, obj->tht+90.0, obj->fai);
+    MCVertex eye = call(obj, MCCamera, position, nil);
+    return MCGLLookatSphericalUpVertex(eye.x, eye.y, eye.z, var(R), var(tht));
 }
 
 method(MCCamera, void, updateRatioFocalDistance, xxx)

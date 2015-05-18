@@ -118,8 +118,6 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
     //glLoadIdentity();
     //gluLookAt(eyeX,eyeY,eyeZ,centerX,centerY,centerZ,upX,upY,upZ);
     
-    //GLfloat m[16];
-    MCMatrix4 mat;
     GLfloat x[3], y[3], z[3];
     GLfloat mag;
     
@@ -170,6 +168,14 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
         y[2] /= mag;
     }
     
+    MCMatrix4 mat = (MCMatrix4){
+        x[0], x[1], x[2], 0.0,
+        y[0], y[1], y[2], 0.0,
+        z[0], z[1], z[2], 0.0,
+        0.0,  0.0,  0.0,  1.0
+    };
+
+/*
 #define M(row,col)  mat.m[col*4+row]
     M(0, 0) = x[0];
     M(0, 1) = x[1];
@@ -188,7 +194,7 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
     M(3, 2) = 0.0;
     M(3, 3) = 1.0;
 #undef M
-
+*/
     MCMatrix4 cur = MCMatrix4Identity();
     MCMatrix4 resmat = MCMatrix4Multiply(mat, cur);
     MCMatrix4 trans = MCMatrix4MakeTranslation(-eyex, -eyey, -eyez);
@@ -197,13 +203,18 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
     return resmat;
 }
 
+MCInline MCVertex MCGLLookatSphericalUpVertex(MCFloat eyex, MCFloat eyey, MCFloat eyez, MCFloat R, MCFloat tht) {
+    MCFloat sintht = sin(tht);
+    MCFloat costht = cos(tht);
+    MCVertex up = MCVertexMake(R*sintht-costht, eyey, R*(1/costht-sintht)+costht);
+    return MCVertexMake(up.x-eyex, up.y-eyey, up.z-eyez);
+}
+
 MCInline MCMatrix4 MCGLLookatSpherical(MCFloat centerX, MCFloat centerY, MCFloat centerZ,
 				MCFloat R, MCFloat tht, MCFloat fai) {
-    MCVertex position = MCVertexFromSpherical(R, tht, fai);
-    MCVertex up       = MCVertexFromSpherical(R, tht+90.0, fai);
-    return MCGLLookat(position.x, position.y, position.z,
-	                  centerX,    centerY,    centerZ,
-	                  up.x,       up.y,       up.z);
+    MCVertex eye = MCVertexFromSpherical(R, tht, fai);
+    MCVertex up = MCGLLookatSphericalUpVertex(eye.x, eye.y, eye.z, R, tht);
+    return MCGLLookat(eye.x, eye.y, eye.z, centerX, centerY, centerZ, up.x, up.y, up.z);
 }
 
 MCInline void MCGLEnableTexture2D(MCBool onoff)               { (onoff==MCTrue)? glEnable(GL_TEXTURE_2D):glDisable(GL_TEXTURE_2D); }
