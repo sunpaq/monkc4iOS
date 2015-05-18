@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 oreisoft. All rights reserved.
 //
 
-
 #ifndef __monkcGame__MC3DiOSDriver__
 #define __monkcGame__MC3DiOSDriver__
 
@@ -25,5 +24,9 @@
                                                  (mat).m30, (mat).m31, (mat).m32, (mat).m33}
 
 MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight);
+
+//UI parts use UIKit
+void MCUIRegisterRootUIView(void* rootview);
+void MCUIAddLabelButton(const char* bgname, const char* labelname);
 
 #endif /* defined(__monkcGame__MC3DiOSDriver__) */

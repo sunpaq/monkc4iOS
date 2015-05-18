@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */; };
 		FD5E186B1B092FD3006CB737 /* MCCube.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18691B092FD3006CB737 /* MCCube.c */; };
+		FD5E18781B09C4B0006CB737 /* MCUILayer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18761B09C4B0006CB737 /* MCUILayer.c */; };
 		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
 		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
 		FDFF060B1B060BE1000064E3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDFF060A1B060BE1000064E3 /* Shader.fsh */; };
@@ -58,6 +59,8 @@
 		FD5E18681B092FD3006CB737 /* MC3DType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DType.h; sourceTree = "<group>"; };
 		FD5E18691B092FD3006CB737 /* MCCube.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCCube.c; sourceTree = "<group>"; };
 		FD5E186A1B092FD3006CB737 /* MCCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCube.h; sourceTree = "<group>"; };
+		FD5E18761B09C4B0006CB737 /* MCUILayer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCUILayer.c; sourceTree = "<group>"; };
+		FD5E18771B09C4B0006CB737 /* MCUILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUILayer.h; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -262,6 +265,8 @@
 				FDFF067B1B063DB7000064E3 /* MCCamera.h */,
 				FD5E18691B092FD3006CB737 /* MCCube.c */,
 				FD5E186A1B092FD3006CB737 /* MCCube.h */,
+				FD5E18761B09C4B0006CB737 /* MCUILayer.c */,
+				FD5E18771B09C4B0006CB737 /* MCUILayer.h */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -380,6 +385,7 @@
 				FDFF064D1B06314C000064E3 /* monkc.c in Sources */,
 				FDFF06701B06315B000064E3 /* MCThread.c in Sources */,
 				FDFF06691B06315B000064E3 /* MCContext.c in Sources */,
+				FD5E18781B09C4B0006CB737 /* MCUILayer.c in Sources */,
 				FDFF06471B06314C000064E3 /* Lock.c in Sources */,
 				FDFF066D1B06315B000064E3 /* MCProcess.c in Sources */,
 				FDFF06451B06314C000064E3 /* HashTable.c in Sources */,

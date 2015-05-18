@@ -30,6 +30,7 @@ initer(MainScene)
 {
     var(visible) = MCTrue;//visible by default
     var(mainCamera) = new(MCCamera);
+    var(uilayer) = new(MCUILayer);
     var(cube) = new(MCCube);
     return obj;
 }
@@ -51,6 +52,7 @@ method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
 method(MainScene, void, bye, xxx)
 {
     release(var(mainCamera));
+    release(var(uilayer));
     release(var(cube));
 }
 
@@ -66,11 +68,7 @@ method(MainScene, void, hide, xxx)
 
 method(MainScene, void, update, xxx)
 {
-    if (var(visible)) {
-        
-        
-        call(var(mainCamera), MCCamera, updateLookat, nil);
-    }
+    call(var(mainCamera), MCCamera, updateLookat, nil);
 }
 
 method(MainScene, void, draw, xxx)
@@ -78,6 +76,7 @@ method(MainScene, void, draw, xxx)
     if (var(visible)) {
         MCGLClearScreen(0.65f, 0.65f, 0.65f, 1.0f);
         call(var(cube), MCCube, draw, nil);
+        call(var(uilayer), MCUILayer, draw, nil);
     }
 }
 

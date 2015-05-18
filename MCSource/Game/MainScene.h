@@ -14,9 +14,11 @@
 #include "MC3DBase.h"
 #include "MCCamera.h"
 #include "MCCube.h"
+#include "MCUILayer.h"
 
 monkc(MainScene);
     MCBool visible;
+    MCUILayer* uilayer;
     MCCamera* mainCamera;
     MCCube* cube;
 end(MainScene);

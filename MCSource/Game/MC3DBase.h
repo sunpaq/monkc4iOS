@@ -11,6 +11,9 @@
 #endif
 #include "MC3DType.h"
 
+MCInline MCFloat MCDegreesToRadians(MCFloat degrees) { return degrees * (M_PI / 180); };
+MCInline MCFloat MCRadiansToDegrees(MCFloat radians) { return radians * (180 / M_PI); };
+
 MCInline MCVertex MCVertexMake(MCFloat x, MCFloat y, MCFloat z) {
     return (MCVertex){x, y, z};
 }
@@ -47,24 +50,26 @@ MCInline void putMCVertexes(MCVertex verp[], MCSizeT size) {
 
 //for upvertex use (tht + 90)
 MCInline MCVertex MCVertexFromSpherical(MCFloat R, MCFloat tht, MCFloat fai) {
+#ifdef __APPLE__
+    MCFloat T = MCDegreesToRadians(tht);
+    MCFloat F = MCDegreesToRadians(fai);
+    MCFloat x = R * sin(T) * cos(F);
+    MCFloat y = R * sin(T) * sin(F);
+    MCFloat z = R * cos(T);
+#else
     MCFloat x = R * sin(tht) * cos(fai);
     MCFloat y = R * sin(tht) * sin(fai);
     MCFloat z = R * cos(tht);
+#endif
     return (MCVertex){x,y,z};
 }
 
 MCInline MCMatrix4 MCMatrix4Identity() {
-    MCMatrix4 mat;
-    for (int i=0; i<16; i++) mat.m[i] = 0;
-    mat.m00 = 1;
-    mat.m11 = 1;
-    mat.m22 = 1;
-    mat.m33 = 1;
-    return mat;
+    return (MCMatrix4){1,0,0,0,
+                       0,1,0,0,
+                       0,0,1,0,
+                       0,0,0,1};
 }
-
-MCInline MCFloat MCDegreesToRadians(MCFloat degrees) { return degrees * (M_PI / 180); };
-MCInline MCFloat MCRadiansToDegrees(MCFloat radians) { return radians * (180 / M_PI); };
 
 MCInline MCMatrix4 MCMatrix4MakePerspective(float fovyRadians, float aspect, float nearZ, float farZ)
 {
@@ -132,6 +137,7 @@ MCInline void MCGLFrustumView(MCFloat left, MCFloat right,
     //glFrustumf(left, right, top, bottom, near, far);
 }
 
+//http://iphonedevelopment.blogspot.jp/2008/12/glulookat.html
 MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
 		        MCFloat centerx, MCFloat centery, MCFloat centerz,
 		        MCFloat upx,     MCFloat upy,     MCFloat upz) {
@@ -218,7 +224,7 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
     //MCMatrix4 cur = modelViewMatrix;
     MCMatrix4 cur = MCMatrix4Identity();
     
-    MCMatrix4 resmat = MCMatrix4Multiply(cur, mat);
+    MCMatrix4 resmat = MCMatrix4Multiply(mat, cur);
     MCMatrix4 trans = MCMatrix4MakeTranslation(-eyex, -eyey, -eyez);
     resmat = MCMatrix4Multiply(trans, resmat);
     
@@ -228,7 +234,7 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
 MCInline MCMatrix4 MCGLLookatSpherical(MCFloat centerX, MCFloat centerY, MCFloat centerZ,
 				MCFloat R, MCFloat tht, MCFloat fai) {
     MCVertex position = MCVertexFromSpherical(R, tht, fai);
-    MCVertex up       = MCVertexFromSpherical(R, tht+90, fai);
+    MCVertex up       = MCVertexFromSpherical(R, tht+90.0, fai);
     return MCGLLookat(position.x, position.y, position.z,
 	                  centerX,    centerY,    centerZ,
 	                  up.x,       up.y,       up.z);

@@ -6,64 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MCSource/Game/MC3DBase.h"
-            timestampString = "453584643.215865"
+            filePath = "MCiOSDriver/MC3DiOSDriver.m"
+            timestampString = "453626482.292608"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "130"
-            endingLineNumber = "130"
-            landmarkName = "MCGLFrustumView(MCFloat left, MCFloat right, MCFloat top, MCFloat bottom, MCFloat near, MCFloat far)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MCSource/Game/MC3DBase.h"
-            timestampString = "453584643.215865"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "MCGLFrustumView(MCFloat left, MCFloat right, MCFloat top, MCFloat bottom, MCFloat near, MCFloat far)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MCSource/Game/MC3DBase.h"
-            timestampString = "453584643.215865"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez, MCFloat centerx, MCFloat centery, MCFloat centerz, MCFloat upx, MCFloat upy, MCFloat upz)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MCSource/Game/MC3DBase.h"
-            timestampString = "453584643.215865"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
-            landmarkName = "MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez, MCFloat centerx, MCFloat centery, MCFloat centerz, MCFloat upx, MCFloat upy, MCFloat upz)"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "MCUIAddLabelButton()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
