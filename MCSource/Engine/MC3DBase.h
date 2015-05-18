@@ -101,33 +101,6 @@ MCInline MCMatrix4 MCMatrix4MakeScale(float sx, float sy, float sz)
     return m;
 }
 
-//MCInline MCMatrix4 MCMatrix4MakeRotation(float radians, float x, float y, float z)
-//{
-//    GLKVector3 v = GLKVector3Normalize(GLKVector3Make(x, y, z));
-//    float cos = cosf(radians);
-//    float cosp = 1.0f - cos;
-//    float sin = sinf(radians);
-//    
-//    MCMatrix4 m = { cos + cosp * v.v[0] * v.v[0],
-//        cosp * v.v[0] * v.v[1] + v.v[2] * sin,
-//        cosp * v.v[0] * v.v[2] - v.v[1] * sin,
-//        0.0f,
-//        cosp * v.v[0] * v.v[1] - v.v[2] * sin,
-//        cos + cosp * v.v[1] * v.v[1],
-//        cosp * v.v[1] * v.v[2] + v.v[0] * sin,
-//        0.0f,
-//        cosp * v.v[0] * v.v[2] + v.v[1] * sin,
-//        cosp * v.v[1] * v.v[2] - v.v[0] * sin,
-//        cos + cosp * v.v[2] * v.v[2],
-//        0.0f,
-//        0.0f,
-//        0.0f,
-//        0.0f,
-//        1.0f };
-//    
-//    return m;
-//}
-
 //for OpenGL bridge
 MCInline void MCGLFrustumView(MCFloat left, MCFloat right,
 			    MCFloat top, MCFloat bottom,
@@ -215,15 +188,8 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
     M(3, 2) = 0.0;
     M(3, 3) = 1.0;
 #undef M
-    
-    //glMultMatrixf(m);
-    
-    /* Translate Eye to Origin */
-    //glTranslatef(-eyex, -eyey, -eyez);
-    
-    //MCMatrix4 cur = modelViewMatrix;
+
     MCMatrix4 cur = MCMatrix4Identity();
-    
     MCMatrix4 resmat = MCMatrix4Multiply(mat, cur);
     MCMatrix4 trans = MCMatrix4MakeTranslation(-eyex, -eyey, -eyez);
     resmat = MCMatrix4Multiply(trans, resmat);
@@ -239,17 +205,6 @@ MCInline MCMatrix4 MCGLLookatSpherical(MCFloat centerX, MCFloat centerY, MCFloat
 	                  centerX,    centerY,    centerZ,
 	                  up.x,       up.y,       up.z);
 }
-
-//#define GL_TEXTURE_2D                                    0x0DE1
-//#define GL_CULL_FACE                                     0x0B44
-//#define GL_BLEND                                         0x0BE2
-//#define GL_DITHER                                        0x0BD0
-//#define GL_STENCIL_TEST                                  0x0B90
-//#define GL_DEPTH_TEST                                    0x0B71
-//#define GL_SCISSOR_TEST                                  0x0C11
-//#define GL_POLYGON_OFFSET_FILL                           0x8037
-//#define GL_SAMPLE_ALPHA_TO_COVERAGE                      0x809E
-//#define GL_SAMPLE_COVERAGE                               0x80A0
 
 MCInline void MCGLEnableTexture2D(MCBool onoff)               { (onoff==MCTrue)? glEnable(GL_TEXTURE_2D):glDisable(GL_TEXTURE_2D); }
 MCInline void MCGLEnableCullFace(MCBool onoff)                { (onoff==MCTrue)? glEnable(GL_CULL_FACE):glDisable(GL_CULL_FACE); }

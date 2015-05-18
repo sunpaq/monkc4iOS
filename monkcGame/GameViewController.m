@@ -251,7 +251,7 @@ MainScene* mainScene = nil;
 {
 #ifdef USEMC
     // monkc update
-    call(mainScene, MainScene, moveCameraOneStep, self.timeSinceLastUpdate * 0.0f, self.timeSinceLastUpdate * 5.0f);
+    call(mainScene, MainScene, moveCameraOneStep, self.timeSinceLastUpdate * 5.0f, self.timeSinceLastUpdate * 0.0f);
     call(mainScene, MainScene, update, nil);
     self.effect.transform.modelviewMatrix = MCMatrix4ToGLKMatrix4(mainScene->mainCamera->modelViewMatrix);
     self.effect.transform.projectionMatrix = MCMatrix4ToGLKMatrix4(mainScene->mainCamera->projectionMatrix);

@@ -17,8 +17,8 @@ method(MCCamera, void, reset, xxx)
     var(modelViewMatrix) = MCMatrix4Identity();
     //spherical coor
     var(R) = 1;
-    var(tht) = 0.0;
-    var(fai) = 0.0;
+    var(tht) = 5.0;
+    var(fai) = 45.0;
     call(obj, MCCamera, update, nil);
 }
 

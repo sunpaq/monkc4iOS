@@ -46,6 +46,7 @@ void MCUIAddLabelButton(const char* bgname, const char* labelname, MCFloat x, MC
 {
     UIButton* btn = (UIButton*)sender;
     btn.tag;
+    
 }
 
 @end
