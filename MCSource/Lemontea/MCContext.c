@@ -8,32 +8,28 @@ initer(MCContext)
 
 loader(MCContext)
 {
-    binding(MCContext, MCContext*, newWithArgs, int argc, const char** argv);
-    binding(MCContext, void, bye, xxx);
-    binding(MCContext, void, dumpParas, xxx);
-    binding(MCContext, const char*, getPara, int index);
-    binding(MCContext, int, isIndexedParaEqualTo, int index, const char* para);
-    binding(MCContext, int, isHavePara, const char* para);
-    binding(MCContext, int, showMenuAndGetSelectionChar, int count, ...);
-    binding(MCContext, int, showConfirmAndGetBOOL, const const char* confirm);
-    binding(MCContext, void, getUserInputString, char resultString[]);
-    binding(MCContext, const char*, getEnvironmentVar, const const char* key);
-    binding(MCContext, int, setEnvironmentVar, const const char* key, const const char* value, int isOverwrite);
-    binding(MCContext, int, clearEnvironmentVar, const const char* key);
-    return claz;
+binding(MCContext, MCContext*, newWithArgs, int argc, char** argv);
+binding(MCContext, void, bye, xxx);
+binding(MCContext, void, dumpParas, xxx);
+binding(MCContext, char*, getPara, int index);
+binding(MCContext, int, isIndexedParaEqualTo, int index, char* para);
+binding(MCContext, int, isHavePara, char* para);
+binding(MCContext, char, showMenuAndGetSelectionChar, int count, ...);
+binding(MCContext, int, showConfirmAndGetBOOL, const char* confirm);
+binding(MCContext, void, getUserInputString, char resultString[]);
+binding(MCContext, char*, getEnvironmentVar, const char* key);
+binding(MCContext, int, setEnvironmentVar, const char* key, const char* value, int isOverwrite);
+binding(MCContext, int, clearEnvironmentVar, const char* key);
+return claz;
 }
 
-method(MCContext, MCContext*, newWithArgs, int argc, const char** argv)
+method(MCContext, 
+MCContext*, newWithArgs, int argc, char** argv)
 {
 	MCContext* res = new(MCContext);
 	res->argc = argc;
 	res->argv = argv;
 	return res;
-}
-
-method(MCContext, void, bye, xxx)
-{
-    runtime_log("%s\n", "MCContext goodbye");
 }
 
 struct privateData
@@ -55,8 +51,15 @@ static void get_chars_until_enter(char resultString[])
 	while((tc=getchar())!='\n'){
 		resultString[i]=tc;
 		i++;
+		putchar(tc);
 	}
 	resultString[i]='\0';
+	putchar(tc);
+}
+
+method(MCContext, void, bye, xxx)
+{	
+	runtime_log("%s\n", "MCContext goodbye");
 }
 
 method(MCContext, void, dumpParas, xxx)
@@ -68,26 +71,26 @@ method(MCContext, void, dumpParas, xxx)
 	}
 }
 
-method(MCContext, const char*, getPara, int index)
+method(MCContext, char*, getPara, int index)
 {
 	return obj->argv[index];
 }
 
-method(MCContext, int, isIndexedParaEqualTo, int index, const char* para)
+method(MCContext, int, isIndexedParaEqualTo, int index, char* para)
 {
-	const char* para1 = obj->argv[index];
+	char* para1 = obj->argv[index];
 	if (para1==nil)return 0;
 	if (strcmp(para1, para)==0)return 1;
 	else return 0;
 }
 
-method(MCContext, int, isHavePara, const char* para)
+method(MCContext, int, isHavePara, char* para)
 {
 	if(obj==nil)return 0;
 	int i, res;
 	for (i = 0; i < obj->argc; ++i)
 	{
-		const char* tmp = obj->argv[i];
+		char* tmp = obj->argv[i];
 		if(tmp!=nil&&para!=nil)res = strcmp(tmp, para);
 		else return 0;
 
@@ -96,7 +99,7 @@ method(MCContext, int, isHavePara, const char* para)
 	return 1;
 }
 
-method(MCContext, int, showMenuAndGetSelectionChar, int count, ...)
+method(MCContext, char, showMenuAndGetSelectionChar, int count, ...)
 {
 	va_list ap;
 	va_start(ap, count);
@@ -135,13 +138,14 @@ int setenv(const char *name, const char *value, int rewrite);
 int unsetenv(const char *name);
 */
 
-method(MCContext, const char*, getEnvironmentVar, const char* key)
+method(MCContext, char*, getEnvironmentVar, const char* key)
 {
 	//char *getenv(const char *name);
 	return getenv(key);
 }
 
-method(MCContext, int, setEnvironmentVar, const char* key, const char* value, int isOverwrite)
+method(MCContext, 
+int, setEnvironmentVar, const char* key, const char* value, int isOverwrite)
 {
 	//int setenv(const char *name, const char *value, int rewrite);
 	if (setenv(key, value, isOverwrite)==0)
@@ -150,7 +154,8 @@ method(MCContext, int, setEnvironmentVar, const char* key, const char* value, in
 		return -1;
 }
 
-method(MCContext, int, clearEnvironmentVar, const char* key)
+method(MCContext, 
+int, clearEnvironmentVar, const char* key)
 {
 	//int unsetenv(const char *name);
 	if (unsetenv(key)==0)

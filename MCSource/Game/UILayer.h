@@ -12,11 +12,11 @@
 #include <stdio.h>
 #include "monkc.h"
 
-monkc(MCUILayer);
+monkc(UILayer);
     MCBool visible;
-end(MCUILayer);
+end(UILayer);
 
-method(MCUILayer, void, draw, xxx);
+method(UILayer, void, draw, xxx);
 
 
 #endif /* defined(__monkcGame__MCUILayer__) */

@@ -9,6 +9,15 @@
 #ifndef __monkcGame__MC3DiOSDriver__
 #define __monkcGame__MC3DiOSDriver__
 
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <GLKit/GLKit.h>
+
+@interface UIEventHandler : NSObject
+- (void) onButtonClicked:(id)sender;
+@end
+#endif
+
 #include <stdio.h>
 #include "monkc.h"
 #include "MC3DType.h"
@@ -27,6 +36,11 @@ MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight);
 
 //UI parts use UIKit
 void MCUIRegisterRootUIView(void* rootview);
-void MCUIAddLabelButton(const char* bgname, const char* labelname);
+void MCUIAddLabelButton(const char* bgname, const char* labelname, MCFloat x, MCFloat y, MCInt tag);
+
+
 
 #endif /* defined(__monkcGame__MC3DiOSDriver__) */
+
+
+

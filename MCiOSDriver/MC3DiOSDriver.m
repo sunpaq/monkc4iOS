@@ -17,19 +17,38 @@ MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight)
 }
 
 static UIView* _rootUIView = nil;
+static UIEventHandler* _handler = nil;
+
 void MCUIRegisterRootUIView(void* rootview)
 {
     _rootUIView = (__bridge UIView*)rootview;
+    _handler = [UIEventHandler new];
 }
 
-void MCUIAddLabelButton(const char* bgname, const char* labelname)
+void MCUIAddLabelButton(const char* bgname, const char* labelname, MCFloat x, MCFloat y, MCInt tag)
 {
     if (_rootUIView) {
-        UIButton* btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
         [btn setTitle:[NSString stringWithCString:labelname encoding:NSUTF8StringEncoding] forState:UIControlStateNormal];
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [btn sizeToFit];
-        btn.center = CGPointMake(100, 50);
-        
+        btn.center = CGPointMake(x, y);
+        btn.tag = tag;
+        [btn addTarget:_handler action:@selector(onButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [_rootUIView addSubview:btn];
     }
 }
+
+#ifdef __OBJC__
+@implementation UIEventHandler
+
+- (void) onButtonClicked:(id)sender
+{
+    UIButton* btn = (UIButton*)sender;
+    btn.tag;
+}
+
+@end
+#endif /* __OBJC__ */
+
+

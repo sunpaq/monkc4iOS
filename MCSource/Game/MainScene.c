@@ -30,7 +30,7 @@ initer(MainScene)
 {
     var(visible) = MCTrue;//visible by default
     var(mainCamera) = new(MCCamera);
-    var(uilayer) = new(MCUILayer);
+    var(uilayer) = new(UILayer);
     var(cube) = new(MCCube);
     return obj;
 }
@@ -76,7 +76,7 @@ method(MainScene, void, draw, xxx)
     if (var(visible)) {
         MCGLClearScreen(0.65f, 0.65f, 0.65f, 1.0f);
         call(var(cube), MCCube, draw, nil);
-        call(var(uilayer), MCUILayer, draw, nil);
+        call(var(uilayer), UILayer, draw, nil);
     }
 }
 

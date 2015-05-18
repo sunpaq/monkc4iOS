@@ -6,27 +6,27 @@
 //  Copyright (c) 2015 oreisoft. All rights reserved.
 //
 
-#include "MCUILayer.h"
+#include "UILayer.h"
 #include "MC3DiOSDriver.h"
 
-initer(MCUILayer)
+initer(UILayer)
 {
     var(visible) = MCTrue;
-    MCUIAddLabelButton("", "LEFT");
+    MCUIAddLabelButton("", "LEFT", 20, 40, 1);
 
     return obj;
 }
 
-method(MCUILayer, void, draw, xxx)
+method(UILayer, void, draw, xxx)
 {
     if (var(visible)) {
         
     }
 }
 
-loader(MCUILayer)
+loader(UILayer)
 {
-    binding(MCUILayer, void, draw, xxx);
+    binding(UILayer, void, draw, xxx);
     return claz;
 }
 
