@@ -11,16 +11,17 @@ monkc(MCCamera);
     MCVertex lookat;
     MCMatrix4 projectionMatrix;
     MCMatrix4 modelViewMatrix;
-    //spherical coordinate
+    //world coordinate
+    MCVertex currentPosition;
+    //local spherical coordinate
+    //R[0,unlimited) tht[0, 180.0), fai[0, 360.0)
     MCFloat R;
     MCFloat tht;
     MCFloat fai;
 end(MCCamera);
 
-method(MCCamera, void, reset, xxx);
-method(MCCamera, MCMatrix4, projectionMatrix, xxx);
-method(MCCamera, MCVertex, position, xxx);
-method(MCCamera, MCVertex, up, xxx);
+method(MCCamera, void, reset, MCBool updateOrNot);
+method(MCCamera, void, updatePosition, MCVertex* result);
 method(MCCamera, void, updateRatioFocalDistance, xxx);
 method(MCCamera, void, updateLookat, xxx);
 method(MCCamera, void, update, xxx);

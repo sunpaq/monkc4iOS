@@ -11,11 +11,32 @@
 #endif
 #include "MC3DType.h"
 
-MCInline MCFloat MCDegreesToRadians(MCFloat degrees) { return degrees * (M_PI / 180); };
-MCInline MCFloat MCRadiansToDegrees(MCFloat radians) { return radians * (180 / M_PI); };
+MCInline MCFloat MCDegreesToRadians(MCFloat degrees) { return degrees * (M_PI / 180); }
+MCInline MCFloat MCRadiansToDegrees(MCFloat radians) { return radians * (180 / M_PI); }
+MCInline MCFloat MCCircleFacingAngle(MCFloat degrees) {
+    if (degrees < 180.0)
+        return degrees+180.0;
+    if (degrees > 180.0)
+        return degrees-180.0;
+    //degrees == 180.0
+    return 0.0;
+}
+
+MCInline MCFloat MCSinDegrees(MCFloat degress)       { return sin(MCDegreesToRadians(degress)); }
+MCInline MCFloat MCCosDegrees(MCFloat degress)       { return cos(MCDegreesToRadians(degress)); }
+MCInline MCFloat MCTanDegrees(MCFloat degress)       { return tan(MCDegreesToRadians(degress)); }
+
 
 MCInline MCVertex MCVertexMake(MCFloat x, MCFloat y, MCFloat z) {
     return (MCVertex){x, y, z};
+}
+
+MCInline MCVertex MCVertexMakeReverse(MCFloat x, MCFloat y, MCFloat z) {
+    return (MCVertex){-x, -y, -z};
+}
+
+MCInline MCVertex MCVertexReverse(MCVertex vtx) {
+    return (MCVertex){-vtx.x, -vtx.y, -vtx.z};
 }
 
 MCInline MCVertex MCVertexMiddle(MCVertex v1, MCVertex v2) {
@@ -48,14 +69,29 @@ MCInline void putMCVertexes(MCVertex verp[], MCSizeT size) {
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-//for upvertex use (tht + 90)
+//world is right hand y on top, local is left hand z on top
+MCInline MCVertex MCWorldCoorFromLocal(MCVertex localvertex, MCVertex modelposition) {
+    return (MCVertex){modelposition.x+localvertex.y,
+                      modelposition.y+localvertex.z,
+                      modelposition.z+localvertex.x};
+}
+
+MCInline MCVertex MCLocalCoorFromWorld(MCVertex worldvertex, MCVertex modelposition) {
+    return (MCVertex){worldvertex.z-modelposition.z,
+                      worldvertex.x-modelposition.x,
+                      worldvertex.y-modelposition.y};
+}
+
+//R[0,unlimited) tht[0, M_PI), fai[0, 2M_PI)
 MCInline MCVertex MCVertexFromSpherical(MCFloat R, MCFloat tht, MCFloat fai) {
 #ifdef __APPLE__
-    MCFloat T = MCDegreesToRadians(tht);
-    MCFloat F = MCDegreesToRadians(fai);
-    MCFloat x = R * sin(T) * cos(F);
-    MCFloat y = R * sin(T) * sin(F);
-    MCFloat z = R * cos(T);
+    MCFloat sinT = MCSinDegrees(tht);
+    MCFloat sinF = MCSinDegrees(fai);
+    MCFloat cosT = MCCosDegrees(tht);
+    MCFloat cosF = MCCosDegrees(fai);
+    MCFloat x = R * sinT * cosF;
+    MCFloat y = R * sinT * sinF;
+    MCFloat z = R * cosT;
 #else
     MCFloat x = R * sin(tht) * cos(fai);
     MCFloat y = R * sin(tht) * sin(fai);
@@ -112,8 +148,8 @@ MCInline void MCGLFrustumView(MCFloat left, MCFloat right,
 
 //http://iphonedevelopment.blogspot.jp/2008/12/glulookat.html
 MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
-		        MCFloat centerx, MCFloat centery, MCFloat centerz,
-		        MCFloat upx,     MCFloat upy,     MCFloat upz) {
+		                      MCFloat centerx, MCFloat centery, MCFloat centerz,
+		                      MCFloat upx,     MCFloat upy,     MCFloat upz) {
     //glMatrixMode(GL_MODELVIEW);
     //glLoadIdentity();
     //gluLookAt(eyeX,eyeY,eyeZ,centerX,centerY,centerZ,upX,upY,upZ);
@@ -168,14 +204,16 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
         y[2] /= mag;
     }
     
+    
     MCMatrix4 mat = (MCMatrix4){
         x[0], x[1], x[2], 0.0,
         y[0], y[1], y[2], 0.0,
         z[0], z[1], z[2], 0.0,
         0.0,  0.0,  0.0,  1.0
     };
-
-/*
+    
+    /*
+    MCMatrix4 mat;
 #define M(row,col)  mat.m[col*4+row]
     M(0, 0) = x[0];
     M(0, 1) = x[1];
@@ -194,28 +232,24 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
     M(3, 2) = 0.0;
     M(3, 3) = 1.0;
 #undef M
-*/
+    */
     MCMatrix4 cur = MCMatrix4Identity();
-    MCMatrix4 resmat = MCMatrix4Multiply(mat, cur);
+    MCMatrix4 resmat = MCMatrix4Multiply(cur, mat);
     MCMatrix4 trans = MCMatrix4MakeTranslation(-eyex, -eyey, -eyez);
     resmat = MCMatrix4Multiply(trans, resmat);
     
     return resmat;
 }
 
-MCInline MCVertex MCGLLookatSphericalUpVertex(MCFloat eyex, MCFloat eyey, MCFloat eyez, MCFloat R, MCFloat tht) {
-    MCFloat sintht = sin(tht);
-    MCFloat costht = cos(tht);
-    MCVertex up = MCVertexMake(R*sintht-costht, eyey, R*(1/costht-sintht)+costht);
-    return MCVertexMake(up.x-eyex, up.y-eyey, up.z-eyez);
-}
-
-MCInline MCMatrix4 MCGLLookatSpherical(MCFloat centerX, MCFloat centerY, MCFloat centerZ,
-				MCFloat R, MCFloat tht, MCFloat fai) {
-    MCVertex eye = MCVertexFromSpherical(R, tht, fai);
-    MCVertex up = MCGLLookatSphericalUpVertex(eye.x, eye.y, eye.z, R, tht);
-    return MCGLLookat(eye.x, eye.y, eye.z, centerX, centerY, centerZ, up.x, up.y, up.z);
-}
+//MCInline MCMatrix4 MCGLLookatSpherical(MCFloat centerX, MCFloat centerY, MCFloat centerZ,
+//				MCFloat R, MCFloat tht, MCFloat fai) {
+//    MCVertex pos = MCVertexMake(centerX, centerY, centerZ);
+//    MCVertex eye = MCGLWorldCoorFromLocal(MCLocalVertexFromSpherical(R, tht, fai), pos);
+//    MCVertex reverseLocalUp = MCLocalVertexFromSpherical(R, tht+90.0, fai);
+//    MCVertex up = MCGLWorldCoorFromLocal(MCVertexReverse(reverseLocalUp), pos);
+//    //MCVertex up = MCGLWorldCoorFromLocal(MCGLLookatSphericalUpLocalVertex(eye.x, eye.y, eye.z, R, tht), pos);
+//    return MCGLLookat(eye.x, eye.y, eye.z, centerX, centerY, centerZ, 0, 1, 0);
+//}
 
 MCInline void MCGLEnableTexture2D(MCBool onoff)               { (onoff==MCTrue)? glEnable(GL_TEXTURE_2D):glDisable(GL_TEXTURE_2D); }
 MCInline void MCGLEnableCullFace(MCBool onoff)                { (onoff==MCTrue)? glEnable(GL_CULL_FACE):glDisable(GL_CULL_FACE); }
@@ -270,5 +304,8 @@ MCInline void MCGLClearScreen(MCFloat red, MCFloat green, MCFloat blue, MCFloat 
     glClearColor(red, green, blue, alpha);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
+
+
+
 
 #endif
