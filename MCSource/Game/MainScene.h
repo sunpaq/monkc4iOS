@@ -19,6 +19,7 @@
 monkc(MainScene);
     MCBool visible;
     UILayer* uilayer;
+    MCBool cameraLock;
     MCCamera* mainCamera;
     MCCube* cube;
 end(MainScene);
@@ -30,5 +31,7 @@ method(MainScene, void, hide, xxx);
 method(MainScene, void, update, xxx);
 method(MainScene, void, draw, xxx);
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
+method(MainScene, void, lockCamera, MCBool lock);
+
 
 #endif /* defined(__monkcGame__MainScene__) */

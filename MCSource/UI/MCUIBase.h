@@ -1,7 +1,6 @@
-#include "monkc.h"
-
 #ifndef _MCUIBase_
 #define _MCUIBase_
+#include "monkc.h"
 
 typedef struct {
     double x;
@@ -71,14 +70,14 @@ MCInline MCColor mc_color_mix(MCColor A, MCColor B)
     return mixed;
 }
 
-const MCPoint mc_point_zero = {0,0};
-const MCSize mc_size_zero   = {0,0};
-const MCRect mc_rect_zero   = {0,0,0,0};
+static const MCPoint mc_point_zero = {0,0};
+static const MCSize mc_size_zero   = {0,0};
+static const MCRect mc_rect_zero   = {0,0,0,0};
 
-const MCColor mc_color_white  = {255,255,255};
-const MCColor mc_color_black  = {0,0,0};
-const MCColor mc_color_red    = {255,0,0};
-const MCColor mc_color_green  = {0,255,0};
-const MCColor mc_color_blue   = {0,0,255};
+static const MCColor mc_color_white  = {255,255,255};
+static const MCColor mc_color_black  = {0,0,0};
+static const MCColor mc_color_red    = {255,0,0};
+static const MCColor mc_color_green  = {0,255,0};
+static const MCColor mc_color_blue   = {0,0,255};
 
 #endif

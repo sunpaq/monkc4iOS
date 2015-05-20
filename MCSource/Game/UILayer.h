@@ -17,6 +17,7 @@ monkc(UILayer);
 end(UILayer);
 
 method(UILayer, void, draw, xxx);
+method(UILayer, void, onButtonClicked, MCInt tag);
 
 
 #endif /* defined(__monkcGame__MCUILayer__) */

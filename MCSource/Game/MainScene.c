@@ -12,7 +12,7 @@ static void setupCamera(MCCamera* camera, MCFloat width, MCFloat height)
 {
     //setting camera
     camera->ratio = MCRatioMake(width, height);
-    camera->R = 10;
+    camera->R = 5;
     call(camera, MCCamera, update, nil);
 }
 
@@ -29,9 +29,12 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
 initer(MainScene)
 {
     var(visible) = MCTrue;//visible by default
+    var(cameraLock) = MCFalse;
     var(mainCamera) = new(MCCamera);
     var(uilayer) = new(UILayer);
     var(cube) = new(MCCube);
+    
+    var(uilayer)->super = (mo)obj;
     return obj;
 }
 
@@ -44,9 +47,16 @@ method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height
     return obj;
 }
 
+method(MainScene, void, lockCamera, MCBool lock)
+{
+    var(cameraLock) = lock;
+}
+
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
 {
-    moveCameraOneStep(var(mainCamera), deltaFai, deltaTht);
+    if (var(cameraLock)==MCFalse) {
+        moveCameraOneStep(var(mainCamera), deltaFai, deltaTht);
+    }
 }
 
 method(MainScene, void, bye, xxx)
@@ -89,6 +99,7 @@ loader(MainScene)
     binding(MainScene, void, update, xxx);
     binding(MainScene, void, draw, xxx);
     binding(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
+    binding(MainScene, void, lockCamera, MCBool lock);
 
     return claz;
 }
