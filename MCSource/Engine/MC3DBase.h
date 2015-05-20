@@ -146,6 +146,7 @@ MCInline void MCGLFrustumView(MCFloat left, MCFloat right,
     //glFrustumf(left, right, top, bottom, near, far);
 }
 
+#if 0
 //http://iphonedevelopment.blogspot.jp/2008/12/glulookat.html
 MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
 		                      MCFloat centerx, MCFloat centery, MCFloat centerz,
@@ -240,16 +241,7 @@ MCInline MCMatrix4 MCGLLookat(MCFloat eyex, MCFloat eyey, MCFloat eyez,
     
     return resmat;
 }
-
-//MCInline MCMatrix4 MCGLLookatSpherical(MCFloat centerX, MCFloat centerY, MCFloat centerZ,
-//				MCFloat R, MCFloat tht, MCFloat fai) {
-//    MCVertex pos = MCVertexMake(centerX, centerY, centerZ);
-//    MCVertex eye = MCGLWorldCoorFromLocal(MCLocalVertexFromSpherical(R, tht, fai), pos);
-//    MCVertex reverseLocalUp = MCLocalVertexFromSpherical(R, tht+90.0, fai);
-//    MCVertex up = MCGLWorldCoorFromLocal(MCVertexReverse(reverseLocalUp), pos);
-//    //MCVertex up = MCGLWorldCoorFromLocal(MCGLLookatSphericalUpLocalVertex(eye.x, eye.y, eye.z, R, tht), pos);
-//    return MCGLLookat(eye.x, eye.y, eye.z, centerX, centerY, centerZ, 0, 1, 0);
-//}
+#endif
 
 MCInline void MCGLEnableTexture2D(MCBool onoff)               { (onoff==MCTrue)? glEnable(GL_TEXTURE_2D):glDisable(GL_TEXTURE_2D); }
 MCInline void MCGLEnableCullFace(MCBool onoff)                { (onoff==MCTrue)? glEnable(GL_CULL_FACE):glDisable(GL_CULL_FACE); }

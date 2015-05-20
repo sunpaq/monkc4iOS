@@ -33,12 +33,13 @@
                                                  (mat).m30, (mat).m31, (mat).m32, (mat).m33}
 
 MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight);
+MCMatrix4 MCMatrix4MakeLookAt(MCFloat eyeX, MCFloat eyeY, MCFloat eyeZ,
+                              MCFloat centerX, MCFloat centerY, MCFloat centerZ,
+                              MCFloat upX, MCFloat upY, MCFloat upZ);
 
 //UI parts use UIKit
 void MCUIRegisterRootUIView(void* rootview);
 void MCUIAddLabelButton(const char* bgname, const char* labelname, MCFloat x, MCFloat y, MCInt tag);
-
-
 
 #endif /* defined(__monkcGame__MC3DiOSDriver__) */
 

@@ -19,8 +19,8 @@ method(MCCamera, void, reset, MCBool updateOrNot)
     var(currentPosition) = MCVertexMake(0, 0, 0);
     //local spherical coordinate
     var(R) = 100;
-    var(tht) = 90;
-    var(fai) = 0;
+    var(tht) = 60;
+    var(fai) = 45;
     if (updateOrNot) {
         call(obj, MCCamera, update, nil);
     }
@@ -59,9 +59,17 @@ method(MCCamera, void, updateLookat, xxx)
     //MCVertex uplocal = MCVertexFromSpherical(1, 90.0-var(tht), 180.0+var(fai));
     //MCVertex up = MCWorldCoorFromLocal(uplocal, eye);
     
-    MCVertex Npole = MCVertexMake(0, var(R)/MCCosDegrees(var(tht)), 0);
-    MCMatrix4 cur2 = MCGLLookat(eye.x, eye.y, eye.z, modelpos.x, modelpos.y, modelpos.z, Npole.x-eye.x, Npole.y-eye.y, Npole.z-eye.z);
-    var(modelViewMatrix) = cur2;
+    if (var(tht) < 90.0) {
+        MCVertex Npole = MCVertexMake(0, var(R)/MCCosDegrees(var(tht)), 0);
+        var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z, modelpos.x, modelpos.y, modelpos.z, Npole.x-eye.x, Npole.y-eye.y, Npole.z-eye.z);
+    }
+    if (var(tht) > 90.0) {
+        MCVertex Spole = MCVertexMake(0, -var(R)/MCCosDegrees(180.0-var(tht)), 0);
+        var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z, modelpos.x, modelpos.y, modelpos.z, eye.x-Spole.x, eye.y-Spole.y, eye.z-Spole.z);
+    }
+    if (var(tht) == 90.0) {
+        var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z, modelpos.x, modelpos.y, modelpos.z, 0, 1, 0);
+    }
 }
 
 method(MCCamera, void, update, xxx)

@@ -10,14 +10,21 @@
 #import <GLKit/GLKit.h>
 #import "MC3DiOSDriver.h"
 
+static UIView* _rootUIView = nil;
+static UIEventHandler* _handler = nil;
+
 MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight)
 {
     return MCMatrix4FromGLKMatrix4(GLKMatrix4Multiply(MCMatrix4ToGLKMatrix4(matrixLeft),
                                                       MCMatrix4ToGLKMatrix4(matrixRight)));
 }
 
-static UIView* _rootUIView = nil;
-static UIEventHandler* _handler = nil;
+MCMatrix4 MCMatrix4MakeLookAt(MCFloat eyeX, MCFloat eyeY, MCFloat eyeZ,
+                              MCFloat centerX, MCFloat centerY, MCFloat centerZ,
+                              MCFloat upX, MCFloat upY, MCFloat upZ)
+{
+    return MCMatrix4FromGLKMatrix4(GLKMatrix4MakeLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ));
+}
 
 void MCUIRegisterRootUIView(void* rootview)
 {
