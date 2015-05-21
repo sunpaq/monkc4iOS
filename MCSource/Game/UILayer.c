@@ -17,7 +17,7 @@ initer(UILayer)
     MCUIButtonRegisterCallback(msg);
     
     MCUIAddLabelButton("", "START ROTATE", mc_color(0, 255, 0), 100, 40, 1);
-    MCUIAddLabelButton("", "STOP ROTATE",  mc_color(255, 0, 0), 100, 60, 2);
+    MCUIAddLabelButton("", "STOP ROTATE",  mc_color(255, 0, 0), 100, 100, 2);
 
     return obj;
 }

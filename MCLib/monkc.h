@@ -364,14 +364,8 @@ typedef struct mc_message_struct
 #define lamda(name) make_msg(nil, name)
 #define _lamda mo volatile obj, volatile void* entry
 
-
-
 //write by asm
 void* _push_jump(mc_message msg, ...);
-void* _clean_jump1(mc_message msg, ...);
-void* _clean_jump2(mc_message msg, ...);
-void* _clean_jump3(mc_message msg, ...);
-void* _clean_jump4(mc_message msg, ...);
 
 //write by c
 mc_message make_msg(mo const obj, const void* entry);

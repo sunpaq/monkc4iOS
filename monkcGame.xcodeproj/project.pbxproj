@@ -14,6 +14,7 @@
 		FD5E188C1B09CECB006CB737 /* MCCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18871B09CECB006CB737 /* MCCamera.c */; };
 		FD5E188D1B09CECB006CB737 /* MCCube.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18891B09CECB006CB737 /* MCCube.c */; };
 		FD5E18901B09DEB6006CB737 /* MCArray.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E188E1B09DEB6006CB737 /* MCArray.c */; };
+		FDBF1A4B1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */; };
 		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
 		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
 		FDFF060B1B060BE1000064E3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDFF060A1B060BE1000064E3 /* Shader.fsh */; };
@@ -42,7 +43,6 @@
 		FDFF06701B06315B000064E3 /* MCThread.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06631B06315B000064E3 /* MCThread.c */; };
 		FDFF06711B06315B000064E3 /* MCUnitTest.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06651B06315B000064E3 /* MCUnitTest.c */; };
 		FDFF06751B0639C5000064E3 /* MainScene.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06731B0639C5000064E3 /* MainScene.c */; };
-		FDFF067F1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm in Sources */ = {isa = PBXBuildFile; fileRef = FDFF067E1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +75,7 @@
 		FD5E188A1B09CECB006CB737 /* MCCube.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCube.h; sourceTree = "<group>"; };
 		FD5E188E1B09DEB6006CB737 /* MCArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCArray.c; sourceTree = "<group>"; };
 		FD5E188F1B09DEB6006CB737 /* MCArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCArray.h; sourceTree = "<group>"; };
+		FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MCRuntimeAsmIOS.S; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -122,7 +123,6 @@
 		FDFF06661B06315B000064E3 /* MCUnitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUnitTest.h; sourceTree = "<group>"; };
 		FDFF06731B0639C5000064E3 /* MainScene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainScene.c; sourceTree = "<group>"; };
 		FDFF06741B0639C5000064E3 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
-		FDFF067E1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = MCRuntimeAsm_X8664_darwin.asm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,7 +238,7 @@
 		FDFF06391B06314C000064E3 /* MCLib */ = {
 			isa = PBXGroup;
 			children = (
-				FDFF067E1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm */,
+				FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */,
 				FDFF063A1B06314C000064E3 /* HashTable.c */,
 				FDFF063B1B06314C000064E3 /* Key.c */,
 				FDFF063C1B06314C000064E3 /* Lock.c */,
@@ -444,7 +444,7 @@
 				FDFF06461B06314C000064E3 /* Key.c in Sources */,
 				FDFF06711B06315B000064E3 /* MCUnitTest.c in Sources */,
 				FDFF06481B06314C000064E3 /* Log.c in Sources */,
-				FDFF067F1B064157000064E3 /* MCRuntimeAsm_X8664_darwin.asm in Sources */,
+				FDBF1A4B1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,6 +527,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -565,6 +566,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};

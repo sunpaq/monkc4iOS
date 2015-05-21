@@ -50,11 +50,12 @@ method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height
 method(MainScene, void, lockCamera, MCBool lock)
 {
     var(cameraLock) = lock;
+    
 }
 
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
 {
-    if (var(cameraLock)==MCFalse) {
+    if (var(cameraLock) == MCFalse) {
         moveCameraOneStep(var(mainCamera), deltaFai, deltaTht);
     }
 }
