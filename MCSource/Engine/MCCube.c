@@ -63,29 +63,29 @@ initer(MCCube)
     return obj;
 }
 
-method(MCCube, void, bye, xxx)
+nethod(MCCube, void, bye)
 {
     MCGLDelVertexArray(var(vertexArrayId));
     MCGLDelVertexBuffer(var(vertexBufferId));
 }
 
-method(MCCube, MCCube*, initialization, xxx)
+nethod(MCCube, MCCube*, initialization)
 {
     var(vertexArrayId) = MCGLAddVertexArray();
     var(vertexBufferId) = MCGLAddVertexBuffer(gCubeVertexData, sizeof(gCubeVertexData));
     return obj;
 }
 
-method(MCCube, void, draw, xxx)
+nethod(MCCube, void, draw)
 {
     MCGLDrawVertexArray(var(vertexArrayId));
 }
 
 loader(MCCube)
 {
-    binding(MCCube, void, bye, xxx);
-    binding(MCCube, MCCube*, initialization, xxx);
-    binding(MCCube, void, draw, xxx);
+    binding(MCCube, void, bye);
+    binding(MCCube, MCCube*, initialization);
+    binding(MCCube, void, draw);
     return claz;
 }
 

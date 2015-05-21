@@ -6,7 +6,7 @@
 
 loader(MCRunnable)
 {	
-	binding(MCRunnable, void, run, xxx);
+	binding(MCRunnable, void, run);
 	binding(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
 	return claz;
 }
@@ -23,7 +23,7 @@ method(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(vo
 	return obj;
 }
 
-method(MCRunnable, void, run, xxx)
+nethod(MCRunnable, void, run)
 {
 	//do nothing
 }
@@ -35,7 +35,7 @@ loader(MCThread)
 	binding(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable);
 	binding(MCThread, int, start, void* result);
 	binding(MCThread, int, equal, MCThread* thread);
-	binding(MCThread, void, bye, xxx);
+	binding(MCThread, void, bye);
 	return claz;
 }
 
@@ -128,7 +128,7 @@ method(MCThread, int, equal, MCThread* thread)
 	return pthread_equal(obj->self, thread->self);
 }
 
-method(MCThread, void, bye, xxx)
+nethod(MCThread, void, bye)
 {
 	pthread_attr_destroy(&obj->attribute);
 	release(&(obj->runnable));

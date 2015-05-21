@@ -11,13 +11,13 @@ initer(MCProcess)
 	return obj;
 }
 
-method(MCProcess, void, printIDs, xxx)
+nethod(MCProcess, void, printIDs)
 {
 	printf("pid[%d]ppid[%d]uid[%d]euid[%d]gid[%d]egid[%d]\n", 
 		obj->pid, obj->ppid, obj->uid, obj->euid, obj->gid, obj->egid);
 }
 
-method(MCProcess, int, fork, xxx)
+nethod(MCProcess, int, fork)
 {
 	//pid_t fork(void);
 	//copy-on-write (COW)
@@ -117,8 +117,8 @@ method(MCProcess,
 
 loader(MCProcess)
 {
-	binding(MCProcess, void, printIDs, xxx);
-	binding(MCProcess, int, fork, xxx);
+	binding(MCProcess, void, printIDs);
+	binding(MCProcess, int, fork);
 	
 	binding(MCProcess, int, registerAtExitCallback, void (*func)(void));
 	binding(MCProcess, void, exitWithStatus, int status);

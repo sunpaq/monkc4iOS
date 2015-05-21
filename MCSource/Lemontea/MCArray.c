@@ -15,10 +15,10 @@ loader(MCArray)
 	binding(MCArray, MCArray*, addItem, void* item);
 	binding(MCArray, MCArray*, addItemToIndex, void* item, int index);
 
-	binding(MCArray, MCArray*, removeLastItem, xxx);
+	binding(MCArray, MCArray*, removeLastItem);
 	binding(MCArray, MCArray*, removeItem, void* item);
 	binding(MCArray, MCArray*, removeItemByIndex, int index);
-	binding(MCArray, MCArray*, clear, xxx);
+	binding(MCArray, MCArray*, clear);
 
 	binding(MCArray, void*, getItemByIndex, int index);
 	binding(MCArray, void, visiteEachBy, mc_message visitorFunction);
@@ -39,7 +39,7 @@ static void expand_array(MCArray* obj)
 {
 	if(obj->size == 0){
 		obj->size = 10;
-		call(obj, MCArray, initWithSize, obj->size);
+        MCArray_initWithSize(0, obj, obj->size);
 	}else{
 		obj->size = (obj->size) * 2;//double
 		void* (*newbuff)[] = (void*(*)[])calloc(obj->size, sizeof(void*));
@@ -84,20 +84,20 @@ method(MCArray, MCArray*, addItemToIndex, void* item, int index)
 	return obj;
 }
 
-method(MCArray, MCArray*, removeLastItem, xxx)
+nethod(MCArray, MCArray*, removeLastItem)
 {
 	delete_item(obj, obj->indexLast);
 	return obj;
 }
 
-static void visitor(_lamda, void* eachitem, int index)
+static void visitor(mc_message_arg(MCArray), void* eachitem, int index)
 {
 	delete_item(obj, index);
 }
 
 method(MCArray, MCArray*, removeItem, void* item)
 {
-	call(obj, MCArray, visiteEachBy, lamda(visitor));
+    MCArray_visiteEachBy(0, obj, make_msg((mo)obj, visitor));
 	return obj;
 }
 
@@ -107,10 +107,10 @@ method(MCArray, MCArray*, removeItemByIndex, int index)
 	return obj;
 }
 
-method(MCArray, MCArray*, clear, xxx)
+nethod(MCArray, MCArray*, clear)
 {
 	free(obj->buff);
-	return call(obj, MCArray, initWithSize, 10);
+    return MCArray_initWithSize(0, obj, 10);
 }
 
 method(MCArray, void*, getItemByIndex, int index)
@@ -119,10 +119,10 @@ method(MCArray, void*, getItemByIndex, int index)
 }
 
 //just an example
-void example_visitor1(_lamda, void* item, int index){}
-void example_visitor2(_lamda, void* item, int index, void* data){}
+void example_visitor1(mc_message_arg(MCArray), void* item, int index){}
+void example_visitor2(mc_message_arg(MCArray), void* item, int index, void* data){}
 
-method(MCArray, void, visiteEachBy, lamdafunc visitorFunction)
+method(MCArray, void, visiteEachBy, mc_message visitorFunction)
 {
 	int i;
 	for(i=0; i<(obj->size); i++){
@@ -134,7 +134,7 @@ method(MCArray, void, visiteEachBy, lamdafunc visitorFunction)
 	}
 }
 
-method(MCArray, void, visiteEachWithData, lamdafunc visitorFunction, void* data)
+method(MCArray, void, visiteEachWithData, mc_message visitorFunction, void* data)
 {
 	int i;
 	for(i=0; i<(obj->size); i++){

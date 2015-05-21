@@ -16,10 +16,10 @@ monkc(MCNode);
     MCArray *children;
 end(MCNode);
 
-method(MCNode, void, bye, xxx);
 method(MCNode, MCNode*, initWithFrame, MCRect frame);
 method(MCNode, MCNode*, initWithSize, MCSize size);
 method(MCNode, MCNode*, addChild, MCNode* child);
-method(MCNode, void, draw, xxx);
+nethod(MCNode, void, draw);
+nethod(MCNode, void, bye);
 
 #endif

@@ -11,8 +11,8 @@ monkc(MCContext);
 end(MCContext);
 
 method(MCContext, MCContext*, newWithArgs, int argc, char** argv);
-method(MCContext, void, bye, xxx);
-method(MCContext, void, dumpParas, xxx);
+nethod(MCContext, void, bye);
+nethod(MCContext, void, dumpParas);
 method(MCContext, char*, getPara, int index);
 method(MCContext, int, isIndexedParaEqualTo, int index, char* para);
 method(MCContext, int, isHavePara, char* para);

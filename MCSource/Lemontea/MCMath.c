@@ -2,7 +2,7 @@
 
 loader(MCMath)
 {
-	binding(MCMath, void, bye, xxx);
+	binding(MCMath, void, bye);
 	binding(MCMath, int, addInteger2, int a, int b);
 	return claz;
 }
@@ -13,7 +13,7 @@ initer(MCMath)
 	return obj;
 }
 
-method(MCMath, void, bye, xxx)
+nethod(MCMath, void, bye)
 {
 	debug_log("%s\n", "MCMath bye bye");
 }

@@ -13,10 +13,10 @@ binding(MCFile, int, writeToBegin, off_t offset, void* buf, size_t nbytes);
 binding(MCFile, int, writeToLastTime, off_t offset, void* buf, size_t nbytes);
 binding(MCFile, int, writeToEnd, off_t offset, void* buf, size_t nbytes);
 
-binding(MCFile, int, duplicateFd, xxx);
+binding(MCFile, int, duplicateFd);
 binding(MCFile, int, duplicateFdTo, int fd);
-binding(MCFile, void, printAttribute, xxx);
-binding(MCFile, void, bye, xxx);
+binding(MCFile, void, printAttribute);
+binding(MCFile, void, bye);
 binding(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
 return claz;
 }
@@ -50,22 +50,22 @@ method(MCFile, MCFile*, initWithPathName, char* pathname, int oflag)
 loader(MCStream)
 {
 binding(MCStream, MCStream*, newWithPath, MCStreamType type, char* path);
-binding(MCStream, void, bye, xxx);
-binding(MCStream, int, getFileDescriptor, xxx);
+binding(MCStream, void, bye);
+binding(MCStream, int, getFileDescriptor);
 
-binding(MCStream, int, getChar, xxx);
+binding(MCStream, int, getChar);
 binding(MCStream, int, putChar, int charCode);
 binding(MCStream, int, pushbackChar, int charCodeToBePushBack);
 
 binding(MCStream, char*, getCString, MCCharBuffer* recvBuffer);
 binding(MCStream, char*, putCString, MCCharBuffer* sendBuffer);
-binding(MCStream, MCString*, getMCString, xxx);
+binding(MCStream, MCString*, getMCString);
 binding(MCStream, MCString*, putMCString, MCString* str);
 
 binding(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs);
 binding(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs);
 
-binding(MCStream, off_t, tellOffset, xxx);
+binding(MCStream, off_t, tellOffset);
 binding(MCStream, int, seekFromBegin, off_t offset);
 binding(MCStream, int, seekFromCurrent, off_t offset);
 binding(MCStream, int, seekFromEnd, off_t offset);
@@ -114,7 +114,7 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, char* path)
 loader(MCSelect)
 {
 	binding(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
-	binding(MCSelect, int, waitForFdsetChange, xxx);
+	binding(MCSelect, int, waitForFdsetChange);
 	binding(MCSelect, void, addFd, MCSelect_fd_type type, int fd);
 	binding(MCSelect, void, removeFd, MCSelect_fd_type type, int fd);
 	binding(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);
@@ -173,7 +173,7 @@ method(MCFile, size_t, writeToEnd, off_t offset, void* buf, size_t nbytes)
 	return pwrite(obj->fd, buf, nbytes, offset);
 }
 
-method(MCFile, int, duplicateFd, xxx)
+nethod(MCFile, int, duplicateFd)
 {
 	return dup(obj->fd);
 }
@@ -193,14 +193,14 @@ int MCFile_flushAFileCacheToDisk(int fd)
 	return fsync(fd);
 }
 
-method(MCFile, void, bye, xxx)
+nethod(MCFile, void, bye)
 {
 	//release obj->buffer
 	free(obj->buffer);
 	close(obj->fd);
 }
 
-method(MCFile, void, printAttribute, xxx)
+nethod(MCFile, void, printAttribute)
 {
 	printf("uid:%d gid:%d size:%lld st_mode:%o lmtime:%s",
 		obj->attribute.st_uid, 
@@ -322,7 +322,7 @@ char* MCProcess_getCurrentWorkingDir(MCCharBuffer* buff)
 /* MCStream */
 
 
-method(MCStream, void, bye, xxx)
+nethod(MCStream, void, bye)
 {
 	//0=OK/EOF=ERROR
 	if(fclose(obj->fileObject))
@@ -331,12 +331,12 @@ method(MCStream, void, bye, xxx)
 
 }
 
-method(MCStream, int, getFileDescriptor, xxx)
+nethod(MCStream, int, getFileDescriptor)
 {
 	return fileno(obj->fileObject);
 }
 
-method(MCStream, int, getChar, xxx)
+nethod(MCStream, int, getChar)
 {
 	return fgetc(obj->fileObject);
 }
@@ -363,7 +363,7 @@ method(MCStream, char*, putCString, MCCharBuffer* sendBuffer)
     return sendBuffer->data;
 }
 
-method(MCStream, MCString*, getMCString, xxx)
+nethod(MCStream, MCString*, getMCString)
 {
 	char buff[1024];
 	fgets(buff, sizeof(buff), obj->fileObject);
@@ -387,7 +387,7 @@ method(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, 
 	return fwrite(sendBuffer, objectSize, numberOfObjs, obj->fileObject);
 }
 
-method(MCStream, off_t, tellOffset, xxx)
+nethod(MCStream, off_t, tellOffset)
 {
 	//off_t ftello(FILE *fp);
 	return ftello(obj->fileObject);
@@ -415,7 +415,7 @@ method(MCStream, int, seekFromEnd, off_t offset)
 
 
 
-method(MCSelect, int, waitForFdsetChange, xxx)
+nethod(MCSelect, int, waitForFdsetChange)
 {
 	obj->readfd_result_set = obj->readfd_set;
 	obj->writefd_result_set = obj->writefd_set;

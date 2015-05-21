@@ -70,7 +70,6 @@
 #ifndef nil
 #define nil ((void*)0)
 #endif
-#define xxx void* xxx
 #define S(value) #value
 #define SEQ(dest, src) (mc_compare_key(dest, src)==0)
 #define A_B(a, b) a##_##b
@@ -98,7 +97,7 @@ typedef long     MCLong;
 typedef double   MCFloat;
 typedef size_t   MCSizeT;
 typedef MCUInt   MCHash;
-typedef enum { MCFalse = 0, MCTrue = 1 } MCBool;
+typedef enum { MCFalse=0, MCTrue=1 } MCBool;
 
 typedef struct mc_hashitem_struct
 {
@@ -183,8 +182,9 @@ typedef mc_object* (*initerFP)(mc_object*);
 #define override(cls, type, met, ...) 		_override(claz, S(met), A_B(cls, met))
 #define hinding(cls, type, met, hash, ...)	_binding_h(claz, S(met), A_B(cls, met), hash)
 #define hverride(cls, type, met, hash, ...) _override_h(claz, S(met), A_B(cls, met), hash)
-#define method(cls, type, name, ...) 	type cls##_##name(cls* volatile obj, volatile void* entry, __VA_ARGS__)
-#define protocol(pro, type, name, ...)  static type pro##_##name(mo volatile rawobj, volatile void* entry, __VA_ARGS__)
+#define nethod(cls, type, name) 	    type cls##_##name(volatile void* address, cls* volatile obj)
+#define method(cls, type, name, ...) 	type cls##_##name(volatile void* address, cls* volatile obj, __VA_ARGS__)
+#define protocol(pro, type, name, ...)  static type pro##_##name(volatile void* address, mo volatile rawobj, __VA_ARGS__)
 #define varscope(cls)                   cls* obj = ((cls*)rawobj)
 #define var(vname)                      (obj->vname)
 #define cast(type, obj) 				((type)obj)
@@ -201,8 +201,6 @@ typedef mc_object* (*initerFP)(mc_object*);
 #define hnfo(cls, hash)                 mc_info_h(S(cls), sizeof(cls), cls##_load, hash)
 
 //for call method
-#define callc(obj, cls, rtype, name, ...)   (rtype)cls##_##name((cls*)obj, cls##_##name, __VA_ARGS__)//with cast
-#define call(obj, cls, name, ...)       cls##_##name((cls*)obj, cls##_##name, __VA_ARGS__)//static call
 #define response_to(obj, met) 			_response_to((mo)obj, S(met), 2)
 #define hesponse_to(obj, met, hash) 	_response_to_h((mo)obj, S(met), hash, 2)
 #define ffc(obj, type, met, ...)		(type)_push_jump(_response_to((mo)obj, S(met), MC_STRICT_MODE), __VA_ARGS__)//with cast
@@ -355,20 +353,18 @@ mc_hashitem* get_item_byindex(mc_hashtable** const table_p, const MCUInt index);
 /*
  Messaging.h
  */
-typedef struct mc_message_struct
-{
+typedef struct {
+    const void* address;
     mo object;
-    const void* addr;
-}mc_message, lamdafunc;
-
-#define lamda(name) make_msg(nil, name)
-#define _lamda mo volatile obj, volatile void* entry
+} mc_message;
+#define mc_message_arg(Class) volatile void* address, Class* volatile obj
+MCInline mc_message make_msg(mo const obj, const void* address) { return (mc_message){address, obj}; };
 
 //write by asm
 void* _push_jump(mc_message msg, ...);
 
 //write by c
-mc_message make_msg(mo const obj, const void* entry);
+
 mc_message _self_response_to(const mo obj, const char* methodname);
 mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval);
 mc_message _response_to(mo const obj, const char* methodname, MCInt strict);

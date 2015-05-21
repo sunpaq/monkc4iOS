@@ -8,7 +8,7 @@ monkc(MCClock);
 	struct tm rawtime;
 end(MCClock);
 
-method(MCClock, MCClock*, setTimeToNow, xxx);
+nethod(MCClock, MCClock*, setTimeToNow);
 method(MCClock, void, setTime, int tm_sec, int tm_min, int tm_hour, 
 						 int tm_mday, int tm_mon, int tm_year,
 						 int tm_wday);
@@ -23,15 +23,15 @@ method(MCClock, void, setRawtimeFields, int tm_sec, int tm_min, int tm_hour,
 
 method(MCClock, void, getTime, time_t* const result);
 method(MCClock, void, getRawtime, struct tm* const result);
-method(MCClock, char*, getTimeByString, xxx);
+nethod(MCClock, char*, getTimeByString);
 method(MCClock, void, getCPUClocksPerSecond, clock_t* const result);
 method(MCClock, void, getCPUClocksSinceStart, clock_t* const result);
-method(MCClock, char*, getCurrentTimeString, xxx);//retrun the same format as asctime: Sun Sep 16 01:03:52 1973\n\0
-method(MCClock, char*, getCurrentGMTTimeString, xxx);
+nethod(MCClock, char*, getCurrentTimeString);//retrun the same format as asctime: Sun Sep 16 01:03:52 1973\n\0
+nethod(MCClock, char*, getCurrentGMTTimeString);
 
-method(MCClock, void, printTime, xxx);
-method(MCClock, void, printCurrentTime, xxx);
-method(MCClock, void, printCurrentGMTTime, xxx);
+nethod(MCClock, void, printTime);
+nethod(MCClock, void, printCurrentTime);
+nethod(MCClock, void, printCurrentGMTTime);
 
 char* MCClock_rawtime2String(time_t* timeval);
 char* MCClock_settableTime2String(struct tm *tm);

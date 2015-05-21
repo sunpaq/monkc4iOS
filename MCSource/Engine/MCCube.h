@@ -17,8 +17,8 @@ monkc(MCCube);
     MCUInt vertexBufferId;
 end(MCCube);
 
-method(MCCube, void, bye, xxx);
-method(MCCube, MCCube*, initialization, xxx);
-method(MCCube, void, draw, xxx);
+nethod(MCCube, void, bye);
+nethod(MCCube, MCCube*, initialization);
+nethod(MCCube, void, draw);
 
 #endif /* defined(__monkcGame__MCCube__) */

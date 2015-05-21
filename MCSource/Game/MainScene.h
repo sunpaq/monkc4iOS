@@ -25,13 +25,12 @@ monkc(MainScene);
 end(MainScene);
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
-method(MainScene, void, bye, xxx);
-method(MainScene, void, show, xxx);
-method(MainScene, void, hide, xxx);
-method(MainScene, void, update, xxx);
-method(MainScene, void, draw, xxx);
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
 method(MainScene, void, lockCamera, MCBool lock);
-
+nethod(MainScene, void, bye);
+nethod(MainScene, void, show);
+nethod(MainScene, void, hide);
+nethod(MainScene, void, update);
+nethod(MainScene, void, draw);
 
 #endif /* defined(__monkcGame__MainScene__) */

@@ -4,8 +4,8 @@ static void create_and_bind_socket(MCSocket* this, MCSocketType socket_type, cha
 
 loader(MCSocketClientInfo)
 {
-	binding(MCSocketClientInfo, void, dumpInfo, xxx);
-	binding(MCSocketClientInfo, void, bye, xxx);
+	binding(MCSocketClientInfo, void, dumpInfo);
+	binding(MCSocketClientInfo, void, bye);
 	return claz;
 }
 
@@ -15,12 +15,12 @@ initer(MCSocketClientInfo)
 	return obj;
 }
 
-method(MCSocketClientInfo, void, dumpInfo, xxx)
+nethod(MCSocketClientInfo, void, dumpInfo)
 {
 	printf("accept a client: %s\n", obj->address.sa_data);
 }
 
-method(MCSocketClientInfo, void, bye, xxx)
+nethod(MCSocketClientInfo, void, bye)
 {
 	//nothing to do
 }
@@ -28,15 +28,15 @@ method(MCSocketClientInfo, void, bye, xxx)
 loader(MCSocket)
 {
 binding(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port);
-binding(MCSocket, int, listeningStart, xxx);
-binding(MCSocket, MCSocketClientInfo*, acceptARequest, xxx);
-binding(MCSocket, void, recv, xxx);
-binding(MCSocket, void, recvfrom, xxx);
-binding(MCSocket, void, recvmsg, xxx);
-binding(MCSocket, void, send, xxx);
-binding(MCSocket, void, sendto, xxx);
-binding(MCSocket, void, sendmsg, xxx);
-binding(MCSocket, void, bye, xxx);
+binding(MCSocket, int, listeningStart);
+binding(MCSocket, MCSocketClientInfo*, acceptARequest);
+binding(MCSocket, void, recv);
+binding(MCSocket, void, recvfrom);
+binding(MCSocket, void, recvmsg);
+binding(MCSocket, void, send);
+binding(MCSocket, void, sendto);
+binding(MCSocket, void, sendmsg);
+binding(MCSocket, void, bye);
 return claz;
 }
 
@@ -119,7 +119,7 @@ static void create_and_bind_socket(MCSocket* this, MCSocketType socket_type, cha
 	//return sfd;
 }
 
-method(MCSocket, void, bye, xxx)
+nethod(MCSocket, void, bye)
 {
 	close(obj->sfd);
 }
@@ -128,13 +128,13 @@ method(MCSocket, void, bye, xxx)
 //EBADF
 //ENOTSOCK
 //EOPNOTSUPP
-method(MCSocket, int, listeningStart, xxx)
+nethod(MCSocket, int, listeningStart)
 {
 	if(obj->isServer!=1)return -1;
 	return listen(obj->sfd, MCSocket_Queue_Length);
 }
 
-method(MCSocket, MCSocketClientInfo*, acceptARequest, xxx)
+nethod(MCSocket, MCSocketClientInfo*, acceptARequest)
 {
 	if (obj->isServer!=1)return nil;
 	MCSocketClientInfo* clientinfo = new(MCSocketClientInfo);
@@ -142,27 +142,27 @@ method(MCSocket, MCSocketClientInfo*, acceptARequest, xxx)
 	return clientinfo;
 }
 
-method(MCSocket, void, recv, xxx)
+nethod(MCSocket, void, recv)
 {
 
 }
-method(MCSocket, void, recvfrom, xxx)
+nethod(MCSocket, void, recvfrom)
 {
 
 }
-method(MCSocket, void, recvmsg, xxx)
+nethod(MCSocket, void, recvmsg)
 {
 
 }
-method(MCSocket, void, send, xxx)
+nethod(MCSocket, void, send)
 {
 
 }
-method(MCSocket, void, sendto, xxx)
+nethod(MCSocket, void, sendto)
 {
 
 }
-method(MCSocket, void, sendmsg, xxx)
+nethod(MCSocket, void, sendmsg)
 {
 
 }

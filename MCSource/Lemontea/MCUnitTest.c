@@ -55,10 +55,10 @@ void fail(char* message)
 loader(MCUnitTestCase)
 {
 	binding(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* resultRef);
-	binding(MCUnitTestCase, void, bye, xxx);
-	binding(MCUnitTestCase, void, setUp, xxx);
-	binding(MCUnitTestCase, void, tearDown, xxx);
-	binding(MCUnitTestCase, void, runTests, xxx);
+	binding(MCUnitTestCase, void, bye);
+	binding(MCUnitTestCase, void, setUp);
+	binding(MCUnitTestCase, void, tearDown);
+	binding(MCUnitTestCase, void, runTests);
 	binding(MCUnitTestCase, void, runATestMethod, char* errmsg);
 	return claz;
 }
@@ -80,19 +80,19 @@ method(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* re
 	return obj;
 }
 
-method(MCUnitTestCase, void, bye, xxx)
+nethod(MCUnitTestCase, void, bye)
 {
 	if(obj->unitTestResultRef!=nil)
 		release(&(obj->unitTestResultRef));
 }
 
-method(MCUnitTestCase, void, setUp, xxx)
+nethod(MCUnitTestCase, void, setUp)
 {
 	//set up fixture
 	runtime_log("----MCUnitTestCase setUp\n");
 }
 
-method(MCUnitTestCase, void, tearDown, xxx)
+nethod(MCUnitTestCase, void, tearDown)
 {
 	//tear down fixture
 	runtime_log("----MCUnitTestCase tearDown\n");
@@ -135,7 +135,7 @@ static void runMethodByPointer(MCUnitTestCase* obj, mc_hashitem* amethod)
 	ff(obj, tearDown, nil);
 }
 
-method(MCUnitTestCase, void, runTests, xxx)
+nethod(MCUnitTestCase, void, runTests)
 {
 	runtime_log("%s\n", "MCUnitTestCase runTests");
 	unsigned i;
@@ -177,9 +177,9 @@ method(MCUnitTestCase, void, runATestMethod, char* methodName)
 
 loader(MCUnitTestSuite)
 {
-	binding(MCUnitTestSuite, void, bye, xxx);
+	binding(MCUnitTestSuite, void, bye);
 	binding(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* tcase);
-	binding(MCUnitTestSuite, void, runTestCases, xxx);
+	binding(MCUnitTestSuite, void, runTestCases);
 	return claz;
 }
 
@@ -192,7 +192,7 @@ initer(MCUnitTestSuite)
 	return obj;
 }
 
-method(MCUnitTestSuite, void, bye, xxx)
+nethod(MCUnitTestSuite, void, bye)
 {
 	MCUnitTestCase *iter, *save;
 	for(iter=obj->first_case; (save=iter)!=nil; release(save))
@@ -207,12 +207,12 @@ method(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* volatile tcase)
 	obj->test_case_count++;
 }
 
-method(MCUnitTestSuite, void, runTestCases, xxx)
+nethod(MCUnitTestSuite, void, runTestCases)
 {
 	runtime_log("%s\n", "MCUnitTestSuite runTestCases");
 	MCUnitTestCase *iter = nil;
 	for(iter=obj->first_case; iter!=nil; iter = iter->next_case)
-		call(iter, MCUnitTestCase, runTests, nil);
+        MCUnitTestCase_runTests(0, iter);
 }
 
 /* Test Result */
@@ -223,7 +223,7 @@ method(MCUnitTestSuite, void, runTestCases, xxx)
 
 loader(MCUnitTestResult)
 {
-	binding(MCUnitTestResult, void, bye, xxx);
+	binding(MCUnitTestResult, void, bye);
 	binding(MCUnitTestResult, void, addSuccessInfo, char* succinfo);
 	binding(MCUnitTestResult, void, addFailInfo, char* failinfo);
 	return claz;
@@ -235,7 +235,7 @@ initer(MCUnitTestResult)
 	return obj;
 }
 
-method(MCUnitTestResult, void, bye, xxx)
+nethod(MCUnitTestResult, void, bye)
 {
 	//nothing to clean
 }
@@ -262,9 +262,9 @@ method(MCUnitTestResult, void, addFailInfo, char* failinfo)
 
 loader(MCUnitTestRunner)
 {
-	binding(MCUnitTestRunner, void, bye, xxx);
+	binding(MCUnitTestRunner, void, bye);
 	binding(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite);
-	binding(MCUnitTestRunner, void, runTestSuites, xxx);
+	binding(MCUnitTestRunner, void, runTestSuites);
 	return claz;
 }
 
@@ -275,7 +275,7 @@ initer(MCUnitTestRunner)
 	return obj;
 }
 
-method(MCUnitTestRunner, void, bye, xxx)
+nethod(MCUnitTestRunner, void, bye)
 {
 	MCUnitTestSuite *iter, *save;
 	for(iter=obj->first_suite; (save=iter)!=nil; release(save))
@@ -291,12 +291,12 @@ method(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite)
 	obj->test_suite_count++;
 }
 
-method(MCUnitTestRunner, void, runTestSuites, xxx)
+nethod(MCUnitTestRunner, void, runTestSuites)
 {
 	runtime_log("%s\n", "MCUnitTestRunner runTestSuites");
 	MCUnitTestSuite *iter;
 	for(iter=obj->first_suite; iter!=nil; iter = iter->next_suite)
-		call(iter, MCUnitTestSuite, runTestCases, nil);
+        MCUnitTestSuite_runTestCases(0, iter);
 }
 
 

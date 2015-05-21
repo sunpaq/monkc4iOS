@@ -3,7 +3,7 @@
 initer(MCCamera)
 {
     var(super) = nil;
-    call(obj, MCCamera, reset, MCTrue);
+    MCCamera_reset(0, obj, MCTrue);
     return obj;
 }
 
@@ -22,7 +22,7 @@ method(MCCamera, void, reset, MCBool updateOrNot)
     var(tht) = 60;
     var(fai) = 45;
     if (updateOrNot) {
-        call(obj, MCCamera, update, nil);
+        MCCamera_update(0, obj);
     }
 }
 
@@ -36,7 +36,7 @@ method(MCCamera, void, updatePosition, MCVertex* result)
     }
 }
 
-method(MCCamera, void, updateRatioFocalDistance, xxx)
+nethod(MCCamera, void, updateRatioFocalDistance)
 {
     var(projectionMatrix) = MCMatrix4MakePerspective(MCDegreesToRadians(MCLensStandard50mmViewAngle), var(ratio), var(focal_length), var(max_distance));
 
@@ -49,7 +49,7 @@ method(MCCamera, void, updateRatioFocalDistance, xxx)
 //	             var(max_distance));
 }
 
-method(MCCamera, void, updateLookat, xxx)
+nethod(MCCamera, void, updateLookat)
 {
     //MCMatrix4 cur = MCGLLookatSpherical(var(lookat).x, var(lookat).y, var(lookat).z, var(R), var(tht), var(fai));
     MCVertex modelpos = var(lookat);
@@ -72,20 +72,20 @@ method(MCCamera, void, updateLookat, xxx)
     }
 }
 
-method(MCCamera, void, update, xxx)
+nethod(MCCamera, void, update)
 {
-    call(obj, MCCamera, updateRatioFocalDistance, nil);
-    call(obj, MCCamera, updateLookat, nil);
-    call(obj, MCCamera, updatePosition, nil);
+    MCCamera_updateRatioFocalDistance(0, obj);
+    MCCamera_updatePosition(0, obj, nil);
+    MCCamera_updateLookat(0, obj);
 }
 
 loader(MCCamera)
 {
     binding(MCCamera, void, reset, MCBool updateOrNot);
     binding(MCCamera, void, updatePosition, MCVertex* result);
-    binding(MCCamera, void, updateRatioFocalDistance, xxx);
-    binding(MCCamera, void, updateLookat, xxx);
-    binding(MCCamera, void, update, xxx);
+    binding(MCCamera, void, updateRatioFocalDistance);
+    binding(MCCamera, void, updateLookat);
+    binding(MCCamera, void, update);
     return claz;
 }
 

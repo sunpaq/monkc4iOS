@@ -151,8 +151,8 @@ monkc(MCSocketClientInfo);
 	socklen_t address_len;
 end(MCSocketClientInfo);
 
-method(MCSocketClientInfo, void, dumpInfo, xxx);
-method(MCSocketClientInfo, void, bye, xxx);
+nethod(MCSocketClientInfo, void, dumpInfo);
+nethod(MCSocketClientInfo, void, bye);
 #endif
 
 #ifndef MCSocket_ 
@@ -165,13 +165,13 @@ monkc(MCSocket);
 end(MCSocket);
 
 method(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port);
-method(MCSocket, int, listeningStart, xxx);
-method(MCSocket, MCSocketClientInfo*, acceptARequest, xxx);
-method(MCSocket, void, recv, xxx);
-method(MCSocket, void, recvfrom, xxx);
-method(MCSocket, void, recvmsg, xxx);
-method(MCSocket, void, send, xxx);
-method(MCSocket, void, sendto, xxx);
-method(MCSocket, void, sendmsg, xxx);
-method(MCSocket, void, bye, xxx);
+nethod(MCSocket, int, listeningStart);
+nethod(MCSocket, MCSocketClientInfo*, acceptARequest);
+nethod(MCSocket, void, recv);
+nethod(MCSocket, void, recvfrom);
+nethod(MCSocket, void, recvmsg);
+nethod(MCSocket, void, send);
+nethod(MCSocket, void, sendto);
+nethod(MCSocket, void, sendmsg);
+nethod(MCSocket, void, bye);
 #endif

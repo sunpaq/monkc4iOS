@@ -27,15 +27,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "monkc.h"
 
-mc_message make_msg(mo const obj, const void* entry)
-{
-	//we will return a struct
-	mc_message tmpmsg = {nil, nil};
-	tmpmsg.object = obj;
-	tmpmsg.addr = entry;
-	return tmpmsg;
-}
-
 mc_message _self_response_to(const mo obj, const char* methodname)
 {
 	return _self_response_to_h(obj, methodname, hash(methodname));
@@ -60,7 +51,7 @@ mc_message _self_response_to_h(const mo obj, const char* methodname, unsigned ha
 
 	if((res=get_item_byhash(&(obj->isa->table), hashval, methodname)) != nil){
 		tmpmsg.object = obj;
-		tmpmsg.addr = res->value;
+		tmpmsg.address = res->value;
 		runtime_log("return a message[%s/%s]\n", nameof(tmpmsg.object), methodname);
 		return tmpmsg;
 	}else{
@@ -103,7 +94,7 @@ mc_message _response_to_h(const mo obj, const char* methodname, unsigned hashval
 				met_item->key, met_item->index, methodname);
 			hit_count++;
 			tmpmsg.object = obj_iterator;
-			tmpmsg.addr = met_item->value;
+			tmpmsg.address = met_item->value;
 			if(obj_first_hit==nil)obj_first_hit = obj_iterator;
 			if(met_first_hit==nil)met_first_hit = met_item;
 			//for the method key have conflicted with some super class in inherit tree
@@ -112,12 +103,12 @@ mc_message _response_to_h(const mo obj, const char* methodname, unsigned hashval
 					//to support the "overide" feature of oop
 					if(mc_compare_key(met_first_hit->key, methodname) == 0){
 						tmpmsg.object = obj_first_hit;
-                        tmpmsg.addr = met_first_hit->value;
+                        tmpmsg.address = met_first_hit->value;
 						runtime_log("[first hit]return a message[%s/%s(%p/%p)]\n", 
                                                             tmpmsg.object->isa->item->key, 
                                                             methodname,
                                                             tmpmsg.object,
-                                                            tmpmsg.addr);
+                                                            tmpmsg.address);
 						return tmpmsg;}
 				}
 				if(mc_compare_key(met_item->key, methodname) == 0){

@@ -13,9 +13,9 @@
 .globl __push_jump
 .p2align 4, 0x90
 __push_jump:
-	cmpl $0, 8(%esp)
+	cmpl $0, 0(%esp)
 	je 0f					#; confirm return address not nil
-	jmp *8(%esp)
+	jmp *0(%esp)
 0:
 	ret
 
@@ -116,9 +116,9 @@ _mc_atomic_set_pointer:
 .globl __push_jump
 .p2align 4, 0x90
 __push_jump:
-	cmpq $0, %rsi		#; confirm return address not nil
+	cmpq $0, %rdi		#; confirm return address not nil
 	je 0f
-	jmp *%rsi
+	jmp *%rdi
 0:
 	ret
 
@@ -224,9 +224,9 @@ __armv7__
 .globl __push_jump
 .p2align 3 			
 __push_jump:
-	cmp r1, #0
+	cmp r0, #0
 	beq 0f
-	bx r1
+	bx r0
 0:
 	bx lr
 
@@ -282,18 +282,22 @@ stack-align: 	public(16byte) non-public(16byte)
 frame-pointer: 	fp is r11 in ARM mode / r7 in thumb mode
 keep-fp:		-mapcs-frame will keep the fp not to be optimized out
 
-r0 r1 r2 r3 r4 r5 r6 r7 r8 r9 r10 r11
-a1 a2 a3 a4 v1 v2 v3 v4 v5 v6 v7  v8
+r0 r1 r2 r3 r4 r5 r6 r7 r8 r9 r10 r11   r30
+w0 w1 w2 w3 w4 w5 w6 w7 w8 w9 w10 w11   w30 (32bit context)
+x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11   x30 (64bit context)
+a1 a2 a3 a4 v1 v2 v3 v4 v5 v6 v7  v8    lr
+
+.p2align 4 : 16-byte aligned
 */
 
 #ifdef __arm64__
 .text
 .globl __push_jump
-.p2align 4 			
+.p2align 4
 __push_jump:
-	cmp x1, #0
+	cmp x0, #0
 	beq 0f
-	br x1
+	br x0
 0:
 	ret
 

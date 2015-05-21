@@ -9,8 +9,8 @@ initer(MCContext)
 loader(MCContext)
 {
 binding(MCContext, MCContext*, newWithArgs, int argc, char** argv);
-binding(MCContext, void, bye, xxx);
-binding(MCContext, void, dumpParas, xxx);
+binding(MCContext, void, bye);
+binding(MCContext, void, dumpParas);
 binding(MCContext, char*, getPara, int index);
 binding(MCContext, int, isIndexedParaEqualTo, int index, char* para);
 binding(MCContext, int, isHavePara, char* para);
@@ -57,12 +57,12 @@ static void get_chars_until_enter(char resultString[])
 	putchar(tc);
 }
 
-method(MCContext, void, bye, xxx)
+nethod(MCContext, void, bye)
 {	
 	runtime_log("%s\n", "MCContext goodbye");
 }
 
-method(MCContext, void, dumpParas, xxx)
+nethod(MCContext, void, dumpParas)
 {
 	int i;
 	for (i = 0; i < obj->argc; ++i)

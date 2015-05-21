@@ -8,7 +8,7 @@ initer(MCClock)
 
 loader(MCClock)
 {
-binding(MCClock, void, setTimeToNow, xxx);
+binding(MCClock, void, setTimeToNow);
 binding(MCClock, 
 void, setTime, int tm_sec, int tm_min, int tm_hour, 
 			   int tm_mday, int tm_mon, int tm_year,
@@ -26,18 +26,18 @@ void, setRawtimeFields, int tm_sec, int tm_min, int tm_hour,
 
 binding(MCClock, void, getTime, time_t* const result);
 binding(MCClock, void, getRawtime, struct tm* const result);
-binding(MCClock, char*, getTimeByString, xxx);
+binding(MCClock, char*, getTimeByString);
 binding(MCClock, void, getCPUClocksPerSecond, clock_t* const result);
 binding(MCClock, void, getCPUClocksSinceStart, clock_t* const result);
-binding(MCClock, char*, getCurrentTimeString, xxx);//retrun the same format as asctime: Sun Sep 16 01:03:52 1973\n\0
-binding(MCClock, char*, getCurrentGMTTimeString, xxx);
-binding(MCClock, void, printTime, xxx);
-binding(MCClock, void, printCurrentTime, xxx);
-binding(MCClock, void, printCurrentGMTTime, xxx);
+binding(MCClock, char*, getCurrentTimeString);//retrun the same format as asctime: Sun Sep 16 01:03:52 1973\n\0
+binding(MCClock, char*, getCurrentGMTTimeString);
+binding(MCClock, void, printTime);
+binding(MCClock, void, printCurrentTime);
+binding(MCClock, void, printCurrentGMTTime);
 return claz;
 }
 
-method(MCClock, MCClock*, setTimeToNow, xxx)
+nethod(MCClock, MCClock*, setTimeToNow)
 {
 	time_t timer = time(NULL);
 	obj->rawtime = *localtime(&timer);
@@ -108,7 +108,7 @@ method(MCClock, void, getRawtime, struct tm* const result)
 }
 
 static char* strbuff[50];
-method(MCClock, char*, getTimeByString, xxx)
+nethod(MCClock, char*, getTimeByString)
 {
 	strcpy(strbuff[0], asctime(&(obj->rawtime)));
 	return strbuff[0];
@@ -125,7 +125,7 @@ method(MCClock, void, getCPUClocksSinceStart, clock_t* const result)
 }
 
 static char* buff[50];
-method(MCClock, char*, getCurrentTimeString, xxx)
+nethod(MCClock, char*, getCurrentTimeString)
 {
 	time_t timer = time(NULL);
 	strcpy(buff[0], asctime(localtime(&timer)));
@@ -134,7 +134,7 @@ method(MCClock, char*, getCurrentTimeString, xxx)
 }
 
 static char* gmbuff[50];
-method(MCClock, char*, getCurrentGMTTimeString, xxx)
+nethod(MCClock, char*, getCurrentGMTTimeString)
 {
 	time_t timer = time(NULL);
 	strcpy(gmbuff[0], asctime(gmtime(&timer)));
@@ -142,18 +142,18 @@ method(MCClock, char*, getCurrentGMTTimeString, xxx)
 	return gmbuff[0];
 }
 
-method(MCClock, void, printTime, xxx)
+nethod(MCClock, void, printTime)
 {
 	printf("\n%s", asctime(&obj->rawtime));
 }
 
-method(MCClock, void, printCurrentTime, xxx)
+nethod(MCClock, void, printCurrentTime)
 {
 	time_t timer = time(NULL);
 	printf("%s", asctime(localtime(&timer)));
 }
 
-method(MCClock, void, printCurrentGMTTime, xxx)
+nethod(MCClock, void, printCurrentGMTTime)
 {
 	time_t timer = time(NULL);
 	printf("%s", asctime(gmtime(&timer)));

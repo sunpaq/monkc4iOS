@@ -8,7 +8,7 @@ initer(MCString)
 	return obj;
 }
 
-method(MCString, void, bye, xxx)
+nethod(MCString, void, bye)
 {
     debug_log("MCString bye");    
     free(obj->buff);
@@ -75,7 +75,7 @@ method(MCString, void, add, char* str)
     strncat(obj->buff, str, strlen(str));
 }
 
-method(MCString, void, print, xxx)
+nethod(MCString, void, print)
 {
 	printf("%s", obj->buff);
 }
@@ -96,7 +96,7 @@ method(MCString, int, equalTo, MCString* stringToComp)
 		return 0;
 }
 
-method(MCString, char, getOneChar, xxx)
+nethod(MCString, char, getOneChar)
 {
 	return get_one_char();
 }
@@ -110,11 +110,11 @@ loader(MCString)
 {
 binding(MCString, MCString*, initWithCString, char* str);
 binding(MCString, void, add, char* str);
-binding(MCString, void, print, xxx);
+binding(MCString, void, print);
 binding(MCString, char*, toCString, char const buff[]);
 binding(MCString, int, equalTo, MCString* stringToComp);
-binding(MCString, char, getOneChar, xxx);
+binding(MCString, char, getOneChar);
 binding(MCString, void, getCharsUntilEnter, char const resultString[]);
-binding(MCString, void, bye, xxx);
+binding(MCString, void, bye);
 return claz;
 }

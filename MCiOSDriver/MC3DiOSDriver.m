@@ -58,7 +58,7 @@ void MCUIButtonRegisterCallback(mc_message msg)
 - (void) onButtonClicked:(id)sender
 {
     UIButton* btn = (UIButton*)sender;
-    if (onButtonClickMsg.addr) {
+    if (onButtonClickMsg.address) {
         _push_jump(onButtonClickMsg, (MCInt)btn.tag);
     }
 }

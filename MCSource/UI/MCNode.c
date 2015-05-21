@@ -37,7 +37,7 @@ protocol(MCTouchbleProtocol, void, onTouchEvent, MCPoint point)
     }
 }
 
-method(MCNode, void, bye, xxx)
+nethod(MCNode, void, bye)
 {
     //clean up
     release(var(children));
@@ -59,7 +59,7 @@ method(MCNode, MCNode*, addChild, MCNode* child)
 {
     retain(child);
     child->parent = obj;
-    call(var(children), MCArray, addItem, child);
+    MCArray_addItem(0, var(children), child);
     return child;
 }
 
@@ -81,7 +81,7 @@ static inline MCRect calculate_drawframe(MCNode* obj)
     }
 }
 
-method(MCNode, void, draw, xxx)
+nethod(MCNode, void, draw)
 {
     //draw self
     MCRect drawframe = calculate_drawframe(obj);
@@ -91,9 +91,9 @@ method(MCNode, void, draw, xxx)
     int i;
     for(i=0; i<var(children)->count; i++)
     {
-        MCNode* child = call(var(children), MCArray, getItemByIndex, i);
+        MCNode* child = MCArray_getItemByIndex(0, var(children), i);
         if(child)
-          call(child, MCNode, draw, nil);
+            MCNode_draw(0, child);
     }
 
     //MCXCBContext_flush();
@@ -104,10 +104,10 @@ loader(MCNode)
 {
     #include "MCAccessbleProtocol.h"
     #include "MCTouchbleProtocol.h"
-    binding(MCNode, void, bye, xxx);
+    binding(MCNode, void, bye);
     binding(MCNode, MCNode*, initWithFrame, MCRect frame);
     binding(MCNode, MCNode*, initWithSize, MCSize size);
     binding(MCNode, MCNode*, addChild, MCNode* child);
-    binding(MCNode, void, draw, xxx);
+    binding(MCNode, void, draw);
     return claz;
 }

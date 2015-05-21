@@ -18,12 +18,12 @@ end(MCString);
 
 method(MCString, MCString*, initWithCString, char* str);
 method(MCString, void, add, char* str);
-method(MCString, void, print, xxx);
+nethod(MCString, void, print);
 method(MCString, const char*, toCString, char const buff[]);
 method(MCString, int, equalTo, MCString* stringToComp);
-method(MCString, char, getOneChar, xxx);
+nethod(MCString, char, getOneChar);
 method(MCString, void, getCharsUntilEnter, char resultString[]);
-method(MCString, void, bye, xxx);
+nethod(MCString, void, bye);
 
 MCString* MCString_newWithCString(char* cstr);
 MCString* MCString_newWithMCString(MCString* mcstr);

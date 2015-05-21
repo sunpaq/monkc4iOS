@@ -13,7 +13,7 @@ static void setupCamera(MCCamera* camera, MCFloat width, MCFloat height)
     //setting camera
     camera->ratio = MCRatioMake(width, height);
     camera->R = 5;
-    call(camera, MCCamera, update, nil);
+    MCCamera_update(0, camera);
 }
 
 static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaTht)
@@ -23,7 +23,7 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     //camera->fai = camera->fai - 0.1; //Right
     //camera->tht = camera->tht - 0.1; //Down
     
-    call(camera, MCCamera, updateLookat, nil);
+    MCCamera_updateLookat(0, camera);
 }
 
 initer(MainScene)
@@ -50,7 +50,7 @@ method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height
 method(MainScene, void, lockCamera, MCBool lock)
 {
     var(cameraLock) = lock;
-    
+    printf("lock=%d\n", lock);
 }
 
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
@@ -60,47 +60,47 @@ method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
     }
 }
 
-method(MainScene, void, bye, xxx)
+nethod(MainScene, void, bye)
 {
     release(var(mainCamera));
     release(var(uilayer));
     release(var(cube));
 }
 
-method(MainScene, void, show, xxx)
+nethod(MainScene, void, show)
 {
     var(visible) = MCTrue;
 }
 
-method(MainScene, void, hide, xxx)
+nethod(MainScene, void, hide)
 {
     var(visible) = MCFalse;
 }
 
-method(MainScene, void, update, xxx)
+nethod(MainScene, void, update)
 {
-    call(var(mainCamera), MCCamera, updateLookat, nil);
+    MCCamera_updateLookat(0, var(mainCamera));
 }
 
-method(MainScene, void, draw, xxx)
+nethod(MainScene, void, draw)
 {
     if (var(visible)) {
         MCGLClearScreen(0.65f, 0.65f, 0.65f, 1.0f);
-        call(var(cube), MCCube, draw, nil);
-        call(var(uilayer), UILayer, draw, nil);
+        MCCube_draw(0, var(cube));
+        UILayer_draw(0, var(uilayer));
     }
 }
 
 loader(MainScene)
 {
     binding(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
-    binding(MainScene, void, bye, xxx);
-    binding(MainScene, void, show, xxx);
-    binding(MainScene, void, hide, xxx);
-    binding(MainScene, void, update, xxx);
-    binding(MainScene, void, draw, xxx);
     binding(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
     binding(MainScene, void, lockCamera, MCBool lock);
+    binding(MainScene, void, bye);
+    binding(MainScene, void, show);
+    binding(MainScene, void, hide);
+    binding(MainScene, void, update);
+    binding(MainScene, void, draw);
 
     return claz;
 }

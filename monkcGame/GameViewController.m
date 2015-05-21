@@ -183,8 +183,8 @@ MainScene* mainScene = nil;
     //setup monkc
     double width = self.view.bounds.size.width;
     double height = self.view.bounds.size.height;
-    mainScene = call(new(MainScene), MainScene, initWithWidthHeight, width, height);
-    call(mainScene, MainScene, show, nil);
+    mainScene = MainScene_initWithWidthHeight(0, new(MainScene), width, height);
+    MainScene_show(0, mainScene);
 #else
     [self setupGLByGLKit];
 #endif
@@ -208,7 +208,7 @@ MainScene* mainScene = nil;
     
 #ifdef USEMC
     //clean monkc
-    call(mainScene, MainScene, hide, nil);
+    MainScene_hide(0, mainScene);
     release(mainScene);
 #else
     [self tearDownGLByGLKit];
@@ -251,8 +251,8 @@ MainScene* mainScene = nil;
 {
 #ifdef USEMC
     // monkc update
-    call(mainScene, MainScene, moveCameraOneStep, self.timeSinceLastUpdate * 15.0f, self.timeSinceLastUpdate * 15.0f);
-    call(mainScene, MainScene, update, nil);
+    MainScene_moveCameraOneStep(0, mainScene, self.timeSinceLastUpdate * 15.0f, self.timeSinceLastUpdate * 15.0f);
+    MainScene_update(0, mainScene);
     self.effect.transform.projectionMatrix = MCMatrix4ToGLKMatrix4(mainScene->mainCamera->projectionMatrix);
     self.effect.transform.modelviewMatrix = MCMatrix4ToGLKMatrix4(mainScene->mainCamera->modelViewMatrix);
 #else
@@ -284,8 +284,8 @@ MainScene* mainScene = nil;
 #ifdef USEMC
     // Render the object with GLKit
     [self.effect prepareToDraw];
-    // monkc draw
-    call(mainScene, MainScene, draw, nil);
+    // monkc draw    
+    MainScene_draw(0, mainScene);
 #else
     [self drawByGLKit];
 #endif

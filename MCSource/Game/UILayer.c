@@ -22,7 +22,7 @@ initer(UILayer)
     return obj;
 }
 
-method(UILayer, void, draw, xxx)
+nethod(UILayer, void, draw)
 {
     if (var(visible)) {
         
@@ -37,7 +37,18 @@ method(UILayer, void, onButtonClicked, MCInt tag)
             ff(obj, lockCamera, MCFalse);
             break;
         case 2:
+            ff(obj, lockCamera, 1);
+            ff(obj, lockCamera, 2);
+            ff(obj, lockCamera, 3);
+            ff(obj, lockCamera, 4);
+            ff(obj, lockCamera, -1);
+            ff(obj, lockCamera, -2);
+            ff(obj, lockCamera, 65535);
+            ff(obj, lockCamera, 1234567890);
+            
             ff(obj, lockCamera, MCTrue);
+
+            
             break;
         default:
             break;
@@ -46,7 +57,7 @@ method(UILayer, void, onButtonClicked, MCInt tag)
 
 loader(UILayer)
 {
-    binding(UILayer, void, draw, xxx);
+    binding(UILayer, void, draw);
     binding(UILayer, void, onButtonClicked, MCInt tag);
     return claz;
 }
