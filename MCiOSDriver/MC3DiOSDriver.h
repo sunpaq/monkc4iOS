@@ -38,6 +38,8 @@ MCMatrix4 MCMatrix4MakeLookAt(MCFloat eyeX, MCFloat eyeY, MCFloat eyeZ,
                               MCFloat centerX, MCFloat centerY, MCFloat centerZ,
                               MCFloat upX, MCFloat upY, MCFloat upZ);
 
+MCUInt MCLoadSpriteTexture(const char* name, const char* suffix);
+
 //UI parts use UIKit
 void MCUIRegisterRootUIView(void* rootview);
 void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag);

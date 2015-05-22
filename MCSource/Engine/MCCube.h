@@ -15,6 +15,7 @@
 monkc(MCCube);
     MCUInt vertexArrayId;
     MCUInt vertexBufferId;
+    MCUInt textureId;
 end(MCCube);
 
 nethod(MCCube, void, bye);

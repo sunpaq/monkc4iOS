@@ -73,6 +73,7 @@ nethod(MCCube, MCCube*, initialization)
 {
     var(vertexArrayId) = MCGLAddVertexArray();
     var(vertexBufferId) = MCGLAddVertexBuffer(gCubeVertexData, sizeof(gCubeVertexData));
+    //var(textureId) = MCLoadSpriteTexture("mcicon", "png");
     return obj;
 }
 

@@ -53,6 +53,11 @@ method(MainScene, void, lockCamera, MCBool lock)
     printf("lock=%d\n", lock);
 }
 
+nethod(MainScene, MCCamera*, getCamera)
+{
+    return var(mainCamera);
+}
+
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
 {
     if (var(cameraLock) == MCFalse) {
@@ -96,6 +101,7 @@ loader(MainScene)
     binding(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
     binding(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
     binding(MainScene, void, lockCamera, MCBool lock);
+    binding(MainScene, MCCamera*, getCamera);
     binding(MainScene, void, bye);
     binding(MainScene, void, show);
     binding(MainScene, void, hide);
