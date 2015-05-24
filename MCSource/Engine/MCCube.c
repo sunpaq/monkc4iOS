@@ -58,27 +58,15 @@ static float gCubeVertexData[216] =
 
 initer(MCCube)
 {
-    var(vertexArrayId) = MCGLAddVertexArray();
-    var(vertexBufferId) = MCGLAddVertexBuffer(gCubeVertexData, sizeof(gCubeVertexData));
+    var(super) = new(MCDrawable);
+    var(super)->vertexArrayId = MCGLAddVertexArray();
+    var(super)->vertexBufferId = MCGLAddVertexBuffer(gCubeVertexData, sizeof(gCubeVertexData));
     //var(textureId) = MCLoadSpriteTexture("mcicon", "png");
     return obj;
 }
 
-nethod(MCCube, void, bye)
-{
-    MCGLDelVertexArray(var(vertexArrayId));
-    MCGLDelVertexBuffer(var(vertexBufferId));
-}
-
-nethod(MCCube, void, draw)
-{
-    MCGLDrawVertexArray(var(vertexArrayId));
-}
-
 loader(MCCube)
 {
-    binding(MCCube, void, bye);
-    binding(MCCube, void, draw);
     return claz;
 }
 

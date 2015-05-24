@@ -93,12 +93,12 @@ static inline mc_class* findClass(const char* name, const MCHash hashval)
 	return (mc_class*)(item->value);
 }
 
-mc_class* _load(const char* name, size_t objsize, loaderFP loader)
+mc_class* _load(const char* name, size_t objsize, MCLoaderPointer loader)
 {
 	return _load_h(name, objsize, loader, hash(name));
 }
 
-mc_class* _load_h(const char* name, size_t objsize, loaderFP loader, MCHash hashval)
+mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHash hashval)
 {
 	mc_class* aclass = findClass(name, hashval);
 	//try lock spin lock
@@ -135,7 +135,7 @@ mo _findsuper(mo const obj, const char* supername)
 	return mull;
 }
 
-mo _new(mo const this, initerFP initer)
+mo _new(mo const this, MCIniterPointer initer)
 {
 	//block, isa, saved_isa is setted at _alloc()
 	this->ref_count = 1;
@@ -145,7 +145,7 @@ mo _new(mo const this, initerFP initer)
 	return this;
 }
 
-mo _new_category(mo const this, initerFP initer, loaderFP loader_cat, initerFP initer_cat)
+mo _new_category(mo const this, MCIniterPointer initer, MCLoaderPointer loader_cat, MCIniterPointer initer_cat)
 {
 	//block, isa, saved_isa is setted at _alloc()
 	this->ref_count = 1;
@@ -157,7 +157,7 @@ mo _new_category(mo const this, initerFP initer, loaderFP loader_cat, initerFP i
 	return this;
 }
 
-void _shift(mo const obj, const char* modename, size_t objsize, loaderFP loader)
+void _shift(mo const obj, const char* modename, size_t objsize, MCLoaderPointer loader)
 {
 	mc_class* aclass = _load(modename, objsize, loader);
 	if(obj->mode != aclass)

@@ -9,7 +9,6 @@
 #ifndef __monkcGame__MCOrbit__
 #define __monkcGame__MCOrbit__
 
-#include <stdio.h>
 #include "monkc.h"
 #include "MC3DType.h"
 

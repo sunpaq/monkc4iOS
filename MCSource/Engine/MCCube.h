@@ -12,12 +12,9 @@
 #include <stdio.h>
 #include "monkc.h"
 
-monkc(MCCube);
-    MCUInt vertexArrayId;
-    MCUInt vertexBufferId;
+#include "MCDrawable.h"
+monks(MCCube, MCDrawable);
     MCUInt textureId;
 end(MCCube);
-
-nethod(MCCube, void, draw);
 
 #endif /* defined(__monkcGame__MCCube__) */

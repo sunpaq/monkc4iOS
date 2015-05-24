@@ -33,7 +33,7 @@ nethod(MCOrbit, void, bye)
 
 nethod(MCOrbit, void, draw)
 {
-    MCGLDrawVertexArrayLineLoop(var(vertexArrayId), 360);
+    MCGLDrawVertexArray(var(vertexBufferId), MCLineLoop, 0, 360);
 }
 
 loader(MCOrbit)

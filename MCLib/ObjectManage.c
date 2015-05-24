@@ -149,24 +149,24 @@ int cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result)
 	return res;
 }
 
-void mc_info(const char* classname, size_t size, loaderFP loader)
+void mc_info(const char* classname, size_t size, MCLoaderPointer loader)
 {
 	mc_info_h(classname, size, loader, hash(classname));
 }
 
-void mc_info_h(const char* classname, size_t size, loaderFP loader, MCHash hashval)
+void mc_info_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
 {
 	mc_class* aclass = _load_h(classname, size, loader, hashval);
 	debug_log("----info[%s] used:%d/free:%d\n", 
 		classname, count(&aclass->used_pool), count(&aclass->free_pool));
 }
 
-void mc_clear(const char* classname, size_t size, loaderFP loader)
+void mc_clear(const char* classname, size_t size, MCLoaderPointer loader)
 {
 	mc_clear_h(classname, size, loader, hash(classname));
 }
 
-void mc_clear_h(const char* classname, size_t size, loaderFP loader, MCHash hashval)
+void mc_clear_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
 {
 	mc_class* aclass = _load_h(classname, size, loader, hashval);
 	if(aclass->used_pool.tail!=mull)
@@ -181,12 +181,12 @@ void mc_clear_h(const char* classname, size_t size, loaderFP loader, MCHash hash
 }
 
 //always return a object of size. packaged by a block.
-mo mc_alloc(const char* classname, size_t size, loaderFP loader)
+mo mc_alloc(const char* classname, size_t size, MCLoaderPointer loader)
 {
 	return mc_alloc_h(classname, size, loader, hash(classname));
 }
 
-mo mc_alloc_h(const char* classname, size_t size, loaderFP loader, MCHash hashval)
+mo mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
 {
 	mc_class* aclass = _load_h(classname, size, loader, hashval);
 	mc_blockpool* fp = &aclass->free_pool;

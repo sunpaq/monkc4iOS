@@ -124,7 +124,7 @@ typedef enum  {
     MCHashTableLevelMax,
     MCHashTableLevelCount
 } MCHashTableLevel;
-static MCUInt mc_hashtable_sizes[MCHashTableLevelCount] = {100, 200, 1000, 4000, 10000};
+static MCUInt mc_hashtable_sizes[MCHashTableLevelCount] = {1000, 2000, 10000, 40000, 100000};//100
 MCInline MCUInt get_tablesize(const MCHashTableLevel level)
 {
     if(level > MCHashTableLevelMax){
@@ -232,7 +232,7 @@ typedef struct mc_object_struct
 	MCInt ref_count;
 	mc_class* saved_isa;
 	mc_class* mode;
-}mc_object;
+}mc_object, MCObject;
 typedef mc_object* mo;
 MCInline void package_by_block(mc_block* ablock, mc_object* aobject)
 {
@@ -240,14 +240,16 @@ MCInline void package_by_block(mc_block* ablock, mc_object* aobject)
     deref(aobject).block = ablock;
 }
 
-#define monkc(cls) \
+#define monks(cls, supercls)\
 typedef struct cls##_struct{\
-struct mc_object_struct* super;\
+supercls* super;\
 mc_class* isa;\
 mc_block* block;\
 int ref_count;\
 mc_class* saved_isa;\
 mc_class* mode;
+
+#define monkc(cls) monks(cls, MCObject)
 
 #define end(cls) }cls;\
 mc_class* cls##_load(mc_class* const claz);\
@@ -258,8 +260,8 @@ cls* cls##_init(cls* const obj);
 #define extends(super)
 
 //callback function pointer types
-typedef mc_class* (*loaderFP)(mc_class*);
-typedef mc_object* (*initerFP)(mc_object*);
+typedef mc_class* (*MCLoaderPointer)(mc_class*);
+typedef mc_object* (*MCIniterPointer)(mc_object*);
 
 //callbacks
 #define loader(cls)					mc_class* cls##_load(mc_class* const claz)
@@ -278,8 +280,8 @@ typedef mc_object* (*initerFP)(mc_object*);
 #define cast(type, obj) 				((type)obj)
 
 //for create object
-#define newc(type, cls)                 (type)_new(mc_alloc(S(cls), sizeof(cls), (loaderFP)cls##_load), (initerFP)cls##_init)//with cast
-#define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (loaderFP)cls##_load), (initerFP)cls##_init)//create instance
+#define newc(type, cls)                 (type)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)//with cast
+#define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)//create instance
 #define hew(cls, hash)					(cls*)_new(mc_alloc_h(S(cls), sizeof(cls), cls##_load, hash), cls##_init)
 #define new_category(ori, cat)			(ori*)_new_category(mc_alloc(S(ori), sizeof(ori), ori##_load), ori##_init, cat##_load, cat##_init)
 #define hew_category(ori, hash, cat)	(ori*)_new_category(mc_alloc_h(S(ori), sizeof(ori), ori##_load, hash), ori##_init, cat##_load, cat##_init)
@@ -309,15 +311,15 @@ MCUInt _override(mc_class* const aclass, const char* methodname, void* value);
 MCUInt _override_h(mc_class* const aclass, const char* methodname, void* value, MCHash hashval);
 
 //class load
-mc_class* _load(const char* name, MCSizeT objsize, loaderFP loader);
-mc_class* _load_h(const char* name, MCSizeT objsize, loaderFP loader, MCUInt hashval);
+mc_class* _load(const char* name, MCSizeT objsize, MCLoaderPointer loader);
+mc_class* _load_h(const char* name, MCSizeT objsize, MCLoaderPointer loader, MCUInt hashval);
 
 //object create
-mo _new(mo const obj, initerFP initer);
-mo _new_category(mo const obj, initerFP initer, loaderFP loader_cat, initerFP initer_cat);
+mo _new(mo const obj, MCIniterPointer initer);
+mo _new_category(mo const obj, MCIniterPointer initer, MCLoaderPointer loader_cat, MCIniterPointer initer_cat);
 
 //object mode change
-void _shift(mo const obj, const char* modename, MCSizeT objsize, loaderFP loader);
+void _shift(mo const obj, const char* modename, MCSizeT objsize, MCLoaderPointer loader);
 void _shift_back(mo const obj);
 
 //find super object
@@ -406,12 +408,12 @@ mc_message _response_to_h(mo const obj, const char* methodname, MCHash hashval, 
  ObjectManage.h
  */
 
-void mc_info(const char* classname, MCSizeT size, loaderFP loader);
-void mc_clear(const char* classname, MCSizeT size, loaderFP loader);
-mo mc_alloc(const char* classname, MCSizeT size, loaderFP loader);
-void mc_info_h(const char* classname, MCSizeT size, loaderFP loader, MCHash hashval);
-void mc_clear_h(const char* classname, MCSizeT size, loaderFP loader, MCHash hashval);
-mo mc_alloc_h(const char* classname, MCSizeT size, loaderFP loader, MCHash hashval);
+void mc_info(const char* classname, MCSizeT size, MCLoaderPointer loader);
+void mc_clear(const char* classname, MCSizeT size, MCLoaderPointer loader);
+mo mc_alloc(const char* classname, MCSizeT size, MCLoaderPointer loader);
+void mc_info_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
+void mc_clear_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
+mo mc_alloc_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
 void mc_dealloc(mc_object* aobject, MCInt is_recycle);
 
 #define MC_NO_NODE(bpool) (bpool->tail==mull)

@@ -2,14 +2,8 @@
 #define _MC3DBase
 
 #include <math.h>
-#ifdef __APPLE__
-#include <OpenGLES/ES1/glext.h>
-#include <OpenGLES/ES2/glext.h>
-#include "MC3DiOSDriver.h"
-#else
-#include <GL/gl.h>
-#endif
 #include "MC3DType.h"
+#include "MC3DiOSDriver.h"
 
 MCInline MCFloat MCDegreesToRadians(MCFloat degrees) { return degrees * (M_PI / 180); }
 MCInline MCFloat MCRadiansToDegrees(MCFloat radians) { return radians * (180 / M_PI); }
@@ -170,14 +164,9 @@ MCInline void MCGLDelVertexArray(MCUInt arrayid) {
     glDeleteVertexArraysOES(1, &arrayid);
 }
 
-MCInline void MCGLDrawVertexArray(MCUInt arrayid) {
+MCInline void MCGLDrawVertexArray(MCUInt arrayid, MCDrawMode mode, MCUInt firstindex, MCUInt count) {
     glBindVertexArrayOES(arrayid);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-}
-
-MCInline void MCGLDrawVertexArrayLineLoop(MCUInt arrayid, MCUInt count) {
-    glBindVertexArrayOES(arrayid);
-    glDrawArrays(GL_LINE_LOOP, 0, count);
+    glDrawArrays(mode, firstindex, count);
 }
 
 //GLsizeiptr size, const GLvoid* data, GLenum usage

@@ -9,7 +9,21 @@
 #ifndef monkcGame_MC3DType_h
 #define monkcGame_MC3DType_h
 
+#ifdef __APPLE__
+#include <OpenGLES/ES1/glext.h>
+#include <OpenGLES/ES2/glext.h>
+#else
+#include <GL/gl.h>
+#endif
+
 #include "monkc.h"
+
+typedef enum {
+    MCPoints = GL_POINTS,
+    MCLines  = GL_LINES,
+    MCLineLoop = GL_LINE_LOOP,
+    MCTriAngles = GL_TRIANGLES
+} MCDrawMode;
 
 typedef enum {
     MCGLPosition = 0,

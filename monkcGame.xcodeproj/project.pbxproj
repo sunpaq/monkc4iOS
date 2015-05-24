@@ -38,6 +38,7 @@
 		FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD571B0E3D9D00D2492A /* mcicon.png */; };
 		FDBF1A4B1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
+		FDCB46B21B12382D00403320 /* MCDrawable.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46B01B12382D00403320 /* MCDrawable.c */; };
 		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
 		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
 		FDFF060B1B060BE1000064E3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDFF060A1B060BE1000064E3 /* Shader.fsh */; };
@@ -121,6 +122,8 @@
 		FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MCRuntimeAsmIOS.S; sourceTree = "<group>"; };
 		FDCB46AD1B11E3C300403320 /* MCOrbit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCOrbit.c; sourceTree = "<group>"; };
 		FDCB46AE1B11E3C300403320 /* MCOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrbit.h; sourceTree = "<group>"; };
+		FDCB46B01B12382D00403320 /* MCDrawable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCDrawable.c; sourceTree = "<group>"; };
+		FDCB46B11B12382D00403320 /* MCDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDrawable.h; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -211,6 +214,8 @@
 				FD5E188A1B09CECB006CB737 /* MCCube.h */,
 				FDCB46AD1B11E3C300403320 /* MCOrbit.c */,
 				FDCB46AE1B11E3C300403320 /* MCOrbit.h */,
+				FDCB46B01B12382D00403320 /* MCDrawable.c */,
+				FDCB46B11B12382D00403320 /* MCDrawable.h */,
 			);
 			name = Engine;
 			path = MCSource/Engine;
@@ -548,6 +553,7 @@
 				FDFF066B1B06315B000064E3 /* MCIO.c in Sources */,
 				FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */,
 				FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */,
+				FDCB46B21B12382D00403320 /* MCDrawable.c in Sources */,
 				FDFF064C1B06314C000064E3 /* Messaging.c in Sources */,
 				FDFF06751B0639C5000064E3 /* MainScene.c in Sources */,
 				FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */,

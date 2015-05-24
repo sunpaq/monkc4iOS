@@ -40,10 +40,13 @@ initer(MainScene)
     return obj;
 }
 
+static mc_message cubeDrawMsg;
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height)
 {
     MCGLEnableDepthTest(MCTrue);
     setupCamera(var(mainCamera), width, height);
+    
+    cubeDrawMsg = response_to(var(cube), draw);
     return obj;
 }
 
@@ -91,7 +94,7 @@ nethod(MainScene, void, draw)
 {
     if (var(visible)) {
         MCGLClearScreen(0.65f, 0.65f, 0.65f, 1.0f);
-        MCCube_draw(0, var(cube));
+        _push_jump(cubeDrawMsg, mull);
         MCOrbit_draw(0, var(orbit));
         UILayer_draw(0, var(uilayer));
     }
