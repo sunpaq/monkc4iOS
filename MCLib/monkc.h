@@ -124,7 +124,7 @@ typedef enum  {
     MCHashTableLevelMax,
     MCHashTableLevelCount
 } MCHashTableLevel;
-static MCUInt mc_hashtable_sizes[MCHashTableLevelCount] = {1000, 2000, 10000, 40000, 100000};//100
+static MCUInt mc_hashtable_sizes[MCHashTableLevelCount] = {1001, 2001, 10001, 40001, 100001};//100
 MCInline MCUInt get_tablesize(const MCHashTableLevel level)
 {
     if(level > MCHashTableLevelMax){
@@ -141,7 +141,7 @@ typedef struct mc_hashitem_struct
 	MCUInt index;
 	MCHashTableLevel level;
 	void* value;
-	char* key;
+    char* key;
     //char key[MAX_KEY_CHARS+1];
 }mc_hashitem;
 

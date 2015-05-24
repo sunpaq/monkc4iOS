@@ -30,14 +30,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 static inline size_t expand_table(mc_hashtable* const table_p, MCHashTableLevel tolevel)
 {
     MCHashTableLevel oldlevel = table_p->level;
+    size_t oldsize = sizeof(mc_hashtable) + get_tablesize(oldlevel)*sizeof(mc_hashitem);
     size_t newsize = sizeof(mc_hashtable) + get_tablesize(tolevel)*sizeof(mc_hashitem);
 	//realloc
-	mc_hashtable* newtable = (mc_hashtable*)realloc(table_p, newsize);
+	//mc_hashtable* newtable = (mc_hashtable*)realloc(table_p, newsize);
+    mc_hashtable* newtable = (mc_hashtable*)malloc(newsize);
+    memcpy(newtable, table_p, oldsize);
 	newtable->level = tolevel;
 	//fill new slots to nil
 	for(int i=get_tablesize(oldlevel)+1; i<get_tablesize(tolevel); i++)
 		newtable->items[i].value=mull;
-	runtime_log("expand table: %d->%d\n", oldlevel, tolevel);
+	debug_log("expand table: %d->%d\n", oldlevel, tolevel);
     return newsize;
 }
 
@@ -59,19 +62,11 @@ mc_hashitem* new_item_h(const char* key, void* value, const MCHash hashval)
 	return aitem;
 }
 
-// typedef struct mc_hashtable_struct
-// {
-// 	int lock;
-// 	unsigned level;
-// 	unsigned count;
-// 	mc_hashitem* items[];
-// }mc_hashtable;
-
 mc_hashtable* new_table(const MCHashTableLevel initlevel)
 {
 	//alloc
 	mc_hashtable* atable = (mc_hashtable*)malloc(sizeof(mc_hashtable)
-		+get_tablesize(initlevel)*sizeof(mc_hashitem*));
+		+get_tablesize(initlevel)*sizeof(mc_hashitem));
 	//init
 	atable->lock = 0;
 	atable->level = initlevel;

@@ -28,7 +28,7 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
 
 oninit(MainScene)
 {
-    MCLogTypeSet(MC_VERBOSE);
+    MCLogTypeSet(MC_DEBUG);
     var(visible) = MCTrue;//visible by default
     var(cameraLock) = MCFalse;
     var(mainCamera) = new(MCCamera);
