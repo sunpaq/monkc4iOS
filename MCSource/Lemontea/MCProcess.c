@@ -1,6 +1,6 @@
 #include "MCProcess.h"
 
-initer(MCProcess)
+oninit(MCProcess)
 {
 	obj->pid=getpid();
 	obj->ppid=getppid();
@@ -115,7 +115,7 @@ method(MCProcess,
 	return wait4(pid, statusAddr, options, useage->rusage_p);
 }
 
-loader(MCProcess)
+onload(MCProcess)
 {
 	binding(MCProcess, void, printIDs);
 	binding(MCProcess, int, fork);

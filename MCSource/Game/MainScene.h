@@ -24,6 +24,8 @@ monkc(MainScene);
     MCCamera* mainCamera;
     MCCube* cube;
     MCOrbit* orbit;
+    mc_message drawMsgArray[10];
+    MCInt drawMsgCount;
 end(MainScene);
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);

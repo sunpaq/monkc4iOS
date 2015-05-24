@@ -52,7 +52,7 @@ void fail(char* message)
 /* Test Case */
 
 
-loader(MCUnitTestCase)
+onload(MCUnitTestCase)
 {
 	binding(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* resultRef);
 	binding(MCUnitTestCase, void, bye);
@@ -63,7 +63,7 @@ loader(MCUnitTestCase)
 	return claz;
 }
 
-initer(MCUnitTestCase)
+oninit(MCUnitTestCase)
 {
 	obj->next_case = mull;
 	return obj;
@@ -173,7 +173,7 @@ method(MCUnitTestCase, void, runATestMethod, char* methodName)
 
 /* Test Suite */
 
-loader(MCUnitTestSuite)
+onload(MCUnitTestSuite)
 {
 	binding(MCUnitTestSuite, void, bye);
 	binding(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* tcase);
@@ -181,7 +181,7 @@ loader(MCUnitTestSuite)
 	return claz;
 }
 
-initer(MCUnitTestSuite)
+oninit(MCUnitTestSuite)
 {
 	obj->first_case = mull;
     obj->last_case_p = &(obj->first_case);
@@ -219,7 +219,7 @@ nethod(MCUnitTestSuite, void, runTestCases)
 // #define _MCUnitTestResult _MCObject;\
 
 
-loader(MCUnitTestResult)
+onload(MCUnitTestResult)
 {
 	binding(MCUnitTestResult, void, bye);
 	binding(MCUnitTestResult, void, addSuccessInfo, char* succinfo);
@@ -227,7 +227,7 @@ loader(MCUnitTestResult)
 	return claz;
 }
 
-initer(MCUnitTestResult)
+oninit(MCUnitTestResult)
 {
 	//nothing to init
 	return obj;
@@ -258,7 +258,7 @@ method(MCUnitTestResult, void, addFailInfo, char* failinfo)
 
 // class(MCUnitTestRunner);
 
-loader(MCUnitTestRunner)
+onload(MCUnitTestRunner)
 {
 	binding(MCUnitTestRunner, void, bye);
 	binding(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite);
@@ -266,7 +266,7 @@ loader(MCUnitTestRunner)
 	return claz;
 }
 
-initer(MCUnitTestRunner)
+oninit(MCUnitTestRunner)
 {
 	obj->first_suite = mull;
 	obj->test_suite_count = 0;

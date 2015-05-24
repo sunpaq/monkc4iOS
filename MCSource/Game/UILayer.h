@@ -16,7 +16,6 @@ monkc(UILayer);
     MCBool visible;
 end(UILayer);
 
-nethod(UILayer, void, draw);
 method(UILayer, void, onButtonClicked, MCInt tag);
 
 

@@ -9,16 +9,13 @@
 #include "MCDrawable.h"
 #include "MC3DBase.h"
 
-initer(MCDrawable)
+oninit(MCDrawable)
 {
     var(vertexArrayId) = -1;
     var(vertexBufferId) = -1;
-    
+    var(vertexFirst) = 0;
+    var(vertexCount) = 0;
     var(drawmode) = MCTriAngles;
-    var(first) = 0;
-    var(count) = 0;
-    var(data) = mull;
-    
     return obj;
 }
 
@@ -31,12 +28,12 @@ nethod(MCDrawable, void, bye)
 nethod(MCDrawable, void, draw)
 {
     //glDrawArrays (GLenum mode, GLint first, GLsizei count)
-    if (var(data)!=mull && var(count)!=0) {
-        MCGLDrawVertexArray(var(vertexArrayId), var(drawmode), var(first), var(count));
+    if (var(vertexArrayId)!=-1 && var(vertexBufferId)!=-1 && var(vertexCount)!=0) {
+        MCGLDrawVertexArray(var(vertexArrayId), var(drawmode), var(vertexFirst), var(vertexCount));
     }
 }
 
-loader(MCDrawable)
+onload(MCDrawable)
 {
     binding(MCDrawable, void, bye);
     binding(MCDrawable, void, draw);

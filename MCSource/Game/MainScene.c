@@ -26,7 +26,7 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     MCCamera_updateLookat(0, camera);
 }
 
-initer(MainScene)
+oninit(MainScene)
 {
     MCLogTypeSet(MC_VERBOSE);
     var(visible) = MCTrue;//visible by default
@@ -36,17 +36,18 @@ initer(MainScene)
     var(cube) = new(MCCube);
     var(orbit) = new(MCOrbit);
     
+    var(drawMsgArray)[0] = response_to(var(cube), draw);
+    var(drawMsgArray)[1] = response_to(var(orbit), draw);
+    var(drawMsgCount) = 2;
+    
     var(uilayer)->super = (mo)obj;
     return obj;
 }
 
-static mc_message cubeDrawMsg;
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height)
 {
     MCGLEnableDepthTest(MCTrue);
     setupCamera(var(mainCamera), width, height);
-    
-    cubeDrawMsg = response_to(var(cube), draw);
     return obj;
 }
 
@@ -73,6 +74,7 @@ nethod(MainScene, void, bye)
     release(var(mainCamera));
     release(var(uilayer));
     release(var(cube));
+    release(var(orbit));
 }
 
 nethod(MainScene, void, show)
@@ -94,13 +96,14 @@ nethod(MainScene, void, draw)
 {
     if (var(visible)) {
         MCGLClearScreen(0.65f, 0.65f, 0.65f, 1.0f);
-        _push_jump(cubeDrawMsg, mull);
-        MCOrbit_draw(0, var(orbit));
-        UILayer_draw(0, var(uilayer));
+        
+        for (int i=0; i<var(drawMsgCount); i++) {
+            _push_jump(var(drawMsgArray)[i]);
+        }
     }
 }
 
-loader(MainScene)
+onload(MainScene)
 {
     binding(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
     binding(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);

@@ -3,7 +3,7 @@
 #include "MCNode.h"
 //#include "MCXCBContext.h"
 
-initer(MCNode)
+oninit(MCNode)
 {
     var(super) = mull;
 
@@ -100,7 +100,7 @@ nethod(MCNode, void, draw)
     return;
 }
 
-loader(MCNode)
+onload(MCNode)
 {
     #include "MCAccessbleProtocol.h"
     #include "MCTouchbleProtocol.h"

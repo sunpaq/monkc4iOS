@@ -11,8 +11,9 @@
 
 static MCVertex gCircleVertexData[360];
 
-initer(MCOrbit)
+oninit(MCOrbit)
 {
+    var(super) = new(MCDrawable);
     var(R) = 10.0;
     var(segments) = 360.0;
     var(center) = MCVertexMake(0, 0, 0);
@@ -36,7 +37,7 @@ nethod(MCOrbit, void, draw)
     MCGLDrawVertexArray(var(vertexBufferId), MCLineLoop, 0, 360);
 }
 
-loader(MCOrbit)
+onload(MCOrbit)
 {
     binding(MCOrbit, void, bye);
     binding(MCOrbit, void, draw);

@@ -232,7 +232,7 @@ typedef struct mc_object_struct
 	MCInt ref_count;
 	mc_class* saved_isa;
 	mc_class* mode;
-}mc_object, MCObject;
+}mc_object, MCNoSuper;
 typedef mc_object* mo;
 MCInline void package_by_block(mc_block* ablock, mc_object* aobject)
 {
@@ -240,7 +240,7 @@ MCInline void package_by_block(mc_block* ablock, mc_object* aobject)
     deref(aobject).block = ablock;
 }
 
-#define monks(cls, supercls)\
+#define monkc_super(cls, supercls)\
 typedef struct cls##_struct{\
 supercls* super;\
 mc_class* isa;\
@@ -249,7 +249,14 @@ int ref_count;\
 mc_class* saved_isa;\
 mc_class* mode;
 
-#define monkc(cls) monks(cls, MCObject)
+#define monkc(cls)\
+typedef struct cls##_struct{\
+mc_object* super;\
+mc_class* isa;\
+mc_block* block;\
+int ref_count;\
+mc_class* saved_isa;\
+mc_class* mode;
 
 #define end(cls) }cls;\
 mc_class* cls##_load(mc_class* const claz);\
@@ -257,15 +264,20 @@ cls* cls##_init(cls* const obj);
 
 //macros expand to nothing just a marker
 #define implements(protocol)
-#define extends(super)
 
 //callback function pointer types
 typedef mc_class* (*MCLoaderPointer)(mc_class*);
 typedef mc_object* (*MCIniterPointer)(mc_object*);
 
+MCInline mo mc_setsuper(mo obj, mo superobj) {
+    obj->super = superobj;
+    return obj;
+}
+
 //callbacks
-#define loader(cls)					mc_class* cls##_load(mc_class* const claz)
-#define initer(cls)						 cls* cls##_init(cls* const obj)
+#define onload(cls)					mc_class* cls##_load(mc_class* const claz)
+#define oninit(cls)						 cls* cls##_init(cls* const obj)
+#define oninit_super(cls, super)		 cls* cls##_init(cls* const obj)
 
 //method binding
 #define binding(cls, type, met, ...)  		_binding(claz, S(met), A_B(cls, met))

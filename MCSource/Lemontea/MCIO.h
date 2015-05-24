@@ -117,7 +117,7 @@ method(MCStream, int, seekFromEnd, off_t offset);
 #ifndef MCByteStream_
 #define MCByteStream_
 
-monkc(MCByteStream) extends(MCStream);
+monkc_super(MCByteStream, MCStream)
 end(MCByteStream);
 
 nethod(MCByteStream, void, bye);
@@ -129,7 +129,7 @@ method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
 #ifndef MCStdinStream_
 #define MCStdinStream_
 
-monkc(MCStdinStream) extends(MCStream);
+monkc_super(MCStdinStream, MCStream)
 end(MCStdinStream);
 
 nethod(MCStdinStream, void, bye);
@@ -140,7 +140,7 @@ nethod(MCStdinStream, void, bye);
 #ifndef MCStdoutStream_
 #define MCStdoutStream_
 
-monkc(MCStdoutStream) extends(MCStream);
+monkc_super(MCStdoutStream, MCStream)
 end(MCStdoutStream);
 
 nethod(MCStdoutStream, void, bye);
@@ -151,7 +151,7 @@ nethod(MCStdoutStream, void, bye);
 #ifndef MCStdoutStream_
 #define MCStdoutStream_
 
-monkc(MCStdoutStream) extends(MCStream);
+monkc_super(MCStdoutStream, MCStream);
 end(MCStdoutStream);
 
 method(MCStdoutStream, void, bye);
@@ -160,7 +160,7 @@ method(MCStdoutStream, void, bye);
 #ifndef MCStderrStream_
 #define MCStderrStream_
 
-monkc(MCStderrStream) extends(MCStream);
+monkc_super(MCStderrStream, MCStream);
 end(MCStderrStream);
 
 nethod(MCStderrStream, void, bye);

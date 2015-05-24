@@ -16,9 +16,8 @@ monkc(MCDrawable);
     MCUInt vertexArrayId;
     MCUInt vertexBufferId;
     MCDrawMode drawmode;
-    MCUInt first;
-    MCUInt count;
-    MCVertex* data;
+    MCUInt vertexFirst;
+    MCUInt vertexCount;
 end(MCDrawable);
 
 nethod(MCDrawable, void, draw);

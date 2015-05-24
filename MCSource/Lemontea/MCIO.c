@@ -2,7 +2,7 @@
 
 /* MCFile */
 
-loader(MCFile)
+onload(MCFile)
 {
 binding(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
 
@@ -21,7 +21,7 @@ binding(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
 return claz;
 }
 
-initer(MCFile)
+oninit(MCFile)
 {
 	obj->fd = 0;
 	obj->pathname = "";
@@ -47,7 +47,7 @@ method(MCFile, MCFile*, initWithPathName, char* pathname, int oflag)
 // 	readonly_linebuffered,
 // 	readwrite_linebuffered
 // }MCStreamType;
-loader(MCStream)
+onload(MCStream)
 {
 binding(MCStream, MCStream*, newWithPath, MCStreamType type, char* path);
 binding(MCStream, void, bye);
@@ -72,7 +72,7 @@ binding(MCStream, int, seekFromEnd, off_t offset);
 return claz;
 }
 
-initer(MCStream)
+oninit(MCStream)
 {
 	//do nothing
 	return obj;
@@ -110,7 +110,7 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, char* path)
 	return obj;
 }
 
-loader(MCSelect)
+onload(MCSelect)
 {
 	binding(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
 	binding(MCSelect, int, waitForFdsetChange);
@@ -120,7 +120,7 @@ loader(MCSelect)
 	return claz;
 }
 
-initer(MCSelect)
+oninit(MCSelect)
 {
 	FD_ZERO(&obj->readfd_set);
 	FD_ZERO(&obj->writefd_set);

@@ -4,14 +4,14 @@
 /* MCRunnable */
 
 
-loader(MCRunnable)
+onload(MCRunnable)
 {	
 	binding(MCRunnable, void, run);
 	binding(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
 	return claz;
 }
 
-initer(MCRunnable)
+oninit(MCRunnable)
 {
 	obj->init_routine = 0;
 	return obj;
@@ -30,7 +30,7 @@ nethod(MCRunnable, void, run)
 
 /* MCThread */
 
-loader(MCThread)
+onload(MCThread)
 {
 	binding(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable);
 	binding(MCThread, int, start, void* result);
@@ -39,7 +39,7 @@ loader(MCThread)
 	return claz;
 }
 
-initer(MCThread)
+oninit(MCThread)
 {
 	//init the vars
 	pthread_once_t ponce = PTHREAD_ONCE_INIT;

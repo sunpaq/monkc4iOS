@@ -2,14 +2,14 @@
 
 static void create_and_bind_socket(MCSocket* this, MCSocketType socket_type, char* ip, char* port);
 
-loader(MCSocketClientInfo)
+onload(MCSocketClientInfo)
 {
 	binding(MCSocketClientInfo, void, dumpInfo);
 	binding(MCSocketClientInfo, void, bye);
 	return claz;
 }
 
-initer(MCSocketClientInfo)
+oninit(MCSocketClientInfo)
 {
 	//nothing to init
 	return obj;
@@ -25,7 +25,7 @@ nethod(MCSocketClientInfo, void, bye)
 	//nothing to do
 }
 
-loader(MCSocket)
+onload(MCSocket)
 {
 binding(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port);
 binding(MCSocket, int, listeningStart);
@@ -40,7 +40,7 @@ binding(MCSocket, void, bye);
 return claz;
 }
 
-initer(MCSocket)
+oninit(MCSocket)
 {
 	//nothing to init
 	return obj;

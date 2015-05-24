@@ -1,12 +1,12 @@
 #include "MCClock.h"
 
-initer(MCClock)
+oninit(MCClock)
 {
 	//nothing
 	return obj;
 }
 
-loader(MCClock)
+onload(MCClock)
 {
 binding(MCClock, void, setTimeToNow);
 binding(MCClock, 

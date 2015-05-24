@@ -1,7 +1,7 @@
 #include "MCString.h"
 
 static int block_size = 1024;
-initer(MCString)
+oninit(MCString)
 {
 	//nothing to init
     obj->buff = malloc(block_size*sizeof(char));
@@ -106,7 +106,7 @@ method(MCString, void, getCharsUntilEnter, char resultString[])
 	get_chars_until_enter(resultString);
 }
 
-loader(MCString)
+onload(MCString)
 {
 binding(MCString, MCString*, initWithCString, char* str);
 binding(MCString, void, add, char* str);

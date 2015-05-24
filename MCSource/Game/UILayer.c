@@ -18,7 +18,7 @@ enum {
     ZOOM_OUT
 };
 
-initer(UILayer)
+oninit(UILayer)
 {
     var(visible) = MCTrue;
     mc_message msg = response_to(obj, onButtonClicked);
@@ -30,13 +30,6 @@ initer(UILayer)
     MCUIAddLabelButton("", "ZOOM OUT",     mc_color(255, 255, 255), 100, 120, ZOOM_OUT);
 
     return obj;
-}
-
-nethod(UILayer, void, draw)
-{
-    if (var(visible)) {
-        
-    }
 }
 
 //method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
@@ -71,9 +64,8 @@ method(UILayer, void, onButtonClicked, MCInt tag)
     }
 }
 
-loader(UILayer)
+onload(UILayer)
 {
-    binding(UILayer, void, draw);
     binding(UILayer, void, onButtonClicked, MCInt tag);
     return claz;
 }

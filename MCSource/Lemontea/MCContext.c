@@ -1,12 +1,12 @@
 #include "MCContext.h"
 
-initer(MCContext)
+oninit(MCContext)
 {
 	obj->selectionChar=0;
 	return obj;
 }
 
-loader(MCContext)
+onload(MCContext)
 {
 binding(MCContext, MCContext*, newWithArgs, int argc, char** argv);
 binding(MCContext, void, bye);

@@ -11,8 +11,9 @@
 
 #include "monkc.h"
 #include "MC3DType.h"
+#include "MCDrawable.h"
 
-monkc(MCOrbit);
+monkc_super(MCOrbit, MCDrawable);
     MCFloat R;
     MCUInt segments;
     MCVertex center;
@@ -21,7 +22,5 @@ monkc(MCOrbit);
     MCUInt vertexArrayId;
     MCUInt vertexBufferId;
 end(MCOrbit);
-
-nethod(MCOrbit, void, draw);
 
 #endif /* defined(__monkcGame__MCOrbit__) */

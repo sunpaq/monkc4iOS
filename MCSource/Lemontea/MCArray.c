@@ -1,7 +1,7 @@
 #include <string.h>
 #include "MCArray.h"
 
-initer(MCArray){
+oninit(MCArray){
 	obj->count = 0;
 	obj->size = 0;
 	obj->indexLast = 0;
@@ -9,7 +9,7 @@ initer(MCArray){
 	return obj;
 }
 
-loader(MCArray)
+onload(MCArray)
 {
 	binding(MCArray, MCArray*, initWithSize, int size);
 	binding(MCArray, MCArray*, addItem, void* item);

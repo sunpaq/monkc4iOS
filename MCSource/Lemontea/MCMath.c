@@ -1,13 +1,13 @@
 #include "MCMath.h"
 
-loader(MCMath)
+onload(MCMath)
 {
 	binding(MCMath, void, bye);
 	binding(MCMath, int, addInteger2, int a, int b);
 	return claz;
 }
 
-initer(MCMath)
+oninit(MCMath)
 {
 	obj->tid = 0;
 	return obj;

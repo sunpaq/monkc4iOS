@@ -1,6 +1,6 @@
 #include "MCCamera.h"
 
-initer(MCCamera)
+oninit(MCCamera)
 {
     var(super) = mull;
     MCCamera_reset(0, obj, MCTrue);
@@ -79,7 +79,7 @@ nethod(MCCamera, void, update)
     MCCamera_updateLookat(0, obj);
 }
 
-loader(MCCamera)
+onload(MCCamera)
 {
     binding(MCCamera, void, reset, MCBool updateOrNot);
     binding(MCCamera, void, updatePosition, MCVertex* result);

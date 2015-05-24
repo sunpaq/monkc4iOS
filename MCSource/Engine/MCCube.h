@@ -11,9 +11,9 @@
 
 #include <stdio.h>
 #include "monkc.h"
-
 #include "MCDrawable.h"
-monks(MCCube, MCDrawable);
+
+monkc_super(MCCube, MCDrawable);
     MCUInt textureId;
 end(MCCube);
 
