@@ -43,7 +43,6 @@ initer(MainScene)
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height)
 {
     MCGLEnableDepthTest(MCTrue);
-    ff(var(cube), initialization, mull);
     setupCamera(var(mainCamera), width, height);
     return obj;
 }

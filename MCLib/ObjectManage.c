@@ -37,37 +37,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	4. alloca ---> can alloc mem on stack
 */
 
-mc_block* alloc_mc_block()
-{
-	return (mc_block*)malloc(sizeof(mc_block));
-}
-
-mc_block* init_mc_block(mc_block* ablock, void* data)
-{
-	deref(ablock).data = data;
-	deref(ablock).next = mull;
-	return ablock;
-}
-
-mc_block* new_mc_block(void* data)
-{
-	return init_mc_block(alloc_mc_block(), data);
-}
-
-void package_by_block(mc_block* ablock, mc_object* aobject)
-{
-	deref(ablock).data = aobject;
-	deref(aobject).block = ablock;
-}
-
-mc_blockpool* new_mc_blockpool()
-{
-	mc_blockpool* bpool = (mc_blockpool*)malloc(sizeof(mc_blockpool));
-	bpool->lock = 0;
-	bpool->tail = mull;
-	return bpool;
-}
-
 void pushToTail(mc_blockpool* bpool, mc_block* ablock)
 {
 	mc_trylock(&(bpool->lock));

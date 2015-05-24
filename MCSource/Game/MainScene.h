@@ -30,7 +30,6 @@ method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
 method(MainScene, void, lockCamera, MCBool lock);
 nethod(MainScene, MCCamera*, getCamera);
-nethod(MainScene, void, bye);
 nethod(MainScene, void, show);
 nethod(MainScene, void, hide);
 nethod(MainScene, void, update);

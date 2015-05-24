@@ -18,6 +18,9 @@ monkc(MCOrbit);
     MCUInt segments;
     MCVertex center;
     MCVertex up;
+    //vertex array
+    MCUInt vertexArrayId;
+    MCUInt vertexBufferId;
 end(MCOrbit);
 
 nethod(MCOrbit, void, draw);

@@ -18,8 +18,6 @@ monkc(MCCube);
     MCUInt textureId;
 end(MCCube);
 
-nethod(MCCube, void, bye);
-nethod(MCCube, MCCube*, initialization);
 nethod(MCCube, void, draw);
 
 #endif /* defined(__monkcGame__MCCube__) */

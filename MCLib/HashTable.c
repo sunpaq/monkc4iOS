@@ -27,7 +27,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "monkc.h"
 
-static size_t expand_table(mc_hashtable* const table_p, MCHashTableLevel tolevel)
+static inline size_t expand_table(mc_hashtable* const table_p, MCHashTableLevel tolevel)
 {
     MCHashTableLevel oldlevel = table_p->level;
     size_t newsize = sizeof(mc_hashtable) + get_tablesize(tolevel)*sizeof(mc_hashitem);
@@ -39,12 +39,6 @@ static size_t expand_table(mc_hashtable* const table_p, MCHashTableLevel tolevel
 		newtable->items[i].value=mull;
 	runtime_log("expand table: %d->%d\n", oldlevel, tolevel);
     return newsize;
-}
-
-void package_by_item(mc_hashitem* aitem_p, mc_class* aclass_p)
-{
-	(aitem_p)->value = aclass_p;
-	(aclass_p)->item = aitem_p;
 }
 
 mc_hashitem* new_item(const char* key, void* value)

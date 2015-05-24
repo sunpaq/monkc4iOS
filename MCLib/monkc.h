@@ -45,20 +45,16 @@
  * */
 #define MC_STRICT_MODE 1
 
-/* *
- * Configure whether use colored output log
- * some terminal/IDE can not support ANSI color codes
- * (comment out it to avoid strange output strings on some IDE)
- * */
-//#define MC_LOG_USE_COLOR
-
-
 #ifndef mull
 #define mull ((void*)0)
 #endif
 #define S(value) #value
 #define SEQ(dest, src) (mc_compare_key(dest, src)==0)
 #define A_B(a, b) a##_##b
+#define nameof(obj) mc_nameof((mo)obj)
+#define nameofc(cls) mc_nameofc(cls)
+#define deref(x) (*(x))
+#define addrof(x) (&(x))
 
 //in C99,
 //inline function need to be have "inline" and "non-inline" version both implement
@@ -89,6 +85,12 @@ typedef enum { MCFalse=0, MCTrue=1 } MCBool;
  Log.h
  */
 
+/* *
+ * Configure whether use colored output log
+ * some terminal/IDE can not support ANSI color codes
+ * (comment out it to avoid strange output strings on some IDE)
+ * */
+//#define MC_LOG_USE_COLOR
 typedef enum {
     MC_SILENT = 0,
     MC_ERROR_ONLY,
@@ -123,7 +125,8 @@ typedef enum  {
     MCHashTableLevelCount
 } MCHashTableLevel;
 static MCUInt mc_hashtable_sizes[MCHashTableLevelCount] = {100, 200, 1000, 4000, 10000};
-MCInline MCUInt get_tablesize(const MCHashTableLevel level) {
+MCInline MCUInt get_tablesize(const MCHashTableLevel level)
+{
     if(level > MCHashTableLevelMax){
         error_log("get_tablesize(level) level>max return use level=max\n");
         return mc_hashtable_sizes[MCHashTableLevelMax];
@@ -138,8 +141,8 @@ typedef struct mc_hashitem_struct
 	MCUInt index;
 	MCHashTableLevel level;
 	void* value;
-	//char key[MAX_KEY_CHARS+1];
 	char* key;
+    //char key[MAX_KEY_CHARS+1];
 }mc_hashitem;
 
 typedef struct
@@ -149,10 +152,10 @@ typedef struct
 	MCUInt table_item_count;
 	mc_hashitem items[];
 }mc_hashtable;
-
 MCInline void mc_hashtable_add_item(mc_hashtable* table, MCUInt index, mc_hashitem item) { table->items[index] = item; }
 MCInline mc_hashitem mc_hashtable_get_item(mc_hashtable* table, MCUInt index) { return table->items[index]; }
-MCInline MCBool mc_hashitem_isnil(mc_hashtable* table, MCUInt index) {
+MCInline MCBool mc_hashitem_isnil(mc_hashtable* table, MCUInt index)
+{
     if (table->items[index].value == mull) {
         return MCTrue;
     }else{
@@ -165,12 +168,26 @@ typedef struct mc_block_struct
 	struct mc_block_struct* next;
 	void* data;
 }mc_block;
+MCInline mc_block* new_mc_block(void* data)
+{
+    mc_block* ablock = (mc_block*)malloc(sizeof(mc_block));
+    deref(ablock).data = data;
+    deref(ablock).next = mull;
+    return ablock;
+}
 
 typedef struct
 {
 	MCInt lock;
 	mc_block* tail;
 }mc_blockpool;
+MCInline mc_blockpool* new_mc_blockpool()
+{
+    mc_blockpool* bpool = (mc_blockpool*)malloc(sizeof(mc_blockpool));
+    bpool->lock = 0;
+    bpool->tail = mull;
+    return bpool;
+}
 
 //meta class, the struct is a node for inherit hierarchy
 typedef struct
@@ -181,7 +198,8 @@ typedef struct
     mc_blockpool used_pool;
     mc_hashtable table;
 }mc_class;
-MCInline mc_class* alloc_mc_class(const MCSizeT objsize) {
+MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
+{
     MCHashTableLevel initlevel = MCHashTableLevel1;
     mc_class* aclass = (mc_class*)malloc(sizeof(mc_class) + sizeof(mc_hashitem)*get_tablesize(initlevel));
     aclass->objsize = objsize;
@@ -199,6 +217,11 @@ MCInline mc_class* alloc_mc_class(const MCSizeT objsize) {
         (aclass->table.items)[i].value=mull;
     return aclass;
 }
+MCInline void package_by_item(mc_hashitem* aitem_p, mc_class* aclass_p)
+{
+    (aitem_p)->value = aclass_p;
+    (aclass_p)->item = aitem_p;
+}
 
 //for type cast, every object have the 3 var members
 typedef struct mc_object_struct
@@ -211,6 +234,11 @@ typedef struct mc_object_struct
 	mc_class* mode;
 }mc_object;
 typedef mc_object* mo;
+MCInline void package_by_block(mc_block* ablock, mc_object* aobject)
+{
+    deref(ablock).data = aobject;
+    deref(aobject).block = ablock;
+}
 
 #define monkc(cls) \
 typedef struct cls##_struct{\
@@ -311,10 +339,7 @@ extern void _init_class_list();
 extern void _clear_class_list();
 char* mc_nameof(mc_object* const aobject);
 char* mc_nameofc(mc_class* const aclass);
-#define nameof(obj) mc_nameof((mo)obj)
-#define nameofc(cls) mc_nameofc(cls)
-#define deref(x) (*(x))
-#define addrof(x) (&(x))
+
 
 /*
  Lock.h
@@ -330,9 +355,7 @@ void mc_unlock(volatile MCInt* lock_p);
  Key.h
  */
 
-MCInline int mc_compare_key(char* const dest, const char* src) {
-    return strncmp(dest, src, strlen(src));
-}
+MCInline int mc_compare_key(char* const dest, const char* src) { return strncmp(dest, src, strlen(src)); }
 
 /*
  HashTable.h
@@ -349,7 +372,6 @@ MCInline MCHash hash(const char *s) {
     return hashval;
 }
 
-void package_by_item(mc_hashitem* aitem_p, mc_class* aclass_p);
 mc_hashitem* new_item(const char* key, void* value);
 mc_hashitem* new_item_h(const char* key, void* value, const MCHash hashval);
 mc_hashtable* new_table(const MCHash initlevel);
@@ -375,7 +397,6 @@ MCInline mc_message make_msg(mo const obj, const void* address) { return (mc_mes
 void* _push_jump(mc_message msg, ...);
 
 //write by c
-
 mc_message _self_response_to(const mo obj, const char* methodname);
 mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval);
 mc_message _response_to(mo const obj, const char* methodname, MCInt strict);
@@ -384,11 +405,6 @@ mc_message _response_to_h(mo const obj, const char* methodname, MCHash hashval, 
 /*
  ObjectManage.h
  */
-mc_block* alloc_mc_block();
-mc_block* init_mc_block(mc_block* ablock, void* data);
-mc_block* new_mc_block(void* data);
-void package_by_block(mc_block* ablock, mc_object* aobject);
-mc_blockpool* new_mc_blockpool();
 
 void mc_info(const char* classname, MCSizeT size, loaderFP loader);
 void mc_clear(const char* classname, MCSizeT size, loaderFP loader);

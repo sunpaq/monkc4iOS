@@ -62,10 +62,10 @@ MCInline MCVertex MCVertexCross(MCVertex v1, MCVertex v2) {
                       v1.x*v2.y - v2.x*v1.y};
 }
 
-MCInline void putMCVertexes(MCVertex verp[], MCSizeT size) {
+MCInline void putMCVertexes(MCVertex verp[], MCUInt count) {
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, verp);
-    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)size*3);
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)count*3);
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
@@ -173,6 +173,11 @@ MCInline void MCGLDelVertexArray(MCUInt arrayid) {
 MCInline void MCGLDrawVertexArray(MCUInt arrayid) {
     glBindVertexArrayOES(arrayid);
     glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+MCInline void MCGLDrawVertexArrayLineLoop(MCUInt arrayid, MCUInt count) {
+    glBindVertexArrayOES(arrayid);
+    glDrawArrays(GL_LINE_LOOP, 0, count);
 }
 
 //GLsizeiptr size, const GLvoid* data, GLenum usage
