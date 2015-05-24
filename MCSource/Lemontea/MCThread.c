@@ -53,10 +53,10 @@ initer(MCThread)
 
 method(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable)
 {
-	if (runnable==nil)
+	if (runnable==mull)
 	{
 		error_log("%s\n","runnable can not be nil, do nothing");
-		return nil;
+		return mull;
 	}
     retain(runnable);
 	obj->runnable = runnable;
@@ -93,7 +93,7 @@ pthread_t MCThread_self()
 //and dynamic Mocha inherit tree method calling
 static void* fireRun(void* obj)
 {
-	return ff(cast(MCThread*, obj)->runnable, run, nil);//no result
+	return ff(cast(MCThread*, obj)->runnable, run, 0);//no result
 }
 
 //pthread_once:     void (*)(void)
@@ -103,13 +103,13 @@ method(MCThread, int, start, void* result)
 	int res;
 	if (obj->isRunOnce==1)
 	{
-		if (obj->runnable->init_routine!=nil)
+		if (obj->runnable->init_routine!=mull)
 			res = pthread_once(&(obj->once_control), obj->runnable->init_routine);
 		else
 			res = pthread_once(&(obj->once_control), cast(void(*)(void), fireRun));
 
 	}else{
-		if (obj->runnable->init_routine!=nil)
+		if (obj->runnable->init_routine!=mull)
 			res = pthread_create(&obj->self,//tid, pthread_t type
 				   &obj->attribute, 
 				   cast(void*(*)(void*), obj->runnable->init_routine),

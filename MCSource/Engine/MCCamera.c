@@ -2,7 +2,7 @@
 
 initer(MCCamera)
 {
-    var(super) = nil;
+    var(super) = mull;
     MCCamera_reset(0, obj, MCTrue);
     return obj;
 }
@@ -29,7 +29,7 @@ method(MCCamera, void, reset, MCBool updateOrNot)
 method(MCCamera, void, updatePosition, MCVertex* result)
 {
     var(currentPosition) = MCWorldCoorFromLocal(MCVertexFromSpherical(var(R), var(tht), var(fai)), var(lookat));
-    if (result != nil) {
+    if (result != mull) {
         result->x = var(currentPosition).x;
         result->y = var(currentPosition).x;
         result->z = var(currentPosition).x;
@@ -75,7 +75,7 @@ nethod(MCCamera, void, updateLookat)
 nethod(MCCamera, void, update)
 {
     MCCamera_updateRatioFocalDistance(0, obj);
-    MCCamera_updatePosition(0, obj, nil);
+    MCCamera_updatePosition(0, obj, mull);
     MCCamera_updateLookat(0, obj);
 }
 

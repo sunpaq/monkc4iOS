@@ -29,7 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 void mc_trylock(volatile int* lock_p)
 {
-	if(lock_p==nil){
+	if(lock_p==mull){
 		error_log("mc_trylock(int* lock_p) lock_p is nil\n");
 		return;
 	}
@@ -44,7 +44,7 @@ void mc_trylock(volatile int* lock_p)
 
 void mc_unlock(volatile int* lock_p)
 {
-	if(lock_p==nil){
+	if(lock_p==mull){
 		error_log("mc_unlock(int* lock_p) lock_p is nil\n");
 		return;
 	}

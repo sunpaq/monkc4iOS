@@ -28,7 +28,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "monkc.h"
 
 //private data
-static mc_hashtable* mc_global_classtable = nil;
+static mc_hashtable* mc_global_classtable = mull;
 
 void trylock_global_classtable()
 {
@@ -49,18 +49,13 @@ unsigned _binding(mc_class* const aclass, const char* methodname, void* value)
 	return _binding_h(aclass, methodname, value, hash(methodname));
 }
 
-unsigned _binding_h(mc_class* const aclass, const char* methodname, void* value, unsigned hashval)
+unsigned _binding_h(mc_class* const aclass, const char* methodname, void* value, MCHash hashval)
 {
-	unsigned res;
-	if(aclass==nil){
+	if(aclass==mull){
 		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
 		return 0;
 	}
-	if(aclass->table==nil){
-		error_log("_binding_h(mc_class* aclass) aclass->table is nill return 0\n");
-		return 0;
-	}
-	res = set_item(&(aclass->table),
+	MCUInt res = set_item(&aclass->table,
 		new_item_h(methodname, value, hashval),
 		0, 0, nameofc(aclass));
 	return res;
@@ -71,15 +66,11 @@ unsigned _override(mc_class* const aclass, const char* methodname, void* value)
 	return _override_h(aclass, methodname, value, hash(methodname));
 }
 
-unsigned _override_h(mc_class* const aclass, const char* methodname, void* value, unsigned hashval)
+unsigned _override_h(mc_class* const aclass, const char* methodname, void* value, MCHash hashval)
 {
 	unsigned res;
-	if(aclass==nil){
+	if(aclass==mull){
 		error_log("_override_h(mc_class* aclass) aclass is nill return 0\n");
-		return 0;
-	}
-	if(aclass->table==nil){
-		error_log("_override_h(mc_class* aclass) aclass->table is nill return 0\n");
 		return 0;
 	}
 	res = set_item(&(aclass->table),
@@ -88,46 +79,15 @@ unsigned _override_h(mc_class* const aclass, const char* methodname, void* value
 	return res;
 }
 
-/*
-for class load
-*/
-
-mc_class* alloc_mc_class()
+static inline mc_class* findClass(const char* name, const MCHash hashval)
 {
-	return (mc_class*)malloc(sizeof(mc_class));
-}
-
-mc_class* init_mc_class(mc_class* const aclass, const size_t objsize)
-{
-	aclass->objsize = objsize;
-	aclass->table = new_table(0);
-	aclass->free_pool = new_mc_blockpool();
-	aclass->used_pool = new_mc_blockpool();
-	if(aclass->table==nil){
-		error_log("init_mc_class new_table() failed\n");
-		exit(-1);
-	}
-	if(aclass->free_pool==nil || aclass->used_pool==nil){
-		error_log("init_mc_class new_mc_blockpool() failed\n");
-		exit(-1);
-	}
-	return aclass;
-}
-
-mc_class* new_mc_class(const size_t objsize)
-{
-	return init_mc_class(alloc_mc_class(), objsize);
-}
-
-static inline mc_class* findClass(const char* name, unsigned hashval)
-{
-	mc_hashitem* item = nil;
+	mc_hashitem* item = mull;
 	//create a class hashtable
-	if(mc_global_classtable == nil)
-		mc_global_classtable = new_table(0);
-	item=get_item_byhash(&mc_global_classtable, hashval, name);
-	if (item == nil)
-		return nil;
+	if(mc_global_classtable == mull)
+		mc_global_classtable = new_table(MCHashTableLevel1);
+	item=get_item_byhash(mc_global_classtable, hashval, name);
+	if (item == mull)
+		return mull;
 	else
 		runtime_log("findClass item key:%s, value:%p\n", item->key, item->value);
 	return (mc_class*)(item->value);
@@ -138,19 +98,20 @@ mc_class* _load(const char* name, size_t objsize, loaderFP loader)
 	return _load_h(name, objsize, loader, hash(name));
 }
 
-mc_class* _load_h(const char* name, size_t objsize, loaderFP loader, unsigned hashval)
+mc_class* _load_h(const char* name, size_t objsize, loaderFP loader, MCHash hashval)
 {
 	mc_class* aclass = findClass(name, hashval);
 	//try lock spin lock
 	trylock_global_classtable();
-	if(aclass == nil){
+	if(aclass == mull){
 		//new a item
-		aclass = new_mc_class(objsize);
-		mc_hashitem* item = new_item(name, nil);//nil first
-		package_by_item(&item, &aclass);
+		aclass = alloc_mc_class(objsize);
+		mc_hashitem* item = new_item(name, mull);//nil first
+		package_by_item(item, aclass);
 		(*loader)(aclass);
 		//set item
-		set_item(&mc_global_classtable, item, 0, 1, (char*)name);
+        //MCBool isOverride, MCBool isFreeValue
+		set_item(mc_global_classtable, item, MCFalse, MCTrue, (char*)name);
 		runtime_log("load a class[%s]\n", nameofc(aclass));
 	}else{
 		runtime_log("find a class[%s]\n", nameofc(aclass));
@@ -163,23 +124,23 @@ mc_class* _load_h(const char* name, size_t objsize, loaderFP loader, unsigned ha
 mo _findsuper(mo const obj, const char* supername)
 {
 	mc_class* metaclass = findClass(supername, hash(supername));
-	mo iter = nil;
-	for (iter = obj; iter!=nil; iter=iter->super) {
-		if (iter->isa!=nil && iter->isa == metaclass){
+	mo iter = mull;
+	for (iter = obj; iter!=mull; iter=iter->super) {
+		if (iter->isa!=mull && iter->isa == metaclass){
 			error_log("find super metaclass: %s iter->isa: %p\n", nameofc(metaclass), iter->isa);
 			return iter;
 		}
 	}
 	error_log("can not find super metaclass: %s iter->isa: %p\n", nameofc(metaclass), iter->isa);
-	return nil;
+	return mull;
 }
 
 mo _new(mo const this, initerFP initer)
 {
 	//block, isa, saved_isa is setted at _alloc()
 	this->ref_count = 1;
-	this->super = nil;
-	this->mode = nil;
+	this->super = mull;
+	this->mode = mull;
 	(*initer)(this);
 	return this;
 }
@@ -189,8 +150,8 @@ mo _new_category(mo const this, initerFP initer, loaderFP loader_cat, initerFP i
 	//block, isa, saved_isa is setted at _alloc()
 	this->ref_count = 1;
 	(*loader_cat)(this->isa);
-	this->super = nil;
-	this->mode = nil;
+	this->super = mull;
+	this->mode = mull;
 	(*initer)(this);
 	(*initer_cat)(this);
 	return this;
@@ -219,7 +180,7 @@ static int ref_count_down(mo const this)
 	int oldcount, newcount;
 	int *addr;
 	for(;;){
-		if(this == nil){
+		if(this == mull){
 			error_log("recycle/release(nil) do nothing.\n");
 			return REFCOUNT_ERR;
 		}
@@ -232,7 +193,7 @@ static int ref_count_down(mo const this)
 			debug_log("ref_count is REFCOUNT_NO_MM manage by runtime. do nothing\n");
 			return REFCOUNT_NO_MM;
 		}
-		if(this->isa == nil){
+		if(this->isa == mull){
 			error_log("recycle/release(obj) obj have no class linked. do nothing.\n");
 			return REFCOUNT_ERR;
 		}
@@ -252,7 +213,7 @@ void _recycle(mo const this)
 {
 	if(ref_count_down(this) == 0){
 		//call the "bye" method on object
-		fs(this, bye, nil);
+		fs(this, bye, mull);
 		mc_dealloc(this, 1);
 	}
 }
@@ -261,7 +222,7 @@ void _release(mo const this)
 {
 	if(ref_count_down(this) == 0){
 		//call the "bye" method on object
-		fs(this, bye, nil);
+		fs(this, bye, mull);
 		mc_dealloc(this, 0);
 	}
 }
@@ -271,7 +232,7 @@ mo _retain(mo const this)
 	int* rcountaddr;
 	int oldcount;
 	for(;;){
-		if(this == nil){
+		if(this == mull){
 			error_log("retain(nil) do nothing.\n");
 			return this;
 		}
@@ -279,7 +240,7 @@ mo _retain(mo const this)
 			debug_log("ref_count is REFCOUNT_NO_MM manage by runtime. do nothing\n");
 			return this;
 		}
-		if(this->isa == nil){
+		if(this->isa == mull){
 			error_log("release(obj) obj have no class linked. do nothing.\n");
 			return this;
 		}
@@ -295,20 +256,20 @@ mo _retain(mo const this)
 
 char* mc_nameof(mc_object* const aobject)
 {
-	if(aobject==nil)
+	if(aobject==mull)
 		return "";
-	if(aobject->isa==nil)
+	if(aobject->isa==mull)
 		return "";
 	return nameofc(aobject->isa);
 }
 
 char* mc_nameofc(mc_class* const aclass)
 {
-	if(aclass==nil)
+	if(aclass==mull)
 		return "";
-	if(aclass->item==nil)
+	if(aclass->item==mull)
 		return "";
-	if(aclass->item->key==nil)
+	if(aclass->item->key==mull)
 		return "";
 	return aclass->item->key;
 }

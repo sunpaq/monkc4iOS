@@ -25,7 +25,7 @@ initer(MCFile)
 {
 	obj->fd = 0;
 	obj->pathname = "";
-	obj->buffer = nil;
+	obj->buffer = mull;
 	//obj->attribute;
 	return obj;
 }
@@ -103,13 +103,12 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, char* path)
 		break;
 	}
 
-	if((obj->fileObject = fopen(path, rw_type))!=nil)
+	if((obj->fileObject = fopen(path, rw_type))!=mull)
 		setvbuf(obj->fileObject, NULL, buff_mode, BUFSIZ);
 	else
-		return nil;
+		return mull;
 	return obj;
 }
-
 
 loader(MCSelect)
 {

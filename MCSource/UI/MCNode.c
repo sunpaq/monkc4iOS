@@ -5,13 +5,13 @@
 
 initer(MCNode)
 {
-    var(super) = nil;
+    var(super) = mull;
 
     var(frame) = mc_rect_zero;
     var(anchor) = mc_point_zero;
     var(position) = mc_point_zero;
     var(color) = mc_color_white;
-    var(parent) = nil;
+    var(parent) = mull;
     var(children) = new(MCArray);
 
     return obj;
@@ -24,7 +24,7 @@ protocol(MCAccessbleProtocol, void*, access, const char* varname)
     if (SEQ(S(anchor),   varname)) return addrof(obj->anchor);
     if (SEQ(S(position), varname)) return addrof(obj->position);
     if (SEQ(S(color),    varname)) return addrof(obj->color);
-    void* varp = nil;
+    void* varp = mull;
     varp = ff(obj->super, access, varname);
     return varp;
 }

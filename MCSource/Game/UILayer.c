@@ -42,7 +42,7 @@ nethod(UILayer, void, draw)
 //method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
 method(UILayer, void, onButtonClicked, MCInt tag)
 {
-    MCCamera* cam = ff(obj, getCamera, nil);
+    MCCamera* cam = ff(obj, getCamera, mull);
     
     switch (tag) {
         case START:

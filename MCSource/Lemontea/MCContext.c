@@ -79,19 +79,19 @@ method(MCContext, char*, getPara, int index)
 method(MCContext, int, isIndexedParaEqualTo, int index, char* para)
 {
 	char* para1 = obj->argv[index];
-	if (para1==nil)return 0;
+	if (para1==mull)return 0;
 	if (strcmp(para1, para)==0)return 1;
 	else return 0;
 }
 
 method(MCContext, int, isHavePara, char* para)
 {
-	if(obj==nil)return 0;
+	if(obj==mull)return 0;
 	int i, res;
 	for (i = 0; i < obj->argc; ++i)
 	{
 		char* tmp = obj->argv[i];
-		if(tmp!=nil&&para!=nil)res = strcmp(tmp, para);
+        if(tmp!=mull && para!=mull)res = strcmp(tmp, para);
 		else return 0;
 
 		if(res==0)return 1;

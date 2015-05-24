@@ -28,11 +28,13 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
 
 initer(MainScene)
 {
+    MCLogTypeSet(MC_VERBOSE);
     var(visible) = MCTrue;//visible by default
     var(cameraLock) = MCFalse;
     var(mainCamera) = new(MCCamera);
     var(uilayer) = new(UILayer);
     var(cube) = new(MCCube);
+    var(orbit) = new(MCOrbit);
     
     var(uilayer)->super = (mo)obj;
     return obj;
@@ -41,8 +43,7 @@ initer(MainScene)
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height)
 {
     MCGLEnableDepthTest(MCTrue);
-    //call(var(cube), MCCube, initialization, nil);
-    ff(var(cube), initialization, nil);
+    ff(var(cube), initialization, mull);
     setupCamera(var(mainCamera), width, height);
     return obj;
 }
@@ -92,6 +93,7 @@ nethod(MainScene, void, draw)
     if (var(visible)) {
         MCGLClearScreen(0.65f, 0.65f, 0.65f, 1.0f);
         MCCube_draw(0, var(cube));
+        MCOrbit_draw(0, var(orbit));
         UILayer_draw(0, var(uilayer));
     }
 }

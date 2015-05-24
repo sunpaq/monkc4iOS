@@ -45,7 +45,7 @@ mc_block* alloc_mc_block()
 mc_block* init_mc_block(mc_block* ablock, void* data)
 {
 	deref(ablock).data = data;
-	deref(ablock).next = nil;
+	deref(ablock).next = mull;
 	return ablock;
 }
 
@@ -64,14 +64,14 @@ mc_blockpool* new_mc_blockpool()
 {
 	mc_blockpool* bpool = (mc_blockpool*)malloc(sizeof(mc_blockpool));
 	bpool->lock = 0;
-	bpool->tail = nil;
+	bpool->tail = mull;
 	return bpool;
 }
 
 void pushToTail(mc_blockpool* bpool, mc_block* ablock)
 {
 	mc_trylock(&(bpool->lock));
-	deref(ablock).next = nil;
+	deref(ablock).next = mull;
 	if(MC_NO_NODE(bpool)){
 		deref(bpool).tail = ablock;
 		deref(ablock).next = ablock;
@@ -88,12 +88,12 @@ mc_block* getFromHead(mc_blockpool* bpool)
 {
 	mc_block *target, *H, *HN;
 	mc_trylock(&(bpool->lock));
-	target = nil;
+	target = mull;
 	if(MC_NO_NODE(bpool)){
-		target=nil;
+		target=mull;
 	}else if(MC_ONE_NODE(bpool)){
 		target=bpool->tail;
-		deref(bpool).tail = nil;
+		deref(bpool).tail = mull;
 	}else{
 		target=bpool->tail->next;
 		H = bpool->tail->next;
@@ -107,8 +107,8 @@ mc_block* getFromHead(mc_blockpool* bpool)
 void empty(mc_blockpool* bpool)
 {
 	mc_block* target;
-	while((target=getFromHead(bpool)) != nil){
-		fs((mo)(target->data), bye, nil);
+	while((target=getFromHead(bpool)) != mull){
+		fs((mo)(target->data), bye, mull);
 		free(target->data);
 		free(target);
 	}
@@ -118,7 +118,7 @@ int count(mc_blockpool* bpool)
 {
 	int i = 1;
 	mc_block* H;
-	if(deref(bpool).tail==nil)
+	if(deref(bpool).tail==mull)
 		return 0;
 	H = deref(bpool).tail->next;
 	for(;H!=deref(bpool).tail ;H=H->next){
@@ -136,32 +136,32 @@ int cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result)
 	mc_trylock(&(bpool->lock));
  	if(MC_NO_NODE(bpool)){
 		error_log("no node in used_pool but you request delete\n");
-		deref(result)=nil;
+		deref(result)=mull;
 		res=-1;//fail
 	}else if(MC_ONE_NODE(bpool)){
-		deref(bpool).tail=nil;
-		deref(ablock).next=nil;
+		deref(bpool).tail=mull;
+		deref(ablock).next=mull;
 		deref(result)=ablock;
 	}else if(MC_TWO_NODE(bpool)){//do not swap data
-		if(deref(ablock).next==nil){
+		if(deref(ablock).next==mull){
 			error_log("block not in the pool, refuse to cut\n");
 			res=-1;//fail
 		}else{
 			mc_block* H = deref(bpool).tail->next;
 			mc_block* T = deref(bpool).tail;
 			if(ablock==bpool->tail){//cut tail
-				deref(T).next=nil;
+				deref(T).next=mull;
 				deref(result)=T;
 				deref(bpool).tail=H;
 				deref(H).next=H;
 			}else{//cut head
-				deref(H).next=nil;
+				deref(H).next=mull;
 				deref(result)=H;
 				deref(T).next=T;
 			}
 		}
 	}else{
-		if(deref(ablock).next==nil){
+		if(deref(ablock).next==mull){
 			error_log("block not in the pool, refuse to cut\n");
 			res=-1;//fail
 		}else{
@@ -169,7 +169,7 @@ int cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result)
 				deref(bpool).tail = ablock;
 			NN = ablock->next->next;
 			//result
-			deref(deref(ablock).next).next = nil;
+			deref(deref(ablock).next).next = mull;
 			deref(result) = deref(ablock).next;
 			//swap
 			package_by_block(ablock, ablock->next->data);
@@ -185,11 +185,11 @@ void mc_info(const char* classname, size_t size, loaderFP loader)
 	mc_info_h(classname, size, loader, hash(classname));
 }
 
-void mc_info_h(const char* classname, size_t size, loaderFP loader, unsigned hashval)
+void mc_info_h(const char* classname, size_t size, loaderFP loader, MCHash hashval)
 {
 	mc_class* aclass = _load_h(classname, size, loader, hashval);
 	debug_log("----info[%s] used:%d/free:%d\n", 
-		classname, count(aclass->used_pool), count(aclass->free_pool));
+		classname, count(&aclass->used_pool), count(&aclass->free_pool));
 }
 
 void mc_clear(const char* classname, size_t size, loaderFP loader)
@@ -197,15 +197,15 @@ void mc_clear(const char* classname, size_t size, loaderFP loader)
 	mc_clear_h(classname, size, loader, hash(classname));
 }
 
-void mc_clear_h(const char* classname, size_t size, loaderFP loader, unsigned hashval)
+void mc_clear_h(const char* classname, size_t size, loaderFP loader, MCHash hashval)
 {
 	mc_class* aclass = _load_h(classname, size, loader, hashval);
-	if(aclass->used_pool!=nil && aclass->used_pool->tail!=nil)
-		empty(aclass->used_pool);
+	if(aclass->used_pool.tail!=mull)
+		empty(&aclass->used_pool);
 	else
 		runtime_log("class[%s] used_pool have no node. check free_pool\n", classname);
-	if(aclass->free_pool->tail!=nil)
-		empty(aclass->free_pool);
+	if(aclass->free_pool.tail!=mull)
+		empty(&aclass->free_pool);
 	else
 		runtime_log("class[%s] free_pool also have no node. do not clear\n", classname);
 	runtime_log("empty [%s] finish\n", classname);
@@ -217,20 +217,20 @@ mo mc_alloc(const char* classname, size_t size, loaderFP loader)
 	return mc_alloc_h(classname, size, loader, hash(classname));
 }
 
-mo mc_alloc_h(const char* classname, size_t size, loaderFP loader, unsigned hashval)
+mo mc_alloc_h(const char* classname, size_t size, loaderFP loader, MCHash hashval)
 {
 	mc_class* aclass = _load_h(classname, size, loader, hashval);
-	mc_blockpool* fp = aclass->free_pool;
-	mc_blockpool* up = aclass->used_pool;
-	mc_block* ablock = nil;
-	mo aobject = nil;
-	if((ablock=getFromHead(fp)) == nil){
+	mc_blockpool* fp = &aclass->free_pool;
+	mc_blockpool* up = &aclass->used_pool;
+	mc_block* ablock = mull;
+	mo aobject = mull;
+	if((ablock=getFromHead(fp)) == mull){
 		//new a object package by a block
 		aobject = (mo)malloc(size);
 		aobject->isa = aclass;
 		aobject->saved_isa = aclass;
 		//new a block
-		ablock = new_mc_block(nil);
+		ablock = new_mc_block(mull);
 		package_by_block(ablock, aobject);
 		runtime_log("----alloc[NEW:%s]: new alloc a block[%p obj[%p]]\n", 
 			classname, ablock, ablock->data);
@@ -240,6 +240,7 @@ mo mc_alloc_h(const char* classname, size_t size, loaderFP loader, unsigned hash
 			classname, ablock, ablock->data);
 	}
 	pushToTail(up, ablock);
+    
 	return aobject;
 }
 
@@ -247,24 +248,24 @@ void mc_dealloc(mc_object* aobject, int is_recycle)
 {
 	mc_block* blk = aobject->block;
 	mc_class* cls = aobject->isa;
-	mc_blockpool* fp = cls->free_pool;
-	mc_blockpool* up = cls->used_pool;
-	mc_block* nb = nil;
+	mc_blockpool* fp = &cls->free_pool;
+	mc_blockpool* up = &cls->used_pool;
+	mc_block* nb = mull;
 
-	if(aobject==nil){
-		error_log("----dealloc(%s) obj is nil\n", nameof(aobject));
+	if(aobject==mull){
+		error_log("----dealloc(%s) obj is mull\n", nameof(aobject));
 		return;
 	}
-	if(blk==nil){
-		error_log("----dealloc(%s) obj->block is nil\n", nameof(aobject));
+	if(blk==mull){
+		error_log("----dealloc(%s) obj->block is mull\n", nameof(aobject));
 		return;
 	}
-	if(cls==nil){
-		error_log("----dealloc(%s) obj->isa is nil\n", nameof(aobject));
+	if(cls==mull){
+		error_log("----dealloc(%s) obj->isa is mull\n", nameof(aobject));
 		return;
 	}
-	if(fp==nil || up==nil){
-		error_log("----dealloc(%s) obj->isa->pool is nil\n", nameof(aobject));
+	if(fp==mull || up==mull){
+		error_log("----dealloc(%s) obj->isa->pool is mull\n", nameof(aobject));
 		return;
 	}
 	if(MC_NO_NODE(up)){

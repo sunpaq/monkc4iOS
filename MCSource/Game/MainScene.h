@@ -14,6 +14,7 @@
 #include "MC3DBase.h"
 #include "MCCamera.h"
 #include "MCCube.h"
+#include "MCOrbit.h"
 #include "UILayer.h"
 
 monkc(MainScene);
@@ -22,6 +23,7 @@ monkc(MainScene);
     MCBool cameraLock;
     MCCamera* mainCamera;
     MCCube* cube;
+    MCOrbit* orbit;
 end(MainScene);
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);

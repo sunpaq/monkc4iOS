@@ -27,12 +27,56 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "monkc.h"
 
+#ifdef MC_LOG_USE_COLOR
+#define LOG_COLOR_NONE "\033[0m"
+#define LOG_COLOR_BLACK "\033[0;30m"
+#define LOG_COLOR_DARK_GRAY "\033[1;30m"
+#define LOG_COLOR_BLUE "\033[0;34m"
+#define LOG_COLOR_LIGHT_BLUE "\033[1;34m"
+#define LOG_COLOR_GREEN "\033[0;32m"
+#define LOG_COLOR_LIGHT_GREEN "\033[1;32m"
+#define LOG_COLOR_CYAN "\033[0;36m"
+#define LOG_COLOR_LIGHT_CYAN "\033[1;36m"
+#define LOG_COLOR_RED "\033[0;31m"
+#define LOG_COLOR_LIGHT_RED "\033[1;31m"
+#define LOG_COLOR_PURPLE "\033[0;35m"
+#define LOG_COLOR_LIGHT_PURPLE "\033[1;35m"
+#define LOG_COLOR_BROWN "\033[0;33m"
+#define LOG_COLOR_YELLOW "\033[1;33m"
+#define LOG_COLOR_LIGHT_GRAY "\033[0;37m"
+#define LOG_COLOR_WHITE "\033[1;37m"
+#define LOG_FMT "%s%s\033[0m"
+#else
+#define LOG_COLOR_NONE ""
+#define LOG_COLOR_BLACK ""
+#define LOG_COLOR_DARK_GRAY ""
+#define LOG_COLOR_BLUE ""
+#define LOG_COLOR_LIGHT_BLUE ""
+#define LOG_COLOR_GREEN ""
+#define LOG_COLOR_LIGHT_GREEN ""
+#define LOG_COLOR_CYAN ""
+#define LOG_COLOR_LIGHT_CYAN ""
+#define LOG_COLOR_RED ""
+#define LOG_COLOR_LIGHT_RED ""
+#define LOG_COLOR_PURPLE ""
+#define LOG_COLOR_LIGHT_PURPLE ""
+#define LOG_COLOR_BROWN ""
+#define LOG_COLOR_YELLOW ""
+#define LOG_COLOR_LIGHT_GRAY ""
+#define LOG_COLOR_WHITE ""
+#define LOG_FMT "%s%s"
+#endif
+
 /*
 	Logs with color tags
 	we use the same syntex with printf
 */
 
-int LOG_LEVEL = MC_DEBUG;
+static int LOG_LEVEL = MC_DEBUG;
+extern void MCLogTypeSet(MCLogType type)
+{
+    LOG_LEVEL = type;
+}
 
 //static char log_buf[1024];
 void error_log(char* volatile fmt, ...)

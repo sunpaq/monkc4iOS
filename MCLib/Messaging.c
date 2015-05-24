@@ -34,22 +34,22 @@ mc_message _self_response_to(const mo obj, const char* methodname)
 
 //mc_hashitem* get_item_byhash(const mc_hashtable** table_p, const unsigned hashval, const char* refkey);
 
-mc_message _self_response_to_h(const mo obj, const char* methodname, unsigned hashval)
+mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval)
 {
 	//we will return a struct
 	mc_hashitem* res;
-	mc_message tmpmsg = {nil, nil};
+	mc_message tmpmsg = {mull, mull};
 
-	if(obj == nil){
-		error_log("_self_response_to(obj) obj is nil. return {nil, nil}\n");
+	if(obj == mull){
+		error_log("_self_response_to(obj) obj is mull. return {mull, mull}\n");
 		return tmpmsg;
 	}
-	if(obj->isa == nil){
-		error_log("_self_response_to(obj) obj->isa is nil. return {nil, nil}\n");
+	if(obj->isa == mull){
+		error_log("_self_response_to(obj) obj->isa is mull. return {mull, mull}\n");
 		return tmpmsg;
 	}
 
-	if((res=get_item_byhash(&(obj->isa->table), hashval, methodname)) != nil){
+	if((res=get_item_byhash(&(obj->isa->table), hashval, methodname)) != mull){
 		tmpmsg.object = obj;
 		tmpmsg.address = res->value;
 		runtime_log("return a message[%s/%s]\n", nameof(tmpmsg.object), methodname);
@@ -65,38 +65,38 @@ mc_message _response_to(const mo obj, const char* methodname, int strict)
 	return _response_to_h(obj, methodname, hash(methodname), strict);
 }
 
-mc_message _response_to_h(const mo obj, const char* methodname, unsigned hashval, int strict)
+mc_message _response_to_h(const mo obj, const char* methodname, MCHash hashval, int strict)
 {
 	mc_object* obj_iterator = obj;
-	mc_object* obj_first_hit = nil;
-	mc_hashitem* met_first_hit = nil;
-	mc_hashitem* met_item = nil;
+	mc_object* obj_first_hit = mull;
+	mc_hashitem* met_first_hit = mull;
+	mc_hashitem* met_item = mull;
 	int hit_count = 0;
 	int iter_count = 0;
 	//int max_iter = get_tablesize(5);
 	int max_iter = 10000;
 
-	mc_message tmpmsg = {nil, nil};
-	if(obj == nil || obj->isa == nil){
-		error_log("_response_to(obj) obj is nil or obj->isa is nil. return {nil, nil}\n");
+	mc_message tmpmsg = {mull, mull};
+	if(obj == mull || obj->isa == mull){
+		error_log("_response_to(obj) obj is mull or obj->isa is mull. return {mull, mull}\n");
 		return tmpmsg;
 	}
 
 	for(obj_iterator = obj;
-		obj_iterator!= nil;
+		obj_iterator!= mull;
 		obj_iterator = obj_iterator->super){
 		if(iter_count++ > max_iter){
 			error_log("iter_count>max but class still can not response to method\n");
 			break;
 		}
-		if((met_item=get_item_byhash(&(obj_iterator->isa->table), hashval, methodname)) != nil) {
+		if((met_item=get_item_byhash(&(obj_iterator->isa->table), hashval, methodname)) != mull) {
 			runtime_log("hit a method [%s/%d] to match [%s]\n", 
 				met_item->key, met_item->index, methodname);
 			hit_count++;
 			tmpmsg.object = obj_iterator;
 			tmpmsg.address = met_item->value;
-			if(obj_first_hit==nil)obj_first_hit = obj_iterator;
-			if(met_first_hit==nil)met_first_hit = met_item;
+			if(obj_first_hit==mull)obj_first_hit = obj_iterator;
+			if(met_first_hit==mull)met_first_hit = met_item;
 			//for the method key have conflicted with some super class in inherit tree
 			if(hit_count>1){
 				if(hit_count==2){

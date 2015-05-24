@@ -34,22 +34,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
-
-/* *
- * Configure hash table size:
- * have 5 levels of size
- * and it can auto expand to next level when some key conflicted
- *
- * Example of memory usage:
- * max memory useage for one class  table is: 4Byte x 10000 = 40KB
- * max memory useage for one method table is: 4Byte x 10000 = 40KB
- * max total memory useage is 4Byte x 10000 x 10000 = 400000KB = 400MB
- * */
-#define MC_HASHTABLE_SIZE_L1 100
-#define MC_HASHTABLE_SIZE_L2 200
-#define MC_HASHTABLE_SIZE_L3 1000
-#define MC_HASHTABLE_SIZE_L4 4000
-#define MC_HASHTABLE_SIZE_L5 10000
+#include <string.h>
 
 /* *
  * Configure strict mode:
@@ -67,8 +52,9 @@
  * */
 //#define MC_LOG_USE_COLOR
 
-#ifndef nil
-#define nil ((void*)0)
+
+#ifndef mull
+#define mull ((void*)0)
 #endif
 #define S(value) #value
 #define SEQ(dest, src) (mc_compare_key(dest, src)==0)
@@ -99,24 +85,80 @@ typedef size_t   MCSizeT;
 typedef MCUInt   MCHash;
 typedef enum { MCFalse=0, MCTrue=1 } MCBool;
 
+/*
+ Log.h
+ */
+
+typedef enum {
+    MC_SILENT = 0,
+    MC_ERROR_ONLY,
+    MC_DEBUG,
+    MC_VERBOSE
+} MCLogType;
+extern void MCLogTypeSet(MCLogType type);
+
+void error_log(char* volatile fmt, ...);
+void debug_log(char* volatile fmt, ...);
+void runtime_log(char* volatile fmt, ...);
+void error_logt(char* volatile tag, char* volatile fmt, ...);
+void debug_logt(char* volatile tag, char* volatile fmt, ...);
+void runtime_logt(char* volatile tag, char* volatile fmt, ...);
+
+/* *
+ * Configure hash table size:
+ * have 5 levels of size
+ * and it can auto expand to next level when some key conflicted
+ *
+ * Example of memory usage:
+ * max memory useage for one class  table is: 4Byte x 10000 = 40KB
+ * max memory useage for one method table is: 4Byte x 10000 = 40KB
+ * max total memory useage is 4Byte x 10000 x 10000 = 400000KB = 400MB
+ * */
+typedef enum  {
+    MCHashTableLevel1 = 0,
+    MCHashTableLevel2,
+    MCHashTableLevel3,
+    MCHashTableLevel4,
+    MCHashTableLevelMax,
+    MCHashTableLevelCount
+} MCHashTableLevel;
+static MCUInt mc_hashtable_sizes[MCHashTableLevelCount] = {100, 200, 1000, 4000, 10000};
+MCInline MCUInt get_tablesize(const MCHashTableLevel level) {
+    if(level > MCHashTableLevelMax){
+        error_log("get_tablesize(level) level>max return use level=max\n");
+        return mc_hashtable_sizes[MCHashTableLevelMax];
+    }
+    return mc_hashtable_sizes[level];
+}
+
 typedef struct mc_hashitem_struct
 {
 	struct mc_hashitem_struct* next;
 	MCHash hash;
 	MCUInt index;
-	MCUInt level;
+	MCHashTableLevel level;
 	void* value;
 	//char key[MAX_KEY_CHARS+1];
 	char* key;
 }mc_hashitem;
 
-typedef struct mc_hashtable_struct
+typedef struct
 {
 	MCInt lock;
-	MCUInt level;
-	MCUInt count;
-	mc_hashitem* items[];
+	MCHashTableLevel level;
+	MCUInt table_item_count;
+	mc_hashitem items[];
 }mc_hashtable;
+
+MCInline void mc_hashtable_add_item(mc_hashtable* table, MCUInt index, mc_hashitem item) { table->items[index] = item; }
+MCInline mc_hashitem mc_hashtable_get_item(mc_hashtable* table, MCUInt index) { return table->items[index]; }
+MCInline MCBool mc_hashitem_isnil(mc_hashtable* table, MCUInt index) {
+    if (table->items[index].value == mull) {
+        return MCTrue;
+    }else{
+        return MCFalse;
+    }
+}
 
 typedef struct mc_block_struct
 {
@@ -124,21 +166,39 @@ typedef struct mc_block_struct
 	void* data;
 }mc_block;
 
-typedef struct mc_blockpool_struct
+typedef struct
 {
 	MCInt lock;
 	mc_block* tail;
 }mc_blockpool;
 
 //meta class, the struct is a node for inherit hierarchy
-typedef struct mc_class_struct
+typedef struct
 {
 	MCSizeT objsize;
-	mc_hashtable* table;
-	mc_blockpool* free_pool;
-	mc_blockpool* used_pool;
 	mc_hashitem* item;
+    mc_blockpool free_pool;
+    mc_blockpool used_pool;
+    mc_hashtable table;
 }mc_class;
+MCInline mc_class* alloc_mc_class(const MCSizeT objsize) {
+    MCHashTableLevel initlevel = MCHashTableLevel1;
+    mc_class* aclass = (mc_class*)malloc(sizeof(mc_class) + sizeof(mc_hashitem)*get_tablesize(initlevel));
+    aclass->objsize = objsize;
+    //init pool
+    aclass->free_pool.lock = 0;
+    aclass->free_pool.tail = mull;
+    aclass->used_pool.lock = 0;
+    aclass->used_pool.tail = mull;
+    //init table
+    aclass->table.lock = 0;
+    aclass->table.level = initlevel;
+    aclass->table.table_item_count = 0;
+    //set all the slot to nil
+    for (int i = 0; i < get_tablesize(initlevel); i++)
+        (aclass->table.items)[i].value=mull;
+    return aclass;
+}
 
 //for type cast, every object have the 3 var members
 typedef struct mc_object_struct
@@ -247,9 +307,6 @@ mo _retain(mo const obj);
 #define retain(obj)  _retain((mo)obj)
 
 //tool for class
-mc_class* alloc_mc_class();
-mc_class* init_mc_class(mc_class* const aclass, const MCSizeT objsize);
-mc_class* new_mc_class(const MCSizeT objsize);
 extern void _init_class_list();
 extern void _clear_class_list();
 char* mc_nameof(mc_object* const aobject);
@@ -258,64 +315,6 @@ char* mc_nameofc(mc_class* const aclass);
 #define nameofc(cls) mc_nameofc(cls)
 #define deref(x) (*(x))
 #define addrof(x) (&(x))
-
-/*
- Log.h
- */
-
-extern int LOG_LEVEL;
-
-#define MC_SILENT     0
-#define MC_ERROR_ONLY 1
-#define MC_DEBUG      2
-#define MC_VERBOSE    3
-
-#ifdef MC_LOG_USE_COLOR
-#define LOG_COLOR_NONE "\033[0m"
-#define LOG_COLOR_BLACK "\033[0;30m"
-#define LOG_COLOR_DARK_GRAY "\033[1;30m"
-#define LOG_COLOR_BLUE "\033[0;34m"
-#define LOG_COLOR_LIGHT_BLUE "\033[1;34m"
-#define LOG_COLOR_GREEN "\033[0;32m"
-#define LOG_COLOR_LIGHT_GREEN "\033[1;32m"
-#define LOG_COLOR_CYAN "\033[0;36m"
-#define LOG_COLOR_LIGHT_CYAN "\033[1;36m"
-#define LOG_COLOR_RED "\033[0;31m"
-#define LOG_COLOR_LIGHT_RED "\033[1;31m"
-#define LOG_COLOR_PURPLE "\033[0;35m"
-#define LOG_COLOR_LIGHT_PURPLE "\033[1;35m"
-#define LOG_COLOR_BROWN "\033[0;33m"
-#define LOG_COLOR_YELLOW "\033[1;33m"
-#define LOG_COLOR_LIGHT_GRAY "\033[0;37m"
-#define LOG_COLOR_WHITE "\033[1;37m"
-#define LOG_FMT "%s%s\033[0m"
-#else
-#define LOG_COLOR_NONE ""
-#define LOG_COLOR_BLACK ""
-#define LOG_COLOR_DARK_GRAY ""
-#define LOG_COLOR_BLUE ""
-#define LOG_COLOR_LIGHT_BLUE ""
-#define LOG_COLOR_GREEN ""
-#define LOG_COLOR_LIGHT_GREEN ""
-#define LOG_COLOR_CYAN ""
-#define LOG_COLOR_LIGHT_CYAN ""
-#define LOG_COLOR_RED ""
-#define LOG_COLOR_LIGHT_RED ""
-#define LOG_COLOR_PURPLE ""
-#define LOG_COLOR_LIGHT_PURPLE ""
-#define LOG_COLOR_BROWN ""
-#define LOG_COLOR_YELLOW ""
-#define LOG_COLOR_LIGHT_GRAY ""
-#define LOG_COLOR_WHITE ""
-#define LOG_FMT "%s%s"
-#endif
-
-void error_log(char* volatile fmt, ...);
-void debug_log(char* volatile fmt, ...);
-void runtime_log(char* volatile fmt, ...);
-void error_logt(char* volatile tag, char* volatile fmt, ...);
-void debug_logt(char* volatile tag, char* volatile fmt, ...);
-void runtime_logt(char* volatile tag, char* volatile fmt, ...);
 
 /*
  Lock.h
@@ -330,25 +329,37 @@ void mc_unlock(volatile MCInt* lock_p);
 /*
  Key.h
  */
-//void mc_copy_key(char* const dest, const char* src);
-MCInt mc_compare_key(char* const dest, const char* src);
+
+MCInline int mc_compare_key(char* const dest, const char* src) {
+    return strncmp(dest, src, strlen(src));
+}
 
 /*
  HashTable.h
  */
-MCUInt get_tablesize(const MCUInt level);
-MCHash hash(const char *s);
-void package_by_item(mc_hashitem** aitem_p, mc_class** aclass_p);
+
+//copy form << The C Programming language >>
+//BKDR Hash Function
+MCInline MCHash hash(const char *s) {
+    //runtime_log("hash(%s) --- ", s);
+    MCHash hashval;
+    for(hashval = 0; *s != '\0'; s++)
+        hashval = *s + 31 * hashval;
+    //runtime_log("hashval is: %d\n", hashval);
+    return hashval;
+}
+
+void package_by_item(mc_hashitem* aitem_p, mc_class* aclass_p);
 mc_hashitem* new_item(const char* key, void* value);
 mc_hashitem* new_item_h(const char* key, void* value, const MCHash hashval);
 mc_hashtable* new_table(const MCHash initlevel);
 
-MCUInt set_item(mc_hashtable** const table_p,
+MCUInt set_item(mc_hashtable* const table_p,
                   mc_hashitem* const item,
                   MCBool isOverride, MCBool isFreeValue, char* classname);
-mc_hashitem* get_item_bykey(mc_hashtable** const table_p, const char* key);
-mc_hashitem* get_item_byhash(mc_hashtable** const table_p, const MCHash hashval, const char* refkey);
-mc_hashitem* get_item_byindex(mc_hashtable** const table_p, const MCUInt index);
+mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key);
+mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, const char* refkey);
+mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCUInt index);
 
 /*
  Messaging.h
@@ -387,7 +398,7 @@ void mc_clear_h(const char* classname, MCSizeT size, loaderFP loader, MCHash has
 mo mc_alloc_h(const char* classname, MCSizeT size, loaderFP loader, MCHash hashval);
 void mc_dealloc(mc_object* aobject, MCInt is_recycle);
 
-#define MC_NO_NODE(bpool) (bpool->tail==nil)
+#define MC_NO_NODE(bpool) (bpool->tail==mull)
 #define MC_ONE_NODE(bpool) (bpool->tail->next==bpool->tail)
 #define MC_TWO_NODE(bpool) (bpool->tail->next->next==bpool->tail)
 

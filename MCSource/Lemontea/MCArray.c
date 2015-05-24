@@ -5,7 +5,7 @@ initer(MCArray){
 	obj->count = 0;
 	obj->size = 0;
 	obj->indexLast = 0;
-	obj->buff = nil;
+	obj->buff = mull;
 	return obj;
 }
 
@@ -60,7 +60,7 @@ static void delete_item(MCArray* obj, int index)
 {
 	if(index < 0) return;
 	if(index > obj->indexLast) return;
-	(*(obj->buff))[index] = nil;
+	(*(obj->buff))[index] = mull;
 	if(index==obj->indexLast)
 		obj->indexLast--;
 	obj->count--;

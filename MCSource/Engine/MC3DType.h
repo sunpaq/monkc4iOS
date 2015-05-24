@@ -22,8 +22,13 @@ typedef enum {
 typedef struct {
     MCFloat x;
     MCFloat y;
+} MCVector2;
+
+typedef struct {
+    MCFloat x;
+    MCFloat y;
     MCFloat z;
-} MCVertex;
+} MCVector3, MCVertex;
 
 /*
  copy from Apple GLKit
@@ -37,6 +42,16 @@ typedef struct {
  typedef struct _MCMatrix4 MCMatrix4;
  #else
  */
+
+typedef union {
+    struct
+    {
+        float m00, m01, m02;
+        float m10, m11, m12;
+        float m20, m21, m22;
+    };
+    float m[9];
+} __attribute__((aligned(16))) MCMatrix3;
 
 typedef union {
     struct

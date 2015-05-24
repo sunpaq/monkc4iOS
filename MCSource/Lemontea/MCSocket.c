@@ -85,14 +85,14 @@ static void create_and_bind_socket(MCSocket* this, MCSocketType socket_type, cha
 	}
 	//get addrinfo linklist
 	if(getaddrinfo(ip, port, &hint, &result)){
-		error_log("can not getaddrinfo, return nil\n");
+		error_log("can not getaddrinfo, return mull\n");
 		return;
 	}
 	runtime_log("get the addrinfo linklist.\n");
 
 	//try every addrinfo in list to create and bind until success
 	struct addrinfo* iterator;
-	for(iterator = result; iterator!=nil; iterator = iterator->ai_next)
+	for(iterator = result; iterator!=mull; iterator = iterator->ai_next)
 	{		
 		this->sfd = socket(iterator->ai_family, iterator->ai_socktype, iterator->ai_protocol);
 		if (this->isServer)
@@ -136,7 +136,7 @@ nethod(MCSocket, int, listeningStart)
 
 nethod(MCSocket, MCSocketClientInfo*, acceptARequest)
 {
-	if (obj->isServer!=1)return nil;
+	if (obj->isServer!=1)return mull;
 	MCSocketClientInfo* clientinfo = new(MCSocketClientInfo);
 	clientinfo->returnSfd = accept(obj->sfd, &clientinfo->address, &clientinfo->address_len);
 	return clientinfo;
