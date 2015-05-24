@@ -185,6 +185,18 @@ MCInline MCUInt MCGLAddVertexBuffer(const void* data, MCSizeT size) {
     return bufferid;
 }
 
+//glVertexAttribPointer(GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid* ptr)
+MCInline MCUInt MCGLAddVertexBufferNoNormal(const void* data, MCSizeT size) {
+    MCUInt bufferid;//GLuint
+    glGenBuffers(1, &bufferid);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferid);
+    glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);//GL_STREAM_DRAW, GL_DYNAMIC_DRAW
+    glEnableVertexAttribArray(MCGLPosition);
+    glVertexAttribPointer(MCGLPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glBindVertexArrayOES(0);
+    return bufferid;
+}
+
 MCInline void MCGLDelVertexBuffer(MCUInt bufferid) {
     glDeleteBuffers(1, &bufferid);
 }

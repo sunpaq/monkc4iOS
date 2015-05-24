@@ -9,7 +9,7 @@
 #include "MCOrbit.h"
 #include "MC3DShapeBase.h"
 
-static MCVertex gCircleVertexData[360];
+static MCFloat gCircleVertexData[360*3];
 
 oninit(MCOrbit)
 {
@@ -19,10 +19,10 @@ oninit(MCOrbit)
     var(center) = MCVertexMake(0, 0, 0);
     var(up) = MCVertexMake(0, 0, 1.0);
     
-    MakeCircleData(0, 0, 0, 1.0, 360, gCircleVertexData);
+    MakeCircleData(0, 0, 0, var(R), var(segments), gCircleVertexData);
     
     var(vertexArrayId) = MCGLAddVertexArray();
-    var(vertexBufferId) = MCGLAddVertexBuffer(gCircleVertexData, sizeof(gCircleVertexData));
+    var(vertexBufferId) = MCGLAddVertexBufferNoNormal(gCircleVertexData, sizeof(gCircleVertexData));
     return obj;
 }
 
@@ -34,7 +34,7 @@ nethod(MCOrbit, void, bye)
 
 nethod(MCOrbit, void, draw)
 {
-    MCGLDrawVertexArray(var(vertexBufferId), MCLineLoop, 0, 360);
+    MCGLDrawVertexArray(var(vertexBufferId), MCLineLoop, 0, 360*3);
 }
 
 onload(MCOrbit)
