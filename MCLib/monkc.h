@@ -26,8 +26,10 @@
  */
 
 //https://github.com/sunpaq/monkc
-#ifndef __MCRuntime__
-#define __MCRuntime__
+#ifndef __MCRuntimeVer__
+#define __MCRuntimeVer__ 20
+//version=20 means 2.0
+static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 
 /* Monk-C use many C99 standard features, make sure your compiler and platform support C99 standard */
 
