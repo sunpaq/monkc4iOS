@@ -21,7 +21,7 @@ void fail(char* message);
 monkc(MCUnitTestResult, MCObject);
 end(MCUnitTestResult, MCObject);
 
-nethod(MCUnitTestResult, void, bye);
+method(MCUnitTestResult, void, bye, voida);
 method(MCUnitTestResult, void, addSuccessInfo, char* succinfo);
 method(MCUnitTestResult, void, addFailInfo, char* failinfo);
 #endif
@@ -37,10 +37,10 @@ monkc(MCUnitTestCase, MCObject);
 end(MCUnitTestCase, MCObject);
 
 method(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* resultRef);
-nethod(MCUnitTestCase, void, bye);
-nethod(MCUnitTestCase, void, setUp);
-nethod(MCUnitTestCase, void, tearDown);
-nethod(MCUnitTestCase, void, runTests);
+method(MCUnitTestCase, void, bye, voida);
+method(MCUnitTestCase, void, setUp, voida);
+method(MCUnitTestCase, void, tearDown, voida);
+method(MCUnitTestCase, void, runTests, voida);
 method(MCUnitTestCase, void, runATestMethod, char* methodName);
 #endif
 
@@ -56,9 +56,9 @@ monkc(MCUnitTestSuite, MCObject);
 	struct MCUnitTestSuite_struct* next_suite;
 end(MCUnitTestSuite, MCObject);
 
-nethod(MCUnitTestSuite, void, bye);
+method(MCUnitTestSuite, void, bye, voida);
 method(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* volatile tcase);
-nethod(MCUnitTestSuite, void, runTestCases);
+method(MCUnitTestSuite, void, runTestCases, voida);
 #endif
 
 /* Test Runner */
@@ -72,8 +72,8 @@ monkc(MCUnitTestRunner, MCObject);
 	int test_suite_count;
 end(MCUnitTestRunner, MCObject);
 
-nethod(MCUnitTestRunner, void, bye);
+method(MCUnitTestRunner, void, bye, voida);
 method(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite);
-nethod(MCUnitTestRunner, void, runTestSuites);
+method(MCUnitTestRunner, void, runTestSuites, voida);
 
 #endif

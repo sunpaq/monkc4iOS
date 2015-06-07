@@ -23,7 +23,7 @@ method(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(vo
 	return obj;
 }
 
-nethod(MCRunnable, void, run)
+method(MCRunnable, void, run, voida)
 {
 	//do nothing
 }
@@ -128,7 +128,7 @@ method(MCThread, int, equal, MCThread* thread)
 	return pthread_equal(obj->self, thread->self);
 }
 
-nethod(MCThread, void, bye)
+method(MCThread, void, bye, voida)
 {
 	pthread_attr_destroy(&obj->attribute);
 	release(&(obj->runnable));

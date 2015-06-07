@@ -22,9 +22,9 @@ method(MCString, const char*, toCString, char const buff[]);
 method(MCString, int, equalTo, MCString* stringToComp);
 method(MCString, void, getCharsUntilEnter, char resultString[]);
 
-nethod(MCString, char, getOneChar);
-nethod(MCString, void, print);
-nethod(MCString, void, bye);
+method(MCString, char, getOneChar, voida);
+method(MCString, void, print, voida);
+method(MCString, void, bye, voida);
 
 MCString* MCString_newWithCString(char* cstr);
 MCString* MCString_newWithMCString(MCString* mcstr);

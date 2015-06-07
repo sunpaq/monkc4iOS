@@ -114,7 +114,7 @@ monkc(MCRunnable, MCObject);
 end(MCRunnable, MCObject);
 
 method(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
-nethod(MCRunnable, void, run);
+method(MCRunnable, void, run, voida);
 #endif
 
 
@@ -145,7 +145,7 @@ pthread_t MCThread_self();
 
 method(MCThread, int, start, void* result);
 method(MCThread, int, equal, MCThread* thread);
-nethod(MCThread, void, bye);
+method(MCThread, void, bye, voida);
 #endif
 
 //if you need, you can set the attribute use the raw pthread APIs

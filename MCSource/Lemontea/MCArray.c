@@ -19,6 +19,7 @@ onload(MCArray)
 	binding(MCArray, MCArray*, removeItem, void* item);
 	binding(MCArray, MCArray*, removeItemByIndex, int index);
 	binding(MCArray, MCArray*, clear);
+    binding(MCArray, void, bye);
 
 	binding(MCArray, void*, getItemByIndex, int index);
 	binding(MCArray, void, visiteEachBy, mc_message visitorFunction);
@@ -33,6 +34,19 @@ method(MCArray, MCArray*, initWithSize, int size)
 	obj->indexLast = 0;
 	obj->buff = (void*(*)[])calloc(size, sizeof(void*));
 	return obj;
+}
+
+method(MCArray, void, bye, voida)
+{
+    if (obj->buff != mull) {
+        free(obj->buff);
+    }
+}
+
+method(MCArray, MCArray*, clear, voida)
+{
+    free(obj->buff);
+    return MCArray_initWithSize(0, obj, 10);
 }
 
 static void expand_array(MCArray* obj)
@@ -84,7 +98,7 @@ method(MCArray, MCArray*, addItemToIndex, void* item, int index)
 	return obj;
 }
 
-nethod(MCArray, MCArray*, removeLastItem)
+method(MCArray, MCArray*, removeLastItem, voida)
 {
 	delete_item(obj, obj->indexLast);
 	return obj;
@@ -105,12 +119,6 @@ method(MCArray, MCArray*, removeItemByIndex, int index)
 {
 	delete_item(obj, index);
 	return obj;
-}
-
-nethod(MCArray, MCArray*, clear)
-{
-	free(obj->buff);
-    return MCArray_initWithSize(0, obj, 10);
 }
 
 method(MCArray, void*, getItemByIndex, int index)

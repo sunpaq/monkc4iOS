@@ -13,7 +13,7 @@ oninit(MCMath)
 	return obj;
 }
 
-nethod(MCMath, void, bye)
+method(MCMath, void, bye, voida)
 {
 	debug_log("%s\n", "MCMath bye bye");
 }

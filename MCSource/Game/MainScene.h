@@ -31,10 +31,10 @@ end(MainScene, MCObject);
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
 method(MainScene, void, lockCamera, MCBool lock);
-nethod(MainScene, MCCamera*, getCamera);
-nethod(MainScene, void, show);
-nethod(MainScene, void, hide);
-nethod(MainScene, void, update);
-nethod(MainScene, void, draw);
+method(MainScene, MCCamera*, getCamera, voida);
+method(MainScene, void, show, voida);
+method(MainScene, void, hide, voida);
+method(MainScene, void, update, voida);
+method(MainScene, void, draw, voida);
 
 #endif /* defined(__monkcGame__MainScene__) */

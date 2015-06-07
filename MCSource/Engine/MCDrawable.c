@@ -19,13 +19,13 @@ oninit(MCDrawable)
     return obj;
 }
 
-nethod(MCDrawable, void, bye)
+method(MCDrawable, void, bye, voida)
 {
     MCGLDelVertexArray(var(vertexArrayId));
     MCGLDelVertexBuffer(var(vertexBufferId));
 }
 
-nethod(MCDrawable, void, draw)
+method(MCDrawable, void, draw, voida)
 {
     //glDrawArrays (GLenum mode, GLint first, GLsizei count)
     if (var(vertexArrayId)!=-1 && var(vertexBufferId)!=-1 && var(vertexCount)!=0) {

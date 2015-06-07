@@ -19,7 +19,7 @@ end(MCNode, MCObject);
 method(MCNode, MCNode*, initWithFrame, MCRect frame);
 method(MCNode, MCNode*, initWithSize, MCSize size);
 method(MCNode, MCNode*, addChild, MCNode* child);
-nethod(MCNode, void, draw);
-nethod(MCNode, void, bye);
+method(MCNode, void, draw, voida);
+method(MCNode, void, bye, voida);
 
 #endif

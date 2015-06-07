@@ -22,7 +22,7 @@ method(MCCamera, void, reset, MCBool updateOrNot)
     var(tht) = 60;
     var(fai) = 45;
     if (updateOrNot) {
-        MCCamera_update(0, obj);
+        MCCamera_update(0, obj, 0);
     }
 }
 
@@ -36,7 +36,7 @@ method(MCCamera, void, updatePosition, MCVertex* result)
     }
 }
 
-nethod(MCCamera, void, updateRatioFocalDistance)
+method(MCCamera, void, updateRatioFocalDistance, voida)
 {
     var(projectionMatrix) = MCMatrix4MakePerspective(MCDegreesToRadians(MCLensStandard50mmViewAngle), var(ratio), var(focal_length), var(max_distance));
 
@@ -49,7 +49,7 @@ nethod(MCCamera, void, updateRatioFocalDistance)
 //	             var(max_distance));
 }
 
-nethod(MCCamera, void, updateLookat)
+method(MCCamera, void, updateLookat, voida)
 {
     //MCMatrix4 cur = MCGLLookatSpherical(var(lookat).x, var(lookat).y, var(lookat).z, var(R), var(tht), var(fai));
     MCVertex modelpos = var(lookat);
@@ -72,11 +72,11 @@ nethod(MCCamera, void, updateLookat)
     }
 }
 
-nethod(MCCamera, void, update)
+method(MCCamera, void, update, voida)
 {
-    MCCamera_updateRatioFocalDistance(0, obj);
+    MCCamera_updateRatioFocalDistance(0, obj, 0);
     MCCamera_updatePosition(0, obj, mull);
-    MCCamera_updateLookat(0, obj);
+    MCCamera_updateLookat(0, obj, 0);
 }
 
 onload(MCCamera)

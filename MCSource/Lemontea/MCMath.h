@@ -7,7 +7,7 @@ monkc(MCMath, MCObject);
 	unsigned tid;
 end(MCMath, MCObject);
 
-nethod(MCMath, void, bye);
+method(MCMath, void, bye, voida);
 method(MCMath, int, addInteger2, int a, int b);
 
 #endif

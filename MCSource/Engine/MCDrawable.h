@@ -20,6 +20,6 @@ monkc(MCDrawable, MCObject);
     MCUInt vertexCount;
 end(MCDrawable, MCObject);
 
-nethod(MCDrawable, void, draw);
+method(MCDrawable, void, draw, voida);
 
 #endif /* defined(__monkcGame__MCDrawable__) */

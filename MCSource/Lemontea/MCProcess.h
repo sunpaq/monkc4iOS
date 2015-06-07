@@ -22,9 +22,9 @@ monkc(MCProcess, MCObject);
 	gid_t egid;
 end(MCProcess, MCObject);
 
-nethod(MCProcess, void, printIDs);
+method(MCProcess, void, printIDs, voida);
 //returns(0 in child/child-pid in parent/-1 on error)
-nethod(MCProcess, int, fork);
+method(MCProcess, int, fork, voida);
 
 //may be not supported by OS
 method(MCProcess, int, registerAtExitCallback, void (*func)(void));

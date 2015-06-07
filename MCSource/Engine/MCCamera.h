@@ -22,9 +22,9 @@ end(MCCamera, MCObject);
 
 method(MCCamera, void, reset, MCBool updateOrNot);
 method(MCCamera, void, updatePosition, MCVertex* result);
-nethod(MCCamera, void, updateRatioFocalDistance);
-nethod(MCCamera, void, updateLookat);
-nethod(MCCamera, void, update);
+method(MCCamera, void, updateRatioFocalDistance, voida);
+method(MCCamera, void, updateLookat, voida);
+method(MCCamera, void, update, voida);
 
 #define MCLensStandard50mm (0.050)
 #define MCLensWide24mm     (0.024)

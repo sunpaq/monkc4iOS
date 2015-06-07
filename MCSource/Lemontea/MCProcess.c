@@ -11,13 +11,13 @@ oninit(MCProcess)
 	return obj;
 }
 
-nethod(MCProcess, void, printIDs)
+method(MCProcess, void, printIDs, voida)
 {
 	printf("pid[%d]ppid[%d]uid[%d]euid[%d]gid[%d]egid[%d]\n", 
 		obj->pid, obj->ppid, obj->uid, obj->euid, obj->gid, obj->egid);
 }
 
-nethod(MCProcess, int, fork)
+method(MCProcess, int, fork, voida)
 {
 	//pid_t fork(void);
 	//copy-on-write (COW)

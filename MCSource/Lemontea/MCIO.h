@@ -42,10 +42,10 @@ method(MCFile, size_t, writeToBegin, off_t offset, void* buf, size_t nbytes);
 method(MCFile, size_t, writeToLastTime, off_t offset, void* buf, size_t nbytes);
 method(MCFile, size_t, writeToEnd, off_t offset, void* buf, size_t nbytes);
 
-nethod(MCFile, int, duplicateFd);
+method(MCFile, int, duplicateFd, voida);
 method(MCFile, int, duplicateFdTo, int fd);
-nethod(MCFile, void, printAttribute);
-nethod(MCFile, void, bye);
+method(MCFile, void, printAttribute, voida);
+method(MCFile, void, bye, voida);
 method(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
 /*
 R_OK
@@ -90,22 +90,22 @@ monkc(MCStream, MCObject);
 end(MCStream, MCObject);
 
 method(MCStream, MCStream*, newWithPath, MCStreamType type, char* path);
-nethod(MCStream, void, bye);
-nethod(MCStream, int, getFileDescriptor);
+method(MCStream, void, bye, voida);
+method(MCStream, int, getFileDescriptor, voida);
 
-nethod(MCStream, int, getChar);
+method(MCStream, int, getChar, voida);
 method(MCStream, int, putChar, int charCode);
 method(MCStream, int, pushbackChar, int charCodeToBePushBack);
 
 method(MCStream, char*, getCString, MCCharBuffer* recvBuffer);
 method(MCStream, char*, putCString, MCCharBuffer* sendBuffer);
-nethod(MCStream, MCString*, getMCString);
+method(MCStream, MCString*, getMCString, voida);
 method(MCStream, int, putMCString, MCString* str);
 
 method(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs);
 method(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs);
 
-nethod(MCStream, off_t, tellOffset);
+method(MCStream, off_t, tellOffset, voida);
 method(MCStream, int, seekFromBegin, off_t offset);
 method(MCStream, int, seekFromCurrent, off_t offset);
 method(MCStream, int, seekFromEnd, off_t offset);
@@ -120,7 +120,7 @@ method(MCStream, int, seekFromEnd, off_t offset);
 monkc(MCByteStream, MCStream);
 end(MCByteStream, MCStream);
 
-nethod(MCByteStream, void, bye);
+method(MCByteStream, void, bye, voida);
 method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
 #endif
 
@@ -132,7 +132,7 @@ method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
 monkc(MCStdinStream, MCStream);
 end(MCStdinStream, MCStream);
 
-nethod(MCStdinStream, void, bye);
+method(MCStdinStream, void, bye, voida);
 #endif
 
 /* MCStdoutStream */
@@ -143,7 +143,7 @@ nethod(MCStdinStream, void, bye);
 monkc(MCStdoutStream, MCStream);
 end(MCStdoutStream, MCStream);
 
-nethod(MCStdoutStream, void, bye);
+method(MCStdoutStream, void, bye, voida);
 #endif
 
 /* MCStderrStream */
@@ -163,7 +163,7 @@ method(MCStdoutStream, void, bye);
 monkc(MCStderrStream, MCStream);
 end(MCStderrStream, MCStream);
 
-nethod(MCStderrStream, void, bye);
+method(MCStderrStream, void, bye, voida);
 #endif
 
 /* MCSelect */
@@ -189,7 +189,7 @@ monkc(MCSelect, MCObject);
 end(MCSelect, MCObject);
 
 method(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
-nethod(MCSelect, int, waitForFdsetChange);
+method(MCSelect, int, waitForFdsetChange, voida);
 method(MCSelect, void, addFd, MCSelect_fd_type type, int fd);
 method(MCSelect, void, removeFd, MCSelect_fd_type type, int fd);
 method(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);

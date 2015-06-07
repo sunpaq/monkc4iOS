@@ -8,7 +8,7 @@ oninit(MCString)
 	return obj;
 }
 
-nethod(MCString, void, bye)
+method(MCString, void, bye, voida)
 {
     debug_log("MCString bye");    
     free(obj->buff);
@@ -75,7 +75,7 @@ method(MCString, void, add, char* str)
     strncat(obj->buff, str, strlen(str));
 }
 
-nethod(MCString, void, print)
+method(MCString, void, print, voida)
 {
 	printf("%s", obj->buff);
 }
@@ -96,7 +96,7 @@ method(MCString, int, equalTo, MCString* stringToComp)
 		return 0;
 }
 
-nethod(MCString, char, getOneChar)
+method(MCString, char, getOneChar, voida)
 {
 	return get_one_char();
 }

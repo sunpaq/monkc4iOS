@@ -37,7 +37,7 @@ protocol(MCTouchbleProtocol, void, onTouchEvent, MCPoint point)
     }
 }
 
-nethod(MCNode, void, bye)
+method(MCNode, void, bye, voida)
 {
     //clean up
     release(var(children));
@@ -81,7 +81,7 @@ static inline MCRect calculate_drawframe(MCNode* obj)
     }
 }
 
-nethod(MCNode, void, draw)
+method(MCNode, void, draw, voida)
 {
     //draw self
     MCRect drawframe = calculate_drawframe(obj);
@@ -93,7 +93,7 @@ nethod(MCNode, void, draw)
     {
         MCNode* child = MCArray_getItemByIndex(0, var(children), i);
         if(child)
-            MCNode_draw(0, child);
+            MCNode_draw(0, child, 0);
     }
 
     //MCXCBContext_flush();

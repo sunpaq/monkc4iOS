@@ -57,12 +57,12 @@ static void get_chars_until_enter(char resultString[])
 	putchar(tc);
 }
 
-nethod(MCContext, void, bye)
+method(MCContext, void, bye, voida)
 {	
 	runtime_log("%s\n", "MCContext goodbye");
 }
 
-nethod(MCContext, void, dumpParas)
+method(MCContext, void, dumpParas, voida)
 {
 	int i;
 	for (i = 0; i < obj->argc; ++i)

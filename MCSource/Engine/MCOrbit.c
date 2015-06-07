@@ -26,14 +26,14 @@ oninit(MCOrbit)
     return obj;
 }
 
-nethod(MCOrbit, void, bye)
+method(MCOrbit, void, bye, voida)
 {
     MCGLDelVertexArray(var(vertexArrayId));
     MCGLDelVertexBuffer(var(vertexBufferId));
 }
 
 //override
-nethod(MCOrbit, void, draw)
+method(MCOrbit, void, draw, voida)
 {
     MCGLDrawVertexArray(var(vertexBufferId), MCLineLoop, 0, 360*3);
 }

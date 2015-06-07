@@ -172,7 +172,7 @@ method(MCFile, size_t, writeToEnd, off_t offset, void* buf, size_t nbytes)
 	return pwrite(obj->fd, buf, nbytes, offset);
 }
 
-nethod(MCFile, int, duplicateFd)
+method(MCFile, int, duplicateFd, voida)
 {
 	return dup(obj->fd);
 }
@@ -192,14 +192,14 @@ int MCFile_flushAFileCacheToDisk(int fd)
 	return fsync(fd);
 }
 
-nethod(MCFile, void, bye)
+method(MCFile, void, bye, voida)
 {
 	//release obj->buffer
 	free(obj->buffer);
 	close(obj->fd);
 }
 
-nethod(MCFile, void, printAttribute)
+method(MCFile, void, printAttribute, voida)
 {
 	printf("uid:%d gid:%d size:%lld st_mode:%o lmtime:%s",
 		obj->attribute.st_uid, 
@@ -321,7 +321,7 @@ char* MCProcess_getCurrentWorkingDir(MCCharBuffer* buff)
 /* MCStream */
 
 
-nethod(MCStream, void, bye)
+method(MCStream, void, bye, voida)
 {
 	//0=OK/EOF=ERROR
 	if(fclose(obj->fileObject))
@@ -330,12 +330,12 @@ nethod(MCStream, void, bye)
 
 }
 
-nethod(MCStream, int, getFileDescriptor)
+method(MCStream, int, getFileDescriptor, voida)
 {
 	return fileno(obj->fileObject);
 }
 
-nethod(MCStream, int, getChar)
+method(MCStream, int, getChar, voida)
 {
 	return fgetc(obj->fileObject);
 }
@@ -362,7 +362,7 @@ method(MCStream, char*, putCString, MCCharBuffer* sendBuffer)
     return sendBuffer->data;
 }
 
-nethod(MCStream, MCString*, getMCString)
+method(MCStream, MCString*, getMCString, voida)
 {
 	char buff[1024];
 	fgets(buff, sizeof(buff), obj->fileObject);
@@ -386,7 +386,7 @@ method(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, 
 	return fwrite(sendBuffer, objectSize, numberOfObjs, obj->fileObject);
 }
 
-nethod(MCStream, off_t, tellOffset)
+method(MCStream, off_t, tellOffset, voida)
 {
 	//off_t ftello(FILE *fp);
 	return ftello(obj->fileObject);
@@ -414,7 +414,7 @@ method(MCStream, int, seekFromEnd, off_t offset)
 
 
 
-nethod(MCSelect, int, waitForFdsetChange)
+method(MCSelect, int, waitForFdsetChange, voida)
 {
 	obj->readfd_result_set = obj->readfd_set;
 	obj->writefd_result_set = obj->writefd_set;

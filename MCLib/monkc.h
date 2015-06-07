@@ -27,7 +27,7 @@
 
 //https://github.com/sunpaq/monkc
 #ifndef __MCRuntimeVer__
-#define __MCRuntimeVer__ 20
+#define __MCRuntimeVer__ 10
 //version=20 means 2.0
 static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 
@@ -50,6 +50,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #ifndef mull
 #define mull ((void*)0)
 #endif
+#define voida void* voidarg
 #define S(value) #value
 #define SEQ(dest, src) (mc_compare_key(dest, src)==0)
 #define A_B(a, b) a##_##b
@@ -277,7 +278,6 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define override(cls, type, met, ...) 		_override(claz, S(met), A_B(cls, met))
 #define hinding(cls, type, met, hash, ...)	_binding_h(claz, S(met), A_B(cls, met), hash)
 #define hverride(cls, type, met, hash, ...) _override_h(claz, S(met), A_B(cls, met), hash)
-#define nethod(cls, type, name) 	    type cls##_##name(volatile void* address, cls* volatile obj)
 #define method(cls, type, name, ...) 	type cls##_##name(volatile void* address, cls* volatile obj, __VA_ARGS__)
 #define protocol(pro, type, name, ...)  static type pro##_##name(volatile void* address, mo volatile rawobj, __VA_ARGS__)
 #define protocolin(cls)                 cls* obj = ((cls*)rawobj)
@@ -325,7 +325,6 @@ void _shift_back(mo const obj);
 //find super object
 mo _findsuper(mo const obj, const char* supername);
 #define findsuper(obj, name) _findsuper((mo)obj, S(name))
-#define findroot(obj) _findsuper((mo)obj, S(MCObject))
 
 //memory management
 #define REFCOUNT_NO_MM 	-1
@@ -380,8 +379,8 @@ mc_hashitem* new_item_h(const char* key, void* value, const MCHash hashval);
 mc_hashtable* new_table(const MCHash initlevel);
 
 MCUInt set_item(mc_hashtable* const table_p,
-                  mc_hashitem* const item,
-                  MCBool isOverride, MCBool isFreeValue, char* classname);
+                mc_hashitem* const item,
+                MCBool isOverride, MCBool isFreeValue, char* classname);
 mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key);
 mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, const char* refkey);
 mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCUInt index);

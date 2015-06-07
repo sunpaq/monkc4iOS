@@ -13,7 +13,7 @@ static void setupCamera(MCCamera* camera, MCFloat width, MCFloat height)
     //setting camera
     camera->ratio = MCRatioMake(width, height);
     camera->R = 5;
-    MCCamera_update(0, camera);
+    MCCamera_update(0, camera, 0);
 }
 
 static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaTht)
@@ -23,12 +23,13 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     //camera->fai = camera->fai - 0.1; //Right
     //camera->tht = camera->tht - 0.1; //Down
     
-    MCCamera_updateLookat(0, camera);
+    MCCamera_updateLookat(0, camera, 0);
 }
 
 oninit(MainScene)
 {
-    MCLogTypeSet(MC_DEBUG);
+    MCLogTypeSet(MC_VERBOSE);
+    
     var(visible) = MCTrue;//visible by default
     var(cameraLock) = MCFalse;
     var(mainCamera) = new(MCCamera);
@@ -40,7 +41,7 @@ oninit(MainScene)
     var(drawMsgArray)[1] = response_to(var(orbit), draw);
     var(drawMsgCount) = 2;
     
-    findroot(var(uilayer))->super = (mo)obj;
+    findsuper(var(uilayer), MCObject)->super = (mo)obj;
     return obj;
 }
 
@@ -57,7 +58,7 @@ method(MainScene, void, lockCamera, MCBool lock)
     printf("lock=%d\n", lock);
 }
 
-nethod(MainScene, MCCamera*, getCamera)
+method(MainScene, MCCamera*, getCamera, voida)
 {
     return var(mainCamera);
 }
@@ -69,7 +70,7 @@ method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
     }
 }
 
-nethod(MainScene, void, bye)
+method(MainScene, void, bye, voida)
 {
     release(var(mainCamera));
     release(var(uilayer));
@@ -77,22 +78,22 @@ nethod(MainScene, void, bye)
     release(var(orbit));
 }
 
-nethod(MainScene, void, show)
+method(MainScene, void, show, voida)
 {
     var(visible) = MCTrue;
 }
 
-nethod(MainScene, void, hide)
+method(MainScene, void, hide, voida)
 {
     var(visible) = MCFalse;
 }
 
-nethod(MainScene, void, update)
+method(MainScene, void, update, voida)
 {
-    MCCamera_updateLookat(0, var(mainCamera));
+    MCCamera_updateLookat(0, var(mainCamera), 0);
 }
 
-nethod(MainScene, void, draw)
+method(MainScene, void, draw, voida)
 {
     if (var(visible)) {
         MCGLClearScreen(0.65f, 0.65f, 0.65f, 1.0f);

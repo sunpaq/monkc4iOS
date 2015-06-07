@@ -15,12 +15,12 @@ oninit(MCSocketClientInfo)
 	return obj;
 }
 
-nethod(MCSocketClientInfo, void, dumpInfo)
+method(MCSocketClientInfo, void, dumpInfo, voida)
 {
 	printf("accept a client: %s\n", obj->address.sa_data);
 }
 
-nethod(MCSocketClientInfo, void, bye)
+method(MCSocketClientInfo, void, bye, voida)
 {
 	//nothing to do
 }
@@ -119,7 +119,7 @@ static void create_and_bind_socket(MCSocket* this, MCSocketType socket_type, cha
 	//return sfd;
 }
 
-nethod(MCSocket, void, bye)
+method(MCSocket, void, bye, voida)
 {
 	close(obj->sfd);
 }
@@ -128,13 +128,13 @@ nethod(MCSocket, void, bye)
 //EBADF
 //ENOTSOCK
 //EOPNOTSUPP
-nethod(MCSocket, int, listeningStart)
+method(MCSocket, int, listeningStart, voida)
 {
 	if(obj->isServer!=1)return -1;
 	return listen(obj->sfd, MCSocket_Queue_Length);
 }
 
-nethod(MCSocket, MCSocketClientInfo*, acceptARequest)
+method(MCSocket, MCSocketClientInfo*, acceptARequest, voida)
 {
 	if (obj->isServer!=1)return mull;
 	MCSocketClientInfo* clientinfo = new(MCSocketClientInfo);
@@ -142,27 +142,32 @@ nethod(MCSocket, MCSocketClientInfo*, acceptARequest)
 	return clientinfo;
 }
 
-nethod(MCSocket, void, recv)
+method(MCSocket, void, recv, voida)
 {
 
 }
-nethod(MCSocket, void, recvfrom)
+
+method(MCSocket, void, recvfrom, voida)
 {
 
 }
-nethod(MCSocket, void, recvmsg)
+
+method(MCSocket, void, recvmsg, voida)
 {
 
 }
-nethod(MCSocket, void, send)
+
+method(MCSocket, void, send, voida)
 {
 
 }
-nethod(MCSocket, void, sendto)
+
+method(MCSocket, void, sendto, voida)
 {
 
 }
-nethod(MCSocket, void, sendmsg)
+
+method(MCSocket, void, sendmsg, voida)
 {
 
 }

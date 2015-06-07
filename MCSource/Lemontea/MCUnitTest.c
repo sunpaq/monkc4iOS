@@ -80,19 +80,19 @@ method(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* re
 	return obj;
 }
 
-nethod(MCUnitTestCase, void, bye)
+method(MCUnitTestCase, void, bye, voida)
 {
 	if(obj->unitTestResultRef!=mull)
 		release(&(obj->unitTestResultRef));
 }
 
-nethod(MCUnitTestCase, void, setUp)
+method(MCUnitTestCase, void, setUp, voida)
 {
 	//set up fixture
 	runtime_log("----MCUnitTestCase setUp\n");
 }
 
-nethod(MCUnitTestCase, void, tearDown)
+method(MCUnitTestCase, void, tearDown, voida)
 {
 	//tear down fixture
 	runtime_log("----MCUnitTestCase tearDown\n");
@@ -135,7 +135,7 @@ static void runMethodByPointer(MCUnitTestCase* obj, mc_hashitem* amethod)
 	ff(obj, tearDown, mull);
 }
 
-nethod(MCUnitTestCase, void, runTests)
+method(MCUnitTestCase, void, runTests, voida)
 {
 	runtime_log("%s\n", "MCUnitTestCase runTests");
 	unsigned i;
@@ -190,7 +190,7 @@ oninit(MCUnitTestSuite)
 	return obj;
 }
 
-nethod(MCUnitTestSuite, void, bye)
+method(MCUnitTestSuite, void, bye, voida)
 {
 	MCUnitTestCase *iter, *save;
 	for(iter=obj->first_case; (save=iter)!=mull; release(save))
@@ -205,12 +205,12 @@ method(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* volatile tcase)
 	obj->test_case_count++;
 }
 
-nethod(MCUnitTestSuite, void, runTestCases)
+method(MCUnitTestSuite, void, runTestCases, voida)
 {
 	runtime_log("%s\n", "MCUnitTestSuite runTestCases");
 	MCUnitTestCase *iter = mull;
 	for(iter=obj->first_case; iter!=mull; iter = iter->next_case)
-        MCUnitTestCase_runTests(0, iter);
+        MCUnitTestCase_runTests(0, iter, 0);
 }
 
 /* Test Result */
@@ -233,7 +233,7 @@ oninit(MCUnitTestResult)
 	return obj;
 }
 
-nethod(MCUnitTestResult, void, bye)
+method(MCUnitTestResult, void, bye, voida)
 {
 	//nothing to clean
 }
@@ -273,7 +273,7 @@ oninit(MCUnitTestRunner)
 	return obj;
 }
 
-nethod(MCUnitTestRunner, void, bye)
+method(MCUnitTestRunner, void, bye, voida)
 {
 	MCUnitTestSuite *iter, *save;
 	for(iter=obj->first_suite; (save=iter)!=mull; release(save))
@@ -289,12 +289,12 @@ method(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite)
 	obj->test_suite_count++;
 }
 
-nethod(MCUnitTestRunner, void, runTestSuites)
+method(MCUnitTestRunner, void, runTestSuites, voida)
 {
 	runtime_log("%s\n", "MCUnitTestRunner runTestSuites");
 	MCUnitTestSuite *iter;
 	for(iter=obj->first_suite; iter!=mull; iter = iter->next_suite)
-        MCUnitTestSuite_runTestCases(0, iter);
+        MCUnitTestSuite_runTestCases(0, iter, 0);
 }
 
 
