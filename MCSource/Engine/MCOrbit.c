@@ -32,6 +32,7 @@ nethod(MCOrbit, void, bye)
     MCGLDelVertexBuffer(var(vertexBufferId));
 }
 
+//override
 nethod(MCOrbit, void, draw)
 {
     MCGLDrawVertexArray(var(vertexBufferId), MCLineLoop, 0, 360*3);

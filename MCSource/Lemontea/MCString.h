@@ -4,11 +4,11 @@
 #ifndef MCString_
 #define MCString_
 
-monkc(MCString);
+monkc(MCString, MCObject);
 	size_t length;
 	size_t size; 
 	char* buff;
-end(MCString);
+end(MCString, MCObject);
 
 //length not include '\0'
 //real size, include '\0'

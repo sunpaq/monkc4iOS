@@ -13,7 +13,7 @@
 #include "MC3DType.h"
 #include "MCDrawable.h"
 
-monkc_super(MCOrbit, MCDrawable);
+monkc(MCOrbit, MCDrawable);
     MCFloat R;
     MCUInt segments;
     MCVertex center;
@@ -21,6 +21,6 @@ monkc_super(MCOrbit, MCDrawable);
     //vertex array
     MCUInt vertexArrayId;
     MCUInt vertexBufferId;
-end(MCOrbit);
+end(MCOrbit, MCDrawable);
 
 #endif /* defined(__monkcGame__MCOrbit__) */

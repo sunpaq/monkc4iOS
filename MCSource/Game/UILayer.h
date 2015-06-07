@@ -12,9 +12,9 @@
 #include <stdio.h>
 #include "monkc.h"
 
-monkc(UILayer);
+monkc(UILayer, MCObject);
     MCBool visible;
-end(UILayer);
+end(UILayer, MCObject);
 
 method(UILayer, void, onButtonClicked, MCInt tag);
 

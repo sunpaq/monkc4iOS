@@ -135,25 +135,14 @@ mo _findsuper(mo const obj, const char* supername)
 	return mull;
 }
 
-mo _new(mo const this, MCIniterPointer initer)
+mo _new(mo const this, MCSetsuperPointer setupsuper, MCIniterPointer initer)
 {
 	//block, isa, saved_isa is setted at _alloc()
 	this->ref_count = 1;
 	this->super = mull;
 	this->mode = mull;
+    (*setupsuper)(this);
 	(*initer)(this);
-	return this;
-}
-
-mo _new_category(mo const this, MCIniterPointer initer, MCLoaderPointer loader_cat, MCIniterPointer initer_cat)
-{
-	//block, isa, saved_isa is setted at _alloc()
-	this->ref_count = 1;
-	(*loader_cat)(this->isa);
-	this->super = mull;
-	this->mode = mull;
-	(*initer)(this);
-	(*initer_cat)(this);
 	return this;
 }
 
@@ -254,7 +243,7 @@ mo _retain(mo const this)
 	return this;
 }
 
-char* mc_nameof(mc_object* const aobject)
+char* mc_nameof(MCObject* const aobject)
 {
 	if(aobject==mull)
 		return "";

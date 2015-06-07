@@ -213,7 +213,7 @@ mo mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash
 	return aobject;
 }
 
-void mc_dealloc(mc_object* aobject, int is_recycle)
+void mc_dealloc(MCObject* aobject, int is_recycle)
 {
 	mc_block* blk = aobject->block;
 	mc_class* cls = aobject->isa;

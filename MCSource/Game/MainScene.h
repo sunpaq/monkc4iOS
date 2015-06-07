@@ -17,7 +17,7 @@
 #include "MCOrbit.h"
 #include "UILayer.h"
 
-monkc(MainScene);
+monkc(MainScene, MCObject);
     MCBool visible;
     UILayer* uilayer;
     MCBool cameraLock;
@@ -26,7 +26,7 @@ monkc(MainScene);
     MCOrbit* orbit;
     mc_message drawMsgArray[10];
     MCInt drawMsgCount;
-end(MainScene);
+end(MainScene, MCObject);
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);

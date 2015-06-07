@@ -12,13 +12,13 @@
 #include "monkc.h"
 #include "MC3DType.h"
 
-monkc(MCDrawable);
+monkc(MCDrawable, MCObject);
     MCUInt vertexArrayId;
     MCUInt vertexBufferId;
     MCDrawMode drawmode;
     MCUInt vertexFirst;
     MCUInt vertexCount;
-end(MCDrawable);
+end(MCDrawable, MCObject);
 
 nethod(MCDrawable, void, draw);
 

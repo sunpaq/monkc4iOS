@@ -232,15 +232,19 @@ typedef struct mc_object_struct
 	MCInt ref_count;
 	mc_class* saved_isa;
 	mc_class* mode;
-}mc_object, MCNoSuper;
-typedef mc_object* mo;
-MCInline void package_by_block(mc_block* ablock, mc_object* aobject)
+} MCObject;
+typedef MCObject* mo;
+static inline mc_class* MCObject_load(mc_class* const claz) {return claz;}
+static inline MCObject* MCObject_setsuper(MCObject* const obj) {obj->super=mull;return obj;}
+static inline MCObject* MCObject_init(MCObject* const obj) {return obj;}
+
+MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 {
     deref(ablock).data = aobject;
     deref(aobject).block = ablock;
 }
 
-#define monkc_super(cls, supercls)\
+#define monkc(cls, supercls)\
 typedef struct cls##_struct{\
 supercls* super;\
 mc_class* isa;\
@@ -249,35 +253,22 @@ int ref_count;\
 mc_class* saved_isa;\
 mc_class* mode;
 
-#define monkc(cls)\
-typedef struct cls##_struct{\
-mc_object* super;\
-mc_class* isa;\
-mc_block* block;\
-int ref_count;\
-mc_class* saved_isa;\
-mc_class* mode;
-
-#define end(cls) }cls;\
+#define end(cls, supercls) }cls;\
 mc_class* cls##_load(mc_class* const claz);\
-cls* cls##_init(cls* const obj);
+cls* cls##_init(cls* const obj);\
+static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);return obj;}
 
 //macros expand to nothing just a marker
 #define implements(protocol)
 
 //callback function pointer types
 typedef mc_class* (*MCLoaderPointer)(mc_class*);
-typedef mc_object* (*MCIniterPointer)(mc_object*);
-
-MCInline mo mc_setsuper(mo obj, mo superobj) {
-    obj->super = superobj;
-    return obj;
-}
+typedef MCObject* (*MCIniterPointer)(MCObject*);
+typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 
 //callbacks
 #define onload(cls)					mc_class* cls##_load(mc_class* const claz)
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
-#define oninit_super(cls, super)		 cls* cls##_init(cls* const obj)
 
 //method binding
 #define binding(cls, type, met, ...)  		_binding(claz, S(met), A_B(cls, met))
@@ -292,11 +283,8 @@ MCInline mo mc_setsuper(mo obj, mo superobj) {
 #define cast(type, obj) 				((type)obj)
 
 //for create object
-#define newc(type, cls)                 (type)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)//with cast
-#define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)//create instance
-#define hew(cls, hash)					(cls*)_new(mc_alloc_h(S(cls), sizeof(cls), cls##_load, hash), cls##_init)
-#define new_category(ori, cat)			(ori*)_new_category(mc_alloc(S(ori), sizeof(ori), ori##_load), ori##_init, cat##_load, cat##_init)
-#define hew_category(ori, hash, cat)	(ori*)_new_category(mc_alloc_h(S(ori), sizeof(ori), ori##_load, hash), ori##_init, cat##_load, cat##_init)
+#define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCSetsuperPointer)cls##_setsuper, (MCIniterPointer)cls##_init)//create instance
+#define hew(cls, hash)					(cls*)_new(mc_alloc_h(S(cls), sizeof(cls), cls##_load, hash), cls##_setsuper, cls##_init)
 #define clear(cls)  					mc_clear(S(cls), sizeof(cls), cls##_load)
 #define hlear(cls, hash)  				mc_clear_h(S(cls), sizeof(cls), cls##_load, hash)
 #define info(cls)                  		mc_info(S(cls), sizeof(cls), cls##_load)
@@ -327,8 +315,7 @@ mc_class* _load(const char* name, MCSizeT objsize, MCLoaderPointer loader);
 mc_class* _load_h(const char* name, MCSizeT objsize, MCLoaderPointer loader, MCUInt hashval);
 
 //object create
-mo _new(mo const obj, MCIniterPointer initer);
-mo _new_category(mo const obj, MCIniterPointer initer, MCLoaderPointer loader_cat, MCIniterPointer initer_cat);
+mo _new(mo const obj, MCSetsuperPointer setupsuper, MCIniterPointer initer);
 
 //object mode change
 void _shift(mo const obj, const char* modename, MCSizeT objsize, MCLoaderPointer loader);
@@ -337,6 +324,7 @@ void _shift_back(mo const obj);
 //find super object
 mo _findsuper(mo const obj, const char* supername);
 #define findsuper(obj, name) _findsuper((mo)obj, S(name))
+#define findroot(obj) _findsuper((mo)obj, S(MCObject))
 
 //memory management
 #define REFCOUNT_NO_MM 	-1
@@ -351,7 +339,7 @@ mo _retain(mo const obj);
 //tool for class
 extern void _init_class_list();
 extern void _clear_class_list();
-char* mc_nameof(mc_object* const aobject);
+char* mc_nameof(MCObject* const aobject);
 char* mc_nameofc(mc_class* const aclass);
 
 
@@ -426,7 +414,7 @@ mo mc_alloc(const char* classname, MCSizeT size, MCLoaderPointer loader);
 void mc_info_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
 void mc_clear_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
 mo mc_alloc_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
-void mc_dealloc(mc_object* aobject, MCInt is_recycle);
+void mc_dealloc(MCObject* aobject, MCInt is_recycle);
 
 #define MC_NO_NODE(bpool) (bpool->tail==mull)
 #define MC_ONE_NODE(bpool) (bpool->tail->next==bpool->tail)

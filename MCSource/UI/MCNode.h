@@ -6,7 +6,7 @@
 
 implements(MCTouchbleProtocol);
 implements(MCAccessbleProtocol);
-monkc(MCNode);
+monkc(MCNode, MCObject);
     //always abslute position from window left top 0,0
     MCRect frame;
     MCPoint anchor;
@@ -14,7 +14,7 @@ monkc(MCNode);
     MCColor color;
     struct MCNode_struct *parent;
     MCArray *children;
-end(MCNode);
+end(MCNode, MCObject);
 
 method(MCNode, MCNode*, initWithFrame, MCRect frame);
 method(MCNode, MCNode*, initWithSize, MCSize size);

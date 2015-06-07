@@ -40,7 +40,7 @@ oninit(MainScene)
     var(drawMsgArray)[1] = response_to(var(orbit), draw);
     var(drawMsgCount) = 2;
     
-    var(uilayer)->super = (mo)obj;
+    findroot(var(uilayer))->super = (mo)obj;
     return obj;
 }
 

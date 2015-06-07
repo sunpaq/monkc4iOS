@@ -4,7 +4,7 @@
 #include "monkc.h"
 #include "MC3DBase.h"
 
-monkc(MCCamera);
+monkc(MCCamera, MCObject);
     MCFloat ratio;
     MCFloat focal_length;
     MCFloat max_distance;
@@ -18,7 +18,7 @@ monkc(MCCamera);
     MCFloat R;
     MCFloat tht;
     MCFloat fai;
-end(MCCamera);
+end(MCCamera, MCObject);
 
 method(MCCamera, void, reset, MCBool updateOrNot);
 method(MCCamera, void, updatePosition, MCVertex* result);

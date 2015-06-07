@@ -13,8 +13,8 @@
 #include "monkc.h"
 #include "MCDrawable.h"
 
-monkc_super(MCCube, MCDrawable);
+monkc(MCCube, MCDrawable);
     MCUInt textureId;
-end(MCCube);
+end(MCCube, MCDrawable);
 
 #endif /* defined(__monkcGame__MCCube__) */

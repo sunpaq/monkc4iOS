@@ -4,11 +4,11 @@
 #ifndef MCContext_
 #define MCContext_
 
-monkc(MCContext);
+monkc(MCContext, MCObject);
 	int argc;
 	char** argv;
 	char selectionChar;
-end(MCContext);
+end(MCContext, MCObject);
 
 method(MCContext, MCContext*, newWithArgs, int argc, char** argv);
 nethod(MCContext, void, bye);

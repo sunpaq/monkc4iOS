@@ -3,12 +3,12 @@
 #ifndef MCARRAY_H_
 #define MCARRAY_H_
 
-monkc(MCArray);
+monkc(MCArray, MCObject);
 	int count;
 	int size;
 	int indexLast;
 	void* (*buff)[];
-end(MCArray);
+end(MCArray, MCObject);
 
 method(MCArray, MCArray*, initWithSize, int size);
 method(MCArray, MCArray*, addItem, void* item);

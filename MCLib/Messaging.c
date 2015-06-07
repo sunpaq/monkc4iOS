@@ -67,8 +67,8 @@ mc_message _response_to(const mo obj, const char* methodname, int strict)
 
 mc_message _response_to_h(const mo obj, const char* methodname, MCHash hashval, int strict)
 {
-	mc_object* obj_iterator = obj;
-	mc_object* obj_first_hit = mull;
+	MCObject* obj_iterator = obj;
+	MCObject* obj_first_hit = mull;
 	mc_hashitem* met_first_hit = mull;
 	mc_hashitem* met_item = mull;
 	int hit_count = 0;
