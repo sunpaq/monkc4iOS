@@ -127,7 +127,7 @@ mo _findsuper(mo const obj, const char* supername)
 	mo iter = mull;
 	for (iter = obj; iter!=mull; iter=iter->super) {
 		if (iter->isa!=mull && iter->isa == metaclass){
-			error_log("find super metaclass: %s iter->isa: %p\n", nameofc(metaclass), iter->isa);
+			runtime_log("find super metaclass: %s iter->isa: %p\n", nameofc(metaclass), iter->isa);
 			return iter;
 		}
 	}
