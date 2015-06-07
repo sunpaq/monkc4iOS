@@ -280,7 +280,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define nethod(cls, type, name) 	    type cls##_##name(volatile void* address, cls* volatile obj)
 #define method(cls, type, name, ...) 	type cls##_##name(volatile void* address, cls* volatile obj, __VA_ARGS__)
 #define protocol(pro, type, name, ...)  static type pro##_##name(volatile void* address, mo volatile rawobj, __VA_ARGS__)
-#define varscope(cls)                   cls* obj = ((cls*)rawobj)
+#define protocolin(cls)                 cls* obj = ((cls*)rawobj)
 #define var(vname)                      (obj->vname)
 #define cast(type, obj) 				((type)obj)
 
@@ -295,12 +295,11 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 //for call method
 #define response_to(obj, met) 			_response_to((mo)obj, S(met), 2)
 #define hesponse_to(obj, met, hash) 	_response_to_h((mo)obj, S(met), hash, 2)
-#define ffc(obj, type, met, ...)		(type)_push_jump(_response_to((mo)obj, S(met), MC_STRICT_MODE), __VA_ARGS__)//with cast
 #define ff(obj, met, ...)				_push_jump(_response_to((mo)obj, S(met), MC_STRICT_MODE), __VA_ARGS__)//send message
 #define fh(obj, met, hash, ...)			_push_jump(_response_to_h((mo)obj, S(met), hash, MC_STRICT_MODE), __VA_ARGS__)
 #define fs(obj, met, ...)				_push_jump(_self_response_to((mo)obj, S(met)), __VA_ARGS__)
 #define shift(obj, mode)				_shift((mo)obj, S(mode), sizeof(mode), mode##_load)
-#define shift_back(obj)					_shift_back((mo)obj)
+#define shift_back(obj)				    _shift_back((mo)obj)
 
 //lock
 void trylock_global_classtable();
