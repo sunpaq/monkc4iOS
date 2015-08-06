@@ -46,7 +46,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
  * in normal mode there is a error log only
  * */
 #define MC_STRICT_MODE 1
-#define NO_RECYCLE 0
+#define NO_RECYCLE 1
 
 #ifndef mull
 #define mull ((void*)0)
