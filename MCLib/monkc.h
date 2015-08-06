@@ -46,6 +46,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
  * in normal mode there is a error log only
  * */
 #define MC_STRICT_MODE 1
+#define NO_RECYCLE 0
 
 #ifndef mull
 #define mull ((void*)0)
@@ -144,7 +145,7 @@ typedef struct mc_hashitem_struct
 	MCUInt index;
 	MCHashTableLevel level;
 	void* value;
-    char* key;
+    const char* key;
     //char key[MAX_KEY_CHARS+1];
 }mc_hashitem;
 
@@ -229,12 +230,11 @@ MCInline void package_by_item(mc_hashitem* aitem_p, mc_class* aclass_p)
 //for type cast, every object have the 3 var members
 typedef struct mc_object_struct
 {
-	struct mc_object_struct* super;
-	mc_class* isa;
-	mc_block* block;
-	MCInt ref_count;
+    struct mc_object_struct* super;
+    mc_block* block;
+    mc_class* isa;
 	mc_class* saved_isa;
-	mc_class* mode;
+    MCInt ref_count;
 } MCObject;
 typedef MCObject* mo;
 static inline mc_class* MCObject_load(mc_class* const claz) {return claz;}
@@ -250,11 +250,10 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 #define monkc(cls, supercls)\
 typedef struct cls##_struct{\
 supercls* super;\
-mc_class* isa;\
 mc_block* block;\
-int ref_count;\
+mc_class* isa;\
 mc_class* saved_isa;\
-mc_class* mode;
+MCInt ref_count;
 
 #define end(cls, supercls) }cls;\
 mc_class* cls##_load(mc_class* const claz);\
@@ -293,8 +292,10 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define hnfo(cls, hash)                 mc_info_h(S(cls), sizeof(cls), cls##_load, hash)
 
 //for call method
+#define findsuper(obj, name)            _findsuper((mo)obj, S(name))//find super object
 #define response_to(obj, met) 			_response_to((mo)obj, S(met), 2)
 #define hesponse_to(obj, met, hash) 	_response_to_h((mo)obj, S(met), hash, 2)
+#define _ff(obj, met, ...)              _push_jump(_response_to((mo)obj, met, MC_STRICT_MODE), __VA_ARGS__)//call by string
 #define ff(obj, met, ...)				_push_jump(_response_to((mo)obj, S(met), MC_STRICT_MODE), __VA_ARGS__)//send message
 #define fh(obj, met, hash, ...)			_push_jump(_response_to_h((mo)obj, S(met), hash, MC_STRICT_MODE), __VA_ARGS__)
 #define fs(obj, met, ...)				_push_jump(_self_response_to((mo)obj, S(met)), __VA_ARGS__)
@@ -319,12 +320,8 @@ mc_class* _load_h(const char* name, MCSizeT objsize, MCLoaderPointer loader, MCU
 mo _new(mo const obj, MCSetsuperPointer setupsuper, MCIniterPointer initer);
 
 //object mode change
-void _shift(mo const obj, const char* modename, MCSizeT objsize, MCLoaderPointer loader);
-void _shift_back(mo const obj);
-
-//find super object
-mo _findsuper(mo const obj, const char* supername);
-#define findsuper(obj, name) _findsuper((mo)obj, S(name))
+//void _shift(mo const obj, const char* modename, MCSizeT objsize, MCLoaderPointer loader);
+//void _shift_back(mo const obj);
 
 //memory management
 #define REFCOUNT_NO_MM 	-1
@@ -339,9 +336,24 @@ mo _retain(mo const obj);
 //tool for class
 extern void _init_class_list();
 extern void _clear_class_list();
-char* mc_nameof(MCObject* const aobject);
-char* mc_nameofc(mc_class* const aclass);
 
+MCInline const char* mc_nameofc(const mc_class* aclass) {
+    if(aclass==mull)
+        return "";
+    if(aclass->item==mull)
+        return "";
+    if(aclass->item->key==mull)
+        return "";
+    return aclass->item->key;
+}
+
+MCInline const char* mc_nameof(const MCObject* aobject) {
+    if(aobject==mull)
+        return "";
+    if(aobject->isa==mull)
+        return "";
+    return nameofc(aobject->isa);
+}
 
 /*
  Lock.h
@@ -357,7 +369,7 @@ void mc_unlock(volatile MCInt* lock_p);
  Key.h
  */
 
-MCInline int mc_compare_key(char* const dest, const char* src) { return strncmp(dest, src, strlen(src)); }
+MCInline int mc_compare_key(const char* dest, const char* src) { return strncmp(dest, src, strlen(src)); }
 
 /*
  HashTable.h
@@ -380,7 +392,7 @@ mc_hashtable* new_table(const MCHash initlevel);
 
 MCUInt set_item(mc_hashtable* const table_p,
                 mc_hashitem* const item,
-                MCBool isOverride, MCBool isFreeValue, char* classname);
+                MCBool isOverride, MCBool isFreeValue, const char* classname);
 mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key);
 mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, const char* refkey);
 mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCUInt index);
@@ -399,6 +411,7 @@ MCInline mc_message make_msg(mo const obj, const void* address) { return (mc_mes
 void* _push_jump(mc_message msg, ...);
 
 //write by c
+mo _findsuper(mo const obj, const char* supername);
 mc_message _self_response_to(const mo obj, const char* methodname);
 mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval);
 mc_message _response_to(mo const obj, const char* methodname, MCInt strict);

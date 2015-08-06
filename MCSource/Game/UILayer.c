@@ -71,11 +71,17 @@ method(UILayer, void, onButtonClicked, MCInt tag)
             ff(obj, lockCamera, 65535);
             ff(obj, lockCamera, 1234567890);
             
+            const char* metstr = "lockCamera";
+            _ff(obj, metstr, 1);
+            
             recycle(node);
             recycle(node1);
             recycle(node2);
             recycle(node3);
             recycle(node4);
+            
+            info(MCNode);
+            
             node = mull;
             node1 = mull;
             node2 = mull;

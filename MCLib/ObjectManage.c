@@ -188,7 +188,17 @@ mo mc_alloc(const char* classname, size_t size, MCLoaderPointer loader)
 
 mo mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
 {
-	mc_class* aclass = _load_h(classname, size, loader, hashval);
+#if defined(NO_RECYCLE) && NO_RECYCLE
+    mc_class* aclass = _load_h(classname, size, loader, hashval);
+    mo aobject = mull;
+    //new a object package by a block
+    aobject = (mo)malloc(size);
+    aobject->isa = aclass;
+    aobject->saved_isa = aclass;
+    runtime_log("----alloc[NEW:%s]: new alloc\n", classname);
+    return aobject;
+#else
+    mc_class* aclass = _load_h(classname, size, loader, hashval);
 	mc_blockpool* fp = &aclass->free_pool;
 	mc_blockpool* up = &aclass->used_pool;
 	mc_block* ablock = mull;
@@ -211,15 +221,23 @@ mo mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash
 	pushToTail(up, ablock);
     
 	return aobject;
+#endif
 }
 
 void mc_dealloc(MCObject* aobject, int is_recycle)
 {
+#if defined(NO_RECYCLE) && NO_RECYCLE
+    if(aobject==mull){
+        error_log("----dealloc(%s) obj is mull\n", nameof(aobject));
+        return;
+    }
+    runtime_log("----dealloc[DEL:%s]: delete a obj[%p]\n", nameof(aobject), aobject);
+    free(aobject);
+#else
 	mc_block* blk = aobject->block;
 	mc_class* cls = aobject->isa;
 	mc_blockpool* fp = &cls->free_pool;
 	mc_blockpool* up = &cls->used_pool;
-	mc_block* nb = mull;
 
 	if(aobject==mull){
 		error_log("----dealloc(%s) obj is mull\n", nameof(aobject));
@@ -241,6 +259,8 @@ void mc_dealloc(MCObject* aobject, int is_recycle)
 		error_log("----dealloc(%s) have no block used, but you request dealloc\n", nameof(aobject));
 		return;
 	}
+    
+    mc_block* nb = mull;
 	//dealloc start
 	if(!cut(up, blk, &nb))//success
 	{
@@ -253,7 +273,10 @@ void mc_dealloc(MCObject* aobject, int is_recycle)
 			free(nb->data);
 			free(nb);
 		}
-	}
+    }else{
+        exit(-1);
+    }
+#endif
 }
 
 

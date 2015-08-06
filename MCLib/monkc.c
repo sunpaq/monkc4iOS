@@ -140,12 +140,12 @@ mo _new(mo const this, MCSetsuperPointer setupsuper, MCIniterPointer initer)
 	//block, isa, saved_isa is setted at _alloc()
 	this->ref_count = 1;
 	this->super = mull;
-	this->mode = mull;
+	//this->mode = mull;
     (*setupsuper)(this);
 	(*initer)(this);
 	return this;
 }
-
+/*
 void _shift(mo const obj, const char* modename, size_t objsize, MCLoaderPointer loader)
 {
 	mc_class* aclass = _load(modename, objsize, loader);
@@ -163,14 +163,14 @@ void _shift_back(mo const obj)
 	runtime_log("obj[%p/%s] shift to mode[%s]\n", 
 		obj, nameofc(obj->saved_isa), nameof(obj));
 }
-
+*/
 static int ref_count_down(mo const this)
 {
 	int oldcount, newcount;
 	int *addr;
 	for(;;){
 		if(this == mull){
-			error_log("recycle/release(nil) do nothing.\n");
+			error_log("recycle/release(mull) do nothing.\n");
 			return REFCOUNT_ERR;
 		}
 		if(this->ref_count == 0)
@@ -202,7 +202,7 @@ void _recycle(mo const this)
 {
 	if(ref_count_down(this) == 0){
 		//call the "bye" method on object
-		fs(this, bye, mull);
+        fs(this, bye, 0);
 		mc_dealloc(this, 1);
 	}
 }
@@ -211,7 +211,7 @@ void _release(mo const this)
 {
 	if(ref_count_down(this) == 0){
 		//call the "bye" method on object
-		fs(this, bye, mull);
+        fs(this, bye, 0);
 		mc_dealloc(this, 0);
 	}
 }
@@ -243,25 +243,6 @@ mo _retain(mo const this)
 	return this;
 }
 
-char* mc_nameof(MCObject* const aobject)
-{
-	if(aobject==mull)
-		return "";
-	if(aobject->isa==mull)
-		return "";
-	return nameofc(aobject->isa);
-}
-
-char* mc_nameofc(mc_class* const aclass)
-{
-	if(aclass==mull)
-		return "";
-	if(aclass->item==mull)
-		return "";
-	if(aclass->item->key==mull)
-		return "";
-	return aclass->item->key;
-}
 
 
 

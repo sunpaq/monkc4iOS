@@ -79,7 +79,7 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
 
 MCUInt set_item(mc_hashtable* const table_p,
 	mc_hashitem* const item, 
-	MCBool isOverride, MCBool isFreeValue, char* classname)
+	MCBool isOverride, MCBool isFreeValue, const char* classname)
 {
     //mc_hashitem* olditem = nil;
     MCHashTableLevel tmplevel = MCHashTableLevel1;

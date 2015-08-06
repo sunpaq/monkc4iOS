@@ -37,7 +37,7 @@ mc_message _self_response_to(const mo obj, const char* methodname)
 mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval)
 {
 	//we will return a struct
-	mc_hashitem* res;
+	mc_hashitem* res = mull;
 	mc_message tmpmsg = {mull, mull};
 
 	if(obj == mull){
@@ -55,7 +55,8 @@ mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hash
 		runtime_log("return a message[%s/%s]\n", nameof(tmpmsg.object), methodname);
 		return tmpmsg;
 	}else{
-		runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
+		//runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
+        runtime_log("self_response_to class[?] can not response to method[%s]\n", methodname);
 		return tmpmsg;
 	}
 }
