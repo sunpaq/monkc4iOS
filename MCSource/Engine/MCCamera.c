@@ -2,7 +2,6 @@
 
 oninit(MCCamera)
 {
-    var(super) = mull;
     MCCamera_reset(0, obj, MCTrue);
     return obj;
 }
