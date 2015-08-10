@@ -201,18 +201,18 @@ static int ref_count_down(mo const this)
 void _recycle(mo const this)
 {
 	if(ref_count_down(this) == 0){
-		//call the "bye" method on object
-        fs(this, bye, 0);
-		mc_dealloc(this, 1);
+        if (this->super!=mull) _release(this->super); //release super object
+        fs(this, bye, 0);                             //call the "bye" method on object
+        mc_dealloc(this, 1);                          //free memory
 	}
 }
 
 void _release(mo const this)
 {
-	if(ref_count_down(this) == 0){
-		//call the "bye" method on object
+    if(ref_count_down(this) == 0){
+        if (this->super!=mull) _release(this->super);
         fs(this, bye, 0);
-		mc_dealloc(this, 0);
+        mc_dealloc(this, 0);
 	}
 }
 
