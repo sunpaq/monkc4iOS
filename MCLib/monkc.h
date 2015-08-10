@@ -237,9 +237,6 @@ typedef struct mc_object_struct
     MCInt ref_count;
 } MCObject;
 typedef MCObject* mo;
-static inline mc_class* MCObject_load(mc_class* const claz) {return claz;}
-static inline MCObject* MCObject_setsuper(MCObject* const obj) {obj->super=mull;return obj;}
-static inline MCObject* MCObject_init(MCObject* const obj) {return obj;}
 
 MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 {
@@ -439,4 +436,19 @@ void empty(mc_blockpool* bpool);
 MCInt count(mc_blockpool* bpool);
 MCInt cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result);
 
+/*
+ Root Class MCObject
+ */
+
+static inline MCObject* MCObject_init(MCObject* const obj) {return obj;}
+static inline MCObject* MCObject_setsuper(MCObject* const obj) {obj->super=mull;return obj;}
+static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), mo upperObj) {obj->super=upperObj;}
+static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->super=mull;}
+static inline void      MCObject_bye(mc_message_arg(MCObject), voida) {}
+static inline mc_class* MCObject_load(mc_class* const claz) {
+    _binding(claz, "responseChainConnect", MCObject_responseChainConnect);
+    _binding(claz, "responseChainDisconnect", MCObject_responseChainDisconnect);
+    _binding(claz, "bye", MCObject_bye);
+    return claz;
+}
 #endif
