@@ -169,6 +169,10 @@ MCInline void MCGLDrawVertexArray(MCUInt arrayid, MCDrawMode mode, MCUInt firsti
     glDrawArrays(mode, firstindex, count);
 }
 
+MCInline void MCGLDrawElements(MCDrawMode mode, GLsizei count, GLenum type, const void* indices) {
+    glDrawElements(mode, count, type, indices);
+}
+
 //GLsizeiptr size, const GLvoid* data, GLenum usage
 //sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW
 #define MCBUFFER_OFFSET(i) ((char *)NULL + (i))

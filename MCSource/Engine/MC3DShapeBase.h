@@ -27,5 +27,27 @@ MCInline void MakeCircleData(float cx, float cy, float cz, float r, int num_segm
     }
 }
 
+MCInline MCUInt MCDrawLinePrepare(MCVertex p1, MCVertex p2)
+{
+    const MCUInt count = 3*2;
+    MCFloat data[count] = {p1.x, p1.y, p1.z, p2.x, p2.y, p2.z};
+    MCUInt bufferid;//GLuint
+    glGenBuffers(1, &bufferid);
+    glBindBuffer(GL_ARRAY_BUFFER, bufferid);
+    glBufferData(GL_ARRAY_BUFFER, count, data, GL_STATIC_DRAW);//GL_STREAM_DRAW, GL_DYNAMIC_DRAW
+    glEnableVertexAttribArray(MCGLPosition);
+    glVertexAttribPointer(MCGLPosition, 3, GL_FLOAT, GL_FALSE, 0, MCBUFFER_OFFSET(0));
+    return bufferid;
+}
+
+MCInline void MCDrawLine(MCUInt bufferid)
+{
+    const MCUInt count = 3*2;
+    //glBindVertexArrayOES(0);
+    glBindVertexArrayOES(bufferid);
+    glDrawArrays(MCLines, 0, count);
+}
+
+
 #endif
 
