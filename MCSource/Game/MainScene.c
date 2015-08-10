@@ -41,7 +41,8 @@ oninit(MainScene)
     var(drawMsgArray)[1] = response_to(var(orbit), draw);
     var(drawMsgCount) = 2;
     
-    findsuper(var(uilayer), MCObject)->super = (mo)obj;
+    //findsuper(var(uilayer), MCObject)->super = (mo)obj;
+    ff(var(uilayer), responseChainConnect, obj);
     return obj;
 }
 
