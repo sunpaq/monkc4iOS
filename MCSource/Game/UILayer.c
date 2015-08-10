@@ -61,18 +61,6 @@ method(UILayer, void, onButtonClicked, MCInt tag)
             break;
         case STOP:
             ff(obj, lockCamera, MCTrue);
-            //test
-            ff(obj, lockCamera, 1);
-            ff(obj, lockCamera, 2);
-            ff(obj, lockCamera, 3);
-            ff(obj, lockCamera, 4);
-            ff(obj, lockCamera, -1);
-            ff(obj, lockCamera, -2);
-            ff(obj, lockCamera, 65535);
-            ff(obj, lockCamera, 1234567890);
-            
-            const char* metstr = "lockCamera";
-            _ff(obj, metstr, 1);
             
             recycle(node);
             recycle(node1);
