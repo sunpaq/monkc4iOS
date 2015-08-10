@@ -5,8 +5,6 @@
 
 oninit(MCNode)
 {
-    var(super) = mull;
-
     var(frame) = mc_rect_zero;
     var(anchor) = mc_point_zero;
     var(position) = mc_point_zero;
