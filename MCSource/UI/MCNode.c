@@ -15,9 +15,8 @@ oninit(MCNode)
     return obj;
 }
 
-protocol(MCAccessbleProtocol, void*, access, const char* varname)
+implement(MCNode, MCAccessbleProtocol, void*, access, const char* varname)
 {
-    protocolin(MCNode);
     if (SEQ(S(frame),    varname)) return addrof(obj->frame);
     if (SEQ(S(anchor),   varname)) return addrof(obj->anchor);
     if (SEQ(S(position), varname)) return addrof(obj->position);
@@ -27,9 +26,8 @@ protocol(MCAccessbleProtocol, void*, access, const char* varname)
     return varp;
 }
 
-protocol(MCTouchbleProtocol, void, onTouchEvent, MCPoint point)
+implement(MCNode, MCTouchbleProtocol, void, onTouchEvent, MCPoint point)
 {
-    protocolin(MCNode);
     if(mc_rect_contains(addrof(obj->frame), point)) {
         var(color) = mc_color_mix(obj->color, mc_color(128,0,0));
     }

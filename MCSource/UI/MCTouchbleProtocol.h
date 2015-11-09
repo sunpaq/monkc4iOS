@@ -1,4 +1,4 @@
-binding(MCTouchbleProtocol, void, onTouchEvent, MCPoint point);
+protocol(MCObject, MCTouchbleProtocol, void, onTouchEvent, MCPoint point);
 
 /*
 protocol(MCTouchbleProtocol, void, onTouchEvent, MCPoint point)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD5778671BF0F74100123962 /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5778651BF0F74100123962 /* MCTexture.c */; };
 		FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */; };
 		FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18761B09C4B0006CB737 /* UILayer.c */; };
 		FD5E18801B09CE60006CB737 /* MCNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E187B1B09CE60006CB737 /* MCNode.c */; };
@@ -78,6 +79,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FD5778651BF0F74100123962 /* MCTexture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTexture.c; sourceTree = "<group>"; };
+		FD5778661BF0F74100123962 /* MCTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTexture.h; sourceTree = "<group>"; };
 		FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MC3DiOSDriver.m; sourceTree = "<group>"; };
 		FD5E18621B08FFE7006CB737 /* MC3DiOSDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DiOSDriver.h; sourceTree = "<group>"; };
 		FD5E18761B09C4B0006CB737 /* UILayer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UILayer.c; sourceTree = "<group>"; };
@@ -216,6 +219,8 @@
 				FDCB46AE1B11E3C300403320 /* MCOrbit.h */,
 				FDCB46B01B12382D00403320 /* MCDrawable.c */,
 				FDCB46B11B12382D00403320 /* MCDrawable.h */,
+				FD5778651BF0F74100123962 /* MCTexture.c */,
+				FD5778661BF0F74100123962 /* MCTexture.h */,
 			);
 			name = Engine;
 			path = MCSource/Engine;
@@ -555,6 +560,7 @@
 				FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */,
 				FDCB46B21B12382D00403320 /* MCDrawable.c in Sources */,
 				FDFF064C1B06314C000064E3 /* Messaging.c in Sources */,
+				FD5778671BF0F74100123962 /* MCTexture.c in Sources */,
 				FDFF06751B0639C5000064E3 /* MainScene.c in Sources */,
 				FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */,
 				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,

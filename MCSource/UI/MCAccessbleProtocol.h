@@ -1,4 +1,4 @@
-binding(MCAccessbleProtocol, void*, access, const char* varname);
+protocol(MCObject, MCAccessbleProtocol, void*, access, const char* varname);
 
 /*
 protocol(MCAccessbleProtocol, void*, access, const char* varname)

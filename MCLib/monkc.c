@@ -61,24 +61,6 @@ unsigned _binding_h(mc_class* const aclass, const char* methodname, void* value,
 	return res;
 }
 
-unsigned _override(mc_class* const aclass, const char* methodname, void* value)
-{
-	return _override_h(aclass, methodname, value, hash(methodname));
-}
-
-unsigned _override_h(mc_class* const aclass, const char* methodname, void* value, MCHash hashval)
-{
-	unsigned res;
-	if(aclass==mull){
-		error_log("_override_h(mc_class* aclass) aclass is nill return 0\n");
-		return 0;
-	}
-	res = set_item(&(aclass->table),
-		new_item_h(methodname, value, hashval),
-		1, 0, nameofc(aclass));
-	return res;
-}
-
 static inline mc_class* findClass(const char* name, const MCHash hashval)
 {
 	mc_hashitem* item = mull;
@@ -145,25 +127,7 @@ mo _new(mo const this, MCSetsuperPointer setupsuper, MCIniterPointer initer)
 	(*initer)(this);
 	return this;
 }
-/*
-void _shift(mo const obj, const char* modename, size_t objsize, MCLoaderPointer loader)
-{
-	mc_class* aclass = _load(modename, objsize, loader);
-	if(obj->mode != aclass)
-		obj->mode = aclass;
-	//switch to mode
-	obj->isa = obj->mode;
-	runtime_log("obj[%p/%s] shift to mode[%s]\n", 
-		obj, nameofc(obj->saved_isa), nameof(obj));
-}
 
-void _shift_back(mo const obj)
-{
-	obj->isa = obj->saved_isa;
-	runtime_log("obj[%p/%s] shift to mode[%s]\n", 
-		obj, nameofc(obj->saved_isa), nameof(obj));
-}
-*/
 static int ref_count_down(mo const this)
 {
 	int oldcount, newcount;
