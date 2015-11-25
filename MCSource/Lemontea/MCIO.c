@@ -5,7 +5,9 @@
 onload(MCFile)
 {
 binding(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
+binding(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname);
 
+binding(MCFile, size_t, readAllFromBegin, off_t offset);
 binding(MCFile, int, readFromBegin, off_t offset, size_t nbytes);
 binding(MCFile, int, readAtLastPosition, off_t offset, size_t nbytes);
 binding(MCFile, int, readFromEnd, off_t offset, size_t nbytes);
@@ -33,23 +35,24 @@ oninit(MCFile)
 method(MCFile, MCFile*, initWithPathName, char* pathname, int oflag)
 {
 	if((obj->fd = open(pathname, oflag, 0774))==-1)
-		return obj;
+		return mull;
 	obj->pathname = pathname;
 	if(fstat(obj->fd, &obj->attribute)<0)
-		return obj;
+		return mull;
 	obj->buffer = malloc(obj->attribute.st_blksize*10);
 	return obj;
 }
 
-// typedef enum _MCStreamType{
-// 	readonly_fullbuffered,
-// 	readwrite_fullbuffered,
-// 	readonly_linebuffered,
-// 	readwrite_linebuffered
-// }MCStreamType;
+method(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname)
+{
+    return MCFile_initWithPathName(address, obj, pathname, MCFileReadWriteTrunc);
+}
+
 onload(MCStream)
 {
 binding(MCStream, MCStream*, newWithPath, MCStreamType type, char* path);
+binding(MCStream, MCStream*, newWithPathDefaultType, const char* path);
+
 binding(MCStream, void, bye);
 binding(MCStream, int, getFileDescriptor);
 
@@ -78,7 +81,7 @@ oninit(MCStream)
 	return obj;
 }
 
-method(MCStream, MCStream*, newWithPath, MCStreamType type, char* path)
+method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
 {
 	//FILE *fopen(const char *restrict pathname, const char *restrict type);
 	//type:
@@ -86,28 +89,16 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, char* path)
 	//int setvbuf(FILE *restrict fp, char *restrict buf, int mode, size_t size);
 	//[NULL _IOFBF/_IOLBF/_IONBF BUFSIZ]
 
-	char* rw_type="w+";
-	int buff_mode=_IOFBF;
-	switch(type){
-		case readonly_fullbuffered:
-			rw_type="w";
-		break;
-		case readonly_linebuffered:
-			rw_type="w";buff_mode=_IOLBF;
-		break;
-		case readwrite_fullbuffered:
-			//default
-		break;
-		case readwrite_linebuffered:
-			buff_mode=_IOLBF;
-		break;
-	}
-
-	if((obj->fileObject = fopen(path, rw_type))!=mull)
-		setvbuf(obj->fileObject, NULL, buff_mode, BUFSIZ);
+	if((obj->fileObject = fopen(path, type.fopenMode))!=mull)
+		setvbuf(obj->fileObject, NULL, type.bufferType, BUFSIZ);
 	else
 		return mull;
 	return obj;
+}
+
+method(MCStream, MCStream*, newWithPathDefaultType, const char* path)
+{
+    return MCStream_newWithPath(0, obj, MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadWrite), path);
 }
 
 onload(MCSelect)
@@ -139,6 +130,11 @@ method(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond)
 	obj->timeout.tv_sec = second;
 	obj->timeout.tv_usec = cast(int, microsecond);
 	return;
+}
+
+method(MCFile, size_t, readAllFromBegin, off_t offset)
+{
+    return MCFile_readFromBegin(0, obj, offset, var(attribute.st_size));
 }
 
 method(MCFile, size_t, readFromBegin, off_t offset, size_t nbytes)

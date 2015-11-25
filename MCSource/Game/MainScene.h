@@ -15,7 +15,9 @@
 #include "MCCamera.h"
 #include "MCCube.h"
 #include "MCOrbit.h"
+#include "MCTexture.h"
 #include "UILayer.h"
+#include "MCArray.h"
 
 monkc(MainScene, MCObject);
     MCBool visible;
@@ -24,6 +26,7 @@ monkc(MainScene, MCObject);
     MCCamera* mainCamera;
     MCCube* cube;
     MCOrbit* orbit;
+    MCTexture* texture;
     mc_message drawMsgArray[10];
     MCInt drawMsgCount;
 end(MainScene, MCObject);

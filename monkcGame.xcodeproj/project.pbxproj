@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD4DC4491C01459100A3B9F2 /* MCGLShader.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLShader.c */; };
 		FD5778671BF0F74100123962 /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5778651BF0F74100123962 /* MCTexture.c */; };
 		FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */; };
 		FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18761B09C4B0006CB737 /* UILayer.c */; };
@@ -79,6 +80,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FD4DC4471C01459100A3B9F2 /* MCGLShader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLShader.c; sourceTree = "<group>"; };
+		FD4DC4481C01459100A3B9F2 /* MCGLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLShader.h; sourceTree = "<group>"; };
 		FD5778651BF0F74100123962 /* MCTexture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTexture.c; sourceTree = "<group>"; };
 		FD5778661BF0F74100123962 /* MCTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTexture.h; sourceTree = "<group>"; };
 		FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MC3DiOSDriver.m; sourceTree = "<group>"; };
@@ -221,6 +224,8 @@
 				FDCB46B11B12382D00403320 /* MCDrawable.h */,
 				FD5778651BF0F74100123962 /* MCTexture.c */,
 				FD5778661BF0F74100123962 /* MCTexture.h */,
+				FD4DC4471C01459100A3B9F2 /* MCGLShader.c */,
+				FD4DC4481C01459100A3B9F2 /* MCGLShader.h */,
 			);
 			name = Engine;
 			path = MCSource/Engine;
@@ -554,6 +559,7 @@
 				FDFF066D1B06315B000064E3 /* MCProcess.c in Sources */,
 				FDFF06451B06314C000064E3 /* HashTable.c in Sources */,
 				FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */,
+				FD4DC4491C01459100A3B9F2 /* MCGLShader.c in Sources */,
 				FDFF066A1B06315B000064E3 /* MCException.c in Sources */,
 				FDFF066B1B06315B000064E3 /* MCIO.c in Sources */,
 				FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */,

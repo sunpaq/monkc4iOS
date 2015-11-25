@@ -57,16 +57,20 @@ static float gCubeVertexData[216] = {
 
 oninit(MCCube)
 {
-    var(super) = new(MCDrawable);
     var(super)->vertexArrayId = MCGLAddVertexArray();
     var(super)->vertexBufferId = MCGLAddVertexBuffer(gCubeVertexData, sizeof(gCubeVertexData));
     var(super)->vertexCount = 36;
-    //var(textureId) = MCLoadSpriteTexture("mcicon", "png");
     return obj;
+}
+
+method(MCCube, void, draw, voida)
+{
+    MCDrawable_draw(0, obj->super, 0);
 }
 
 onload(MCCube)
 {
+    binding(MCCube, void, draw, voida);
     return claz;
 }
 

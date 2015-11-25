@@ -49,7 +49,6 @@ static void makeCircleData(mc_message_arg(MCObject), int vertexCount, MCFloat R,
 
 oninit(MCOrbit)
 {
-    var(super) = new(MCDrawable);
     var(R) = 10.0;
     var(segments) = 360.0;
     var(center) = MCVertexMake(0, 0, 0);

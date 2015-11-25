@@ -52,21 +52,21 @@ method(UILayer, void, onButtonClicked, MCInt tag)
         case START:
             ff(obj, lockCamera, MCFalse);
             //test
-            node = new(MCNode);
-            node1 = new(MCNode);
-            node2 = new(MCNode);
-            node3 = new(MCNode);
-            node4 = new(MCNode);
+//            node = new(MCNode);
+//            node1 = new(MCNode);
+//            node2 = new(MCNode);
+//            node3 = new(MCNode);
+//            node4 = new(MCNode);
 
             break;
         case STOP:
             ff(obj, lockCamera, MCTrue);
             
-            recycle(node);
-            recycle(node1);
-            recycle(node2);
-            recycle(node3);
-            recycle(node4);
+//            recycle(node);
+//            recycle(node1);
+//            recycle(node2);
+//            recycle(node3);
+//            recycle(node4);
             
             info(MCNode);
             

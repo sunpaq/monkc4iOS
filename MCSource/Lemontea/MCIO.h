@@ -26,6 +26,7 @@ monkc(MCFile, MCObject);
 	void* buffer;
 	struct stat attribute;
 end(MCFile, MCObject);
+
 /*
 O_RDONLY
 O_WRONLY | O_TRUNC //truncate the file(have write permission) length to 0
@@ -33,8 +34,22 @@ O_RDWR | O_TRUNC
 O_APPEND
 O_CREAT | O_EXCL //use together to create lock file! it is atomic operation
 */
-method(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
+typedef enum {
+    MCFileReadOnly = O_RDONLY,
+    MCFileWriteOnly = O_WRONLY,
+    MCFileReadWrite = O_RDWR,
+    MCFileAppend = O_APPEND,
+    MCFileCreate = O_CREAT,
+    
+    MCFileWriteOnlyTrunc = O_WRONLY | O_TRUNC,
+    MCFileReadWriteTrunc = O_RDWR | O_TRUNC,
+    MCFileCreateAtomic = O_CREAT | O_EXCL
+} MCFileOpenType;
 
+method(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
+method(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname);
+
+method(MCFile, size_t, readAllFromBegin, off_t offset);
 method(MCFile, size_t, readFromBegin, off_t offset, size_t nbytes);
 method(MCFile, size_t, readAtLastPosition, off_t offset, size_t nbytes);
 method(MCFile, size_t, readFromEnd, off_t offset, size_t nbytes);
@@ -75,12 +90,35 @@ MCFile* MCFile_newReadWrite(char* pathname, int isClear);
 
 /* MCStream */
 
-typedef enum _MCStreamType{
-	readonly_fullbuffered,
-	readwrite_fullbuffered,
-	readonly_linebuffered,
-	readwrite_linebuffered
-}MCStreamType;
+//full-buffered line-buffered no-buffered
+static const unsigned MCStreamBuf_FullBuffered = _IOFBF;
+static const unsigned MCStreamBuf_LineBuffered = _IOLBF;
+static const unsigned MCStreamBuf_NoBuffer = _IONBF;
+
+//r/w/a/ & b & +
+static const char* MCStreamOpen_ReadOnly = "r";
+static const char* MCStreamOpen_WriteOnly = "w";
+static const char* MCStreamOpen_ReadWrite = "w+";
+static const char* MCStreamOpen_ReadWrite_NoCreate = "r+";
+static const char* MCStreamOpen_Append = "a+";
+static const char* MCStreamOpen_Append_NoRead = "a";
+
+static const char* MCStreamOpenBin_ReadOnly = "rb";
+static const char* MCStreamOpenBin_WriteOnly = "wb";
+static const char* MCStreamOpenBin_ReadWrite = "wb+";
+static const char* MCStreamOpenBin_ReadWrite_NoCreate = "rb+";
+static const char* MCStreamOpenBin_Append = "ab+";
+static const char* MCStreamOpenBin_Append_NoRead = "ab";
+
+typedef struct {
+    unsigned bufferType;
+    const char* fopenMode;
+} MCStreamType;
+
+static inline MCStreamType MakeMCStreamType(const unsigned btype, const char* fomode) {
+    return (MCStreamType){btype, fomode};
+}
+
 //default is a wide-char fully-buffered stream
 #ifndef MCStream_
 #define MCStream_
@@ -89,7 +127,9 @@ monkc(MCStream, MCObject);
 	FILE* fileObject;
 end(MCStream, MCObject);
 
-method(MCStream, MCStream*, newWithPath, MCStreamType type, char* path);
+method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path);
+method(MCStream, MCStream*, newWithPathDefaultType, const char* path);
+
 method(MCStream, void, bye, voida);
 method(MCStream, int, getFileDescriptor, voida);
 

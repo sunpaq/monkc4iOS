@@ -26,6 +26,11 @@ typedef enum {
 } MCDrawMode;
 
 typedef enum {
+    MCVertexShader = GL_VERTEX_SHADER,
+    MCFragmentShader = GL_FRAGMENT_SHADER
+} MCShaderType;
+
+typedef enum {
     MCGLPosition = 0,
     MCGLNormal,
     MCGLColor,

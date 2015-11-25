@@ -36,14 +36,24 @@ oninit(MainScene)
     var(uilayer) = new(UILayer);
     var(cube) = new(MCCube);
     var(orbit) = new(MCOrbit);
+    var(texture) = new(MCTexture);
     
-    var(drawMsgArray)[0] = response_to(var(cube), draw);
-    var(drawMsgArray)[1] = response_to(var(orbit), draw);
-    var(drawMsgCount) = 2;
-    
-    //findsuper(var(uilayer), MCObject)->super = (mo)obj;
+    //var(drawMsgArray)[0] = response_to(var(cube), draw);
+    //var(drawMsgArray)[1] = response_to(var(orbit), draw);
+    var(drawMsgArray)[0] = response_to(var(texture), draw);
+    var(drawMsgCount) = 1;
+
     ff(var(uilayer), responseChainConnect, obj);
     return obj;
+}
+
+method(MainScene, void, bye, voida)
+{
+    release(var(mainCamera));
+    release(var(uilayer));
+    release(var(cube));
+    release(var(orbit));
+    release(var(texture));
 }
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height)
@@ -69,14 +79,6 @@ method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
     if (var(cameraLock) == MCFalse) {
         moveCameraOneStep(var(mainCamera), deltaFai, deltaTht);
     }
-}
-
-method(MainScene, void, bye, voida)
-{
-    release(var(mainCamera));
-    release(var(uilayer));
-    release(var(cube));
-    release(var(orbit));
 }
 
 method(MainScene, void, show, voida)
