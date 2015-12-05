@@ -41,6 +41,7 @@
 		FDBF1A4B1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
 		FDCB46B21B12382D00403320 /* MCDrawable.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46B01B12382D00403320 /* MCDrawable.c */; };
+		FDCEC9FC1C12ABFF00DA8A69 /* MCTextureShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC9FA1C12ABFF00DA8A69 /* MCTextureShader.vsh */; };
 		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
 		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
 		FDFF060B1B060BE1000064E3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDFF060A1B060BE1000064E3 /* Shader.fsh */; };
@@ -130,6 +131,8 @@
 		FDCB46AE1B11E3C300403320 /* MCOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrbit.h; sourceTree = "<group>"; };
 		FDCB46B01B12382D00403320 /* MCDrawable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCDrawable.c; sourceTree = "<group>"; };
 		FDCB46B11B12382D00403320 /* MCDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDrawable.h; sourceTree = "<group>"; };
+		FDCEC9FA1C12ABFF00DA8A69 /* MCTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = MCTextureShader.vsh; path = ../MCSource/Engine/MCTextureShader.vsh; sourceTree = "<group>"; };
+		FDCEC9FB1C12ABFF00DA8A69 /* MCTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = MCTextureShader.fsh; path = ../MCSource/Engine/MCTextureShader.fsh; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -195,6 +198,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FD0435791C13476E0002C7F5 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				FDCEC9FA1C12ABFF00DA8A69 /* MCTextureShader.vsh */,
+				FDCEC9FB1C12ABFF00DA8A69 /* MCTextureShader.fsh */,
+			);
+			name = shaders;
+			sourceTree = "<group>";
+		};
 		FD5E18791B09CE60006CB737 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -234,6 +246,7 @@
 		FD5EFD3E1B0E3D9D00D2492A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FD0435791C13476E0002C7F5 /* shaders */,
 				FD5EFD3F1B0E3D9D00D2492A /* icons */,
 				FD5EFD561B0E3D9D00D2492A /* textures */,
 			);
@@ -569,6 +582,7 @@
 				FD5778671BF0F74100123962 /* MCTexture.c in Sources */,
 				FDFF06751B0639C5000064E3 /* MainScene.c in Sources */,
 				FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */,
+				FDCEC9FC1C12ABFF00DA8A69 /* MCTextureShader.vsh in Sources */,
 				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,
 				FDFF066C1B06315B000064E3 /* MCMath.c in Sources */,
 				FD5E188C1B09CECB006CB737 /* MCCamera.c in Sources */,

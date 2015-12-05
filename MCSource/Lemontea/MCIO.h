@@ -14,6 +14,7 @@
 #include <dirent.h>
 #include <ftw.h>
 #include <errno.h>
+#include <limits.h>
 
 /* MCFile */
 
@@ -124,7 +125,10 @@ static inline MCStreamType MakeMCStreamType(const unsigned btype, const char* fo
 #define MCStream_
 
 monkc(MCStream, MCObject);
-	FILE* fileObject;
+	FILE*        fileObject;
+    const char** lineArray;
+    size_t*      lineLengthArray;
+    size_t       lineCount;
 end(MCStream, MCObject);
 
 method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path);
@@ -149,6 +153,7 @@ method(MCStream, off_t, tellOffset, voida);
 method(MCStream, int, seekFromBegin, off_t offset);
 method(MCStream, int, seekFromCurrent, off_t offset);
 method(MCStream, int, seekFromEnd, off_t offset);
+method(MCStream, size_t, tellSize, voida);
 
 #endif
 

@@ -85,6 +85,14 @@ MCUInt MCLoadSpriteTexture(const char* name, const char* suffix)
     }
 }
 
+const char* MCFileGetPath(const char* filename, const char* extention)
+{
+    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:filename]
+                                                     ofType:[NSString stringWithUTF8String:extention]];
+    return [path cStringUsingEncoding:NSUTF8StringEncoding];
+}
+
+
 
 
 

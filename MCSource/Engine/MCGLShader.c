@@ -8,31 +8,34 @@
 
 #include "MCGLShader.h"
 
+/*
+ MCGLShaderSource use to manipulate GLSL shader files .vsh .fsh
+ */
+
 oninit(MCGLShaderSource)
 {
     return obj;
 }
 
-method(MCGLShaderSource, MCGLShaderSource*, initWithShaderId, MCUInt shaderId, const char* filePath)
+method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath)
 {
     //MCFile_initWithPathNameDefaultFlag(0, var(super), (char*)filePath);
     //MCFile_readAllFromBegin(0, var(super), 0);
     
     MCStream_newWithPathDefaultType(0, var(super), filePath);
     
-    
-    var(associatedShaderId) = shaderId;
-    
-    glShaderSource(var(associatedShaderId), 0, 0, 0);
-    
     return obj;
 }
 
 onload(MCGLShaderSource)
 {
-    binding(MCGLShaderSource, MCGLShaderSource*, initWithShaderId, MCUInt shaderId, const char* filePath);
+    binding(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath);
     return claz;
 }
+
+/*
+ MCGLShader
+ */
 
 oninit(MCGLShader)
 {
@@ -49,6 +52,15 @@ method(MCGLShader, MCGLShader*, initWithType, MCShaderType type)
 {
     var(type) = type;
     var(shaderId) = glCreateShader(type);
+    glShaderSource(var(shaderId), 0, 0, 0);
+
+    
+    return obj;
+}
+
+method(MCGLShader, MCGLShader*, compile, voida)
+{
+    glCompileShader(var(shaderId));
     return obj;
 }
 
@@ -56,6 +68,59 @@ onload(MCGLShader)
 {
     binding(MCGLShader, void, bye, voida);
     binding(MCGLShader, MCGLShader*, initWithType, MCShaderType type);
+    binding(MCGLShader, MCGLShader*, compile, voida);
 
     return claz;
 }
+
+/*
+ MCGLSLProgram
+ */
+
+oninit(MCGLSLProgram)
+{
+    var(programId) = glCreateProgram();
+    return obj;
+}
+
+method(MCGLSLProgram, void, bye, voida)
+{
+    glDeleteProgram(var(programId));
+}
+
+method(MCGLSLProgram, void, attachShader, MCGLShader* shader)
+{
+    glAttachShader(var(programId), shader->shaderId);
+}
+
+method(MCGLSLProgram, void, detachShader, MCGLShader* shader)
+{
+    glDetachShader(var(programId), shader->shaderId);
+}
+
+method(MCGLSLProgram, void, deleteShader, MCGLShader* shader)
+{
+    glDeleteShader(shader->shaderId);
+}
+
+method(MCGLSLProgram, void, link, voida)
+{
+    glLinkProgram(var(programId));
+}
+
+method(MCGLSLProgram, void, use, voida)
+{
+    glUseProgram(var(programId));
+}
+
+onload(MCGLSLProgram)
+{
+    binding(MCGLSLProgram, void, bye, voida);
+    binding(MCGLSLProgram, void, attachShader, MCGLShader* shader);
+    binding(MCGLSLProgram, void, detachShader, MCGLShader* shader);
+    binding(MCGLSLProgram, void, deleteShader, MCGLShader* shader);
+    binding(MCGLSLProgram, void, link, voida);
+    binding(MCGLSLProgram, void, use, voida);
+    return claz;
+}
+

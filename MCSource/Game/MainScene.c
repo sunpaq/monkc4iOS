@@ -7,6 +7,8 @@
 //
 
 #include "MainScene.h"
+#include "MCGLShader.h"
+#include "MC3DiOSDriver.h"
 
 static void setupCamera(MCCamera* camera, MCFloat width, MCFloat height)
 {
@@ -36,14 +38,21 @@ oninit(MainScene)
     var(uilayer) = new(UILayer);
     var(cube) = new(MCCube);
     var(orbit) = new(MCOrbit);
-    //var(texture) = new(MCTexture);
+    var(texture) = new(MCTexture);
     
-    var(drawMsgArray)[0] = response_to(var(cube), draw);
-    var(drawMsgArray)[1] = response_to(var(orbit), draw);
-    //var(drawMsgArray)[0] = response_to(var(texture), draw);
-    var(drawMsgCount) = 2;
+    //var(drawMsgArray)[0] = response_to(var(cube), draw);
+    //var(drawMsgArray)[1] = response_to(var(orbit), draw);
+    //var(drawMsgArray)[2] = response_to(var(texture), draw);
+    //var(drawMsgCount) = 3;
 
-    ff(var(uilayer), responseChainConnect, obj);
+    //ff(var(uilayer), responseChainConnect, obj);
+    
+    MCGLShaderSource* source = new(MCGLShaderSource);
+    const char* path = MCFileGetPath("MCTextureShader", "fsh");
+    
+    ff(source, initWithPath, path);
+    printf("line count: %d", (int)source->super->lineCount);
+    
     return obj;
 }
 
