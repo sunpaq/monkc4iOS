@@ -36,12 +36,12 @@ oninit(MainScene)
     var(uilayer) = new(UILayer);
     var(cube) = new(MCCube);
     var(orbit) = new(MCOrbit);
-    var(texture) = new(MCTexture);
+    //var(texture) = new(MCTexture);
     
-    //var(drawMsgArray)[0] = response_to(var(cube), draw);
-    //var(drawMsgArray)[1] = response_to(var(orbit), draw);
-    var(drawMsgArray)[0] = response_to(var(texture), draw);
-    var(drawMsgCount) = 1;
+    var(drawMsgArray)[0] = response_to(var(cube), draw);
+    var(drawMsgArray)[1] = response_to(var(orbit), draw);
+    //var(drawMsgArray)[0] = response_to(var(texture), draw);
+    var(drawMsgCount) = 2;
 
     ff(var(uilayer), responseChainConnect, obj);
     return obj;
