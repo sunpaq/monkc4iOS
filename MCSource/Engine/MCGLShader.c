@@ -14,6 +14,7 @@
 
 oninit(MCGLShaderSource)
 {
+    var(associatedFilePath) = "NoPath";
     return obj;
 }
 
@@ -22,7 +23,7 @@ method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath)
     //MCFile_initWithPathNameDefaultFlag(0, var(super), (char*)filePath);
     //MCFile_readAllFromBegin(0, var(super), 0);
     
-    MCStream_newWithPathDefaultType(0, var(super), filePath);
+    MCStream_newWithPath(0, var(super), MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadOnly), filePath);
     
     return obj;
 }
@@ -39,7 +40,7 @@ onload(MCGLShaderSource)
 
 oninit(MCGLShader)
 {
-    var(source) = new(MCGLShaderSource);
+    var(source) = mull;
     return obj;
 }
 
@@ -52,9 +53,17 @@ method(MCGLShader, MCGLShader*, initWithType, MCShaderType type)
 {
     var(type) = type;
     var(shaderId) = glCreateShader(type);
-    glShaderSource(var(shaderId), 0, 0, 0);
+    return obj;
+}
 
-    
+method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source)
+{
+    retain(source);
+    var(source) = source;
+    glShaderSource(var(shaderId), (GLsizei)(source->super->lineCount),
+                   source->super->lineArray,
+                   (GLint*)(source->super->lineLengthArray));
+
     return obj;
 }
 
@@ -68,6 +77,7 @@ onload(MCGLShader)
 {
     binding(MCGLShader, void, bye, voida);
     binding(MCGLShader, MCGLShader*, initWithType, MCShaderType type);
+    binding(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source);
     binding(MCGLShader, MCGLShader*, compile, voida);
 
     return claz;

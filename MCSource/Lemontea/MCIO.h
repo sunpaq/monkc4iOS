@@ -153,7 +153,7 @@ method(MCStream, off_t, tellOffset, voida);
 method(MCStream, int, seekFromBegin, off_t offset);
 method(MCStream, int, seekFromCurrent, off_t offset);
 method(MCStream, int, seekFromEnd, off_t offset);
-method(MCStream, size_t, tellSize, voida);
+method(MCStream, long, tellSize, voida);
 
 #endif
 

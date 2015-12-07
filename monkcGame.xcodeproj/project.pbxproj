@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		FD4DC4491C01459100A3B9F2 /* MCGLShader.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLShader.c */; };
+		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
+		FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */; };
 		FD5778671BF0F74100123962 /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5778651BF0F74100123962 /* MCTexture.c */; };
 		FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */; };
 		FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18761B09C4B0006CB737 /* UILayer.c */; };
@@ -41,7 +43,6 @@
 		FDBF1A4B1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
 		FDCB46B21B12382D00403320 /* MCDrawable.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46B01B12382D00403320 /* MCDrawable.c */; };
-		FDCEC9FC1C12ABFF00DA8A69 /* MCTextureShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = FDCEC9FA1C12ABFF00DA8A69 /* MCTextureShader.vsh */; };
 		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
 		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
 		FDFF060B1B060BE1000064E3 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDFF060A1B060BE1000064E3 /* Shader.fsh */; };
@@ -83,6 +84,8 @@
 /* Begin PBXFileReference section */
 		FD4DC4471C01459100A3B9F2 /* MCGLShader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLShader.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLShader.h; sourceTree = "<group>"; };
+		FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.fsh; sourceTree = "<group>"; };
+		FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.vsh; sourceTree = "<group>"; };
 		FD5778651BF0F74100123962 /* MCTexture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTexture.c; sourceTree = "<group>"; };
 		FD5778661BF0F74100123962 /* MCTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTexture.h; sourceTree = "<group>"; };
 		FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MC3DiOSDriver.m; sourceTree = "<group>"; };
@@ -131,8 +134,6 @@
 		FDCB46AE1B11E3C300403320 /* MCOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrbit.h; sourceTree = "<group>"; };
 		FDCB46B01B12382D00403320 /* MCDrawable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCDrawable.c; sourceTree = "<group>"; };
 		FDCB46B11B12382D00403320 /* MCDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDrawable.h; sourceTree = "<group>"; };
-		FDCEC9FA1C12ABFF00DA8A69 /* MCTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = MCTextureShader.vsh; path = ../MCSource/Engine/MCTextureShader.vsh; sourceTree = "<group>"; };
-		FDCEC9FB1C12ABFF00DA8A69 /* MCTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = MCTextureShader.fsh; path = ../MCSource/Engine/MCTextureShader.fsh; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -198,13 +199,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FD0435791C13476E0002C7F5 /* shaders */ = {
+		FD50E2211C15DE00001CC314 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				FDCEC9FA1C12ABFF00DA8A69 /* MCTextureShader.vsh */,
-				FDCEC9FB1C12ABFF00DA8A69 /* MCTextureShader.fsh */,
+				FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */,
+				FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */,
 			);
-			name = shaders;
+			path = shaders;
 			sourceTree = "<group>";
 		};
 		FD5E18791B09CE60006CB737 /* UI */ = {
@@ -246,7 +247,7 @@
 		FD5EFD3E1B0E3D9D00D2492A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FD0435791C13476E0002C7F5 /* shaders */,
+				FD50E2211C15DE00001CC314 /* shaders */,
 				FD5EFD3F1B0E3D9D00D2492A /* icons */,
 				FD5EFD561B0E3D9D00D2492A /* textures */,
 			);
@@ -482,7 +483,7 @@
 		FDFF05F81B060BE1000064E3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = oreisoft;
 				TargetAttributes = {
 					FDFF05FF1B060BE1000064E3 = {
@@ -521,11 +522,13 @@
 			files = (
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
+				FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
 				FDFF06181B060BE1000064E3 /* LaunchScreen.xib in Resources */,
 				FD5EFD651B0E3D9D00D2492A /* Icon-72@2x.png in Resources */,
 				FD5EFD691B0E3D9D00D2492A /* Icon@2x.png in Resources */,
 				FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */,
+				FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
 				FD5EFD601B0E3D9D00D2492A /* Icon-Small.png in Resources */,
 				FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */,
@@ -582,7 +585,6 @@
 				FD5778671BF0F74100123962 /* MCTexture.c in Sources */,
 				FDFF06751B0639C5000064E3 /* MainScene.c in Sources */,
 				FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */,
-				FDCEC9FC1C12ABFF00DA8A69 /* MCTextureShader.vsh in Sources */,
 				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,
 				FDFF066C1B06315B000064E3 /* MCMath.c in Sources */,
 				FD5E188C1B09CECB006CB737 /* MCCamera.c in Sources */,
@@ -654,10 +656,12 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: sun yuli (F4876BSQ5B)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -699,6 +703,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: sun yuli (F4876BSQ5B)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -729,6 +734,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: sun yuli (F4876BSQ5B)";
 				INFOPLIST_FILE = monkcGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.oreisoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "39a276c0-bc16-40ff-93d2-4f81a03cabfa";
 			};
@@ -742,6 +748,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: sun yuli (F4876BSQ5B)";
 				INFOPLIST_FILE = monkcGame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.oreisoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "39a276c0-bc16-40ff-93d2-4f81a03cabfa";
 			};
@@ -761,6 +768,7 @@
 				);
 				INFOPLIST_FILE = monkcGameTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.oreisoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/monkcGame.app/monkcGame";
 			};
@@ -776,6 +784,7 @@
 				);
 				INFOPLIST_FILE = monkcGameTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.oreisoft.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/monkcGame.app/monkcGame";
 			};

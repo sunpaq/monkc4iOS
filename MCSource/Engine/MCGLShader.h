@@ -27,10 +27,10 @@ monkc(MCGLShader, MCObject);
     MCUInt shaderId;
     MCShaderType type;
     MCGLShaderSource* source;
-
 end(MCGLShader, MCObject);
 
 method(MCGLShader, MCGLShader*, initWithType, MCShaderType type);
+method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source);
 method(MCGLShader, MCGLShader*, compile, voida);
 
 

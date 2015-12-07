@@ -223,22 +223,28 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
     //int setvbuf(FILE *restrict fp, char *restrict buf, int mode, size_t size);
     //[NULL _IOFBF/_IOLBF/_IONBF BUFSIZ]
     
-    if((obj->fileObject = fopen(path, type.fopenMode))!=mull) {
-        setvbuf(obj->fileObject, NULL, type.bufferType, BUFSIZ);
-        size_t size = MCStream_tellSize(0, obj, 0);
+    var(fileObject) = fopen(path, type.fopenMode);
+    long size = MCStream_tellSize(0, obj, 0);
+    
+    if(var(fileObject) != mull) {
+        //setvbuf(obj->fileObject, NULL, type.bufferType, BUFSIZ);
         const char* buffer = malloc(sizeof(char) * size);
+        var(lineLengthArray) = malloc(sizeof(char) * LINE_MAX);
+        
         var(lineArray) = &buffer;
         char linebuff[LINE_MAX];
         size_t linecount = 0;
         size_t cursor = 0;
         while (fgets(linebuff, LINE_MAX, var(fileObject)) != NULL) {
             size_t lineLen = strlen(linebuff);
-            var(lineLengthArray)[linecount] = strlen(linebuff);
+            var(lineLengthArray)[linecount] = lineLen;
             memcpy(cast(void*, &(buffer[cursor])), linebuff, lineLen);
             cursor += lineLen;
             linecount++;
+            
         }
         var(lineCount) = linecount;
+        
     }
     else {
         return mull;
@@ -339,10 +345,10 @@ method(MCStream, int, seekFromEnd, off_t offset)
     return fseeko(obj->fileObject, offset, SEEK_END);
 }
 
-method(MCStream, size_t, tellSize, voida)
+method(MCStream, long, tellSize, voida)
 {
     fseek(var(fileObject), 0, SEEK_END);
-    size_t size = ftell(var(fileObject));
+    long size = ftell(var(fileObject));
     rewind(var(fileObject));
     return size;
 }
