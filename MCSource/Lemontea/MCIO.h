@@ -126,9 +126,9 @@ static inline MCStreamType MakeMCStreamType(const unsigned btype, const char* fo
 
 monkc(MCStream, MCObject);
 	FILE*        fileObject;
-    const char** lineArray;
     size_t*      lineLengthArray;
     size_t       lineCount;
+    char**       lineArray;
 end(MCStream, MCObject);
 
 method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path);

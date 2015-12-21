@@ -47,14 +47,21 @@ oninit(MainScene)
 
     //ff(var(uilayer), responseChainConnect, obj);
     
-    MCGLShaderSource* source = new(MCGLShaderSource);
-    ff(source, initWithPath, MCFileGetPath("MCTextureShader", "fsh"));
-    printf("line count: %d\n", (int)source->super->lineCount);
+    MCGLShaderSource *source1, *source2;
+    source1 = new(MCGLShaderSource);
+    source2 = new(MCGLShaderSource);
+    
+    ff(source1, initWithPath, MCFileGetPath("MCTextureShader", "fsh"));
+    ff(source2, initWithPath, MCFileGetPath("MCTextureShader", "vsh"));
     
     MCGLShader* shader = new(MCGLShader);
     ff(shader, initWithType, MCFragmentShader);
-    ff(shader, attachSource, source);
+    ff(shader, attachSource, source1);
     ff(shader, compile, 0);
+    
+    
+    
+    
     
     return obj;
 }

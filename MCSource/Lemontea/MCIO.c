@@ -234,19 +234,22 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
         if (ichar != '\n') {
             linebuff[i++] = ichar;
         }else{
-            linebuff[i++] = '\0';
-            MCCharBuffer* line = NewMCCharBuffer(sizeof(char) * i);
+            linebuff[i] = '\n';
+            linebuff[i+1] = '\0';
+            MCCharBuffer* line = NewMCCharBuffer(sizeof(char) * i+1);
             CopyToCharBuffer(line, linebuff);
-            line->data[i] = '\0';
+            line->data[i+1] = '\0';
             textbuff[lcount++] = (line->data);
             i = 0;
         }
     }
     
     var(lineCount) = lcount;
-    var(lineArray) = (const char**)malloc(sizeof(char*) * lcount);
-    memcpy(obj->lineArray, textbuff, lcount);
+    var(lineArray) = (char**)malloc(sizeof(char*) * lcount);
     var(lineLengthArray) = (size_t*) malloc(sizeof(unsigned) * lcount);
+
+    memcpy(obj->lineArray, &textbuff[0], sizeof(char*) * lcount);
+    //ff(obj, dump, mull);
     
     return obj;
 }
@@ -355,7 +358,7 @@ method(MCStream, void, dump, voida)
 {
     int i;
     for (i=0; i<obj->lineCount; i++) {
-        printf("%s", *(obj->lineArray)[i]);
+        printf("%s", (obj->lineArray)[i]);
     }
 }
 

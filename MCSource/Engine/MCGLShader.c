@@ -23,9 +23,7 @@ method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath)
     //MCFile_initWithPathNameDefaultFlag(0, var(super), (char*)filePath);
     //MCFile_readAllFromBegin(0, var(super), 0);
     
-    MCStream_newWithPath(0, var(super), MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadOnly), filePath);
-    ff(var(super), dump, 0);
-    
+    MCStream_newWithPath(0, var(super), MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadOnly), filePath);    
     
     return obj;
 }
