@@ -24,6 +24,8 @@ method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath)
     //MCFile_readAllFromBegin(0, var(super), 0);
     
     MCStream_newWithPath(0, var(super), MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadOnly), filePath);
+    ff(var(super), dump, 0);
+    
     
     return obj;
 }
@@ -62,7 +64,7 @@ method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source)
     var(source) = source;
     glShaderSource(var(shaderId), (GLsizei)(source->super->lineCount),
                    source->super->lineArray,
-                   (GLint*)(source->super->lineLengthArray));
+                   NULL);
 
     return obj;
 }

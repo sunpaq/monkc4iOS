@@ -224,31 +224,29 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
     //[NULL _IOFBF/_IOLBF/_IONBF BUFSIZ]
     
     var(fileObject) = fopen(path, type.fopenMode);
-    long size = MCStream_tellSize(0, obj, 0);
+    //long size = MCStream_tellSize(0, obj, 0);
     
-    if(var(fileObject) != mull) {
-        //setvbuf(obj->fileObject, NULL, type.bufferType, BUFSIZ);
-        const char* buffer = malloc(sizeof(char) * size);
-        var(lineLengthArray) = malloc(sizeof(char) * LINE_MAX);
-        
-        var(lineArray) = &buffer;
-        char linebuff[LINE_MAX];
-        size_t linecount = 0;
-        size_t cursor = 0;
-        while (fgets(linebuff, LINE_MAX, var(fileObject)) != NULL) {
-            size_t lineLen = strlen(linebuff);
-            var(lineLengthArray)[linecount] = lineLen;
-            memcpy(cast(void*, &(buffer[cursor])), linebuff, lineLen);
-            cursor += lineLen;
-            linecount++;
-            
+    char ichar;
+    char linebuff[LINE_MAX]; unsigned i = 0;
+    char* textbuff[LINE_MAX]; unsigned lcount = 0;
+    
+    while ((ichar=fgetc(obj->fileObject)) != EOF) {
+        if (ichar != '\n') {
+            linebuff[i++] = ichar;
+        }else{
+            linebuff[i++] = '\0';
+            MCCharBuffer* line = NewMCCharBuffer(sizeof(char) * i);
+            CopyToCharBuffer(line, linebuff);
+            line->data[i] = '\0';
+            textbuff[lcount++] = (line->data);
+            i = 0;
         }
-        var(lineCount) = linecount;
-        
     }
-    else {
-        return mull;
-    }
+    
+    var(lineCount) = lcount;
+    var(lineArray) = (const char**)malloc(sizeof(char*) * lcount);
+    memcpy(obj->lineArray, textbuff, lcount);
+    var(lineLengthArray) = (size_t*) malloc(sizeof(unsigned) * lcount);
     
     return obj;
 }
@@ -353,6 +351,14 @@ method(MCStream, long, tellSize, voida)
     return size;
 }
 
+method(MCStream, void, dump, voida)
+{
+    int i;
+    for (i=0; i<obj->lineCount; i++) {
+        printf("%s", *(obj->lineArray)[i]);
+    }
+}
+
 onload(MCStream)
 {
     binding(MCStream, MCStream*, newWithPath, MCStreamType type, char* path);
@@ -378,6 +384,7 @@ onload(MCStream)
     binding(MCStream, int, seekFromCurrent, off_t offset);
     binding(MCStream, int, seekFromEnd, off_t offset);
     binding(MCStream, size_t, tellSize, voida);
+    binding(MCStream, void, dump, voida);
 
     return claz;
 }
