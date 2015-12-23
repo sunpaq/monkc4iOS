@@ -61,7 +61,7 @@ method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source)
     retain(source);
     var(source) = source;
     glShaderSource(var(shaderId), (GLsizei)(source->super->lineCount),
-                   source->super->lineArray,
+                   (const char* const*)source->super->lineArray,
                    NULL);
 
     return obj;

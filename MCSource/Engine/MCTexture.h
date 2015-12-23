@@ -21,6 +21,8 @@ monkc(MCTexture, MCDrawable);
     MCUInt attributesArrayId;
 end(MCTexture, MCDrawable);
 
+method(MCTexture, void, draw, voida);
+
 
 
 

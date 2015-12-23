@@ -28,40 +28,48 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     MCCamera_updateLookat(0, camera, 0);
 }
 
+static void prepareShader()
+{
+    MCGLShaderSource *source1 = new(MCGLShaderSource);
+    ff(source1, initWithPath, MCFileGetPath("MCTextureShader", "fsh"));
+    MCGLShader* shader1 = new(MCGLShader);
+    ff(shader1, initWithType, MCFragmentShader);
+    ff(shader1, attachSource, source1);
+    ff(shader1, compile, 0);
+    
+    MCGLShaderSource *source2 = new(MCGLShaderSource);
+    ff(source2, initWithPath, MCFileGetPath("MCTextureShader", "vsh"));
+    MCGLShader* shader2 = new(MCGLShader);
+    ff(shader2, initWithType, MCFragmentShader);
+    ff(shader2, attachSource, source2);
+    ff(shader2, compile, 0);
+    
+    MCGLSLProgram* program = new(MCGLSLProgram);
+    ff(program, attachShader, shader1);
+    ff(program, attachShader, shader2);
+    ff(program, link, 0);
+    ff(program, use, 0);
+}
+
 oninit(MainScene)
 {
     MCLogTypeSet(MC_VERBOSE);
+    prepareShader();
     
     var(visible) = MCTrue;//visible by default
     var(cameraLock) = MCFalse;
     var(mainCamera) = new(MCCamera);
     var(uilayer) = new(UILayer);
-    var(cube) = new(MCCube);
-    var(orbit) = new(MCOrbit);
+    //var(cube) = new(MCCube);
+    //var(orbit) = new(MCOrbit);
     var(texture) = new(MCTexture);
     
     //var(drawMsgArray)[0] = response_to(var(cube), draw);
     //var(drawMsgArray)[1] = response_to(var(orbit), draw);
-    //var(drawMsgArray)[2] = response_to(var(texture), draw);
-    //var(drawMsgCount) = 3;
+    var(drawMsgArray)[0] = response_to(var(texture), draw);
+    var(drawMsgCount) = 1;
 
-    //ff(var(uilayer), responseChainConnect, obj);
-    
-    MCGLShaderSource *source1, *source2;
-    source1 = new(MCGLShaderSource);
-    source2 = new(MCGLShaderSource);
-    
-    ff(source1, initWithPath, MCFileGetPath("MCTextureShader", "fsh"));
-    ff(source2, initWithPath, MCFileGetPath("MCTextureShader", "vsh"));
-    
-    MCGLShader* shader = new(MCGLShader);
-    ff(shader, initWithType, MCFragmentShader);
-    ff(shader, attachSource, source1);
-    ff(shader, compile, 0);
-    
-    
-    
-    
+    ff(var(uilayer), responseChainConnect, obj);
     
     return obj;
 }

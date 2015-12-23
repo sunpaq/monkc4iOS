@@ -17,9 +17,9 @@ static const GLfloat texCoor[] = {
     -0.5f,  0.5f, 0.0f,
     //tex coordinate
     0.0f, 0.0f,
+    0.0f, 1.0f,
+    1.0f, 1.0f,
     1.0f, 0.0f,
-    1.0f, 0.0f,
-    0.0f, 0.0f
 };
 
 oninit(MCTexture)
@@ -42,6 +42,7 @@ oninit(MCTexture)
     return obj;
 }
 
+//override
 method(MCTexture, void, draw, voida)
 {
     //MCDrawable_draw(0, obj->super, 0);
