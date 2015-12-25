@@ -23,14 +23,30 @@ static const GLfloat texCoor[] = {
     0.0f, 0.0f,
 };
 
+GLubyte data[] = {
+    0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00,
+    0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF,
+    0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00,
+    0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF,
+    0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00,
+    0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF,
+    0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00,
+    0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF,
+};
 static void blackWhiteCheckerBoardTexture()
 {
+    
+    glTexStorage2DEXT(GL_TEXTURE_2D, 4, GL_R8_EXT, 8, 8);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 8, 8, GL_RED_EXT, GL_UNSIGNED_BYTE, data);
+    
+    /*
     // Black/white checkerboard
     float pixels[] = {
         0.0f, 0.0f, 0.0f,   1.0f, 1.0f, 1.0f,
         1.0f, 1.0f, 1.0f,   0.0f, 0.0f, 0.0f
     };
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_FLOAT, pixels);
+    */
 }
 
 //static void prepareTexture(const char* path)
@@ -47,8 +63,9 @@ oninit(MCTexture)
     //prepareTexture(MCFileGetPath("mcicon", "png"));
     
     glGenTextures(1, &(var(textureId)));
+    glBindTexture(GL_TEXTURE_2D, 0);
     glBindTexture(GL_TEXTURE_2D, var(textureId));
-    glEnable(GL_TEXTURE_2D);
+    //glEnable(GL_TEXTURE_2D);
     
     blackWhiteCheckerBoardTexture();
 
