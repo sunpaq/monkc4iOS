@@ -12,6 +12,11 @@
 #include "monkc.h"
 #include "MC3DType.h"
 
+/*
+MCDrawable abtract anything have vertex data in 3D world
+
+ */
+
 monkc(MCDrawable, MCObject);
     MCUInt vertexArrayId;
     MCUInt vertexBufferId;

@@ -19,6 +19,24 @@
 #include "monkc.h"
 
 typedef enum {
+    MCGLDepthTest = GL_DEPTH_TEST,
+    MCGLBlend = GL_BLEND,
+} MCGLFeature;
+
+typedef struct {
+    float R;
+    float G;
+    float B;
+    float A;
+} MCColorRGBAf;
+
+typedef enum {
+    MCGLFront = GL_FRONT,
+    MCGLBack = GL_BACK,
+    MCGLFrontAndBack = GL_FRONT_AND_BACK
+} MCGLFace;
+
+typedef enum {
     MCPoints = GL_POINTS,
     MCLines  = GL_LINES,
     MCLineLoop = GL_LINE_LOOP,

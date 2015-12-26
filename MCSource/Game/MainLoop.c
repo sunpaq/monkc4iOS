@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 oreisoft. All rights reserved.
 //
 
-#include "MainScene.h"
+#include "MainLoop.h"
 #include "MCGLShader.h"
 #include "MC3DiOSDriver.h"
 
@@ -147,4 +147,43 @@ onload(MainScene)
     binding(MainScene, void, draw);
 
     return claz;
+}
+
+void onRootViewLoad(void* rootview)
+{
+    MCUIRegisterRootUIView(rootview);
+}
+
+MainScene* mainScene = mull;
+void onSetupGL(double windowWidth, double windowHeight)
+{
+    mainScene = MainScene_initWithWidthHeight(0, new(MainScene), windowWidth, windowHeight);
+    ff(mainScene, show, 0);
+}
+
+void onTearDownGL()
+{
+    MainScene_hide(0, mainScene, 0);
+    release(mainScene);
+}
+
+void onUpdate(double timeSinceLastUpdate)
+{
+    MainScene_moveCameraOneStep(0, mainScene, timeSinceLastUpdate * 15.0f, timeSinceLastUpdate * 15.0f);
+    MainScene_update(0, mainScene, 0);
+}
+
+MCMatrix4 onUpdateProjectionMatrix()
+{
+    return mainScene->mainCamera->projectionMatrix;
+}
+
+MCMatrix4 onUpdateModelViewMatrix()
+{
+    return mainScene->mainCamera->modelViewMatrix;
+}
+
+void onDraw()
+{
+    MainScene_draw(0, mainScene, 0);
 }

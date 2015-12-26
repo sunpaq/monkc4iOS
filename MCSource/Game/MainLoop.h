@@ -41,3 +41,11 @@ method(MainScene, void, update, voida);
 method(MainScene, void, draw, voida);
 
 #endif /* defined(__monkcGame__MainScene__) */
+
+void onRootViewLoad(void* rootview);
+void onSetupGL(double windowWidth, double windowHeight);
+void onTearDownGL();
+void onUpdate(double timeSinceLastUpdate);
+MCMatrix4 onUpdateProjectionMatrix();
+MCMatrix4 onUpdateModelViewMatrix();
+void onDraw();

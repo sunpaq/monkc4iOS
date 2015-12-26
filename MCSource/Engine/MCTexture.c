@@ -93,6 +93,7 @@ method(MCTexture, void, draw, voida)
     //MCDrawable_draw(0, obj->super, 0);
     //ff(obj->super, draw, 0);
     
+    //glBindVertexArrayOES(var(attributesArrayId));
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 }
 
