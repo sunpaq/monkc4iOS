@@ -244,16 +244,22 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
     deref(aobject).block = ablock;
 }
 
+//static class (you can not use new and ff)
+#define Monkc(cls)\
+typedef struct cls##_struct{
+#define End(cls) }cls;
+
+//dynamic class
 #define monkc(cls, supercls)\
 typedef struct cls##_struct{\
 supercls* super;\
 mc_block* block;\
 mc_class* isa;\
 mc_class* saved_isa;\
-MCInt ref_count;
+MCInt ref_count;\
 
 #define end(cls, supercls) }cls;\
-mc_class* cls##_load(mc_class* const claz);\
+mc_class* cls##_load(mc_class* const claz, cls* no_use);\
 cls* cls##_init(cls* const obj);\
 static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);return obj;}
 
@@ -261,12 +267,12 @@ static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);retu
 #define implements(protocol)
 
 //callback function pointer types
-typedef mc_class* (*MCLoaderPointer)(mc_class*);
+typedef mc_class* (*MCLoaderPointer)(mc_class*, void*);
 typedef MCObject* (*MCIniterPointer)(MCObject*);
 typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 
 //callbacks
-#define onload(cls)					mc_class* cls##_load(mc_class* const claz)
+#define onload(cls)					mc_class* cls##_load(mc_class* const claz, cls* no_use)
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
 
 //method binding

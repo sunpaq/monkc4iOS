@@ -90,7 +90,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 		aclass = alloc_mc_class(objsize);
 		mc_hashitem* item = new_item(name, mull);//nil first
 		package_by_item(item, aclass);
-		(*loader)(aclass);
+		(*loader)(aclass, mull);
 		//set item
         //MCBool isOverride, MCBool isFreeValue
 		set_item(mc_global_classtable, item, MCFalse, MCTrue, (char*)name);
