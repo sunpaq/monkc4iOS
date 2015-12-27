@@ -12,6 +12,22 @@
 #include <stdio.h>
 #include "monkc.h"
 #include "MC3DType.h"
+#include "MC3DBase.h"
+#include "MC3DShapeBase.h"
+#include "MCGLShader.h"
+
+typedef enum {
+    MCGLErrNone = GL_NO_ERROR,
+    MCGLErrInvalidEnum = GL_INVALID_ENUM,
+    MCGLErrInvalidValue = GL_INVALID_VALUE,
+    MCGLErrInvalidOperation = GL_INVALID_OPERATION,
+    MCGLErrOutOfMemory = GL_OUT_OF_MEMORY,
+} MCGLEngineErr;
+typedef struct {
+    MCBool success;
+    MCUInt vaoId;
+    MCUInt vboId;
+} MCGLEngineResponse;
 
 Monkc(MCGLEngine);
     MCFloat pointSize;
@@ -36,5 +52,10 @@ method(MCGLEngine, void, cullBackFace, voida);
 //Texture
 method(MCGLEngine, MCUInt, getMaxTextureUnits, voida);
 method(MCGLEngine, void, activeTextureUnit, MCUInt index);
+//Drawable
+method(MCGLEngine, MCGLEngineResponse, prepareDrawableData, MCDrawableData* data);
+method(MCGLEngine, void, cleanupDrawableData, MCGLEngineResponse response);
+method(MCGLEngine, void, drawDrawableData, MCDrawableData* data);
+
 
 #endif /* MCGLEngine_h */

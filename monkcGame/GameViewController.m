@@ -42,11 +42,6 @@ enum
 
 - (void)setupGL;
 - (void)tearDownGL;
-
-- (BOOL)loadShaders;
-- (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
-- (BOOL)linkProgram:(GLuint)prog;
-- (BOOL)validateProgram:(GLuint)prog;
 @end
 
 @implementation GameViewController
@@ -100,7 +95,6 @@ enum
     return YES;
 }
 
-//MainScene* mainScene = nil;
 - (void)setupGL
 {
     [EAGLContext setCurrentContext:self.context];
@@ -112,10 +106,6 @@ enum
     //setup monkc
     double width = self.view.bounds.size.width;
     double height = self.view.bounds.size.height;
-    
-    //mainScene = MainScene_initWithWidthHeight(0, new(MainScene), width, height);
-    //ff(mainScene, show, 0);
-    
     onSetupGL(width, height);
 }
 

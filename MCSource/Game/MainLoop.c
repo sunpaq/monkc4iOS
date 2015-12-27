@@ -28,33 +28,15 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     MCCamera_updateLookat(0, camera, 0);
 }
 
-static void prepareShader()
-{
-    MCGLShaderSource *source1 = new(MCGLShaderSource);
-    ff(source1, initWithPath, MCFileGetPath("MCTextureShader", "fsh"));
-    MCGLShader* shader1 = new(MCGLShader);
-    ff(shader1, initWithType, MCFragmentShader);
-    ff(shader1, attachSource, source1);
-    ff(shader1, compile, 0);
-    
-    MCGLShaderSource *source2 = new(MCGLShaderSource);
-    ff(source2, initWithPath, MCFileGetPath("MCTextureShader", "vsh"));
-    MCGLShader* shader2 = new(MCGLShader);
-    ff(shader2, initWithType, MCFragmentShader);
-    ff(shader2, attachSource, source2);
-    ff(shader2, compile, 0);
-    
-    MCGLSLProgram* program = new(MCGLSLProgram);
-    ff(program, attachShader, shader1);
-    ff(program, attachShader, shader2);
-    ff(program, link, 0);
-    ff(program, use, 0);
-}
+
 
 oninit(MainScene)
 {
     MCLogTypeSet(MC_VERBOSE);
-    prepareShader();
+    //prepareShader();
+    
+    var(engine) = MCGLEngine_getInstance(0, 0, 0);
+    MCGLEngine_setClearScreenColor(0, var(engine), (MCColorRGBAf){0.65, 0.65, 0.65, 1.0});
     
     var(visible) = MCTrue;//visible by default
     var(cameraLock) = MCFalse;
@@ -85,7 +67,7 @@ method(MainScene, void, bye, voida)
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height)
 {
-    MCGLEnableDepthTest(MCTrue);
+    MCGLEngine_featureSwith(0, var(engine), MCGLDepthTest, MCTrue);
     setupCamera(var(mainCamera), width, height);
     return obj;
 }
@@ -126,7 +108,7 @@ method(MainScene, void, update, voida)
 method(MainScene, void, draw, voida)
 {
     if (var(visible)) {
-        MCGLClearScreen(0.65f, 0.65f, 0.65f, 1.0f);
+        MCGLEngine_clearScreen(0, 0, 0);
         
         for (int i=0; i<var(drawMsgCount); i++) {
             _push_jump(var(drawMsgArray)[i]);
@@ -169,8 +151,10 @@ void onTearDownGL()
 
 void onUpdate(double timeSinceLastUpdate)
 {
-    MainScene_moveCameraOneStep(0, mainScene, timeSinceLastUpdate * 15.0f, timeSinceLastUpdate * 15.0f);
-    MainScene_update(0, mainScene, 0);
+    if (mainScene) {
+        MainScene_moveCameraOneStep(0, mainScene, timeSinceLastUpdate * 15.0f, timeSinceLastUpdate * 15.0f);
+        MainScene_update(0, mainScene, 0);
+    }
 }
 
 MCMatrix4 onUpdateProjectionMatrix()

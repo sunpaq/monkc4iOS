@@ -53,6 +53,9 @@ method(MCGLShader, MCGLShader*, initWithType, MCShaderType type)
 {
     var(type) = type;
     var(shaderId) = glCreateShader(type);
+    if (var(shaderId) == 0) {
+        exit(-1);
+    }
     return obj;
 }
 
@@ -70,7 +73,19 @@ method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source)
 method(MCGLShader, MCGLShader*, compile, voida)
 {
     glCompileShader(var(shaderId));
-    return obj;
+    GLint success;
+    glGetShaderiv(var(shaderId), GL_COMPILE_STATUS, &success);
+    if (success == GL_TRUE) {
+        //compile success
+        return obj;
+    }else{
+        char logbuff[100*100];
+        GLsizei loglength;
+        glGetShaderInfoLog(var(shaderId), sizeof(logbuff), &loglength, logbuff);
+        printf(&logbuff[0]);
+        
+        return mull;
+    }
 }
 
 onload(MCGLShader)

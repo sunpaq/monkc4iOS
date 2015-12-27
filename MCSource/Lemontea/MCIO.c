@@ -224,21 +224,24 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
     //[NULL _IOFBF/_IOLBF/_IONBF BUFSIZ]
     
     var(fileObject) = fopen(path, type.fopenMode);
+    if (var(fileObject) == NULL) {
+        
+    }
     //long size = MCStream_tellSize(0, obj, 0);
     
     char ichar;
-    char linebuff[LINE_MAX]; unsigned i = 0;
-    char* textbuff[LINE_MAX]; unsigned lcount = 0;
+    char linebuff[100]; unsigned i = 0;
+    char* textbuff[100]; unsigned lcount = 0;
     
     while ((ichar=fgetc(obj->fileObject)) != EOF) {
         if (ichar != '\n') {
             linebuff[i++] = ichar;
         }else{
             linebuff[i] = '\n';
-            linebuff[i+1] = '\0';
+            linebuff[i+1] = (char)NULL;
             MCCharBuffer* line = NewMCCharBuffer(sizeof(char) * i+1);
             CopyToCharBuffer(line, linebuff);
-            line->data[i+1] = '\0';
+            line->data[i+1] = (char)NULL;
             textbuff[lcount++] = (line->data);
             i = 0;
         }

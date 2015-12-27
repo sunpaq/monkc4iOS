@@ -219,7 +219,7 @@ keep-fp:		-mapcs-frame will keep the fp not to be optimized out
 __armv7__
 */
 
-#ifdef xxxxxxx
+#ifdef xxxxx
 .text
 .globl __push_jump
 .p2align 3 			

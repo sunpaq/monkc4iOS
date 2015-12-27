@@ -18,8 +18,10 @@
 #include "MCTexture.h"
 #include "UILayer.h"
 #include "MCArray.h"
+#include "MCGLEngine.h"
 
 monkc(MainScene, MCObject);
+    MCGLEngine* engine;
     MCBool visible;
     UILayer* uilayer;
     MCBool cameraLock;
