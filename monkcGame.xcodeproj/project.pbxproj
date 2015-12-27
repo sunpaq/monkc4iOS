@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FD4DC4491C01459100A3B9F2 /* MCGLShader.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLShader.c */; };
+		FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4F1F261C2FC89900D17CD9 /* MainLoop.c */; };
 		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
 		FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */; };
 		FD5778671BF0F74100123962 /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5778651BF0F74100123962 /* MCTexture.c */; };
@@ -68,7 +69,6 @@
 		FDFF066F1B06315B000064E3 /* MCString.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06611B06315B000064E3 /* MCString.c */; };
 		FDFF06701B06315B000064E3 /* MCThread.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06631B06315B000064E3 /* MCThread.c */; };
 		FDFF06711B06315B000064E3 /* MCUnitTest.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06651B06315B000064E3 /* MCUnitTest.c */; };
-		FDFF06751B0639C5000064E3 /* MainScene.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06731B0639C5000064E3 /* MainScene.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +84,8 @@
 /* Begin PBXFileReference section */
 		FD4DC4471C01459100A3B9F2 /* MCGLShader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLShader.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLShader.h; sourceTree = "<group>"; };
+		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
+		FD4F1F271C2FC89900D17CD9 /* MainLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainLoop.h; sourceTree = "<group>"; };
 		FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.fsh; sourceTree = "<group>"; };
 		FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.vsh; sourceTree = "<group>"; };
 		FD5778651BF0F74100123962 /* MCTexture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTexture.c; sourceTree = "<group>"; };
@@ -177,8 +179,6 @@
 		FDFF06641B06315B000064E3 /* MCThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCThread.h; sourceTree = "<group>"; };
 		FDFF06651B06315B000064E3 /* MCUnitTest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCUnitTest.c; sourceTree = "<group>"; };
 		FDFF06661B06315B000064E3 /* MCUnitTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUnitTest.h; sourceTree = "<group>"; };
-		FDFF06731B0639C5000064E3 /* MainScene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainScene.c; sourceTree = "<group>"; };
-		FDFF06741B0639C5000064E3 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainScene.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,8 +422,8 @@
 		FDFF06721B06339E000064E3 /* Game */ = {
 			isa = PBXGroup;
 			children = (
-				FDFF06731B0639C5000064E3 /* MainScene.c */,
-				FDFF06741B0639C5000064E3 /* MainScene.h */,
+				FD4F1F261C2FC89900D17CD9 /* MainLoop.c */,
+				FD4F1F271C2FC89900D17CD9 /* MainLoop.h */,
 				FD5E18761B09C4B0006CB737 /* UILayer.c */,
 				FD5E18771B09C4B0006CB737 /* UILayer.h */,
 			);
@@ -583,10 +583,10 @@
 				FDCB46B21B12382D00403320 /* MCDrawable.c in Sources */,
 				FDFF064C1B06314C000064E3 /* Messaging.c in Sources */,
 				FD5778671BF0F74100123962 /* MCTexture.c in Sources */,
-				FDFF06751B0639C5000064E3 /* MainScene.c in Sources */,
 				FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */,
 				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,
 				FDFF066C1B06315B000064E3 /* MCMath.c in Sources */,
+				FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */,
 				FD5E188C1B09CECB006CB737 /* MCCamera.c in Sources */,
 				FD5E188D1B09CECB006CB737 /* MCCube.c in Sources */,
 				FDFF066F1B06315B000064E3 /* MCString.c in Sources */,
