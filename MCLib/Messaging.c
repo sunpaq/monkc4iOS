@@ -51,7 +51,7 @@ mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hash
 
 	if((res=get_item_byhash(&(obj->isa->table), hashval, methodname)) != mull){
 		tmpmsg.object = obj;
-		tmpmsg.address = res->value;
+		tmpmsg.address = res->value.mcfuncptr;
 		runtime_log("return a message[%s/%s]\n", nameof(tmpmsg.object), methodname);
 		return tmpmsg;
 	}else{
@@ -95,7 +95,7 @@ mc_message _response_to_h(const mo obj, const char* methodname, MCHash hashval, 
 				met_item->key, met_item->index, methodname);
 			hit_count++;
 			tmpmsg.object = obj_iterator;
-			tmpmsg.address = met_item->value;
+			tmpmsg.address = met_item->value.mcfuncptr;
 			if(obj_first_hit==mull)obj_first_hit = obj_iterator;
 			if(met_first_hit==mull)met_first_hit = met_item;
 			//for the method key have conflicted with some super class in inherit tree
@@ -104,7 +104,7 @@ mc_message _response_to_h(const mo obj, const char* methodname, MCHash hashval, 
 					//to support the "overide" feature of oop
 					if(mc_compare_key(met_first_hit->key, methodname) == 0){
 						tmpmsg.object = obj_first_hit;
-                        tmpmsg.address = met_first_hit->value;
+                        tmpmsg.address = met_first_hit->value.mcfuncptr;
 						runtime_log("[first hit]return a message[%s/%s(%p/%p)]\n", 
                                                             tmpmsg.object->isa->item->key, 
                                                             methodname,

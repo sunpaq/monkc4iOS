@@ -39,17 +39,17 @@ static inline size_t expand_table(mc_hashtable* const table_p, MCHashTableLevel 
 	newtable->level = tolevel;
 	//fill new slots to nil
 	for(int i=get_tablesize(oldlevel)+1; i<get_tablesize(tolevel); i++)
-		newtable->items[i].value=mull;
+		newtable->items[i].value=MCGenericFp(mull);
 	debug_log("expand table: %d->%d\n", oldlevel, tolevel);
     return newsize;
 }
 
-mc_hashitem* new_item(const char* key, void* value)
+mc_hashitem* new_item(const char* key, MCGeneric value)
 {
 	return new_item_h(key, value, hash(key));
 }
 
-mc_hashitem* new_item_h(const char* key, void* value, const MCHash hashval)
+mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
 {
 	mc_hashitem* aitem = (mc_hashitem*)malloc(sizeof(mc_hashitem));
 	aitem->next = mull;
@@ -73,7 +73,7 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
 	atable->table_item_count = 0;
 	//set all the slot to nil
 	for (int i = 0; i < get_tablesize(initlevel); i++)
-		(atable->items)[i].value=mull;
+		(atable->items)[i].value=MCGenericFp(mull);
 	return atable;
 }
 
@@ -92,7 +92,7 @@ MCUInt set_item(mc_hashtable* const table_p,
 	MCUInt index = hashval % get_tablesize(table_p->level);
 
     mc_hashitem olditem = table_p->items[index];
-	if(olditem.value == mull){
+	if(olditem.value.mcfuncptr == mull){
 		item->level = (table_p)->level;
 		item->index = index;
 		(table_p)->items[index] = *item;
@@ -103,12 +103,12 @@ MCUInt set_item(mc_hashtable* const table_p,
 		if(mc_compare_key(olditem.key, item->key) == 0){
 			if(isOverride == MCFalse){
 				error_log("[%s]:set-item key[%s] already been setted, free temp item\n", classname, item->key);
-				if(isFreeValue == MCTrue)free(item->value);
+				if(isFreeValue == MCTrue)free(item->value.mcptr);
 				free(item);
 				return index;
 			}else{
 				error_log("[%s]:reset-item key[%s] already been setted, replace old item\n", classname, item->key);
-				if(isFreeValue == MCTrue)free(olditem.value);
+				if(isFreeValue == MCTrue)free(olditem.value.mcptr);
 				item->level = (table_p)->level;
 				item->index = index;
 				table_p->items[index] = *item;
@@ -203,7 +203,7 @@ mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCUInt index)
 	}
 	if(index > get_tablesize(table_p->level))
 		return mull;
-	if(table_p->items[index].value != mull)
+	if(table_p->items[index].value.mcfuncptr != mull)
 		return &table_p->items[index];
 	else
 		return mull;
