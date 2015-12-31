@@ -14,7 +14,7 @@ method(MCString, void, bye, voida)
     free(obj->buff);
 }
 
-method(MCString, MCString*, initWithCString, char* str)
+method(MCString, MCString*, initWithCString, const char* str)
 {
 	obj->length = strlen(str);
 	obj->size = strlen(str) + 1;
@@ -22,7 +22,7 @@ method(MCString, MCString*, initWithCString, char* str)
 	return obj;
 }
 
-MCString* MCString_newWithCString(char* cstr)
+MCString* MCString_newWithCString(const char* cstr)
 {
 	return ff(new(MCString), initWithCString, cstr);
 }

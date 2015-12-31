@@ -152,7 +152,7 @@ method(MCUnitTestCase, void, runTests, voida)
 	{
 		//runtime_log("MCUnitTestCase runTests in for loop index:[%d]\n", i);
 		amethod = obj->isa->table.items[i];
-		if(amethod.value!=mull
+		if(amethod.value.mcptr!=mull
 		&& amethod.key!=mull
 		&& i!=bye_key
 		&& i!=setUp_key

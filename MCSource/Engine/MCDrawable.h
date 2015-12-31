@@ -10,16 +10,21 @@
 #define __monkcGame__MCDrawable__
 
 #include "monkc.h"
-#include "MC3DType.h"
+#include "MCGLEngine.h"
+
+/*
+MCDrawable abtract anything have vertex data in 3D world
+
+ */
 
 monkc(MCDrawable, MCObject);
-    MCUInt vertexArrayId;
-    MCUInt vertexBufferId;
-    MCDrawMode drawmode;
-    MCUInt vertexFirst;
-    MCUInt vertexCount;
+    MCDrawableData* data;
+    MCGLEngine* engine;
+    MCGLEngineResponse response;
 end(MCDrawable, MCObject);
 
+method(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data);
+method(MCDrawable, void, bye, voida);
 method(MCDrawable, void, draw, voida);
 
 #endif /* defined(__monkcGame__MCDrawable__) */

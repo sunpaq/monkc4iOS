@@ -3,7 +3,7 @@
 //  monkcGame
 //
 //  Created by SunYuLi on 5/21/15.
-//  Copyright (c) 2015 oreisoft. All rights reserved.
+//  Copyright (c) 2015-2016 oreisoft. All rights reserved.
 //
 
 /* for iOS simulator <= iPhone5 */
@@ -219,7 +219,7 @@ keep-fp:		-mapcs-frame will keep the fp not to be optimized out
 __armv7__
 */
 
-#ifdef xxxxxxx
+#ifdef xxxxx
 .text
 .globl __push_jump
 .p2align 3 			

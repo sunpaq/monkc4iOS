@@ -5,6 +5,8 @@
 #include "MC3DType.h"
 #include "MC3DiOSDriver.h"
 
+#define MCBUFFER_OFFSET(i) ((char *)NULL + (i))
+
 MCInline MCFloat MCDegreesToRadians(MCFloat degrees) { return degrees * (M_PI / 180); }
 MCInline MCFloat MCRadiansToDegrees(MCFloat radians) { return radians * (180 / M_PI); }
 MCInline MCFloat MCCircleFacingAngle(MCFloat degrees) {
@@ -130,88 +132,5 @@ MCInline MCMatrix4 MCMatrix4MakeScale(float sx, float sy, float sz)
     m.m[10] = sz;
     return m;
 }
-
-//for OpenGL bridge
-MCInline void MCGLFrustumView(MCFloat left, MCFloat right,
-			    MCFloat top, MCFloat bottom,
-			    MCFloat near, MCFloat far) {
-    //glMatrixMode(GL_PROJECTION);
-    //glLoadIdentity();
-    //glFrustumf(left, right, top, bottom, near, far);
-    
-}
-
-MCInline void MCGLEnableTexture2D(MCBool onoff)               { (onoff==MCTrue)? glEnable(GL_TEXTURE_2D):glDisable(GL_TEXTURE_2D); }
-MCInline void MCGLEnableCullFace(MCBool onoff)                { (onoff==MCTrue)? glEnable(GL_CULL_FACE):glDisable(GL_CULL_FACE); }
-MCInline void MCGLEnableBlend(MCBool onoff)                   { (onoff==MCTrue)? glEnable(GL_BLEND):glDisable(GL_BLEND); }
-MCInline void MCGLEnableDither(MCBool onoff)                  { (onoff==MCTrue)? glEnable(GL_DITHER):glDisable(GL_DITHER); }
-MCInline void MCGLEnableStencilTest(MCBool onoff)             { (onoff==MCTrue)? glEnable(GL_STENCIL_TEST):glDisable(GL_STENCIL_TEST); }
-MCInline void MCGLEnableDepthTest(MCBool onoff)               { (onoff==MCTrue)? glEnable(GL_DEPTH_TEST):glDisable(GL_DEPTH_TEST); }
-MCInline void MCGLEnableScissorTest(MCBool onoff)             { (onoff==MCTrue)? glEnable(GL_SCISSOR_TEST):glDisable(GL_SCISSOR_TEST); }
-MCInline void MCGLEnablePolygonOffsetFill(MCBool onoff)       { (onoff==MCTrue)? glEnable(GL_POLYGON_OFFSET_FILL):glDisable(GL_POLYGON_OFFSET_FILL); }
-MCInline void MCGLEnableSampleAlphaToCoverage(MCBool onoff)   { (onoff==MCTrue)? glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE):glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE); }
-MCInline void MCGLEnableSampleCoverage(MCBool onoff)          { (onoff==MCTrue)? glEnable(GL_SAMPLE_COVERAGE):glDisable(GL_SAMPLE_COVERAGE); }
-
-MCInline MCUInt MCGLAddVertexArray() {
-    //GLuint
-    MCUInt arrayid;
-    glGenVertexArraysOES(1, &arrayid);
-    glBindVertexArrayOES(arrayid);
-    return arrayid;
-}
-
-MCInline void MCGLDelVertexArray(MCUInt arrayid) {
-    glDeleteVertexArraysOES(1, &arrayid);
-}
-
-MCInline void MCGLDrawVertexArray(MCUInt arrayid, MCDrawMode mode, MCUInt firstindex, MCUInt count) {
-    glBindVertexArrayOES(arrayid);
-    glDrawArrays(mode, firstindex, count);
-}
-
-MCInline void MCGLDrawElements(MCDrawMode mode, GLsizei count, GLenum type, const void* indices) {
-    glDrawElements(mode, count, type, indices);
-}
-
-//GLsizeiptr size, const GLvoid* data, GLenum usage
-//sizeof(gCubeVertexData), gCubeVertexData, GL_STATIC_DRAW
-#define MCBUFFER_OFFSET(i) ((char *)NULL + (i))
-MCInline MCUInt MCGLAddVertexBuffer(const void* data, MCSizeT size) {
-    MCUInt bufferid;//GLuint
-    glGenBuffers(1, &bufferid);
-    glBindBuffer(GL_ARRAY_BUFFER, bufferid);
-    glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);//GL_STREAM_DRAW, GL_DYNAMIC_DRAW
-    glEnableVertexAttribArray(MCGLPosition);
-    glVertexAttribPointer(MCGLPosition, 3, GL_FLOAT, GL_FALSE, 24, MCBUFFER_OFFSET(0));
-    glEnableVertexAttribArray(MCGLNormal);
-    glVertexAttribPointer(MCGLNormal, 3, GL_FLOAT, GL_FALSE, 24, MCBUFFER_OFFSET(12));
-    glBindVertexArrayOES(0);
-    return bufferid;
-}
-
-//glVertexAttribPointer(GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid* ptr)
-MCInline MCUInt MCGLAddVertexBufferNoNormal(const void* data, MCSizeT size) {
-    MCUInt bufferid;//GLuint
-    glGenBuffers(1, &bufferid);
-    glBindBuffer(GL_ARRAY_BUFFER, bufferid);
-    glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);//GL_STREAM_DRAW, GL_DYNAMIC_DRAW
-    glEnableVertexAttribArray(MCGLPosition);
-    glVertexAttribPointer(MCGLPosition, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glBindVertexArrayOES(0);
-    return bufferid;
-}
-
-MCInline void MCGLDelVertexBuffer(MCUInt bufferid) {
-    glDeleteBuffers(1, &bufferid);
-}
-
-//0.65f, 0.65f, 0.65f, 1.0f
-MCInline void MCGLClearScreen(MCFloat red, MCFloat green, MCFloat blue, MCFloat alpha) {
-    glClearColor(red, green, blue, alpha);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-
-
 
 #endif

@@ -19,10 +19,29 @@
 #include "monkc.h"
 
 typedef enum {
+    MCGLDepthTest = GL_DEPTH_TEST,
+    MCGLBlend = GL_BLEND,
+} MCGLFeature;
+
+typedef struct {
+    float R;
+    float G;
+    float B;
+    float A;
+} MCColorRGBAf;
+
+typedef enum {
+    MCGLFront = GL_FRONT,
+    MCGLBack = GL_BACK,
+    MCGLFrontAndBack = GL_FRONT_AND_BACK
+} MCGLFace;
+
+typedef enum {
     MCPoints = GL_POINTS,
     MCLines  = GL_LINES,
     MCLineLoop = GL_LINE_LOOP,
-    MCTriAngles = GL_TRIANGLES
+    MCTriAngles = GL_TRIANGLES,
+    MCTriAngleFan = GL_TRIANGLE_FAN
 } MCDrawMode;
 
 typedef enum {
@@ -48,6 +67,28 @@ typedef struct {
     MCFloat y;
     MCFloat z;
 } MCVector3, MCVertex;
+
+typedef struct {
+    GLuint indx;
+    GLint size;
+    GLenum type;
+    GLboolean normalized;
+    GLsizei stride;
+    const GLvoid *ptr;
+} MCVertexAttributeInfo;
+
+typedef struct {
+    MCDrawMode drawmode;
+    unsigned   drawfirst;
+    unsigned   drawcount;
+    size_t   size;
+    float*   data;
+    unsigned vapCount;
+    MCVertexAttributeInfo vapArray[];
+} MCDrawableData;
+MCInline MCDrawableData* NewMCDrawableData(vapCount) {
+    return (MCDrawableData*)malloc(sizeof(MCDrawableData)+vapCount*sizeof(MCVertexAttributeInfo));
+}
 
 /*
  copy from Apple GLKit

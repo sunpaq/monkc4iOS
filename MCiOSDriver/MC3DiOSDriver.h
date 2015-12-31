@@ -22,6 +22,7 @@
 #include "monkc.h"
 #include "MC3DType.h"
 #include "MCUIBase.h"
+#include "MCBuffer.h"
 
 #define MCMatrix4ToGLKMatrix4(mat) (GLKMatrix4){(mat).m00, (mat).m01, (mat).m02, (mat).m03, \
                                                 (mat).m10, (mat).m11, (mat).m12, (mat).m13, \
@@ -45,6 +46,8 @@ void MCUIRegisterRootUIView(void* rootview);
 void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag);
 void MCUIButtonRegisterCallback(mc_message msg);
 
+//File
+void MCFileGetPath(const char* filename, const char* extention, char* buffer);
 #endif /* defined(__monkcGame__MC3DiOSDriver__) */
 
 

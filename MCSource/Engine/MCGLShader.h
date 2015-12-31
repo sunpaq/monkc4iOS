@@ -17,21 +17,33 @@
 #include "MCIO.h"
 
 monkc(MCGLShaderSource, MCStream);
-    MCUInt associatedShaderId;
     const char* associatedFilePath;
 end(MCGLShaderSource, MCStream);
 
-method(MCGLShaderSource, MCGLShaderSource*, initWithShaderId, MCUInt shaderId, const char* filePath);
+method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath);
 
 
 monkc(MCGLShader, MCObject);
     MCUInt shaderId;
     MCShaderType type;
     MCGLShaderSource* source;
-
 end(MCGLShader, MCObject);
 
 method(MCGLShader, MCGLShader*, initWithType, MCShaderType type);
+method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source);
+method(MCGLShader, MCGLShader*, compile, voida);
 
+
+monkc(MCGLSLProgram, MCObject);
+    MCUInt programId;
+end(MCGLSLProgram, MCObject);
+
+method(MCGLSLProgram, void, bye, voida);
+method(MCGLSLProgram, void, attachShader, MCGLShader* shader);
+method(MCGLSLProgram, void, detachShader, MCGLShader* shader);
+method(MCGLSLProgram, void, deleteShader, MCGLShader* shader);
+
+method(MCGLSLProgram, void, link, voida);
+method(MCGLSLProgram, void, use, voida);
 
 #endif /* MCGLShader_h */

@@ -52,6 +52,9 @@ method(UILayer, void, onButtonClicked, MCInt tag)
         case START:
             ff(obj, lockCamera, MCFalse);
             //test
+
+            
+            
 //            node = new(MCNode);
 //            node1 = new(MCNode);
 //            node2 = new(MCNode);

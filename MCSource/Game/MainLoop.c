@@ -6,7 +6,9 @@
 //  Copyright (c) 2015 oreisoft. All rights reserved.
 //
 
-#include "MainScene.h"
+#include "MainLoop.h"
+#include "MCGLShader.h"
+#include "MC3DiOSDriver.h"
 
 static void setupCamera(MCCamera* camera, MCFloat width, MCFloat height)
 {
@@ -26,24 +28,31 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     MCCamera_updateLookat(0, camera, 0);
 }
 
+
+
 oninit(MainScene)
 {
     MCLogTypeSet(MC_VERBOSE);
+    //prepareShader();
+    
+    var(engine) = MCGLEngine_getInstance(0, 0, 0);
+    MCGLEngine_setClearScreenColor(0, var(engine), (MCColorRGBAf){0.65, 0.65, 0.65, 1.0});
     
     var(visible) = MCTrue;//visible by default
     var(cameraLock) = MCFalse;
     var(mainCamera) = new(MCCamera);
     var(uilayer) = new(UILayer);
-    var(cube) = new(MCCube);
-    var(orbit) = new(MCOrbit);
-    //var(texture) = new(MCTexture);
+    //var(cube) = new(MCCube);
+    //var(orbit) = new(MCOrbit);
+    var(texture) = new(MCTexture);
     
-    var(drawMsgArray)[0] = response_to(var(cube), draw);
-    var(drawMsgArray)[1] = response_to(var(orbit), draw);
-    //var(drawMsgArray)[0] = response_to(var(texture), draw);
-    var(drawMsgCount) = 2;
+    //var(drawMsgArray)[0] = response_to(var(cube), draw);
+    //var(drawMsgArray)[1] = response_to(var(orbit), draw);
+    var(drawMsgArray)[0] = response_to(var(texture), draw);
+    var(drawMsgCount) = 1;
 
     ff(var(uilayer), responseChainConnect, obj);
+    
     return obj;
 }
 
@@ -58,7 +67,7 @@ method(MainScene, void, bye, voida)
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height)
 {
-    MCGLEnableDepthTest(MCTrue);
+    MCGLEngine_featureSwith(0, var(engine), MCGLDepthTest, MCTrue);
     setupCamera(var(mainCamera), width, height);
     return obj;
 }
@@ -99,7 +108,7 @@ method(MainScene, void, update, voida)
 method(MainScene, void, draw, voida)
 {
     if (var(visible)) {
-        MCGLClearScreen(0.65f, 0.65f, 0.65f, 1.0f);
+        MCGLEngine_clearScreen(0, 0, 0);
         
         for (int i=0; i<var(drawMsgCount); i++) {
             _push_jump(var(drawMsgArray)[i]);
@@ -120,4 +129,45 @@ onload(MainScene)
     binding(MainScene, void, draw);
 
     return claz;
+}
+
+void onRootViewLoad(void* rootview)
+{
+    MCUIRegisterRootUIView(rootview);
+}
+
+MainScene* mainScene = mull;
+void onSetupGL(double windowWidth, double windowHeight)
+{
+    mainScene = MainScene_initWithWidthHeight(0, new(MainScene), windowWidth, windowHeight);
+    ff(mainScene, show, 0);
+}
+
+void onTearDownGL()
+{
+    MainScene_hide(0, mainScene, 0);
+    release(mainScene);
+}
+
+void onUpdate(double timeSinceLastUpdate)
+{
+    if (mainScene) {
+        MainScene_moveCameraOneStep(0, mainScene, timeSinceLastUpdate * 15.0f, timeSinceLastUpdate * 15.0f);
+        MainScene_update(0, mainScene, 0);
+    }
+}
+
+MCMatrix4 onUpdateProjectionMatrix()
+{
+    return mainScene->mainCamera->projectionMatrix;
+}
+
+MCMatrix4 onUpdateModelViewMatrix()
+{
+    return mainScene->mainCamera->modelViewMatrix;
+}
+
+void onDraw()
+{
+    MainScene_draw(0, mainScene, 0);
 }

@@ -17,9 +17,10 @@
 
 monkc(MCTexture, MCDrawable);
     MCUInt textureId;
-    MCUInt bufferId;
-    MCUInt attributesArrayId;
+    MCUInt texcolorId;
 end(MCTexture, MCDrawable);
+
+method(MCTexture, void, draw, voida);
 
 
 

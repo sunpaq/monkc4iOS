@@ -1,5 +1,5 @@
 /*
-Copyright (c) <2013-2015>, <Sun Yuli>
+Copyright (c) <2013-2016>, <Sun Yuli>
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -44,19 +44,19 @@ void unlock_global_classtable()
 for method binding
 */
 
-unsigned _binding(mc_class* const aclass, const char* methodname, void* value)
+unsigned _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value)
 {
 	return _binding_h(aclass, methodname, value, hash(methodname));
 }
 
-unsigned _binding_h(mc_class* const aclass, const char* methodname, void* value, MCHash hashval)
+unsigned _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
 {
 	if(aclass==mull){
 		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
 		return 0;
 	}
 	MCUInt res = set_item(&aclass->table,
-		new_item_h(methodname, value, hashval),
+		new_item_h(methodname, (MCGeneric)value, hashval),
 		0, 0, nameofc(aclass));
 	return res;
 }
@@ -72,7 +72,7 @@ static inline mc_class* findClass(const char* name, const MCHash hashval)
 		return mull;
 	else
 		runtime_log("findClass item key:%s, value:%p\n", item->key, item->value);
-	return (mc_class*)(item->value);
+	return (mc_class*)(item->value.mcptr);
 }
 
 mc_class* _load(const char* name, size_t objsize, MCLoaderPointer loader)
@@ -88,9 +88,9 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 	if(aclass == mull){
 		//new a item
 		aclass = alloc_mc_class(objsize);
-		mc_hashitem* item = new_item(name, mull);//nil first
+        mc_hashitem* item = new_item(name, (MCGeneric){.mcptr=mull});//nil first
 		package_by_item(item, aclass);
-		(*loader)(aclass);
+		(*loader)(aclass, mull);
 		//set item
         //MCBool isOverride, MCBool isFreeValue
 		set_item(mc_global_classtable, item, MCFalse, MCTrue, (char*)name);

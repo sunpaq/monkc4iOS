@@ -7,34 +7,41 @@
 //
 
 #include "MCDrawable.h"
-#include "MC3DBase.h"
 
 oninit(MCDrawable)
 {
-    var(vertexArrayId) = -1;
-    var(vertexBufferId) = -1;
-    var(vertexFirst) = 0;
-    var(vertexCount) = 0;
-    var(drawmode) = MCTriAngles;
+    var(data) = mull;
+    var(engine) = mull;
+    var(response) = (MCGLEngineResponse){0,0,0};
     return obj;
+}
+
+method(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data)
+{
+    var(data) = data;
+    var(engine) = MCGLEngine_getInstance(0, 0, 0);
+    var(response) = MCGLEngine_prepareDrawableData(0, var(engine), data);
+    if (var(response).success) {
+        return obj;
+    }else{
+        release(obj);
+        return mull;
+    }
 }
 
 method(MCDrawable, void, bye, voida)
 {
-    MCGLDelVertexArray(var(vertexArrayId));
-    MCGLDelVertexBuffer(var(vertexBufferId));
+    MCGLEngine_cleanupDrawableData(0, var(engine), var(response));
 }
 
 method(MCDrawable, void, draw, voida)
 {
-    //glDrawArrays (GLenum mode, GLint first, GLsizei count)
-    if (var(vertexArrayId)!=-1 && var(vertexBufferId)!=-1 && var(vertexCount)!=0) {
-        MCGLDrawVertexArray(var(vertexArrayId), var(drawmode), var(vertexFirst), var(vertexCount));
-    }
+    MCGLEngine_drawDrawableData(0, var(engine), var(data));
 }
 
 onload(MCDrawable)
 {
+    binding(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data);
     binding(MCDrawable, void, bye);
     binding(MCDrawable, void, draw);
     return claz;
