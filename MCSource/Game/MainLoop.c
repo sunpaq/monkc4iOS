@@ -28,12 +28,28 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     MCCamera_updateLookat(0, camera, 0);
 }
 
+static void testMethod(mc_message_arg(MCObject), MCInt inta, MCFloat floata)
+//static void testMethod(mc_message_arg(MCObject), ...)
+{
 
+    
+    
+}
+
+static void testMonkC()
+{
+    
+    mc_message msg;
+    msg.object = (MCObject*)new(MCObject);
+    msg.address = MCFuncPtr(testMethod);
+    _push_jump(msg, 1, 0.5);
+}
 
 oninit(MainScene)
 {
     MCLogTypeSet(MC_VERBOSE);
     //prepareShader();
+    testMonkC();
     
     var(engine) = MCGLEngine_getInstance(0, 0, 0);
     MCGLEngine_setClearScreenColor(0, var(engine), (MCColorRGBAf){0.65, 0.65, 0.65, 1.0});

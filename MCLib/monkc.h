@@ -98,6 +98,8 @@ typedef void*     MCPtr;
 typedef void      (*MCFuncPtr)(void);
 typedef enum { MCFalse=0, MCTrue=1 } MCBool;
 
+#define MCFuncPtr(value) ((MCFuncPtr)value)
+
 /*
  Generic Type
  */
