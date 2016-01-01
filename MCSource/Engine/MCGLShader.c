@@ -82,8 +82,7 @@ method(MCGLShader, MCGLShader*, compile, voida)
         char logbuff[100*100];
         GLsizei loglength;
         glGetShaderInfoLog(var(shaderId), sizeof(logbuff), &loglength, logbuff);
-        printf(&logbuff[0]);
-        
+        printf("%s\n", &logbuff[0]);
         return mull;
     }
 }

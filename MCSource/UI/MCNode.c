@@ -59,6 +59,7 @@ method(MCNode, MCNode*, addChild, MCNode* child)
     return child;
 }
 
+/*
 static inline MCRect calculate_drawframe(MCNode* obj)
 {
     MCNode* p = var(parent);
@@ -76,11 +77,12 @@ static inline MCRect calculate_drawframe(MCNode* obj)
         return var(frame);
     }
 }
+*/
 
 method(MCNode, void, draw, voida)
 {
     //draw self
-    MCRect drawframe = calculate_drawframe(obj);
+    //MCRect drawframe = calculate_drawframe(obj);
     //MCXCBContext_fillRectColor(&drawframe, var(color));
 
     //draw children
