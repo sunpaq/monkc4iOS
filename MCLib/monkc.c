@@ -44,18 +44,18 @@ void unlock_global_classtable()
 for method binding
 */
 
-unsigned _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value)
+MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value)
 {
 	return _binding_h(aclass, methodname, value, hash(methodname));
 }
 
-unsigned _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
+MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
 {
 	if(aclass==mull){
 		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
 		return 0;
 	}
-	MCUInt res = set_item(&aclass->table,
+	MCHashTableIndex res = set_item(&aclass->table,
 		new_item_h(methodname, (MCGeneric)value, hashval),
 		0, 0, nameofc(aclass));
 	return res;
