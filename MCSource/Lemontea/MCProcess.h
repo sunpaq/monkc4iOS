@@ -20,7 +20,7 @@ monkc(MCProcess, MCObject);
 	uid_t euid;
 	gid_t gid;
 	gid_t egid;
-end(MCProcess, MCObject);
+endup(MCProcess, MCObject);
 
 method(MCProcess, void, printIDs, voida);
 //returns(0 in child/child-pid in parent/-1 on error)

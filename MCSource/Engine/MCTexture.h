@@ -18,7 +18,7 @@
 monkc(MCTexture, MCDrawable);
     MCUInt textureId;
     MCUInt texcolorId;
-end(MCTexture, MCDrawable);
+endup(MCTexture, MCDrawable);
 
 method(MCTexture, void, draw, voida);
 

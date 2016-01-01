@@ -31,7 +31,7 @@ monkc(MainScene, MCObject);
     MCTexture* texture;
     mc_message drawMsgArray[10];
     MCInt drawMsgCount;
-end(MainScene, MCObject);
+endup(MainScene, MCObject);
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);

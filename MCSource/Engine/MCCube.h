@@ -15,6 +15,6 @@
 
 monkc(MCCube, MCDrawable);
     MCUInt textureId;
-end(MCCube, MCDrawable);
+endup(MCCube, MCDrawable);
 
 #endif /* defined(__monkcGame__MCCube__) */

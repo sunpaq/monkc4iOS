@@ -6,7 +6,7 @@
 
 monkc(MCClock, MCObject);
 	struct tm rawtime;
-end(MCClock, MCObject);
+endup(MCClock, MCObject);
 
 method(MCClock, MCClock*, setTimeToNow, voida);
 method(MCClock, void, setTime, int tm_sec, int tm_min, int tm_hour, 

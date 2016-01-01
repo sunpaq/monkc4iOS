@@ -18,7 +18,7 @@
 
 monkc(MCGLShaderSource, MCStream);
     const char* associatedFilePath;
-end(MCGLShaderSource, MCStream);
+endup(MCGLShaderSource, MCStream);
 
 method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath);
 
@@ -27,7 +27,7 @@ monkc(MCGLShader, MCObject);
     MCUInt shaderId;
     MCShaderType type;
     MCGLShaderSource* source;
-end(MCGLShader, MCObject);
+endup(MCGLShader, MCObject);
 
 method(MCGLShader, MCGLShader*, initWithType, MCShaderType type);
 method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source);
@@ -36,7 +36,7 @@ method(MCGLShader, MCGLShader*, compile, voida);
 
 monkc(MCGLSLProgram, MCObject);
     MCUInt programId;
-end(MCGLSLProgram, MCObject);
+endup(MCGLSLProgram, MCObject);
 
 method(MCGLSLProgram, void, bye, voida);
 method(MCGLSLProgram, void, attachShader, MCGLShader* shader);

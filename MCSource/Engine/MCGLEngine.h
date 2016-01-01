@@ -33,7 +33,7 @@ Monkc(MCGLEngine);
     MCFloat pointSize;
     MCFloat lineWidth;
     MCBool  isFrontCounterClockWise;
-End(MCGLEngine);
+Endup(MCGLEngine);
 
 method(MCGLEngine, MCGLEngine*, getInstance, voida);
 //Global

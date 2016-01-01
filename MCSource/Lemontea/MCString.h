@@ -8,7 +8,7 @@ monkc(MCString, MCObject);
 	size_t length;
 	size_t size; 
 	char* buff;
-end(MCString, MCObject);
+endup(MCString, MCObject);
 
 //length not include '\0'
 //real size, include '\0'

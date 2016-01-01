@@ -15,7 +15,7 @@
 
 monkc(MCWorld, MCObject);
 
-end(MCWorld, MCObject);
+endup(MCWorld, MCObject);
 
 method(MCWorld, void, bye, voida);
 method(MCWorld, MCWorld*, initWith, voida);

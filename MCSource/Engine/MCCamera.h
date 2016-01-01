@@ -18,7 +18,7 @@ monkc(MCCamera, MCObject);
     MCFloat R;
     MCFloat tht;
     MCFloat fai;
-end(MCCamera, MCObject);
+endup(MCCamera, MCObject);
 
 method(MCCamera, void, reset, MCBool updateOrNot);
 method(MCCamera, void, updatePosition, MCVertex* result);

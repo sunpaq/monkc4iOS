@@ -8,7 +8,7 @@ monkc(MCArray, MCObject);
 	int size;
 	int indexLast;
 	void* (*buff)[];
-end(MCArray, MCObject);
+endup(MCArray, MCObject);
 
 method(MCArray, MCArray*, initWithSize, int size);
 method(MCArray, MCArray*, addItem, void* item);

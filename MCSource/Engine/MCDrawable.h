@@ -21,7 +21,7 @@ monkc(MCDrawable, MCObject);
     MCDrawableData* data;
     MCGLEngine* engine;
     MCGLEngineResponse response;
-end(MCDrawable, MCObject);
+endup(MCDrawable, MCObject);
 
 method(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data);
 method(MCDrawable, void, bye, voida);

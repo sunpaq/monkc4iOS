@@ -8,7 +8,7 @@ monkc(MCContext, MCObject);
 	int argc;
 	char** argv;
 	char selectionChar;
-end(MCContext, MCObject);
+endup(MCContext, MCObject);
 
 method(MCContext, MCContext*, newWithArgs, int argc, char** argv);
 method(MCContext, void, bye, voida);

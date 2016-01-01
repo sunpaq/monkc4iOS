@@ -21,6 +21,6 @@ monkc(MCOrbit, MCDrawable);
     //vertex array
     MCUInt vertexArrayId;
     MCUInt vertexBufferId;
-end(MCOrbit, MCDrawable);
+endup(MCOrbit, MCDrawable);
 
 #endif /* defined(__monkcGame__MCOrbit__) */

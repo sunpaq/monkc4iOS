@@ -301,7 +301,7 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 //static class (you can not use new and ff)
 #define Monkc(cls)\
 typedef struct cls##_struct{
-#define End(cls) }cls;
+#define Endup(cls) }cls;
 
 //dynamic class
 #define monkc(cls, supercls)\
@@ -312,7 +312,7 @@ mc_class* isa;\
 mc_class* saved_isa;\
 MCInt ref_count;\
 
-#define end(cls, supercls) }cls;\
+#define endup(cls, supercls) }cls;\
 mc_class* cls##_load(mc_class* const claz, cls* no_use);\
 cls* cls##_init(cls* const obj);\
 static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);return obj;}

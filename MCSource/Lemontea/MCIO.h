@@ -26,7 +26,7 @@ monkc(MCFile, MCObject);
 	char* pathname;
 	void* buffer;
 	struct stat attribute;
-end(MCFile, MCObject);
+endup(MCFile, MCObject);
 
 /*
 O_RDONLY
@@ -129,7 +129,7 @@ monkc(MCStream, MCObject);
     size_t*      lineLengthArray;
     size_t       lineCount;
     char**       lineArray;
-end(MCStream, MCObject);
+endup(MCStream, MCObject);
 
 method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path);
 method(MCStream, MCStream*, newWithPathDefaultType, const char* path);
@@ -164,7 +164,7 @@ method(MCStream, void, dump, voida);
 #define MCByteStream_
 
 monkc(MCByteStream, MCStream);
-end(MCByteStream, MCStream);
+endup(MCByteStream, MCStream);
 
 method(MCByteStream, void, bye, voida);
 method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
@@ -176,7 +176,7 @@ method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
 #define MCStdinStream_
 
 monkc(MCStdinStream, MCStream);
-end(MCStdinStream, MCStream);
+endup(MCStdinStream, MCStream);
 
 method(MCStdinStream, void, bye, voida);
 #endif
@@ -187,7 +187,7 @@ method(MCStdinStream, void, bye, voida);
 #define MCStdoutStream_
 
 monkc(MCStdoutStream, MCStream);
-end(MCStdoutStream, MCStream);
+endup(MCStdoutStream, MCStream);
 
 method(MCStdoutStream, void, bye, voida);
 #endif
@@ -198,7 +198,7 @@ method(MCStdoutStream, void, bye, voida);
 #define MCStdoutStream_
 
 monkc(MCStdoutStream, MCStream);
-end(MCStdoutStream, MCStream);
+endup(MCStdoutStream, MCStream);
 
 method(MCStdoutStream, void, bye);
 #endif
@@ -207,7 +207,7 @@ method(MCStdoutStream, void, bye);
 #define MCStderrStream_
 
 monkc(MCStderrStream, MCStream);
-end(MCStderrStream, MCStream);
+endup(MCStderrStream, MCStream);
 
 method(MCStderrStream, void, bye, voida);
 #endif
@@ -232,7 +232,7 @@ monkc(MCSelect, MCObject);
 	fd_set writefd_result_set;
 	fd_set exceptionfd_result_set;
 	struct timeval timeout;
-end(MCSelect, MCObject);
+endup(MCSelect, MCObject);
 
 method(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
 method(MCSelect, int, waitForFdsetChange, voida);
