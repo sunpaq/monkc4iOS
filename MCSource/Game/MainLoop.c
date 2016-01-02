@@ -28,10 +28,11 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     MCCamera_updateLookat(0, camera, 0);
 }
 
-static void testMethod(mc_message_arg(MCObject), MCInt inta, MCFloat floata)
+static void testMethod(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCLong arg3, MCLongLong arg4,
+                       MCPtr arg5, MCFuncPtr arg6, MCInt arg7, MCInt arg8, MCFloat arg9)
 //static void testMethod(mc_message_arg(MCObject), ...)
 {
-
+    char c = arg1;
     
     
 }
@@ -42,7 +43,7 @@ static void testMonkC()
     mc_message msg;
     msg.object = (MCObject*)new(MCObject);
     msg.address = MCFuncPtr(testMethod);
-    _push_jump(msg, 1, 0.5);
+    _push_jump(msg, 'c', 1, 2, 4, 8, 16, 64, 128, 2.56);
 }
 
 oninit(MainScene)

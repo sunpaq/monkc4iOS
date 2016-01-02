@@ -114,7 +114,7 @@ _mc_atomic_set_pointer:
 
 .text
 .globl __push_jump
-.p2align 4, 0x90
+.p2align 4, 0x00
 __push_jump:
 	cmpq $0, %rdi		#; confirm return address not nil
 	je 0f
@@ -297,6 +297,12 @@ a1 a2 a3 a4 v1 v2 v3 v4 v5 v6 v7  v8    lr
 __push_jump:
 	cmp x0, #0
 	beq 0f
+    ldr x2, [sp]
+    ldr x3, [sp, #8]
+    ldr x4, [sp, #16]
+    ldr x5, [sp, #24]
+    ldr x6, [sp, #32]
+    ldr x7, [sp, #40]
 	br x0
 0:
 	ret
