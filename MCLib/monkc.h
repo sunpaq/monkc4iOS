@@ -137,6 +137,12 @@ typedef union {
 #define MCGenericB(value)  (MCGeneric){.mcbool=value}
 #define MCGenericEmpty     (MCGeneric){0}
 
+typedef union {
+    double      mcdouble;
+    long double mcquad;
+    long long   raw;
+} MCGenericFloat;
+
 /*
  Log.h
  */
