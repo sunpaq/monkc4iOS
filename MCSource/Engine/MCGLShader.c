@@ -61,7 +61,9 @@ method(MCGLShader, MCGLShader*, initWithType, MCShaderType type)
 
 method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source)
 {
-    retain(source);
+    
+    //retain(source);
+    
     var(source) = source;
     glShaderSource(var(shaderId), (GLsizei)(source->super->lineCount),
                    (const char* const*)source->super->lineArray,
