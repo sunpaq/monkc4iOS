@@ -225,7 +225,8 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
     
     var(fileObject) = fopen(path, type.fopenMode);
     if (var(fileObject) == NULL) {
-        
+        error_log("can not open file: %s\n", path);
+        return mull;
     }
     //long size = MCStream_tellSize(0, obj, 0);
     
@@ -252,7 +253,7 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
     var(lineLengthArray) = (size_t*) malloc(sizeof(unsigned) * lcount);
 
     memcpy(obj->lineArray, &textbuff[0], sizeof(char*) * lcount);
-    //ff(obj, dump, mull);
+    ff(obj, dump, mull);
     
     return obj;
 }

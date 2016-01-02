@@ -53,8 +53,10 @@ static void prepareShader()
 
     MCGLShaderSource *source1 = new(MCGLShaderSource);
     ff(source1, initWithPath, fbuff);
+    
     MCGLShader* shader1 = new(MCGLShader);
     ff(shader1, initWithType, MCFragmentShader);
+    
     ff(shader1, attachSource, source1);
     ff(shader1, compile, 0);
     

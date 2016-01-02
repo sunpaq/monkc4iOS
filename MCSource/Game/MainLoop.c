@@ -28,11 +28,11 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     MCCamera_updateLookat(0, camera, 0);
 }
 
-static void testMethod(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCLong arg3, MCLongLong arg4,
-                       MCPtr arg5, MCFuncPtr arg6, MCInt arg7, MCInt arg8, MCFloat arg9)
+static void testMethod(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGeneric arg3, MCLongLong arg4, MCPtr arg5, MCFuncPtr arg6)
 //static void testMethod(mc_message_arg(MCObject), ...)
 {
     char c = arg1;
+    double f = arg3.mcdouble;
     
     
 }
@@ -43,14 +43,13 @@ static void testMonkC()
     mc_message msg;
     msg.object = (MCObject*)new(MCObject);
     msg.address = MCFuncPtr(testMethod);
-    _push_jump(msg, 'c', 1, 2, 4, 8, 16, 64, 128, 2.56);
+    _push_jump(msg, 'c', 1, 0.5879808908098, 4, 8, 16);
 }
 
 oninit(MainScene)
 {
     MCLogTypeSet(MC_VERBOSE);
-    //prepareShader();
-    testMonkC();
+    //testMonkC();
     
     var(engine) = MCGLEngine_getInstance(0, 0, 0);
     MCGLEngine_setClearScreenColor(0, var(engine), (MCColorRGBAf){0.65, 0.65, 0.65, 1.0});
@@ -59,14 +58,14 @@ oninit(MainScene)
     var(cameraLock) = MCFalse;
     var(mainCamera) = new(MCCamera);
     var(uilayer) = new(UILayer);
-    //var(cube) = new(MCCube);
-    //var(orbit) = new(MCOrbit);
-    var(texture) = new(MCTexture);
+    var(cube) = new(MCCube);
+    var(orbit) = new(MCOrbit);
+    //var(texture) = new(MCTexture);
     
-    //var(drawMsgArray)[0] = response_to(var(cube), draw);
-    //var(drawMsgArray)[1] = response_to(var(orbit), draw);
-    var(drawMsgArray)[0] = response_to(var(texture), draw);
-    var(drawMsgCount) = 1;
+    var(drawMsgArray)[0] = response_to(var(cube), draw);
+    var(drawMsgArray)[1] = response_to(var(orbit), draw);
+    //var(drawMsgArray)[0] = response_to(var(texture), draw);
+    var(drawMsgCount) = 2;
 
     ff(var(uilayer), responseChainConnect, obj);
     
