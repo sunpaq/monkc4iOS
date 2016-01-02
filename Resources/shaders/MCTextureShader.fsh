@@ -1,4 +1,4 @@
-#version 110 core
+#version 300 es
 
 uniform sampler2D tex;
 
