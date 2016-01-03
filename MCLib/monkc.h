@@ -323,9 +323,9 @@ mc_class* isa;\
 mc_class* saved_isa;\
 MCInt ref_count;\
 __VA_ARGS__;}cls;\
-static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);return obj;}\
+cls* cls##_init(cls* const obj);\
 mc_class* cls##_load(mc_class* const claz);\
-cls* cls##_init(cls* const obj);
+static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);return obj;}
 
 //macros expand to nothing just a marker
 #define implements(protocol)

@@ -91,7 +91,6 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
                                                      ofType:[NSString stringWithUTF8String:extention]];
     const char * cstr = [path cStringUsingEncoding:NSUTF8StringEncoding];
     strcpy(buffer, cstr);
-    
 }
 
 

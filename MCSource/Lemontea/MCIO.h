@@ -168,6 +168,7 @@ monkc(MCByteStream, MCStream,
 
 method(MCByteStream, void, bye, voida);
 method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
+
 #endif
 
 /* MCStdinStream */

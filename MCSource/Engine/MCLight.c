@@ -8,8 +8,21 @@
 
 #include "MCLight.h"
 
+#include "MC3DiOSDriver.h"
+
 oninit(MCLight)
 {
+    MCCharBuffer* buff = NewMCCharBuffer(200);
+    
+    MCFileGetPath("MCLightShader", "vsh", &buff->data[0]);
+    MCFileGetPath("MCLightShader", "fsh", &buff->data[100]);
+    
+    MCGLShaderSource_init(&obj->Versrc);
+    MCGLShaderSource_init(&obj->Frgsrc);
+    MCGLShaderSource_initWithPath(0, &obj->Versrc, &buff->data[0]);
+    MCGLShaderSource_initWithPath(0, &obj->Frgsrc, &buff->data[100]);
+    
+    ReleaseMCBuffer(buff);
     return obj;
 }
 
@@ -20,7 +33,6 @@ method(MCLight, void, setAmbient, MCColorRGBAf color)
 
 onload(MCLight)
 {
-    
-    
+    binding(MCLight, void, setAmbient, MCColorRGBAf color);
     return claz;
 }

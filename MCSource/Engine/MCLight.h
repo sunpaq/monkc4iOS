@@ -12,7 +12,12 @@
 #include "monkc.h"
 #include "MCGLShader.h"
 
-monkc(MCLight, MCGLSLProgram);
+monkc(MCLight, MCGLSLProgram,
+      MCGLShaderSource Versrc;
+      MCGLShaderSource Frgsrc;
+      MCGLShader Vshader;
+      MCGLShader Fshader;
+);
 
 method(MCLight, void, setAmbient, MCColorRGBAf color);
 
