@@ -70,17 +70,21 @@ static inline MCDrawableData* prepareCubeData() {
 
 oninit(MCCube)
 {
-    MCDrawable_initWithDrawMode(0, obj->super, prepareCubeData());
+    init(MCDrawable);
+    
+    MCDrawable_initWithDrawMode(0, objsuper, prepareCubeData());
     return obj;
 }
 
 method(MCCube, void, draw, voida)
 {
-    MCDrawable_draw(0, obj->super, 0);
+    MCDrawable_draw(0, objsuper, 0);
 }
 
 onload(MCCube)
 {
+    load(MCDrawable);
+    
     binding(MCCube, void, draw, voida);
     return claz;
 }

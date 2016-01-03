@@ -48,6 +48,8 @@ static void testMonkC()
 
 oninit(MainScene)
 {
+    init(MCObject);
+    
     MCLogTypeSet(MC_VERBOSE);
     //testMonkC();
     
@@ -134,6 +136,8 @@ method(MainScene, void, draw, voida)
 
 onload(MainScene)
 {
+    load(MCObject);
+    
     binding(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
     binding(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
     binding(MainScene, void, lockCamera, MCBool lock);

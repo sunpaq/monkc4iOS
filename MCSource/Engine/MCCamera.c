@@ -2,6 +2,8 @@
 
 oninit(MCCamera)
 {
+    init(MCObject);
+    
     MCCamera_reset(0, obj, MCTrue);
     return obj;
 }
@@ -80,6 +82,8 @@ method(MCCamera, void, update, voida)
 
 onload(MCCamera)
 {
+    load(MCObject);
+    
     binding(MCCamera, void, reset, MCBool updateOrNot);
     binding(MCCamera, void, updatePosition, MCVertex* result);
     binding(MCCamera, void, updateRatioFocalDistance);

@@ -20,6 +20,7 @@ enum {
 
 oninit(UILayer)
 {
+    init(MCObject);
     var(visible) = MCTrue;
     mc_message msg = response_to(obj, onButtonClicked);
     MCUIButtonRegisterCallback(msg);
@@ -94,6 +95,7 @@ method(UILayer, void, onButtonClicked, MCInt tag)
 
 onload(UILayer)
 {
+    load(MCObject);
     binding(UILayer, void, onButtonClicked, MCInt tag);
     return claz;
 }

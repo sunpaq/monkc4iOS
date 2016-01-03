@@ -268,7 +268,8 @@ typedef struct
 //for type cast, every object have the 3 var members
 typedef struct mc_object_struct
 {
-    struct mc_object_struct* super;
+    struct mc_object_struct* nextResponder;
+    unsigned super;
     mc_block* block;
     mc_class* isa;
     mc_class* saved_isa;
@@ -317,27 +318,24 @@ __VA_ARGS__;}cls;
 //dynamic class
 #define monkc(cls, supercls, ...)\
 typedef struct cls##_struct{\
-supercls* super;\
-mc_block* block;\
-mc_class* isa;\
-mc_class* saved_isa;\
-MCInt ref_count;\
+supercls super;\
 __VA_ARGS__;}cls;\
 cls* cls##_init(cls* const obj);\
-mc_class* cls##_load(mc_class* const claz);\
-static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);return obj;}
+mc_class* cls##_load(mc_class* const claz);
 
 //macros expand to nothing just a marker
 #define implements(protocol)
 
 //callback function pointer types
-typedef mc_class* (*MCLoaderPointer)(mc_class*, void*);
+typedef mc_class* (*MCLoaderPointer)(mc_class*);
 typedef MCObject* (*MCIniterPointer)(MCObject*);
 typedef MCObject* (*MCSetsuperPointer)(MCObject*, MCObject*);
 
 //callbacks
 #define onload(cls)					mc_class* cls##_load(mc_class* const claz)
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
+#define load(super)                           super##_load(claz)
+#define init(super)                           super##_init((super*)obj)
 
 //method binding
 #define protocol(cls, pro, type, met, ...)    _binding(claz, S(met), (MCFuncPtr)A_B(pro, met))
@@ -347,12 +345,10 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*, MCObject*);
 #define implement(cls, pro, type, name, ...)  static type pro##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
 #define var(vname)                            (obj->vname)
 #define cast(type, obj) 				      ((type)obj)
-
+#define objsuper                              &(obj->super)
 //for create object
-#define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), \
-                                                   (MCLoaderPointer)cls##_load), \
-                                                   (MCSetsuperPointer)cls##_setsuper, \
-                                                   (MCIniterPointer)cls##_init)//create instance
+#define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)//create instance
+
 #define hew(cls, hash)					(cls*)_new(mc_alloc_h(S(cls), sizeof(cls), cls##_load, hash), cls##_setsuper, cls##_init)
 #define clear(cls)  					mc_clear(S(cls), sizeof(cls), cls##_load)
 #define hlear(cls, hash)  				mc_clear_h(S(cls), sizeof(cls), cls##_load, hash)
@@ -360,7 +356,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*, MCObject*);
 #define hnfo(cls, hash)                 mc_info_h(S(cls), sizeof(cls), cls##_load, hash)
 
 //for call method
-#define findsuper(obj, name)            _findsuper((mo)obj, S(name))//find super object
+#define findsuper(obj, name)            ((name*)obj)//find super object
 #define response_to(obj, met) 			_response_to((mo)obj, S(met), 2)
 #define hesponse_to(obj, met, hash) 	_response_to_h((mo)obj, S(met), hash, 2)
 #define _ff(obj, met, ...)              _push_jump(_response_to((mo)obj, met, MC_STRICT_MODE), __VA_ARGS__)//call by string
@@ -383,7 +379,7 @@ mc_class* _load(const char* name, MCSizeT objsize, MCLoaderPointer loader);
 mc_class* _load_h(const char* name, MCSizeT objsize, MCLoaderPointer loader, MCHash hashval);
 
 //object create
-mo _new(mo const obj, MCSetsuperPointer setupsuper, MCIniterPointer initer);
+mo _new(mo const obj, MCIniterPointer initer);
 
 //object mode change
 //void _shift(mo const obj, const char* modename, MCSizeT objsize, MCLoaderPointer loader);
@@ -477,7 +473,6 @@ MCInline mc_message make_msg(mo const obj, void* address) { return (mc_message){
 void* _push_jump(mc_message volatile msg, ...);
 
 //write by c
-mo _findsuper(mo const obj, const char* supername);
 mc_message _self_response_to(const mo obj, const char* methodname);
 mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval);
 mc_message _response_to(mo const obj, const char* methodname, MCInt strict);
@@ -509,10 +504,9 @@ MCInt cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result);
  Root Class MCObject
  */
 
-static inline MCObject* MCObject_init(MCObject* const obj) {return obj;}
-static inline MCObject* MCObject_setsuper(MCObject* const obj) {obj->super=mull;return obj;}
-static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), mo upperObj) {obj->super=upperObj;}
-static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->super=mull;}
+static inline MCObject* MCObject_init(MCObject* const obj) {obj->nextResponder=mull; obj->super=0; return obj;}
+static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), mo upperObj) {obj->nextResponder=upperObj;}
+static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->nextResponder=mull;}
 static inline void      MCObject_bye(mc_message_arg(MCObject), voida) {}
 static inline mc_class* MCObject_load(mc_class* const claz) {
     _binding(claz, "responseChainConnect", (MCFuncPtr)MCObject_responseChainConnect);

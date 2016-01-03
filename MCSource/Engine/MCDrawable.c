@@ -10,6 +10,7 @@
 
 oninit(MCDrawable)
 {
+    init(MCObject);
     var(data) = mull;
     var(engine) = mull;
     var(response) = (MCGLEngineResponse){0,0,0};
@@ -41,6 +42,7 @@ method(MCDrawable, void, draw, voida)
 
 onload(MCDrawable)
 {
+    load(MCObject);
     binding(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data);
     binding(MCDrawable, void, bye);
     binding(MCDrawable, void, draw);

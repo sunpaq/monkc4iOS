@@ -129,7 +129,7 @@ static void runMethodByPointer(MCUnitTestCase* obj, mc_hashitem* amethod)
 		error_log("MCAssertEqualsException\n");
 	}
 	finally{
-		error_log("testcase: %s at method: [%s]\n", obj->isa->item->key, amethod->key);
+		error_log("testcase: %s at method: [%s]\n", cast(MCObject*, obj)->isa->item->key, amethod->key);
 	}
 
 	ff(obj, tearDown, mull);
@@ -143,15 +143,15 @@ method(MCUnitTestCase, void, runTests, voida)
 	unsigned setUp_key = hash("setUp");
 	unsigned tearDown_key = hash("tearDown");
 
-	if(obj==mull || obj->isa==mull)
+	if(obj==mull || cast(MCObject*, obj)->isa==mull)
 		return;
 
 	runtime_log("%s\n", "MCUnitTestCase runTests before for loop");
     mc_hashitem amethod;
-	for (i = 0; i < get_tablesize(obj->isa->table.level); i++)
+	for (i = 0; i < get_tablesize(cast(MCObject*, obj)->isa->table.level); i++)
 	{
 		//runtime_log("MCUnitTestCase runTests in for loop index:[%d]\n", i);
-		amethod = obj->isa->table.items[i];
+		amethod = cast(MCObject*, obj)->isa->table.items[i];
 		if(amethod.value.mcptr!=mull
 		&& amethod.key!=mull
 		&& i!=bye_key
@@ -168,7 +168,8 @@ method(MCUnitTestCase, void, runTests, voida)
 
 method(MCUnitTestCase, void, runATestMethod, char* methodName)
 {
-	runMethodByPointer(obj, &obj->isa->table.items[hash(methodName)]);
+    mc_hashtable table = cast(MCObject*, obj)->isa->table;
+    runMethodByPointer(obj, &table.items[hash(methodName)]);
 }
 
 /* Test Suite */
@@ -268,7 +269,7 @@ onload(MCUnitTestRunner)
 
 oninit(MCUnitTestRunner)
 {
-	obj->first_suite = mull;
+    obj->first_suite = mull;
 	obj->test_suite_count = 0;
 	return obj;
 }

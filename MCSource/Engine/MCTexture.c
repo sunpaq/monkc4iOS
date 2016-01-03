@@ -83,6 +83,7 @@ static MCGLSLProgram* prepareShader()
 
 oninit(MCTexture)
 {
+    init(MCDrawable);
     MCGLSLProgram* program = prepareShader();
     
     //TO
@@ -116,7 +117,7 @@ oninit(MCTexture)
     data->vapArray[0] = (MCVertexAttributeInfo){0, 4, GL_FLOAT, GL_FALSE, 0, MCBUFFER_OFFSET(0*sizeof(float))};
     data->vapArray[1] = (MCVertexAttributeInfo){1, 2, GL_FLOAT, GL_FALSE, 0, MCBUFFER_OFFSET(16*sizeof(float))};
     
-    MCDrawable_initWithDrawMode(0, obj->super, data);
+    MCDrawable_initWithDrawMode(0, objsuper, data);
     
     return obj;
 }
@@ -130,6 +131,7 @@ method(MCTexture, void, draw, voida)
 
 onload(MCTexture)
 {
+    load(MCDrawable);
     binding(MCTexture, void, draw, voida);
     return claz;
 }
