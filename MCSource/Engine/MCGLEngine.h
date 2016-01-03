@@ -29,11 +29,11 @@ typedef struct {
     MCUInt vboId;
 } MCGLEngineResponse;
 
-Monkc(MCGLEngine);
+Monkc(MCGLEngine,
     MCFloat pointSize;
     MCFloat lineWidth;
     MCBool  isFrontCounterClockWise;
-Endup(MCGLEngine);
+);
 
 method(MCGLEngine, MCGLEngine*, getInstance, voida);
 //Global

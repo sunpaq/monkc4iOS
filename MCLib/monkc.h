@@ -92,10 +92,11 @@ typedef unsigned long long MCULongLong;
 typedef double   MCFloat;
 typedef double   MCDouble;
 
-typedef MCUInt    MCHash;
-typedef size_t    MCSizeT;
-typedef void*     MCPtr;
-typedef void      (*MCFuncPtr)(void);
+typedef MCUInt       MCHash;
+typedef size_t       MCSizeT;
+typedef void*        MCPtr;
+typedef const char*  MCStaticString;
+typedef void         (*MCFuncPtr)(void);
 typedef enum { MCFalse=0, MCTrue=1 } MCBool;
 
 #define MCFuncPtr(value) ((MCFuncPtr)value)
@@ -123,6 +124,7 @@ typedef union {
     MCPtr       mcptr;
     MCFuncPtr   mcfuncptr;
     MCBool      mcbool;
+    MCStaticString mcstaticstr;
     struct mc_object_struct *mcobject;
 } MCGeneric;
 
@@ -135,6 +137,7 @@ typedef union {
 #define MCGenericP(value)  (MCGeneric){.mcptr=value}
 #define MCGenericFp(value) (MCGeneric){.mcfuncptr=value}
 #define MCGenericB(value)  (MCGeneric){.mcbool=value}
+#define MCGenericSS(value) (MCGeneric){.mcstaticstr=value}
 #define MCGenericEmpty     (MCGeneric){0}
 
 typedef union {
@@ -307,23 +310,22 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 }
 
 //static class (you can not use new and ff)
-#define Monkc(cls)\
-typedef struct cls##_struct{
-#define Endup(cls) }cls;
+#define Monkc(cls, ...)\
+typedef struct cls##_struct{\
+__VA_ARGS__;}cls;
 
 //dynamic class
-#define monkc(cls, supercls)\
+#define monkc(cls, supercls, ...)\
 typedef struct cls##_struct{\
 supercls* super;\
 mc_block* block;\
 mc_class* isa;\
 mc_class* saved_isa;\
 MCInt ref_count;\
-
-#define endup(cls, supercls) }cls;\
-mc_class* cls##_load(mc_class* const claz, cls* no_use);\
-cls* cls##_init(cls* const obj);\
-static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);return obj;}
+__VA_ARGS__;}cls;\
+static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);return obj;}\
+mc_class* cls##_load(mc_class* const claz);\
+cls* cls##_init(cls* const obj);
 
 //macros expand to nothing just a marker
 #define implements(protocol)
@@ -331,10 +333,10 @@ static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);retu
 //callback function pointer types
 typedef mc_class* (*MCLoaderPointer)(mc_class*, void*);
 typedef MCObject* (*MCIniterPointer)(MCObject*);
-typedef MCObject* (*MCSetsuperPointer)(MCObject*);
+typedef MCObject* (*MCSetsuperPointer)(MCObject*, MCObject*);
 
 //callbacks
-#define onload(cls)					mc_class* cls##_load(mc_class* const claz, cls* no_use)
+#define onload(cls)					mc_class* cls##_load(mc_class* const claz)
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
 
 //method binding

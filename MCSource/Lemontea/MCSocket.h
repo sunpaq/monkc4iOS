@@ -145,11 +145,11 @@ typedef enum _MCSocketType{
 #ifndef MCSocketClientInfo_
 #define MCSocketClientInfo_
 
-monkc(MCSocketClientInfo, MCObject);
+monkc(MCSocketClientInfo, MCObject,
 	int returnSfd;
 	struct sockaddr address;
 	socklen_t address_len;
-endup(MCSocketClientInfo, MCObject);
+);
 
 method(MCSocketClientInfo, void, dumpInfo, voida);
 method(MCSocketClientInfo, void, bye, voida);
@@ -158,11 +158,11 @@ method(MCSocketClientInfo, void, bye, voida);
 #ifndef MCSocket_ 
 #define MCSocket_
 
-monkc(MCSocket, MCObject);
+monkc(MCSocket, MCObject,
 	int sfd;
 	int isServer;
 	struct addrinfo peeraddrinfo;
-endup(MCSocket, MCObject);
+);
 
 method(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port);
 method(MCSocket, int, listeningStart, voida);

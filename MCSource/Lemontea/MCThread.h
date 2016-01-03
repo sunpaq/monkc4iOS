@@ -109,9 +109,9 @@ pthread_mutex_unlock     pthread_mutex_unlock
 #ifndef MCRunnable_
 #define MCRunnable_
 
-monkc(MCRunnable, MCObject);
-	void (*init_routine)(void);
-endup(MCRunnable, MCObject);
+monkc(MCRunnable, MCObject,
+	void (*init_routine)(void)
+);
 
 method(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
 method(MCRunnable, void, run, voida);
@@ -124,13 +124,13 @@ method(MCRunnable, void, run, voida);
 #ifndef MCThread_ 
 #define MCThread_
 
-monkc(MCThread, MCObject);
+monkc(MCThread, MCObject,
 	pthread_t self;
 	pthread_attr_t attribute;
 	pthread_once_t once_control;
 	int isRunOnce;
-	MCRunnable* runnable;
-endup(MCThread, MCObject);
+	MCRunnable* runnable
+);
 
 method(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable);
 

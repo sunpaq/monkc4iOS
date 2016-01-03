@@ -19,7 +19,6 @@ void fail(char* message);
 #define MCUnitTestResult_
 	
 monkc(MCUnitTestResult, MCObject);
-endup(MCUnitTestResult, MCObject);
 
 method(MCUnitTestResult, void, bye, voida);
 method(MCUnitTestResult, void, addSuccessInfo, char* succinfo);
@@ -31,10 +30,10 @@ method(MCUnitTestResult, void, addFailInfo, char* failinfo);
 #ifndef MCUnitTestCase_
 #define MCUnitTestCase_ 
 
-monkc(MCUnitTestCase, MCObject);
+monkc(MCUnitTestCase, MCObject,
 	MCUnitTestResult* unitTestResultRef;
 	struct MCUnitTestCase_struct* next_case;
-endup(MCUnitTestCase, MCObject);
+);
 
 method(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* resultRef);
 method(MCUnitTestCase, void, bye, voida);
@@ -49,12 +48,12 @@ method(MCUnitTestCase, void, runATestMethod, char* methodName);
 #ifndef MCUnitTestSuite_
 #define MCUnitTestSuite_
 
-monkc(MCUnitTestSuite, MCObject);
+monkc(MCUnitTestSuite, MCObject,
 	MCUnitTestCase *first_case;
     MCUnitTestCase **last_case_p;
 	int test_case_count;
 	struct MCUnitTestSuite_struct* next_suite;
-endup(MCUnitTestSuite, MCObject);
+);
 
 method(MCUnitTestSuite, void, bye, voida);
 method(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* volatile tcase);
@@ -66,11 +65,11 @@ method(MCUnitTestSuite, void, runTestCases, voida);
 #ifndef MCUnitTestRunner_
 #define MCUnitTestRunner_
 
-monkc(MCUnitTestRunner, MCObject);
+monkc(MCUnitTestRunner, MCObject,
 	MCUnitTestResult* unitTestResult;
 	MCUnitTestSuite* first_suite;
 	int test_suite_count;
-endup(MCUnitTestRunner, MCObject);
+);
 
 method(MCUnitTestRunner, void, bye, voida);
 method(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite);

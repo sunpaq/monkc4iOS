@@ -20,7 +20,7 @@
 #include "MCArray.h"
 #include "MCGLEngine.h"
 
-monkc(MainScene, MCObject);
+monkc(MainScene, MCObject,
     MCGLEngine* engine;
     MCBool visible;
     UILayer* uilayer;
@@ -31,7 +31,7 @@ monkc(MainScene, MCObject);
     MCTexture* texture;
     mc_message drawMsgArray[10];
     MCInt drawMsgCount;
-endup(MainScene, MCObject);
+);
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);

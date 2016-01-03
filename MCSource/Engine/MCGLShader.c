@@ -61,7 +61,6 @@ method(MCGLShader, MCGLShader*, initWithType, MCShaderType type)
 
 method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source)
 {
-    
     //retain(source);
     
     var(source) = source;
@@ -139,6 +138,18 @@ method(MCGLSLProgram, void, use, voida)
     glUseProgram(var(programId));
 }
 
+method(MCGLSLProgram, MCInt, setUniformValue, MCShaderUniformValue value)
+{
+    MCInt location = glGetUniformLocation(var(programId), value.name);
+    switch (value.type) {
+        case MCShaderUniform1i: glUniform1i(location, value.generic.mcint); break;
+        case MCShaderUniform2i: glUniform1f(location, value.generic.mcfloat); break;
+        default: break;
+    }
+    
+    return location;
+}
+
 onload(MCGLSLProgram)
 {
     binding(MCGLSLProgram, void, bye, voida);
@@ -147,6 +158,8 @@ onload(MCGLSLProgram)
     binding(MCGLSLProgram, void, deleteShader, MCGLShader* shader);
     binding(MCGLSLProgram, void, link, voida);
     binding(MCGLSLProgram, void, use, voida);
+    binding(MCGLSLProgram, MCInt, setUniformValue, MCShaderUniformValue value);
+
     return claz;
 }
 

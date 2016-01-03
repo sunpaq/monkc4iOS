@@ -236,9 +236,14 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
     
     while ((ichar=fgetc(obj->fileObject)) != EOF) {
         if (ichar != '\n') {
-            linebuff[i++] = ichar;
-        }else if (ichar == ' ' || ichar == '\t' || ichar== '\r' || ichar == '\x0b') {
-            linebuff[i++] = ' ';
+            if (ichar == ' ' || ichar == '\t' || ichar== '\r' || ichar == '\x0b') {
+                linebuff[i++] = ' ';
+            }else if (ichar == '\xff'){
+                //skip this char
+            }else{
+                linebuff[i++] = ichar;
+            }
+
         }else{
             linebuff[i] = '\n';
             linebuff[i+1] = (char)NULL;

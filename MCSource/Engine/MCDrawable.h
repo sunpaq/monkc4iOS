@@ -17,11 +17,11 @@ MCDrawable abtract anything have vertex data in 3D world
 
  */
 
-monkc(MCDrawable, MCObject);
+monkc(MCDrawable, MCObject,
     MCDrawableData* data;
     MCGLEngine* engine;
     MCGLEngineResponse response;
-endup(MCDrawable, MCObject);
+);
 
 method(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data);
 method(MCDrawable, void, bye, voida);

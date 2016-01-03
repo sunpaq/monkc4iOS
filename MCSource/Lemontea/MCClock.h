@@ -4,9 +4,7 @@
 #ifndef MCClock_
 #define MCClock_
 
-monkc(MCClock, MCObject);
-	struct tm rawtime;
-endup(MCClock, MCObject);
+monkc(MCClock, MCObject, struct tm rawtime);
 
 method(MCClock, MCClock*, setTimeToNow, voida);
 method(MCClock, void, setTime, int tm_sec, int tm_min, int tm_hour, 

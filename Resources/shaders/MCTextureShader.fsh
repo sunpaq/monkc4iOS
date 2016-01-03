@@ -8,5 +8,4 @@ layout (location = 0) out vec4 color;
 
 void main(void)
 {
-    color = texture(tex, vs_tex_coord);
-}
+    color = texture(tex, vs_tex_coord);}

@@ -15,10 +15,10 @@
 #include "MCUIBase.h"
 #include "MCDrawable.h"
 
-monkc(MCTexture, MCDrawable);
+monkc(MCTexture, MCDrawable,
     MCUInt textureId;
     MCUInt texcolorId;
-endup(MCTexture, MCDrawable);
+);
 
 method(MCTexture, void, draw, voida);
 

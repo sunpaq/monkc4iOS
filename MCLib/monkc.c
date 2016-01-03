@@ -123,7 +123,7 @@ mo _new(mo const this, MCSetsuperPointer setupsuper, MCIniterPointer initer)
 	this->ref_count = 1;
 	this->super = mull;
 	//this->mode = mull;
-    (*setupsuper)(this);
+    (*setupsuper)(this, mull);
 	(*initer)(this);
 	return this;
 }

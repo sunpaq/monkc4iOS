@@ -13,14 +13,14 @@ pid 1 is a init
 #ifndef MCProcess_
 #define MCProcess_ 
 
-monkc(MCProcess, MCObject);
+monkc(MCProcess, MCObject,
 	pid_t pid;
 	pid_t ppid;
 	uid_t uid;
 	uid_t euid;
 	gid_t gid;
 	gid_t egid;
-endup(MCProcess, MCObject);
+);
 
 method(MCProcess, void, printIDs, voida);
 //returns(0 in child/child-pid in parent/-1 on error)
