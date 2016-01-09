@@ -16,6 +16,7 @@ monkc(UILayer, MCObject,
     MCBool visible;
 );
 
+method(UILayer, void, onFrameRenderFinished, MCUInt fps);
 method(UILayer, void, onButtonClicked, MCInt tag);
 
 

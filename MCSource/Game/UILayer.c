@@ -15,7 +15,8 @@ enum {
     START,
     STOP,
     ZOOM_IN,
-    ZOOM_OUT
+    ZOOM_OUT,
+    FPS_TAG
 };
 
 oninit(UILayer)
@@ -29,8 +30,16 @@ oninit(UILayer)
     MCUIAddLabelButton("", "STOP ROTATE",  mc_color(255, 0, 0), 100, 70, STOP);
     MCUIAddLabelButton("", "ZOOM IN",      mc_color(255, 255, 255), 100, 110, ZOOM_IN);
     MCUIAddLabelButton("", "ZOOM OUT",     mc_color(255, 255, 255), 100, 150, ZOOM_OUT);
-
+    MCUIAddLabel("FPS", mc_color(255, 255, 255), 100, 300, FPS_TAG);
     return obj;
+}
+
+method(UILayer, void, onFrameRenderFinished, MCUInt fps)
+{
+    char buff[100];
+    sprintf(buff, "FPS:%d", fps);
+    MCUILabelTextUpdate(buff, FPS_TAG);
+    
 }
 
 //for test start
@@ -95,8 +104,12 @@ method(UILayer, void, onButtonClicked, MCInt tag)
 
 onload(UILayer)
 {
-    load(MCObject);
-    binding(UILayer, void, onButtonClicked, MCInt tag);
-    return claz;
+    if (load(MCObject)) {
+        binding(UILayer, void, onFrameRenderFinished, MCUInt fps);
+        binding(UILayer, void, onButtonClicked, MCInt tag);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 
