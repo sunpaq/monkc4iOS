@@ -83,7 +83,7 @@ static MCGLSLProgram* prepareShader()
 
 oninit(MCTexture)
 {
-    init(MCDrawable);
+    if(!init(MCDrawable)) return mull;
     MCGLSLProgram* program = prepareShader();
     
     //TO
@@ -131,7 +131,7 @@ method(MCTexture, void, draw, voida)
 
 onload(MCTexture)
 {
-    load(MCDrawable);
+    if (!load(MCDrawable)) return mull;
     binding(MCTexture, void, draw, voida);
     return claz;
 }

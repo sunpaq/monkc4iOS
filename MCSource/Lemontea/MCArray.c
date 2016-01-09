@@ -1,30 +1,17 @@
 #include <string.h>
 #include "MCArray.h"
 
-oninit(MCArray){
-	obj->count = 0;
-	obj->size = 0;
-	obj->indexLast = 0;
-	obj->buff = mull;
-	return obj;
-}
-
-onload(MCArray)
+oninit(MCArray)
 {
-	binding(MCArray, MCArray*, initWithSize, int size);
-	binding(MCArray, MCArray*, addItem, void* item);
-	binding(MCArray, MCArray*, addItemToIndex, void* item, int index);
-
-	binding(MCArray, MCArray*, removeLastItem);
-	binding(MCArray, MCArray*, removeItem, void* item);
-	binding(MCArray, MCArray*, removeItemByIndex, int index);
-	binding(MCArray, MCArray*, clear);
-    binding(MCArray, void, bye);
-
-	binding(MCArray, void*, getItemByIndex, int index);
-	binding(MCArray, void, visiteEachBy, mc_message visitorFunction);
-	binding(MCArray, void, visiteEachWithData, lamdafunc visitorFunction, void* data);
-	return claz;
+    if (init(MCObject)) {
+        obj->count = 0;
+        obj->size = 0;
+        obj->indexLast = 0;
+        obj->buff = mull;
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCArray, MCArray*, initWithSize, int size)
@@ -152,4 +139,26 @@ method(MCArray, void, visiteEachWithData, mc_message visitorFunction, void* data
 		//else
 			//printf("[MCArray] item(%d) is nil\n", i);
 	}
+}
+
+onload(MCArray)
+{
+    if (load(MCObject)) {
+        binding(MCArray, MCArray*, initWithSize, int size);
+        binding(MCArray, MCArray*, addItem, void* item);
+        binding(MCArray, MCArray*, addItemToIndex, void* item, int index);
+        
+        binding(MCArray, MCArray*, removeLastItem);
+        binding(MCArray, MCArray*, removeItem, void* item);
+        binding(MCArray, MCArray*, removeItemByIndex, int index);
+        binding(MCArray, MCArray*, clear);
+        binding(MCArray, void, bye);
+        
+        binding(MCArray, void*, getItemByIndex, int index);
+        binding(MCArray, void, visiteEachBy, mc_message visitorFunction);
+        binding(MCArray, void, visiteEachWithData, lamdafunc visitorFunction, void* data);
+        return claz;
+    }else{
+        return mull;
+    }
 }

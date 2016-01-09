@@ -2,10 +2,12 @@
 
 oninit(MCCamera)
 {
-    init(MCObject);
-    
-    MCCamera_reset(0, obj, MCTrue);
-    return obj;
+    if (init(MCObject)) {
+        MCCamera_reset(0, obj, MCTrue);
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCCamera, void, reset, MCBool updateOrNot)
@@ -82,13 +84,15 @@ method(MCCamera, void, update, voida)
 
 onload(MCCamera)
 {
-    load(MCObject);
-    
-    binding(MCCamera, void, reset, MCBool updateOrNot);
-    binding(MCCamera, void, updatePosition, MCVertex* result);
-    binding(MCCamera, void, updateRatioFocalDistance);
-    binding(MCCamera, void, updateLookat);
-    binding(MCCamera, void, update);
-    return claz;
+    if (load(MCObject)) {
+        binding(MCCamera, void, reset, MCBool updateOrNot);
+        binding(MCCamera, void, updatePosition, MCVertex* result);
+        binding(MCCamera, void, updateRatioFocalDistance);
+        binding(MCCamera, void, updateLookat);
+        binding(MCCamera, void, update);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 

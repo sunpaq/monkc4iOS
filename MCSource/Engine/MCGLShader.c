@@ -14,9 +14,12 @@
 
 oninit(MCGLShaderSource)
 {
-    init(MCStream);
-    var(associatedFilePath) = "NoPath";
-    return obj;
+    if(init(MCStream)){
+        var(associatedFilePath) = "NoPath";
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath)
@@ -31,9 +34,12 @@ method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath)
 
 onload(MCGLShaderSource)
 {
-    load(MCStream);
-    binding(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath);
-    return claz;
+    if (load(MCStream)) {
+        binding(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 
 /*
@@ -42,9 +48,12 @@ onload(MCGLShaderSource)
 
 oninit(MCGLShader)
 {
-    init(MCObject);
-    var(source) = mull;
-    return obj;
+    if (init(MCObject)) {
+        var(source) = mull;
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCGLShader, void, bye, voida)
@@ -109,8 +118,12 @@ onload(MCGLShader)
 
 oninit(MCGLSLProgram)
 {
-    var(programId) = glCreateProgram();
-    return obj;
+    if(init(MCObject)){
+        var(programId) = glCreateProgram();
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCGLSLProgram, void, bye, voida)
@@ -157,16 +170,17 @@ method(MCGLSLProgram, MCInt, setUniformValue, MCShaderUniformValue value)
 
 onload(MCGLSLProgram)
 {
-    MCStream_load(claz);
-    
-    binding(MCGLSLProgram, void, bye, voida);
-    binding(MCGLSLProgram, void, attachShader, MCGLShader* shader);
-    binding(MCGLSLProgram, void, detachShader, MCGLShader* shader);
-    binding(MCGLSLProgram, void, deleteShader, MCGLShader* shader);
-    binding(MCGLSLProgram, void, link, voida);
-    binding(MCGLSLProgram, void, use, voida);
-    binding(MCGLSLProgram, MCInt, setUniformValue, MCShaderUniformValue value);
-
-    return claz;
+    if(load(MCObject)) {
+        binding(MCGLSLProgram, void, bye, voida);
+        binding(MCGLSLProgram, void, attachShader, MCGLShader* shader);
+        binding(MCGLSLProgram, void, detachShader, MCGLShader* shader);
+        binding(MCGLSLProgram, void, deleteShader, MCGLShader* shader);
+        binding(MCGLSLProgram, void, link, voida);
+        binding(MCGLSLProgram, void, use, voida);
+        binding(MCGLSLProgram, MCInt, setUniformValue, MCShaderUniformValue value);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 
