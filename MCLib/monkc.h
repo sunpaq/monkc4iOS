@@ -331,9 +331,9 @@ static inline cls* cls##_setsuper(cls* const obj) {obj->super=new(supercls);retu
 #define implements(protocol)
 
 //callback function pointer types
-typedef mc_class* (*MCLoaderPointer)(mc_class*, void*);
+typedef mc_class* (*MCLoaderPointer)(mc_class*);
 typedef MCObject* (*MCIniterPointer)(MCObject*);
-typedef MCObject* (*MCSetsuperPointer)(MCObject*, MCObject*);
+typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 
 //callbacks
 #define onload(cls)					mc_class* cls##_load(mc_class* const claz)

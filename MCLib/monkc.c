@@ -90,7 +90,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 		aclass = alloc_mc_class(objsize);
         mc_hashitem* item = new_item(name, (MCGeneric){.mcptr=mull});//nil first
 		package_by_item(item, aclass);
-		(*loader)(aclass, mull);
+		(*loader)(aclass);
 		//set item
         //MCBool isOverride, MCBool isFreeValue
 		set_item(mc_global_classtable, item, MCFalse, MCTrue, (char*)name);
@@ -123,7 +123,7 @@ mo _new(mo const this, MCSetsuperPointer setupsuper, MCIniterPointer initer)
 	this->ref_count = 1;
 	this->super = mull;
 	//this->mode = mull;
-    (*setupsuper)(this, mull);
+    (*setupsuper)(this);
 	(*initer)(this);
 	return this;
 }
