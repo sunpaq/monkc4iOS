@@ -106,6 +106,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 mo _new(mo const obj, MCIniterPointer initer)
 {
 	//block, isa, saved_isa is setted at _alloc()
+    obj->nextResponder = mull;
 	obj->ref_count = 1;
 	(*initer)(obj);
 	return obj;

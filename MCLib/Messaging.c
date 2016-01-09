@@ -32,8 +32,6 @@ mc_message _self_response_to(const mo obj, const char* methodname)
 	return _self_response_to_h(obj, methodname, hash(methodname));
 }
 
-//mc_hashitem* get_item_byhash(const mc_hashtable** table_p, const unsigned hashval, const char* refkey);
-
 mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval)
 {
 	//we will return a struct
@@ -56,11 +54,14 @@ mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hash
 		return tmpmsg;
 	}else{
         if (obj->nextResponder != mull) {
-            return _self_response_to_h(obj, methodname, hashval);
+            return _self_response_to_h(obj->nextResponder, methodname, hashval);
         }else{
-            //runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
             runtime_log("self_response_to class[?] can not response to method[%s]\n", methodname);
-            return tmpmsg;
+            if (MC_STRICT_MODE == 1) {
+                exit(1);
+            }else{
+                return tmpmsg;
+            }
         }
 	}
 }
@@ -73,6 +74,7 @@ mc_message _response_to(const mo obj, const char* methodname, int strict)
 mc_message _response_to_h(const mo obj, const char* methodname, MCHash hashval, int strict)
 {
     return _self_response_to_h(obj, methodname, hashval);
+}
 /*
 	MCObject* obj_iterator = obj;
 	MCObject* obj_first_hit = mull;
@@ -138,6 +140,6 @@ mc_message _response_to_h(const mo obj, const char* methodname, MCHash hashval, 
         if (strict==1) exit(1);
     }
 	return tmpmsg;
-*/
 }
+*/
 
