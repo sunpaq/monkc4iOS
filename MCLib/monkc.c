@@ -57,7 +57,7 @@ MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFu
 	}
 	MCHashTableIndex res = set_item(&aclass->table,
 		new_item_h(methodname, (MCGeneric)value, hashval),
-		0, 0, nameofc(aclass));
+		1, 0, nameofc(aclass));//will override
 	return res;
 }
 
