@@ -36,19 +36,19 @@ oninit(MainScene)
         
         var(engine) = MCGLEngine_getInstance(0, 0, 0);
         MCGLEngine_setClearScreenColor(0, var(engine), (MCColorRGBAf){0.65, 0.65, 0.65, 1.0});
-        var(light) = new(MCLight);
+        //var(light) = new(MCLight);
         
         var(visible) = MCTrue;//visible by default
         var(cameraLock) = MCFalse;
         var(mainCamera) = new(MCCamera);
         var(uilayer) = new(UILayer);
-        //var(cube) = new(MCCube);
+        var(cube) = new(MCCube);
         //var(orbit) = new(MCOrbit);
-        var(texture) = new(MCTexture);
+        //var(texture) = new(MCTexture);
         
-        //var(drawMsgArray)[0] = response_to(var(cube), draw);
+        var(drawMsgArray)[0] = response_to(var(cube), draw);
         //var(drawMsgArray)[1] = response_to(var(orbit), draw);
-        var(drawMsgArray)[0] = response_to(var(texture), draw);
+        //var(drawMsgArray)[0] = response_to(var(texture), draw);
         var(drawMsgCount) = 1;
         
         ff(var(uilayer), responseChainConnect, obj);
