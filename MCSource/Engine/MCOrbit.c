@@ -13,20 +13,24 @@ static MCFloat gCircleVertexData[360*3];
 
 oninit(MCOrbit)
 {
-    var(R) = 10.0;
-    var(segments) = 360.0;
-    var(center) = MCVertexMake(0, 0, 0);
-    var(up) = MCVertexMake(0, 0, 1.0);
-    
-    MakeCircleData(0, 0, 0, var(R), var(segments), gCircleVertexData);
-    
-    //var(vertexArrayId) = MCGLAddVertexArray();
-    //var(vertexBufferId) = MCGLAddVertexBufferNoNormal(gCircleVertexData, sizeof(gCircleVertexData));
-    
-    //test
-    //var(vertexBufferId) = MCDrawLinePrepare(MCVertexMake(0, 0, 0), MCVertexMake(100, 100, 100));
+    if (init(MCDrawable)) {
+        var(R) = 10.0;
+        var(segments) = 360.0;
+        var(center) = MCVertexMake(0, 0, 0);
+        var(up) = MCVertexMake(0, 0, 1.0);
         
-    return obj;
+        MakeCircleData(0, 0, 0, var(R), var(segments), gCircleVertexData);
+        
+        //var(vertexArrayId) = MCGLAddVertexArray();
+        //var(vertexBufferId) = MCGLAddVertexBufferNoNormal(gCircleVertexData, sizeof(gCircleVertexData));
+        
+        //test
+        //var(vertexBufferId) = MCDrawLinePrepare(MCVertexMake(0, 0, 0), MCVertexMake(100, 100, 100));
+        
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCOrbit, void, bye, voida)
@@ -47,7 +51,11 @@ method(MCOrbit, void, draw, voida)
 
 onload(MCOrbit)
 {
-    binding(MCOrbit, void, bye);
-    binding(MCOrbit, void, draw);
-    return claz;
+    if (load(MCDrawable)) {
+        binding(MCOrbit, void, bye);
+        binding(MCOrbit, void, draw);
+        return claz;
+    }else{
+        return mull;
+    }
 }

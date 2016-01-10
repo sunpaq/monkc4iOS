@@ -19,9 +19,11 @@
 #include "UILayer.h"
 #include "MCArray.h"
 #include "MCGLEngine.h"
+#include "MCClock.h"
 
 monkc(MainScene, MCObject,
     MCGLEngine* engine;
+    MCClock* clock;
     MCBool visible;
     UILayer* uilayer;
     MCBool cameraLock;

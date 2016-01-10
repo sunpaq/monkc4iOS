@@ -44,6 +44,8 @@ MCUInt MCLoadSpriteTexture(const char* name, const char* suffix);
 //UI parts use UIKit
 void MCUIRegisterRootUIView(void* rootview);
 void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag);
+void MCUIAddLabel(const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag);
+void MCUILabelTextUpdate(const char* newtext, MCInt tag);
 void MCUIButtonRegisterCallback(mc_message msg);
 
 //File

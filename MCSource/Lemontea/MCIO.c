@@ -89,11 +89,15 @@ int MCFile_removeDirectory(char* pathname)
 
 oninit(MCFile)
 {
-	obj->fd = 0;
-	obj->pathname = "";
-	obj->buffer = mull;
-	//obj->attribute;
-	return obj;
+    if (init(MCObject)) {
+        obj->fd = 0;
+        obj->pathname = "";
+        obj->buffer = mull;
+        //obj->attribute;
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCFile, MCFile*, initWithPathName, char* pathname, int oflag)
@@ -185,34 +189,41 @@ method(MCFile, int, checkPermissionUseRealIDOfProcess, int mode)
 
 onload(MCFile)
 {
-    binding(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
-    binding(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname);
-    
-    binding(MCFile, size_t, readAllFromBegin, off_t offset);
-    binding(MCFile, int, readFromBegin, off_t offset, size_t nbytes);
-    binding(MCFile, int, readAtLastPosition, off_t offset, size_t nbytes);
-    binding(MCFile, int, readFromEnd, off_t offset, size_t nbytes);
-    binding(MCFile, int, writeToBegin, off_t offset, void* buf, size_t nbytes);
-    binding(MCFile, int, writeToLastTime, off_t offset, void* buf, size_t nbytes);
-    binding(MCFile, int, writeToEnd, off_t offset, void* buf, size_t nbytes);
-    
-    binding(MCFile, int, duplicateFd);
-    binding(MCFile, int, duplicateFdTo, int fd);
-    binding(MCFile, void, printAttribute);
-    binding(MCFile, void, bye);
-    binding(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
-    return claz;
+    if (load(MCObject)) {
+        binding(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
+        binding(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname);
+        
+        binding(MCFile, size_t, readAllFromBegin, off_t offset);
+        binding(MCFile, int, readFromBegin, off_t offset, size_t nbytes);
+        binding(MCFile, int, readAtLastPosition, off_t offset, size_t nbytes);
+        binding(MCFile, int, readFromEnd, off_t offset, size_t nbytes);
+        binding(MCFile, int, writeToBegin, off_t offset, void* buf, size_t nbytes);
+        binding(MCFile, int, writeToLastTime, off_t offset, void* buf, size_t nbytes);
+        binding(MCFile, int, writeToEnd, off_t offset, void* buf, size_t nbytes);
+        
+        binding(MCFile, int, duplicateFd);
+        binding(MCFile, int, duplicateFdTo, int fd);
+        binding(MCFile, void, printAttribute);
+        binding(MCFile, void, bye);
+        binding(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 
 #pragma mark - MCStream buffered IO
 
 oninit(MCStream)
 {
-    var(lineArray) = mull;
-    var(lineLengthArray) = mull;
-    var(lineCount) = 0;
-    
-    return obj;
+    if (init(MCObject)) {
+        var(lineArray) = mull;
+        var(lineLengthArray) = mull;
+        var(lineCount) = 0;
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
@@ -375,46 +386,54 @@ method(MCStream, void, dump, voida)
 
 onload(MCStream)
 {
-    binding(MCStream, MCStream*, newWithPath, MCStreamType type, char* path);
-    binding(MCStream, MCStream*, newWithPathDefaultType, const char* path);
-
-    binding(MCStream, void, bye);
-    binding(MCStream, int, getFileDescriptor);
-
-    binding(MCStream, int, getChar);
-    binding(MCStream, int, putChar, int charCode);
-    binding(MCStream, int, pushbackChar, int charCodeToBePushBack);
-
-    binding(MCStream, char*, getCString, MCCharBuffer* recvBuffer);
-    binding(MCStream, char*, putCString, MCCharBuffer* sendBuffer);
-    binding(MCStream, MCString*, getMCString);
-    binding(MCStream, MCString*, putMCString, MCString* str);
-
-    binding(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs);
-    binding(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs);
-
-    binding(MCStream, off_t, tellOffset);
-    binding(MCStream, int, seekFromBegin, off_t offset);
-    binding(MCStream, int, seekFromCurrent, off_t offset);
-    binding(MCStream, int, seekFromEnd, off_t offset);
-    binding(MCStream, size_t, tellSize, voida);
-    binding(MCStream, void, dump, voida);
-
-    return claz;
+    if (load(MCObject)) {
+        binding(MCStream, MCStream*, newWithPath, MCStreamType type, char* path);
+        binding(MCStream, MCStream*, newWithPathDefaultType, const char* path);
+        
+        binding(MCStream, void, bye);
+        binding(MCStream, int, getFileDescriptor);
+        
+        binding(MCStream, int, getChar);
+        binding(MCStream, int, putChar, int charCode);
+        binding(MCStream, int, pushbackChar, int charCodeToBePushBack);
+        
+        binding(MCStream, char*, getCString, MCCharBuffer* recvBuffer);
+        binding(MCStream, char*, putCString, MCCharBuffer* sendBuffer);
+        binding(MCStream, MCString*, getMCString);
+        binding(MCStream, MCString*, putMCString, MCString* str);
+        
+        binding(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs);
+        binding(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs);
+        
+        binding(MCStream, off_t, tellOffset);
+        binding(MCStream, int, seekFromBegin, off_t offset);
+        binding(MCStream, int, seekFromCurrent, off_t offset);
+        binding(MCStream, int, seekFromEnd, off_t offset);
+        binding(MCStream, size_t, tellSize, voida);
+        binding(MCStream, void, dump, voida);
+        
+        return claz;
+    }else{
+        return mull;
+    }
 }
 
 #pragma mark - MCSelect
 
 oninit(MCSelect)
 {
-    FD_ZERO(&obj->readfd_set);
-    FD_ZERO(&obj->writefd_set);
-    FD_ZERO(&obj->exceptionfd_set);
-    
-    FD_ZERO(&obj->readfd_result_set);
-    FD_ZERO(&obj->writefd_result_set);
-    FD_ZERO(&obj->exceptionfd_result_set);
-    return obj;
+    if (init(MCObject)) {
+        FD_ZERO(&obj->readfd_set);
+        FD_ZERO(&obj->writefd_set);
+        FD_ZERO(&obj->exceptionfd_set);
+        
+        FD_ZERO(&obj->readfd_result_set);
+        FD_ZERO(&obj->writefd_result_set);
+        FD_ZERO(&obj->exceptionfd_result_set);
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond)
@@ -487,12 +506,16 @@ method(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd)
 
 onload(MCSelect)
 {
-	binding(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
-	binding(MCSelect, int, waitForFdsetChange);
-	binding(MCSelect, void, addFd, MCSelect_fd_type type, int fd);
-	binding(MCSelect, void, removeFd, MCSelect_fd_type type, int fd);
-	binding(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);
-	return claz;
+    if (load(MCObject)) {
+        binding(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
+        binding(MCSelect, int, waitForFdsetChange);
+        binding(MCSelect, void, addFd, MCSelect_fd_type type, int fd);
+        binding(MCSelect, void, removeFd, MCSelect_fd_type type, int fd);
+        binding(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 
 #pragma mark - MCProgress

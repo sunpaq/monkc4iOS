@@ -12,18 +12,22 @@
 
 oninit(MCLight)
 {
-    MCCharBuffer* buff = NewMCCharBuffer(200);
-    
-    MCFileGetPath("MCLightShader", "vsh", &buff->data[0]);
-    MCFileGetPath("MCLightShader", "fsh", &buff->data[100]);
-    
-    MCGLShaderSource_init(&obj->Versrc);
-    MCGLShaderSource_init(&obj->Frgsrc);
-    MCGLShaderSource_initWithPath(0, &obj->Versrc, &buff->data[0]);
-    MCGLShaderSource_initWithPath(0, &obj->Frgsrc, &buff->data[100]);
-    
-    ReleaseMCBuffer(buff);
-    return obj;
+    if (init(MCGLSLProgram)) {
+        MCCharBuffer* buff = NewMCCharBuffer(200);
+        
+        MCFileGetPath("MCLightShader", "vsh", &buff->data[0]);
+        MCFileGetPath("MCLightShader", "fsh", &buff->data[100]);
+        
+        MCGLShaderSource_init(&obj->Versrc);
+        MCGLShaderSource_init(&obj->Frgsrc);
+        MCGLShaderSource_initWithPath(0, &obj->Versrc, &buff->data[0]);
+        MCGLShaderSource_initWithPath(0, &obj->Frgsrc, &buff->data[100]);
+        
+        ReleaseMCBuffer(buff);
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCLight, void, setAmbient, MCColorRGBAf color)
@@ -33,6 +37,10 @@ method(MCLight, void, setAmbient, MCColorRGBAf color)
 
 onload(MCLight)
 {
-    binding(MCLight, void, setAmbient, MCColorRGBAf color);
-    return claz;
+    if (load(MCGLSLProgram)) {
+        binding(MCLight, void, setAmbient, MCColorRGBAf color);
+        return claz;
+    }else{
+        return mull;
+    }
 }

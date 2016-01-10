@@ -1,18 +1,12 @@
 #include "MCSocket.h"
 
-static void create_and_bind_socket(MCSocket* this, MCSocketType socket_type, char* ip, char* port);
-
-onload(MCSocketClientInfo)
-{
-	binding(MCSocketClientInfo, void, dumpInfo);
-	binding(MCSocketClientInfo, void, bye);
-	return claz;
-}
-
 oninit(MCSocketClientInfo)
 {
-	//nothing to init
-	return obj;
+    if (init(MCObject)) {
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCSocketClientInfo, void, dumpInfo, voida)
@@ -25,31 +19,24 @@ method(MCSocketClientInfo, void, bye, voida)
 	//nothing to do
 }
 
-onload(MCSocket)
+onload(MCSocketClientInfo)
 {
-binding(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port);
-binding(MCSocket, int, listeningStart);
-binding(MCSocket, MCSocketClientInfo*, acceptARequest);
-binding(MCSocket, void, recv);
-binding(MCSocket, void, recvfrom);
-binding(MCSocket, void, recvmsg);
-binding(MCSocket, void, send);
-binding(MCSocket, void, sendto);
-binding(MCSocket, void, sendmsg);
-binding(MCSocket, void, bye);
-return claz;
+    if (load(MCObject)) {
+        binding(MCSocketClientInfo, void, dumpInfo);
+        binding(MCSocketClientInfo, void, bye);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 
 oninit(MCSocket)
 {
-	//nothing to init
-	return obj;
-}
-
-method(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port)
-{
-	create_and_bind_socket(obj, socket_type, ip, port);
-	return obj;
+    if (init(MCObject)) {
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 static void create_and_bind_socket(MCSocket* this, MCSocketType socket_type, char* ip, char* port)
@@ -119,6 +106,12 @@ static void create_and_bind_socket(MCSocket* this, MCSocketType socket_type, cha
 	//return sfd;
 }
 
+method(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port)
+{
+    create_and_bind_socket(obj, socket_type, ip, port);
+    return obj;
+}
+
 method(MCSocket, void, bye, voida)
 {
 	close(obj->sfd);
@@ -144,31 +137,49 @@ method(MCSocket, MCSocketClientInfo*, acceptARequest, voida)
 
 method(MCSocket, void, recv, voida)
 {
-
+    //recv(int, void *, size_t, int)
 }
 
 method(MCSocket, void, recvfrom, voida)
 {
-
+    //recvfrom(int, void *, size_t, int, struct sockaddr *restrict, socklen_t *restrict)
 }
 
 method(MCSocket, void, recvmsg, voida)
 {
-
+    //recvmsg(int, struct msghdr *, int)
 }
 
 method(MCSocket, void, send, voida)
 {
-
+    //send(int, const void *, size_t, int)
 }
 
 method(MCSocket, void, sendto, voida)
 {
-
+    //sendto(int, const void *, size_t, int, const struct sockaddr *, socklen_t)
 }
 
 method(MCSocket, void, sendmsg, voida)
 {
-
+    //sendmsg(int, const struct msghdr *, int)
 }
 
+onload(MCSocket)
+{
+    if (load(MCObject)) {
+        binding(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port);
+        binding(MCSocket, int, listeningStart);
+        binding(MCSocket, MCSocketClientInfo*, acceptARequest);
+        binding(MCSocket, void, recv);
+        binding(MCSocket, void, recvfrom);
+        binding(MCSocket, void, recvmsg);
+        binding(MCSocket, void, send);
+        binding(MCSocket, void, sendto);
+        binding(MCSocket, void, sendmsg);
+        binding(MCSocket, void, bye);
+        return claz;
+    }else{
+        return mull;
+    }
+}

@@ -48,28 +48,33 @@ static void testMonkC()
 
 oninit(MainScene)
 {
-    MCLogTypeSet(MC_VERBOSE);
-    //testMonkC();
-    
-    var(engine) = MCGLEngine_getInstance(0, 0, 0);
-    MCGLEngine_setClearScreenColor(0, var(engine), (MCColorRGBAf){0.65, 0.65, 0.65, 1.0});
-    
-    var(visible) = MCTrue;//visible by default
-    var(cameraLock) = MCFalse;
-    var(mainCamera) = new(MCCamera);
-    var(uilayer) = new(UILayer);
-    //var(cube) = new(MCCube);
-    //var(orbit) = new(MCOrbit);
-    var(texture) = new(MCTexture);
-    
-    //var(drawMsgArray)[0] = response_to(var(cube), draw);
-    //var(drawMsgArray)[1] = response_to(var(orbit), draw);
-    var(drawMsgArray)[0] = response_to(var(texture), draw);
-    var(drawMsgCount) = 1;
-
-    ff(var(uilayer), responseChainConnect, obj);
-    
-    return obj;
+    if (init(MCObject)) {
+        MCLogTypeSet(MC_VERBOSE);
+        //testMonkC();
+        
+        var(engine) = MCGLEngine_getInstance(0, 0, 0);
+        MCGLEngine_setClearScreenColor(0, var(engine), (MCColorRGBAf){0.65, 0.65, 0.65, 1.0});
+        var(clock) = new(MCClock);
+        
+        var(visible) = MCTrue;//visible by default
+        var(cameraLock) = MCFalse;
+        var(mainCamera) = new(MCCamera);
+        var(uilayer) = new(UILayer);
+        //var(cube) = new(MCCube);
+        //var(orbit) = new(MCOrbit);
+        var(texture) = new(MCTexture);
+        
+        //var(drawMsgArray)[0] = response_to(var(cube), draw);
+        //var(drawMsgArray)[1] = response_to(var(orbit), draw);
+        var(drawMsgArray)[0] = response_to(var(texture), draw);
+        var(drawMsgCount) = 1;
+        
+        ff(var(uilayer), responseChainConnect, obj);
+        
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MainScene, void, bye, voida)
@@ -134,17 +139,20 @@ method(MainScene, void, draw, voida)
 
 onload(MainScene)
 {
-    binding(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
-    binding(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
-    binding(MainScene, void, lockCamera, MCBool lock);
-    binding(MainScene, MCCamera*, getCamera);
-    binding(MainScene, void, bye);
-    binding(MainScene, void, show);
-    binding(MainScene, void, hide);
-    binding(MainScene, void, update);
-    binding(MainScene, void, draw);
-
-    return claz;
+    if (load(MCObject)) {
+        binding(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
+        binding(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
+        binding(MainScene, void, lockCamera, MCBool lock);
+        binding(MainScene, MCCamera*, getCamera);
+        binding(MainScene, void, bye);
+        binding(MainScene, void, show);
+        binding(MainScene, void, hide);
+        binding(MainScene, void, update);
+        binding(MainScene, void, draw);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 
 void onRootViewLoad(void* rootview)
@@ -152,7 +160,7 @@ void onRootViewLoad(void* rootview)
     MCUIRegisterRootUIView(rootview);
 }
 
-MainScene* mainScene = mull;
+static MainScene* mainScene = mull;
 void onSetupGL(double windowWidth, double windowHeight)
 {
     mainScene = MainScene_initWithWidthHeight(0, new(MainScene), windowWidth, windowHeight);

@@ -10,10 +10,14 @@
 
 oninit(MCDrawable)
 {
-    var(data) = mull;
-    var(engine) = mull;
-    var(response) = (MCGLEngineResponse){0,0,0};
-    return obj;
+    if (init(MCObject)) {
+        var(data) = mull;
+        var(engine) = mull;
+        var(response) = (MCGLEngineResponse){0,0,0};
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data)
@@ -41,9 +45,13 @@ method(MCDrawable, void, draw, voida)
 
 onload(MCDrawable)
 {
-    binding(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data);
-    binding(MCDrawable, void, bye);
-    binding(MCDrawable, void, draw);
-    return claz;
+    if (load(MCObject)) {
+        binding(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data);
+        binding(MCDrawable, void, bye);
+        binding(MCDrawable, void, draw);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 

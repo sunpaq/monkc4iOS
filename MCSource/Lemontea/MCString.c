@@ -1,11 +1,15 @@
 #include "MCString.h"
 
-static int block_size = 1024;
+static size_t block_size = 1024;
 oninit(MCString)
 {
-	//nothing to init
-    obj->buff = malloc(block_size*sizeof(char));
-	return obj;
+    if (init(MCObject)) {
+        //nothing to init
+        obj->buff = malloc(1024*sizeof(char));
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCString, void, bye, voida)
@@ -108,13 +112,17 @@ method(MCString, void, getCharsUntilEnter, char resultString[])
 
 onload(MCString)
 {
-binding(MCString, MCString*, initWithCString, char* str);
-binding(MCString, void, add, char* str);
-binding(MCString, void, print);
-binding(MCString, char*, toCString, char const buff[]);
-binding(MCString, int, equalTo, MCString* stringToComp);
-binding(MCString, char, getOneChar);
-binding(MCString, void, getCharsUntilEnter, char const resultString[]);
-binding(MCString, void, bye);
-return claz;
+    if (load(MCObject)) {
+        binding(MCString, MCString*, initWithCString, char* str);
+        binding(MCString, void, add, char* str);
+        binding(MCString, void, print);
+        binding(MCString, char*, toCString, char const buff[]);
+        binding(MCString, int, equalTo, MCString* stringToComp);
+        binding(MCString, char, getOneChar);
+        binding(MCString, void, getCharsUntilEnter, char const resultString[]);
+        binding(MCString, void, bye);
+        return claz;
+    }else{
+        return mull;
+    }
 }

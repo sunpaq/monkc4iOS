@@ -61,6 +61,26 @@ void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color
     }
 }
 
+void MCUIAddLabel(const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag)
+{
+    if (_rootUIView) {
+        UILabel* label = [UILabel new];
+        label.text = [NSString stringWithCString:labelname encoding:NSUTF8StringEncoding];
+        label.textColor = [UIColor colorWithRed:color.R/255 green:color.G/255 blue:color.B/255 alpha:1.0];
+        [label sizeToFit];
+        label.center = CGPointMake(x, y);
+        label.tag = tag;
+        [_rootUIView addSubview:label];
+    }
+}
+
+void MCUILabelTextUpdate(const char* newtext, MCInt tag)
+{
+    UILabel* label = [_rootUIView viewWithTag:tag];
+    label.text = [NSString stringWithCString:newtext encoding:NSUTF8StringEncoding];
+    [label sizeToFit];
+}
+
 void MCUIButtonRegisterCallback(mc_message msg)
 {
     onButtonClickMsg = msg;

@@ -11,8 +11,11 @@
 
 oninit(MCWorld)
 {
-
-    return obj;
+    if (init(MCObject)) {
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCWorld, void, bye, voida)
@@ -25,13 +28,14 @@ method(MCWorld, MCWorld*, initWith, voida)
     return obj;
 }
 
-
-
 onload(MCWorld)
 {
-    binding(MCWorld, void, bye, voida);
-    binding(MCWorld, MCWorld*, initWith, voida);
-
-    return claz;
+    if (load(MCObject)) {
+        binding(MCWorld, void, bye, voida);
+        binding(MCWorld, MCWorld*, initWith, voida);
+        return claz;
+    }else{
+        return mull;
+    }
 }
 
