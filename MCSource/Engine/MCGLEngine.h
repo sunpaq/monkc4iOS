@@ -15,6 +15,7 @@
 #include "MC3DBase.h"
 #include "MC3DShapeBase.h"
 #include "MCGLShader.h"
+#include "MCClock.h"
 
 typedef enum {
     MCGLErrNone = GL_NO_ERROR,
@@ -30,6 +31,7 @@ typedef struct {
 } MCGLEngineResponse;
 
 Monkc(MCGLEngine,
+    MCClock* clock;
     MCFloat pointSize;
     MCFloat lineWidth;
     MCBool  isFrontCounterClockWise;
@@ -56,6 +58,15 @@ method(MCGLEngine, void, activeTextureUnit, MCUInt index);
 method(MCGLEngine, MCGLEngineResponse, prepareDrawableData, MCDrawableData* data);
 method(MCGLEngine, void, cleanupDrawableData, MCGLEngineResponse response);
 method(MCGLEngine, void, drawDrawableData, MCDrawableData* data);
-
+//Frame Rate (FPS)
+/*
+MCInt fps = -1;
+if ((fps = MCGLEngine_tickFPS(0, mainScene->engine, 0)) > 0) {
+    UILayer_onFrameRenderFinished(0, mainScene->uilayer, fps);
+    MCGLEngine_resetFPS(0, mainScene->engine, 0);
+}
+*/
+method(MCGLEngine, MCInt, tickFPS, voida);
+method(MCGLEngine, void, resetFPS, voida);
 
 #endif /* MCGLEngine_h */

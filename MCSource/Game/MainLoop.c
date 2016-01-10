@@ -185,5 +185,15 @@ MCMatrix4 onUpdateModelViewMatrix()
 
 void onDraw()
 {
-    MainScene_draw(0, mainScene, 0);
+    if (mainScene) {
+        //draw
+        MainScene_draw(0, mainScene, 0);
+        
+        //calculate FPS
+        MCInt fps = -1;
+        if ((fps = MCGLEngine_tickFPS(0, mainScene->engine, 0)) > 0) {
+            UILayer_onFrameRenderFinished(0, mainScene->uilayer, fps);
+            MCGLEngine_resetFPS(0, mainScene->engine, 0);
+        }
+    }
 }
