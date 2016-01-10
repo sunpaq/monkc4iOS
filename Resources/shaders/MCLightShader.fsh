@@ -1,5 +1,5 @@
 #version 300 es
-
+precision mediump float;
 uniform vec4 Ambient;
 
 in vec4 Color;

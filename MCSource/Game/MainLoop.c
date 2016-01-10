@@ -28,8 +28,6 @@ static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaT
     MCCamera_updateLookat(0, camera, 0);
 }
 
-
-
 oninit(MainScene)
 {
     if (init(MCObject)) {
@@ -38,6 +36,7 @@ oninit(MainScene)
         
         var(engine) = MCGLEngine_getInstance(0, 0, 0);
         MCGLEngine_setClearScreenColor(0, var(engine), (MCColorRGBAf){0.65, 0.65, 0.65, 1.0});
+        var(light) = new(MCLight);
         
         var(visible) = MCTrue;//visible by default
         var(cameraLock) = MCFalse;
@@ -67,6 +66,7 @@ method(MainScene, void, bye, voida)
     release(var(cube));
     release(var(orbit));
     release(var(texture));
+    MCObject_bye(0, spr, 0);
 }
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height)

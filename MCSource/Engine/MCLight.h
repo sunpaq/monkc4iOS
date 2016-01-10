@@ -20,5 +20,7 @@ monkc(MCLight, MCGLSLProgram,
 );
 
 method(MCLight, void, setAmbient, MCColorRGBAf color);
+method(MCLight, void, setDiffuse, MCColorRGBAf color);
+method(MCLight, void, setSpecular, MCColorRGBAf color);
 
 #endif /* MCLight_h */

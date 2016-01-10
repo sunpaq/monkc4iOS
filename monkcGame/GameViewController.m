@@ -38,7 +38,6 @@
     
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     //register rootview
     onRootViewLoad((__bridge void *)(view));
     [self setupGL];
@@ -80,9 +79,10 @@
     [EAGLContext setCurrentContext:self.context];
     
     self.effect = [[GLKBaseEffect alloc] init];
-    self.effect.light0.enabled = GL_TRUE;
+    //self.effect.light0.enabled = GL_TRUE;
     self.effect.light0.ambientColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
-    //self.effect.light0.diffuseColor = GLKVector4Make(0.5f, 0.5f, 0.5f, 1.0f);
+    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
+    self.effect.light0.specularColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
     
     //setup monkc
     double width = self.view.bounds.size.width;
