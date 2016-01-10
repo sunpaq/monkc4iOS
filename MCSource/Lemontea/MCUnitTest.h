@@ -32,7 +32,7 @@ method(MCUnitTestResult, void, addFailInfo, char* failinfo);
 
 monkc(MCUnitTestCase, MCObject,
 	MCUnitTestResult* unitTestResultRef;
-	struct MCUnitTestCase_struct* next_case;
+	struct MCUnitTestCaseStruct* next_case;
 );
 
 method(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* resultRef);
@@ -52,7 +52,7 @@ monkc(MCUnitTestSuite, MCObject,
 	MCUnitTestCase *first_case;
     MCUnitTestCase **last_case_p;
 	int test_case_count;
-	struct MCUnitTestSuite_struct* next_suite;
+	struct MCUnitTestSuiteStruct* next_suite;
 );
 
 method(MCUnitTestSuite, void, bye, voida);

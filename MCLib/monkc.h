@@ -266,16 +266,16 @@ typedef struct
     mc_hashtable table;
 }mc_class;
 //for type cast, every object have the 3 var members
-typedef struct mc_object_struct
+typedef struct MCObjectStruct
 {
-    struct mc_object_struct* nextResponder;
-    unsigned super;
+    struct MCObjectStruct* nextResponder;
     mc_block* block;
     mc_class* isa;
     mc_class* saved_isa;
     MCInt ref_count;
 } MCObject;
 typedef MCObject* mo;
+#define mo(obj) ((mo)obj)
 
 MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
 {
@@ -312,12 +312,12 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 
 //static class (you can not use new and ff)
 #define Monkc(cls, ...)\
-typedef struct cls##_struct{\
+typedef struct cls##Struct{\
 __VA_ARGS__;}cls;
 
 //dynamic class
 #define monkc(cls, supercls, ...)\
-typedef struct cls##_struct{\
+typedef struct cls##Struct{\
 supercls super;\
 __VA_ARGS__;}cls;\
 cls* cls##_init(cls* const obj);\
@@ -336,7 +336,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
 #define load(super)                           super##_load(claz)
 #define init(super)                           super##_init((super*)obj)
-#define preload(cls)                          _load_h(#cls, sizeof(cls), cls##_##load, hash(#cls))
+#define preload(cls)                          _load_h(#cls, sizeof(cls), cls##_##load, hash(#cls));
 
 //method binding
 #define protocol(cls, pro, type, met, ...)    _binding(claz, S(met), (MCFuncPtr)A_B(pro, met))
@@ -346,7 +346,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define implement(cls, pro, type, name, ...)  static type pro##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
 #define var(vname)                            (obj->vname)
 #define cast(type, obj) 				      ((type)obj)
-#define objsuper                              &(obj->super)
+#define spr                                   &(obj->super)
 //for create object
 #define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)//create instance
 
@@ -372,8 +372,6 @@ void unlock_global_classtable();
 //binding method api
 MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value);
 MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval);
-//MCUInt _override(mc_class* const aclass, const char* methodname, void* value);
-//MCUInt _override_h(mc_class* const aclass, const char* methodname, void* value, MCHash hashval);
 
 //class load
 mc_class* _load(const char* name, MCSizeT objsize, MCLoaderPointer loader);
@@ -381,10 +379,6 @@ mc_class* _load_h(const char* name, MCSizeT objsize, MCLoaderPointer loader, MCH
 
 //object create
 mo _new(mo const obj, MCIniterPointer initer);
-
-//object mode change
-//void _shift(mo const obj, const char* modename, MCSizeT objsize, MCLoaderPointer loader);
-//void _shift_back(mo const obj);
 
 //memory management
 #define REFCOUNT_NO_MM 	-1
@@ -505,7 +499,7 @@ MCInt cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result);
  Root Class MCObject
  */
 
-static inline MCObject* MCObject_init(MCObject* const obj) {obj->nextResponder=mull; obj->super=0; return obj;}
+static inline MCObject* MCObject_init(MCObject* const obj) {obj->nextResponder=mull; return obj;}
 static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), mo upperObj) {obj->nextResponder=upperObj;}
 static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->nextResponder=mull;}
 static inline void      MCObject_bye(mc_message_arg(MCObject), voida) {}

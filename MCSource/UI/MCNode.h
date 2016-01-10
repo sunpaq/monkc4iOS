@@ -12,7 +12,7 @@ monkc(MCNode, MCObject,
     MCPoint anchor;
     MCPoint position;
     MCColor color;
-    struct MCNode_struct *parent;
+    struct MCNodeStruct *parent;
     MCArray *children;
 );
 
