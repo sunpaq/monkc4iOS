@@ -103,7 +103,7 @@ ssize_t recv(int socket, void *buffer, size_t length, int flags);
 ssize_t recvfrom(int socket, void *buffer, size_t length, int flags, struct sockaddr *address, socklen_t *address_len);
 ssize_t recvmsg(int socket, struct msghdr *message, int flags);
 
-ssize_t send(int socket, const void *message, size_t length, int flags);
+ssize_t sendup(int socket, const void *message, size_t length, int flags);
 ssize_t sendto(int socket, const void *message, size_t length, int flags, const struct sockaddr *dest_addr, socklen_t dest_len);
 ssize_t sendmsg(int socket, const struct msghdr *message, int flags);
 
@@ -145,11 +145,11 @@ typedef enum _MCSocketType{
 #ifndef MCSocketClientInfo_
 #define MCSocketClientInfo_
 
-monkc(MCSocketClientInfo, MCObject);
+monkc(MCSocketClientInfo, MCObject,
 	int returnSfd;
 	struct sockaddr address;
 	socklen_t address_len;
-end(MCSocketClientInfo, MCObject);
+);
 
 method(MCSocketClientInfo, void, dumpInfo, voida);
 method(MCSocketClientInfo, void, bye, voida);
@@ -158,11 +158,11 @@ method(MCSocketClientInfo, void, bye, voida);
 #ifndef MCSocket_ 
 #define MCSocket_
 
-monkc(MCSocket, MCObject);
+monkc(MCSocket, MCObject,
 	int sfd;
 	int isServer;
 	struct addrinfo peeraddrinfo;
-end(MCSocket, MCObject);
+);
 
 method(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port);
 method(MCSocket, int, listeningStart, voida);

@@ -7,27 +7,7 @@
 //
 
 #import "GameViewController.h"
-#import <OpenGLES/ES2/glext.h>
 #import "MainLoop.h"
-
-#define BUFFER_OFFSET(i) ((char *)NULL + (i))
-
-// Uniform index.
-enum
-{
-    UNIFORM_MODELVIEWPROJECTION_MATRIX,
-    UNIFORM_NORMAL_MATRIX,
-    NUM_UNIFORMS
-};
-GLint uniforms[NUM_UNIFORMS];
-
-// Attribute index.
-enum
-{
-    ATTRIB_VERTEX,
-    ATTRIB_NORMAL,
-    NUM_ATTRIBUTES
-};
 
 @interface GameViewController () {
     GLKMatrix4 _modelViewProjectionMatrix;
@@ -50,7 +30,7 @@ enum
 {
     [super viewDidLoad];
     
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
 
     if (!self.context) {
         NSLog(@"Failed to create ES context");
@@ -101,7 +81,8 @@ enum
     
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 0.4f, 0.4f, 1.0f);
+    self.effect.light0.ambientColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
+    //self.effect.light0.diffuseColor = GLKVector4Make(0.5f, 0.5f, 0.5f, 1.0f);
     
     //setup monkc
     double width = self.view.bounds.size.width;

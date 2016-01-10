@@ -2,29 +2,15 @@
 
 oninit(MCContext)
 {
-	obj->selectionChar=0;
-	return obj;
+    if (init(MCObject)) {
+        obj->selectionChar=0;
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
-onload(MCContext)
-{
-binding(MCContext, MCContext*, newWithArgs, int argc, char** argv);
-binding(MCContext, void, bye);
-binding(MCContext, void, dumpParas);
-binding(MCContext, char*, getPara, int index);
-binding(MCContext, int, isIndexedParaEqualTo, int index, char* para);
-binding(MCContext, int, isHavePara, char* para);
-binding(MCContext, char, showMenuAndGetSelectionChar, int count, ...);
-binding(MCContext, int, showConfirmAndGetBOOL, const char* confirm);
-binding(MCContext, void, getUserInputString, char resultString[]);
-binding(MCContext, char*, getEnvironmentVar, const char* key);
-binding(MCContext, int, setEnvironmentVar, const char* key, const char* value, int isOverwrite);
-binding(MCContext, int, clearEnvironmentVar, const char* key);
-return claz;
-}
-
-method(MCContext, 
-MCContext*, newWithArgs, int argc, char** argv)
+method(MCContext, MCContext*, newWithArgs, int argc, char** argv)
 {
 	MCContext* res = new(MCContext);
 	res->argc = argc;
@@ -144,8 +130,7 @@ method(MCContext, char*, getEnvironmentVar, const char* key)
 	return getenv(key);
 }
 
-method(MCContext, 
-int, setEnvironmentVar, const char* key, const char* value, int isOverwrite)
+method(MCContext, int, setEnvironmentVar, const char* key, const char* value, int isOverwrite)
 {
 	//int setenv(const char *name, const char *value, int rewrite);
 	if (setenv(key, value, isOverwrite)==0)
@@ -154,12 +139,32 @@ int, setEnvironmentVar, const char* key, const char* value, int isOverwrite)
 		return -1;
 }
 
-method(MCContext, 
-int, clearEnvironmentVar, const char* key)
+method(MCContext, int, clearEnvironmentVar, const char* key)
 {
 	//int unsetenv(const char *name);
 	if (unsetenv(key)==0)
 		return 0;
 	else
 		return -1;
+}
+
+onload(MCContext)
+{
+    if (load(MCObject)) {
+        binding(MCContext, MCContext*, newWithArgs, int argc, char** argv);
+        binding(MCContext, void, bye);
+        binding(MCContext, void, dumpParas);
+        binding(MCContext, char*, getPara, int index);
+        binding(MCContext, int, isIndexedParaEqualTo, int index, char* para);
+        binding(MCContext, int, isHavePara, char* para);
+        binding(MCContext, char, showMenuAndGetSelectionChar, int count, ...);
+        binding(MCContext, int, showConfirmAndGetBOOL, const char* confirm);
+        binding(MCContext, void, getUserInputString, char resultString[]);
+        binding(MCContext, char*, getEnvironmentVar, const char* key);
+        binding(MCContext, int, setEnvironmentVar, const char* key, const char* value, int isOverwrite);
+        binding(MCContext, int, clearEnvironmentVar, const char* key);
+        return claz;
+    }else{
+        return mull;
+    }
 }

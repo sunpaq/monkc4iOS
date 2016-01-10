@@ -4,12 +4,13 @@ MCCharBuffer* NewMCCharBuffer(size_t size)
 {
 	MCCharBuffer* instance = (MCCharBuffer*)malloc(sizeof(MCCharBuffer)+size);
 	instance->size = size;
+    memset(instance->data, 0, size);
 	return instance;
 }
 
 MCCharBuffer* CopyToCharBuffer(MCCharBuffer* buff, char* src)
 {
-	strcpy(buff->data, src);
+    strcpy(buff->data, src);
 	return buff;
 }
 

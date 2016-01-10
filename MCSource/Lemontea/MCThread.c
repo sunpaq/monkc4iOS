@@ -1,20 +1,15 @@
 #include "MCThread.h"
 
-
 /* MCRunnable */
-
-
-onload(MCRunnable)
-{	
-	binding(MCRunnable, void, run);
-	binding(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
-	return claz;
-}
 
 oninit(MCRunnable)
 {
-	obj->init_routine = 0;
-	return obj;
+    if (init(MCObject)) {
+        obj->init_routine = 0;
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 method(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void))
@@ -132,5 +127,16 @@ method(MCThread, void, bye, voida)
 {
 	pthread_attr_destroy(&obj->attribute);
 	release(&(obj->runnable));
+}
+
+onload(MCRunnable)
+{
+    if (load(MCObject)) {
+        binding(MCRunnable, void, run);
+        binding(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
+        return claz;
+    }else{
+        return mull;
+    }
 }
 

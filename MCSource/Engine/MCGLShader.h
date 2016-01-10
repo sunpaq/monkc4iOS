@@ -16,27 +16,27 @@
 //lemontea
 #include "MCIO.h"
 
-monkc(MCGLShaderSource, MCStream);
+monkc(MCGLShaderSource, MCStream,
     const char* associatedFilePath;
-end(MCGLShaderSource, MCStream);
+);
 
 method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath);
 
 
-monkc(MCGLShader, MCObject);
+monkc(MCGLShader, MCObject,
     MCUInt shaderId;
     MCShaderType type;
     MCGLShaderSource* source;
-end(MCGLShader, MCObject);
+);
 
 method(MCGLShader, MCGLShader*, initWithType, MCShaderType type);
 method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source);
 method(MCGLShader, MCGLShader*, compile, voida);
 
 
-monkc(MCGLSLProgram, MCObject);
+monkc(MCGLSLProgram, MCObject,
     MCUInt programId;
-end(MCGLSLProgram, MCObject);
+);
 
 method(MCGLSLProgram, void, bye, voida);
 method(MCGLSLProgram, void, attachShader, MCGLShader* shader);
@@ -45,5 +45,8 @@ method(MCGLSLProgram, void, deleteShader, MCGLShader* shader);
 
 method(MCGLSLProgram, void, link, voida);
 method(MCGLSLProgram, void, use, voida);
+
+method(MCGLSLProgram, MCInt, setUniformValue, MCShaderUniformValue value);
+
 
 #endif /* MCGLShader_h */

@@ -39,7 +39,7 @@ static inline size_t expand_table(mc_hashtable* const table_p, MCHashTableLevel 
 	newtable->level = tolevel;
 	//fill new slots to nil
 	for(int i=get_tablesize(oldlevel)+1; i<get_tablesize(tolevel); i++)
-		newtable->items[i].value=MCGenericFp(mull);
+		newtable->items[i].value=MCGenericEmpty;
 	debug_log("expand table: %d->%d\n", oldlevel, tolevel);
     return newsize;
 }
@@ -77,7 +77,7 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
 	return atable;
 }
 
-MCUInt set_item(mc_hashtable* const table_p,
+MCHashTableIndex set_item(mc_hashtable* const table_p,
 	mc_hashitem* const item, 
 	MCBool isOverride, MCBool isFreeValue, const char* classname)
 {
@@ -89,7 +89,7 @@ MCUInt set_item(mc_hashtable* const table_p,
 	}
 
 	MCHash hashval = item->hash;
-	MCUInt index = hashval % get_tablesize(table_p->level);
+	MCHashTableIndex index = hashval % get_tablesize(table_p->level);
 
     mc_hashitem olditem = table_p->items[index];
 	if(olditem.value.mcfuncptr == mull){
@@ -195,7 +195,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
 	return mull;
 }
 
-mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCUInt index)
+mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCHashTableIndex index)
 {
 	if(table_p==mull){
 		error_log("get_item_byindex(table_p) table_p is nil return nil\n");

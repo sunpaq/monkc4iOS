@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA31C394A220043E019 /* MCLightShader.fsh */; };
+		FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA51C394A390043E019 /* MCLightShader.vsh */; };
+		FD43FEA91C394C000043E019 /* MCLight.c in Sources */ = {isa = PBXBuildFile; fileRef = FD43FEA71C394C000043E019 /* MCLight.c */; };
 		FD4DC4491C01459100A3B9F2 /* MCGLShader.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLShader.c */; };
 		FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4F1F261C2FC89900D17CD9 /* MainLoop.c */; };
 		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
@@ -39,7 +42,6 @@
 		FD5EFD691B0E3D9D00D2492A /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD521B0E3D9D00D2492A /* Icon@2x.png */; };
 		FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */; };
 		FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */; };
-		FD5EFD6C1B0E3D9D00D2492A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = FD5EFD551B0E3D9D00D2492A /* README.md */; };
 		FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD571B0E3D9D00D2492A /* mcicon.png */; };
 		FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5B1C2D4797007D4BE4 /* MCWorld.c */; };
 		FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */; };
@@ -82,6 +84,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FD43FEA31C394A220043E019 /* MCLightShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.fsh; sourceTree = "<group>"; };
+		FD43FEA51C394A390043E019 /* MCLightShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.vsh; sourceTree = "<group>"; };
+		FD43FEA71C394C000043E019 /* MCLight.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCLight.c; sourceTree = "<group>"; };
+		FD43FEA81C394C000043E019 /* MCLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLight.h; sourceTree = "<group>"; };
 		FD4DC4471C01459100A3B9F2 /* MCGLShader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLShader.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLShader.h; sourceTree = "<group>"; };
 		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
@@ -129,7 +135,6 @@
 		FD5EFD521B0E3D9D00D2492A /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
-		FD5EFD551B0E3D9D00D2492A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FD5EFD571B0E3D9D00D2492A /* mcicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mcicon.png; sourceTree = "<group>"; };
 		FD819E5B1C2D4797007D4BE4 /* MCWorld.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCWorld.c; sourceTree = "<group>"; };
 		FD819E5C1C2D4797007D4BE4 /* MCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWorld.h; sourceTree = "<group>"; };
@@ -206,6 +211,8 @@
 			children = (
 				FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */,
 				FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */,
+				FD43FEA31C394A220043E019 /* MCLightShader.fsh */,
+				FD43FEA51C394A390043E019 /* MCLightShader.vsh */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
@@ -245,6 +252,8 @@
 				FD819E5C1C2D4797007D4BE4 /* MCWorld.h */,
 				FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */,
 				FD819E5F1C2EE4F0007D4BE4 /* MCGLEngine.h */,
+				FD43FEA71C394C000043E019 /* MCLight.c */,
+				FD43FEA81C394C000043E019 /* MCLight.h */,
 			);
 			name = Engine;
 			path = MCSource/Engine;
@@ -273,7 +282,6 @@
 				FD5EFD521B0E3D9D00D2492A /* Icon@2x.png */,
 				FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */,
 				FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */,
-				FD5EFD551B0E3D9D00D2492A /* README.md */,
 			);
 			path = icons;
 			sourceTree = "<group>";
@@ -525,6 +533,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
+				FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
 				FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
@@ -545,6 +554,7 @@
 				FD5EFD5D1B0E3D9D00D2492A /* Icon-60@3x.png in Resources */,
 				FD5EFD631B0E3D9D00D2492A /* Icon-60.png in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
+				FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */,
 				FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */,
 				FD5EFD5F1B0E3D9D00D2492A /* Icon-76@2x.png in Resources */,
 				FD5EFD641B0E3D9D00D2492A /* Icon-72.png in Resources */,
@@ -571,7 +581,6 @@
 				FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */,
 				FD5E18901B09DEB6006CB737 /* MCArray.c in Sources */,
 				FD5E188B1B09CECB006CB737 /* MC3DMainLoop.c in Sources */,
-				FD5EFD6C1B0E3D9D00D2492A /* README.md in Sources */,
 				FDFF06691B06315B000064E3 /* MCContext.c in Sources */,
 				FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */,
 				FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */,
@@ -581,6 +590,7 @@
 				FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */,
 				FD4DC4491C01459100A3B9F2 /* MCGLShader.c in Sources */,
 				FDFF066A1B06315B000064E3 /* MCException.c in Sources */,
+				FD43FEA91C394C000043E019 /* MCLight.c in Sources */,
 				FDFF066B1B06315B000064E3 /* MCIO.c in Sources */,
 				FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */,
 				FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */,

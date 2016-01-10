@@ -19,9 +19,11 @@
 #include "UILayer.h"
 #include "MCArray.h"
 #include "MCGLEngine.h"
+#include "MCClock.h"
 
-monkc(MainScene, MCObject);
+monkc(MainScene, MCObject,
     MCGLEngine* engine;
+    MCClock* clock;
     MCBool visible;
     UILayer* uilayer;
     MCBool cameraLock;
@@ -31,7 +33,7 @@ monkc(MainScene, MCObject);
     MCTexture* texture;
     mc_message drawMsgArray[10];
     MCInt drawMsgCount;
-end(MainScene, MCObject);
+);
 
 method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);

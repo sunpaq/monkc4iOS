@@ -44,18 +44,18 @@ void unlock_global_classtable()
 for method binding
 */
 
-unsigned _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value)
+MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value)
 {
 	return _binding_h(aclass, methodname, value, hash(methodname));
 }
 
-unsigned _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
+MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
 {
 	if(aclass==mull){
 		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
 		return 0;
 	}
-	MCUInt res = set_item(&aclass->table,
+	MCHashTableIndex res = set_item(&aclass->table,
 		new_item_h(methodname, (MCGeneric)value, hashval),
 		0, 0, nameofc(aclass));
 	return res;
@@ -90,7 +90,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 		aclass = alloc_mc_class(objsize);
         mc_hashitem* item = new_item(name, (MCGeneric){.mcptr=mull});//nil first
 		package_by_item(item, aclass);
-		(*loader)(aclass, mull);
+		(*loader)(aclass);
 		//set item
         //MCBool isOverride, MCBool isFreeValue
 		set_item(mc_global_classtable, item, MCFalse, MCTrue, (char*)name);
@@ -103,29 +103,13 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 	return aclass;
 }
 
-mo _findsuper(mo const obj, const char* supername)
-{
-	mc_class* metaclass = findClass(supername, hash(supername));
-	mo iter = mull;
-	for (iter = obj; iter!=mull; iter=iter->super) {
-		if (iter->isa!=mull && iter->isa == metaclass){
-			runtime_log("find super metaclass: %s iter->isa: %p\n", nameofc(metaclass), iter->isa);
-			return iter;
-		}
-	}
-	error_log("can not find super metaclass: %s iter->isa: %p\n", nameofc(metaclass), iter->isa);
-	return mull;
-}
-
-mo _new(mo const this, MCSetsuperPointer setupsuper, MCIniterPointer initer)
+mo _new(mo const obj, MCIniterPointer initer)
 {
 	//block, isa, saved_isa is setted at _alloc()
-	this->ref_count = 1;
-	this->super = mull;
-	//this->mode = mull;
-    (*setupsuper)(this);
-	(*initer)(this);
-	return this;
+    obj->nextResponder = mull;
+	obj->ref_count = 1;
+	(*initer)(obj);
+	return obj;
 }
 
 static int ref_count_down(mo const this)
@@ -165,7 +149,6 @@ static int ref_count_down(mo const this)
 void _recycle(mo const this)
 {
 	if(ref_count_down(this) == 0){
-        if (this->super!=mull) _release(this->super); //release super object
         fs(this, bye, 0);                             //call the "bye" method on object
         mc_dealloc(this, 1);                          //free memory
 	}
@@ -174,7 +157,6 @@ void _recycle(mo const this)
 void _release(mo const this)
 {
     if(ref_count_down(this) == 0){
-        if (this->super!=mull) _release(this->super);
         fs(this, bye, 0);
         mc_dealloc(this, 0);
 	}

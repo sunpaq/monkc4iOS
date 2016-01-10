@@ -90,6 +90,34 @@ MCInline MCDrawableData* NewMCDrawableData(vapCount) {
     return (MCDrawableData*)malloc(sizeof(MCDrawableData)+vapCount*sizeof(MCVertexAttributeInfo));
 }
 
+typedef enum {
+    //scalar
+    MCShaderUniform1i,
+    MCShaderUniform2i,
+    MCShaderUniform3i,
+    MCShaderUniform4i,
+    MCShaderUniform1f,
+    MCShaderUniform2f,
+    MCShaderUniform3f,
+    MCShaderUniform4f,
+    //vector
+    MCShaderUniform1iv,
+    MCShaderUniform2iv,
+    MCShaderUniform3iv,
+    MCShaderUniform4iv,
+    MCShaderUniform1fv,
+    MCShaderUniform2fv,
+    MCShaderUniform3fv,
+    MCShaderUniform4fv,
+} MCShaderUniformType;
+
+typedef struct {
+    MCShaderUniformType type;
+    MCStaticString name;
+    MCGeneric generic;
+} MCShaderUniformValue;
+#define MCShaderUniformValue(type,name,generic) ((MCShaderUniformValue){type,name,generic})
+
 /*
  copy from Apple GLKit
  m30, m31, and m32 correspond to the translation values tx, ty, and tz, respectively.

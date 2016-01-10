@@ -43,7 +43,14 @@ GLfloat texColor[] = {
     0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f
 };
 
-static void prepareShader()
+GLubyte pixels[4*3] = {
+    255, 0, 0,
+    0, 255, 0,
+    0, 0, 255,
+    255, 255, 0
+};
+
+static MCGLSLProgram* prepareShader()
 {
     char fbuff[200];
     char vbuff[200];
@@ -71,23 +78,34 @@ static void prepareShader()
     ff(program, link, 0);
     ff(program, use, 0);
     
+    return program;
 }
 
 oninit(MCTexture)
 {
-    prepareShader();
+    if(!init(MCDrawable)) return mull;
+    MCGLSLProgram* program = prepareShader();
     
     //TO
+    glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &(var(textureId)));
     glBindTexture(GL_TEXTURE_2D, var(textureId));
-    glTexStorage2DEXT(GL_TEXTURE_2D, 4, GL_R8_EXT, 8, 8);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 8, 8, GL_RED_EXT, GL_UNSIGNED_BYTE, texChecker);
+    ff(program, setUniformValue, MCShaderUniformValue(MCShaderUniform1i, "tex", 0));
+    
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
+    
+    //glTexStorage2DEXT(GL_TEXTURE_2D, 4, GL_R8_EXT, 8, 8);
+    //glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 8, 8, GL_RED_EXT, GL_UNSIGNED_BYTE, texChecker);
+    
     
     //TCO
+    /*
     glGenTextures(1, &(var(texcolorId)));
     glBindTexture(GL_TEXTURE_2D, var(texcolorId));
     glTexStorage2DEXT(GL_TEXTURE_2D, 2, GL_RGBA32F_EXT, 2, 2);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 2, 2, GL_RGBA, GL_FLOAT, texColor);
+    */
     
     MCDrawableData* data = NewMCDrawableData(2);
     data->drawmode = MCTriAngleFan;
@@ -99,7 +117,7 @@ oninit(MCTexture)
     data->vapArray[0] = (MCVertexAttributeInfo){0, 4, GL_FLOAT, GL_FALSE, 0, MCBUFFER_OFFSET(0*sizeof(float))};
     data->vapArray[1] = (MCVertexAttributeInfo){1, 2, GL_FLOAT, GL_FALSE, 0, MCBUFFER_OFFSET(16*sizeof(float))};
     
-    MCDrawable_initWithDrawMode(0, obj->super, data);
+    MCDrawable_initWithDrawMode(0, objsuper, data);
     
     return obj;
 }
@@ -113,6 +131,7 @@ method(MCTexture, void, draw, voida)
 
 onload(MCTexture)
 {
+    if (!load(MCDrawable)) return mull;
     binding(MCTexture, void, draw, voida);
     return claz;
 }

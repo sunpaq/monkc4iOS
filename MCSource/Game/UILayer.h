@@ -12,10 +12,11 @@
 #include <stdio.h>
 #include "monkc.h"
 
-monkc(UILayer, MCObject);
+monkc(UILayer, MCObject,
     MCBool visible;
-end(UILayer, MCObject);
+);
 
+method(UILayer, void, onFrameRenderFinished, MCUInt fps);
 method(UILayer, void, onButtonClicked, MCInt tag);
 
 

@@ -5,14 +5,17 @@
 
 oninit(MCNode)
 {
-    var(frame) = mc_rect_zero;
-    var(anchor) = mc_point_zero;
-    var(position) = mc_point_zero;
-    var(color) = mc_color_white;
-    var(parent) = mull;
-    var(children) = new(MCArray);
-
-    return obj;
+    if (init(MCObject)) {
+        var(frame) = mc_rect_zero;
+        var(anchor) = mc_point_zero;
+        var(position) = mc_point_zero;
+        var(color) = mc_color_white;
+        var(parent) = mull;
+        var(children) = new(MCArray);
+        return obj;
+    }else{
+        return mull;
+    }
 }
 
 implement(MCNode, MCAccessbleProtocol, void*, access, const char* varname)
@@ -22,7 +25,7 @@ implement(MCNode, MCAccessbleProtocol, void*, access, const char* varname)
     if (SEQ(S(position), varname)) return addrof(obj->position);
     if (SEQ(S(color),    varname)) return addrof(obj->color);
     void* varp = mull;
-    varp = ff(obj->super, access, varname);
+    varp = ff(objsuper, access, varname);
     return varp;
 }
 
@@ -59,6 +62,7 @@ method(MCNode, MCNode*, addChild, MCNode* child)
     return child;
 }
 
+/*
 static inline MCRect calculate_drawframe(MCNode* obj)
 {
     MCNode* p = var(parent);
@@ -76,11 +80,12 @@ static inline MCRect calculate_drawframe(MCNode* obj)
         return var(frame);
     }
 }
+*/
 
 method(MCNode, void, draw, voida)
 {
     //draw self
-    MCRect drawframe = calculate_drawframe(obj);
+    //MCRect drawframe = calculate_drawframe(obj);
     //MCXCBContext_fillRectColor(&drawframe, var(color));
 
     //draw children
@@ -98,12 +103,16 @@ method(MCNode, void, draw, voida)
 
 onload(MCNode)
 {
-    #include "MCAccessbleProtocol.h"
-    #include "MCTouchbleProtocol.h"
-    binding(MCNode, void, bye);
-    binding(MCNode, MCNode*, initWithFrame, MCRect frame);
-    binding(MCNode, MCNode*, initWithSize, MCSize size);
-    binding(MCNode, MCNode*, addChild, MCNode* child);
-    binding(MCNode, void, draw);
-    return claz;
+    if (load(MCObject)) {
+        #include "MCAccessbleProtocol.h"
+        #include "MCTouchbleProtocol.h"
+        binding(MCNode, void, bye);
+        binding(MCNode, MCNode*, initWithFrame, MCRect frame);
+        binding(MCNode, MCNode*, initWithSize, MCSize size);
+        binding(MCNode, MCNode*, addChild, MCNode* child);
+        binding(MCNode, void, draw);
+        return claz;
+    }else{
+        return mull;
+    }
 }

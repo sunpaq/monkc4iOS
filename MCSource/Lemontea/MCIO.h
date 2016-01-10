@@ -21,12 +21,12 @@
 #ifndef MCFile_
 #define MCFile_
 
-monkc(MCFile, MCObject);
+monkc(MCFile, MCObject,
 	int fd;
 	char* pathname;
 	void* buffer;
 	struct stat attribute;
-end(MCFile, MCObject);
+);
 
 /*
 O_RDONLY
@@ -124,12 +124,12 @@ static inline MCStreamType MakeMCStreamType(const unsigned btype, const char* fo
 #ifndef MCStream_
 #define MCStream_
 
-monkc(MCStream, MCObject);
+monkc(MCStream, MCObject,
 	FILE*        fileObject;
     size_t*      lineLengthArray;
     size_t       lineCount;
     char**       lineArray;
-end(MCStream, MCObject);
+);
 
 method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path);
 method(MCStream, MCStream*, newWithPathDefaultType, const char* path);
@@ -163,11 +163,12 @@ method(MCStream, void, dump, voida);
 #ifndef MCByteStream_
 #define MCByteStream_
 
-monkc(MCByteStream, MCStream);
-end(MCByteStream, MCStream);
+monkc(MCByteStream, MCStream,
+);
 
 method(MCByteStream, void, bye, voida);
 method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
+
 #endif
 
 /* MCStdinStream */
@@ -175,8 +176,8 @@ method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
 #ifndef MCStdinStream_
 #define MCStdinStream_
 
-monkc(MCStdinStream, MCStream);
-end(MCStdinStream, MCStream);
+monkc(MCStdinStream, MCStream,
+);
 
 method(MCStdinStream, void, bye, voida);
 #endif
@@ -186,8 +187,8 @@ method(MCStdinStream, void, bye, voida);
 #ifndef MCStdoutStream_
 #define MCStdoutStream_
 
-monkc(MCStdoutStream, MCStream);
-end(MCStdoutStream, MCStream);
+monkc(MCStdoutStream, MCStream,
+);
 
 method(MCStdoutStream, void, bye, voida);
 #endif
@@ -197,8 +198,8 @@ method(MCStdoutStream, void, bye, voida);
 #ifndef MCStdoutStream_
 #define MCStdoutStream_
 
-monkc(MCStdoutStream, MCStream);
-end(MCStdoutStream, MCStream);
+monkc(MCStdoutStream, MCStream,
+);
 
 method(MCStdoutStream, void, bye);
 #endif
@@ -206,8 +207,8 @@ method(MCStdoutStream, void, bye);
 #ifndef MCStderrStream_
 #define MCStderrStream_
 
-monkc(MCStderrStream, MCStream);
-end(MCStderrStream, MCStream);
+monkc(MCStderrStream, MCStream,
+);
 
 method(MCStderrStream, void, bye, voida);
 #endif
@@ -223,7 +224,7 @@ typedef enum _MCSelect_fd_type{
 #ifndef MCSelect_
 #define MCSelect_ 
 
-monkc(MCSelect, MCObject);
+monkc(MCSelect, MCObject,
 	int maxfd;
 	fd_set readfd_set;
 	fd_set writefd_set;
@@ -231,8 +232,7 @@ monkc(MCSelect, MCObject);
 	fd_set readfd_result_set;
 	fd_set writefd_result_set;
 	fd_set exceptionfd_result_set;
-	struct timeval timeout;
-end(MCSelect, MCObject);
+	struct timeval timeout);
 
 method(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
 method(MCSelect, int, waitForFdsetChange, voida);
