@@ -10,6 +10,7 @@
 		FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA31C394A220043E019 /* MCLightShader.fsh */; };
 		FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA51C394A390043E019 /* MCLightShader.vsh */; };
 		FD43FEA91C394C000043E019 /* MCLight.c in Sources */ = {isa = PBXBuildFile; fileRef = FD43FEA71C394C000043E019 /* MCLight.c */; };
+		FD43FEAC1C429A2D0043E019 /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD43FEAA1C429A2D0043E019 /* Testbed.c */; };
 		FD4DC4491C01459100A3B9F2 /* MCGLShader.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLShader.c */; };
 		FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4F1F261C2FC89900D17CD9 /* MainLoop.c */; };
 		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
@@ -88,6 +89,8 @@
 		FD43FEA51C394A390043E019 /* MCLightShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.vsh; sourceTree = "<group>"; };
 		FD43FEA71C394C000043E019 /* MCLight.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCLight.c; sourceTree = "<group>"; };
 		FD43FEA81C394C000043E019 /* MCLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLight.h; sourceTree = "<group>"; };
+		FD43FEAA1C429A2D0043E019 /* Testbed.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Testbed.c; sourceTree = "<group>"; };
+		FD43FEAB1C429A2D0043E019 /* Testbed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Testbed.h; sourceTree = "<group>"; };
 		FD4DC4471C01459100A3B9F2 /* MCGLShader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLShader.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLShader.h; sourceTree = "<group>"; };
 		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
@@ -438,6 +441,8 @@
 				FD4F1F271C2FC89900D17CD9 /* MainLoop.h */,
 				FD5E18761B09C4B0006CB737 /* UILayer.c */,
 				FD5E18771B09C4B0006CB737 /* UILayer.h */,
+				FD43FEAA1C429A2D0043E019 /* Testbed.c */,
+				FD43FEAB1C429A2D0043E019 /* Testbed.h */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -576,6 +581,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD43FEAC1C429A2D0043E019 /* Testbed.c in Sources */,
 				FDFF064D1B06314C000064E3 /* monkc.c in Sources */,
 				FDFF06701B06315B000064E3 /* MCThread.c in Sources */,
 				FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */,

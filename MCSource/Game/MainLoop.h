@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "monkc.h"
+#include "Testbed.h"
 #include "MC3DBase.h"
 #include "MCCamera.h"
 #include "MCCube.h"
@@ -19,11 +20,11 @@
 #include "UILayer.h"
 #include "MCArray.h"
 #include "MCGLEngine.h"
-#include "MCClock.h"
+#include "MCLight.h"
 
 monkc(MainScene, MCObject,
     MCGLEngine* engine;
-    MCClock* clock;
+    MCLight* light;
     MCBool visible;
     UILayer* uilayer;
     MCBool cameraLock;
