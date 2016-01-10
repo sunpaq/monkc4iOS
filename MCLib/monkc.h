@@ -336,6 +336,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
 #define load(super)                           super##_load(claz)
 #define init(super)                           super##_init((super*)obj)
+#define preload(cls)                          _load_h(#cls, sizeof(cls), cls##_##load, hash(#cls))
 
 //method binding
 #define protocol(cls, pro, type, met, ...)    _binding(claz, S(met), (MCFuncPtr)A_B(pro, met))
