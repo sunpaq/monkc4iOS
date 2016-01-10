@@ -36,6 +36,7 @@ method(MCDrawable, MCDrawable*, initWithDrawMode, MCDrawableData* data)
 method(MCDrawable, void, bye, voida)
 {
     MCGLEngine_cleanupDrawableData(0, var(engine), var(response));
+    MCObject_bye(0, spr, 0);
 }
 
 method(MCDrawable, void, draw, voida)

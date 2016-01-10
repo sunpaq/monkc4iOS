@@ -27,7 +27,7 @@ method(MCGLShaderSource, MCGLShaderSource*, initWithPath, const char* filePath)
     //MCFile_initWithPathNameDefaultFlag(0, var(super), (char*)filePath);
     //MCFile_readAllFromBegin(0, var(super), 0);
     
-    MCStream_newWithPath(0, objsuper, MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadOnly), filePath);
+    MCStream_newWithPath(0, spr, MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadOnly), filePath);
     
     return obj;
 }
@@ -59,6 +59,7 @@ oninit(MCGLShader)
 method(MCGLShader, void, bye, voida)
 {
     release(var(source));
+    MCObject_bye(0, spr, 0);
 }
 
 method(MCGLShader, MCGLShader*, initWithType, MCShaderType type)
@@ -73,8 +74,7 @@ method(MCGLShader, MCGLShader*, initWithType, MCShaderType type)
 
 method(MCGLShader, MCGLShader*, attachSource, MCGLShaderSource* source)
 {
-    //retain(source);
-    
+    retain(source);
     var(source) = source;
     glShaderSource(var(shaderId), (GLsizei)(source->super.lineCount),
                    (const char* const*)source->super.lineArray,

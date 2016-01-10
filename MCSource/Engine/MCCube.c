@@ -71,7 +71,7 @@ static inline MCDrawableData* prepareCubeData() {
 oninit(MCCube)
 {
     if (init(MCDrawable)) {
-        MCDrawable_initWithDrawMode(0, objsuper, prepareCubeData());
+        MCDrawable_initWithDrawMode(0, spr, prepareCubeData());
         return obj;
     }else{
         return mull;
@@ -80,7 +80,7 @@ oninit(MCCube)
 
 method(MCCube, void, draw, voida)
 {
-    MCDrawable_draw(0, objsuper, 0);
+    MCDrawable_draw(0, spr, 0);
 }
 
 onload(MCCube)

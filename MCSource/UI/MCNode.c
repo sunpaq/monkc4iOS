@@ -25,7 +25,7 @@ implement(MCNode, MCAccessbleProtocol, void*, access, const char* varname)
     if (SEQ(S(position), varname)) return addrof(obj->position);
     if (SEQ(S(color),    varname)) return addrof(obj->color);
     void* varp = mull;
-    varp = ff(objsuper, access, varname);
+    varp = ff(spr, access, varname);
     return varp;
 }
 

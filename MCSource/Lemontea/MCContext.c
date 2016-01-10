@@ -46,6 +46,7 @@ static void get_chars_until_enter(char resultString[])
 method(MCContext, void, bye, voida)
 {	
 	runtime_log("%s\n", "MCContext goodbye");
+    MCObject_bye(0, spr, 0);
 }
 
 method(MCContext, void, dumpParas, voida)
