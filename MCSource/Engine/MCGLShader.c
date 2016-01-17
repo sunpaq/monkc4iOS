@@ -96,6 +96,7 @@ method(MCGLShader, MCGLShader*, compile, voida)
         GLsizei loglength;
         glGetShaderInfoLog(var(shaderId), sizeof(logbuff), &loglength, logbuff);
         printf("%s\n", &logbuff[0]);
+        exit(1);
         return mull;
     }
 }
@@ -156,12 +157,46 @@ method(MCGLSLProgram, void, use, voida)
     glUseProgram(var(programId));
 }
 
-method(MCGLSLProgram, MCInt, setUniformValue, MCShaderUniformValue value)
+method(MCGLSLProgram, MCInt, setUniformScalarValue, MCGLSLTypeScalar type, const char* name, MCGeneric value)
 {
-    MCInt location = glGetUniformLocation(var(programId), value.name);
-    switch (value.type) {
-        case MCShaderUniform1i: glUniform1i(location, value.generic.mcint); break;
-        case MCShaderUniform2i: glUniform1f(location, value.generic.mcfloat); break;
+    MCInt location = glGetUniformLocation(var(programId), name);
+    switch (type) {
+        case MCGLSLScalar_bool:  glUniform1i(location, value.mcint); break;
+        case MCGLSLScalar_float: glUniform1f(location, value.mcfloat); break;
+        case MCGLSLScalar_int:   glUniform1i(location, value.mcint); break;
+        default: break;
+    }
+    
+    return location;
+}
+
+method(MCGLSLProgram, MCInt, setUniformVectorValue, MCGLSLTypeVector type, const char* name, MCGeneric x, MCGeneric y, MCGeneric z, MCGeneric w)
+{
+    MCInt location = glGetUniformLocation(var(programId), name);
+    switch (type) {
+        case MCGLSLVector_bvec2: case MCGLSLVector_ivec2: glUniform2i(location, x.mcint, y.mcint); break;
+        case MCGLSLVector_bvec3: case MCGLSLVector_ivec3: glUniform3i(location, x.mcint, y.mcint, z.mcint); break;
+        case MCGLSLVector_bvec4: case MCGLSLVector_ivec4: glUniform4i(location, x.mcint, y.mcint, z.mcint, w.mcint); break;
+        
+        case MCGLSLVector_vec2: glUniform2f(location, x.mcfloat, y.mcfloat); break;
+        case MCGLSLVector_vec3: glUniform3f(location, x.mcfloat, y.mcfloat, z.mcfloat); break;
+        case MCGLSLVector_vec4: glUniform4f(location, x.mcfloat, y.mcfloat, z.mcfloat, w.mcfloat); break;
+        
+        default: break;
+    }
+    
+    return location;
+}
+
+method(MCGLSLProgram, MCInt, setUniformMatrixValue, MCGLSLTypeMatrix type, const char* name, float* valuep, unsigned count)
+{
+    GLboolean isRowOrder = GL_TRUE;
+    MCInt location = glGetUniformLocation(var(programId), name);
+    switch (type) {
+        case MCGLSLMatrix_mat2: glUniformMatrix2fv(location, (GLsizei)count, isRowOrder, valuep); break;
+        case MCGLSLMatrix_mat3: glUniformMatrix3fv(location, (GLsizei)count, isRowOrder, valuep); break;
+        case MCGLSLMatrix_mat4: glUniformMatrix4fv(location, (GLsizei)count, isRowOrder, valuep); break;
+        
         default: break;
     }
     
@@ -177,7 +212,9 @@ onload(MCGLSLProgram)
         binding(MCGLSLProgram, void, deleteShader, MCGLShader* shader);
         binding(MCGLSLProgram, void, link, voida);
         binding(MCGLSLProgram, void, use, voida);
-        binding(MCGLSLProgram, MCInt, setUniformValue, MCShaderUniformValue value);
+        binding(MCGLSLProgram, MCInt, setUniformScalarValue, MCGLSLTypeScalar type, const char* name, void* valuep);
+        binding(MCGLSLProgram, MCInt, setUniformVectorValue, MCGLSLTypeVector type, const char* name, void* valuep);
+        binding(MCGLSLProgram, MCInt, setUniformMatrixValue, MCGLSLTypeMatrix type, const char* name, void* valuep);
         return claz;
     }else{
         return mull;

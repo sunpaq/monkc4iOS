@@ -46,7 +46,8 @@ method(MCGLSLProgram, void, deleteShader, MCGLShader* shader);
 method(MCGLSLProgram, void, link, voida);
 method(MCGLSLProgram, void, use, voida);
 
-method(MCGLSLProgram, MCInt, setUniformValue, MCShaderUniformValue value);
-
+method(MCGLSLProgram, MCInt, setUniformScalarValue, MCGLSLTypeScalar type, const char* name, MCGeneric value);
+method(MCGLSLProgram, MCInt, setUniformVectorValue, MCGLSLTypeVector type, const char* name, MCGeneric x, MCGeneric y, MCGeneric z, MCGeneric w);
+method(MCGLSLProgram, MCInt, setUniformMatrixValue, MCGLSLTypeMatrix type, const char* name, float* valuep, unsigned count);
 
 #endif /* MCGLShader_h */

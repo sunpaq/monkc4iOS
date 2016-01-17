@@ -91,32 +91,71 @@ MCInline MCDrawableData* NewMCDrawableData(vapCount) {
 }
 
 typedef enum {
-    //scalar
-    MCShaderUniform1i,
-    MCShaderUniform2i,
-    MCShaderUniform3i,
-    MCShaderUniform4i,
-    MCShaderUniform1f,
-    MCShaderUniform2f,
-    MCShaderUniform3f,
-    MCShaderUniform4f,
-    //vector
-    MCShaderUniform1iv,
-    MCShaderUniform2iv,
-    MCShaderUniform3iv,
-    MCShaderUniform4iv,
-    MCShaderUniform1fv,
-    MCShaderUniform2fv,
-    MCShaderUniform3fv,
-    MCShaderUniform4fv,
-} MCShaderUniformType;
+    MCGLSLScalar_float,
+    //MCGLSLScalar_double, //GLES not support
+    MCGLSLScalar_int,
+    //MCGLSLScalar_uint,   //GLES not support
+    MCGLSLScalar_bool,
+} MCGLSLTypeScalar;
 
-typedef struct {
-    MCShaderUniformType type;
-    MCStaticString name;
-    MCGeneric generic;
-} MCShaderUniformValue;
-#define MCShaderUniformValue(type,name,generic) ((MCShaderUniformValue){type,name,generic})
+typedef enum {
+    //float
+    MCGLSLVector_vec2,
+    MCGLSLVector_vec3,
+    MCGLSLVector_vec4,
+    //double
+    //MCGLSLVector_dvec2,
+    //MCGLSLVector_dvec3,
+    //MCGLSLVector_dvec4,
+    //int
+    MCGLSLVector_ivec2,
+    MCGLSLVector_ivec3,
+    MCGLSLVector_ivec4,
+    //uint
+    //MCGLSLVector_uvec2,
+    //MCGLSLVector_uvec3,
+    //MCGLSLVector_uvec4,
+    //bool
+    MCGLSLVector_bvec2,
+    MCGLSLVector_bvec3,
+    MCGLSLVector_bvec4
+} MCGLSLTypeVector;
+
+typedef enum {
+    //float
+    MCGLSLMatrix_mat2,
+    MCGLSLMatrix_mat3,
+    MCGLSLMatrix_mat4,
+    
+    //MCGLSLMatrix_mat2x2,
+    //MCGLSLMatrix_mat2x3,
+    //MCGLSLMatrix_mat2x4,
+    
+    //MCGLSLMatrix_mat3x2,
+    //MCGLSLMatrix_mat3x3,
+    //MCGLSLMatrix_mat3x4,
+
+    //MCGLSLMatrix_mat4x2,
+    //MCGLSLMatrix_mat4x3,
+    //MCGLSLMatrix_mat4x4,
+    //double
+    //MCGLSLMatrix_dmat2,
+    //MCGLSLMatrix_dmat3,
+    //MCGLSLMatrix_dmat4,
+    
+    //MCGLSLMatrix_dmat2x2,
+    //MCGLSLMatrix_dmat2x3,
+    //MCGLSLMatrix_dmat2x4,
+    
+    //MCGLSLMatrix_dmat3x2,
+    //MCGLSLMatrix_dmat3x3,
+    //MCGLSLMatrix_dmat3x4,
+    
+    //MCGLSLMatrix_dmat4x2,
+    //MCGLSLMatrix_dmat4x3,
+    //MCGLSLMatrix_dmat4x4,
+    
+} MCGLSLTypeMatrix;
 
 /*
  copy from Apple GLKit

@@ -154,13 +154,12 @@ method(MCUnitTestCase, void, runTests, voida)
 		return;
 
 	runtime_log("%s\n", "MCUnitTestCase runTests before for loop");
-    mc_hashitem amethod;
-	for (i = 0; i < get_tablesize(cast(MCObject*, obj)->isa->table.level); i++)
+    mc_hashitem* amethod;
+	for (i = 0; i < get_tablesize(cast(MCObject*, obj)->isa->table->level); i++)
 	{
 		//runtime_log("MCUnitTestCase runTests in for loop index:[%d]\n", i);
-		amethod = cast(MCObject*, obj)->isa->table.items[i];
-		if(amethod.value.mcptr!=mull
-		&& amethod.key!=mull
+		amethod = cast(MCObject*, obj)->isa->table->items[i];
+		if(amethod->value.mcptr!=mull
 		&& i!=bye_key
 		&& i!=setUp_key
 		&& i!=tearDown_key){
@@ -168,15 +167,16 @@ method(MCUnitTestCase, void, runTests, voida)
 			if(obj==mull){
 				error_log("MCUnitTestCase runTests this pointer is mull\n");
 			}
-			runMethodByPointer(obj, &amethod);
+			runMethodByPointer(obj, amethod);
 		}
 	}
 }
 
 method(MCUnitTestCase, void, runATestMethod, char* methodName)
 {
-    mc_hashtable table = cast(MCObject*, obj)->isa->table;
-    runMethodByPointer(obj, &table.items[hash(methodName)]);
+    mc_hashtable* table = cast(MCObject*, obj)->isa->table;
+    MCHashTableIndex index = hash(methodName) % get_tablesize(table->level);
+    runMethodByPointer(obj, table->items[index]);
 }
 
 /* Test Suite */

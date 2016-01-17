@@ -55,7 +55,7 @@ MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFu
 		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
 		return 0;
 	}
-	MCHashTableIndex res = set_item(&aclass->table,
+	MCHashTableIndex res = set_item(&(aclass->table),
 		new_item_h(methodname, (MCGeneric)value, hashval),
 		1, 0, nameofc(aclass));//will override
 	return res;
@@ -93,7 +93,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 		(*loader)(aclass);
 		//set item
         //MCBool isOverride, MCBool isFreeValue
-		set_item(mc_global_classtable, item, MCFalse, MCTrue, (char*)name);
+		set_item(&mc_global_classtable, item, MCFalse, MCTrue, (char*)name);
 		runtime_log("load a class[%s]\n", nameofc(aclass));
 	}else{
 		runtime_log("find a class[%s]\n", nameofc(aclass));

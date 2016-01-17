@@ -90,8 +90,8 @@ oninit(MCTexture)
     glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &(var(textureId)));
     glBindTexture(GL_TEXTURE_2D, var(textureId));
-    ff(program, setUniformValue, MCShaderUniformValue(MCShaderUniform1i, "tex", 0));
-    
+    MCGLSLProgram_setUniformScalarValue(0, program, MCGLSLScalar_int, "tex", (MCGeneric)0);
+        
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
     

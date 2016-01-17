@@ -27,21 +27,41 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "monkc.h"
 
-static inline size_t expand_table(mc_hashtable* const table_p, MCHashTableLevel tolevel)
+mc_hashtable* new_table(const MCHashTableLevel initlevel)
 {
-    MCHashTableLevel oldlevel = table_p->level;
-    size_t oldsize = sizeof(mc_hashtable) + get_tablesize(oldlevel)*sizeof(mc_hashitem);
-    size_t newsize = sizeof(mc_hashtable) + get_tablesize(tolevel)*sizeof(mc_hashitem);
+    //alloc
+    mc_hashtable* atable = (mc_hashtable*)malloc(sizeof(mc_hashtable)
+                                                 +get_tablesize(initlevel)*sizeof(mc_hashitem*));
+    //init
+    atable->lock = 0;
+    atable->level = initlevel;
+    atable->table_item_count = 0;
+    //set all the slot to nil
+    for (int i = 0; i < get_tablesize(initlevel); i++)
+        atable->items[i] = mull;
+    return atable;
+}
+
+static inline void copy_table(mc_hashtable* dest, mc_hashtable* src)
+{
+    MCHashTableSize srccount = get_tablesize(src->level);
+    //don't copy lock, level
+    int i;
+    for (i=0; i<srccount; i++) {
+        dest->items[i] = src->items[i];
+    }
+    dest->table_item_count = src->table_item_count;
+}
+
+static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel tolevel)
+{
 	//realloc
-	//mc_hashtable* newtable = (mc_hashtable*)realloc(table_p, newsize);
-    mc_hashtable* newtable = (mc_hashtable*)malloc(newsize);
-    memcpy(newtable, table_p, oldsize);
-	newtable->level = tolevel;
-	//fill new slots to nil
-	for(int i=get_tablesize(oldlevel)+1; i<get_tablesize(tolevel); i++)
-		newtable->items[i].value=MCGenericEmpty;
-	debug_log("expand table: %d->%d\n", oldlevel, tolevel);
-    return newsize;
+    mc_hashtable* newtable = new_table(tolevel);
+    mc_hashtable* oldtable = (*table_p);
+    copy_table(newtable, oldtable);
+	debug_log("expand table: %d->%d\n", oldtable->level, newtable->level);
+    free(*table_p);
+    (*table_p) = newtable;
 }
 
 mc_hashitem* new_item(const char* key, MCGeneric value)
@@ -56,86 +76,73 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
 	aitem->hash = hashval;
 	aitem->index = 0;
 	aitem->level = MCHashTableLevel1;
-	//mc_copy_key(aitem->key, key);
+    //strcpy(aitem->key, key);
+    //aitem->key[MAX_KEY_CHARS] = '\0';
 	aitem->key = (char*)key;
 	aitem->value = value;
 	return aitem;
 }
 
-mc_hashtable* new_table(const MCHashTableLevel initlevel)
-{
-	//alloc
-	mc_hashtable* atable = (mc_hashtable*)malloc(sizeof(mc_hashtable)
-		+get_tablesize(initlevel)*sizeof(mc_hashitem));
-	//init
-	atable->lock = 0;
-	atable->level = initlevel;
-	atable->table_item_count = 0;
-	//set all the slot to nil
-	for (int i = 0; i < get_tablesize(initlevel); i++)
-		(atable->items)[i].value=MCGenericFp(mull);
-	return atable;
-}
 
-MCHashTableIndex set_item(mc_hashtable* const table_p,
-	mc_hashitem* const item, 
+
+MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
 	MCBool isOverride, MCBool isFreeValue, const char* classname)
 {
-    //mc_hashitem* olditem = nil;
-    MCHashTableLevel tmplevel = MCHashTableLevel1;
 	if(table_p==mull || table_p==mull){
 		error_log("set_item(mc_hashtable** table_p) table_p or *table_p is nill return 0\n");
 		return 0;
 	}
 
 	MCHash hashval = item->hash;
-	MCHashTableIndex index = hashval % get_tablesize(table_p->level);
+	MCHashTableIndex index = hashval % get_tablesize((*table_p)->level);
 
-    mc_hashitem olditem = table_p->items[index];
-	if(olditem.value.mcfuncptr == mull){
-		item->level = (table_p)->level;
+    mc_hashitem* olditem = (*table_p)->items[index];
+	if(olditem == mull){
+		item->level = (*table_p)->level;
 		item->index = index;
-		(table_p)->items[index] = *item;
+		(*table_p)->items[index] = item;
 		runtime_log("[%s]:set-item[%d/%s]\n", classname, item->index, item->key);
 		return index;
 	}else{
 		//if the item have already been setted. we free the old one
-		if(mc_compare_key(olditem.key, item->key) == 0){
+		if(mc_compare_key(olditem->key, item->key) == 0){
 			if(isOverride == MCFalse){
 				error_log("[%s]:set-item key[%s] already been setted, free temp item\n", classname, item->key);
-				if(isFreeValue == MCTrue)free(item->value.mcptr);
+				if(isFreeValue == MCTrue)free(item->value.mcfuncptr);
 				free(item);
+                (*table_p)->items[index] = mull;
 				return index;
 			}else{
 				error_log("[%s]:reset-item key[%s] already been setted, replace old item\n", classname, item->key);
-				if(isFreeValue == MCTrue)free(olditem.value.mcptr);
-				item->level = (table_p)->level;
+				if(isFreeValue == MCTrue)free(olditem->value.mcfuncptr);
+				item->level = (*table_p)->level;
 				item->index = index;
-				table_p->items[index] = *item;
+				(*table_p)->items[index] = item;
 				return index;
 			}
 
 		//conflict with other item. we expand the table and try again. until success
 		}else{
-			if(olditem.hash == item->hash)
+            //report the conflict type
+			if(olditem->hash == item->hash)
 				error_log("[%s]:hash conflict new[%s/%d]<->old[%s/%d]\n",
-					classname, item->key, item->hash, olditem.key, olditem.hash);
+					classname, item->key, item->hash, olditem->key, olditem->hash);
 			else
 				error_log("[%s]:index conflict new[%s/%d]<->old[%s/%d]\n",
-					classname, item->key, index, olditem.key, index);
-			tmplevel = (table_p)->level+1;
-			if(tmplevel<MCHashTableLevelMax){
-				expand_table(table_p, tmplevel);
-				set_item(table_p, item, isOverride, isFreeValue, mull);//recursive
+					classname, item->key, index, olditem->key, index);
+            //solve the conflict
+			if((*table_p)->level < MCHashTableLevelCount){//Max=5 Count=6
+				expand_table(table_p, (*table_p)->level+1);
+                set_item(table_p, item, isOverride, isFreeValue, mull);//recursive
                 return index;
 			}else{
 				//tmplevel = 5, table_p must have been expanded to level 4
 				//there still a item, use link list.
-				error_log("[%s]:item key conflict can not be soloved. link the new one[%s] behind the old[%s]\n",
-                          classname, item->key, olditem.key);
+				error_log("[%s]:item key conflict can not be solved. link the new one[%s] behind the old[%s]\n",
+                          classname, item->key, olditem->key);
 				item->level = MCHashTableLevelMax;
 				item->index = index;
-				olditem.next = item;
+				olditem->next = item;
 				return index;
 			}
 		}
@@ -203,8 +210,8 @@ mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCHashTableInde
 	}
 	if(index > get_tablesize(table_p->level))
 		return mull;
-	if(table_p->items[index].value.mcfuncptr != mull)
-		return &table_p->items[index];
+	if(table_p->items[index] != mull)
+		return table_p->items[index];
 	else
 		return mull;
 }

@@ -95,6 +95,7 @@ typedef double   MCDouble;
 typedef MCUInt       MCHash;
 typedef size_t       MCSizeT;
 typedef void*        MCPtr;
+
 typedef const char*  MCStaticString;
 typedef void         (*MCFuncPtr)(void);
 typedef enum { MCFalse=0, MCTrue=1 } MCBool;
@@ -144,7 +145,7 @@ typedef union {
     double      mcdouble;
     long double mcquad;
     long long   raw;
-} MCGenericFloat;
+} MCFloatContainer;
 
 /*
  Log.h
@@ -191,6 +192,7 @@ typedef enum  {
 } MCHashTableLevel;
 typedef MCUInt MCHashTableSize;
 typedef MCUInt MCHashTableIndex;
+#define MAX_KEY_CHARS 100
 typedef struct mc_hashitem_struct
 {
     struct mc_hashitem_struct* next;
@@ -207,7 +209,7 @@ typedef struct
     MCInt lock;
     MCHashTableLevel level;
     MCHashTableSize table_item_count;
-    mc_hashitem items[];
+    mc_hashitem* items[];
 }mc_hashtable;
 
 static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {1001, 2001, 10001, 40001, 100001};//100
@@ -220,16 +222,8 @@ MCInline MCHashTableSize get_tablesize(const MCHashTableLevel level)
     return mc_hashtable_sizes[level];
 }
 
-MCInline void mc_hashtable_add_item(mc_hashtable* table, MCHashTableIndex index, mc_hashitem item) { table->items[index] = item; }
-MCInline mc_hashitem mc_hashtable_get_item(mc_hashtable* table, MCHashTableIndex index) { return table->items[index]; }
-MCInline MCBool mc_hashitem_isnil(mc_hashtable* table, MCHashTableIndex index)
-{
-    if (table->items[index].value.mcfuncptr == mull) {
-        return MCTrue;
-    }else{
-        return MCFalse;
-    }
-}
+MCInline void mc_hashtable_add_item(mc_hashtable* table, MCHashTableIndex index, mc_hashitem* item) { table->items[index] = item; }
+MCInline mc_hashitem* mc_hashtable_get_item(mc_hashtable* table, MCHashTableIndex index) { return table->items[index]; }
 
 typedef struct mc_block_struct
 {
@@ -259,11 +253,11 @@ MCInline mc_blockpool* new_mc_blockpool()
 //meta class, the struct is a node for inherit hierarchy
 typedef struct
 {
-    MCSizeT objsize;
-    mc_hashitem* item;
-    mc_blockpool free_pool;
-    mc_blockpool used_pool;
-    mc_hashtable table;
+    MCSizeT       objsize;
+    mc_hashitem*  item;
+    mc_blockpool  free_pool;
+    mc_blockpool  used_pool;
+    mc_hashtable* table; //the hashtable may expand so let it dynamic
 }mc_class;
 //for type cast, every object have the 3 var members
 typedef struct MCObjectStruct
@@ -280,7 +274,7 @@ typedef MCObject* mo;
 MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
 {
     MCHashTableLevel initlevel = MCHashTableLevel1;
-    mc_class* aclass = (mc_class*)malloc(sizeof(mc_class) + sizeof(mc_hashitem)*get_tablesize(initlevel));
+    mc_class* aclass = (mc_class*)malloc(sizeof(mc_class));
     aclass->objsize = objsize;
     //init pool
     aclass->free_pool.lock = 0;
@@ -288,21 +282,21 @@ MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
     aclass->used_pool.lock = 0;
     aclass->used_pool.tail = mull;
     //init table
-    aclass->table.lock = 0;
-    aclass->table.level = initlevel;
-    aclass->table.table_item_count = 0;
+    aclass->table = (mc_hashtable*)malloc(sizeof(mc_hashtable) + sizeof(mc_hashitem)*get_tablesize(initlevel));
+    aclass->table->lock = 0;
+    aclass->table->level = initlevel;
+    aclass->table->table_item_count = 0;
     //set all the slot to nil
     for (int i = 0; i < get_tablesize(initlevel); i++)
-        (aclass->table.items)[i].value.mcfuncptr=mull;
+        (aclass->table->items)[i] = mull;
     return aclass;
 }
+
 MCInline void package_by_item(mc_hashitem* aitem_p, mc_class* aclass_p)
 {
     (aitem_p)->value.mcptr = aclass_p;
     (aclass_p)->item = aitem_p;
 }
-
-
 
 MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 {
@@ -399,8 +393,6 @@ MCInline const char* mc_nameofc(const mc_class* aclass) {
         return "";
     if(aclass->item==mull)
         return "";
-    if(aclass->item->key==mull)
-        return "";
     return aclass->item->key;
 }
 
@@ -426,7 +418,19 @@ void mc_unlock(volatile MCInt* lock_p);
  Key.h
  */
 
-MCInline int mc_compare_key(const char* dest, const char* src) { return strncmp(dest, src, strlen(src)); }
+MCInline int mc_compare_key(const char* dest, const char* src) {
+    if (dest && src) {
+        if (dest[0]!='\0' && src[0]!='\0') {
+            return strcmp(dest, src);
+        }else if (dest[0]=='\0' && src[0]=='\0') {
+            return 0;
+        }else{
+            return 1;
+        }
+    }else{
+        return 1;
+    }
+}
 
 /*
  HashTable.h
@@ -447,7 +451,7 @@ mc_hashitem* new_item(const char* key, MCGeneric value);
 mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval);
 mc_hashtable* new_table(const MCHashTableLevel initlevel);
 
-MCHashTableIndex set_item(mc_hashtable* const table_p,
+MCHashTableIndex set_item(mc_hashtable** const table_p,
                 mc_hashitem* const item,
                 MCBool isOverride, MCBool isFreeValue, const char* classname);
 mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key);
