@@ -38,6 +38,8 @@
     
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
+    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+
     //register rootview
     onRootViewLoad((__bridge void *)(view));
     [self setupGL];
