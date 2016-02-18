@@ -69,10 +69,17 @@ method(MainScene, void, bye, voida)
     MCObject_bye(0, spr, 0);
 }
 
-method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height)
+method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height, const char* vshaderPath, const char* fshaderPath)
 {
     MCGLEngine_featureSwith(0, var(engine), MCGLDepthTest, MCTrue);
     setupCamera(var(mainCamera), width, height);
+    
+    obj->program.vattrPositionName = "position";
+    obj->program.vattrNormalName = "normal";
+    prepareShader(&obj->program, vshaderPath, fshaderPath);
+    
+    obj->mvpLocation = glGetUniformLocation(obj->program.Id, "modelViewProjectionMatrix");
+    obj->norLocation = glGetUniformLocation(obj->program.Id, "normalMatrix");
     return obj;
 }
 
@@ -107,12 +114,20 @@ method(MainScene, void, hide, voida)
 method(MainScene, void, update, voida)
 {
     MCCamera_updateLookat(0, var(mainCamera), 0);
+    
+    MCMatrix4 mvp = MCCamera_calculateModelViewProjectionMatrix(0, obj->mainCamera, 0);
+    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(obj->mainCamera->modelViewMatrix), NULL);
+    
+    glUniformMatrix4fv(obj->mvpLocation, 1, 0, mvp.m);
+    glUniformMatrix3fv(obj->norLocation, 1, 0, nor.m);
 }
 
 method(MainScene, void, draw, voida)
 {
     if (var(visible)) {
         MCGLEngine_clearScreen(0, 0, 0);
+        
+        glUseProgram(obj->program.Id);
         
         for (int i=0; i<var(drawMsgCount); i++) {
             _push_jump(var(drawMsgArray)[i]);
@@ -144,9 +159,13 @@ void onRootViewLoad(void* rootview)
 }
 
 static MainScene* mainScene = mull;
-void onSetupGL(double windowWidth, double windowHeight)
+
+
+void onSetupGL(double windowWidth, double windowHeight, const char* vshaderPath, const char* fshaderPath)
 {
-    mainScene = MainScene_initWithWidthHeight(0, new(MainScene), windowWidth, windowHeight);
+    mainScene = MainScene_initWithWidthHeight(0, new(MainScene),
+                                              windowWidth, windowHeight,
+                                              vshaderPath, fshaderPath);
     ff(mainScene, show, 0);
 }
 
@@ -162,16 +181,6 @@ void onUpdate(double timeSinceLastUpdate)
         MainScene_moveCameraOneStep(0, mainScene, timeSinceLastUpdate * 15.0f, timeSinceLastUpdate * 15.0f);
         MainScene_update(0, mainScene, 0);
     }
-}
-
-MCMatrix4 onUpdateProjectionMatrix()
-{
-    return mainScene->mainCamera->projectionMatrix;
-}
-
-MCMatrix4 onUpdateModelViewMatrix()
-{
-    return mainScene->mainCamera->modelViewMatrix;
 }
 
 void onDraw()

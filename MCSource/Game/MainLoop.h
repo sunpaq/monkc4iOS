@@ -34,9 +34,13 @@ monkc(MainScene, MCObject,
     MCTexture* texture;
     mc_message drawMsgArray[10];
     MCInt drawMsgCount;
+    //Shader
+    MCShaderProgram program;
+    int mvpLocation;
+    int norLocation;
 );
 
-method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
+method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height, const char* vshaderPath, const char* fshaderPath);
 method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
 method(MainScene, void, lockCamera, MCBool lock);
 method(MainScene, MCCamera*, getCamera, voida);
@@ -48,7 +52,7 @@ method(MainScene, void, draw, voida);
 #endif /* defined(__monkcGame__MainScene__) */
 
 void onRootViewLoad(void* rootview);
-void onSetupGL(double windowWidth, double windowHeight);
+void onSetupGL(double windowWidth, double windowHeight, const char* vshaderPath, const char* fshaderPath);
 void onTearDownGL();
 void onUpdate(double timeSinceLastUpdate);
 MCMatrix4 onUpdateProjectionMatrix();

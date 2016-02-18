@@ -1,4 +1,3 @@
-#version 300 es
 
 varying lowp vec4 colorVarying;
 

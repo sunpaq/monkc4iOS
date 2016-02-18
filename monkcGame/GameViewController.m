@@ -10,15 +10,9 @@
 #import "MainLoop.h"
 
 @interface GameViewController () {
-    GLKMatrix4 _modelViewProjectionMatrix;
-    GLKMatrix3 _normalMatrix;
-    float _rotation;
-    
-    GLuint _vertexArray;
-    GLuint _vertexBuffer;
+
 }
 @property (strong, nonatomic) EAGLContext *context;
-@property (strong, nonatomic) GLKBaseEffect *effect;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -80,16 +74,19 @@
 {
     [EAGLContext setCurrentContext:self.context];
     
-    self.effect = [[GLKBaseEffect alloc] init];
-    self.effect.light0.enabled = GL_TRUE;
-    self.effect.light0.ambientColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
-    self.effect.light0.diffuseColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
-    self.effect.light0.specularColor = GLKVector4Make(1.0f, 1.0f, 1.0f, 1.0f);
-    
     //setup monkc
     double width = self.view.bounds.size.width;
     double height = self.view.bounds.size.height;
-    onSetupGL(width, height);
+    
+    NSString* vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"MainShader" ofType:@"vsh"];
+    GLchar* vsource = (GLchar*)[[NSString stringWithContentsOfFile:vertShaderPathname
+                                                          encoding:NSUTF8StringEncoding error:nil] UTF8String];
+    
+    NSString* fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"MainShader" ofType:@"fsh"];
+    GLchar* fsource = (GLchar*)[[NSString stringWithContentsOfFile:fragShaderPathname
+                                                          encoding:NSUTF8StringEncoding error:nil] UTF8String];
+    
+    onSetupGL(width, height, vsource, fsource);
 }
 
 - (void)tearDownGL
@@ -98,8 +95,6 @@
     
     //clean monkc
     onTearDownGL();
-
-    self.effect = nil;
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods
@@ -108,18 +103,10 @@
 {
     // monkc update
     onUpdate(self.timeSinceLastUpdate);
-    
-    MCMatrix4 pm = onUpdateProjectionMatrix();
-    MCMatrix4 vm = onUpdateModelViewMatrix();
-    
-    self.effect.transform.projectionMatrix = MCMatrix4ToGLKMatrix4(pm);
-    self.effect.transform.modelviewMatrix = MCMatrix4ToGLKMatrix4(vm);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    // Render the object with GLKit
-    [self.effect prepareToDraw];
     // monkc draw
     onDraw();
 }

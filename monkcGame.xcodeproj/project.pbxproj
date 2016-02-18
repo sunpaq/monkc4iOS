@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD1E49AF1C760BED00ADCBD2 /* MainShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MainShader.fsh */; };
+		FD1E49B01C760BED00ADCBD2 /* MainShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MainShader.vsh */; };
 		FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA31C394A220043E019 /* MCLightShader.fsh */; };
 		FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA51C394A390043E019 /* MCLightShader.vsh */; };
 		FD43FEA91C394C000043E019 /* MCLight.c in Sources */ = {isa = PBXBuildFile; fileRef = FD43FEA71C394C000043E019 /* MCLight.c */; };
@@ -85,6 +87,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FD1E49AD1C760BED00ADCBD2 /* MainShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MainShader.fsh; sourceTree = "<group>"; };
+		FD1E49AE1C760BED00ADCBD2 /* MainShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MainShader.vsh; sourceTree = "<group>"; };
 		FD43FEA31C394A220043E019 /* MCLightShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.fsh; sourceTree = "<group>"; };
 		FD43FEA51C394A390043E019 /* MCLightShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.vsh; sourceTree = "<group>"; };
 		FD43FEA71C394C000043E019 /* MCLight.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCLight.c; sourceTree = "<group>"; };
@@ -216,6 +220,8 @@
 				FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */,
 				FD43FEA31C394A220043E019 /* MCLightShader.fsh */,
 				FD43FEA51C394A390043E019 /* MCLightShader.vsh */,
+				FD1E49AD1C760BED00ADCBD2 /* MainShader.fsh */,
+				FD1E49AE1C760BED00ADCBD2 /* MainShader.vsh */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
@@ -556,8 +562,10 @@
 				FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */,
 				FD5EFD5E1B0E3D9D00D2492A /* Icon-76.png in Resources */,
 				FD5EFD681B0E3D9D00D2492A /* Icon.png in Resources */,
+				FD1E49B01C760BED00ADCBD2 /* MainShader.vsh in Resources */,
 				FD5EFD5D1B0E3D9D00D2492A /* Icon-60@3x.png in Resources */,
 				FD5EFD631B0E3D9D00D2492A /* Icon-60.png in Resources */,
+				FD1E49AF1C760BED00ADCBD2 /* MainShader.fsh in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
 				FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */,
 				FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */,

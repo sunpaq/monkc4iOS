@@ -221,3 +221,135 @@ onload(MCGLSLProgram)
     }
 }
 
+//NEW
+
+static int compileShader(GLuint* shader, GLenum type, const GLchar *source)
+{
+    GLint status;
+    
+    *shader = glCreateShader(type);
+    glShaderSource(*shader, 1, &source, NULL);
+    glCompileShader(*shader);
+    
+    GLint logLength;
+    glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetShaderInfoLog(*shader, logLength, &logLength, log);
+        printf("Shader compile log:\n%s", log);
+        free(log);
+    }
+    
+    glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
+    if (status == 0) {
+        glDeleteShader(*shader);
+        return 0;
+    }
+    
+    return 1;
+}
+
+static int linkProgram(GLuint prog)
+{
+    GLint status;
+    glLinkProgram(prog);
+    
+    GLint logLength;
+    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetProgramInfoLog(prog, logLength, &logLength, log);
+        printf("Program link log:\n%s", log);
+        free(log);
+    }
+    
+    glGetProgramiv(prog, GL_LINK_STATUS, &status);
+    if (status == 0) {
+        return 0;
+    }
+    
+    return 1;
+}
+
+static int validateProgram(GLuint prog)
+{
+    GLint logLength, status;
+    
+    glValidateProgram(prog);
+    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetProgramInfoLog(prog, logLength, &logLength, log);
+        printf("Program validate log:\n%s", log);
+        free(log);
+    }
+    
+    glGetProgramiv(prog, GL_VALIDATE_STATUS, &status);
+    if (status == 0) {
+        return 0;
+    }
+    
+    return 1;
+}
+
+void prepareShader(MCShaderProgram* program, const char* vertShaderSource, const char* fragShaderSource)
+{
+    GLuint vertShader, fragShader;
+    compileShader(&vertShader, GL_VERTEX_SHADER, vertShaderSource);
+    compileShader(&fragShader, GL_FRAGMENT_SHADER, fragShaderSource);
+    
+    // Create shader program.
+    program->Id = glCreateProgram();
+    
+    // Attach vertex shader to program.
+    glAttachShader(program->Id, vertShader);
+    
+    // Attach fragment shader to program.
+    glAttachShader(program->Id, fragShader);
+    
+    // Bind attribute locations.
+    // This needs to be done prior to linking.
+    glBindAttribLocation(program->Id, 0, program->vattrPositionName);
+    glBindAttribLocation(program->Id, 1, program->vattrNormalName);
+    
+    // Link program.
+    if (linkProgram(program->Id) == 0) {
+        printf("Failed to link program: %d", program->Id);
+        
+        if (vertShader) {
+            glDeleteShader(vertShader);
+            vertShader = 0;
+        }
+        if (fragShader) {
+            glDeleteShader(fragShader);
+            fragShader = 0;
+        }
+        if (program->Id) {
+            glDeleteProgram(program->Id);
+            program->Id = 0;
+        }
+    }
+    
+    // Get uniform locations.
+    //uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX] = glGetUniformLocation(_program, "modelViewProjectionMatrix");
+    //uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(_program, "normalMatrix");
+    
+    // Release vertex and fragment shaders.
+    if (vertShader) {
+        glDetachShader(program->Id, vertShader);
+        glDeleteShader(vertShader);
+    }
+    if (fragShader) {
+        glDetachShader(program->Id, fragShader);
+        glDeleteShader(fragShader);
+    }
+}
+
+void teardownShader(MCShaderProgram* program)
+{
+    if (program->Id) {
+        glDeleteProgram(program->Id);
+        program->Id = 0;
+    }
+}
+

@@ -50,7 +50,7 @@ GLubyte pixels[4*3] = {
     255, 255, 0
 };
 
-static MCGLSLProgram* prepareShader()
+static MCGLSLProgram* prepareTexShader()
 {
     char fbuff[200];
     char vbuff[200];
@@ -84,7 +84,7 @@ static MCGLSLProgram* prepareShader()
 oninit(MCTexture)
 {
     if(!init(MCDrawable)) return mull;
-    MCGLSLProgram* program = prepareShader();
+    MCGLSLProgram* program = prepareTexShader();
     
     //TO
     glActiveTexture(GL_TEXTURE0);

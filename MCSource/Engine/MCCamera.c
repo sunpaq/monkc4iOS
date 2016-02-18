@@ -82,6 +82,11 @@ method(MCCamera, void, update, voida)
     MCCamera_updateLookat(0, obj, 0);
 }
 
+method(MCCamera, MCMatrix4, calculateModelViewProjectionMatrix, voida)
+{
+    return MCMatrix4Multiply(var(projectionMatrix), var(modelViewMatrix));
+}
+
 onload(MCCamera)
 {
     if (load(MCObject)) {
@@ -90,6 +95,7 @@ onload(MCCamera)
         binding(MCCamera, void, updateRatioFocalDistance);
         binding(MCCamera, void, updateLookat);
         binding(MCCamera, void, update);
+        binding(MCCamera, MCMatrix4, calculateModelViewProjectionMatrix, voida);
         return claz;
     }else{
         return mull;

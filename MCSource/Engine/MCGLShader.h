@@ -50,4 +50,14 @@ method(MCGLSLProgram, MCInt, setUniformScalarValue, MCGLSLTypeScalar type, const
 method(MCGLSLProgram, MCInt, setUniformVectorValue, MCGLSLTypeVector type, const char* name, MCGeneric x, MCGeneric y, MCGeneric z, MCGeneric w);
 method(MCGLSLProgram, MCInt, setUniformMatrixValue, MCGLSLTypeMatrix type, const char* name, float* valuep, unsigned count);
 
+//NEW
+typedef struct {
+    GLuint  Id;
+    const char* vattrPositionName;
+    const char* vattrNormalName;
+} MCShaderProgram;
+
+void prepareShader(MCShaderProgram* program, const char* vertShaderSource, const char* fragShaderSource);
+void teardownShader(MCShaderProgram* program);
+
 #endif /* MCGLShader_h */

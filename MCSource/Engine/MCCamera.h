@@ -25,6 +25,7 @@ method(MCCamera, void, updatePosition, MCVertex* result);
 method(MCCamera, void, updateRatioFocalDistance, voida);
 method(MCCamera, void, updateLookat, voida);
 method(MCCamera, void, update, voida);
+method(MCCamera, MCMatrix4, calculateModelViewProjectionMatrix, voida);
 
 #define MCLensStandard50mm (0.050)
 #define MCLensWide24mm     (0.024)
