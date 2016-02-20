@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 oreisoft. All rights reserved.
 //
 
+#include <stdio.h>
+#include "MC3DBase.h"
 #include "MainLoop.h"
 #include "MC3DiOSDriver.h"
 #include "MC3DScene.h"
