@@ -12,10 +12,6 @@ static MCGLEngine StaticInstance;
 
 method(MCGLEngine, MCGLEngine*, getInstance, voida)
 {
-    if (engineclock == mull) {
-        engineclock = new(MCClock);
-        (&StaticInstance)->clock = engineclock;
-    }
     return &StaticInstance;
 }
 

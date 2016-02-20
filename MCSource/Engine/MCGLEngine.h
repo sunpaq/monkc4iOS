@@ -55,36 +55,26 @@ method(MCGLEngine, MCUInt, getMaxTextureUnits, voida);
 method(MCGLEngine, void, activeTextureUnit, MCUInt index);
 
 //Frame Rate (FPS)
-/*
-MCInt fps = -1;
-if ((fps = MCGLEngine_tickFPS(0, mainScene->engine, 0)) > 0) {
-    UILayer_onFrameRenderFinished(0, mainScene->uilayer, fps);
-    MCGLEngine_resetFPS(0, mainScene->engine, 0);
-}
-*/
-
-static unsigned fcount = 0;
-static clock_t elapse = 0;
-static clock_t _time, _lastime;
-static MCClock* engineclock = mull;
-
-MCInline int MCGLEngine_tickFPS()
+MCInline int MCGLEngine_tickFPS(MCClock* clock)
 {
-    MCClock_getCPUClocksSinceStart(0, engineclock, &_time);
+    static unsigned fcount = 0;
+    static clock_t elapse = 0;
+    static clock_t time, lastime;
+    
+    MCClock_getCPUClocksSinceStart(0, clock, &time);
     if (elapse >= CLOCKS_PER_SEC ) {
-        return fcount;
+        unsigned result = fcount;
+        //reset
+        elapse = 0;
+        fcount = 0;
+        lastime = time;
+        
+        return result;
     }else{
-        elapse += (_time - _lastime);
+        elapse += (time - lastime);
         fcount++;
         return -1;
     }
-}
-
-MCInline void MCGLEngine_resetFPS()
-{
-    elapse = 0;
-    fcount = 0;
-    _lastime = _time;
 }
 
 //Shader

@@ -12,10 +12,11 @@
 oninit(MC3DScene)
 {
     if (init(MCObject)) {
-        var(renderer) = new(MCGLRenderer);
-        var(rootnode) = new(MC3DNode);
+        var(renderer)   = new(MCGLRenderer);
+        var(rootnode)   = new(MC3DNode);
         var(mainCamera) = new(MCCamera);
-        var(uilayer)  = new(UILayer);
+        var(uilayer)    = new(UILayer);
+        var(clock)      = new(MCClock);
         
         var(next) = mull;
         var(prev) = mull;
@@ -35,6 +36,7 @@ method(MC3DScene, void, bye, voida)
     release(var(rootnode));
     release(var(mainCamera));
     release(var(uilayer));
+    release(var(clock));
     
     MCObject_bye(0, spr, 0);
 }
@@ -85,9 +87,8 @@ method(MC3DScene, void, drawScene, voida)
     
     //calculate FPS
     MCInt fps = -1;
-    if ((fps = MCGLEngine_tickFPS()) > 0) {
+    if ((fps = MCGLEngine_tickFPS(var(clock))) > 0) {
         UILayer_onFrameRenderFinished(0, obj->uilayer, fps);
-        MCGLEngine_resetFPS();
     }
 }
 

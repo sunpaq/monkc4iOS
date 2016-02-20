@@ -30,7 +30,7 @@ oninit(UILayer)
     MCUIAddLabelButton("", "STOP ROTATE",  mc_color(255, 0, 0), 100, 70, STOP);
     MCUIAddLabelButton("", "ZOOM IN",      mc_color(255, 255, 255), 100, 110, ZOOM_IN);
     MCUIAddLabelButton("", "ZOOM OUT",     mc_color(255, 255, 255), 100, 150, ZOOM_OUT);
-    MCUIAddLabel("FPS", mc_color(255, 255, 255), 100, 300, FPS_TAG);
+    MCUIAddLabel("FPS", mc_color(255, 255, 255), 30, 300, FPS_TAG);
     return obj;
 }
 
