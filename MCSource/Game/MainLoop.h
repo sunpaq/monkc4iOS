@@ -16,8 +16,6 @@ void onRootViewLoad(void* rootview);
 void onSetupGL(double windowWidth, double windowHeight, const char* vshaderPath, const char* fshaderPath);
 void onTearDownGL();
 void onUpdate(double timeSinceLastUpdate);
-MCMatrix4 onUpdateProjectionMatrix();
-MCMatrix4 onUpdateModelViewMatrix();
 void onDraw();
 
 #endif
