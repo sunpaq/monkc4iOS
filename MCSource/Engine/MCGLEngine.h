@@ -14,7 +14,6 @@
 #include "MC3DType.h"
 #include "MC3DBase.h"
 #include "MC3DShapeBase.h"
-#include "MCGLShader.h"
 #include "MCClock.h"
 
 typedef enum {
@@ -54,10 +53,7 @@ method(MCGLEngine, void, cullBackFace, voida);
 //Texture
 method(MCGLEngine, MCUInt, getMaxTextureUnits, voida);
 method(MCGLEngine, void, activeTextureUnit, MCUInt index);
-//Drawable
-method(MCGLEngine, MCGLEngineResponse, prepareDrawableData, MCDrawableData* data);
-method(MCGLEngine, void, cleanupDrawableData, MCGLEngineResponse response);
-method(MCGLEngine, void, drawDrawableData, MCDrawableData* data);
+
 //Frame Rate (FPS)
 /*
 MCInt fps = -1;
@@ -66,7 +62,99 @@ if ((fps = MCGLEngine_tickFPS(0, mainScene->engine, 0)) > 0) {
     MCGLEngine_resetFPS(0, mainScene->engine, 0);
 }
 */
-method(MCGLEngine, MCInt, tickFPS, voida);
-method(MCGLEngine, void, resetFPS, voida);
+
+static unsigned fcount = 0;
+static clock_t elapse = 0;
+static clock_t _time, _lastime;
+static MCClock* engineclock = mull;
+
+MCInline int MCGLEngine_tickFPS()
+{
+    MCClock_getCPUClocksSinceStart(0, engineclock, &_time);
+    if (elapse >= CLOCKS_PER_SEC ) {
+        return fcount;
+    }else{
+        elapse += (_time - _lastime);
+        fcount++;
+        return -1;
+    }
+}
+
+MCInline void MCGLEngine_resetFPS()
+{
+    elapse = 0;
+    fcount = 0;
+    _lastime = _time;
+}
+
+//Shader
+MCInline int MCGLEngine_compileShader(GLuint* shader, GLenum type, const GLchar *source)
+{
+    GLint status;
+    
+    *shader = glCreateShader(type);
+    glShaderSource(*shader, 1, &source, NULL);
+    glCompileShader(*shader);
+    
+    GLint logLength;
+    glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetShaderInfoLog(*shader, logLength, &logLength, log);
+        printf("Shader compile log:\n%s", log);
+        free(log);
+    }
+    
+    glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
+    if (status == 0) {
+        glDeleteShader(*shader);
+        return 0;
+    }
+    
+    return 1;
+}
+
+MCInline int MCGLEngine_linkProgram(GLuint prog)
+{
+    GLint status;
+    glLinkProgram(prog);
+    
+    GLint logLength;
+    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetProgramInfoLog(prog, logLength, &logLength, log);
+        printf("Program link log:\n%s", log);
+        free(log);
+    }
+    
+    glGetProgramiv(prog, GL_LINK_STATUS, &status);
+    if (status == 0) {
+        return 0;
+    }
+    
+    return 1;
+}
+
+MCInline int MCGLEngine_validateProgram(GLuint prog)
+{
+    GLint logLength, status;
+    
+    glValidateProgram(prog);
+    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetProgramInfoLog(prog, logLength, &logLength, log);
+        printf("Program validate log:\n%s", log);
+        free(log);
+    }
+    
+    glGetProgramiv(prog, GL_VALIDATE_STATUS, &status);
+    if (status == 0) {
+        return 0;
+    }
+    
+    return 1;
+}
 
 #endif /* MCGLEngine_h */

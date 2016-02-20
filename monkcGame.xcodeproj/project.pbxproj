@@ -7,17 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FD1E49AF1C760BED00ADCBD2 /* MainShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MainShader.fsh */; };
-		FD1E49B01C760BED00ADCBD2 /* MainShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MainShader.vsh */; };
+		FD0B16401C78447C004FD724 /* MC3DNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B163E1C78447C004FD724 /* MC3DNode.c */; };
+		FD0B16431C784FB7004FD724 /* MC3DScene.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16411C784FB7004FD724 /* MC3DScene.c */; };
+		FD0B16461C788ADE004FD724 /* MCMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16441C788ADE004FD724 /* MCMesh.c */; };
+		FD0B16491C788AF2004FD724 /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16471C788AF2004FD724 /* MCTexture.c */; };
+		FD0B164C1C789203004FD724 /* MCVertex.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B164A1C789203004FD724 /* MCVertex.c */; };
+		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
+		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
 		FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA31C394A220043E019 /* MCLightShader.fsh */; };
 		FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA51C394A390043E019 /* MCLightShader.vsh */; };
-		FD43FEA91C394C000043E019 /* MCLight.c in Sources */ = {isa = PBXBuildFile; fileRef = FD43FEA71C394C000043E019 /* MCLight.c */; };
 		FD43FEAC1C429A2D0043E019 /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD43FEAA1C429A2D0043E019 /* Testbed.c */; };
-		FD4DC4491C01459100A3B9F2 /* MCGLShader.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLShader.c */; };
+		FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */; };
 		FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4F1F261C2FC89900D17CD9 /* MainLoop.c */; };
 		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
 		FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */; };
-		FD5778671BF0F74100123962 /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5778651BF0F74100123962 /* MCTexture.c */; };
 		FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */; };
 		FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18761B09C4B0006CB737 /* UILayer.c */; };
 		FD5E18801B09CE60006CB737 /* MCNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E187B1B09CE60006CB737 /* MCNode.c */; };
@@ -50,7 +53,6 @@
 		FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */; };
 		FDBF1A4B1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
-		FDCB46B21B12382D00403320 /* MCDrawable.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46B01B12382D00403320 /* MCDrawable.c */; };
 		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
 		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
 		FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF060F1B060BE1000064E3 /* GameViewController.m */; };
@@ -87,22 +89,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FD1E49AD1C760BED00ADCBD2 /* MainShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MainShader.fsh; sourceTree = "<group>"; };
-		FD1E49AE1C760BED00ADCBD2 /* MainShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MainShader.vsh; sourceTree = "<group>"; };
+		FD0B163E1C78447C004FD724 /* MC3DNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DNode.c; sourceTree = "<group>"; };
+		FD0B163F1C78447C004FD724 /* MC3DNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DNode.h; sourceTree = "<group>"; };
+		FD0B16411C784FB7004FD724 /* MC3DScene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DScene.c; sourceTree = "<group>"; };
+		FD0B16421C784FB7004FD724 /* MC3DScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DScene.h; sourceTree = "<group>"; };
+		FD0B16441C788ADE004FD724 /* MCMesh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCMesh.c; sourceTree = "<group>"; };
+		FD0B16451C788ADE004FD724 /* MCMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMesh.h; sourceTree = "<group>"; };
+		FD0B16471C788AF2004FD724 /* MCTexture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTexture.c; sourceTree = "<group>"; };
+		FD0B16481C788AF2004FD724 /* MCTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTexture.h; sourceTree = "<group>"; };
+		FD0B164A1C789203004FD724 /* MCVertex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCVertex.c; sourceTree = "<group>"; };
+		FD0B164B1C789203004FD724 /* MCVertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVertex.h; sourceTree = "<group>"; };
+		FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.fsh; sourceTree = "<group>"; };
+		FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.vsh; sourceTree = "<group>"; };
 		FD43FEA31C394A220043E019 /* MCLightShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.fsh; sourceTree = "<group>"; };
 		FD43FEA51C394A390043E019 /* MCLightShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.vsh; sourceTree = "<group>"; };
-		FD43FEA71C394C000043E019 /* MCLight.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCLight.c; sourceTree = "<group>"; };
-		FD43FEA81C394C000043E019 /* MCLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLight.h; sourceTree = "<group>"; };
 		FD43FEAA1C429A2D0043E019 /* Testbed.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Testbed.c; sourceTree = "<group>"; };
 		FD43FEAB1C429A2D0043E019 /* Testbed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Testbed.h; sourceTree = "<group>"; };
-		FD4DC4471C01459100A3B9F2 /* MCGLShader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLShader.c; sourceTree = "<group>"; };
-		FD4DC4481C01459100A3B9F2 /* MCGLShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLShader.h; sourceTree = "<group>"; };
+		FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLRenderer.c; sourceTree = "<group>"; };
+		FD4DC4481C01459100A3B9F2 /* MCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLRenderer.h; sourceTree = "<group>"; };
 		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
 		FD4F1F271C2FC89900D17CD9 /* MainLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainLoop.h; sourceTree = "<group>"; };
 		FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.fsh; sourceTree = "<group>"; };
 		FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.vsh; sourceTree = "<group>"; };
-		FD5778651BF0F74100123962 /* MCTexture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTexture.c; sourceTree = "<group>"; };
-		FD5778661BF0F74100123962 /* MCTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTexture.h; sourceTree = "<group>"; };
 		FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MC3DiOSDriver.m; sourceTree = "<group>"; };
 		FD5E18621B08FFE7006CB737 /* MC3DiOSDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DiOSDriver.h; sourceTree = "<group>"; };
 		FD5E18761B09C4B0006CB737 /* UILayer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UILayer.c; sourceTree = "<group>"; };
@@ -150,8 +158,6 @@
 		FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MCRuntimeAsmIOS.S; sourceTree = "<group>"; };
 		FDCB46AD1B11E3C300403320 /* MCOrbit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCOrbit.c; sourceTree = "<group>"; };
 		FDCB46AE1B11E3C300403320 /* MCOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrbit.h; sourceTree = "<group>"; };
-		FDCB46B01B12382D00403320 /* MCDrawable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCDrawable.c; sourceTree = "<group>"; };
-		FDCB46B11B12382D00403320 /* MCDrawable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDrawable.h; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -220,8 +226,8 @@
 				FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */,
 				FD43FEA31C394A220043E019 /* MCLightShader.fsh */,
 				FD43FEA51C394A390043E019 /* MCLightShader.vsh */,
-				FD1E49AD1C760BED00ADCBD2 /* MainShader.fsh */,
-				FD1E49AE1C760BED00ADCBD2 /* MainShader.vsh */,
+				FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */,
+				FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
@@ -251,18 +257,22 @@
 				FD5E188A1B09CECB006CB737 /* MCCube.h */,
 				FDCB46AD1B11E3C300403320 /* MCOrbit.c */,
 				FDCB46AE1B11E3C300403320 /* MCOrbit.h */,
-				FDCB46B01B12382D00403320 /* MCDrawable.c */,
-				FDCB46B11B12382D00403320 /* MCDrawable.h */,
-				FD5778651BF0F74100123962 /* MCTexture.c */,
-				FD5778661BF0F74100123962 /* MCTexture.h */,
-				FD4DC4471C01459100A3B9F2 /* MCGLShader.c */,
-				FD4DC4481C01459100A3B9F2 /* MCGLShader.h */,
+				FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */,
+				FD4DC4481C01459100A3B9F2 /* MCGLRenderer.h */,
 				FD819E5B1C2D4797007D4BE4 /* MCWorld.c */,
 				FD819E5C1C2D4797007D4BE4 /* MCWorld.h */,
 				FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */,
 				FD819E5F1C2EE4F0007D4BE4 /* MCGLEngine.h */,
-				FD43FEA71C394C000043E019 /* MCLight.c */,
-				FD43FEA81C394C000043E019 /* MCLight.h */,
+				FD0B16471C788AF2004FD724 /* MCTexture.c */,
+				FD0B16481C788AF2004FD724 /* MCTexture.h */,
+				FD0B164A1C789203004FD724 /* MCVertex.c */,
+				FD0B164B1C789203004FD724 /* MCVertex.h */,
+				FD0B16441C788ADE004FD724 /* MCMesh.c */,
+				FD0B16451C788ADE004FD724 /* MCMesh.h */,
+				FD0B163E1C78447C004FD724 /* MC3DNode.c */,
+				FD0B163F1C78447C004FD724 /* MC3DNode.h */,
+				FD0B16411C784FB7004FD724 /* MC3DScene.c */,
+				FD0B16421C784FB7004FD724 /* MC3DScene.h */,
 			);
 			name = Engine;
 			path = MCSource/Engine;
@@ -562,10 +572,10 @@
 				FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */,
 				FD5EFD5E1B0E3D9D00D2492A /* Icon-76.png in Resources */,
 				FD5EFD681B0E3D9D00D2492A /* Icon.png in Resources */,
-				FD1E49B01C760BED00ADCBD2 /* MainShader.vsh in Resources */,
+				FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */,
 				FD5EFD5D1B0E3D9D00D2492A /* Icon-60@3x.png in Resources */,
 				FD5EFD631B0E3D9D00D2492A /* Icon-60.png in Resources */,
-				FD1E49AF1C760BED00ADCBD2 /* MainShader.fsh in Resources */,
+				FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
 				FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */,
 				FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */,
@@ -593,24 +603,26 @@
 				FDFF064D1B06314C000064E3 /* monkc.c in Sources */,
 				FDFF06701B06315B000064E3 /* MCThread.c in Sources */,
 				FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */,
+				FD0B16431C784FB7004FD724 /* MC3DScene.c in Sources */,
 				FD5E18901B09DEB6006CB737 /* MCArray.c in Sources */,
+				FD0B16461C788ADE004FD724 /* MCMesh.c in Sources */,
 				FD5E188B1B09CECB006CB737 /* MC3DMainLoop.c in Sources */,
 				FDFF06691B06315B000064E3 /* MCContext.c in Sources */,
 				FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */,
+				FD0B16401C78447C004FD724 /* MC3DNode.c in Sources */,
 				FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */,
 				FDFF06471B06314C000064E3 /* Lock.c in Sources */,
 				FDFF066D1B06315B000064E3 /* MCProcess.c in Sources */,
+				FD0B16491C788AF2004FD724 /* MCTexture.c in Sources */,
 				FDFF06451B06314C000064E3 /* HashTable.c in Sources */,
 				FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */,
-				FD4DC4491C01459100A3B9F2 /* MCGLShader.c in Sources */,
+				FD0B164C1C789203004FD724 /* MCVertex.c in Sources */,
+				FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */,
 				FDFF066A1B06315B000064E3 /* MCException.c in Sources */,
-				FD43FEA91C394C000043E019 /* MCLight.c in Sources */,
 				FDFF066B1B06315B000064E3 /* MCIO.c in Sources */,
 				FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */,
 				FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */,
-				FDCB46B21B12382D00403320 /* MCDrawable.c in Sources */,
 				FDFF064C1B06314C000064E3 /* Messaging.c in Sources */,
-				FD5778671BF0F74100123962 /* MCTexture.c in Sources */,
 				FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */,
 				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,
 				FDFF066C1B06315B000064E3 /* MCMath.c in Sources */,

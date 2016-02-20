@@ -9,7 +9,6 @@
 #include "MCGLEngine.h"
 
 static MCGLEngine StaticInstance;
-static MCClock* engineclock = mull;
 
 method(MCGLEngine, MCGLEngine*, getInstance, voida)
 {
@@ -21,28 +20,6 @@ method(MCGLEngine, MCGLEngine*, getInstance, voida)
 }
 
 //Global
-static unsigned fcount = 0;
-static clock_t elapse = 0;
-static clock_t _time, _lastime;
-method(MCGLEngine, MCInt, tickFPS, voida)
-{
-    MCClock_getCPUClocksSinceStart(0, engineclock, &_time);
-    if (elapse >= CLOCKS_PER_SEC ) {
-        return fcount;
-    }else{
-        elapse += (_time - _lastime);
-        fcount++;
-        return -1;
-    }
-}
-
-method(MCGLEngine, void, resetFPS, voida)
-{
-    elapse = 0;
-    fcount = 0;
-    _lastime = _time;
-}
-
 method(MCGLEngine, MCBool, isFeatureOn, MCGLFeature feature)
 {
     return (MCBool)glIsEnabled(feature);
@@ -129,46 +106,4 @@ method(MCGLEngine, void, activeTextureUnit, MCUInt index)
     glActiveTexture(GL_TEXTURE0+index);
 }
 
-//Drawable
-method(MCGLEngine, MCGLEngineResponse, prepareDrawableData, MCDrawableData* data)
-{
-    MCGLEngineResponse response;
-    //VAO
-    glGenVertexArraysOES(1, &response.vaoId);
-    glBindVertexArrayOES(response.vaoId);
-    //VBO
-    glGenBuffers(1, &response.vboId);
-    glBindBuffer(GL_ARRAY_BUFFER, response.vboId);
-    glBufferData(GL_ARRAY_BUFFER, data->size, data->data, GL_STATIC_DRAW);
-    //VAP
-    int i;
-    for (i=0; i<data->vapCount; i++) {
-        MCVertexAttributeInfo info = data->vapArray[i];
-        glVertexAttribPointer(info.indx, info.size, info.type, info.normalized, info.stride, info.ptr);
-        glEnableVertexAttribArray(i);
-    }
-    if(glGetError())
-        response.success = MCFalse;
-    else
-        response.success = MCTrue;
-    return response;
-}
-
-method(MCGLEngine, void, cleanupDrawableData, MCGLEngineResponse response)
-{
-    if (response.success == MCFalse) return;
-    if (glIsVertexArrayOES(response.vaoId)) {
-        glDeleteVertexArraysOES(1, &response.vaoId);
-    }
-    if (glIsBuffer(response.vboId)) {
-        glDeleteBuffers(1, &response.vboId);
-    }
-}
-
-method(MCGLEngine, void, drawDrawableData, MCDrawableData* data)
-{
-    if (data) {
-        glDrawArrays(data->drawmode, data->drawfirst, data->drawcount);
-    }
-}
 

@@ -8,11 +8,11 @@ monkc(MCCamera, MCObject,
     MCFloat ratio;
     MCFloat focal_length;
     MCFloat max_distance;
-    MCVertex lookat;
+    MCVector3 lookat;
     MCMatrix4 projectionMatrix;
     MCMatrix4 modelViewMatrix;
     //world coordinate
-    MCVertex currentPosition;
+    MCVector3 currentPosition;
     //local spherical coordinate
     //R[0,unlimited) tht[0, 180.0), fai[0, 360.0)
     MCFloat R;
@@ -20,8 +20,11 @@ monkc(MCCamera, MCObject,
     MCFloat fai;
 );
 
+method(MCCamera, MCCamera*, initWithWidthHeight, MCFloat width, MCFloat height);
+method(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht);
+
 method(MCCamera, void, reset, MCBool updateOrNot);
-method(MCCamera, void, updatePosition, MCVertex* result);
+method(MCCamera, void, updatePosition, MCVector3* result);
 method(MCCamera, void, updateRatioFocalDistance, voida);
 method(MCCamera, void, updateLookat, voida);
 method(MCCamera, void, update, voida);

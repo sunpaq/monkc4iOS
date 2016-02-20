@@ -66,29 +66,14 @@ typedef struct {
     MCFloat x;
     MCFloat y;
     MCFloat z;
-} MCVector3, MCVertex;
+} MCVector3;
 
 typedef struct {
-    GLuint indx;
-    GLint size;
-    GLenum type;
-    GLboolean normalized;
-    GLsizei stride;
-    const GLvoid *ptr;
-} MCVertexAttributeInfo;
-
-typedef struct {
-    MCDrawMode drawmode;
-    unsigned   drawfirst;
-    unsigned   drawcount;
-    size_t   size;
-    float*   data;
-    unsigned vapCount;
-    MCVertexAttributeInfo vapArray[];
-} MCDrawableData;
-MCInline MCDrawableData* NewMCDrawableData(vapCount) {
-    return (MCDrawableData*)malloc(sizeof(MCDrawableData)+vapCount*sizeof(MCVertexAttributeInfo));
-}
+    MCFloat x;
+    MCFloat y;
+    MCFloat z;
+    MCFloat w;
+} MCVector4;
 
 typedef enum {
     MCGLSLScalar_float,

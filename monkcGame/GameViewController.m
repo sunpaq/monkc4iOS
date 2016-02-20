@@ -78,11 +78,11 @@
     double width = self.view.bounds.size.width;
     double height = self.view.bounds.size.height;
     
-    NSString* vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"MainShader" ofType:@"vsh"];
+    NSString* vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"MCGLRenderer" ofType:@"vsh"];
     GLchar* vsource = (GLchar*)[[NSString stringWithContentsOfFile:vertShaderPathname
                                                           encoding:NSUTF8StringEncoding error:nil] UTF8String];
     
-    NSString* fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"MainShader" ofType:@"fsh"];
+    NSString* fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"MCGLRenderer" ofType:@"fsh"];
     GLchar* fsource = (GLchar*)[[NSString stringWithContentsOfFile:fragShaderPathname
                                                           encoding:NSUTF8StringEncoding error:nil] UTF8String];
     

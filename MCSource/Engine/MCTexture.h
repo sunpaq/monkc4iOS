@@ -2,29 +2,13 @@
 //  MCTexture.h
 //  monkcGame
 //
-//  Created by SunYuLi on 15/11/9.
-//  Copyright © 2015年 oreisoft. All rights reserved.
+//  Created by Sun YuLi on 16/2/20.
+//  Copyright © 2016年 oreisoft. All rights reserved.
 //
 
 #ifndef MCTexture_h
 #define MCTexture_h
 
 #include <stdio.h>
-
-#include "monkc.h"
-#include "MCUIBase.h"
-#include "MCDrawable.h"
-
-monkc(MCTexture, MCDrawable,
-    MCUInt textureId;
-    MCUInt texcolorId;
-);
-
-method(MCTexture, void, draw, voida);
-
-
-
-
-
 
 #endif /* MCTexture_h */

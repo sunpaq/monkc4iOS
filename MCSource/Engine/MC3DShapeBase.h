@@ -27,7 +27,7 @@ MCInline void MakeCircleData(float cx, float cy, float cz, float r, int num_segm
     }
 }
 
-MCInline MCUInt MCDrawLinePrepare(MCVertex p1, MCVertex p2)
+MCInline MCUInt MCDrawLinePrepare(MCVector3 p1, MCVector3 p2)
 {
     const MCUInt count = 3*2;
     MCFloat data[count] = {p1.x, p1.y, p1.z, p2.x, p2.y, p2.z};

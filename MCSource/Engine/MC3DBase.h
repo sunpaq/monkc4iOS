@@ -5,7 +5,15 @@
 #include "MC3DType.h"
 #include "MC3DiOSDriver.h"
 
-#define MCBUFFER_OFFSET(i) ((char *)NULL + (i))
+#define MCBUFFER_OFFSET(i)         ((char *)NULL + (i))
+#define MCARRAY_COUNT(array, type) (sizeof(array)/sizeof(type))
+
+typedef enum {
+    MC3DSuccess = 0,
+    MC3DErrChildrenFull,
+    MC3DErrChildNotFound,
+    MC3DErrUniformNotFound = -1,
+} MC3DErrCode;
 
 MCInline MCFloat MCDegreesToRadians(MCFloat degrees) { return degrees * (M_PI / 180); }
 MCInline MCFloat MCRadiansToDegrees(MCFloat radians) { return radians * (180 / M_PI); }
@@ -23,42 +31,42 @@ MCInline MCFloat MCCosDegrees(MCFloat degress)       { return cos(MCDegreesToRad
 MCInline MCFloat MCTanDegrees(MCFloat degress)       { return tan(MCDegreesToRadians(degress)); }
 
 
-MCInline MCVertex MCVertexMake(MCFloat x, MCFloat y, MCFloat z) {
-    return (MCVertex){x, y, z};
+MCInline MCVector3 MCVertexMake(MCFloat x, MCFloat y, MCFloat z) {
+    return (MCVector3){x, y, z};
 }
 
-MCInline MCVertex MCVertexMakeReverse(MCFloat x, MCFloat y, MCFloat z) {
-    return (MCVertex){-x, -y, -z};
+MCInline MCVector3 MCVertexMakeReverse(MCFloat x, MCFloat y, MCFloat z) {
+    return (MCVector3){-x, -y, -z};
 }
 
-MCInline MCVertex MCVertexReverse(MCVertex vtx) {
-    return (MCVertex){-vtx.x, -vtx.y, -vtx.z};
+MCInline MCVector3 MCVertexReverse(MCVector3 vtx) {
+    return (MCVector3){-vtx.x, -vtx.y, -vtx.z};
 }
 
-MCInline MCVertex MCVertexMiddle(MCVertex v1, MCVertex v2) {
-    return (MCVertex){(v1.x+v2.x)/2.0f, (v1.y+v2.y)/2.0f, (v1.z+v2.z)/2.0f};
+MCInline MCVector3 MCVertexMiddle(MCVector3 v1, MCVector3 v2) {
+    return (MCVector3){(v1.x+v2.x)/2.0f, (v1.y+v2.y)/2.0f, (v1.z+v2.z)/2.0f};
 }
 
-MCInline MCVertex MCVertexAdd(MCVertex v1, MCVertex v2) {
-    return (MCVertex){v1.x+v2.x, v1.y+v2.y, v1.z+v2.z};
+MCInline MCVector3 MCVertexAdd(MCVector3 v1, MCVector3 v2) {
+    return (MCVector3){v1.x+v2.x, v1.y+v2.y, v1.z+v2.z};
 }
 
-MCInline MCVertex MCVertexSub(MCVertex v1, MCVertex v2) {
+MCInline MCVector3 MCVertexSub(MCVector3 v1, MCVector3 v2) {
     //the same as add -v2
-    return (MCVertex){v1.x-v2.x, v1.y-v2.y, v1.z-v2.z};
+    return (MCVector3){v1.x-v2.x, v1.y-v2.y, v1.z-v2.z};
 }
 
-MCInline MCFloat MCVertexDot(MCVertex v1, MCVertex v2) {
+MCInline MCFloat MCVertexDot(MCVector3 v1, MCVector3 v2) {
     return (v1.x*v2.x + v1.y*v2.y + v1.z*v2.z);
 }
 
-MCInline MCVertex MCVertexCross(MCVertex v1, MCVertex v2) {
-    return (MCVertex){v1.y*v2.z - v2.y*v1.z,
+MCInline MCVector3 MCVertexCross(MCVector3 v1, MCVector3 v2) {
+    return (MCVector3){v1.y*v2.z - v2.y*v1.z,
                       v2.x*v1.z - v1.x*v2.z,
                       v1.x*v2.y - v2.x*v1.y};
 }
 
-MCInline void putMCVertexes(MCVertex verp[], MCUInt count) {
+MCInline void putMCVertexes(MCVector3 verp[], MCUInt count) {
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, verp);
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei)count*3);
@@ -66,20 +74,20 @@ MCInline void putMCVertexes(MCVertex verp[], MCUInt count) {
 }
 
 //world is right hand y on top, local is left hand z on top
-MCInline MCVertex MCWorldCoorFromLocal(MCVertex localvertex, MCVertex modelposition) {
-    return (MCVertex){modelposition.x+localvertex.y,
+MCInline MCVector3 MCWorldCoorFromLocal(MCVector3 localvertex, MCVector3 modelposition) {
+    return (MCVector3){modelposition.x+localvertex.y,
                       modelposition.y+localvertex.z,
                       modelposition.z+localvertex.x};
 }
 
-MCInline MCVertex MCLocalCoorFromWorld(MCVertex worldvertex, MCVertex modelposition) {
-    return (MCVertex){worldvertex.z-modelposition.z,
+MCInline MCVector3 MCLocalCoorFromWorld(MCVector3 worldvertex, MCVector3 modelposition) {
+    return (MCVector3){worldvertex.z-modelposition.z,
                       worldvertex.x-modelposition.x,
                       worldvertex.y-modelposition.y};
 }
 
 //R[0,unlimited) tht[0, M_PI), fai[0, 2M_PI)
-MCInline MCVertex MCVertexFromSpherical(MCFloat R, MCFloat tht, MCFloat fai) {
+MCInline MCVector3 MCVertexFromSpherical(MCFloat R, MCFloat tht, MCFloat fai) {
 #ifdef __APPLE__
     MCFloat sinT = MCSinDegrees(tht);
     MCFloat sinF = MCSinDegrees(fai);
@@ -93,7 +101,7 @@ MCInline MCVertex MCVertexFromSpherical(MCFloat R, MCFloat tht, MCFloat fai) {
     MCFloat y = R * sin(tht) * sin(fai);
     MCFloat z = R * cos(tht);
 #endif
-    return (MCVertex){x,y,z};
+    return (MCVector3){x,y,z};
 }
 
 MCInline MCMatrix4 MCMatrix4Identity() {

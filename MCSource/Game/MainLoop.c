@@ -7,193 +7,47 @@
 //
 
 #include "MainLoop.h"
-#include "MCGLShader.h"
 #include "MC3DiOSDriver.h"
-
-static void setupCamera(MCCamera* camera, MCFloat width, MCFloat height)
-{
-    //setting camera
-    camera->ratio = MCRatioMake(width, height);
-    camera->R = 5;
-    MCCamera_update(0, camera, 0);
-}
-
-static void moveCameraOneStep(MCCamera* camera, MCFloat deltaFai, MCFloat deltaTht)
-{
-    camera->fai = camera->fai + deltaFai;   //Left
-    camera->tht = camera->tht + deltaTht;   //Up
-    //camera->fai = camera->fai - 0.1; //Right
-    //camera->tht = camera->tht - 0.1; //Down
-    
-    MCCamera_updateLookat(0, camera, 0);
-}
-
-oninit(MainScene)
-{
-    if (init(MCObject)) {
-        MCLogTypeSet(MC_VERBOSE);
-        //starttest();
-        
-        var(engine) = MCGLEngine_getInstance(0, 0, 0);
-        MCGLEngine_setClearScreenColor(0, var(engine), (MCColorRGBAf){0.65, 0.65, 0.65, 1.0});
-        //var(light) = new(MCLight);
-        
-        var(visible) = MCTrue;//visible by default
-        var(cameraLock) = MCFalse;
-        var(mainCamera) = new(MCCamera);
-        var(uilayer) = new(UILayer);
-        var(cube) = new(MCCube);
-        //var(orbit) = new(MCOrbit);
-        //var(texture) = new(MCTexture);
-        
-        var(drawMsgArray)[0] = response_to(var(cube), draw);
-        //var(drawMsgArray)[1] = response_to(var(orbit), draw);
-        //var(drawMsgArray)[0] = response_to(var(texture), draw);
-        var(drawMsgCount) = 1;
-        
-        ff(var(uilayer), responseChainConnect, obj);
-        
-        return obj;
-    }else{
-        return mull;
-    }
-}
-
-method(MainScene, void, bye, voida)
-{
-    release(var(mainCamera));
-    release(var(uilayer));
-    release(var(cube));
-    release(var(orbit));
-    release(var(texture));
-    MCObject_bye(0, spr, 0);
-}
-
-method(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height, const char* vshaderPath, const char* fshaderPath)
-{
-    MCGLEngine_featureSwith(0, var(engine), MCGLDepthTest, MCTrue);
-    setupCamera(var(mainCamera), width, height);
-    
-    obj->program.vattrPositionName = "position";
-    obj->program.vattrNormalName = "normal";
-    prepareShader(&obj->program, vshaderPath, fshaderPath);
-    
-    obj->mvpLocation = glGetUniformLocation(obj->program.Id, "modelViewProjectionMatrix");
-    obj->norLocation = glGetUniformLocation(obj->program.Id, "normalMatrix");
-    return obj;
-}
-
-method(MainScene, void, lockCamera, MCBool lock)
-{
-    var(cameraLock) = lock;
-    printf("lock=%d\n", lock);
-}
-
-method(MainScene, MCCamera*, getCamera, voida)
-{
-    return var(mainCamera);
-}
-
-method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
-{
-    if (var(cameraLock) == MCFalse) {
-        moveCameraOneStep(var(mainCamera), deltaFai, deltaTht);
-    }
-}
-
-method(MainScene, void, show, voida)
-{
-    var(visible) = MCTrue;
-}
-
-method(MainScene, void, hide, voida)
-{
-    var(visible) = MCFalse;
-}
-
-method(MainScene, void, update, voida)
-{
-    MCCamera_updateLookat(0, var(mainCamera), 0);
-    
-    MCMatrix4 mvp = MCCamera_calculateModelViewProjectionMatrix(0, obj->mainCamera, 0);
-    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(obj->mainCamera->modelViewMatrix), NULL);
-    
-    glUniformMatrix4fv(obj->mvpLocation, 1, 0, mvp.m);
-    glUniformMatrix3fv(obj->norLocation, 1, 0, nor.m);
-}
-
-method(MainScene, void, draw, voida)
-{
-    if (var(visible)) {
-        MCGLEngine_clearScreen(0, 0, 0);
-        
-        glUseProgram(obj->program.Id);
-        
-        for (int i=0; i<var(drawMsgCount); i++) {
-            _push_jump(var(drawMsgArray)[i]);
-        }
-    }
-}
-
-onload(MainScene)
-{
-    if (load(MCObject)) {
-        binding(MainScene, MainScene*, initWithWidthHeight, MCFloat width, MCFloat height);
-        binding(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
-        binding(MainScene, void, lockCamera, MCBool lock);
-        binding(MainScene, MCCamera*, getCamera);
-        binding(MainScene, void, bye);
-        binding(MainScene, void, show);
-        binding(MainScene, void, hide);
-        binding(MainScene, void, update);
-        binding(MainScene, void, draw);
-        return claz;
-    }else{
-        return mull;
-    }
-}
+#include "MC3DScene.h"
+#include "MCGLRenderer.h"
+#include "MCCube.h"
 
 void onRootViewLoad(void* rootview)
 {
     MCUIRegisterRootUIView(rootview);
 }
 
-static MainScene* mainScene = mull;
+static MC3DScene* mainScene = mull;
 
-
-void onSetupGL(double windowWidth, double windowHeight, const char* vshaderPath, const char* fshaderPath)
+void onSetupGL(double windowWidth, double windowHeight, const char* vcode, const char* fcode)
 {
-    mainScene = MainScene_initWithWidthHeight(0, new(MainScene),
-                                              windowWidth, windowHeight,
-                                              vshaderPath, fshaderPath);
-    ff(mainScene, show, 0);
+    MCLogTypeSet(MC_VERBOSE);
+
+    if (mainScene == mull) {
+        mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene), windowWidth, windowHeight, vcode, fcode);
+        ff(mainScene->rootnode, addChild, new(MCCube));
+    }
 }
 
 void onTearDownGL()
 {
-    MainScene_hide(0, mainScene, 0);
     release(mainScene);
 }
 
 void onUpdate(double timeSinceLastUpdate)
 {
+    MCLogTypeSet(MC_SILENT);
+
     if (mainScene) {
-        MainScene_moveCameraOneStep(0, mainScene, timeSinceLastUpdate * 15.0f, timeSinceLastUpdate * 15.0f);
-        MainScene_update(0, mainScene, 0);
+        MC3DScene_updateScene(0, mainScene, timeSinceLastUpdate);
     }
 }
 
 void onDraw()
 {
     if (mainScene) {
-        //draw
-        MainScene_draw(0, mainScene, 0);
-        
-        //calculate FPS
-        MCInt fps = -1;
-        if ((fps = MCGLEngine_tickFPS(0, mainScene->engine, 0)) > 0) {
-            UILayer_onFrameRenderFinished(0, mainScene->uilayer, fps);
-            MCGLEngine_resetFPS(0, mainScene->engine, 0);
-        }
+        MC3DScene_drawScene(0, mainScene, 0);
     }
+    
+    MCLogTypeSet(MC_VERBOSE);
 }

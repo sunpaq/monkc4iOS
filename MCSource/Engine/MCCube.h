@@ -11,9 +11,9 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MCDrawable.h"
+#include "MC3DNode.h"
 
-monkc(MCCube, MCDrawable,
+monkc(MCCube, MC3DNode,
     MCUInt textureId;
 );
 

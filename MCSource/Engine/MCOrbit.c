@@ -13,7 +13,7 @@ static MCFloat gCircleVertexData[360*3];
 
 oninit(MCOrbit)
 {
-    if (init(MCDrawable)) {
+    if (init(MC3DNode)) {
         var(R) = 10.0;
         var(segments) = 360.0;
         var(center) = MCVertexMake(0, 0, 0);
@@ -51,7 +51,7 @@ method(MCOrbit, void, draw, voida)
 
 onload(MCOrbit)
 {
-    if (load(MCDrawable)) {
+    if (load(MC3DNode)) {
         binding(MCOrbit, void, bye);
         binding(MCOrbit, void, draw);
         return claz;

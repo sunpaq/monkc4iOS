@@ -10,6 +10,25 @@ oninit(MCCamera)
     }
 }
 
+method(MCCamera, MCCamera*, initWithWidthHeight, MCFloat width, MCFloat height)
+{
+    //setting camera
+    obj->ratio = MCRatioMake(width, height);
+    obj->R = 5;
+    MCCamera_update(0, obj, 0);
+    return obj;
+}
+
+method(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht)
+{
+    obj->fai = obj->fai + deltaFai;   //Left
+    obj->tht = obj->tht + deltaTht;   //Up
+    //camera->fai = camera->fai - 0.1; //Right
+    //camera->tht = camera->tht - 0.1; //Down
+    
+    MCCamera_updateLookat(0, obj, 0);
+}
+
 method(MCCamera, void, reset, MCBool updateOrNot)
 {
     var(ratio) = MCRatioCameraFilm3x2;
@@ -29,7 +48,7 @@ method(MCCamera, void, reset, MCBool updateOrNot)
     }
 }
 
-method(MCCamera, void, updatePosition, MCVertex* result)
+method(MCCamera, void, updatePosition, MCVector3* result)
 {
     var(currentPosition) = MCWorldCoorFromLocal(MCVertexFromSpherical(var(R), var(tht), var(fai)), var(lookat));
     if (result != mull) {
@@ -55,19 +74,19 @@ method(MCCamera, void, updateRatioFocalDistance, voida)
 method(MCCamera, void, updateLookat, voida)
 {
     //MCMatrix4 cur = MCGLLookatSpherical(var(lookat).x, var(lookat).y, var(lookat).z, var(R), var(tht), var(fai));
-    MCVertex modelpos = var(lookat);
-    MCVertex eyelocal = MCVertexFromSpherical(var(R), var(tht), var(fai));
-    MCVertex eye = MCWorldCoorFromLocal(eyelocal, modelpos);
+    MCVector3 modelpos = var(lookat);
+    MCVector3 eyelocal = MCVertexFromSpherical(var(R), var(tht), var(fai));
+    MCVector3 eye = MCWorldCoorFromLocal(eyelocal, modelpos);
     //up vertex on camera local
     //MCVertex uplocal = MCVertexFromSpherical(1, 90.0-var(tht), 180.0+var(fai));
     //MCVertex up = MCWorldCoorFromLocal(uplocal, eye);
     
     if (var(tht) < 90.0) {
-        MCVertex Npole = MCVertexMake(0, var(R)/MCCosDegrees(var(tht)), 0);
+        MCVector3 Npole = MCVertexMake(0, var(R)/MCCosDegrees(var(tht)), 0);
         var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z, modelpos.x, modelpos.y, modelpos.z, Npole.x-eye.x, Npole.y-eye.y, Npole.z-eye.z);
     }
     if (var(tht) > 90.0) {
-        MCVertex Spole = MCVertexMake(0, -var(R)/MCCosDegrees(180.0-var(tht)), 0);
+        MCVector3 Spole = MCVertexMake(0, -var(R)/MCCosDegrees(180.0-var(tht)), 0);
         var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z, modelpos.x, modelpos.y, modelpos.z, eye.x-Spole.x, eye.y-Spole.y, eye.z-Spole.z);
     }
     if (var(tht) == 90.0) {

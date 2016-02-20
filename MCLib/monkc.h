@@ -341,6 +341,8 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define var(vname)                            (obj->vname)
 #define cast(type, obj) 				      ((type)obj)
 #define spr                                   &(obj->super)
+#define sprs                                  (obj->super)
+
 //for create object
 #define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)//create instance
 

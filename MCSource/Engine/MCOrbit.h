@@ -11,13 +11,13 @@
 
 #include "monkc.h"
 #include "MC3DType.h"
-#include "MCDrawable.h"
+#include "MC3DNode.h"
 
-monkc(MCOrbit, MCDrawable,
+monkc(MCOrbit, MC3DNode,
     MCFloat R;
     MCUInt segments;
-    MCVertex center;
-    MCVertex up;
+    MCVector3 center;
+    MCVector3 up;
     //vertex array
     MCUInt vertexArrayId;
     MCUInt vertexBufferId;
