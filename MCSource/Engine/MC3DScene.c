@@ -77,7 +77,11 @@ method(MC3DScene, void, updateScene, double deltaTimeSinceLastUpdate)
 
     MCGLRenderer_setUniformMatrix4(0, var(renderer), "modelViewProjectionMatrix", mvp.m);
     MCGLRenderer_setUniformMatrix3(0, var(renderer), "normalMatrix", nor.m);
-    
+    MCGLRenderer_setUniformVector1(0, var(renderer), "ambientLightStrength", 0.15);
+    MCGLRenderer_setUniformVector3(0, var(renderer), "ambientLightColor",    MCVector3Make(1.0, 1.0, 1.0));
+    MCGLRenderer_setUniformVector3(0, var(renderer), "diffuseLightColor",    MCVector3Make(1.0, 1.0, 1.0));
+    MCGLRenderer_setUniformVector3(0, var(renderer), "diffuseLightPosition", MCVector3Make(1.0, 1.0, 1.0));
+
     ff(var(renderer), updateNodes, var(rootnode));
 }
 

@@ -1,32 +1,36 @@
+#version 300 core
 
 //vertex attributes
-attribute vec4 position;
-attribute vec3 normal;
-//attribute vec3 color;
+in vec4 position;
+in vec3 normal;
+in vec3 color;
 
 //uniform variables from code
 uniform mat4  modelViewProjectionMatrix;
 uniform mat3  normalMatrix;
-//uniform float ambientLightStrength;
-//uniform vec3  ambientLightColor;
+uniform float ambientLightStrength;
+uniform vec3  ambientLightColor;
+uniform vec3  diffuseLightColor;
+uniform vec3  diffuseLightPosition;
 
 //varying variables use to pass value between vertex & fragment shader
-//varying lowp vec3 Normal;
-varying lowp vec4 colorVarying;
+out vec3 combinedcolor;
 
 void main()
 {
-    //Light
-    //vec3 ambient = ambientLightStrength * ambientLightColor;
+    //Ambient Light
+    vec3 ambient = ambientLightStrength * ambientLightColor;
     
+    //Diffuse strength
     vec3 eyeNormal = normalize(normalMatrix * normal);
-    vec3 lightPosition = vec3(1.0, 1.0, 1.0);
-    vec4 diffuseColor = vec4(0.4, 0.1, 0.1, 1.0);
+    float diffuseStrength_NdotP = max(0.0, dot(eyeNormal, normalize(diffuseLightPosition)));
     
-    float nDotVP = max(0.0, dot(eyeNormal, normalize(lightPosition)));
-                 
-    colorVarying = diffuseColor * nDotVP;
+    //Diffuse Light
+    vec3  diffuse = diffuseLightColor * diffuseStrength_NdotP;
     
+    //Combined Color
+    combinedcolor = (ambient + diffuse) * color;
+    
+    //Position
     gl_Position = modelViewProjectionMatrix * position;
-    //Normal = normal;
 }

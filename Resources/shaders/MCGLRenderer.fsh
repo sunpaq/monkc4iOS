@@ -1,8 +1,11 @@
+#version 300 core
 
-varying lowp vec4 colorVarying;
-//varying lowp vec3 Normal;
+//varying variables use to pass value between vertex & fragment shader
+in lowp vec3 combinedcolor;
+out lowp vec4 FragColor;
 
 void main()
 {
-    gl_FragColor = colorVarying;
+    //Color Output
+    FragColor = vec4(combinedcolor, 1.0);
 }

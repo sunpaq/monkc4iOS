@@ -34,5 +34,9 @@ method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
 method(MCGLRenderer, int, getUniformLocation, const char* name);
 method(MCGLRenderer, void, setUniformMatrix3, const char* name, float m[]);
 method(MCGLRenderer, void, setUniformMatrix4, const char* name, float m[]);
+method(MCGLRenderer, void, setUniformVector1, const char* name, MCFloat x);
+method(MCGLRenderer, void, setUniformVector2, const char* name, MCVector2 vec2);
+method(MCGLRenderer, void, setUniformVector3, const char* name, MCVector3 vec3);
+method(MCGLRenderer, void, setUniformVector4, const char* name, MCVector4 vec4);
 
 #endif /* MCGLRenderer_h */

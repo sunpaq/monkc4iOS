@@ -23,12 +23,15 @@ oninit(MCGLRenderer)
         
         obj->vertexAttributeNames[0] = "position";
         obj->vertexAttributeNames[1] = "normal";
-        //obj->vertexAttributeNames[2] = "color";
+        obj->vertexAttributeNames[2] = "color";
         
         obj->uniformNames[0] = "modelViewProjectionMatrix";
         obj->uniformNames[1] = "normalMatrix";
-        //obj->uniformNames[2] = "ambientLightStrength";
-        //obj->uniformNames[3] = "ambientLightColor";
+        obj->uniformNames[2] = "ambientLightStrength";
+        obj->uniformNames[3] = "ambientLightColor";
+        obj->uniformNames[4] = "diffuseLightColor";
+        obj->uniformNames[5] = "diffuseLightPosition";
+        
         return obj;
     }else{
         return mull;
@@ -152,6 +155,38 @@ method(MCGLRenderer, void, setUniformMatrix4, const char* name, float m[])
     }
 }
 
+method(MCGLRenderer, void, setUniformVector1, const char* name, MCFloat x)
+{
+    int loc = MCGLRenderer_getUniformLocation(0, obj, name);
+    if (loc != MC3DErrUniformNotFound) {
+        glUniform1f(loc, x);
+    }
+}
+
+method(MCGLRenderer, void, setUniformVector2, const char* name, MCVector2 vec2)
+{
+    int loc = MCGLRenderer_getUniformLocation(0, obj, name);
+    if (loc != MC3DErrUniformNotFound) {
+        glUniform2f(loc, vec2.x, vec2.y);
+    }
+}
+
+method(MCGLRenderer, void, setUniformVector3, const char* name, MCVector3 vec3)
+{
+    int loc = MCGLRenderer_getUniformLocation(0, obj, name);
+    if (loc != MC3DErrUniformNotFound) {
+        glUniform3f(loc, vec3.x, vec3.y, vec3.z);
+    }
+}
+
+method(MCGLRenderer, void, setUniformVector4, const char* name, MCVector4 vec4)
+{
+    int loc = MCGLRenderer_getUniformLocation(0, obj, name);
+    if (loc != MC3DErrUniformNotFound) {
+        glUniform4f(loc, vec4.x, vec4.y, vec4.z, vec4.w);
+    }
+}
+
 onload(MCGLRenderer)
 {
     if (load(MCObject)) {
@@ -163,6 +198,10 @@ onload(MCGLRenderer)
         binding(MCGLRenderer, int,  getUniformLocation, const char* name);
         binding(MCGLRenderer, void, setUniformMatrix3, const char* name, float m[]);
         binding(MCGLRenderer, void, setUniformMatrix4, const char* name, float m[]);
+        binding(MCGLRenderer, void, setUniformVector1, const char* name, MCFloat x);
+        binding(MCGLRenderer, void, setUniformVector2, const char* name, MCVector2 vec2);
+        binding(MCGLRenderer, void, setUniformVector3, const char* name, MCVector3 vec3);
+        binding(MCGLRenderer, void, setUniformVector4, const char* name, MCVector4 vec4);
         return claz;
     }else{
         return mull;
