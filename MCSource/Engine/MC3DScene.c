@@ -64,8 +64,8 @@ method(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
 {
     if (var(cameraLock) == MCFalse) {
         MCCamera_move(0, var(mainCamera), deltaFai, deltaTht);
-        MCCamera_updateLookat(0, var(mainCamera), 0);
     }
+    MCCamera_updateLookat(0, var(mainCamera), 0);
 }
 
 method(MC3DScene, void, updateScene, double deltaTimeSinceLastUpdate)
