@@ -20,6 +20,7 @@
 
 monkc(MC3DNode, MCObject,
       MCBool visible;
+      MCVector3 center;
       MCMesh* meshes[MC3DNodeMaxMeshNum];
       struct MC3DNodeStruct* children[MC3DNodeMaxChildNum];
 );

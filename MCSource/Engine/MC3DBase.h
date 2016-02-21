@@ -31,7 +31,7 @@ MCInline MCFloat MCCosDegrees(MCFloat degress)       { return cos(MCDegreesToRad
 MCInline MCFloat MCTanDegrees(MCFloat degress)       { return tan(MCDegreesToRadians(degress)); }
 
 
-MCInline MCVector3 MCVertexMake(MCFloat x, MCFloat y, MCFloat z) {
+MCInline MCVector3 MCVector3Make(MCFloat x, MCFloat y, MCFloat z) {
     return (MCVector3){x, y, z};
 }
 

@@ -16,8 +16,8 @@ oninit(MCOrbit)
     if (init(MC3DNode)) {
         var(R) = 10.0;
         var(segments) = 360.0;
-        var(center) = MCVertexMake(0, 0, 0);
-        var(up) = MCVertexMake(0, 0, 1.0);
+        var(center) = MCVector3Make(0, 0, 0);
+        var(up) = MCVector3Make(0, 0, 1.0);
         
         MakeCircleData(0, 0, 0, var(R), var(segments), gCircleVertexData);
         

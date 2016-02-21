@@ -34,11 +34,11 @@ method(MCCamera, void, reset, MCBool updateOrNot)
     var(ratio) = MCRatioCameraFilm3x2;
     var(focal_length) = MCLensStandard50mm;
     var(max_distance) = 100;//100 metres
-    var(lookat) = MCVertexMake(0,0,0);
+    var(lookat) = MCVector3Make(0,0,0);
     var(projectionMatrix) = MCMatrix4Identity();
     var(modelViewMatrix) = MCMatrix4Identity();
     //world coordinate
-    var(currentPosition) = MCVertexMake(0, 0, 0);
+    var(currentPosition) = MCVector3Make(0, 0, 0);
     //local spherical coordinate
     var(R) = 100;
     var(tht) = 60;
@@ -82,11 +82,11 @@ method(MCCamera, void, updateLookat, voida)
     //MCVertex up = MCWorldCoorFromLocal(uplocal, eye);
     
     if (var(tht) < 90.0) {
-        MCVector3 Npole = MCVertexMake(0, var(R)/MCCosDegrees(var(tht)), 0);
+        MCVector3 Npole = MCVector3Make(0, var(R)/MCCosDegrees(var(tht)), 0);
         var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z, modelpos.x, modelpos.y, modelpos.z, Npole.x-eye.x, Npole.y-eye.y, Npole.z-eye.z);
     }
     if (var(tht) > 90.0) {
-        MCVector3 Spole = MCVertexMake(0, -var(R)/MCCosDegrees(180.0-var(tht)), 0);
+        MCVector3 Spole = MCVector3Make(0, -var(R)/MCCosDegrees(180.0-var(tht)), 0);
         var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z, modelpos.x, modelpos.y, modelpos.z, eye.x-Spole.x, eye.y-Spole.y, eye.z-Spole.z);
     }
     if (var(tht) == 90.0) {
