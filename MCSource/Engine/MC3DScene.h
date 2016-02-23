@@ -16,6 +16,7 @@
 #include "MCCamera.h"
 #include "UILayer.h"
 #include "MCClock.h"
+#include "MCLight.h"
 
 monkc(MC3DScene, MCObject,
       struct MC3DNodeStruct* next;
@@ -24,6 +25,7 @@ monkc(MC3DScene, MCObject,
       MCGLRenderer* renderer;
       MC3DNode*     rootnode;
       MCCamera*     mainCamera;
+      MCLight*      light;
       MCBool        cameraLock;
       UILayer*      uilayer;
       MCClock*      clock;

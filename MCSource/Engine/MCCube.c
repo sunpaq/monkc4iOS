@@ -68,6 +68,7 @@ oninit(MCCube)
         mesh->vertexDataSize = sizeof(gCubeVertexData);
                 
         sprs.meshes[0] = mesh;
+        sprs.material = new(MCMatrial);
         
         return obj;
     }else{

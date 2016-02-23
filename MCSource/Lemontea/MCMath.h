@@ -4,7 +4,7 @@
 #ifndef MCMath_ 
 #define MCMath_
 
-Monkc(MCMath,
+MONKC(MCMath,
 	unsigned tid;
 );
 

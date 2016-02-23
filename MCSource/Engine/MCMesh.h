@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "monkc.h"
 #include "MCVertex.h"
+#include "MCGLContext.h"
 
 monkc(MCMesh, MCObject,
       GLsizei    vertexCount;
@@ -23,7 +24,7 @@ monkc(MCMesh, MCObject,
 );
 
 method(MCMesh, void, bye, voida);
-method(MCMesh, void, prepareMesh, voida);
-method(MCMesh, void, drawMesh, voida);
+method(MCMesh, void, prepareMesh, MCGLContext* ctx);
+method(MCMesh, void, drawMesh, MCGLContext* ctx);
 
 #endif /* MCMesh_h */

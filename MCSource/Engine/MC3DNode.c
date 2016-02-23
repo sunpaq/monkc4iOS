@@ -15,6 +15,7 @@ oninit(MC3DNode)
         var(visible) = MCTrue;
         var(center) = MCVector3Make(0, 0, 0);
         var(transform) = MCMatrix4Identity();
+        var(material) = mull;
         
         memset(var(children), (int)mull, sizeof(var(children)));
         memset(var(meshes), (int)mull, sizeof(var(meshes)));
@@ -65,26 +66,30 @@ method(MC3DNode, int, childCount, voida)
     return ((int)(arraySize / nodeSize));
 }
 
-method(MC3DNode, void, update, voida)
+method(MC3DNode, void, update, MCGLContext* ctx)
 {
-    //update self
+    //update self mesh
     for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
         MCMesh* mesh = obj->meshes[i];
         if (mesh != mull) {
             MCMesh_prepareMesh(0, mesh, 0);
         }
     }
+    //material
+    if (obj->material != mull) {
+        MCMatrial_prepareMatrial(0, obj->material, ctx);
+    }
     
     //update children
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
         MC3DNode* node = obj->children[i];
         if (node != mull && node->visible != MCFalse) {
-            ff(obj->children[i], update, 0);
+            ff(node, update, ctx);
         }
     }
 }
 
-method(MC3DNode, void, draw, voida)
+method(MC3DNode, void, draw, MCGLContext* ctx)
 {
     //draw self
     for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
@@ -98,7 +103,7 @@ method(MC3DNode, void, draw, voida)
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
         MC3DNode* node = obj->children[i];
         if (node != mull && node->visible != MCFalse) {
-            MC3DNode_draw(0, node, 0);//recursive
+            ff(node, draw, ctx);
         }
     }
 }

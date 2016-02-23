@@ -13,20 +13,11 @@
 #include "monkc.h"
 #include "MC3DType.h"
 #include "MC3DNode.h"
-
-#define MAX_VATTR_NUM     100
-#define MAX_UNIFORM_NUM   100
+#include "MCGLContext.h"
 
 monkc(MCGLRenderer, MCObject,
       GLuint Id;//shader program id
-      
-      MCMatrix4* modelMatrix;
-      MCMatrix4* viewMatrix;
-      MCMatrix4* projectionMatrix;
-      
-      const char* vertexAttributeNames[MAX_VATTR_NUM];
-      const char* uniformNames[MAX_UNIFORM_NUM];
-      int         uniformLocations[MAX_UNIFORM_NUM];
+      MCGLContext* context;
 );
 //life cycle
 method(MCGLRenderer, void, bye, voida);
@@ -35,14 +26,6 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader,
 //draw
 method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode);
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
-//shader
-method(MCGLRenderer, int, getUniformLocation, const char* name);
-method(MCGLRenderer, void, setUniformMatrix3, const char* name, float m[]);
-method(MCGLRenderer, void, setUniformMatrix4, const char* name, float m[]);
-method(MCGLRenderer, void, setUniformScalar,  const char* name, MCInt x);
-method(MCGLRenderer, void, setUniformVector1, const char* name, MCFloat x);
-method(MCGLRenderer, void, setUniformVector2, const char* name, MCVector2 vec2);
-method(MCGLRenderer, void, setUniformVector3, const char* name, MCVector3 vec3);
-method(MCGLRenderer, void, setUniformVector4, const char* name, MCVector4 vec4);
+
 
 #endif /* MCGLRenderer_h */

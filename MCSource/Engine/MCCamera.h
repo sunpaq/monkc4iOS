@@ -3,8 +3,9 @@
 
 #include "monkc.h"
 #include "MC3DBase.h"
+#include "MC3DNode.h"
 
-monkc(MCCamera, MCObject,
+monkc(MCCamera, MC3DNode,
     MCFloat ratio;
     MCFloat focal_length;
     MCFloat max_distance;
@@ -27,8 +28,7 @@ method(MCCamera, void, reset, MCBool updateOrNot);
 method(MCCamera, void, updatePosition, MCVector3* result);
 method(MCCamera, void, updateRatioFocalDistance, voida);
 method(MCCamera, void, updateLookat, voida);
-method(MCCamera, void, update, voida);
-method(MCCamera, MCMatrix4, calculateModelViewProjectionMatrix, voida);
+method(MCCamera, void, update, MCGLContext* ctx);//override
 
 #define MCLensStandard50mm (0.050)
 #define MCLensWide24mm     (0.024)

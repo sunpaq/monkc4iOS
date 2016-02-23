@@ -14,15 +14,18 @@
 #include "MC3DBase.h"
 #include "MCMesh.h"
 #include "MCTexture.h"
+#include "MCMatrial.h"
+#include "MCGLContext.h"
 
 #define MC3DNodeMaxChildNum 100
-#define MC3DNodeMaxMeshNum  1024
+#define MC3DNodeMaxMeshNum  100
 
 monkc(MC3DNode, MCObject,
       MCBool visible;
       MCVector3 center;
       MCMatrix4 transform;
       MCMesh* meshes[MC3DNodeMaxMeshNum];
+      MCMatrial* material;
       struct MC3DNodeStruct* children[MC3DNodeMaxChildNum];
 );
 
@@ -32,8 +35,8 @@ method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child);
 method(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child);
 method(MC3DNode, int, childCount, voida);
 //draw
-method(MC3DNode, void, update, voida);
-method(MC3DNode, void, draw, voida);
+method(MC3DNode, void, update, MCGLContext* ctx);
+method(MC3DNode, void, draw, MCGLContext* ctx);
 method(MC3DNode, void, hide, voida);
 method(MC3DNode, void, show, voida);
 

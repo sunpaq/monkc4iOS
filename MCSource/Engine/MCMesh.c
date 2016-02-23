@@ -24,7 +24,7 @@ method(MCMesh, void, bye, voida)
     glDeleteVertexArraysOES(1, &obj->vertexArrayId);
 }
 
-method(MCMesh, void, prepareMesh, voida)
+method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
     glGenVertexArraysOES(1, &obj->vertexArrayId);
     glBindVertexArrayOES(obj->vertexArrayId);
@@ -44,10 +44,11 @@ method(MCMesh, void, prepareMesh, voida)
     glBindVertexArrayOES(0);
 }
 
-method(MCMesh, void, drawMesh, voida)
+method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArrayOES(obj->vertexArrayId);
     glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);//36
+    glBindVertexArrayOES(0);
 }
 
 onload(MCMesh)

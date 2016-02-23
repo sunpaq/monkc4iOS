@@ -17,6 +17,7 @@ oninit(MC3DScene)
         var(mainCamera) = new(MCCamera);
         var(uilayer)    = new(UILayer);
         var(clock)      = new(MCClock);
+        var(light)      = new(MCLight);
         
         var(next) = mull;
         var(prev) = mull;
@@ -37,6 +38,7 @@ method(MC3DScene, void, bye, voida)
     release(var(mainCamera));
     release(var(uilayer));
     release(var(clock));
+    release(var(light));
     
     MCObject_bye(0, spr, 0);
 }
@@ -46,6 +48,7 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, MCFloat width, 
 {
     MCCamera_initWithWidthHeight(0, var(mainCamera), width, height);
     MCGLRenderer_initWithShaderCodeString(0, var(renderer), vsource, fsource);
+    //ff(obj->rootnode, addChild, obj->mainCamera);
     return obj;
 }
 
@@ -71,26 +74,14 @@ method(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
 method(MC3DScene, void, updateScene, double deltaTimeSinceLastUpdate)
 {
     MC3DScene_moveCameraOneStep(0, obj, deltaTimeSinceLastUpdate * 15.0f, deltaTimeSinceLastUpdate * 15.0f);
-    
-    MCMatrix4 mvp = MCCamera_calculateModelViewProjectionMatrix(0, obj->mainCamera, 0);
-    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(obj->mainCamera->modelViewMatrix), NULL);
-
-    MCGLRenderer_setUniformMatrix4(0, var(renderer), "modelViewProjectionMatrix", mvp.m);
-    MCGLRenderer_setUniformMatrix3(0, var(renderer), "normalMatrix", nor.m);
-    MCGLRenderer_setUniformVector1(0, var(renderer), "ambientLightStrength",  0.15);
-    MCGLRenderer_setUniformVector3(0, var(renderer), "ambientLightColor",     MCVector3Make(1.0, 1.0, 1.0));
-    MCGLRenderer_setUniformVector3(0, var(renderer), "diffuseLightColor",     MCVector3Make(1.0, 1.0, 1.0));
-    MCGLRenderer_setUniformVector3(0, var(renderer), "diffuseLightPosition",  MCVector3Make(1.0, 1.0, 1.0));
-    MCGLRenderer_setUniformVector1(0, var(renderer), "specularLightStrength", 0.5);
-    MCGLRenderer_setUniformVector3(0, var(renderer), "specularLightColor",    MCVector3Make(1.0, 1.0, 1.0));
-    MCGLRenderer_setUniformScalar(0,  var(renderer), "specularLightPower",    32);
-
-    ff(var(renderer), updateNodes, var(rootnode));
+    MCCamera_update(0, obj->mainCamera, obj->renderer->context);
+    MCLight_update(0, obj->light, obj->renderer->context);
+    MCGLRenderer_updateNodes(0, var(renderer), var(rootnode));
 }
 
 method(MC3DScene, void, drawScene, voida)
 {
-    ff(var(renderer), drawNodes, var(rootnode));
+    MCGLRenderer_drawNodes(0, var(renderer), var(rootnode));
     
     //calculate FPS
     MCInt fps = -1;

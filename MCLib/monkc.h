@@ -305,7 +305,7 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 }
 
 //static class (you can not use new and ff)
-#define Monkc(cls, ...)\
+#define MONKC(cls, ...)\
 typedef struct cls##Struct{\
 __VA_ARGS__;}cls;
 

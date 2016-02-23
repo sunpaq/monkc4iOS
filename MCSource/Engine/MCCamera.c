@@ -3,7 +3,7 @@
 oninit(MCCamera)
 {
     if (init(MCObject)) {
-        MCCamera_reset(0, obj, MCTrue);
+        MCCamera_reset(0, obj, MCFalse);
         return obj;
     }else{
         return mull;
@@ -15,7 +15,7 @@ method(MCCamera, MCCamera*, initWithWidthHeight, MCFloat width, MCFloat height)
     //setting camera
     obj->ratio = MCRatioMake(width, height);
     obj->R = 5;
-    MCCamera_update(0, obj, 0);
+    //MCCamera_update(0, obj, 0);
     return obj;
 }
 
@@ -94,16 +94,18 @@ method(MCCamera, void, updateLookat, voida)
     }
 }
 
-method(MCCamera, void, update, voida)
+//override
+method(MCCamera, void, update, MCGLContext* ctx)
 {
     MCCamera_updateRatioFocalDistance(0, obj, 0);
     MCCamera_updatePosition(0, obj, mull);
     MCCamera_updateLookat(0, obj, 0);
-}
-
-method(MCCamera, MCMatrix4, calculateModelViewProjectionMatrix, voida)
-{
-    return MCMatrix4Multiply(var(projectionMatrix), var(modelViewMatrix));
+    
+    MCMatrix4 mvp = MCMatrix4Multiply(var(projectionMatrix), var(modelViewMatrix));
+    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(obj->modelViewMatrix), NULL);
+    
+    MCGLContext_setUniformMatrix4(0, ctx, "modelViewProjectionMatrix", mvp.m);
+    MCGLContext_setUniformMatrix3(0, ctx, "normalMatrix", nor.m);
 }
 
 onload(MCCamera)
@@ -114,7 +116,6 @@ onload(MCCamera)
         binding(MCCamera, void, updateRatioFocalDistance);
         binding(MCCamera, void, updateLookat);
         binding(MCCamera, void, update);
-        binding(MCCamera, MCMatrix4, calculateModelViewProjectionMatrix, voida);
         return claz;
     }else{
         return mull;
