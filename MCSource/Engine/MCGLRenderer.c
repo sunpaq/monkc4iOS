@@ -18,6 +18,10 @@ oninit(MCGLRenderer)
         MCGLEngine_featureSwith(0, engine, MCGLDepthTest, MCTrue);
         MCGLEngine_setClearScreenColor(0, engine, (MCColorRGBAf){0.25, 0.25, 0.25, 1.0});
 
+        var(modelMatrix) = mull;
+        var(viewMatrix) = mull;
+        var(projectionMatrix) = mull;
+        
         memset(obj->vertexAttributeNames, (int)mull, sizeof(obj->vertexAttributeNames));
         memset(obj->uniformNames, (int)mull, sizeof(obj->uniformNames));
         
@@ -31,6 +35,9 @@ oninit(MCGLRenderer)
         obj->uniformNames[3] = "ambientLightColor";
         obj->uniformNames[4] = "diffuseLightColor";
         obj->uniformNames[5] = "diffuseLightPosition";
+        obj->uniformNames[6] = "specularLightStrength";
+        obj->uniformNames[7] = "specularLightColor";
+        obj->uniformNames[8] = "specularLightPower";
         
         return obj;
     }else{
@@ -113,6 +120,10 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader,
 
 method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 {
+    if (var(modelMatrix) != mull) {
+        
+    }
+    
     if (rootnode != mull) {
         ff(rootnode, update, 0);
     }
@@ -152,6 +163,14 @@ method(MCGLRenderer, void, setUniformMatrix4, const char* name, float m[])
     int loc = MCGLRenderer_getUniformLocation(0, obj, name);
     if (loc != MC3DErrUniformNotFound) {
         glUniformMatrix4fv(loc, 1, 0, m);
+    }
+}
+
+method(MCGLRenderer, void, setUniformScalar,  const char* name, MCInt x)
+{
+    int loc = MCGLRenderer_getUniformLocation(0, obj, name);
+    if (loc != MC3DErrUniformNotFound) {
+        glUniform1i(loc, x);
     }
 }
 
@@ -198,6 +217,7 @@ onload(MCGLRenderer)
         binding(MCGLRenderer, int,  getUniformLocation, const char* name);
         binding(MCGLRenderer, void, setUniformMatrix3, const char* name, float m[]);
         binding(MCGLRenderer, void, setUniformMatrix4, const char* name, float m[]);
+        binding(MCGLRenderer, void, setUniformScalar,  const char* name, MCInt x);
         binding(MCGLRenderer, void, setUniformVector1, const char* name, MCFloat x);
         binding(MCGLRenderer, void, setUniformVector2, const char* name, MCVector2 vec2);
         binding(MCGLRenderer, void, setUniformVector3, const char* name, MCVector3 vec3);

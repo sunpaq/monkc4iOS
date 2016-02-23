@@ -13,6 +13,8 @@ oninit(MC3DNode)
 {
     if (init(MCObject)) {
         var(visible) = MCTrue;
+        var(center) = MCVector3Make(0, 0, 0);
+        var(transform) = MCMatrix4Identity();
         
         memset(var(children), (int)mull, sizeof(var(children)));
         memset(var(meshes), (int)mull, sizeof(var(meshes)));

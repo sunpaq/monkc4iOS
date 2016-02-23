@@ -77,10 +77,13 @@ method(MC3DScene, void, updateScene, double deltaTimeSinceLastUpdate)
 
     MCGLRenderer_setUniformMatrix4(0, var(renderer), "modelViewProjectionMatrix", mvp.m);
     MCGLRenderer_setUniformMatrix3(0, var(renderer), "normalMatrix", nor.m);
-    MCGLRenderer_setUniformVector1(0, var(renderer), "ambientLightStrength", 0.15);
-    MCGLRenderer_setUniformVector3(0, var(renderer), "ambientLightColor",    MCVector3Make(1.0, 1.0, 1.0));
-    MCGLRenderer_setUniformVector3(0, var(renderer), "diffuseLightColor",    MCVector3Make(1.0, 1.0, 1.0));
-    MCGLRenderer_setUniformVector3(0, var(renderer), "diffuseLightPosition", MCVector3Make(1.0, 1.0, 1.0));
+    MCGLRenderer_setUniformVector1(0, var(renderer), "ambientLightStrength",  0.15);
+    MCGLRenderer_setUniformVector3(0, var(renderer), "ambientLightColor",     MCVector3Make(1.0, 1.0, 1.0));
+    MCGLRenderer_setUniformVector3(0, var(renderer), "diffuseLightColor",     MCVector3Make(1.0, 1.0, 1.0));
+    MCGLRenderer_setUniformVector3(0, var(renderer), "diffuseLightPosition",  MCVector3Make(1.0, 1.0, 1.0));
+    MCGLRenderer_setUniformVector1(0, var(renderer), "specularLightStrength", 0.5);
+    MCGLRenderer_setUniformVector3(0, var(renderer), "specularLightColor",    MCVector3Make(1.0, 1.0, 1.0));
+    MCGLRenderer_setUniformScalar(0,  var(renderer), "specularLightPower",    32);
 
     ff(var(renderer), updateNodes, var(rootnode));
 }
