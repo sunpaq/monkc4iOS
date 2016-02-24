@@ -1,9 +1,10 @@
 #version 300 core
 
 //vertex attributes
-in vec4 position;
-in vec3 normal;
-in vec3 color;
+layout (location=0) in vec4 position;
+layout (location=1) in vec3 normal;
+layout (location=2) in vec3 color;
+layout (location=3) in vec2 texcoord;
 
 //uniform variables from code
 uniform mat4  modelViewProjectionMatrix;
@@ -25,8 +26,10 @@ uniform float specularLightStrength;
 uniform vec3  specularLightPosition;
 uniform vec3  specularLightColor;
 
+uniform sampler2D texsampler;
+
 //varying variables use to pass value between vertex & fragment shader
-out vec3 combinedcolor;
+out vec4 combinedcolor;
 
 void main()
 {
@@ -51,8 +54,12 @@ void main()
     vec3 specular = specularLightStrength * spec * specularLightColor;
     */
     
+    //Texture
+    vec4 TexColor = texture(texsampler, texcoord);
+
     //Combined Color
-    combinedcolor = (ambient + diffuse) * color;
+    //combinedcolor = (ambient + diffuse) * color;
+    combinedcolor = vec4(ambient, 1.0f) + TexColor;
     
     //Position
     gl_Position = modelViewProjectionMatrix * position;

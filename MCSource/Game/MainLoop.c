@@ -13,6 +13,7 @@
 #include "MC3DScene.h"
 #include "MCGLRenderer.h"
 #include "MCCube.h"
+#include "MCPanel.h"
 
 void onRootViewLoad(void* rootview)
 {
@@ -21,13 +22,18 @@ void onRootViewLoad(void* rootview)
 
 static MC3DScene* mainScene = mull;
 
-void onSetupGL(double windowWidth, double windowHeight, const char* vcode, const char* fcode)
+void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray)
 {
     MCLogTypeSet(MC_VERBOSE);
 
     if (mainScene == mull) {
-        mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene), windowWidth, windowHeight, vcode, fcode);
-        ff(mainScene->rootnode, addChild, new(MCCube));
+        mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene), windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
+        MCCube* cube = new(MCCube);
+        MCPanel* panel = new(MCPanel);
+        panel->super.texture = MCTexture_initWithFileName(0, new(MCTexture), filePathArray[2]);
+        
+        ff(cube, addChild, panel);
+        ff(mainScene->rootnode, addChild, cube);
     }
 }
 

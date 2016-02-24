@@ -11,7 +11,7 @@
 
 static float gCubeVertexData[9*6*6] = {
     // Data layout for each line below is:
-    // positionX, positionY, positionZ,     normalX, normalY, normalZ,     colorR, colorG, colorB
+    // positionX, positionY, positionZ,     normalX, normalY, normalZ,     colorR, colorG, colorB     texCoordX texCoordY
     0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,
     0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,
     0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,

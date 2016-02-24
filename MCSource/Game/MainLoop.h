@@ -10,7 +10,7 @@
 #define __monkcGame__MainScene__
 
 void onRootViewLoad(void* rootview);
-void onSetupGL(double windowWidth, double windowHeight, const char* vshaderPath, const char* fshaderPath);
+void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray);
 void onTearDownGL();
 void onUpdate(double timeSinceLastUpdate);
 void onDraw();

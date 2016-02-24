@@ -16,6 +16,7 @@ oninit(MC3DNode)
         var(center) = MCVector3Make(0, 0, 0);
         var(transform) = MCMatrix4Identity();
         var(material) = mull;
+        var(texture) = mull;
         
         memset(var(children), (int)mull, sizeof(var(children)));
         memset(var(meshes), (int)mull, sizeof(var(meshes)));
@@ -78,6 +79,10 @@ method(MC3DNode, void, update, MCGLContext* ctx)
     //material
     if (obj->material != mull) {
         MCMatrial_prepareMatrial(0, obj->material, ctx);
+    }
+    //texture
+    if (obj->texture != mull) {
+        MCTexture_prepareTexture(0, obj->texture, ctx);
     }
     
     //update children

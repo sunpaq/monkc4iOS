@@ -15,6 +15,7 @@
 #include "MCMesh.h"
 #include "MCTexture.h"
 #include "MCMatrial.h"
+#include "MCTexture.h"
 #include "MCGLContext.h"
 
 #define MC3DNodeMaxChildNum 100
@@ -26,6 +27,7 @@ monkc(MC3DNode, MCObject,
       MCMatrix4 transform;
       MCMesh* meshes[MC3DNodeMaxMeshNum];
       MCMatrial* material;
+      MCTexture* texture;
       struct MC3DNodeStruct* children[MC3DNodeMaxChildNum];
 );
 
