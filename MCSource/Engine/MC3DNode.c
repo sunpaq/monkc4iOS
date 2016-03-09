@@ -69,13 +69,6 @@ method(MC3DNode, int, childCount, voida)
 
 method(MC3DNode, void, update, MCGLContext* ctx)
 {
-    //update self mesh
-    for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
-        MCMesh* mesh = obj->meshes[i];
-        if (mesh != mull) {
-            MCMesh_prepareMesh(0, mesh, 0);
-        }
-    }
     //material
     if (obj->material != mull) {
         MCMatrial_prepareMatrial(0, obj->material, ctx);
@@ -84,7 +77,13 @@ method(MC3DNode, void, update, MCGLContext* ctx)
     if (obj->texture != mull) {
         MCTexture_prepareTexture(0, obj->texture, ctx);
     }
-    
+    //update self mesh
+    for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
+        MCMesh* mesh = obj->meshes[i];
+        if (mesh != mull) {
+            MCMesh_prepareMesh(0, mesh, 0);
+        }
+    }
     //update children
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
         MC3DNode* node = obj->children[i];

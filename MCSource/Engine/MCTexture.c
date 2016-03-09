@@ -21,21 +21,25 @@ oninit(MCTexture)
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name)
 {
-    int width, height;
-    unsigned char* rawdata = SOIL_load_image(name, &width, &height, 0, SOIL_LOAD_RGB);
+    obj->rawdata = SOIL_load_image(name, &obj->width, &obj->height, 0, SOIL_LOAD_RGB);
     
     glActiveTexture(obj->textureUnit);
     glGenBuffers(1, &obj->Id);
     glBindTexture(GL_TEXTURE_2D, obj->Id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, rawdata);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, obj->width, obj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj->rawdata);
     glGenerateMipmap(GL_TEXTURE_2D);
+    
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     
     return obj;
 }
 
 method(MCTexture, void, prepareTexture, MCGLContext* ctx)
 {
-    MCGLContext_setUniformVector1(0, ctx, "texsampler",  obj->Id);
+    //MCGLContext_setUniformVector1(0, ctx, "texsampler",  obj->Id);
+    glBindTexture(GL_TEXTURE_2D, obj->Id);
 }
 
 onload(MCTexture)

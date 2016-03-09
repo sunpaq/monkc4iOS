@@ -12,6 +12,7 @@
 #include "MC3DiOSDriver.h"
 #include "MC3DScene.h"
 #include "MCGLRenderer.h"
+#include "MCGLEngine.h"
 #include "MCCube.h"
 #include "MCPanel.h"
 
@@ -25,15 +26,17 @@ static MC3DScene* mainScene = mull;
 void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray)
 {
     MCLogTypeSet(MC_VERBOSE);
-
+    
     if (mainScene == mull) {
         mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene), windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
-        MCCube* cube = new(MCCube);
-        MCPanel* panel = new(MCPanel);
-        panel->super.texture = MCTexture_initWithFileName(0, new(MCTexture), filePathArray[2]);
+        glFrontFace(GL_CCW);
         
-        ff(cube, addChild, panel);
-        ff(mainScene->rootnode, addChild, cube);
+        MCPanel* panel = new(MCPanel);
+        ff(panel->super.texture, initWithFileName, filePathArray[2]);
+        
+        //MCCube* cube = new(MCCube);
+        //ff(cube, addChild, panel);
+        ff(mainScene->rootnode, addChild, panel);
     }
 }
 

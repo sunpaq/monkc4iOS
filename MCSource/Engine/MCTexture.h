@@ -17,6 +17,9 @@
 monkc(MCTexture, MCObject,
       GLuint Id;
       GLenum textureUnit;
+      unsigned char* rawdata;
+      int width;
+      int height;
 );
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name);

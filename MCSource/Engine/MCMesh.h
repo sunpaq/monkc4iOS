@@ -17,13 +17,10 @@
 monkc(MCMesh, MCObject,
       GLenum     useage;
       GLsizei    vertexCount;
-      GLuint     vertexArrayId;//VAO
-      GLuint     vertexBufferId;//VBO
-      GLuint     vertexElementId;//VEO
+      GLuint     vertexArrayId;   //VAO
+      GLuint     vertexBufferId;  //VBO
       GLfloat*   vertexDataPtr;   //gCubeVertexData
       GLsizeiptr vertexDataSize;  //sizeof(gCubeVertexData)
-      GLuint*    vertexIndexPtr;
-      GLsizeiptr vertexIndexSize;
       MCVertexAttribute vertexAttribArray[MCVertexAttribIndexMax];
 );
 

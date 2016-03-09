@@ -10,15 +10,12 @@
 #include "MCTexture.h"
 
 GLfloat vertices[] = {
-     0.5f,  0.5f, 0.5f,    1.0f, 1.0f,
-     0.5f, -0.5f, 0.5f,    1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,    0.0f, 0.0f,
-    -0.5f,  0.5f, 0.5f,    0.0f, 1.0f
-};
-
-GLuint indices[] = {
-    0, 1, 3,
-    1, 2, 3
+    0.5f,  0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 1.0f,
+   -0.5f,  0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        0.0f, 1.0f,
+   -0.5f, -0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        0.0f, 0.0f,
+    0.5f,  0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 1.0f,
+   -0.5f, -0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        0.0f, 0.0f,
+    0.5f, -0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f,
 };
 
 oninit(MCPanel)
@@ -26,19 +23,17 @@ oninit(MCPanel)
     if (init(MC3DNode)) {
         
         MCMesh* mesh = new(MCMesh);
-        mesh->vertexCount = 6;//index numbers
-        mesh->vertexAttribArray[0] = (MCVertexAttribute){MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 36, MCBUFFER_OFFSET(0)};
-        //mesh->vertexAttribArray[1] = (MCVertexAttribute){MCVertexAttribNormal,   3, GL_FLOAT, GL_FALSE, 36, MCBUFFER_OFFSET(12)};
-        //mesh->vertexAttribArray[2] = (MCVertexAttribute){MCVertexAttribColor,    3, GL_FLOAT, GL_FALSE, 36, MCBUFFER_OFFSET(24)};
-        mesh->vertexAttribArray[1] = (MCVertexAttribute){MCVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 20, MCBUFFER_OFFSET(12)};
+        mesh->vertexCount = 6;
+        mesh->vertexAttribArray[0] = (MCVertexAttribute){MCVertexAttribPosition,  3, GL_FLOAT, GL_FALSE, 32, MCBUFFER_OFFSET(0)};
+        mesh->vertexAttribArray[1] = (MCVertexAttribute){MCVertexAttribNormal,    3, GL_FLOAT, GL_FALSE, 32, MCBUFFER_OFFSET(12)};
+        mesh->vertexAttribArray[2] = (MCVertexAttribute){MCVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 32, MCBUFFER_OFFSET(24)};
         
         mesh->vertexDataPtr = vertices;
         mesh->vertexDataSize = sizeof(vertices);
-        mesh->vertexIndexPtr = indices;
-        mesh->vertexIndexSize = sizeof(indices);
         
         sprs.meshes[0] = mesh;
-        sprs.material = mull;
+        sprs.material = new(MCMatrial);
+        sprs.texture  = new(MCTexture);//will initialized outside
         
         return obj;
     }else{

@@ -12,9 +12,8 @@ oninit(MCMesh)
 {
     if (init(MCObject)) {
         obj->useage = GL_STATIC_DRAW;//default
-        obj->vertexIndexPtr = mull;
-        obj->vertexIndexSize = 0;
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
+        
         return obj;
     }else{
         return mull;
@@ -36,12 +35,6 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
     glGenBuffers(1, &obj->vertexBufferId);
     glBindBuffer(GL_ARRAY_BUFFER, obj->vertexBufferId);
     glBufferData(GL_ARRAY_BUFFER, obj->vertexDataSize, obj->vertexDataPtr, obj->useage);
-    //VEO
-    if (obj->vertexIndexPtr != mull) {
-        glGenBuffers(1, &obj->vertexElementId);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->vertexElementId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, obj->vertexIndexSize, obj->vertexIndexPtr, obj->useage);
-    }
     //VAttributes
     int i;
     for (i=0; i<MCVertexAttribIndexMax-1; i++) {
@@ -57,12 +50,9 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArrayOES(obj->vertexArrayId);
-    if (obj->vertexIndexPtr != mull) {
-        glDrawElements(GL_TRIANGLES, obj->vertexCount, GL_UNSIGNED_INT, 0);
-    }else{
-        glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);//36
-    }
+    glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);//36
     glBindVertexArrayOES(0);
+    
 }
 
 onload(MCMesh)
