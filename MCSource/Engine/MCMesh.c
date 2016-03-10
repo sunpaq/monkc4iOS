@@ -39,7 +39,9 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
     int i;
     for (i=0; i<MCVertexAttribIndexMax-1; i++) {
         MCVertexAttribute attr = obj->vertexAttribArray[i];
+        
         if (attr.vectorsize != (GLint)mull) {
+            
             MCVertexAttributeLoad(&obj->vertexAttribArray[i]);
         }
     }

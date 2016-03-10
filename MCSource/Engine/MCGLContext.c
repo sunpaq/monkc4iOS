@@ -21,7 +21,8 @@ oninit(MCGLContext)
         
         obj->vertexAttributeNames[0] = "position";
         obj->vertexAttributeNames[1] = "normal";
-        obj->vertexAttributeNames[2] = "color";
+        //obj->vertexAttributeNames[2] = "color";
+        obj->vertexAttributeNames[2] = "texcoord";
         
         obj->uniformNames[0] = "modelViewProjectionMatrix";
         obj->uniformNames[1] = "modelMatrix";
@@ -35,6 +36,7 @@ oninit(MCGLContext)
         obj->uniformNames[9] = "specularLightStrength";
         obj->uniformNames[10] = "specularLightColor";
         obj->uniformNames[11] = "specularLightPower";
+        obj->uniformNames[12] = "texsampler";
         
         return obj;
     }else{

@@ -29,7 +29,6 @@ void onSetupGL(double windowWidth, double windowHeight, const char** filePathArr
     
     if (mainScene == mull) {
         mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene), windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
-        glFrontFace(GL_CCW);
         
         MCPanel* panel = new(MCPanel);
         ff(panel->super.texture, initWithFileName, filePathArray[2]);

@@ -17,6 +17,10 @@
 		FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA31C394A220043E019 /* MCLightShader.fsh */; };
 		FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA51C394A390043E019 /* MCLightShader.vsh */; };
 		FD43FEAC1C429A2D0043E019 /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD43FEAA1C429A2D0043E019 /* Testbed.c */; };
+		FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1EC1C917F2D00051C15 /* tex2.bmp */; };
+		FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1EE1C91B40800051C15 /* tex4.bmp */; };
+		FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F01C91B40F00051C15 /* tex3.png */; };
+		FD4CC1F31C91BD8300051C15 /* jongkhurun.png in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F21C91BD8300051C15 /* jongkhurun.png */; };
 		FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */; };
 		FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4F1F261C2FC89900D17CD9 /* MainLoop.c */; };
 		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
@@ -115,6 +119,10 @@
 		FD43FEA51C394A390043E019 /* MCLightShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.vsh; sourceTree = "<group>"; };
 		FD43FEAA1C429A2D0043E019 /* Testbed.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Testbed.c; sourceTree = "<group>"; };
 		FD43FEAB1C429A2D0043E019 /* Testbed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Testbed.h; sourceTree = "<group>"; };
+		FD4CC1EC1C917F2D00051C15 /* tex2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex2.bmp; sourceTree = "<group>"; };
+		FD4CC1EE1C91B40800051C15 /* tex4.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex4.bmp; sourceTree = "<group>"; };
+		FD4CC1F01C91B40F00051C15 /* tex3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tex3.png; sourceTree = "<group>"; };
+		FD4CC1F21C91BD8300051C15 /* jongkhurun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jongkhurun.png; sourceTree = "<group>"; };
 		FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLRenderer.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLRenderer.h; sourceTree = "<group>"; };
 		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
@@ -368,6 +376,10 @@
 				FDAE48171C7E0943009DEE97 /* mcicon.jpg */,
 				FD5EFD571B0E3D9D00D2492A /* mcicon.png */,
 				FDA3DCDD1C9056BC0044965D /* tex1.jpg */,
+				FD4CC1EC1C917F2D00051C15 /* tex2.bmp */,
+				FD4CC1F01C91B40F00051C15 /* tex3.png */,
+				FD4CC1EE1C91B40800051C15 /* tex4.bmp */,
+				FD4CC1F21C91BD8300051C15 /* jongkhurun.png */,
 			);
 			path = textures;
 			sourceTree = "<group>";
@@ -615,6 +627,7 @@
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
 				FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
+				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
 				FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
 				FDFF06181B060BE1000064E3 /* LaunchScreen.xib in Resources */,
@@ -624,6 +637,8 @@
 				FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
 				FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */,
+				FD4CC1F31C91BD8300051C15 /* jongkhurun.png in Resources */,
+				FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */,
 				FD5EFD601B0E3D9D00D2492A /* Icon-Small.png in Resources */,
 				FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */,
 				FDFF06131B060BE1000064E3 /* Main.storyboard in Resources */,
@@ -636,6 +651,7 @@
 				FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */,
 				FD5EFD5D1B0E3D9D00D2492A /* Icon-60@3x.png in Resources */,
 				FD5EFD631B0E3D9D00D2492A /* Icon-60.png in Resources */,
+				FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */,
 				FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
 				FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */,

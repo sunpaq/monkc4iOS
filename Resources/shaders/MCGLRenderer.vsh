@@ -26,10 +26,9 @@ uniform float specularLightStrength;
 uniform vec3  specularLightPosition;
 uniform vec3  specularLightColor;
 
-uniform sampler2D texsampler;
-
 //varying variables use to pass value between vertex & fragment shader
 out vec4 combinedcolor;
+out vec2 texturecoord;
 
 void main()
 {
@@ -55,11 +54,12 @@ void main()
     */
     
     //Texture
-    vec4 TexColor = texture(texsampler, texcoord);
+    //vec4 TexColor = texture(texsampler, texcoord);
 
     //Combined Color
     //combinedcolor = (ambient + diffuse) * color;
-    combinedcolor = TexColor;
+    
+    texturecoord = texcoord;
     
     //Position
     gl_Position = modelViewProjectionMatrix * position;

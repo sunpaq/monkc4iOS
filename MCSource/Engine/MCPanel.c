@@ -9,10 +9,12 @@
 #include "MCPanel.h"
 #include "MCTexture.h"
 
+const GLfloat U = 1.0f;
+
 GLfloat vertices[] = {
-    0.5f,  0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 1.0f,
-   -0.5f,  0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        0.0f, 1.0f,
-   -0.5f, -0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        0.0f, 0.0f,
+    0.5f*U,  0.5f*U,  0.5f*U,         1.0f, 0.0f, 0.0f,        1.0f, 1.0f,
+   -0.5f*U,  0.5f*U,  0.5f*U,         1.0f, 0.0f, 0.0f,        0.0f, 1.0f,
+   -0.5f*U, -0.5f*U,  0.5f*U,         1.0f, 0.0f, 0.0f,        0.0f, 0.0f,
     0.5f,  0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 1.0f,
    -0.5f, -0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        0.0f, 0.0f,
     0.5f, -0.5f,  0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f,
@@ -24,9 +26,9 @@ oninit(MCPanel)
         
         MCMesh* mesh = new(MCMesh);
         mesh->vertexCount = 6;
-        mesh->vertexAttribArray[0] = (MCVertexAttribute){MCVertexAttribPosition,  3, GL_FLOAT, GL_FALSE, 32, MCBUFFER_OFFSET(0)};
-        mesh->vertexAttribArray[1] = (MCVertexAttribute){MCVertexAttribNormal,    3, GL_FLOAT, GL_FALSE, 32, MCBUFFER_OFFSET(12)};
-        mesh->vertexAttribArray[2] = (MCVertexAttribute){MCVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 32, MCBUFFER_OFFSET(24)};
+        mesh->vertexAttribArray[0] = (MCVertexAttribute){0,  3, GL_FLOAT, GL_FALSE, 32, MCBUFFER_OFFSET(0)};
+        mesh->vertexAttribArray[1] = (MCVertexAttribute){1,  3, GL_FLOAT, GL_FALSE, 32, MCBUFFER_OFFSET(12)};
+        mesh->vertexAttribArray[2] = (MCVertexAttribute){2,  2, GL_FLOAT, GL_FALSE, 32, MCBUFFER_OFFSET(24)};
         
         mesh->vertexDataPtr = vertices;
         mesh->vertexDataSize = sizeof(vertices);

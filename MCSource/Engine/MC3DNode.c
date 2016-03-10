@@ -81,7 +81,7 @@ method(MC3DNode, void, update, MCGLContext* ctx)
     for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
         MCMesh* mesh = obj->meshes[i];
         if (mesh != mull) {
-            MCMesh_prepareMesh(0, mesh, 0);
+            MCMesh_prepareMesh(0, mesh, ctx);
         }
     }
     //update children
@@ -99,7 +99,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
     for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
         MCMesh* mesh = obj->meshes[i];
         if (mesh != mull) {
-            MCMesh_drawMesh(0, mesh, 0);
+            MCMesh_drawMesh(0, mesh, ctx);
         }
     }
     

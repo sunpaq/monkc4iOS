@@ -17,7 +17,10 @@ oninit(MCGLRenderer)
         MCGLEngine* engine = MCGLEngine_getInstance(0, 0, 0);
         MCGLEngine_featureSwith(0, engine, MCGLDepthTest, MCTrue);
         MCGLEngine_setClearScreenColor(0, engine, (MCColorRGBAf){0.25, 0.25, 0.25, 1.0});
-
+        MCGLEngine_featureSwith(0, engine, MCGLCullFace, MCTrue);
+        MCGLEngine_cullFace(0, engine, MCGLBack);
+        MCGLEngine_setFrontCounterClockWise(0, engine, MCTrue);//CCW
+        
         obj->context = new(MCGLContext);
         
         return obj;
