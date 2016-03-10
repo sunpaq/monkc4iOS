@@ -6,6 +6,7 @@ in  lowp vec2 texturecoord;
 
 out lowp vec4 FragColor;
 
+//texture sampling must in fragment shader
 uniform sampler2D texsampler;
 
 void main()

@@ -3,8 +3,8 @@
 //vertex attributes
 layout (location=0) in vec4 position;
 layout (location=1) in vec3 normal;
-//layout (location=2) in vec3 color;
-layout (location=2) in vec2 texcoord;
+layout (location=2) in vec3 color;
+layout (location=3) in vec2 texcoord;
 
 //uniform variables from code
 uniform mat4  modelViewProjectionMatrix;
@@ -54,12 +54,10 @@ void main()
     */
     
     //Texture
-    //vec4 TexColor = texture(texsampler, texcoord);
+    texturecoord = texcoord;
 
     //Combined Color
-    //combinedcolor = (ambient + diffuse) * color;
-    
-    texturecoord = texcoord;
+    combinedcolor = vec4((ambient + diffuse) * color, 1.0f);
     
     //Position
     gl_Position = modelViewProjectionMatrix * position;

@@ -9,50 +9,50 @@
 #include "MCCube.h"
 #include "MC3DBase.h"
 
-static float gCubeVertexData[9*6*6] = {
+static float gCubeVertexData[11*6*6] = {
     // Data layout for each line below is:
     // positionX, positionY, positionZ,     normalX, normalY, normalZ,     colorR, colorG, colorB     texCoordX texCoordY
-    0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,
+    0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,           0.0f, 0.0f,
+    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,           1.0f, 0.0f,
+    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,           0.0f, 1.0f,
+    0.5f, -0.5f, 0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,           0.0f, 1.0f,
+    0.5f, 0.5f, -0.5f,         1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,           1.0f, 0.0f,
+    0.5f, 0.5f, 0.5f,          1.0f, 0.0f, 0.0f,        1.0f, 0.0f, 0.0f,           1.0f, 1.0f,
     
-    0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,
+    0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,           1.0f, 0.0f,
+    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,           0.0f, 0.0f,
+    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,           1.0f, 1.0f,
+    0.5f, 0.5f, 0.5f,          0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,           1.0f, 1.0f,
+    -0.5f, 0.5f, -0.5f,        0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,           0.0f, 0.0f,
+    -0.5f, 0.5f, 0.5f,         0.0f, 1.0f, 0.0f,        0.0f, 1.0f, 0.0f,           0.0f, 1.0f,
     
-    -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,
+    -0.5f, 0.5f, -0.5f,        -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,           1.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,           0.0f, 0.0f,
+    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,           1.0f, 1.0f,
+    -0.5f, 0.5f, 0.5f,         -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,           1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,       -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,           0.0f, 0.0f,
+    -0.5f, -0.5f, 0.5f,        -1.0f, 0.0f, 0.0f,       0.0f, 0.0f, 1.0f,           0.0f, 1.0f,
     
-    -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,
-    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,       0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,           0.0f, 0.0f,
+    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,           1.0f, 0.0f,
+    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,           0.0f, 1.0f,
+    -0.5f, -0.5f, 0.5f,        0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,           0.0f, 1.0f,
+    0.5f, -0.5f, -0.5f,        0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,           1.0f, 0.0f,
+    0.5f, -0.5f, 0.5f,         0.0f, -1.0f, 0.0f,       1.0f, 1.0f, 0.0f,           1.0f, 1.0f,
     
-    0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,
-    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,
+    0.5f, 0.5f, 0.5f,          0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,           1.0f, 1.0f,
+    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,           0.0f, 1.0f,
+    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,           1.0f, 0.0f,
+    0.5f, -0.5f, 0.5f,         0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,           1.0f, 0.0f,
+    -0.5f, 0.5f, 0.5f,         0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,           0.0f, 1.0f,
+    -0.5f, -0.5f, 0.5f,        0.0f, 0.0f, 1.0f,        0.0f, 1.0f, 1.0f,           0.0f, 0.0f,
     
-    0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,
-    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,
-    -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f
+    0.5f, -0.5f, -0.5f,        0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,           1.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,           0.0f, 0.0f,
+    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,           1.0f, 1.0f,
+    0.5f, 0.5f, -0.5f,         0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,           1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,       0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,           0.0f, 0.0f,
+    -0.5f, 0.5f, -0.5f,        0.0f, 0.0f, -1.0f,       1.0f, 0.0f, 1.0f,           0.0f, 1.0f,
 };
 
 oninit(MCCube)
@@ -61,14 +61,16 @@ oninit(MCCube)
         
         MCMesh* mesh = new(MCMesh);
         mesh->vertexCount = 36;
-        mesh->vertexAttribArray[0] = (MCVertexAttribute){MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 36, MCBUFFER_OFFSET(0)};
-        mesh->vertexAttribArray[1] = (MCVertexAttribute){MCVertexAttribNormal,   3, GL_FLOAT, GL_FALSE, 36, MCBUFFER_OFFSET(12)};
-        mesh->vertexAttribArray[2] = (MCVertexAttribute){MCVertexAttribColor,    3, GL_FLOAT, GL_FALSE, 36, MCBUFFER_OFFSET(24)};
+        mesh->vertexAttribArray[0] = (MCVertexAttribute){MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(0)};
+        mesh->vertexAttribArray[1] = (MCVertexAttribute){MCVertexAttribNormal,   3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(12)};
+        mesh->vertexAttribArray[2] = (MCVertexAttribute){MCVertexAttribColor,    3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(24)};
+        mesh->vertexAttribArray[3] = (MCVertexAttribute){MCVertexAttribTexCoord0,2, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(36)};
         mesh->vertexDataPtr = gCubeVertexData;
         mesh->vertexDataSize = sizeof(gCubeVertexData);
                 
         sprs.meshes[0] = mesh;
         sprs.material = new(MCMatrial);
+        sprs.texture = new(MCTexture);
         
         return obj;
     }else{

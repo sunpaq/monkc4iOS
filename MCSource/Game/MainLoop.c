@@ -30,12 +30,12 @@ void onSetupGL(double windowWidth, double windowHeight, const char** filePathArr
     if (mainScene == mull) {
         mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene), windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
         
-        MCPanel* panel = new(MCPanel);
-        ff(panel->super.texture, initWithFileName, filePathArray[2]);
+        //MCPanel* panel = new(MCPanel);
+        //ff(panel->super.texture, initWithFileName, filePathArray[2]);
         
-        //MCCube* cube = new(MCCube);
-        //ff(cube, addChild, panel);
-        ff(mainScene->rootnode, addChild, panel);
+        MCCube* cube = new(MCCube);
+        ff(cube->super.texture, initWithFileName, filePathArray[2]);
+        ff(mainScene->rootnode, addChild, cube);
     }
 }
 

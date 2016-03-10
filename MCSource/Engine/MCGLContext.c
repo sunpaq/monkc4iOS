@@ -21,8 +21,8 @@ oninit(MCGLContext)
         
         obj->vertexAttributeNames[0] = "position";
         obj->vertexAttributeNames[1] = "normal";
-        //obj->vertexAttributeNames[2] = "color";
-        obj->vertexAttributeNames[2] = "texcoord";
+        obj->vertexAttributeNames[2] = "color";
+        obj->vertexAttributeNames[3] = "texcoord";
         
         obj->uniformNames[0] = "modelViewProjectionMatrix";
         obj->uniformNames[1] = "modelMatrix";
