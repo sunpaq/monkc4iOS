@@ -86,7 +86,7 @@
     GLchar* fsource = (GLchar*)[[NSString stringWithContentsOfFile:fragShaderPathname
                                                           encoding:NSUTF8StringEncoding error:nil] UTF8String];
     
-    NSString* texturePath = [[NSBundle mainBundle] pathForResource:@"jongkhurun" ofType:@"png"];
+    NSString* texturePath = [[NSBundle mainBundle] pathForResource:@"tex5" ofType:@"bmp"];
     GLchar* texture = (GLchar*)[texturePath UTF8String];
     
     const char* filePathArray[] = {vsource, fsource, texture};
