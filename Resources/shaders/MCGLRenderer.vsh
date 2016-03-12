@@ -27,7 +27,8 @@ uniform vec3  specularLightPosition;
 uniform vec3  specularLightColor;
 
 //varying variables use to pass value between vertex & fragment shader
-out vec4 combinedcolor;
+out vec4 combinedlight;
+out vec3 vertexcolor;
 out vec2 texturecoord;
 
 void main()
@@ -53,11 +54,14 @@ void main()
     vec3 specular = specularLightStrength * spec * specularLightColor;
     */
     
-    //Texture
+    //Combined Light
+    combinedlight = vec4((ambient + diffuse), 1.0f);
+    
+    //Vertex Color
+    vertexcolor = color;
+    
+    //Texture Coordinate
     texturecoord = texcoord;
-
-    //Combined Color
-    combinedcolor = vec4((ambient + diffuse) * color, 1.0f);
     
     //Position
     gl_Position = modelViewProjectionMatrix * position;

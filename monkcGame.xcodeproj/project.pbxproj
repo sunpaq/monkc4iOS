@@ -23,6 +23,8 @@
 		FD4CC1F31C91BD8300051C15 /* jongkhurun.png in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F21C91BD8300051C15 /* jongkhurun.png */; };
 		FD4CC1F51C91C8C200051C15 /* tex5.png in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F41C91C8C200051C15 /* tex5.png */; };
 		FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F61C91C9D600051C15 /* tex5.bmp */; };
+		FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F81C93B43D00051C15 /* tex7.bmp */; };
+		FD4CC1FB1C93B55100051C15 /* tex8.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1FA1C93B55100051C15 /* tex8.bmp */; };
 		FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */; };
 		FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4F1F261C2FC89900D17CD9 /* MainLoop.c */; };
 		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
@@ -127,6 +129,8 @@
 		FD4CC1F21C91BD8300051C15 /* jongkhurun.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jongkhurun.png; sourceTree = "<group>"; };
 		FD4CC1F41C91C8C200051C15 /* tex5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tex5.png; sourceTree = "<group>"; };
 		FD4CC1F61C91C9D600051C15 /* tex5.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex5.bmp; sourceTree = "<group>"; };
+		FD4CC1F81C93B43D00051C15 /* tex7.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex7.bmp; sourceTree = "<group>"; };
+		FD4CC1FA1C93B55100051C15 /* tex8.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex8.bmp; sourceTree = "<group>"; };
 		FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLRenderer.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLRenderer.h; sourceTree = "<group>"; };
 		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
@@ -385,6 +389,8 @@
 				FD4CC1EE1C91B40800051C15 /* tex4.bmp */,
 				FD4CC1F61C91C9D600051C15 /* tex5.bmp */,
 				FD4CC1F41C91C8C200051C15 /* tex5.png */,
+				FD4CC1F81C93B43D00051C15 /* tex7.bmp */,
+				FD4CC1FA1C93B55100051C15 /* tex8.bmp */,
 				FD4CC1F21C91BD8300051C15 /* jongkhurun.png */,
 			);
 			path = textures;
@@ -635,6 +641,7 @@
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
 				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
 				FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */,
+				FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
 				FDFF06181B060BE1000064E3 /* LaunchScreen.xib in Resources */,
 				FD5EFD651B0E3D9D00D2492A /* Icon-72@2x.png in Resources */,
@@ -653,6 +660,7 @@
 				FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */,
 				FD5EFD5E1B0E3D9D00D2492A /* Icon-76.png in Resources */,
 				FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */,
+				FD4CC1FB1C93B55100051C15 /* tex8.bmp in Resources */,
 				FD5EFD681B0E3D9D00D2492A /* Icon.png in Resources */,
 				FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */,
 				FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */,
