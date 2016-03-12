@@ -10,15 +10,21 @@ out lowp vec4 FragColor;
 //texture sampling must in fragment shader
 uniform sampler2D texsampler;
 
+bool isVec4Zero(lowp vec4 v)
+{
+    if (v.r == 0.0f && v.g == 0.0f && v.b == 0.0f)
+        return true;
+    else
+        return false;
+}
+
 void main()
 {
-    //Color Output
-    lowp vec4 texturecolor = texture(texsampler, texturecoord);
-    if (texturecolor.x < 0.1f) {
-        //FragColor = vec4(vertexcolor, 1.0f);
-        FragColor = combinedlight * texturecolor;
-
-    }else{
-        FragColor = combinedlight * texturecolor;
+    lowp vec4 color = texture(texsampler, texturecoord);
+    
+    if (isVec4Zero(color)) {
+        color = vec4(vertexcolor, 1.0f);
     }
+    //Color Output
+    FragColor = combinedlight * color;
 }
