@@ -15,6 +15,7 @@
 #include "MCGLEngine.h"
 #include "MCCube.h"
 #include "MCPanel.h"
+#include "MC3DModel.h"
 
 void onRootViewLoad(void* rootview)
 {
@@ -33,9 +34,13 @@ void onSetupGL(double windowWidth, double windowHeight, const char** filePathArr
         //MCPanel* panel = new(MCPanel);
         //ff(panel->super.texture, initWithFileName, filePathArray[2]);
         
-        MCCube* cube = new(MCCube);
-        ff(cube->super.texture, initWithFileName, filePathArray[2]);
-        ff(mainScene->rootnode, addChild, cube);
+        //MCCube* cube = new(MCCube);
+        //ff(cube->super.texture, initWithFileName, filePathArray[2]);
+        
+        MC3DModel* model = new(MC3DModel);
+        ff(model, initWithFilePath, filePathArray[3]);
+        
+        ff(mainScene->rootnode, addChild, model);
     }
 }
 

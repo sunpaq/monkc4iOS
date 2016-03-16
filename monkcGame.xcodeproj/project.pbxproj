@@ -25,6 +25,9 @@
 		FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F61C91C9D600051C15 /* tex5.bmp */; };
 		FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F81C93B43D00051C15 /* tex7.bmp */; };
 		FD4CC1FB1C93B55100051C15 /* tex8.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1FA1C93B55100051C15 /* tex8.bmp */; };
+		FD4CC1FE1C96DD2E00051C15 /* MC3DModel.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4CC1FC1C96DD2E00051C15 /* MC3DModel.c */; };
+		FD4CC2011C96EFA600051C15 /* monkey.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2001C96EFA600051C15 /* monkey.obj */; };
+		FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2021C99AC0F00051C15 /* monkey2.obj */; };
 		FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */; };
 		FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4F1F261C2FC89900D17CD9 /* MainLoop.c */; };
 		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
@@ -131,6 +134,10 @@
 		FD4CC1F61C91C9D600051C15 /* tex5.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex5.bmp; sourceTree = "<group>"; };
 		FD4CC1F81C93B43D00051C15 /* tex7.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex7.bmp; sourceTree = "<group>"; };
 		FD4CC1FA1C93B55100051C15 /* tex8.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex8.bmp; sourceTree = "<group>"; };
+		FD4CC1FC1C96DD2E00051C15 /* MC3DModel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DModel.c; sourceTree = "<group>"; };
+		FD4CC1FD1C96DD2E00051C15 /* MC3DModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DModel.h; sourceTree = "<group>"; };
+		FD4CC2001C96EFA600051C15 /* monkey.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey.obj; sourceTree = "<group>"; };
+		FD4CC2021C99AC0F00051C15 /* monkey2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey2.obj; sourceTree = "<group>"; };
 		FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLRenderer.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLRenderer.h; sourceTree = "<group>"; };
 		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
@@ -265,6 +272,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FD4CC1FF1C96EF6F00051C15 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				FD4CC2001C96EFA600051C15 /* monkey.obj */,
+				FD4CC2021C99AC0F00051C15 /* monkey2.obj */,
+			);
+			name = models;
+			path = Resources/models;
+			sourceTree = SOURCE_ROOT;
+		};
 		FD50E2211C15DE00001CC314 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -328,6 +345,8 @@
 				FD0B163F1C78447C004FD724 /* MC3DNode.h */,
 				FD0B16411C784FB7004FD724 /* MC3DScene.c */,
 				FD0B16421C784FB7004FD724 /* MC3DScene.h */,
+				FD4CC1FC1C96DD2E00051C15 /* MC3DModel.c */,
+				FD4CC1FD1C96DD2E00051C15 /* MC3DModel.h */,
 			);
 			name = Engine;
 			path = MCSource/Engine;
@@ -336,6 +355,7 @@
 		FD5EFD3E1B0E3D9D00D2492A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FD4CC1FF1C96EF6F00051C15 /* models */,
 				FD50E2211C15DE00001CC314 /* shaders */,
 				FD5EFD3F1B0E3D9D00D2492A /* icons */,
 				FD5EFD561B0E3D9D00D2492A /* textures */,
@@ -648,6 +668,7 @@
 				FD5EFD691B0E3D9D00D2492A /* Icon@2x.png in Resources */,
 				FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */,
 				FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */,
+				FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
 				FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */,
 				FD4CC1F31C91BD8300051C15 /* jongkhurun.png in Resources */,
@@ -658,6 +679,7 @@
 				FD5EFD5A1B0E3D9D00D2492A /* Icon-40@2x.png in Resources */,
 				FD5EFD5C1B0E3D9D00D2492A /* Icon-60@2x.png in Resources */,
 				FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */,
+				FD4CC2011C96EFA600051C15 /* monkey.obj in Resources */,
 				FD5EFD5E1B0E3D9D00D2492A /* Icon-76.png in Resources */,
 				FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */,
 				FD4CC1FB1C93B55100051C15 /* tex8.bmp in Resources */,
@@ -696,6 +718,7 @@
 				FDFF064D1B06314C000064E3 /* monkc.c in Sources */,
 				FDFF06701B06315B000064E3 /* MCThread.c in Sources */,
 				FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */,
+				FD4CC1FE1C96DD2E00051C15 /* MC3DModel.c in Sources */,
 				FD0B16431C784FB7004FD724 /* MC3DScene.c in Sources */,
 				FD5E18901B09DEB6006CB737 /* MCArray.c in Sources */,
 				FD5183571C7CA5EA00A74DDE /* MCGLContext.c in Sources */,

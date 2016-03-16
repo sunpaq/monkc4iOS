@@ -5,7 +5,7 @@ oninit(MCString)
 {
     if (init(MCObject)) {
         //nothing to init
-        obj->buff = malloc(1024*sizeof(char));
+        obj->buff = malloc(block_size*sizeof(char));
         return obj;
     }else{
         return mull;
@@ -20,7 +20,13 @@ method(MCString, void, bye, voida)
 
 method(MCString, MCString*, initWithCString, const char* str)
 {
-	obj->length = strlen(str);
+    size_t len = strlen(str);
+    if (len >= block_size) {
+        free(obj->buff);
+        obj->buff = malloc(len*sizeof(char));
+    }
+    
+    obj->length = strlen(str);
 	obj->size = strlen(str) + 1;
     strcpy(obj->buff, str);
 	return obj;
@@ -110,6 +116,25 @@ method(MCString, void, getCharsUntilEnter, char resultString[])
 	get_chars_until_enter(resultString);
 }
 
+method(MCString, MCBool, startWith, const char* str)
+{
+    size_t len = strlen(str);
+    if (len > obj->length) {
+        return MCFalse;
+    }else{
+        if (strncmp(obj->buff, str, len) == 0) {
+            return MCTrue;
+        }else{
+            return MCFalse;
+        }
+    }
+}
+
+method(MCString, MCFloat, getFloat, char** endptr)
+{
+    return strtod(obj->buff, endptr);
+}
+
 onload(MCString)
 {
     if (load(MCObject)) {
@@ -121,6 +146,8 @@ onload(MCString)
         binding(MCString, char, getOneChar);
         binding(MCString, void, getCharsUntilEnter, char const resultString[]);
         binding(MCString, void, bye);
+        binding(MCString, MCBool, startWith, const char* str);
+        binding(MCString, MCFloat, getFloat, char** endptr);
         return claz;
     }else{
         return mull;

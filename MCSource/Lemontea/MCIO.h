@@ -131,8 +131,8 @@ monkc(MCStream, MCObject,
     char**       lineArray;
 );
 
-method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path);
-method(MCStream, MCStream*, newWithPathDefaultType, const char* path);
+method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path);
+method(MCStream, MCStream*, initWithPathDefaultType, const char* path);
 
 method(MCStream, void, bye, voida);
 method(MCStream, int, getFileDescriptor, voida);

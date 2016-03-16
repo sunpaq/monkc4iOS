@@ -403,7 +403,7 @@ MCInline const char* mc_nameof(const MCObject* aobject) {
         return "";
     if(aobject->isa==mull)
         return "";
-    return nameofc(aobject->isa);
+    return aobject->isa->item->key;
 }
 
 /*

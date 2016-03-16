@@ -89,7 +89,12 @@
     NSString* texturePath = [[NSBundle mainBundle] pathForResource:@"tex8" ofType:@"bmp"];
     GLchar* texture = (GLchar*)[texturePath UTF8String];
     
-    const char* filePathArray[] = {vsource, fsource, texture};
+    NSString* obj3dPath = [[NSBundle mainBundle] pathForResource:@"monkey2" ofType:@"obj"];
+    //GLchar* obj3d = (GLchar*)[[NSString stringWithContentsOfFile:obj3dPath
+    //                                                    encoding:NSUTF8StringEncoding error:nil] UTF8String];
+    GLchar* obj3d = (GLchar*)[obj3dPath UTF8String];
+    
+    const char* filePathArray[] = {vsource, fsource, texture, obj3d};
     onSetupGL(width, height, filePathArray);
 }
 

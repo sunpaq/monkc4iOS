@@ -226,7 +226,7 @@ oninit(MCStream)
     }
 }
 
-method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
+method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
 {
     //FILE *fopen(const char *restrict pathname, const char *restrict type);
     //type:
@@ -243,7 +243,7 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
     
     char ichar;
     char linebuff[100]; unsigned i = 0;
-    char* textbuff[100]; unsigned lcount = 0;
+    char* textbuff[2048]; unsigned lcount = 0;
     
     while ((ichar=fgetc(obj->fileObject)) != EOF) {
         if (ichar != '\n') {
@@ -276,9 +276,9 @@ method(MCStream, MCStream*, newWithPath, MCStreamType type, const char* path)
     return obj;
 }
 
-method(MCStream, MCStream*, newWithPathDefaultType, const char* path)
+method(MCStream, MCStream*, initWithPathDefaultType, const char* path)
 {
-    return MCStream_newWithPath(0, obj, MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadWrite), path);
+    return MCStream_initWithPath(0, obj, MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadWrite), path);
 }
 
 method(MCStream, void, bye, voida)
@@ -387,8 +387,8 @@ method(MCStream, void, dump, voida)
 onload(MCStream)
 {
     if (load(MCObject)) {
-        binding(MCStream, MCStream*, newWithPath, MCStreamType type, char* path);
-        binding(MCStream, MCStream*, newWithPathDefaultType, const char* path);
+        binding(MCStream, MCStream*, initWithPath, MCStreamType type, char* path);
+        binding(MCStream, MCStream*, initWithPathDefaultType, const char* path);
         
         binding(MCStream, void, bye);
         binding(MCStream, int, getFileDescriptor);

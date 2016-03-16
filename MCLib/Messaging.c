@@ -50,15 +50,15 @@ mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hash
 	if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != mull){
 		tmpmsg.object = obj;
 		tmpmsg.address = res->value.mcfuncptr;
-		runtime_log("return a message[%s/%s]\n", nameof(tmpmsg.object), methodname);
+		runtime_log("return a message[%s/%s]\n", nameof(obj), methodname);
 		return tmpmsg;
 	}else{
         if (obj->nextResponder != mull) {
             return _self_response_to_h(obj->nextResponder, methodname, hashval);
         }else{
-            runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(tmpmsg.object), methodname);
+            runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
             if (MC_STRICT_MODE == 1) {
-                exit(1);
+                exit(-1);
             }else{
                 return tmpmsg;
             }
