@@ -48,6 +48,7 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, MCFloat width, 
 {
     MCCamera_initWithWidthHeight(0, var(mainCamera), width, height);
     MCGLRenderer_initWithShaderCodeString(0, var(renderer), vsource, fsource);
+    UILayer_initWithScreenSize(0, var(uilayer), width, height);
     //ff(obj->rootnode, addChild, obj->mainCamera);
     return obj;
 }
@@ -71,9 +72,9 @@ method(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
     MCCamera_updateLookat(0, var(mainCamera), 0);
 }
 
-method(MC3DScene, void, updateScene, double deltaTimeSinceLastUpdate)
+method(MC3DScene, void, updateScene, voida)
 {
-    MC3DScene_moveCameraOneStep(0, obj, deltaTimeSinceLastUpdate * 15.0f, deltaTimeSinceLastUpdate * 15.0f);
+    MC3DScene_moveCameraOneStep(0, obj, 1.0f, 0);
     MCCamera_update(0, obj->mainCamera, obj->renderer->context);
     MCLight_update(0, obj->light, obj->renderer->context);
     MCGLRenderer_updateNodes(0, var(renderer), var(rootnode));
@@ -94,7 +95,7 @@ onload(MC3DScene)
 {
     if (load(MCObject)) {
         binding(MC3DScene, void, bye, voida);
-        binding(MC3DScene, void, updateScene, double deltaTimeSinceLastUpdate);
+        binding(MC3DScene, void, updateScene, voida);
         binding(MC3DScene, void, drawScene, voida);
         
         binding(MC3DScene, void, lockCamera, MCBool lock);

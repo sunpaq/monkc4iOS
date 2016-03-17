@@ -34,7 +34,7 @@ monkc(MC3DScene, MCObject,
 method(MC3DScene, void, bye, voida);
 method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, MCFloat width, MCFloat height,
        const char* vsource, const char* fsource);
-method(MC3DScene, void, updateScene, double deltaTimeSinceLastUpdate);
+method(MC3DScene, void, updateScene, voida);
 method(MC3DScene, void, drawScene, voida);
 
 method(MC3DScene, void, lockCamera, MCBool lock);

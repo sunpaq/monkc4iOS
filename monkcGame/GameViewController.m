@@ -20,11 +20,26 @@
 
 @implementation GameViewController
 
+- (void)onSwip:(id)sender
+{
+    
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer == self.swip) {
+        return true;
+    }
+    return false;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
+    self.swip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwip:)];
+    self.swip.delegate = self;
 
     if (!self.context) {
         NSLog(@"Failed to create ES context");
@@ -109,7 +124,7 @@
 - (void)update
 {
     // monkc update
-    onUpdate(self.timeSinceLastUpdate);
+    onUpdate();
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect

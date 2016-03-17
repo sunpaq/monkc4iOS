@@ -10,6 +10,7 @@
 #import <GLKit/GLKit.h>
 
 //@interface GameViewController : GLKViewController
-@interface GameViewController : GLKViewController
-
+@interface GameViewController : GLKViewController <UIGestureRecognizerDelegate>
+@property UISwipeGestureRecognizer* swip;
 @end
+

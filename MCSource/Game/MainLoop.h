@@ -12,7 +12,7 @@
 void onRootViewLoad(void* rootview);
 void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray);
 void onTearDownGL();
-void onUpdate(double timeSinceLastUpdate);
+void onUpdate();
 void onDraw();
 
 #endif

@@ -49,12 +49,12 @@ void onTearDownGL()
     release(mainScene);
 }
 
-void onUpdate(double timeSinceLastUpdate)
+void onUpdate()
 {
     MCLogTypeSet(MC_SILENT);
 
     if (mainScene) {
-        MC3DScene_updateScene(0, mainScene, timeSinceLastUpdate);
+        MC3DScene_updateScene(0, mainScene, 0);
     }
 }
 

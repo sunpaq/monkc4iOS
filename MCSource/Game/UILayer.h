@@ -13,9 +13,12 @@
 #include "monkc.h"
 
 monkc(UILayer, MCObject,
-    MCBool visible;
+      MCUInt width;
+      MCUInt height;
+      MCBool visible;
 );
 
+method(UILayer, UILayer*, initWithScreenSize, MCFloat width, MCFloat height);
 method(UILayer, void, onFrameRenderFinished, MCUInt fps);
 method(UILayer, void, onButtonClicked, MCInt tag);
 

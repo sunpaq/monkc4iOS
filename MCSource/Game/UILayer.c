@@ -16,8 +16,10 @@ enum {
     STOP,
     ZOOM_IN,
     ZOOM_OUT,
-    LEFT_RIGHT,
-    UP_DOWN,
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN,
     FPS_TAG
 };
 
@@ -25,16 +27,29 @@ oninit(UILayer)
 {
     init(MCObject);
     var(visible) = MCTrue;
+    var(width) = 480;
+    var(height) = 360;
+    return obj;
+}
+
+method(UILayer, UILayer*, initWithScreenSize, MCFloat width, MCFloat height)
+{
+    var(width) = width;
+    var(height) = height;
+    
     mc_message msg = response_to(obj, onButtonClicked);
     MCUIButtonRegisterCallback(msg);
     
-    MCUIAddLabelButton("", "START ROTATE", mc_color(0, 255, 0), 100, 30, START);
-    MCUIAddLabelButton("", "STOP ROTATE",  mc_color(255, 0, 0), 100, 70, STOP);
-    MCUIAddLabelButton("", "ZOOM IN",      mc_color(255, 255, 255), 100, 110, ZOOM_IN);
-    MCUIAddLabelButton("", "ZOOM OUT",     mc_color(255, 255, 255), 100, 150, ZOOM_OUT);
-    MCUIAddLabelButton("", "LEFT RIGHT",   mc_color(255, 255, 255), 100, 190, LEFT_RIGHT);
-    MCUIAddLabelButton("", "UP DOWN",      mc_color(255, 255, 255), 100, 230, UP_DOWN);
-    MCUIAddLabel("FPS", mc_color(255, 255, 255), 30, 300, FPS_TAG);
+    MCUIAddLabelButton("", "Start",     mc_color(0, 255, 0),     50, 30, START);
+    MCUIAddLabelButton("", "Stop",      mc_color(255, 0, 0),     50, 70, STOP);
+    MCUIAddLabelButton("", "ZoomIn",    mc_color(255, 255, 255), 50, 110, ZOOM_IN);
+    MCUIAddLabelButton("", "ZoomOut",   mc_color(255, 255, 255), 50, 150, ZOOM_OUT);
+    MCUIAddLabelButton("", "Left",      mc_color(255, 255, 255), var(width)-50, 30, LEFT);
+    MCUIAddLabelButton("", "Right",     mc_color(255, 255, 255), var(width)-50, 70, RIGHT);
+    MCUIAddLabelButton("", "Up",        mc_color(255, 255, 255), var(width)-50, 110, UP);
+    MCUIAddLabelButton("", "Down",      mc_color(255, 255, 255), var(width)-50, 150, DOWN);
+    MCUIAddLabel("FPS",                 mc_color(255, 255, 255), 30, var(height)-30, FPS_TAG);
+    
     return obj;
 }
 
@@ -101,12 +116,20 @@ method(UILayer, void, onButtonClicked, MCInt tag)
             cam->R += 1;
             break;
             
-        case LEFT_RIGHT:
+        case LEFT:
             cam->fai += 5;
             break;
             
-        case UP_DOWN:
+        case RIGHT:
+            cam->fai -= 5;
+            break;
+            
+        case UP:
             cam->tht += 5;
+            break;
+            
+        case DOWN:
+            cam->tht -= 5;
             break;
             
         default:
@@ -119,6 +142,7 @@ onload(UILayer)
     if (load(MCObject)) {
         binding(UILayer, void, onFrameRenderFinished, MCUInt fps);
         binding(UILayer, void, onButtonClicked, MCInt tag);
+        binding(UILayer, UILayer*, initWithScreenSize, MCFloat width, MCFloat height);
         return claz;
     }else{
         return mull;
