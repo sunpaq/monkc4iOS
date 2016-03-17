@@ -56,7 +56,7 @@ void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color
         [btn sizeToFit];
         btn.center = CGPointMake(x, y);
         btn.tag = tag;
-        [btn addTarget:_handler action:@selector(onButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [btn addTarget:_handler action:@selector(onButtonClicked:) forControlEvents:UIControlEventAllTouchEvents];
         [_rootUIView addSubview:btn];
     }
 }

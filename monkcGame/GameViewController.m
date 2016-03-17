@@ -90,8 +90,6 @@
     GLchar* texture = (GLchar*)[texturePath UTF8String];
     
     NSString* obj3dPath = [[NSBundle mainBundle] pathForResource:@"monkey2" ofType:@"obj"];
-    //GLchar* obj3d = (GLchar*)[[NSString stringWithContentsOfFile:obj3dPath
-    //                                                    encoding:NSUTF8StringEncoding error:nil] UTF8String];
     GLchar* obj3d = (GLchar*)[obj3dPath UTF8String];
     
     const char* filePathArray[] = {vsource, fsource, texture, obj3d};

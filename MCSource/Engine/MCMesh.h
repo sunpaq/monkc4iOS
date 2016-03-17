@@ -25,7 +25,9 @@ monkc(MCMesh, MCObject,
 );
 
 method(MCMesh, void, bye, voida);
+method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
 method(MCMesh, void, prepareMesh, MCGLContext* ctx);
 method(MCMesh, void, drawMesh, MCGLContext* ctx);
+method(MCMesh, void, dump, voida);
 
 #endif /* MCMesh_h */

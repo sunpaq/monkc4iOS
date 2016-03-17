@@ -28,6 +28,13 @@
 		FD4CC1FE1C96DD2E00051C15 /* MC3DModel.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4CC1FC1C96DD2E00051C15 /* MC3DModel.c */; };
 		FD4CC2011C96EFA600051C15 /* monkey.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2001C96EFA600051C15 /* monkey.obj */; };
 		FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2021C99AC0F00051C15 /* monkey2.obj */; };
+		FD4CC2051C99AE7A00051C15 /* monkey3.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2041C99AE7A00051C15 /* monkey3.obj */; };
+		FD4CC2071C99B19E00051C15 /* ball.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2061C99B19E00051C15 /* ball.obj */; };
+		FD4CC2091C99B21600051C15 /* cube.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2081C99B21600051C15 /* cube.obj */; };
+		FD4CC20E1C9AF21900051C15 /* cube2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC20D1C9AF21900051C15 /* cube2.obj */; };
+		FD4CC2101C9AF3CD00051C15 /* cube3.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC20F1C9AF3CD00051C15 /* cube3.obj */; };
+		FD4CC2121C9AF49200051C15 /* cube4.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2111C9AF49200051C15 /* cube4.obj */; };
+		FD4CC2141C9AFDED00051C15 /* cube5.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2131C9AFDED00051C15 /* cube5.obj */; };
 		FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */; };
 		FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4F1F261C2FC89900D17CD9 /* MainLoop.c */; };
 		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
@@ -138,6 +145,14 @@
 		FD4CC1FD1C96DD2E00051C15 /* MC3DModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DModel.h; sourceTree = "<group>"; };
 		FD4CC2001C96EFA600051C15 /* monkey.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey.obj; sourceTree = "<group>"; };
 		FD4CC2021C99AC0F00051C15 /* monkey2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey2.obj; sourceTree = "<group>"; };
+		FD4CC2041C99AE7A00051C15 /* monkey3.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey3.obj; sourceTree = "<group>"; };
+		FD4CC2061C99B19E00051C15 /* ball.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ball.obj; sourceTree = "<group>"; };
+		FD4CC2081C99B21600051C15 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
+		FD4CC20B1C9AEAEC00051C15 /* MC3DFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DFileParser.h; sourceTree = "<group>"; };
+		FD4CC20D1C9AF21900051C15 /* cube2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube2.obj; sourceTree = "<group>"; };
+		FD4CC20F1C9AF3CD00051C15 /* cube3.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube3.obj; sourceTree = "<group>"; };
+		FD4CC2111C9AF49200051C15 /* cube4.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube4.obj; sourceTree = "<group>"; };
+		FD4CC2131C9AFDED00051C15 /* cube5.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube5.obj; sourceTree = "<group>"; };
 		FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLRenderer.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLRenderer.h; sourceTree = "<group>"; };
 		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
@@ -277,6 +292,13 @@
 			children = (
 				FD4CC2001C96EFA600051C15 /* monkey.obj */,
 				FD4CC2021C99AC0F00051C15 /* monkey2.obj */,
+				FD4CC2041C99AE7A00051C15 /* monkey3.obj */,
+				FD4CC2061C99B19E00051C15 /* ball.obj */,
+				FD4CC2081C99B21600051C15 /* cube.obj */,
+				FD4CC20D1C9AF21900051C15 /* cube2.obj */,
+				FD4CC20F1C9AF3CD00051C15 /* cube3.obj */,
+				FD4CC2111C9AF49200051C15 /* cube4.obj */,
+				FD4CC2131C9AFDED00051C15 /* cube5.obj */,
 			);
 			name = models;
 			path = Resources/models;
@@ -347,6 +369,7 @@
 				FD0B16421C784FB7004FD724 /* MC3DScene.h */,
 				FD4CC1FC1C96DD2E00051C15 /* MC3DModel.c */,
 				FD4CC1FD1C96DD2E00051C15 /* MC3DModel.h */,
+				FD4CC20B1C9AEAEC00051C15 /* MC3DFileParser.h */,
 			);
 			name = Engine;
 			path = MCSource/Engine;
@@ -656,14 +679,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD4CC20E1C9AF21900051C15 /* cube2.obj in Resources */,
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
 				FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
 				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
 				FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */,
+				FD4CC2141C9AFDED00051C15 /* cube5.obj in Resources */,
 				FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
+				FD4CC2121C9AF49200051C15 /* cube4.obj in Resources */,
 				FDFF06181B060BE1000064E3 /* LaunchScreen.xib in Resources */,
+				FD4CC2071C99B19E00051C15 /* ball.obj in Resources */,
 				FD5EFD651B0E3D9D00D2492A /* Icon-72@2x.png in Resources */,
 				FD5EFD691B0E3D9D00D2492A /* Icon@2x.png in Resources */,
 				FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */,
@@ -671,6 +698,7 @@
 				FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
 				FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */,
+				FD4CC2091C99B21600051C15 /* cube.obj in Resources */,
 				FD4CC1F31C91BD8300051C15 /* jongkhurun.png in Resources */,
 				FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */,
 				FD5EFD601B0E3D9D00D2492A /* Icon-Small.png in Resources */,
@@ -691,7 +719,9 @@
 				FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */,
 				FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */,
 				FD4CC1F51C91C8C200051C15 /* tex5.png in Resources */,
+				FD4CC2101C9AF3CD00051C15 /* cube3.obj in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
+				FD4CC2051C99AE7A00051C15 /* monkey3.obj in Resources */,
 				FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */,
 				FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */,
 				FD5EFD5F1B0E3D9D00D2492A /* Icon-76@2x.png in Resources */,

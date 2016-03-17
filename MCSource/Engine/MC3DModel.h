@@ -18,23 +18,8 @@
 #include "MCIO.h"
 #include "MC3DNode.h"
 
-typedef struct {
-    int vertexIndex;
-    int texcoordIndex;
-    int normalIndex;
-} MC3DFaceElement;
-
-typedef struct {
-    MC3DFaceElement v1;
-    MC3DFaceElement v2;
-    MC3DFaceElement v3;
-} MC3DFace;
-
 monkc(MC3DModel, MC3DNode,
-      MCVector4* vertices;//w is optional
-      MCVector3* texcoords;//w is optional
-      MCVector3* vnormals;
-      MC3DFace*  faces;      
+      MCColorRGBAf color;
 );
 
 method(MC3DModel, void, bye, voida);

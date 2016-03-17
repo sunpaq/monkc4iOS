@@ -16,6 +16,8 @@ enum {
     STOP,
     ZOOM_IN,
     ZOOM_OUT,
+    LEFT_RIGHT,
+    UP_DOWN,
     FPS_TAG
 };
 
@@ -30,6 +32,8 @@ oninit(UILayer)
     MCUIAddLabelButton("", "STOP ROTATE",  mc_color(255, 0, 0), 100, 70, STOP);
     MCUIAddLabelButton("", "ZOOM IN",      mc_color(255, 255, 255), 100, 110, ZOOM_IN);
     MCUIAddLabelButton("", "ZOOM OUT",     mc_color(255, 255, 255), 100, 150, ZOOM_OUT);
+    MCUIAddLabelButton("", "LEFT RIGHT",   mc_color(255, 255, 255), 100, 190, LEFT_RIGHT);
+    MCUIAddLabelButton("", "UP DOWN",      mc_color(255, 255, 255), 100, 230, UP_DOWN);
     MCUIAddLabel("FPS", mc_color(255, 255, 255), 30, 300, FPS_TAG);
     return obj;
 }
@@ -95,6 +99,14 @@ method(UILayer, void, onButtonClicked, MCInt tag)
             break;
         case ZOOM_OUT:
             cam->R += 1;
+            break;
+            
+        case LEFT_RIGHT:
+            cam->fai += 5;
+            break;
+            
+        case UP_DOWN:
+            cam->tht += 5;
             break;
             
         default:
