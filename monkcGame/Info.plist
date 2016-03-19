@@ -44,5 +44,39 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>obj 3d type</string>
+            <key>CFBundleTypeIconFiles</key>
+            <array>
+                <string>Icon-60.png</string>
+                <string>Icon-72.png</string>
+            </array>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>com.oreisoft.obj</string>
+            </array>
+            <key>LSHandlerRank</key>
+            <string>Owner</string>
+        </dict>
+    </array>
+    <key>UTExportedTypeDeclarations</key>
+    <array>
+        <dict>
+            <key>UTTypeIdentifier</key>
+            <string>com.oreisoft.obj</string>
+            <key>UTTypeIconFile</key>
+            <string>Icon-60.png</string>
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>public.filename-extension</key>
+                <array>
+                    <string>obj</string>
+                </array>
+            </dict>
+        </dict>
+    </array>
 </dict>
 </plist>
