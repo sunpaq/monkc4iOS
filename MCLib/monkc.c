@@ -114,8 +114,7 @@ mo _new(mo const obj, MCIniterPointer initer)
 
 static int ref_count_down(mo const this)
 {
-	int oldcount, newcount;
-	int *addr;
+
 	for(;;){
 		if(this == mull){
 			error_log("recycle/release(mull) do nothing.\n");
@@ -134,14 +133,19 @@ static int ref_count_down(mo const this)
 			error_log("recycle/release(obj) obj have no class linked. do nothing.\n");
 			return REFCOUNT_ERR;
 		}
-
-		addr = &(this->ref_count);
-		oldcount = mc_atomic_get_integer(addr);
-		newcount = oldcount;
-		if(newcount > 0)
-			newcount--;
-		if(!mc_atomic_set_integer(addr, oldcount, newcount))
-			break;
+#ifdef NO_ATOMIC
+        this->ref_count--; break;
+#else
+        int oldcount, newcount;
+        int *addr;
+        addr = &(this->ref_count);
+        oldcount = mc_atomic_get_integer(addr);
+        newcount = oldcount;
+        if(newcount > 0)
+            newcount--;
+        if(!mc_atomic_set_integer(addr, oldcount, newcount))
+            break;
+#endif
 	}
 	return this->ref_count;
 }
@@ -164,8 +168,7 @@ void _release(mo const this)
 
 mo _retain(mo const this)
 {
-	int* rcountaddr;
-	int oldcount;
+
 	for(;;){
 		if(this == mull){
 			error_log("retain(nil) do nothing.\n");
@@ -179,11 +182,16 @@ mo _retain(mo const this)
 			error_log("release(obj) obj have no class linked. do nothing.\n");
 			return this;
 		}
-
+#ifdef NO_ATOMIC
+        this->ref_count++; break;
+#else
+        int* rcountaddr;
+        int oldcount;
 		rcountaddr = &(this->ref_count);
 		oldcount = mc_atomic_get_integer(rcountaddr);
 		if(!mc_atomic_set_integer(rcountaddr, oldcount, oldcount+1))
 			break;
+#endif
 	}
 	runtime_log("%s - ref_count:%d\n", nameof(this), this->ref_count);
 	return this;

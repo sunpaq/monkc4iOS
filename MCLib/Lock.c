@@ -33,13 +33,16 @@ void mc_trylock(volatile int* lock_p)
 		error_log("mc_trylock(int* lock_p) lock_p is nil\n");
 		return;
 	}
-
+#ifdef NO_ATOMIC
+    (*lock_p) = 1;
+#else
 	for(;;){
 		if(mc_atomic_get_integer(lock_p) != 0)
 			continue;
 		if(!mc_atomic_set_integer(lock_p, 0, 1))
 			break;
 	}
+#endif
 }
 
 void mc_unlock(volatile int* lock_p)

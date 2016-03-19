@@ -47,6 +47,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
  * */
 #define MC_STRICT_MODE 1
 #define NO_RECYCLE 1
+#define NO_ATOMIC 1
 
 #ifndef mull
 #define mull ((void*)0)
