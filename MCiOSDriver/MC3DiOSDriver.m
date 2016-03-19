@@ -47,7 +47,7 @@ void MCUIRegisterRootUIView(void* rootview)
     _handler = [UIEventHandler new];
 }
 
-void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag)
+void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag, MCBool isContinuous)
 {
     if (_rootUIView) {
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -56,7 +56,11 @@ void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color
         [btn sizeToFit];
         btn.center = CGPointMake(x, y);
         btn.tag = tag;
-        [btn addTarget:_handler action:@selector(onButtonClicked:) forControlEvents:UIControlEventAllTouchEvents];
+        if (isContinuous == MCTrue) {
+            [btn addTarget:_handler action:@selector(onButtonClicked:) forControlEvents:UIControlEventAllTouchEvents];
+        }else{
+            [btn addTarget:_handler action:@selector(onButtonClicked:) forControlEvents:UIControlEventTouchDown];
+        }
         [_rootUIView addSubview:btn];
     }
 }

@@ -22,6 +22,7 @@
 #define MC3DNodeMaxMeshNum  100
 
 monkc(MC3DNode, MCObject,
+      MCUInt index;
       MCBool visible;
       MCVector3 center;
       MCMatrix4 transform;
@@ -37,6 +38,9 @@ method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child);
 method(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child);
 method(MC3DNode, void, cleanUnvisibleChild, voida);
 method(MC3DNode, int, childCount, voida);
+method(MC3DNode, MC3DNode*, childCarousel, voida);
+method(MC3DNode, void, setAllVisible, MCBool visible);
+
 //draw
 method(MC3DNode, void, update, MCGLContext* ctx);
 method(MC3DNode, void, draw, MCGLContext* ctx);

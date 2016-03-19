@@ -101,6 +101,7 @@ onload(MC3DScene)
         binding(MC3DScene, void, lockCamera, MCBool lock);
         binding(MC3DScene, MCCamera*, getCamera, voida);
         binding(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
+
         return claz;
     }else{
         return mull;

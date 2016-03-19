@@ -40,6 +40,7 @@ method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
         if (obj->children[i] == mull) {
             obj->children[i] = child;
+            child->index = i;
             return MC3DSuccess;
         }
     }
@@ -69,6 +70,34 @@ method(MC3DNode, int, childCount, voida)
     size_t arraySize = sizeof(obj->children);
     size_t nodeSize = sizeof(MC3DNode*);
     return ((int)(arraySize / nodeSize));
+}
+
+method(MC3DNode, MC3DNode*, childCarousel, voida)
+{
+    static MCUInt lastIndex = 0;
+    int count = MC3DNode_childCount(0, obj, 0);
+    if (lastIndex == count) {
+        lastIndex = 0;
+    }
+    for (int i = lastIndex; i < count; i++) {
+        MC3DNode* node = obj->children[lastIndex];
+        if (node != mull) {
+            return node;
+        }else{
+            continue;
+        }
+    }
+    return mull;
+}
+
+method(MC3DNode, void, setAllVisible, MCBool visible)
+{
+    for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
+        MC3DNode* node = obj->children[i];
+        if (node != mull) {
+            node->visible = visible;
+        }
+    }
 }
 
 method(MC3DNode, void, update, MCGLContext* ctx)
@@ -133,6 +162,9 @@ onload(MC3DNode)
         binding(MC3DNode, void, addChild, MC3DNode* child);
         binding(MC3DNode, void, removeChild, MC3DNode* child);
         binding(MC3DNode, void, cleanUnvisibleChild, voida);
+        binding(MC3DNode, int, childCount, voida);
+        binding(MC3DNode, MC3DNode*, childCarousel, voida);
+        binding(MC3DNode, void, setAllVisible, MCBool visible);
         binding(MC3DNode, void, update, voida);
         binding(MC3DNode, void, draw, voida);
         binding(MC3DNode, void, hide, voida);

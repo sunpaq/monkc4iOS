@@ -19,8 +19,8 @@
 #include "MCLight.h"
 
 monkc(MC3DScene, MCObject,
-      struct MC3DNodeStruct* next;
-      struct MC3DNodeStruct* prev;
+      struct MC3DSceneStruct* next;
+      struct MC3DSceneStruct* prev;
       
       MCGLRenderer* renderer;
       MC3DNode*     rootnode;

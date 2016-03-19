@@ -16,31 +16,27 @@
 #include "MCCube.h"
 #include "MCPanel.h"
 #include "MC3DModel.h"
+#include "MCDirector.h"
 
 void onRootViewLoad(void* rootview)
 {
     MCUIRegisterRootUIView(rootview);
 }
 
-static MC3DScene* mainScene = mull;
-static MC3DModel* model = mull;
+static MCDirector* director = mull;
 
 void onOpenExternalFile(const char* filepath)
 {
-    if (model != mull) {
-        ff(mainScene->rootnode, removeChild, model);
-    }
-    
-    model = new(MC3DModel);
+    MC3DModel* model = ff(new(MC3DModel), initWithFilePath, filepath);
     model->color = (MCColorRGBAf){1.0, 0.5, 0.0};
-    ff(model, initWithFilePath, filepath);
     
-    ff(mainScene->rootnode, addChild, model);
-    
+    ff(director->lastScene->rootnode, setAllVisible, MCFalse);
+    ff(director->lastScene->rootnode, addChild, model);
 }
 
 void onReceiveMemoryWarning()
 {
+    MC3DScene* mainScene = director->lastScene;
     if (mainScene != mull && mainScene->rootnode != mull) {
         ff(mainScene->rootnode, cleanUnvisibleChild, 0);
     }
@@ -49,33 +45,44 @@ void onReceiveMemoryWarning()
 void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray)
 {
     MCLogTypeSet(MC_VERBOSE);
-    
-    if (mainScene == mull) {
-        mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene),
-            windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
+    if (director == mull) {
+        director = new(MCDirector);
         
-        onOpenExternalFile(filePathArray[3]);
+        //scene1
+        MC3DScene* mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene),
+                                windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
+        MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filePathArray[3], (MCColorRGBAf){1.0, 0.5, 0.0});
+        ff(mainScene->rootnode, addChild, model);
+        ff(director, pushScene, mainScene);
+        
+        //scene2
+        MC3DScene* scene2 = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene),
+                                windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
+        MC3DModel* model2 = ff(new(MC3DModel), initWithFilePathColor, filePathArray[4], (MCColorRGBAf){0.0, 0.5, 1.0});
+        ff(scene2->rootnode, addChild, model2);
+        ff(director, pushScene, scene2);
+        
+        director->lastScene->super.nextResponder = (MCObject*)director;
     }
 }
 
 void onTearDownGL()
 {
-    release(mainScene);
+    release(director);
 }
 
 void onUpdate()
 {
     MCLogTypeSet(MC_SILENT);
-
-    if (mainScene) {
-        MC3DScene_updateScene(0, mainScene, 0);
+    if (director != mull) {
+        MCDirector_updateAll(0, director, 0);
     }
 }
 
 void onDraw()
 {
-    if (mainScene) {
-        MC3DScene_drawScene(0, mainScene, 0);
+    if (director != mull) {
+        MCDirector_drawAll(0, director, 0);
     }
     
     MCLogTypeSet(MC_VERBOSE);

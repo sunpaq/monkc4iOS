@@ -24,5 +24,6 @@ monkc(MC3DModel, MC3DNode,
 
 method(MC3DModel, void, bye, voida);
 method(MC3DModel, MC3DModel*, initWithFilePath, const char* path);
+method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
 
 #endif /* MC3DModel_h */

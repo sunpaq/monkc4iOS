@@ -20,6 +20,7 @@ enum {
     RIGHT,
     UP,
     DOWN,
+    CHANGE,
     FPS_TAG
 };
 
@@ -40,14 +41,15 @@ method(UILayer, UILayer*, initWithScreenSize, MCFloat width, MCFloat height)
     mc_message msg = response_to(obj, onButtonClicked);
     MCUIButtonRegisterCallback(msg);
     
-    MCUIAddLabelButton("", "Start",     mc_color(0, 255, 0),     50, 30, START);
-    MCUIAddLabelButton("", "Stop",      mc_color(255, 0, 0),     50, 70, STOP);
-    MCUIAddLabelButton("", "ZoomIn",    mc_color(255, 255, 255), 50, 110, ZOOM_IN);
-    MCUIAddLabelButton("", "ZoomOut",   mc_color(255, 255, 255), 50, 150, ZOOM_OUT);
-    MCUIAddLabelButton("", "Left",      mc_color(255, 255, 255), var(width)-50, 30, LEFT);
-    MCUIAddLabelButton("", "Right",     mc_color(255, 255, 255), var(width)-50, 70, RIGHT);
-    MCUIAddLabelButton("", "Up",        mc_color(255, 255, 255), var(width)-50, 110, UP);
-    MCUIAddLabelButton("", "Down",      mc_color(255, 255, 255), var(width)-50, 150, DOWN);
+    MCUIAddLabelButton("", "Start",     mc_color(0, 255, 0),     50, 30, START, MCFalse);
+    MCUIAddLabelButton("", "Stop",      mc_color(255, 0, 0),     50, 70, STOP, MCFalse);
+    MCUIAddLabelButton("", "ZoomIn",    mc_color(255, 255, 255), 50, 110, ZOOM_IN, MCTrue);
+    MCUIAddLabelButton("", "ZoomOut",   mc_color(255, 255, 255), 50, 150, ZOOM_OUT, MCTrue);
+    MCUIAddLabelButton("", "Left",      mc_color(255, 255, 255), var(width)-50, 30, LEFT, MCTrue);
+    MCUIAddLabelButton("", "Right",     mc_color(255, 255, 255), var(width)-50, 70, RIGHT, MCTrue);
+    MCUIAddLabelButton("", "Up",        mc_color(255, 255, 255), var(width)-50, 110, UP, MCTrue);
+    MCUIAddLabelButton("", "Down",      mc_color(255, 255, 255), var(width)-50, 150, DOWN, MCTrue);
+    MCUIAddLabelButton("", "Change",    mc_color(255, 255, 255), var(width)-50, var(height)-30, CHANGE, MCFalse);
     MCUIAddLabel("FPS",                 mc_color(255, 255, 255), 30, var(height)-30, FPS_TAG);
     
     return obj;
@@ -132,6 +134,9 @@ method(UILayer, void, onButtonClicked, MCInt tag)
             cam->tht -= 5;
             break;
             
+        case CHANGE:
+            ff(obj, popScene, 0);
+            break;
         default:
             break;
     }

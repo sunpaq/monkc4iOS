@@ -53,12 +53,19 @@ method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
     return obj;
 }
 
+method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
+{
+    var(color) = color;
+    return MC3DModel_initWithFilePath(0, obj, path);
+}
+
 onload(MC3DModel)
 {
     if (load(MC3DNode)) {
         binding(MC3DModel, void, bye, voida);
         binding(MC3DModel, MC3DModel*, initWithFilePath, const char* path);
-        
+        binding(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
+
         return claz;
     }else{
         return mull;
