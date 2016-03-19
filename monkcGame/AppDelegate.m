@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MainLoop.h"
 
 @interface AppDelegate ()
 
@@ -14,6 +15,18 @@
 
 @implementation AppDelegate
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    GLchar* obj3d = (GLchar*)[[url path] UTF8String];
+    
+    onReceiveMemoryWarning();
+    onOpenExternalFile(obj3d);
+    return YES;
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    onReceiveMemoryWarning();
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.

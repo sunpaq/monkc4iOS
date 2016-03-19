@@ -35,6 +35,7 @@ method(MC3DNode, void, bye, voida);
 //0=success
 method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child);
 method(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child);
+method(MC3DNode, void, cleanUnvisibleChild, voida);
 method(MC3DNode, int, childCount, voida);
 //draw
 method(MC3DNode, void, update, MCGLContext* ctx);

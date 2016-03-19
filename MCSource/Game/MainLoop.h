@@ -10,6 +10,8 @@
 #define __monkcGame__MainScene__
 
 void onRootViewLoad(void* rootview);
+void onOpenExternalFile(const char* filepath);
+void onReceiveMemoryWarning();
 void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray);
 void onTearDownGL();
 void onUpdate();

@@ -32,7 +32,6 @@ method(MC3DNode, void, bye, voida)
     for (int i=0; i<count-1; i++) {
         ff(obj->children[i], bye, 0);
     }
-    
     MCObject_bye(0, spr, 0);
 }
 
@@ -50,14 +49,19 @@ method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
 
 method(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child)
 {
+    child->visible = MCFalse;
+    return MC3DSuccess;
+}
+
+method(MC3DNode, void, cleanUnvisibleChild, voida)
+{
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
-        if (obj->children[i] == child) {
+        MC3DNode* node = obj->children[i];
+        if (node != mull && node->visible == MCFalse) {
+            release(node);
             obj->children[i] = mull;
-            return MC3DSuccess;
         }
     }
-    error_log("MC3DNode: can not find child, can not remove");
-    return MC3DErrChildNotFound;
 }
 
 method(MC3DNode, int, childCount, voida)
@@ -128,6 +132,7 @@ onload(MC3DNode)
         binding(MC3DNode, void, bye, voida);
         binding(MC3DNode, void, addChild, MC3DNode* child);
         binding(MC3DNode, void, removeChild, MC3DNode* child);
+        binding(MC3DNode, void, cleanUnvisibleChild, voida);
         binding(MC3DNode, void, update, voida);
         binding(MC3DNode, void, draw, voida);
         binding(MC3DNode, void, hide, voida);

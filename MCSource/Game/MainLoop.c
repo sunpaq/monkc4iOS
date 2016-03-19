@@ -23,24 +23,38 @@ void onRootViewLoad(void* rootview)
 }
 
 static MC3DScene* mainScene = mull;
+static MC3DModel* model = mull;
+
+void onOpenExternalFile(const char* filepath)
+{
+    if (model != mull) {
+        ff(mainScene->rootnode, removeChild, model);
+    }
+    
+    model = new(MC3DModel);
+    model->color = (MCColorRGBAf){1.0, 0.5, 0.0};
+    ff(model, initWithFilePath, filepath);
+    
+    ff(mainScene->rootnode, addChild, model);
+    
+}
+
+void onReceiveMemoryWarning()
+{
+    if (mainScene != mull && mainScene->rootnode != mull) {
+        ff(mainScene->rootnode, cleanUnvisibleChild, 0);
+    }
+}
 
 void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray)
 {
     MCLogTypeSet(MC_VERBOSE);
     
     if (mainScene == mull) {
-        mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene), windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
+        mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene),
+            windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
         
-        //MCPanel* panel = new(MCPanel);
-        //ff(panel->super.texture, initWithFileName, filePathArray[2]);
-        
-        //MCCube* cube = new(MCCube);
-        //ff(cube->super.texture, initWithFileName, filePathArray[2]);
-        
-        MC3DModel* model = new(MC3DModel);
-        ff(model, initWithFilePath, filePathArray[3]);
-        
-        ff(mainScene->rootnode, addChild, model);
+        onOpenExternalFile(filePathArray[3]);
     }
 }
 
