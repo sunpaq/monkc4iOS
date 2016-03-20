@@ -33,7 +33,7 @@ oninit(UILayer)
     return obj;
 }
 
-method(UILayer, UILayer*, initWithScreenSize, MCFloat width, MCFloat height)
+method(UILayer, UILayer*, initWithScreenSize, unsigned width, unsigned height)
 {
     var(width) = width;
     var(height) = height;
@@ -74,7 +74,7 @@ static MCNode* node4 = mull;
 
 //for test end
 
-//method(MainScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
+//method(MainScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
 method(UILayer, void, onButtonClicked, MCInt tag)
 {
     MCCamera* cam = ff(obj, getCamera, 0);
@@ -147,7 +147,7 @@ onload(UILayer)
     if (load(MCObject)) {
         binding(UILayer, void, onFrameRenderFinished, MCUInt fps);
         binding(UILayer, void, onButtonClicked, MCInt tag);
-        binding(UILayer, UILayer*, initWithScreenSize, MCFloat width, MCFloat height);
+        binding(UILayer, UILayer*, initWithScreenSize, double width, double height);
         return claz;
     }else{
         return mull;

@@ -18,7 +18,7 @@ monkc(UILayer, MCObject,
       MCBool visible;
 );
 
-method(UILayer, UILayer*, initWithScreenSize, MCFloat width, MCFloat height);
+method(UILayer, UILayer*, initWithScreenSize, unsigned width, unsigned height);
 method(UILayer, void, onFrameRenderFinished, MCUInt fps);
 method(UILayer, void, onButtonClicked, MCInt tag);
 

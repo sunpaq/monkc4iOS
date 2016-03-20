@@ -14,7 +14,7 @@
 #include "MC3DNode.h"
 
 monkc(MCOrbit, MC3DNode,
-    MCFloat R;
+    double R;
     MCUInt segments;
     MCVector3 center;
     MCVector3 up;

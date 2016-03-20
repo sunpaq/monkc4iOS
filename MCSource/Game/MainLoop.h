@@ -12,7 +12,7 @@
 void onRootViewLoad(void* rootview);
 void onOpenExternalFile(const char* filepath);
 void onReceiveMemoryWarning();
-void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray);
+void onSetupGL(int windowWidth, int windowHeight, const char** filePathArray);
 void onTearDownGL();
 void onUpdate();
 void onDraw();

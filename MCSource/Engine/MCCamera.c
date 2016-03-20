@@ -10,7 +10,7 @@ oninit(MCCamera)
     }
 }
 
-method(MCCamera, MCCamera*, initWithWidthHeight, MCFloat width, MCFloat height)
+method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height)
 {
     //setting camera
     obj->ratio = MCRatioMake(width, height);
@@ -19,7 +19,7 @@ method(MCCamera, MCCamera*, initWithWidthHeight, MCFloat width, MCFloat height)
     return obj;
 }
 
-method(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht)
+method(MCCamera, void, move, double deltaFai, double deltaTht)
 {
     obj->fai = obj->fai + deltaFai;   //Left
     obj->tht = obj->tht + deltaTht;   //Up

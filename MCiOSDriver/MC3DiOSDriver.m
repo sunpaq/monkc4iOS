@@ -34,9 +34,9 @@ MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight)
                                                       MCMatrix4ToGLKMatrix4(matrixRight)));
 }
 
-MCMatrix4 MCMatrix4MakeLookAt(MCFloat eyeX, MCFloat eyeY, MCFloat eyeZ,
-                              MCFloat centerX, MCFloat centerY, MCFloat centerZ,
-                              MCFloat upX, MCFloat upY, MCFloat upZ)
+MCMatrix4 MCMatrix4MakeLookAt(double eyeX, double eyeY, double eyeZ,
+                              double centerX, double centerY, double centerZ,
+                              double upX, double upY, double upZ)
 {
     return MCMatrix4FromGLKMatrix4(GLKMatrix4MakeLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ));
 }
@@ -47,7 +47,7 @@ void MCUIRegisterRootUIView(void* rootview)
     _handler = [UIEventHandler new];
 }
 
-void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag, MCBool isContinuous)
+void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, double x, double y, MCInt tag, MCBool isContinuous)
 {
     if (_rootUIView) {
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -65,7 +65,7 @@ void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color
     }
 }
 
-void MCUIAddLabel(const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag)
+void MCUIAddLabel(const char* labelname, MCColor color, double x, double y, MCInt tag)
 {
     if (_rootUIView) {
         UILabel* label = [UILabel new];

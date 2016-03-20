@@ -3,7 +3,7 @@
 #include "MC3DBase.h"
 
 //algorithm copy from http://slabode.exofire.net/circle_draw.shtml
-MCInline void MakeCircleData(float cx, float cy, float cz, float r, int num_segments, MCFloat vertexs[])
+MCInline void MakeCircleData(float cx, float cy, float cz, float r, int num_segments, double vertexs[])
 {
     float theta = 2 * 3.1415926 / (float)(num_segments);
     float c = cosf(theta);//precalculate the sine and cosine
@@ -30,7 +30,7 @@ MCInline void MakeCircleData(float cx, float cy, float cz, float r, int num_segm
 MCInline MCUInt MCDrawLinePrepare(MCVector3 p1, MCVector3 p2)
 {
     const MCUInt count = 3*2;
-    MCFloat data[count] = {p1.x, p1.y, p1.z, p2.x, p2.y, p2.z};
+    double data[count] = {p1.x, p1.y, p1.z, p2.x, p2.y, p2.z};
     MCUInt bufferid;//GLuint
     glGenBuffers(1, &bufferid);
     glBindBuffer(GL_ARRAY_BUFFER, bufferid);

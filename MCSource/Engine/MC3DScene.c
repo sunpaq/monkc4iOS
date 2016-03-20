@@ -43,7 +43,7 @@ method(MC3DScene, void, bye, voida)
     MCObject_bye(0, spr, 0);
 }
 
-method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, MCFloat width, MCFloat height,
+method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height,
        const char* vsource, const char* fsource)
 {
     MCCamera_initWithWidthHeight(0, var(mainCamera), width, height);
@@ -64,17 +64,17 @@ method(MC3DScene, MCCamera*, getCamera, voida)
     return var(mainCamera);
 }
 
-method(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
+method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
 {
     if (var(cameraLock) == MCFalse) {
-        MCCamera_move(0, var(mainCamera), deltaFai, deltaTht);
+        MCCamera_move(0, var(mainCamera), deltaFai.d, deltaTht.d);
     }
     MCCamera_updateLookat(0, var(mainCamera), 0);
 }
 
 method(MC3DScene, void, updateScene, voida)
 {
-    MC3DScene_moveCameraOneStep(0, obj, 1.0f, 0);
+    MC3DScene_moveCameraOneStep(0, obj, (MCDouble)1.0, (MCDouble)0.0);
     MCCamera_update(0, obj->mainCamera, obj->renderer->context);
     MCLight_update(0, obj->light, obj->renderer->context);
     MCGLRenderer_updateNodes(0, var(renderer), var(rootnode));
@@ -100,7 +100,7 @@ onload(MC3DScene)
         
         binding(MC3DScene, void, lockCamera, MCBool lock);
         binding(MC3DScene, MCCamera*, getCamera, voida);
-        binding(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
+        binding(MC3DScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
 
         return claz;
     }else{

@@ -116,7 +116,7 @@ method(MCGLContext, void, setUniformScalar,  const char* name, MCInt x)
     }
 }
 
-method(MCGLContext, void, setUniformVector1, const char* name, MCFloat x)
+method(MCGLContext, void, setUniformVector1, const char* name, double x)
 {
     int loc = MCGLContext_getUniformLocation(0, obj, name);
     if (loc != MC3DErrUniformNotFound) {
@@ -159,7 +159,7 @@ onload(MCGLContext)
         binding(MCGLContext, void, setUniformMatrix3, const char* name, float m[]);
         binding(MCGLContext, void, setUniformMatrix4, const char* name, float m[]);
         binding(MCGLContext, void, setUniformScalar,  const char* name, MCInt x);
-        binding(MCGLContext, void, setUniformVector1, const char* name, MCFloat x);
+        binding(MCGLContext, void, setUniformVector1, const char* name, double x);
         binding(MCGLContext, void, setUniformVector2, const char* name, MCVector2 vec2);
         binding(MCGLContext, void, setUniformVector3, const char* name, MCVector3 vec3);
         binding(MCGLContext, void, setUniformVector4, const char* name, MCVector4 vec4);

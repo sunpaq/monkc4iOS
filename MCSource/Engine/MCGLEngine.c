@@ -54,16 +54,16 @@ method(MCGLEngine, void, clearStencilBuffer, voida)
 
 method(MCGLEngine, void, setClearScreenColor, MCColorRGBAf color)
 {
-    glClearColor(color.R, color.G, color.B, color.A);
+    glClearColor(color.R.f, color.G.f, color.B.f, color.A.f);
 }
 
-method(MCGLEngine, void, setPointSize, MCFloat pointsize)
+method(MCGLEngine, void, setPointSize, double pointsize)
 {
     var(pointSize) = pointsize;
     glPointSize((GLfloat)pointsize);
 }
 
-method(MCGLEngine, void, setLineWidth, MCFloat linewidth)
+method(MCGLEngine, void, setLineWidth, double linewidth)
 {
     var(lineWidth) = linewidth;
     glLineWidth((GLfloat)linewidth);

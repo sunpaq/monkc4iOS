@@ -27,8 +27,7 @@ static MCDirector* director = mull;
 
 void onOpenExternalFile(const char* filepath)
 {
-    MC3DModel* model = ff(new(MC3DModel), initWithFilePath, filepath);
-    model->color = (MCColorRGBAf){1.0, 0.5, 0.0};
+    MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filepath, (MCColorRGBAf){1.0, 0.5, 0.0, 0.0});
     
     ff(director->lastScene->rootnode, setAllVisible, MCFalse);
     ff(director->lastScene->rootnode, addChild, model);
@@ -42,7 +41,7 @@ void onReceiveMemoryWarning()
     }
 }
 
-void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray)
+void onSetupGL(int windowWidth, int windowHeight, const char** filePathArray)
 {
     MCLogTypeSet(MC_VERBOSE);
     if (director == mull) {
@@ -51,18 +50,19 @@ void onSetupGL(double windowWidth, double windowHeight, const char** filePathArr
         //scene1
         MC3DScene* mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene),
                                 windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
-        MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filePathArray[3], (MCColorRGBAf){1.0, 0.5, 0.0});
+        MC3DModel* model = ff(new(MC3DModel), initWithFilePath, filePathArray[3]);
         ff(mainScene->rootnode, addChild, model);
         ff(director, pushScene, mainScene);
         
         //scene2
         MC3DScene* scene2 = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene),
                                 windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
-        MC3DModel* model2 = ff(new(MC3DModel), initWithFilePathColor, filePathArray[4], (MCColorRGBAf){0.0, 0.5, 1.0});
+        MC3DModel* model2 = ff(new(MC3DModel), initWithFilePath, filePathArray[4]);
         ff(scene2->rootnode, addChild, model2);
         ff(director, pushScene, scene2);
         
-        director->lastScene->super.nextResponder = (MCObject*)director;
+        mainScene->super.nextResponder = (MCObject*)director;
+        scene2->super.nextResponder = (MCObject*)director;
     }
 }
 

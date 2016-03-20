@@ -14,10 +14,10 @@
 #include "MCGLContext.h"
 
 monkc(MCMatrial, MCObject,
-      MCFloat     ambientLightStrength;
+      double     ambientLightStrength;
       MCVector3   ambientLightColor;
       MCVector3   diffuseLightColor;
-      MCFloat     specularLightStrength;
+      double     specularLightStrength;
       MCVector3   specularLightColor;
       MCInt       specularLightPower;
 );

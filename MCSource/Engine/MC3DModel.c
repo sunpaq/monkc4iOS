@@ -12,7 +12,7 @@
 oninit(MC3DModel)
 {
     if (init(MC3DNode)) {
-        var(color) = (MCColorRGBAf){0.5, 0.5, 0.9};
+        var(color) = (MCColorRGBAf){0.5, 0.5, 0.9, 1.0};
         return obj;
     }else{
         return mull;

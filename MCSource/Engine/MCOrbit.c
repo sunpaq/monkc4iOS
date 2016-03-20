@@ -9,7 +9,7 @@
 #include "MCOrbit.h"
 #include "MC3DShapeBase.h"
 
-static MCFloat gCircleVertexData[360*3];
+static double gCircleVertexData[360*3];
 
 oninit(MCOrbit)
 {

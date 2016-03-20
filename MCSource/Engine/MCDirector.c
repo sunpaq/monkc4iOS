@@ -52,6 +52,7 @@ method(MCDirector, void, pushScene, MC3DScene* scene)
 
 method(MCDirector, void, popScene, voida)
 {
+    MC3DScene_lockCamera(0, var(lastScene), MCTrue);
     //first scene
     if (var(lastScene) != mull && var(lastScene)->prev != mull) {
         var(lastScene) = var(lastScene)->prev;
@@ -60,6 +61,7 @@ method(MCDirector, void, popScene, voida)
     else if (var(lastScene) != mull && var(lastScene)->next != mull) {
         var(lastScene) = var(lastScene)->next;
     }
+    MC3DScene_lockCamera(0, var(lastScene), MCFalse);
 }
 
 onload(MCDirector)

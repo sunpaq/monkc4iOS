@@ -25,12 +25,12 @@ method(MCDirector, void, pushScene, MC3DScene* scene);
 method(MCDirector, void, popScene, voida);
 
 //iOS callbacks
-void onRootViewLoad(void* rootview);
-void onOpenExternalFile(const char* filepath);
-void onReceiveMemoryWarning();
-void onSetupGL(double windowWidth, double windowHeight, const char** filePathArray);
-void onTearDownGL();
-void onUpdate();
-void onDraw();
+//void onRootViewLoad(void* rootview);
+//void onOpenExternalFile(const char* filepath);
+//void onReceiveMemoryWarning();
+//void onSetupGL(unsigned windowWidth, unsigned windowHeight, const char** filePathArray);
+//void onTearDownGL();
+//void onUpdate();
+//void onDraw();
 
 #endif /* MCDirector_h */

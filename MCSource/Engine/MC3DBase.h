@@ -15,9 +15,9 @@ typedef enum {
     MC3DErrUniformNotFound = -1,
 } MC3DErrCode;
 
-MCInline MCFloat MCDegreesToRadians(MCFloat degrees) { return degrees * (M_PI / 180); }
-MCInline MCFloat MCRadiansToDegrees(MCFloat radians) { return radians * (180 / M_PI); }
-MCInline MCFloat MCCircleFacingAngle(MCFloat degrees) {
+MCInline double MCDegreesToRadians(double degrees) { return degrees * (M_PI / 180); }
+MCInline double MCRadiansToDegrees(double radians) { return radians * (180 / M_PI); }
+MCInline double MCCircleFacingAngle(double degrees) {
     if (degrees < 180.0)
         return degrees+180.0;
     if (degrees > 180.0)
@@ -26,16 +26,16 @@ MCInline MCFloat MCCircleFacingAngle(MCFloat degrees) {
     return 0.0;
 }
 
-MCInline MCFloat MCSinDegrees(MCFloat degress)       { return sin(MCDegreesToRadians(degress)); }
-MCInline MCFloat MCCosDegrees(MCFloat degress)       { return cos(MCDegreesToRadians(degress)); }
-MCInline MCFloat MCTanDegrees(MCFloat degress)       { return tan(MCDegreesToRadians(degress)); }
+MCInline double MCSinDegrees(double degress)       { return sin(MCDegreesToRadians(degress)); }
+MCInline double MCCosDegrees(double degress)       { return cos(MCDegreesToRadians(degress)); }
+MCInline double MCTanDegrees(double degress)       { return tan(MCDegreesToRadians(degress)); }
 
 
-MCInline MCVector3 MCVector3Make(MCFloat x, MCFloat y, MCFloat z) {
+MCInline MCVector3 MCVector3Make(double x, double y, double z) {
     return (MCVector3){x, y, z};
 }
 
-MCInline MCVector3 MCVertexMakeReverse(MCFloat x, MCFloat y, MCFloat z) {
+MCInline MCVector3 MCVertexMakeReverse(double x, double y, double z) {
     return (MCVector3){-x, -y, -z};
 }
 
@@ -56,7 +56,7 @@ MCInline MCVector3 MCVertexSub(MCVector3 v1, MCVector3 v2) {
     return (MCVector3){v1.x-v2.x, v1.y-v2.y, v1.z-v2.z};
 }
 
-MCInline MCFloat MCVertexDot(MCVector3 v1, MCVector3 v2) {
+MCInline double MCVertexDot(MCVector3 v1, MCVector3 v2) {
     return (v1.x*v2.x + v1.y*v2.y + v1.z*v2.z);
 }
 
@@ -87,19 +87,19 @@ MCInline MCVector3 MCLocalCoorFromWorld(MCVector3 worldvertex, MCVector3 modelpo
 }
 
 //R[0,unlimited) tht[0, M_PI), fai[0, 2M_PI)
-MCInline MCVector3 MCVertexFromSpherical(MCFloat R, MCFloat tht, MCFloat fai) {
+MCInline MCVector3 MCVertexFromSpherical(double R, double tht, double fai) {
 #ifdef __APPLE__
-    MCFloat sinT = MCSinDegrees(tht);
-    MCFloat sinF = MCSinDegrees(fai);
-    MCFloat cosT = MCCosDegrees(tht);
-    MCFloat cosF = MCCosDegrees(fai);
-    MCFloat x = R * sinT * cosF;
-    MCFloat y = R * sinT * sinF;
-    MCFloat z = R * cosT;
+    double sinT = MCSinDegrees(tht);
+    double sinF = MCSinDegrees(fai);
+    double cosT = MCCosDegrees(tht);
+    double cosF = MCCosDegrees(fai);
+    double x = R * sinT * cosF;
+    double y = R * sinT * sinF;
+    double z = R * cosT;
 #else
-    MCFloat x = R * sin(tht) * cos(fai);
-    MCFloat y = R * sin(tht) * sin(fai);
-    MCFloat z = R * cos(tht);
+    double x = R * sin(tht) * cos(fai);
+    double y = R * sin(tht) * sin(fai);
+    double z = R * cos(tht);
 #endif
     return (MCVector3){x,y,z};
 }

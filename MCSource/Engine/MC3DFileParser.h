@@ -93,9 +93,9 @@ MCInline void loadFaceData(MCMesh* mesh, int faceIndex,
     mesh->vertexDataPtr[i*strip+4] = normalbuff[face.v1.normalIndex].y;
     mesh->vertexDataPtr[i*strip+5] = normalbuff[face.v1.normalIndex].z;
     //color
-    mesh->vertexDataPtr[i*strip+6] = color.R;
-    mesh->vertexDataPtr[i*strip+7] = color.G;
-    mesh->vertexDataPtr[i*strip+8] = color.B;
+    mesh->vertexDataPtr[i*strip+6] = color.R.f;
+    mesh->vertexDataPtr[i*strip+7] = color.G.f;
+    mesh->vertexDataPtr[i*strip+8] = color.B.f;
     //texture
     mesh->vertexDataPtr[i*strip+9] = texcoorbuff[face.v1.texcoordIndex].x;
     mesh->vertexDataPtr[i*strip+10] = texcoorbuff[face.v1.texcoordIndex].y;
@@ -109,9 +109,9 @@ MCInline void loadFaceData(MCMesh* mesh, int faceIndex,
     mesh->vertexDataPtr[i*strip+15] = normalbuff[face.v2.normalIndex].y;
     mesh->vertexDataPtr[i*strip+16] = normalbuff[face.v2.normalIndex].z;
     //color
-    mesh->vertexDataPtr[i*strip+17] = color.R;
-    mesh->vertexDataPtr[i*strip+18] = color.G;
-    mesh->vertexDataPtr[i*strip+19] = color.B;
+    mesh->vertexDataPtr[i*strip+17] = color.R.f;
+    mesh->vertexDataPtr[i*strip+18] = color.G.f;
+    mesh->vertexDataPtr[i*strip+19] = color.B.f;
     //texture
     mesh->vertexDataPtr[i*strip+20] = texcoorbuff[face.v2.texcoordIndex].x;
     mesh->vertexDataPtr[i*strip+21] = texcoorbuff[face.v2.texcoordIndex].y;
@@ -125,9 +125,9 @@ MCInline void loadFaceData(MCMesh* mesh, int faceIndex,
     mesh->vertexDataPtr[i*strip+26] = normalbuff[face.v3.normalIndex].y;
     mesh->vertexDataPtr[i*strip+27] = normalbuff[face.v3.normalIndex].z;
     //color
-    mesh->vertexDataPtr[i*strip+28] = color.R;
-    mesh->vertexDataPtr[i*strip+29] = color.G;
-    mesh->vertexDataPtr[i*strip+30] = color.B;
+    mesh->vertexDataPtr[i*strip+28] = color.R.f;
+    mesh->vertexDataPtr[i*strip+29] = color.G.f;
+    mesh->vertexDataPtr[i*strip+30] = color.B.f;
     //texture
     mesh->vertexDataPtr[i*strip+31] = texcoorbuff[face.v3.texcoordIndex].x;
     mesh->vertexDataPtr[i*strip+32] = texcoorbuff[face.v3.texcoordIndex].y;

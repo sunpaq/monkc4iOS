@@ -6,9 +6,9 @@
 #include "MC3DNode.h"
 
 monkc(MCCamera, MC3DNode,
-    MCFloat ratio;
-    MCFloat focal_length;
-    MCFloat max_distance;
+    double ratio;
+    double focal_length;
+    double max_distance;
     MCVector3 lookat;
     MCMatrix4 projectionMatrix;
     MCMatrix4 modelViewMatrix;
@@ -16,13 +16,13 @@ monkc(MCCamera, MC3DNode,
     MCVector3 currentPosition;
     //local spherical coordinate
     //R[0,unlimited) tht[0, 180.0), fai[0, 360.0)
-    MCFloat R;
-    MCFloat tht;
-    MCFloat fai;
+    double R;
+    double tht;
+    double fai;
 );
 
-method(MCCamera, MCCamera*, initWithWidthHeight, MCFloat width, MCFloat height);
-method(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht);
+method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
+method(MCCamera, void, move, double deltaFai, double deltaTht);
 
 method(MCCamera, void, reset, MCBool updateOrNot);
 method(MCCamera, void, updatePosition, MCVector3* result);

@@ -31,8 +31,8 @@ typedef struct {
 
 MONKC(MCGLEngine,
     MCClock* clock;
-    MCFloat pointSize;
-    MCFloat lineWidth;
+    double pointSize;
+    double lineWidth;
     MCBool  isFrontCounterClockWise;
 );
 
@@ -45,8 +45,8 @@ method(MCGLEngine, void, clearScreen, voida);
 method(MCGLEngine, void, clearDepthBuffer, voida);
 method(MCGLEngine, void, clearStencilBuffer, voida);
 method(MCGLEngine, void, setClearScreenColor, MCColorRGBAf color);
-method(MCGLEngine, void, setPointSize, MCFloat pointsize);
-method(MCGLEngine, void, setLineWidth, MCFloat linewidth);
+method(MCGLEngine, void, setPointSize, double pointsize);
+method(MCGLEngine, void, setLineWidth, double linewidth);
 method(MCGLEngine, void, setFrontCounterClockWise, MCBool isCCW);
 method(MCGLEngine, void, cullFace, MCGLFace face);
 method(MCGLEngine, void, cullBackFace, voida);

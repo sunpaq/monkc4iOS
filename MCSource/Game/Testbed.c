@@ -12,7 +12,7 @@ static void testMethod(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGene
 //static void testMethod(mc_message_arg(MCObject), ...)
 {
     char c = arg1;
-    double f = arg3.mcdouble;
+    double f = arg3.mcdouble.d;
     
     
 }

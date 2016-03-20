@@ -130,7 +130,7 @@ method(MCString, MCBool, startWith, const char* str)
     }
 }
 
-method(MCString, MCFloat, getFloat, char** endptr)
+method(MCString, double, getFloat, char** endptr)
 {
     return strtod(obj->buff, endptr);
 }
@@ -147,7 +147,7 @@ onload(MCString)
         binding(MCString, void, getCharsUntilEnter, char const resultString[]);
         binding(MCString, void, bye);
         binding(MCString, MCBool, startWith, const char* str);
-        binding(MCString, MCFloat, getFloat, char** endptr);
+        binding(MCString, double, getFloat, char** endptr);
         return claz;
     }else{
         return mull;

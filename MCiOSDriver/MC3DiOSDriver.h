@@ -35,16 +35,16 @@
                                                  (mat).m30, (mat).m31, (mat).m32, (mat).m33}
 
 MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight);
-MCMatrix4 MCMatrix4MakeLookAt(MCFloat eyeX, MCFloat eyeY, MCFloat eyeZ,
-                              MCFloat centerX, MCFloat centerY, MCFloat centerZ,
-                              MCFloat upX, MCFloat upY, MCFloat upZ);
+MCMatrix4 MCMatrix4MakeLookAt(double eyeX, double eyeY, double eyeZ,
+                              double centerX, double centerY, double centerZ,
+                              double upX, double upY, double upZ);
 
 MCUInt MCLoadSpriteTexture(const char* name, const char* suffix);
 
 //UI parts use UIKit
 void MCUIRegisterRootUIView(void* rootview);
-void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag, MCBool isContinous);
-void MCUIAddLabel(const char* labelname, MCColor color, MCFloat x, MCFloat y, MCInt tag);
+void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, double x, double y, MCInt tag, MCBool isContinous);
+void MCUIAddLabel(const char* labelname, MCColor color, double x, double y, MCInt tag);
 void MCUILabelTextUpdate(const char* newtext, MCInt tag);
 void MCUIButtonRegisterCallback(mc_message msg);
 

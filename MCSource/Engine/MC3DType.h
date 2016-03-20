@@ -26,10 +26,10 @@ typedef enum {
 } MCGLFeature;
 
 typedef struct {
-    float R;
-    float G;
-    float B;
-    float A;
+    MCFloat R;
+    MCFloat G;
+    MCFloat B;
+    MCFloat A;
 } MCColorRGBAf;
 
 typedef enum {
@@ -60,21 +60,21 @@ typedef enum {
 } MCGLIndex;
 
 typedef struct {
-    MCFloat x;
-    MCFloat y;
+    double x;
+    double y;
 } MCVector2;
 
 typedef struct {
-    MCFloat x;
-    MCFloat y;
-    MCFloat z;
+    double x;
+    double y;
+    double z;
 } MCVector3;
 
 typedef struct {
-    MCFloat x;
-    MCFloat y;
-    MCFloat z;
-    MCFloat w;
+    double x;
+    double y;
+    double z;
+    double w;
 } MCVector4;
 
 typedef enum {
