@@ -90,8 +90,15 @@ typedef unsigned int       MCUInt;
 typedef unsigned long      MCULong;
 typedef unsigned long long MCULongLong;
 
-typedef double   MCFloat;
-typedef double   MCDouble;
+typedef union {
+    double    d;
+    long long ll;
+} MCDouble;
+
+typedef union {
+    float f;
+    int   i;
+} MCFloat;
 
 typedef MCUInt       MCHash;
 typedef size_t       MCSizeT;
@@ -102,6 +109,8 @@ typedef void         (*MCFuncPtr)(void);
 typedef enum { MCFalse=0, MCTrue=1 } MCBool;
 
 #define MCFuncPtr(value) ((MCFuncPtr)value)
+#define MCDouble(value)  ((MCDouble)value)
+#define MCFloat(value)   ((MCFloat)value)
 
 /*
  Generic Type
@@ -133,7 +142,7 @@ typedef union {
 #define MCGenericI(value)  (MCGeneric){.mcint=value}
 #define MCGenericU(value)  (MCGeneric){.mcunsigned=value}
 #define MCGenericL(value)  (MCGeneric){.mclong=value}
-#define MCGenericF(value)  (MCGeneric){.mcfloat=value}
+#define MCGenericF(value)  (MCGeneric){.double=value}
 #define MCGenericSz(value) (MCGeneric){.mcsizet=value}
 #define MCGenericH(value)  (MCGeneric){.mchash=value}
 #define MCGenericP(value)  (MCGeneric){.mcptr=value}
@@ -142,11 +151,7 @@ typedef union {
 #define MCGenericSS(value) (MCGeneric){.mcstaticstr=value}
 #define MCGenericEmpty     (MCGeneric){0}
 
-typedef union {
-    double      mcdouble;
-    long double mcquad;
-    long long   raw;
-} MCFloatContainer;
+
 
 /*
  Log.h
