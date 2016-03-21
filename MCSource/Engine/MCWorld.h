@@ -13,7 +13,7 @@
 #include "monkc.h"
 #include "MC3DType.h"
 
-monkc(MCWorld, MCObject);
+class(MCWorld, MCObject);
 
 method(MCWorld, void, bye, voida);
 method(MCWorld, MCWorld*, initWith, voida);

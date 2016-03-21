@@ -29,7 +29,7 @@ typedef struct {
     MCUInt vboId;
 } MCGLEngineResponse;
 
-MONKC(MCGLEngine,
+structure(MCGLEngine,
     MCClock* clock;
     double pointSize;
     double lineWidth;

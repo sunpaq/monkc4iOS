@@ -5,7 +5,7 @@
 #include "MC3DBase.h"
 #include "MC3DNode.h"
 
-monkc(MCCamera, MC3DNode,
+class(MCCamera, MC3DNode,
     double ratio;
     double focal_length;
     double max_distance;

@@ -21,7 +21,7 @@
 #ifndef MCFile_
 #define MCFile_
 
-monkc(MCFile, MCObject,
+class(MCFile, MCObject,
 	int fd;
 	char* pathname;
 	void* buffer;
@@ -124,7 +124,7 @@ static inline MCStreamType MakeMCStreamType(const unsigned btype, const char* fo
 #ifndef MCStream_
 #define MCStream_
 
-monkc(MCStream, MCObject,
+class(MCStream, MCObject,
 	FILE*        fileObject;
     size_t*      lineLengthArray;
     size_t       lineCount;
@@ -163,7 +163,7 @@ method(MCStream, void, dump, voida);
 #ifndef MCByteStream_
 #define MCByteStream_
 
-monkc(MCByteStream, MCStream,
+class(MCByteStream, MCStream,
 );
 
 method(MCByteStream, void, bye, voida);
@@ -176,7 +176,7 @@ method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
 #ifndef MCStdinStream_
 #define MCStdinStream_
 
-monkc(MCStdinStream, MCStream,
+class(MCStdinStream, MCStream,
 );
 
 method(MCStdinStream, void, bye, voida);
@@ -187,7 +187,7 @@ method(MCStdinStream, void, bye, voida);
 #ifndef MCStdoutStream_
 #define MCStdoutStream_
 
-monkc(MCStdoutStream, MCStream,
+class(MCStdoutStream, MCStream,
 );
 
 method(MCStdoutStream, void, bye, voida);
@@ -198,7 +198,7 @@ method(MCStdoutStream, void, bye, voida);
 #ifndef MCStdoutStream_
 #define MCStdoutStream_
 
-monkc(MCStdoutStream, MCStream,
+class(MCStdoutStream, MCStream,
 );
 
 method(MCStdoutStream, void, bye);
@@ -207,7 +207,7 @@ method(MCStdoutStream, void, bye);
 #ifndef MCStderrStream_
 #define MCStderrStream_
 
-monkc(MCStderrStream, MCStream,
+class(MCStderrStream, MCStream,
 );
 
 method(MCStderrStream, void, bye, voida);
@@ -224,7 +224,7 @@ typedef enum _MCSelect_fd_type{
 #ifndef MCSelect_
 #define MCSelect_ 
 
-monkc(MCSelect, MCObject,
+class(MCSelect, MCObject,
 	int maxfd;
 	fd_set readfd_set;
 	fd_set writefd_set;

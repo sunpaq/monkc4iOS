@@ -27,7 +27,7 @@ onload(MCLight)
 {
     if (load(MC3DNode)) {
         binding(MCLight, void, update, MCGLContext* ctx);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

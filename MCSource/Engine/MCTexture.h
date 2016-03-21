@@ -14,7 +14,7 @@
 #include "MC3DType.h"
 #include "MCGLContext.h"
 
-monkc(MCTexture, MCObject,
+class(MCTexture, MCObject,
       GLuint Id;
       GLenum textureUnit;
       unsigned char* rawdata;

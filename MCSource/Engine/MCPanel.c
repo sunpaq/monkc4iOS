@@ -33,9 +33,9 @@ oninit(MCPanel)
         mesh->vertexDataPtr = vertices;
         mesh->vertexDataSize = sizeof(vertices);
         
-        sprs.meshes[0] = mesh;
-        sprs.material = new(MCMatrial);
-        sprs.texture  = new(MCTexture);//will initialized outside
+        supervar(meshes)[0] = mesh;
+        supervar(material) = new(MCMatrial);
+        supervar(texture) = new(MCTexture);//will initialized outside
         
         return obj;
     }else{
@@ -46,7 +46,7 @@ oninit(MCPanel)
 onload(MCPanel)
 {
     if (load(MC3DNode)) {
-        return claz;
+        return cla;
     }else{
         return mull;
     }

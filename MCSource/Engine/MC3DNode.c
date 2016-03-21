@@ -32,7 +32,7 @@ method(MC3DNode, void, bye, voida)
     for (int i=0; i<count-1; i++) {
         ff(obj->children[i], bye, 0);
     }
-    MCObject_bye(0, spr, 0);
+    MCObject_bye(0, superobj, 0);
 }
 
 method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
@@ -169,7 +169,7 @@ onload(MC3DNode)
         binding(MC3DNode, void, draw, voida);
         binding(MC3DNode, void, hide, voida);
         binding(MC3DNode, void, show, voida);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

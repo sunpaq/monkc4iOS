@@ -4,9 +4,7 @@
 #ifndef MCNode_
 #define MCNode_
 
-implements(MCTouchbleProtocol);
-implements(MCAccessbleProtocol);
-monkc(MCNode, MCObject,
+class(MCNode, MCObject,
     //always abslute position from window left top 0,0
     MCRect frame;
     MCPoint anchor;
@@ -21,5 +19,8 @@ method(MCNode, MCNode*, initWithSize, MCSize size);
 method(MCNode, MCNode*, addChild, MCNode* child);
 method(MCNode, void, draw, voida);
 method(MCNode, void, bye, voida);
+
+including(MCTouchbleProtocol);
+including(MCAccessbleProtocol);
 
 #endif

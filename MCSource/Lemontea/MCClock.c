@@ -171,7 +171,7 @@ onload(MCClock)
         binding(MCClock, void, printTime);
         binding(MCClock, void, printCurrentTime);
         binding(MCClock, void, printCurrentGMTTime);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

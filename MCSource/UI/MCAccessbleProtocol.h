@@ -1,4 +1,4 @@
-protocol(MCObject, MCAccessbleProtocol, void*, access, const char* varname);
+conforming(MCObject, MCAccessbleProtocol, void*, access, const char* varname);
 
 /*
 protocol(MCAccessbleProtocol, void*, access, const char* varname)

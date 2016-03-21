@@ -15,7 +15,7 @@
 #include "MC3DNode.h"
 #include "MCGLContext.h"
 
-monkc(MCGLRenderer, MCObject,
+class(MCGLRenderer, MCObject,
       GLuint Id;//shader program id
       MCGLContext* context;
 );

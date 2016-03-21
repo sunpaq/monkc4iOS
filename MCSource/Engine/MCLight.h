@@ -13,7 +13,7 @@
 #include "monkc.h"
 #include "MC3DNode.h"
 
-monkc(MCLight, MC3DNode,
+class(MCLight, MC3DNode,
       MCVector3   diffuseLightPosition;
 );
 

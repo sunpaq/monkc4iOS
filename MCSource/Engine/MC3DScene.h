@@ -18,7 +18,7 @@
 #include "MCClock.h"
 #include "MCLight.h"
 
-monkc(MC3DScene, MCObject,
+class(MC3DScene, MCObject,
       struct MC3DSceneStruct* next;
       struct MC3DSceneStruct* prev;
       

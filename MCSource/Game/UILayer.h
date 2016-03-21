@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "monkc.h"
 
-monkc(UILayer, MCObject,
+class(UILayer, MCObject,
       MCUInt width;
       MCUInt height;
       MCBool visible;

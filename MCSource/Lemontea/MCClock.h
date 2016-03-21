@@ -4,7 +4,7 @@
 #ifndef MCClock_
 #define MCClock_
 
-monkc(MCClock, MCObject,
+class(MCClock, MCObject,
       struct tm rawtime;
       char* currentTimeBuff[50];
       char* currentGMTBuff[50];

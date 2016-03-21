@@ -148,7 +148,7 @@ onload(UILayer)
         binding(UILayer, void, onFrameRenderFinished, MCUInt fps);
         binding(UILayer, void, onButtonClicked, MCInt tag);
         binding(UILayer, UILayer*, initWithScreenSize, double width, double height);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

@@ -18,18 +18,18 @@ oninit(MCNode)
     }
 }
 
-implement(MCNode, MCAccessbleProtocol, void*, access, const char* varname)
+protocol(MCNode, MCAccessbleProtocol, void*, access, const char* varname)
 {
     if (SEQ(S(frame),    varname)) return addrof(obj->frame);
     if (SEQ(S(anchor),   varname)) return addrof(obj->anchor);
     if (SEQ(S(position), varname)) return addrof(obj->position);
     if (SEQ(S(color),    varname)) return addrof(obj->color);
     void* varp = mull;
-    varp = ff(spr, access, varname);
+    varp = ff(superobj, access, varname);
     return varp;
 }
 
-implement(MCNode, MCTouchbleProtocol, void, onTouchEvent, MCPoint point)
+protocol(MCNode, MCTouchbleProtocol, void, onTouchEvent, MCPoint point)
 {
     if(mc_rect_contains(addrof(obj->frame), point)) {
         var(color) = mc_color_mix(obj->color, mc_color(128,0,0));
@@ -111,7 +111,7 @@ onload(MCNode)
         binding(MCNode, MCNode*, initWithSize, MCSize size);
         binding(MCNode, MCNode*, addChild, MCNode* child);
         binding(MCNode, void, draw);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

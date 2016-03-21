@@ -13,7 +13,7 @@ pid 1 is a init
 #ifndef MCProcess_
 #define MCProcess_ 
 
-monkc(MCProcess, MCObject,
+class(MCProcess, MCObject,
 	pid_t pid;
 	pid_t ppid;
 	uid_t uid;

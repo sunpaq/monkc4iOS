@@ -13,7 +13,7 @@
 #include "MC3DType.h"
 #include "MC3DNode.h"
 
-monkc(MCOrbit, MC3DNode,
+class(MCOrbit, MC3DNode,
     double R;
     MCUInt segments;
     MCVector3 center;

@@ -16,7 +16,7 @@
 #define MAX_VATTR_NUM     100
 #define MAX_UNIFORM_NUM   100
 
-monkc(MCGLContext, MCObject,
+class(MCGLContext, MCObject,
       
       MCMatrix4* modelMatrix;
       MCMatrix4* viewMatrix;

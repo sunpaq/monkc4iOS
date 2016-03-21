@@ -28,7 +28,7 @@ method(MCArray, void, bye, voida)
     if (obj->buff != mull) {
         free(obj->buff);
     }
-    MCObject_bye(0, spr, 0);
+    MCObject_bye(0, superobj, 0);
 }
 
 method(MCArray, MCArray*, clear, voida)
@@ -158,7 +158,7 @@ onload(MCArray)
         binding(MCArray, void*, getItemByIndex, int index);
         binding(MCArray, void, visiteEachBy, mc_message visitorFunction);
         binding(MCArray, void, visiteEachWithData, lamdafunc visitorFunction, void* data);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

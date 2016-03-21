@@ -21,34 +21,30 @@ oninit(MC3DModel)
 
 method(MC3DModel, void, bye, voida)
 {
-    MC3DNode_bye(0, spr, 0);
+    MC3DNode_bye(0, superobj, 0);
 }
 
 method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
 {
-    int buffsize = 1024;
-    MCVector4 vertexbuff[buffsize];
-    MCVector3 texcoorbuff[buffsize];
-    MCVector3 normalbuff[buffsize];
-    MC3DFace  facebuff[buffsize];
-    
-    int facecount = parse3DObjFile(path, vertexbuff, texcoorbuff, normalbuff, facebuff, buffsize);
+    MC3DObjBuffer* buff = parse3DObjFile(path);
     
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
     
-    mesh->vertexCount = facecount*3;
+    mesh->vertexCount = (GLsizei)buff->facecount*3;
     mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
     mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
     
-    for (int i=0; i<facecount; i++) {
-        loadFaceData(mesh, i, vertexbuff, texcoorbuff, normalbuff, facebuff[i], var(color));
+    for (int i=0; i<buff->facecount; i++) {
+        loadFaceData(mesh, buff, buff->facebuff[i], i, var(color));
     }
+    
+    freeMC3DObjBuffer(buff);
     
     //ff(mesh, dump, 0);
 
-    sprs.meshes[0] = mesh;
-    sprs.material = new(MCMatrial);
-    sprs.texture = mull;
+    supervar(meshes)[0] = mesh;
+    supervar(material) = new(MCMatrial);
+    supervar(texture) = mull;
     
     return obj;
 }
@@ -66,7 +62,7 @@ onload(MC3DModel)
         binding(MC3DModel, MC3DModel*, initWithFilePath, const char* path);
         binding(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
 
-        return claz;
+        return cla;
     }else{
         return mull;
     }

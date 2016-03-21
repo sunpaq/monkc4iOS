@@ -4,7 +4,7 @@
 #ifndef MCContext_
 #define MCContext_
 
-monkc(MCContext, MCObject,
+class(MCContext, MCObject,
 	int argc;
 	char** argv;
 	char selectionChar;

@@ -145,7 +145,7 @@ typedef enum _MCSocketType{
 #ifndef MCSocketClientInfo_
 #define MCSocketClientInfo_
 
-monkc(MCSocketClientInfo, MCObject,
+class(MCSocketClientInfo, MCObject,
 	int returnSfd;
 	struct sockaddr address;
 	socklen_t address_len;
@@ -158,7 +158,7 @@ method(MCSocketClientInfo, void, bye, voida);
 #ifndef MCSocket_ 
 #define MCSocket_
 
-monkc(MCSocket, MCObject,
+class(MCSocket, MCObject,
 	int sfd;
 	int isServer;
 	struct addrinfo peeraddrinfo;

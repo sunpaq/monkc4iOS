@@ -24,7 +24,7 @@ onload(MCSocketClientInfo)
     if (load(MCObject)) {
         binding(MCSocketClientInfo, void, dumpInfo);
         binding(MCSocketClientInfo, void, bye);
-        return claz;
+        return cla;
     }else{
         return mull;
     }
@@ -178,7 +178,7 @@ onload(MCSocket)
         binding(MCSocket, void, sendto);
         binding(MCSocket, void, sendmsg);
         binding(MCSocket, void, bye);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

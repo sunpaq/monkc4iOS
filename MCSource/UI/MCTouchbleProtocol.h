@@ -1,4 +1,4 @@
-protocol(MCObject, MCTouchbleProtocol, void, onTouchEvent, MCPoint point);
+conforming(MCObject, MCTouchbleProtocol, void, onTouchEvent, MCPoint point);
 
 /*
 protocol(MCTouchbleProtocol, void, onTouchEvent, MCPoint point)

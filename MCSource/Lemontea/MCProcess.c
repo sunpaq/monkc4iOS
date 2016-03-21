@@ -136,7 +136,7 @@ onload(MCProcess)
         binding(MCProcess, int, isChildContinued, int status);
         binding(MCProcess, pid_t, waitAnyChildExitGetResourceUseage, int* statusAddr, int options, MCProcessRUseage* useage);
         binding(MCProcess, pid_t, waitPIDChildExitGetResourceUseage, pid_t pid, int* statusAddr, int options, MCProcessRUseage* useage);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

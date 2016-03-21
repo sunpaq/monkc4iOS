@@ -40,7 +40,7 @@ method(MC3DScene, void, bye, voida)
     release(var(clock));
     release(var(light));
     
-    MCObject_bye(0, spr, 0);
+    MCObject_bye(0, superobj, 0);
 }
 
 method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height,
@@ -102,7 +102,7 @@ onload(MC3DScene)
         binding(MC3DScene, MCCamera*, getCamera, voida);
         binding(MC3DScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
 
-        return claz;
+        return cla;
     }else{
         return mull;
     }

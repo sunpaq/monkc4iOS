@@ -88,7 +88,7 @@ onload(MCMesh)
         binding(MCMesh, void, prepareMesh, voida);
         binding(MCMesh, void, drawMesh, voida);
         binding(MCMesh, void, dump, voida);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

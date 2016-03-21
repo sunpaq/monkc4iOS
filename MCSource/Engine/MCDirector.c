@@ -21,7 +21,7 @@ oninit(MCDirector)
 
 method(MCDirector, void, bye, voida)
 {
-    MCObject_bye(0, spr, 0);
+    MCObject_bye(0, superobj, 0);
 }
 
 method(MCDirector, void, updateAll, voida)
@@ -72,7 +72,7 @@ onload(MCDirector)
         binding(MCDirector, void, drawAll, voida);
         binding(MCDirector, void, pushScene, MC3DScene* scene);
         binding(MCDirector, void, popScene, voida);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

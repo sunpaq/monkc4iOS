@@ -206,7 +206,7 @@ onload(MCFile)
         binding(MCFile, void, printAttribute);
         binding(MCFile, void, bye);
         binding(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
-        return claz;
+        return cla;
     }else{
         return mull;
     }
@@ -412,7 +412,7 @@ onload(MCStream)
         binding(MCStream, size_t, tellSize, voida);
         binding(MCStream, void, dump, voida);
         
-        return claz;
+        return cla;
     }else{
         return mull;
     }
@@ -512,7 +512,7 @@ onload(MCSelect)
         binding(MCSelect, void, addFd, MCSelect_fd_type type, int fd);
         binding(MCSelect, void, removeFd, MCSelect_fd_type type, int fd);
         binding(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

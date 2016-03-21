@@ -51,7 +51,7 @@ onload(MCTexture)
         binding(MCTexture, MCTexture*, initWithFileName, const char* name);
         binding(MCTexture, void, prepareTexture, MCGLContext* ctx);
 
-        return claz;
+        return cla;
     }else{
         return mull;
     }

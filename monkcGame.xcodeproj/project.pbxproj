@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD084E471CA0313E00FD6AEB /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD084E461CA0313E00FD6AEB /* teapot.obj */; };
 		FD0B16401C78447C004FD724 /* MC3DNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B163E1C78447C004FD724 /* MC3DNode.c */; };
 		FD0B16431C784FB7004FD724 /* MC3DScene.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16411C784FB7004FD724 /* MC3DScene.c */; };
 		FD0B16461C788ADE004FD724 /* MCMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16441C788ADE004FD724 /* MCMesh.c */; };
@@ -118,6 +119,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FD084E461CA0313E00FD6AEB /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		FD0B163E1C78447C004FD724 /* MC3DNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DNode.c; sourceTree = "<group>"; };
 		FD0B163F1C78447C004FD724 /* MC3DNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DNode.h; sourceTree = "<group>"; };
 		FD0B16411C784FB7004FD724 /* MC3DScene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DScene.c; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				FD4CC20F1C9AF3CD00051C15 /* cube3.obj */,
 				FD4CC2111C9AF49200051C15 /* cube4.obj */,
 				FD4CC2131C9AFDED00051C15 /* cube5.obj */,
+				FD084E461CA0313E00FD6AEB /* teapot.obj */,
 			);
 			name = models;
 			path = Resources/models;
@@ -688,6 +691,7 @@
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
 				FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
+				FD084E471CA0313E00FD6AEB /* teapot.obj in Resources */,
 				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
 				FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */,
 				FD4CC2141C9AFDED00051C15 /* cube5.obj in Resources */,

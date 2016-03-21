@@ -148,7 +148,7 @@ onload(MCString)
         binding(MCString, void, bye);
         binding(MCString, MCBool, startWith, const char* str);
         binding(MCString, double, getFloat, char** endptr);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

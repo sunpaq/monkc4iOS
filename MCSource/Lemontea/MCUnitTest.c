@@ -60,7 +60,7 @@ onload(MCUnitTestCase)
         binding(MCUnitTestCase, void, tearDown);
         binding(MCUnitTestCase, void, runTests);
         binding(MCUnitTestCase, void, runATestMethod, char* errmsg);
-        return claz;
+        return cla;
     }else{
         return mull;
     }
@@ -187,7 +187,7 @@ onload(MCUnitTestSuite)
         binding(MCUnitTestSuite, void, bye);
         binding(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* tcase);
         binding(MCUnitTestSuite, void, runTestCases);
-        return claz;
+        return cla;
     }else{
         return mull;
     }
@@ -265,7 +265,7 @@ onload(MCUnitTestResult)
         binding(MCUnitTestResult, void, bye);
         binding(MCUnitTestResult, void, addSuccessInfo, char* succinfo);
         binding(MCUnitTestResult, void, addFailInfo, char* failinfo);
-        return claz;
+        return cla;
     }else{
         return mull;
     }
@@ -322,7 +322,7 @@ onload(MCUnitTestRunner)
         binding(MCUnitTestRunner, void, bye);
         binding(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite);
         binding(MCUnitTestRunner, void, runTestSuites);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

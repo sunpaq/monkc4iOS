@@ -68,9 +68,9 @@ oninit(MCCube)
         mesh->vertexDataPtr = gCubeVertexData;
         mesh->vertexDataSize = sizeof(gCubeVertexData);
                 
-        sprs.meshes[0] = mesh;
-        sprs.material = new(MCMatrial);
-        sprs.texture = new(MCTexture);
+        superobj->meshes[0] = mesh;
+        superobj->material = new(MCMatrial);
+        superobj->texture = new(MCTexture);
         
         return obj;
     }else{
@@ -81,7 +81,7 @@ oninit(MCCube)
 onload(MCCube)
 {
     if (load(MC3DNode)) {
-        return claz;
+        return cla;
     }else{
         return mull;
     }

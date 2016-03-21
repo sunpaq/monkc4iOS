@@ -116,7 +116,7 @@ onload(MCCamera)
         binding(MCCamera, void, updateRatioFocalDistance);
         binding(MCCamera, void, updateLookat);
         binding(MCCamera, void, update);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

@@ -13,7 +13,7 @@
 #include "monkc.h"
 #include "MC3DScene.h"
 
-monkc(MCDirector, MCObject,
+class(MCDirector, MCObject,
       MC3DScene* lastScene;
 );
 

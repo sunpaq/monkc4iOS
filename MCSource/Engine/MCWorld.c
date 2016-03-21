@@ -33,7 +33,7 @@ onload(MCWorld)
     if (load(MCObject)) {
         binding(MCWorld, void, bye, voida);
         binding(MCWorld, MCWorld*, initWith, voida);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

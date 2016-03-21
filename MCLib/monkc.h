@@ -310,21 +310,21 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
     deref(aobject).block = ablock;
 }
 
-//static class (you can not use new and ff)
-#define MONKC(cls, ...)\
+//static structure (you can not use new and ff)
+#define structure(cls, ...)\
 typedef struct cls##Struct{\
 __VA_ARGS__;}cls;
 
 //dynamic class
-#define monkc(cls, supercls, ...)\
+#define class(cls, supercls, ...)\
 typedef struct cls##Struct{\
 supercls super;\
 __VA_ARGS__;}cls;\
 cls* cls##_init(cls* const obj);\
-mc_class* cls##_load(mc_class* const claz);
+mc_class* cls##_load(mc_class* const cla);
 
 //macros expand to nothing just a marker
-#define implements(protocol)
+#define including(protocol)
 
 //callback function pointer types
 typedef mc_class* (*MCLoaderPointer)(mc_class*);
@@ -332,22 +332,22 @@ typedef MCObject* (*MCIniterPointer)(MCObject*);
 typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 
 //callbacks
-#define onload(cls)					mc_class* cls##_load(mc_class* const claz)
+#define onload(cls)					mc_class* cls##_load(mc_class* const cla)
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
-#define load(super)                           super##_load(claz)
+#define load(super)                           super##_load(cla)
 #define init(super)                           super##_init((super*)obj)
 #define preload(cls)                          _load_h(#cls, sizeof(cls), cls##_##load, hash(#cls));
 
 //method binding
-#define protocol(cls, pro, type, met, ...)    _binding(claz, S(met), (MCFuncPtr)A_B(pro, met))
-#define binding(cls, type, met, ...)  		  _binding(claz, S(met), (MCFuncPtr)A_B(cls, met))
-#define hinding(cls, type, met, hash, ...)	  _binding_h(claz, S(met), (MCFuncPtr)A_B(cls, met), hash)
+#define conforming(cls, pro, type, met, ...)  _binding(cla, S(met), (MCFuncPtr)A_B(pro, met))
+#define binding(cls, type, met, ...)  		  _binding(cla, S(met), (MCFuncPtr)A_B(cls, met))
+#define hinding(cls, type, met, hash, ...)	  _binding_h(cla, S(met), (MCFuncPtr)A_B(cls, met), hash)
 #define method(cls, type, name, ...) 	      type cls##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
-#define implement(cls, pro, type, name, ...)  static type pro##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
+#define protocol(cls, pro, type, name, ...)   static type pro##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
 #define var(vname)                            (obj->vname)
 #define cast(type, obj) 				      ((type)obj)
-#define spr                                   &(obj->super)
-#define sprs                                  (obj->super)
+#define superobj                              (&(obj->super))
+#define supervar(vname)                       (obj->super.vname)
 
 //for create object
 #define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)//create instance
@@ -515,11 +515,11 @@ static inline MCObject* MCObject_init(MCObject* const obj) {obj->nextResponder=m
 static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), mo upperObj) {obj->nextResponder=upperObj;}
 static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->nextResponder=mull;}
 static inline void      MCObject_bye(mc_message_arg(MCObject), voida) {}
-static inline mc_class* MCObject_load(mc_class* const claz) {
-    _binding(claz, "responseChainConnect", (MCFuncPtr)MCObject_responseChainConnect);
-    _binding(claz, "responseChainDisconnect", (MCFuncPtr)MCObject_responseChainDisconnect);
-    _binding(claz, "bye", (MCFuncPtr)MCObject_bye);
-    return claz;
+static inline mc_class* MCObject_load(mc_class* const cla) {
+    _binding(cla, "responseChainConnect", (MCFuncPtr)MCObject_responseChainConnect);
+    _binding(cla, "responseChainDisconnect", (MCFuncPtr)MCObject_responseChainDisconnect);
+    _binding(cla, "bye", (MCFuncPtr)MCObject_bye);
+    return cla;
 }
 
 #endif

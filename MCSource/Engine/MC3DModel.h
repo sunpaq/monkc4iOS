@@ -18,7 +18,7 @@
 #include "MCIO.h"
 #include "MC3DNode.h"
 
-monkc(MC3DModel, MC3DNode,
+class(MC3DModel, MC3DNode,
       MCColorRGBAf color;
 );
 

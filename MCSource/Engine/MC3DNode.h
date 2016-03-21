@@ -21,7 +21,7 @@
 #define MC3DNodeMaxChildNum 100
 #define MC3DNodeMaxMeshNum  100
 
-monkc(MC3DNode, MCObject,
+class(MC3DNode, MCObject,
       MCUInt index;
       MCBool visible;
       MCVector3 center;

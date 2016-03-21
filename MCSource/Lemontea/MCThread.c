@@ -31,7 +31,7 @@ onload(MCThread)
 	binding(MCThread, int, start, void* result);
 	binding(MCThread, int, equal, MCThread* thread);
 	binding(MCThread, void, bye);
-	return claz;
+	return cla;
 }
 
 oninit(MCThread)
@@ -134,7 +134,7 @@ onload(MCRunnable)
     if (load(MCObject)) {
         binding(MCRunnable, void, run);
         binding(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
-        return claz;
+        return cla;
     }else{
         return mull;
     }

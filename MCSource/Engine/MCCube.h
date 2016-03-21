@@ -13,7 +13,7 @@
 #include "monkc.h"
 #include "MC3DNode.h"
 
-monkc(MCCube, MC3DNode,
+class(MCCube, MC3DNode,
     MCUInt textureId;
 );
 

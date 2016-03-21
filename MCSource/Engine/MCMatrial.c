@@ -41,7 +41,7 @@ onload(MCMatrial)
 {
     if (load(MCObject)) {
         binding(MCMatrial, void, prepareMatrial, MCGLContext* ctx);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

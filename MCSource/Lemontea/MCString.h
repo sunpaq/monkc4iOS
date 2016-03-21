@@ -4,7 +4,7 @@
 #ifndef MCString_
 #define MCString_
 
-monkc(MCString, MCObject,
+class(MCString, MCObject,
 	size_t length;
 	size_t size;
     size_t cursor;

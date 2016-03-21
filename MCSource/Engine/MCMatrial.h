@@ -13,7 +13,7 @@
 #include "monkc.h"
 #include "MCGLContext.h"
 
-monkc(MCMatrial, MCObject,
+class(MCMatrial, MCObject,
       double     ambientLightStrength;
       MCVector3   ambientLightColor;
       MCVector3   diffuseLightColor;

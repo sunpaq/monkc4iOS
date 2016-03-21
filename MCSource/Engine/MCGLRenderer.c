@@ -32,7 +32,7 @@ oninit(MCGLRenderer)
 method(MCGLRenderer, void, bye, voida)
 {
     release(obj->context);
-    MCObject_bye(0, spr, 0);
+    MCObject_bye(0, superobj, 0);
 }
 
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
@@ -120,7 +120,7 @@ onload(MCGLRenderer)
         binding(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader);
         binding(MCGLRenderer, void, updateNodes, MC3DNode* rootnode);
         binding(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
-        return claz;
+        return cla;
     }else{
         return mull;
     }

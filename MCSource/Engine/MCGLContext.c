@@ -164,7 +164,7 @@ onload(MCGLContext)
         binding(MCGLContext, void, setUniformVector3, const char* name, MCVector3 vec3);
         binding(MCGLContext, void, setUniformVector4, const char* name, MCVector4 vec4);
         
-        return claz;
+        return cla;
     }else{
         return mull;
     }

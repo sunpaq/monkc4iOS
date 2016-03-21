@@ -14,7 +14,7 @@
 #include "MCVertex.h"
 #include "MCGLContext.h"
 
-monkc(MCMesh, MCObject,
+class(MCMesh, MCObject,
       GLenum     useage;
       GLsizei    vertexCount;
       GLuint     vertexArrayId;   //VAO

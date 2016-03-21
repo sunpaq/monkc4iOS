@@ -17,7 +17,7 @@ static void testMethod(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGene
     
 }
 
-static void testMonkC()
+static void testclass()
 {
     
     mc_message msg;
@@ -28,5 +28,5 @@ static void testMonkC()
 
 void starttest()
 {
-    testMonkC();
+    testclass();
 }

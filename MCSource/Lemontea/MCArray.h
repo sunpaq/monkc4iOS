@@ -3,7 +3,7 @@
 #ifndef MCARRAY_H_
 #define MCARRAY_H_
 
-monkc(MCArray, MCObject,
+class(MCArray, MCObject,
 	int count;
 	int size;
 	int indexLast;

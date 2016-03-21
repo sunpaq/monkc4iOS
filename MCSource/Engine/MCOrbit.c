@@ -54,7 +54,7 @@ onload(MCOrbit)
     if (load(MC3DNode)) {
         binding(MCOrbit, void, bye);
         binding(MCOrbit, void, draw);
-        return claz;
+        return cla;
     }else{
         return mull;
     }
