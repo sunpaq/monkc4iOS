@@ -180,7 +180,6 @@ enum LexerState {
 MCInline int processLine(MC3DObjBuffer* buff, const char* linebuff)
 {
     int c=0;
-    static int v=1, t=1, n=1, f=1;
     static enum LexerState state = LSVertex;
     
     //template storage
@@ -225,7 +224,7 @@ MCInline int processLine(MC3DObjBuffer* buff, const char* linebuff)
     
     
     
-    return f;
+    return fq;
     
     //            if (strncmp(linebuff, "v ", 2) == 0) {
     //                buff->vertexbuff[i++] = makeMCVector4FromString(&linebuff[1]);
@@ -247,9 +246,10 @@ MCInline MC3DObjBuffer* parse3DObjFile(const char* filename)
     int fcount = 0;
     FILE* f = fopen(filename, "r");
     if (f != NULL) {
-        int linesize = 1024;
+        const int linesize = 1024;
         char linebuff[linesize];
         while (fgets(linebuff, linesize, f) != NULL) {
+            linebuff[linesize-1] = '\0';
             //process a line
             fcount = processLine(buff, linebuff);
         }

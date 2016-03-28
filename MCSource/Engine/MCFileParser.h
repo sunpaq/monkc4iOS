@@ -72,11 +72,11 @@ MCInline int getSlashGroupInteger(const char* s, int* buff)
 {
     const char* remain = s;
     char number[512];
-    int b = 0;
-    while (*remain != '\0') {
+    int b = 0, i = 0;
+    while (*remain != '\n' && *remain != '\0') {
         //a int
-        int i = 0;
-        while (*remain != '/') {
+        i = 0;
+        while (*remain != '/' && *remain != ' ') {
             number[i++] = *remain++;
         }
         number[i] = '\0';
