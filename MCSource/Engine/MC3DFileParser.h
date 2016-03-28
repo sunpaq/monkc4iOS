@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "MC3DType.h"
+#include "MCFileParser.h"
 
 typedef struct {
     int vertexIndex;
@@ -168,32 +169,92 @@ MCInline void loadFaceData(MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int
     loadFaceElement(mesh, buff, face.v3, offset+22, count, color);    
 }
 
-MCInline MC3DObjBuffer* parse3DObjFile(const char* filename) {
+enum LexerState {
+    LSVertex,
+    LSVertexTexture,
+    LSVertexNormal,
+    LSFace
+};
+
+//return face count
+MCInline int processLine(MC3DObjBuffer* buff, const char* linebuff)
+{
+    int c=0;
+    static int v=1, t=1, n=1, f=1;
+    static enum LexerState state = LSVertex;
     
+    //template storage
+    double fqueue[4] = {0.0, 0.0, 0.0, 0.0};          int fq=0;
+    int    iqueue[4] = {0, 0, 0, 0};                  int iq=0;
+    int    gqueue[12]= {0,0,0, 0,0,0, 0,0,0, 0,0,0};  int gq=0;
+    
+    MCToken token;
+    char word[256];
+    const char* remain = linebuff;
+    while (*remain != '\n' && *remain != '\0') {
+        remain = getWord(remain++, word);
+        token = tokenize(word);
+        
+        switch (token) {
+            case MCTokenWord:
+                if (strncmp(word, "v", 1) == 0) {
+                    state = LSVertex;
+                }else if (strncmp(word, "vt", 2) == 0) {
+                    state = LSVertexTexture;
+                }else if (strncmp(word, "vn", 2) == 0) {
+                    state = LSVertexNormal;
+                }else if (strncmp(word, "f", 1) == 0) {
+                    state = LSFace;
+                }
+                break;
+            case MCTokenFloat:
+                fqueue[fq++] = atof(word);
+                break;
+            case MCTokenInteger:
+                iqueue[iq++] = atoi(word);
+                break;
+            case MCTokenSlashGroupInteger:
+                
+                c = getSlashGroupInteger(word, &gqueue[gq]);
+                gq += c;
+                break;
+            default:
+                break;
+        }
+    }
+    
+    
+    
+    return f;
+    
+    //            if (strncmp(linebuff, "v ", 2) == 0) {
+    //                buff->vertexbuff[i++] = makeMCVector4FromString(&linebuff[1]);
+    //
+    //            }else if (strncmp(linebuff, "vt", 2) == 0) {
+    //                buff->texcoorbuff[j++] = makeMCVector3FromString(&linebuff[2]);
+    //
+    //            }else if (strncmp(linebuff, "vn", 2) == 0) {
+    //                buff->normalbuff[k++] = makeMCVector3FromString(&linebuff[2]);
+    //
+    //            }else if (strncmp(linebuff, "f ", 2) == 0) {
+    //                buff->facebuff[l++] = makeMC3DFaceFromString(&linebuff[1]);
+    //            }
+}
+
+MCInline MC3DObjBuffer* parse3DObjFile(const char* filename)
+{
     MC3DObjBuffer* buff = allocMC3DObjBuffer(8000, 3);
-    
+    int fcount = 0;
     FILE* f = fopen(filename, "r");
     if (f != NULL) {
         int linesize = 1024;
         char linebuff[linesize];
-        int i = 1, j = 1, k = 1, l = 1;
         while (fgets(linebuff, linesize, f) != NULL) {
             //process a line
-            if (strncmp(linebuff, "v ", 2) == 0) {
-                buff->vertexbuff[i++] = makeMCVector4FromString(&linebuff[1]);
-                
-            }else if (strncmp(linebuff, "vt", 2) == 0) {
-                buff->texcoorbuff[j++] = makeMCVector3FromString(&linebuff[2]);
-                
-            }else if (strncmp(linebuff, "vn", 2) == 0) {
-                buff->normalbuff[k++] = makeMCVector3FromString(&linebuff[2]);
-                
-            }else if (strncmp(linebuff, "f ", 2) == 0) {
-                buff->facebuff[l++] = makeMC3DFaceFromString(&linebuff[1]);
-            }
+            fcount = processLine(buff, linebuff);
         }
         
-        buff->facecount = l;//reset face count
+        buff->facecount = fcount;//reset face count
         fclose(f);
         return buff;//return face count
     

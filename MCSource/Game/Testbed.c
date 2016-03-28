@@ -26,7 +26,16 @@ static void testclass()
     _push_jump(msg, 'c', 1, 0.5879808908098, 4, 8, 16);
 }
 
+//static void testparser()
+//{
+//    const char* str = "v 123 345";
+//    char buff[256];
+//    char* w = getWord(str, buff);
+//    
+//}
+
 void starttest()
 {
-    testclass();
+    //testclass();
+    //testparser();
 }

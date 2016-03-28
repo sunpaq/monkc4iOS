@@ -64,17 +64,23 @@ typedef struct {
     double y;
 } MCVector2;
 
-typedef struct {
-    double x;
-    double y;
-    double z;
+typedef union {
+    struct {
+        double x;
+        double y;
+        double z;
+    };
+    double m[3];
 } MCVector3;
 
-typedef struct {
-    double x;
-    double y;
-    double z;
-    double w;
+typedef union {
+    struct {
+        double x;
+        double y;
+        double z;
+        double w;
+    };
+    double m[4];
 } MCVector4;
 
 typedef enum {

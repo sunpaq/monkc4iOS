@@ -17,10 +17,20 @@
 #include "MCPanel.h"
 #include "MC3DModel.h"
 #include "MCDirector.h"
+#include "MC3DFileParser.h"
+
+static void testparser()
+{
+    const char* str = "    world 1.985 -11 10e-29 game 10/23/9";
+    
+}
 
 void onRootViewLoad(void* rootview)
 {
     MCUIRegisterRootUIView(rootview);
+    
+    //test
+    testparser();
 }
 
 static MCDirector* director = mull;
