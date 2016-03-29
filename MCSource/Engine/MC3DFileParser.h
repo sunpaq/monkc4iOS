@@ -37,6 +37,10 @@ typedef struct {
     MCVector3* texcoorbuff;
     MCVector3* normalbuff;
     MC3DFaceType facetype;
+    int fcursor;
+    int vcursor;
+    int tcursor;
+    int ncursor;
 } MC3DObjBuffer;
 
 MCInline MC3DObjBuffer* allocMC3DObjBuffer(size_t facecount, int vpf)
@@ -47,6 +51,10 @@ MCInline MC3DObjBuffer* allocMC3DObjBuffer(size_t facecount, int vpf)
     buff->vertexbuff  = (MCVector4*)malloc(sizeof(MCVector4) * (facecount+1) * vpf);
     buff->texcoorbuff = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
     buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
+    buff->fcursor = 0;
+    buff->vcursor = 1;
+    buff->tcursor = 1;
+    buff->ncursor = 1;
     return buff;
 }
 
@@ -57,65 +65,6 @@ MCInline void freeMC3DObjBuffer(MC3DObjBuffer* buff)
     free(buff->texcoorbuff);
     free(buff->normalbuff);
     free(buff);
-}
-
-MCInline MCVector4 makeMCVector4FromString(const char* string)
-{
-    char *ptr1, *ptr2, *ptr3;
-    double v1 = strtod(&string[1], &ptr1);
-    double v2 = strtod(ptr1, &ptr2);
-    double v3 = strtod(ptr2, &ptr3);
-    
-    //printf("[%f,%f,%f] - %s", v1, v2, v3, string);
-    return (MCVector4){v1, v2, v3, 1.0f};
-}
-
-MCInline MCVector3 makeMCVector3FromString(const char* string)
-{
-    char *ptr1, *ptr2, *ptr3;
-    double v1 = strtod(&string[1], &ptr1);
-    double v2 = strtod(ptr1, &ptr2);
-    double v3 = strtod(ptr2, &ptr3);
-    
-    printf("[%f,%f,%f] - %s", v1, v2, v3, string);
-    return (MCVector3){v1, v2, v3};
-}
-
-MCInline MCVector2 makeMCVector2FromString(const char* string)
-{
-    char *ptr1, *ptr2;
-    double v1 = strtod(&string[1], &ptr1);
-    double v2 = strtod(ptr1, &ptr2);
-    
-    //printf("[%f,%f] - %s", v1, v2, string);
-    return (MCVector2){v1, v2};
-}
-
-MCInline MC3DFace makeMC3DFaceFromString(const char* string)
-{
-    MC3DFace face;
-    MC3DFaceElement* elements[3] = {&face.v1, &face.v2, &face.v3};
-    char* remain = (char*)string;
-    for (int i=0; i<3; i++) {
-        MC3DFaceElement* e = elements[i];
-        e->vertexIndex = (int)strtol(&remain[1], &remain, 0);
-        if (*remain == '/') {
-            e->texcoordIndex = (int)strtol(&remain[1], &remain, 0);
-            if (*remain == '/') {
-                e->normalIndex   = (int)strtol(&remain[1], &remain, 0);
-            }
-        }else{
-            e->texcoordIndex = 0;
-            e->normalIndex   = 0;
-        }
-    }
-    
-    printf("[%d,%d,%d - %d,%d,%d - %d,%d,%d] - %s",
-           face.v1.vertexIndex, face.v1.texcoordIndex, face.v1.normalIndex,
-           face.v2.vertexIndex, face.v2.texcoordIndex, face.v2.normalIndex,
-           face.v3.vertexIndex, face.v3.texcoordIndex, face.v3.normalIndex,
-           string);
-    return face;
 }
 
 MCInline void loadFaceElement(MCMesh* mesh, MC3DObjBuffer* buff,
@@ -152,8 +101,6 @@ MCInline void loadFaceElement(MCMesh* mesh, MC3DObjBuffer* buff,
         mesh->vertexDataPtr[offset+9]  = texcoorbuff[t].x;
         mesh->vertexDataPtr[offset+10] = texcoorbuff[t].y;
     }else{
-        //mesh->vertexDataPtr[offset+9]  = texcoorbuff[offset+9  + 1].x;
-        //mesh->vertexDataPtr[offset+10] = texcoorbuff[offset+10 + 1].y;
         mesh->vertexDataPtr[offset+9]  = texcoorbuff[offset+9  + 1].x;
         mesh->vertexDataPtr[offset+10] = texcoorbuff[offset+10 + 1].y;
     }
@@ -177,15 +124,15 @@ enum LexerState {
 };
 
 //return face count
-MCInline int processLine(MC3DObjBuffer* buff, const char* linebuff)
+MCInline size_t processLine(MC3DObjBuffer* buff, const char* linebuff)
 {
     int c=0;
     static enum LexerState state = LSVertex;
     
     //template storage
-    double fqueue[4] = {0.0, 0.0, 0.0, 0.0};          int fq=0;
-    int    iqueue[4] = {0, 0, 0, 0};                  int iq=0;
-    int    gqueue[12]= {0,0,0, 0,0,0, 0,0,0, 0,0,0};  int gq=0;
+    double fqueue[4] = {0.0, 0.0, 0.0, 0.0};          int fq=0;//float
+    int    iqueue[4] = {0, 0, 0, 0};                  int iq=0;//integer
+    int    gqueue[12]= {0,0,0, 0,0,0, 0,0,0, 0,0,0};  int gq=0;//igroup
     
     MCToken token;
     char word[256];
@@ -196,13 +143,17 @@ MCInline int processLine(MC3DObjBuffer* buff, const char* linebuff)
         
         switch (token) {
             case MCTokenWord:
-                if (strncmp(word, "v", 1) == 0) {
-                    state = LSVertex;
-                }else if (strncmp(word, "vt", 2) == 0) {
+                //don't change the order!
+                if (strncmp(word, "vt", 2) == 0) {
                     state = LSVertexTexture;
-                }else if (strncmp(word, "vn", 2) == 0) {
+                }
+                else if (strncmp(word, "vn", 2) == 0) {
                     state = LSVertexNormal;
-                }else if (strncmp(word, "f", 1) == 0) {
+                }
+                else if (strncmp(word, "v", 1) == 0) {
+                    state = LSVertex;
+                }
+                else if (strncmp(word, "f", 1) == 0) {
                     state = LSFace;
                 }
                 break;
@@ -213,7 +164,6 @@ MCInline int processLine(MC3DObjBuffer* buff, const char* linebuff)
                 iqueue[iq++] = atoi(word);
                 break;
             case MCTokenSlashGroupInteger:
-                
                 c = getSlashGroupInteger(word, &gqueue[gq]);
                 gq += c;
                 break;
@@ -222,28 +172,101 @@ MCInline int processLine(MC3DObjBuffer* buff, const char* linebuff)
         }
     }
     
+    //save float value into buffer
+    if (state == LSVertex) {
+        for (int i=0; i<fq; i++)
+            buff->vertexbuff[buff->vcursor].m[i] = fqueue[i];
+        buff->vcursor++;
+    }
+    else if (state == LSVertexTexture) {
+        for (int i=0; i<fq; i++)
+            buff->texcoorbuff[buff->tcursor].m[i] = fqueue[i];
+        buff->tcursor++;
+    }
+    else if (state == LSVertexNormal) {
+        for (int i=0; i<fq; i++)
+            buff->normalbuff[buff->ncursor].m[i] = fqueue[i];
+        buff->ncursor++;
+    }
     
+    //save integer value into buffer
+    else if (state == LSFace) {
+        if (iq != 0) {
+            buff->facetype = MC3DFaceVertexOnly;
+            if (iq == 3) {
+                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[0];
+                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
+                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[2];
+                buff->fcursor++;
+            }else if (iq == 4){
+                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[0];
+                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
+                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[2];
+                buff->fcursor++;
+                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[2];
+                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
+                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[3];
+                buff->fcursor++;
+            }
+        }
+        else if (gq != 0) {
+            buff->facetype = MC3DFaceAll;
+            if (gq == 3*3) {
+                //v1
+                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
+                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
+                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];
+                //v2
+                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[3];
+                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[4];
+                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[5];
+                //v3
+                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[6];
+                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[7];
+                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[8];
+                
+                buff->fcursor++;
+            }else if (gq == 4*3){
+                //v1
+                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
+                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
+                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];//3
+                //v2
+                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[4];
+                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[5];
+                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[6];//7
+                //v3
+                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[8];
+                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[9];
+                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[10];//11
+                
+                buff->fcursor++;
+                
+                //v1
+                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[2];
+                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
+                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[3];//3
+                //v2
+                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[6];
+                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[5];
+                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[7];//7
+                //v3
+                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[10];
+                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[9];
+                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[11];//11
+                
+                buff->fcursor++;
+            }
+        }
+    }
     
-    return fq;
-    
-    //            if (strncmp(linebuff, "v ", 2) == 0) {
-    //                buff->vertexbuff[i++] = makeMCVector4FromString(&linebuff[1]);
-    //
-    //            }else if (strncmp(linebuff, "vt", 2) == 0) {
-    //                buff->texcoorbuff[j++] = makeMCVector3FromString(&linebuff[2]);
-    //
-    //            }else if (strncmp(linebuff, "vn", 2) == 0) {
-    //                buff->normalbuff[k++] = makeMCVector3FromString(&linebuff[2]);
-    //
-    //            }else if (strncmp(linebuff, "f ", 2) == 0) {
-    //                buff->facebuff[l++] = makeMC3DFaceFromString(&linebuff[1]);
-    //            }
+    buff->facecount = buff->fcursor;//reset face count
+    return buff->facecount;
 }
 
 MCInline MC3DObjBuffer* parse3DObjFile(const char* filename)
 {
     MC3DObjBuffer* buff = allocMC3DObjBuffer(8000, 3);
-    int fcount = 0;
     FILE* f = fopen(filename, "r");
     if (f != NULL) {
         const int linesize = 1024;
@@ -251,10 +274,9 @@ MCInline MC3DObjBuffer* parse3DObjFile(const char* filename)
         while (fgets(linebuff, linesize, f) != NULL) {
             linebuff[linesize-1] = '\0';
             //process a line
-            fcount = processLine(buff, linebuff);
+            processLine(buff, linebuff);
         }
         
-        buff->facecount = fcount;//reset face count
         fclose(f);
         return buff;//return face count
     

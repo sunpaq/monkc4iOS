@@ -57,7 +57,7 @@ MCInline MCBool isFloat(const char* n)
 
 MCInline MCBool isSlashGroupInteger(const char* s)
 {
-    while (*s != '\0') {
+    while (*s != '\n' && *s != '\0') {
         if ((*s >= '0' && *s <= '9') || *s == '/') {
             s++; continue;
         } else {
@@ -71,18 +71,36 @@ MCInline MCBool isSlashGroupInteger(const char* s)
 MCInline int getSlashGroupInteger(const char* s, int* buff)
 {
     const char* remain = s;
-    char number[512];
+    char digit[512];
     int b = 0, i = 0;
     while (*remain != '\n' && *remain != '\0') {
         //a int
-        i = 0;
-        while (*remain != '/' && *remain != ' ') {
-            number[i++] = *remain++;
+        if (*remain >= '0' && *remain <= '9') {
+            digit[i++] = *remain;
         }
-        number[i] = '\0';
-        //for the 3//6, atoi('\0') will return 0
-        buff[b++] = atoi(number);
+        else if (*remain == '/') {
+            if (i == 0) {
+                //no digit
+                buff[b++] = 0;
+            }else{
+                //have digit
+                digit[i] = '\0';
+                buff[b++] = atoi(digit);
+                i = 0;
+            }
+        }
+        
         remain++;//next char
+    }
+    //last digit
+    if (i == 0) {
+        //no digit
+        buff[b++] = 0;
+    }else{
+        //have digit
+        digit[i] = '\0';
+        buff[b++] = atoi(digit);
+        i = 0;
     }
     
     return b;
