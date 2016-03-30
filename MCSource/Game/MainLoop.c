@@ -97,3 +97,36 @@ void onDraw()
     
     MCLogTypeSet(MC_VERBOSE);
 }
+
+//gesture callback
+void onGestureSwip()
+{
+    if (director != mull && director->lastScene != mull) {
+        MCDirector_popScene(0, director, 0);
+    }
+}
+
+void onGesturePan(double x, double y)
+{
+    if (director != mull && director->lastScene != mull && director->lastScene->mainCamera != mull) {
+        director->lastScene->mainCamera->fai -= x * 0.1;
+        director->lastScene->mainCamera->tht += y * 0.1;
+    }
+}
+
+void onGesturePinch(double scale)
+{
+    double s = scale * 0.5;
+    if (director != mull && director->lastScene != mull && director->lastScene->mainCamera != mull) {
+        if (s >= 0) {//zoom out
+            if (director->lastScene->mainCamera->R < 100) {
+                director->lastScene->mainCamera->R += s;
+            }
+        }
+        else {//zoom in
+            if (director->lastScene->mainCamera->R > 1) {
+                director->lastScene->mainCamera->R += s;
+            }
+        }
+    }
+}

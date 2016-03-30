@@ -17,4 +17,9 @@ void onTearDownGL();
 void onUpdate();
 void onDraw();
 
+//gesture callback
+void onGestureSwip();
+void onGesturePan(double x, double y);
+void onGesturePinch(double scale);
+
 #endif

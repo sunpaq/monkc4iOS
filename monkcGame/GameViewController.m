@@ -22,7 +22,28 @@
 
 - (void)onSwip:(id)sender
 {
-    
+    if (sender == self.swip) {
+        onGestureSwip();
+    }
+}
+
+- (void)onPinch:(id)sender
+{
+    if (sender == self.pinch) {
+        if (self.pinch.velocity > 0) {
+            onGesturePinch(-self.pinch.scale);
+        }else{
+            onGesturePinch(self.pinch.scale);
+        }
+    }
+}
+
+- (void)onPan:(id)sender
+{
+    if (sender == self.pan) {
+        CGPoint trans = [self.pan translationInView:self.view];
+        onGesturePan(trans.x, trans.y);
+    }
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -30,16 +51,20 @@
     if (gestureRecognizer == self.swip) {
         return true;
     }
+    else if (gestureRecognizer == self.pinch) {
+        return true;
+    }
+    else if (gestureRecognizer == self.pan) {
+        return true;
+    }
+    
     return false;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-    self.swip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwip:)];
-    self.swip.delegate = self;
 
     if (!self.context) {
         NSLog(@"Failed to create ES context");
@@ -48,6 +73,21 @@
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    
+    //gesture
+    self.swip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwip:)];
+    self.swip.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
+    self.swip.delegate = self;
+    
+    self.pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(onPinch:)];
+    self.pinch.delegate = self;
+    
+    self.pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+    self.pan.delegate = self;
+    
+    [view addGestureRecognizer:self.swip];
+    [view addGestureRecognizer:self.pinch];
+    [view addGestureRecognizer:self.pan];
 
     //register rootview
     onRootViewLoad((__bridge void *)(view));

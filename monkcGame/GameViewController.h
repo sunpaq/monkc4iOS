@@ -12,5 +12,7 @@
 //@interface GameViewController : GLKViewController
 @interface GameViewController : GLKViewController <UIGestureRecognizerDelegate>
 @property UISwipeGestureRecognizer* swip;
+@property UIPinchGestureRecognizer* pinch;
+@property UIPanGestureRecognizer* pan;
 @end
 
