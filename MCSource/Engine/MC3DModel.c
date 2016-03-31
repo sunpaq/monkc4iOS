@@ -30,11 +30,11 @@ method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
     
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
     
-    mesh->vertexCount = (GLsizei)buff->facecount*3;
+    mesh->vertexCount = (GLsizei)buff->fcursor*3;
     mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
     mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
     
-    for (int i=0; i<buff->facecount; i++) {
+    for (int i=0; i<buff->fcursor; i++) {
         loadFaceData(mesh, buff, buff->facebuff[i], i, var(color));
     }
     
