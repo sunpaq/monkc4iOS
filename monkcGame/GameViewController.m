@@ -147,7 +147,7 @@
     NSString* obj3dPath = [[NSBundle mainBundle] pathForResource:@"monkey2" ofType:@"obj"];
     GLchar* obj3d = (GLchar*)[obj3dPath UTF8String];
     
-    NSString* cubePath = [[NSBundle mainBundle] pathForResource:@"ball" ofType:@"obj"];//teapot
+    NSString* cubePath = [[NSBundle mainBundle] pathForResource:@"sph" ofType:@"obj"];//teapot
     GLchar* cube = (GLchar*)[cubePath UTF8String];
     
     const char* filePathArray[] = {vsource, fsource, texture, obj3d, cube};

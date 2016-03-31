@@ -250,14 +250,14 @@ MCInline size_t processLine(MC3DObjBuffer* buff, const char* linebuff)
                 
                 buff->fcursor++;
                 
+                //v1
+                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
+                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
+                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];
                 //v3
-                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[6];
-                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[7];
-                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[8];
-                //v2
-                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[3];
-                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[4];
-                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[5];
+                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[6];
+                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[7];
+                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[8];
                 //v4
                 buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[9];
                 buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[10];

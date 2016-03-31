@@ -74,6 +74,7 @@
 		FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD571B0E3D9D00D2492A /* mcicon.png */; };
 		FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5B1C2D4797007D4BE4 /* MCWorld.c */; };
 		FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */; };
+		FD91A8B01CAD5D700040E325 /* sph.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD91A8AF1CAD5D700040E325 /* sph.obj */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
 		FDAE480F1C7DF00E009DEE97 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48041C7DF00E009DEE97 /* image_DXT.c */; };
 		FDAE48101C7DF00E009DEE97 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48061C7DF00E009DEE97 /* image_helper.c */; };
@@ -215,6 +216,7 @@
 		FD819E5C1C2D4797007D4BE4 /* MCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWorld.h; sourceTree = "<group>"; };
 		FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLEngine.c; sourceTree = "<group>"; };
 		FD819E5F1C2EE4F0007D4BE4 /* MCGLEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLEngine.h; sourceTree = "<group>"; };
+		FD91A8AF1CAD5D700040E325 /* sph.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sph.obj; sourceTree = "<group>"; };
 		FDA3DCDD1C9056BC0044965D /* tex1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tex1.jpg; sourceTree = "<group>"; };
 		FDAE48041C7DF00E009DEE97 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
 		FDAE48051C7DF00E009DEE97 /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_DXT.h; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 				FD4CC2111C9AF49200051C15 /* cube4.obj */,
 				FD4CC2131C9AFDED00051C15 /* cube5.obj */,
 				FD084E461CA0313E00FD6AEB /* teapot.obj */,
+				FD91A8AF1CAD5D700040E325 /* sph.obj */,
 			);
 			name = models;
 			path = Resources/models;
@@ -712,6 +715,7 @@
 				FD4CC2091C99B21600051C15 /* cube.obj in Resources */,
 				FD4CC1F31C91BD8300051C15 /* jongkhurun.png in Resources */,
 				FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */,
+				FD91A8B01CAD5D700040E325 /* sph.obj in Resources */,
 				FD5EFD601B0E3D9D00D2492A /* Icon-Small.png in Resources */,
 				FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */,
 				FDFF06131B060BE1000064E3 /* Main.storyboard in Resources */,
