@@ -63,17 +63,6 @@ method(UILayer, void, onFrameRenderFinished, MCUInt fps)
     
 }
 
-//for test start
-#include "MCNode.h"
-
-static MCNode* node = mull;
-static MCNode* node1 = mull;
-static MCNode* node2 = mull;
-static MCNode* node3 = mull;
-static MCNode* node4 = mull;
-
-//for test end
-
 //method(MainScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
 method(UILayer, void, onButtonClicked, MCInt tag)
 {
@@ -82,34 +71,9 @@ method(UILayer, void, onButtonClicked, MCInt tag)
     switch (tag) {
         case START:
             ff(obj, lockCamera, MCFalse);
-            //test
-
-            
-            
-//            node = new(MCNode);
-//            node1 = new(MCNode);
-//            node2 = new(MCNode);
-//            node3 = new(MCNode);
-//            node4 = new(MCNode);
-
             break;
         case STOP:
             ff(obj, lockCamera, MCTrue);
-            
-//            recycle(node);
-//            recycle(node1);
-//            recycle(node2);
-//            recycle(node3);
-//            recycle(node4);
-            
-            info(MCNode);
-            
-            node = mull;
-            node1 = mull;
-            node2 = mull;
-            node3 = mull;
-            node4 = mull;
-
             break;
         case ZOOM_IN:
             cam->R -= 1;
