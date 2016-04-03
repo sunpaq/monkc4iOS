@@ -84,12 +84,17 @@ MCInline void loadFaceElement(MCMesh* mesh, MC3DObjBuffer* buff,
     //normal
     int n = element.normalIndex - 1;
     if (n < 0) {
-        error_log("MC3DFileParser: invalide vertex data!");
-        exit(-1);
+        mesh->vertexDataPtr[offset+3] = 0;
+        mesh->vertexDataPtr[offset+4] = 0;
+        mesh->vertexDataPtr[offset+5] = 0;
+        error_log("MC3DFileParser: invalide normal data!");
+        //exit(-1);
+    }else{
+        mesh->vertexDataPtr[offset+3] = normalbuff[n].x;
+        mesh->vertexDataPtr[offset+4] = normalbuff[n].y;
+        mesh->vertexDataPtr[offset+5] = normalbuff[n].z;
     }
-    mesh->vertexDataPtr[offset+3] = normalbuff[n].x;
-    mesh->vertexDataPtr[offset+4] = normalbuff[n].y;
-    mesh->vertexDataPtr[offset+5] = normalbuff[n].z;
+
     //color
     mesh->vertexDataPtr[offset+6] = color.R.f;
     mesh->vertexDataPtr[offset+7] = color.G.f;
@@ -104,10 +109,10 @@ MCInline void loadFaceElement(MCMesh* mesh, MC3DObjBuffer* buff,
         mesh->vertexDataPtr[offset+10] = texcoorbuff[t].y;
     }
     
-    debug_log("[V%f,%f,%f T%f,%f N%f,%f,%f]\n",
-              buff->vertexbuff[v].x, buff->vertexbuff[v].y, buff->vertexbuff[v].z,
-              buff->texcoorbuff[t].x, buff->texcoorbuff[t].y,
-              buff->normalbuff[n].x, buff->normalbuff[n].y, buff->normalbuff[n].z);
+//    debug_log("[V%f,%f,%f T%f,%f N%f,%f,%f]\n",
+//              buff->vertexbuff[v].x, buff->vertexbuff[v].y, buff->vertexbuff[v].z,
+//              buff->texcoorbuff[t].x, buff->texcoorbuff[t].y,
+//              buff->normalbuff[n].x, buff->normalbuff[n].y, buff->normalbuff[n].z);
 }
 
 MCInline void loadFaceData(MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int faceIndex, MCColorRGBAf color)
@@ -116,10 +121,14 @@ MCInline void loadFaceData(MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int
     loadFaceElement(mesh, buff, face.v1, offset+0, color);
     loadFaceElement(mesh, buff, face.v2, offset+11, color);
     loadFaceElement(mesh, buff, face.v3, offset+22, color);
-    debug_log("[%d/%d/%d %d/%d/%d %d/%d/%d]\n",
-              face.v1.vertexIndex, face.v1.texcoordIndex, face.v1.normalIndex,
-              face.v2.vertexIndex, face.v2.texcoordIndex, face.v2.normalIndex,
-              face.v3.vertexIndex, face.v3.texcoordIndex, face.v3.normalIndex);
+    
+    //MCVector3 calculatedNormal = MCVertexCross(MCVertexSub(<#MCVector3 v1#>, <#MCVector3 v2#>), MCVertexSub(<#MCVector3 v1#>, <#MCVector3 v2#>))
+
+    
+//    debug_log("[%d/%d/%d %d/%d/%d %d/%d/%d]\n",
+//              face.v1.vertexIndex, face.v1.texcoordIndex, face.v1.normalIndex,
+//              face.v2.vertexIndex, face.v2.texcoordIndex, face.v2.normalIndex,
+//              face.v3.vertexIndex, face.v3.texcoordIndex, face.v3.normalIndex);
     
 }
 
@@ -273,7 +282,7 @@ MCInline size_t processLine(MC3DObjBuffer* buff, const char* linebuff)
 
 MCInline MC3DObjBuffer* parse3DObjFile(const char* filename)
 {
-    MC3DObjBuffer* buff = allocMC3DObjBuffer(8000, 3);
+    MC3DObjBuffer* buff = allocMC3DObjBuffer(655350, 3);
     FILE* f = fopen(filename, "r");
     if (f != NULL) {
         const int linesize = 1024;

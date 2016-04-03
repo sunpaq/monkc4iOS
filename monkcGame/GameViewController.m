@@ -144,10 +144,10 @@
     NSString* texturePath = [[NSBundle mainBundle] pathForResource:@"tex8" ofType:@"bmp"];
     GLchar* texture = (GLchar*)[texturePath UTF8String];
     
-    NSString* obj3dPath = [[NSBundle mainBundle] pathForResource:@"monkey2" ofType:@"obj"];
+    NSString* obj3dPath = [[NSBundle mainBundle] pathForResource:@"girl3" ofType:@"obj"];
     GLchar* obj3d = (GLchar*)[obj3dPath UTF8String];
     
-    NSString* cubePath = [[NSBundle mainBundle] pathForResource:@"sph" ofType:@"obj"];//teapot
+    NSString* cubePath = [[NSBundle mainBundle] pathForResource:@"airbus" ofType:@"obj"];//teapot
     GLchar* cube = (GLchar*)[cubePath UTF8String];
     
     const char* filePathArray[] = {vsource, fsource, texture, obj3d, cube};
