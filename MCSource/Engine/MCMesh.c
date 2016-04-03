@@ -15,6 +15,9 @@ oninit(MCMesh)
         obj->useage = GL_STATIC_DRAW;//default
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
         
+        glGenVertexArraysOES(1, &obj->vertexArrayId);
+        glGenBuffers(1, &obj->vertexBufferId);
+
         return obj;
     }else{
         return mull;
@@ -40,10 +43,8 @@ method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
 method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
     //VAO
-    glGenVertexArraysOES(1, &obj->vertexArrayId);
     glBindVertexArrayOES(obj->vertexArrayId);
     //VBO
-    glGenBuffers(1, &obj->vertexBufferId);
     glBindBuffer(GL_ARRAY_BUFFER, obj->vertexBufferId);
     glBufferData(GL_ARRAY_BUFFER, obj->vertexDataSize, obj->vertexDataPtr, obj->useage);
     //VAttributes
@@ -64,8 +65,8 @@ method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArrayOES(obj->vertexArrayId);
     glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);//36
+    //Unbind
     glBindVertexArrayOES(0);
-    
 }
 
 method(MCMesh, void, dump, voida)
