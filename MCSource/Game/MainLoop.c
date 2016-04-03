@@ -21,7 +21,10 @@
 
 static void testparser()
 {
-    const char* str = "    world 1.985 -11 10e-29 game 10/23/9";
+    char* remain;
+    double d = strtod("2.6277e-08", &remain);
+    
+    double f = atof("2.6277e-08");
     
 }
 
