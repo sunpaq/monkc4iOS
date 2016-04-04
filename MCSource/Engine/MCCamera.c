@@ -31,8 +31,8 @@ method(MCCamera, void, move, double deltaFai, double deltaTht)
 
 method(MCCamera, void, reset, MCBool updateOrNot)
 {
-    var(ratio) = MCRatioCameraFilm3x2;
-    var(focal_length) = MCLensStandard50mm;
+    var(ratio) = MCRatioHDTV16x9;//MCRatioCameraFilm3x2;
+    var(focal_length) = MCLensWide24mm;//MCLensStandard50mm;
     var(max_distance) = 100;//100 metres
     var(lookat) = MCVector3Make(0,0,0);
     var(projectionMatrix) = MCMatrix4Identity();
