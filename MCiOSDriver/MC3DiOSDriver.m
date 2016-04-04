@@ -32,20 +32,10 @@ static mc_message onButtonClickMsg = {nil, nil};
         self.pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
         self.pan.delegate = self;
         
-
-        
         return self;
     }else{
         return nil;
     }
-}
-
--(void) setTargetView:(UIView *)targetView
-{
-    [targetView addGestureRecognizer:self.swip];
-    [targetView addGestureRecognizer:self.pinch];
-    [targetView addGestureRecognizer:self.pan];
-    self.targetView = targetView;
 }
 
 - (void) onButtonClicked:(id)sender
@@ -117,8 +107,11 @@ void MCUIRegisterRootUIView(void* rootview)
 {
     _rootUIView = (__bridge UIView*)rootview;
     _handler = [UIEventHandler new];
+    _handler.targetView = _rootUIView;
     
-
+    [_handler.targetView addGestureRecognizer:_handler.pan];
+    [_handler.targetView addGestureRecognizer:_handler.pinch];
+    [_handler.targetView addGestureRecognizer:_handler.swip];
 }
 
 void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, double x, double y, MCInt tag, MCBool isContinuous)
