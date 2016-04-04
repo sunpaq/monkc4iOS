@@ -49,8 +49,26 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width,
     MCCamera_initWithWidthHeight(0, var(mainCamera), width, height);
     MCGLRenderer_initWithShaderCodeString(0, var(renderer), vsource, fsource);
     UILayer_initWithScreenSize(0, var(uilayer), width, height);
-    //ff(obj->rootnode, addChild, obj->mainCamera);
     return obj;
+}
+
+method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height,
+       const char* vname, const char* fname)
+{
+    const char* vsource = MCFileCopyContent(vname, "vsh");
+    const char* fsource = MCFileCopyContent(fname, "fsh");
+    
+    MC3DScene_initWithWidthHeightVSourceFSource(0, obj, width, height, vsource, fsource);
+    
+    free((void*)vsource);
+    free((void*)fsource);
+    
+    return obj;
+}
+
+method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height)
+{
+    return MC3DScene_initWithWidthHeightVNameFName(0, obj, width, height, "MCGLRenderer", "MCGLRenderer");
 }
 
 method(MC3DScene, void, lockCamera, MCBool lock)
@@ -95,6 +113,10 @@ onload(MC3DScene)
 {
     if (load(MCObject)) {
         binding(MC3DScene, void, bye, voida);
+        binding(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
+        binding(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
+        binding(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
+        
         binding(MC3DScene, void, updateScene, voida);
         binding(MC3DScene, void, drawScene, voida);
         
