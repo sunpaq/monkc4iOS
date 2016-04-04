@@ -298,24 +298,18 @@
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
-<<<<<<< Updated upstream
-=======
 				FDC88B7F1CB00B8700FC48AA /* airbus.obj */,
 				FD4CC2001C96EFA600051C15 /* monkey.obj */,
->>>>>>> Stashed changes
 				FD4CC2021C99AC0F00051C15 /* monkey2.obj */,
 				FD4CC2061C99B19E00051C15 /* ball.obj */,
 				FD4CC2081C99B21600051C15 /* cube.obj */,
 				FD084E461CA0313E00FD6AEB /* teapot.obj */,
 				FD91A8AF1CAD5D700040E325 /* sph.obj */,
-<<<<<<< Updated upstream
 				FD91A8B11CAD6EC60040E325 /* girl.obj */,
 				FD91A8B51CAD6F160040E325 /* house.obj */,
-=======
 				FD2EF1971CAF5E07007D9B71 /* girl2.obj */,
 				FDC88B811CB0101400FC48AA /* girl3.obj */,
 				FDC88B7D1CB0016F00FC48AA /* sofa.obj */,
->>>>>>> Stashed changes
 			);
 			name = models;
 			path = Resources/models;
