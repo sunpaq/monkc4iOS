@@ -83,6 +83,7 @@
 		FDAE48161C7DFEDC009DEE97 /* MCPanel.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48141C7DFEDC009DEE97 /* MCPanel.c */; };
 		FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDAE48171C7E0943009DEE97 /* mcicon.jpg */; };
 		FDBF1A4B1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */; };
+		FDC83B761CB2AAE5009E7159 /* airbus.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDC83B751CB2AAE5009E7159 /* airbus.obj */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
 		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
 		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
@@ -231,6 +232,7 @@
 		FDAE48151C7DFEDC009DEE97 /* MCPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPanel.h; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
 		FDBF1A4A1B0DBB9F00A3A0B7 /* MCRuntimeAsmIOS.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MCRuntimeAsmIOS.S; sourceTree = "<group>"; };
+		FDC83B751CB2AAE5009E7159 /* airbus.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = airbus.obj; sourceTree = "<group>"; };
 		FDCB46AD1B11E3C300403320 /* MCOrbit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCOrbit.c; sourceTree = "<group>"; };
 		FDCB46AE1B11E3C300403320 /* MCOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrbit.h; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -297,8 +299,8 @@
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				FDC83B751CB2AAE5009E7159 /* airbus.obj */,
 				FD4CC2001C96EFA600051C15 /* monkey.obj */,
-				FDC88B7F1CB00B8700FC48AA /* airbus.obj */,
 				FD4CC2021C99AC0F00051C15 /* monkey2.obj */,
 				FD4CC2041C99AE7A00051C15 /* monkey3.obj */,
 				FD4CC2061C99B19E00051C15 /* ball.obj */,
@@ -734,6 +736,7 @@
 				FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */,
 				FD4CC1F51C91C8C200051C15 /* tex5.png in Resources */,
 				FD4CC2101C9AF3CD00051C15 /* cube3.obj in Resources */,
+				FDC83B761CB2AAE5009E7159 /* airbus.obj in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
 				FD4CC2051C99AE7A00051C15 /* monkey3.obj in Resources */,
 				FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */,
