@@ -160,7 +160,6 @@
 		FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLRenderer.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLRenderer.h; sourceTree = "<group>"; };
 		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
-		FD4F1F271C2FC89900D17CD9 /* MainLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainLoop.h; sourceTree = "<group>"; };
 		FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.fsh; sourceTree = "<group>"; };
 		FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.vsh; sourceTree = "<group>"; };
 		FD5183551C7CA5EA00A74DDE /* MCGLContext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLContext.c; sourceTree = "<group>"; };
@@ -299,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				FD4CC2001C96EFA600051C15 /* monkey.obj */,
+				FDC88B7F1CB00B8700FC48AA /* airbus.obj */,
 				FD4CC2021C99AC0F00051C15 /* monkey2.obj */,
 				FD4CC2041C99AE7A00051C15 /* monkey3.obj */,
 				FD4CC2061C99B19E00051C15 /* ball.obj */,
@@ -593,7 +593,6 @@
 			isa = PBXGroup;
 			children = (
 				FD4F1F261C2FC89900D17CD9 /* MainLoop.c */,
-				FD4F1F271C2FC89900D17CD9 /* MainLoop.h */,
 				FD5E18761B09C4B0006CB737 /* UILayer.c */,
 				FD5E18771B09C4B0006CB737 /* UILayer.h */,
 				FD43FEAA1C429A2D0043E019 /* Testbed.c */,

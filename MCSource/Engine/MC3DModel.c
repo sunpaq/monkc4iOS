@@ -12,7 +12,8 @@
 oninit(MC3DModel)
 {
     if (init(MC3DNode)) {
-        var(color) = (MCColorRGBAf){0.5, 0.5, 0.9, 1.0};
+        var(defaultColor) = (MCColorRGBAf){0.9, 0.9, 0.9, 1.0};
+        var(defaultExtension) = "obj";
         return obj;
     }else{
         return mull;
@@ -24,7 +25,7 @@ method(MC3DModel, void, bye, voida)
     MC3DNode_bye(0, superobj, 0);
 }
 
-method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
+method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
 {
     MC3DObjBuffer* buff = parse3DObjFile(path);
     
@@ -35,13 +36,13 @@ method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
     mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
     
     for (int i=0; i<buff->fcursor; i++) {
-        loadFaceData(mesh, buff, buff->facebuff[i], i, var(color));
+        loadFaceData(mesh, buff, buff->facebuff[i], i, color);
     }
     
     freeMC3DObjBuffer(buff);
     
     //ff(mesh, dump, 0);
-
+    
     supervar(meshes)[0] = mesh;
     supervar(material) = new(MCMatrial);
     supervar(texture) = mull;
@@ -49,10 +50,21 @@ method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
     return obj;
 }
 
-method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
+method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
 {
-    var(color) = color;
-    return MC3DModel_initWithFilePath(0, obj, path);
+    return MC3DModel_initWithFilePathColor(0, obj, path, var(defaultColor));
+}
+
+method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color)
+{
+    char path[PATH_MAX];
+    MCFileGetPath(name, var(defaultExtension), path);
+    return MC3DModel_initWithFilePathColor(0, obj, path, color);
+}
+
+method(MC3DModel, MC3DModel*, initWithFileName, const char* name)
+{
+    return MC3DModel_initWithFileNameColor(0, obj, name, var(defaultColor));
 }
 
 onload(MC3DModel)
@@ -60,7 +72,9 @@ onload(MC3DModel)
     if (load(MC3DNode)) {
         binding(MC3DModel, void, bye, voida);
         binding(MC3DModel, MC3DModel*, initWithFilePath, const char* path);
+        binding(MC3DModel, MC3DModel*, initWithFileName, const char* name);
         binding(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
+        binding(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color);
 
         return cla;
     }else{

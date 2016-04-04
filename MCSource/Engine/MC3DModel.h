@@ -19,11 +19,15 @@
 #include "MC3DNode.h"
 
 class(MC3DModel, MC3DNode,
-      MCColorRGBAf color;
+      MCColorRGBAf defaultColor;
+      const char* defaultExtension;
 );
 
 method(MC3DModel, void, bye, voida);
 method(MC3DModel, MC3DModel*, initWithFilePath, const char* path);
+method(MC3DModel, MC3DModel*, initWithFileName, const char* name);
 method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
+method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color);
+
 
 #endif /* MC3DModel_h */
