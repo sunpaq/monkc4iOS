@@ -271,13 +271,67 @@ MCInline size_t processLine(MC3DObjBuffer* buff, const char* linebuff)
     return buff->fcursor;
 }
 
-MCInline MC3DObjBuffer* parse3DObjFile(const char* filename)
+//return triangle face count
+MCInline size_t detectFaceCount(FILE* f)
 {
-    MC3DObjBuffer* buff = allocMC3DObjBuffer(8000, 3);
-    FILE* f = fopen(filename, "r");
-    if (f != NULL) {
+    if (f != mull) {
         const int linesize = 1024;
         char linebuff[linesize];
+        size_t fcount = 0;
+        size_t icount = 0;
+        size_t gcount = 0;
+        
+        fseek(f, 0, SEEK_SET);
+        while (fgets(linebuff, linesize, f) != NULL) {
+            linebuff[linesize-1] = '\0';
+            //count the f line in file
+            icount = 0;
+            gcount = 0;
+            MCToken token;
+            char word[256];
+            const char* remain = linebuff;
+            while (*remain != '\n' && *remain != '\0') {
+                remain = getWord(remain++, word);
+                token = tokenize(word);
+                
+                switch (token) {
+                    case MCTokenWord:
+                        if (strncmp(word, "f", 1) == 0) {
+                            fcount++;
+                        }
+                        break;
+                    case MCTokenInteger:
+                        icount++;
+                        break;
+                    case MCTokenSlashGroupInteger:
+                        gcount++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        //if the face have 4 vertices
+        if (icount > 2 || gcount > 2) {
+            fcount *= 2;
+        }
+        return fcount;
+    }else{
+        return 0;
+    }
+}
+
+MCInline MC3DObjBuffer* parse3DObjFile(const char* filename)
+{
+    FILE* f = fopen(filename, "r");
+    if (f != NULL) {
+        size_t c = detectFaceCount(f);
+        MC3DObjBuffer* buff = allocMC3DObjBuffer(c, 3);
+        
+        const int linesize = 1024;
+        char linebuff[linesize];
+        
+        fseek(f, 0, SEEK_SET);
         while (fgets(linebuff, linesize, f) != NULL) {
             linebuff[linesize-1] = '\0';
             //process a line
