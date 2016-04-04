@@ -17,12 +17,84 @@ static mc_message onButtonClickMsg = {nil, nil};
 #ifdef __OBJC__
 @implementation UIEventHandler
 
+//using ARC no need to release members
+-(instancetype)init
+{
+    if ([super init]) {
+        //gesture
+        self.swip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwip:)];
+        self.swip.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
+        self.swip.delegate = self;
+        
+        self.pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(onPinch:)];
+        self.pinch.delegate = self;
+        
+        self.pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+        self.pan.delegate = self;
+        
+
+        
+        return self;
+    }else{
+        return nil;
+    }
+}
+
+-(void) setTargetView:(UIView *)targetView
+{
+    [targetView addGestureRecognizer:self.swip];
+    [targetView addGestureRecognizer:self.pinch];
+    [targetView addGestureRecognizer:self.pan];
+    self.targetView = targetView;
+}
+
 - (void) onButtonClicked:(id)sender
 {
     UIButton* btn = (UIButton*)sender;
     if (onButtonClickMsg.address) {
         _push_jump(onButtonClickMsg, (MCInt)btn.tag);
     }
+}
+
+- (void)onSwip:(id)sender
+{
+    if (sender == self.swip) {
+        onGestureSwip();
+    }
+}
+
+- (void)onPinch:(id)sender
+{
+    if (sender == self.pinch) {
+        if (self.pinch.velocity > 0) {
+            onGesturePinch(-self.pinch.scale);
+        }else{
+            onGesturePinch(self.pinch.scale);
+        }
+    }
+}
+
+- (void)onPan:(id)sender
+{
+    if (sender == self.pan) {
+        CGPoint trans = [self.pan translationInView:self.targetView];
+        onGesturePan(trans.x, trans.y);
+    }
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer == self.swip) {
+        return true;
+    }
+    else if (gestureRecognizer == self.pinch) {
+        return true;
+    }
+    else if (gestureRecognizer == self.pan) {
+        return true;
+    }
+    
+    return false;
 }
 
 @end
@@ -45,6 +117,8 @@ void MCUIRegisterRootUIView(void* rootview)
 {
     _rootUIView = (__bridge UIView*)rootview;
     _handler = [UIEventHandler new];
+    
+
 }
 
 void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, double x, double y, MCInt tag, MCBool isContinuous)
@@ -111,10 +185,40 @@ MCUInt MCLoadSpriteTexture(const char* name, const char* suffix)
 
 void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 {
-    NSString* path = [[NSBundle mainBundle] pathForResource:[NSString stringWithUTF8String:filename]
-                                                     ofType:[NSString stringWithUTF8String:extention]];
-    const char * cstr = [path cStringUsingEncoding:NSUTF8StringEncoding];
-    strcpy(buffer, cstr);
+    CFStringRef fname = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
+    CFStringRef  fext = CFStringCreateWithCString(NULL, extention, kCFStringEncodingUTF8);
+    CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
+    CFStringRef  path = CFURLCopyPath(url);
+    
+    CFStringGetCString(path, buffer, PATH_MAX, kCFStringEncodingUTF8);
+    
+    CFRelease(fname);
+    CFRelease(fext);
+    CFRelease(path);
+    CFRelease(url);
+}
+
+const char* MCFileCopyContent(const char* filename, const char* extention)
+{
+    char path[PATH_MAX];
+    MCFileGetPath(filename, extention, path);
+    
+    FILE* f = fopen(path, "r");
+    fseek(f, 0, SEEK_END);
+    long size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    char* const buffer = (char*)malloc(size * sizeof(char));
+    char* iter = buffer;
+    
+    if (f != NULL) {
+        char c;
+        while ((c = fgetc(f)) != EOF) {
+            *iter++ = c;
+        }
+        *iter = '\0';
+    }
+    
+    return buffer;
 }
 
 

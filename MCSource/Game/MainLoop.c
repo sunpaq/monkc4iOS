@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include "MC3DBase.h"
-#include "MainLoop.h"
 #include "MC3DiOSDriver.h"
 #include "MC3DScene.h"
 #include "MCGLRenderer.h"
@@ -54,23 +53,22 @@ void onReceiveMemoryWarning()
     }
 }
 
-void onSetupGL(int windowWidth, int windowHeight, const char** filePathArray)
+void onSetupGL(int windowWidth, int windowHeight)
 {
     MCLogTypeSet(MC_VERBOSE);
     if (director == mull) {
         director = new(MCDirector);
         
         //scene1
-        MC3DScene* mainScene = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene),
-                                windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
-        MC3DModel* model = ff(new(MC3DModel), initWithFilePath, filePathArray[3]);
+        MC3DScene* mainScene = MC3DScene_initWithWidthHeightDefaultShader(0, new(MC3DScene), windowWidth, windowHeight);
+        MC3DModel* model = ff(new(MC3DModel), initWithFileName, "sph");
         ff(mainScene->rootnode, addChild, model);
         ff(director, pushScene, mainScene);
         
         //scene2
-        MC3DScene* scene2 = MC3DScene_initWithWidthHeightVSourceFSource(0, new(MC3DScene),
-                                windowWidth, windowHeight, filePathArray[0], filePathArray[1]);
-        MC3DModel* model2 = ff(new(MC3DModel), initWithFilePath, filePathArray[4]);
+        MC3DScene* scene2 = MC3DScene_initWithWidthHeightDefaultShader(0, new(MC3DScene), windowWidth, windowHeight);
+        scene2->mainCamera->R = 30;
+        MC3DModel* model2 = ff(new(MC3DModel), initWithFileName, "airbus");
         ff(scene2->rootnode, addChild, model2);
         ff(director, pushScene, scene2);
         

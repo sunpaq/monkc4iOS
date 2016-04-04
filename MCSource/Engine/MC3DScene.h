@@ -32,8 +32,10 @@ class(MC3DScene, MCObject,
 );
 
 method(MC3DScene, void, bye, voida);
-method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height,
-       const char* vsource, const char* fsource);
+method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
+method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
+method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
+
 method(MC3DScene, void, updateScene, voida);
 method(MC3DScene, void, drawScene, voida);
 
