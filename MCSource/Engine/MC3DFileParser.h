@@ -104,10 +104,12 @@ MCInline void loadFaceElement(MCMesh* mesh, MC3DObjBuffer* buff,
         mesh->vertexDataPtr[offset+10] = texcoorbuff[t].y;
     }
     
+#if 0
     debug_log("[V%f,%f,%f T%f,%f N%f,%f,%f]\n",
               buff->vertexbuff[v].x, buff->vertexbuff[v].y, buff->vertexbuff[v].z,
               buff->texcoorbuff[t].x, buff->texcoorbuff[t].y,
               buff->normalbuff[n].x, buff->normalbuff[n].y, buff->normalbuff[n].z);
+#endif
 }
 
 MCInline void loadFaceData(MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int faceIndex, MCColorRGBAf color)
@@ -116,11 +118,12 @@ MCInline void loadFaceData(MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int
     loadFaceElement(mesh, buff, face.v1, offset+0, color);
     loadFaceElement(mesh, buff, face.v2, offset+11, color);
     loadFaceElement(mesh, buff, face.v3, offset+22, color);
+#if 0
     debug_log("[%d/%d/%d %d/%d/%d %d/%d/%d]\n",
               face.v1.vertexIndex, face.v1.texcoordIndex, face.v1.normalIndex,
               face.v2.vertexIndex, face.v2.texcoordIndex, face.v2.normalIndex,
               face.v3.vertexIndex, face.v3.texcoordIndex, face.v3.normalIndex);
-    
+#endif
 }
 
 enum LexerState {
