@@ -53,13 +53,13 @@ void onSetupGL(int windowWidth, int windowHeight)
         director = new(MCDirector);
         
         //scene1
-        MC3DScene* mainScene = MC3DScene_initWithWidthHeightDefaultShader(0, new(MC3DScene), windowWidth, windowHeight);
+        MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
         MC3DModel* model = ff(new(MC3DModel), initWithFileName, "sph");
         ff(mainScene->rootnode, addChild, model);
         ff(director, pushScene, mainScene);
         
         //scene2
-        MC3DScene* scene2 = MC3DScene_initWithWidthHeightDefaultShader(0, new(MC3DScene), windowWidth, windowHeight);
+        MC3DScene* scene2 = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
         scene2->mainCamera->R = 30;
         MC3DModel* model2 = ff(new(MC3DModel), initWithFileName, "airbus");
         ff(scene2->rootnode, addChild, model2);
@@ -102,24 +102,26 @@ void onGestureSwip()
 
 void onGesturePan(double x, double y)
 {
-    if (director != mull && director->lastScene != mull && director->lastScene->mainCamera != mull) {
-        director->lastScene->mainCamera->fai -= x * 0.1;
-        director->lastScene->mainCamera->tht += y * 0.1;
+    MCCamera* camera = director->lastScene->mainCamera;
+    if (director != mull && director->lastScene != mull && camera != mull) {
+        camera->fai -= x * 0.1;
+        camera->tht += y * 0.1;
     }
 }
 
 void onGesturePinch(double scale)
 {
     double s = scale * 0.5;
-    if (director != mull && director->lastScene != mull && director->lastScene->mainCamera != mull) {
+    MCCamera* camera = director->lastScene->mainCamera;
+    if (director != mull && director->lastScene != mull && camera != mull) {
         if (s >= 0) {//zoom out
-            if (director->lastScene->mainCamera->R < 100) {
-                director->lastScene->mainCamera->R += s;
+            if (camera->R < 100) {
+                camera->R += s;
             }
         }
         else {//zoom in
-            if (director->lastScene->mainCamera->R > 1) {
-                director->lastScene->mainCamera->R += s;
+            if (camera->R > 1) {
+                camera->R += s;
             }
         }
     }

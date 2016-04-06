@@ -8,6 +8,7 @@
 class(MCCamera, MC3DNode,
     double ratio;
     double focal_length;
+    double view_angle;
     double max_distance;
     MCVector3 lookat;
     MCMatrix4 projectionMatrix;
@@ -19,15 +20,14 @@ class(MCCamera, MC3DNode,
     double R;
     double tht;
     double fai;
+    
+    computed(MCCamera, MCMatrix4, mvproj);
+    computed(MCCamera, MCMatrix3, normal);
 );
 
 public(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
 public(MCCamera, void, move, double deltaFai, double deltaTht);
-
-public(MCCamera, void, reset, MCBool updateOrNot);
-public(MCCamera, void, updatePosition, MCVector3* result);
-public(MCCamera, void, updateRatioFocalDistance, voida);
-public(MCCamera, void, updateLookat, voida);
+public(MCCamera, void, reset, voida);
 public(MCCamera, void, update, MCGLContext* ctx);//override
 
 #define MCLensStandard50mm (0.050)

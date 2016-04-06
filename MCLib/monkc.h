@@ -350,8 +350,13 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define superobj                              (&(obj->super))
 #define supervar(vname)                       (obj->super.vname)
 
+//property
+#define computed(cls, type, name)             type (*name)(struct cls##Struct* obj)
+#define compute(cls, type, name)              static type name(cls* obj)
+#define com(vname)                            (obj->vname(obj))
+
 //for create object
-#define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)//create instance
+#define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)
 
 #define hew(cls, hash)					(cls*)_new(mc_alloc_h(S(cls), sizeof(cls), cls##_load, hash), cls##_setsuper, cls##_init)
 #define clear(cls)  					mc_clear(S(cls), sizeof(cls), cls##_load)
