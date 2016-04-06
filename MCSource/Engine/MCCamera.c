@@ -1,16 +1,7 @@
 #include "MCCamera.h"
 
-compute(MCCamera, MCMatrix4, mvproj)
-{
-    MCMatrix4 mvp = MCMatrix4Multiply(var(projectionMatrix), var(modelViewMatrix));
-    return mvp;
-}
-
-compute(MCCamera, MCMatrix3, normal)
-{
-    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(obj->modelViewMatrix), NULL);
-    return nor;
-}
+compute(MCCamera, MCMatrix4, mvproj);
+compute(MCCamera, MCMatrix3, normal);
 
 oninit(MCCamera)
 {
@@ -29,13 +20,24 @@ oninit(MCCamera)
         var(tht) = 60;
         var(fai) = 45;
         
-        var(mvproj) = mvproj;
-        var(normal) = normal;
-        
+        com(MCCamera, MCMatrix4, mvproj);
+        com(MCCamera, MCMatrix3, normal);
         return obj;
     }else{
         return mull;
     }
+}
+
+compute(MCCamera, MCMatrix4, mvproj)
+{
+    MCMatrix4 mvp = MCMatrix4Multiply(var(projectionMatrix), var(modelViewMatrix));
+    return mvp;
+}
+
+compute(MCCamera, MCMatrix3, normal)
+{
+    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(obj->modelViewMatrix), NULL);
+    return nor;
 }
 
 public(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height)
@@ -100,8 +102,8 @@ public(MCCamera, void, update, MCGLContext* ctx)
     updatePosition(0, obj, mull);
     updateLookat(0, obj, 0);
     
-    MCGLContext_setUniformMatrix4(0, ctx, "modelViewProjectionMatrix", com(mvproj).m);
-    MCGLContext_setUniformMatrix3(0, ctx, "normalMatrix", com(normal).m);
+    MCGLContext_setUniformMatrix4(0, ctx, "modelViewProjectionMatrix", computevar(mvproj).m);
+    MCGLContext_setUniformMatrix3(0, ctx, "normalMatrix", computevar(normal).m);
 }
 
 public(MCCamera, void, move, double deltaFai, double deltaTht)

@@ -345,15 +345,18 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define utility(cls, type, name, ...) 	      type cls##_##name(__VA_ARGS__)
 #define public(cls, type, name, ...) 	      type cls##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
 #define private(cls, type, name, ...)         static type name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
-#define var(vname)                            (obj->vname)
-#define cast(type, obj) 				      ((type)obj)
-#define superobj                              (&(obj->super))
-#define supervar(vname)                       (obj->super.vname)
 
 //property
-#define computed(cls, type, name)             type (*name)(struct cls##Struct* obj)
-#define compute(cls, type, name)              static type name(cls* obj)
-#define com(vname)                            (obj->vname(obj))
+#define _compute(cls, type, name)             type (*name)(struct cls##Struct* obj)
+#define compute(cls, type, name)              static type cls##_##name(cls* obj)
+#define com(cls, type, name)                  (obj->name = cls##_##name)
+
+//variable
+#define var(vname)                            (obj->vname)
+#define supervar(vname)                       (obj->super.vname)
+#define computevar(vname)                     (obj->vname(obj))
+#define cast(type, obj) 				      ((type)obj)
+#define superobj                              (&(obj->super))
 
 //for create object
 #define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)

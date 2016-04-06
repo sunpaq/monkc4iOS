@@ -21,8 +21,8 @@ class(MCCamera, MC3DNode,
     double tht;
     double fai;
     
-    computed(MCCamera, MCMatrix4, mvproj);
-    computed(MCCamera, MCMatrix3, normal);
+    _compute(MCCamera, MCMatrix4, mvproj);
+    _compute(MCCamera, MCMatrix3, normal);
 );
 
 public(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
