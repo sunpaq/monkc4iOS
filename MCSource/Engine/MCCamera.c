@@ -10,7 +10,7 @@ oninit(MCCamera)
     }
 }
 
-method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height)
+public(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height)
 {
     //setting camera
     obj->ratio = MCRatioMake(width, height);
@@ -19,7 +19,7 @@ method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height
     return obj;
 }
 
-method(MCCamera, void, move, double deltaFai, double deltaTht)
+public(MCCamera, void, move, double deltaFai, double deltaTht)
 {
     obj->fai = obj->fai + deltaFai;   //Left
     obj->tht = obj->tht + deltaTht;   //Up
@@ -29,7 +29,7 @@ method(MCCamera, void, move, double deltaFai, double deltaTht)
     MCCamera_updateLookat(0, obj, 0);
 }
 
-method(MCCamera, void, reset, MCBool updateOrNot)
+public(MCCamera, void, reset, MCBool updateOrNot)
 {
     var(ratio) = MCRatioHDTV16x9;//MCRatioCameraFilm3x2;
     var(focal_length) = MCLensWide24mm;//MCLensStandard50mm;
@@ -48,7 +48,7 @@ method(MCCamera, void, reset, MCBool updateOrNot)
     }
 }
 
-method(MCCamera, void, updatePosition, MCVector3* result)
+public(MCCamera, void, updatePosition, MCVector3* result)
 {
     var(currentPosition) = MCWorldCoorFromLocal(MCVertexFromSpherical(var(R), var(tht), var(fai)), var(lookat));
     if (result != mull) {
@@ -58,7 +58,7 @@ method(MCCamera, void, updatePosition, MCVector3* result)
     }
 }
 
-method(MCCamera, void, updateRatioFocalDistance, voida)
+public(MCCamera, void, updateRatioFocalDistance, voida)
 {
     var(projectionMatrix) = MCMatrix4MakePerspective(MCDegreesToRadians(MCLensStandard50mmViewAngle), var(ratio), var(focal_length), var(max_distance));
 
@@ -71,7 +71,7 @@ method(MCCamera, void, updateRatioFocalDistance, voida)
 //	             var(max_distance));
 }
 
-method(MCCamera, void, updateLookat, voida)
+public(MCCamera, void, updateLookat, voida)
 {
     //MCMatrix4 cur = MCGLLookatSpherical(var(lookat).x, var(lookat).y, var(lookat).z, var(R), var(tht), var(fai));
     MCVector3 modelpos = var(lookat);
@@ -95,7 +95,7 @@ method(MCCamera, void, updateLookat, voida)
 }
 
 //override
-method(MCCamera, void, update, MCGLContext* ctx)
+public(MCCamera, void, update, MCGLContext* ctx)
 {
     MCCamera_updateRatioFocalDistance(0, obj, 0);
     MCCamera_updatePosition(0, obj, mull);
@@ -111,11 +111,11 @@ method(MCCamera, void, update, MCGLContext* ctx)
 onload(MCCamera)
 {
     if (load(MCObject)) {
-        binding(MCCamera, void, reset, MCBool updateOrNot);
-        binding(MCCamera, void, updatePosition, MCVertex* result);
-        binding(MCCamera, void, updateRatioFocalDistance);
-        binding(MCCamera, void, updateLookat);
-        binding(MCCamera, void, update);
+        pub(MCCamera, void, reset, MCBool updateOrNot);
+        pub(MCCamera, void, updatePosition, MCVertex* result);
+        pub(MCCamera, void, updateRatioFocalDistance);
+        pub(MCCamera, void, updateLookat);
+        pub(MCCamera, void, update);
         return cla;
     }else{
         return mull;

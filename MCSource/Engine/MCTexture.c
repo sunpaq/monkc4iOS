@@ -19,7 +19,7 @@ oninit(MCTexture)
     }
 }
 
-method(MCTexture, MCTexture*, initWithFileName, const char* name)
+public(MCTexture, MCTexture*, initWithFileName, const char* name)
 {
     obj->rawdata = SOIL_load_image(name, &obj->width, &obj->height, 0, SOIL_LOAD_RGB);
     
@@ -38,7 +38,7 @@ method(MCTexture, MCTexture*, initWithFileName, const char* name)
     return obj;
 }
 
-method(MCTexture, void, prepareTexture, MCGLContext* ctx)
+public(MCTexture, void, prepareTexture, MCGLContext* ctx)
 {
     glActiveTexture(obj->textureUnit);
     glBindTexture(GL_TEXTURE_2D, obj->Id);
@@ -48,8 +48,8 @@ method(MCTexture, void, prepareTexture, MCGLContext* ctx)
 onload(MCTexture)
 {
     if (load(MCObject)) {
-        binding(MCTexture, MCTexture*, initWithFileName, const char* name);
-        binding(MCTexture, void, prepareTexture, MCGLContext* ctx);
+        pub(MCTexture, MCTexture*, initWithFileName, const char* name);
+        pub(MCTexture, void, prepareTexture, MCGLContext* ctx);
 
         return cla;
     }else{

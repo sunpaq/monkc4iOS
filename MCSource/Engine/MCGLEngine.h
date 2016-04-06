@@ -23,36 +23,29 @@ typedef enum {
     MCGLErrInvalidOperation = GL_INVALID_OPERATION,
     MCGLErrOutOfMemory = GL_OUT_OF_MEMORY,
 } MCGLEngineErr;
+
 typedef struct {
     MCBool success;
     MCUInt vaoId;
     MCUInt vboId;
 } MCGLEngineResponse;
 
-structure(MCGLEngine,
-    MCClock* clock;
-    double pointSize;
-    double lineWidth;
-    MCBool  isFrontCounterClockWise;
-);
-
-method(MCGLEngine, MCGLEngine*, getInstance, voida);
 //Global
-method(MCGLEngine, MCBool, isFeatureOn, MCGLFeature feature);
-method(MCGLEngine, void, featureSwith, MCGLFeature feature, MCBool onOrOff);
-method(MCGLEngine, void, flushCommand, voida);
-method(MCGLEngine, void, clearScreen, voida);
-method(MCGLEngine, void, clearDepthBuffer, voida);
-method(MCGLEngine, void, clearStencilBuffer, voida);
-method(MCGLEngine, void, setClearScreenColor, MCColorRGBAf color);
-method(MCGLEngine, void, setPointSize, double pointsize);
-method(MCGLEngine, void, setLineWidth, double linewidth);
-method(MCGLEngine, void, setFrontCounterClockWise, MCBool isCCW);
-method(MCGLEngine, void, cullFace, MCGLFace face);
-method(MCGLEngine, void, cullBackFace, voida);
+utility(MCGLEngine, MCBool, isFeatureOn, MCGLFeature feature);
+utility(MCGLEngine, void, featureSwith, MCGLFeature feature, MCBool onOrOff);
+utility(MCGLEngine, void, flushCommand, voida);
+utility(MCGLEngine, void, clearScreen, voida);
+utility(MCGLEngine, void, clearDepthBuffer, voida);
+utility(MCGLEngine, void, clearStencilBuffer, voida);
+utility(MCGLEngine, void, setClearScreenColor, MCColorRGBAf color);
+utility(MCGLEngine, void, setPointSize, double pointsize);
+utility(MCGLEngine, void, setLineWidth, double linewidth);
+utility(MCGLEngine, void, setFrontCounterClockWise, MCBool isCCW);
+utility(MCGLEngine, void, cullFace, MCGLFace face);
+utility(MCGLEngine, void, cullBackFace, voida);
 //Texture
-method(MCGLEngine, MCUInt, getMaxTextureUnits, voida);
-method(MCGLEngine, void, activeTextureUnit, MCUInt index);
+utility(MCGLEngine, MCUInt, getMaxTextureUnits, voida);
+utility(MCGLEngine, void, activeTextureUnit, MCUInt index);
 
 //Frame Rate (FPS)
 MCInline int MCGLEngine_tickFPS(MCClock* clock)

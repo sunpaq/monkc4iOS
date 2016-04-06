@@ -18,7 +18,7 @@ oninit(MCLight)
     }
 }
 
-method(MCLight, void, update, MCGLContext* ctx)
+public(MCLight, void, update, MCGLContext* ctx)
 {
     MCGLContext_setUniformVector3(0, ctx, "diffuseLightPosition",  obj->diffuseLightPosition);
 }
@@ -26,7 +26,7 @@ method(MCLight, void, update, MCGLContext* ctx)
 onload(MCLight)
 {
     if (load(MC3DNode)) {
-        binding(MCLight, void, update, MCGLContext* ctx);
+        pub(MCLight, void, update, MCGLContext* ctx);
         return cla;
     }else{
         return mull;

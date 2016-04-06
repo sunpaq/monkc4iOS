@@ -4,12 +4,7 @@
 #ifndef MCMath_ 
 #define MCMath_
 
-structure(MCMath,
-	unsigned tid;
-);
-
-method(MCMath, void, bye, voida);
-method(MCMath, MCMath*, getInstance, voida);
-method(MCMath, int, addInteger2, int a, int b);
+utility(MCMath, void, bye, voida);
+utility(MCMath, int, addInteger2, int a, int b);
 
 #endif

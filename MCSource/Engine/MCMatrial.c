@@ -27,7 +27,7 @@ oninit(MCMatrial)
     }
 }
 
-method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
+public(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
 {
     MCGLContext_setUniformVector1(0, ctx, "ambientLightStrength",  obj->ambientLightStrength);
     MCGLContext_setUniformVector3(0, ctx, "ambientLightColor",     obj->ambientLightColor);
@@ -40,7 +40,7 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
 onload(MCMatrial)
 {
     if (load(MCObject)) {
-        binding(MCMatrial, void, prepareMatrial, MCGLContext* ctx);
+        pub(MCMatrial, void, prepareMatrial, MCGLContext* ctx);
         return cla;
     }else{
         return mull;

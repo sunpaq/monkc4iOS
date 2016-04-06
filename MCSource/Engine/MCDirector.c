@@ -19,26 +19,26 @@ oninit(MCDirector)
     }
 }
 
-method(MCDirector, void, bye, voida)
+public(MCDirector, void, bye, voida)
 {
     MCObject_bye(0, superobj, 0);
 }
 
-method(MCDirector, void, updateAll, voida)
+public(MCDirector, void, updateAll, voida)
 {
     if (var(lastScene) != mull) {
         MC3DScene_updateScene(0, var(lastScene), 0);
     }
 }
 
-method(MCDirector, void, drawAll, voida)
+public(MCDirector, void, drawAll, voida)
 {
     if (var(lastScene) != mull) {
         MC3DScene_drawScene(0, var(lastScene), 0);
     }
 }
 
-method(MCDirector, void, pushScene, MC3DScene* scene)
+public(MCDirector, void, pushScene, MC3DScene* scene)
 {
     if (var(lastScene) == mull) {
         var(lastScene) = scene;
@@ -50,7 +50,7 @@ method(MCDirector, void, pushScene, MC3DScene* scene)
     }
 }
 
-method(MCDirector, void, popScene, voida)
+public(MCDirector, void, popScene, voida)
 {
     ff(var(lastScene), lockCamera, MCTrue);
     //first scene
@@ -67,11 +67,11 @@ method(MCDirector, void, popScene, voida)
 onload(MCDirector)
 {
     if (load(MCObject)) {
-        binding(MCDirector, void, bye, voida);
-        binding(MCDirector, void, updateAll, voida);
-        binding(MCDirector, void, drawAll, voida);
-        binding(MCDirector, void, pushScene, MC3DScene* scene);
-        binding(MCDirector, void, popScene, voida);
+        pub(MCDirector, void, bye, voida);
+        pub(MCDirector, void, updateAll, voida);
+        pub(MCDirector, void, drawAll, voida);
+        pub(MCDirector, void, pushScene, MC3DScene* scene);
+        pub(MCDirector, void, popScene, voida);
         return cla;
     }else{
         return mull;

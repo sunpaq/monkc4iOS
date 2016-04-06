@@ -12,13 +12,13 @@ oninit(MCRunnable)
     }
 }
 
-method(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void))
+public(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void))
 {
 	obj->init_routine = init_routine;
 	return obj;
 }
 
-method(MCRunnable, void, run, voida)
+public(MCRunnable, void, run, voida)
 {
 	//do nothing
 }
@@ -27,10 +27,10 @@ method(MCRunnable, void, run, voida)
 
 onload(MCThread)
 {
-	binding(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable);
-	binding(MCThread, int, start, void* result);
-	binding(MCThread, int, equal, MCThread* thread);
-	binding(MCThread, void, bye);
+	pub(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable);
+	pub(MCThread, int, start, void* result);
+	pub(MCThread, int, equal, MCThread* thread);
+	pub(MCThread, void, bye);
 	return cla;
 }
 
@@ -46,7 +46,7 @@ oninit(MCThread)
 	return obj;
 }
 
-method(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable)
+public(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable)
 {
 	if (runnable==mull)
 	{
@@ -93,7 +93,7 @@ static void* fireRun(void* obj)
 
 //pthread_once:     void (*)(void)
 //pthread_create:   void*(*)(void*)
-method(MCThread, int, start, void* result)
+public(MCThread, int, start, void* result)
 {
 	int res;
 	if (obj->isRunOnce==1)
@@ -118,12 +118,12 @@ method(MCThread, int, start, void* result)
 	return res;
 }
 
-method(MCThread, int, equal, MCThread* thread)
+public(MCThread, int, equal, MCThread* thread)
 {
 	return pthread_equal(obj->self, thread->self);
 }
 
-method(MCThread, void, bye, voida)
+public(MCThread, void, bye, voida)
 {
 	pthread_attr_destroy(&obj->attribute);
 	release(&(obj->runnable));
@@ -132,8 +132,8 @@ method(MCThread, void, bye, voida)
 onload(MCRunnable)
 {
     if (load(MCObject)) {
-        binding(MCRunnable, void, run);
-        binding(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
+        pub(MCRunnable, void, run);
+        pub(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
         return cla;
     }else{
         return mull;

@@ -31,7 +31,7 @@ oninit(MC3DScene)
     }
 }
 
-method(MC3DScene, void, bye, voida)
+public(MC3DScene, void, bye, voida)
 {
     release(var(renderer));
     release(var(rootnode));
@@ -43,7 +43,7 @@ method(MC3DScene, void, bye, voida)
     MCObject_bye(0, superobj, 0);
 }
 
-method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height,
+public(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height,
        const char* vsource, const char* fsource)
 {
     MCCamera_initWithWidthHeight(0, var(mainCamera), width, height);
@@ -52,7 +52,7 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width,
     return obj;
 }
 
-method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height,
+public(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height,
        const char* vname, const char* fname)
 {
     const char* vsource = MCFileCopyContent(vname, "vsh");
@@ -66,23 +66,23 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, uns
     return obj;
 }
 
-method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height)
+public(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height)
 {
     return MC3DScene_initWithWidthHeightVNameFName(0, obj, width, height, "MCGLRenderer", "MCGLRenderer");
 }
 
-method(MC3DScene, void, lockCamera, MCBool lock)
+public(MC3DScene, void, lockCamera, MCBool lock)
 {
     var(cameraLock) = lock;
     printf("lock=%d\n", lock);
 }
 
-method(MC3DScene, MCCamera*, getCamera, voida)
+public(MC3DScene, MCCamera*, getCamera, voida)
 {
     return var(mainCamera);
 }
 
-method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
+public(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
 {
     if (var(cameraLock) == MCFalse) {
         MCCamera_move(0, var(mainCamera), deltaFai.d, deltaTht.d);
@@ -90,7 +90,7 @@ method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
     MCCamera_updateLookat(0, var(mainCamera), 0);
 }
 
-method(MC3DScene, void, updateScene, voida)
+public(MC3DScene, void, updateScene, voida)
 {
     MC3DScene_moveCameraOneStep(0, obj, (MCDouble)1.0, (MCDouble)0.0);
     MCCamera_update(0, obj->mainCamera, obj->renderer->context);
@@ -98,7 +98,7 @@ method(MC3DScene, void, updateScene, voida)
     MCGLRenderer_updateNodes(0, var(renderer), var(rootnode));
 }
 
-method(MC3DScene, void, drawScene, voida)
+public(MC3DScene, void, drawScene, voida)
 {
     MCGLRenderer_drawNodes(0, var(renderer), var(rootnode));
     
@@ -112,17 +112,17 @@ method(MC3DScene, void, drawScene, voida)
 onload(MC3DScene)
 {
     if (load(MCObject)) {
-        binding(MC3DScene, void, bye, voida);
-        binding(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
-        binding(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
-        binding(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
+        pub(MC3DScene, void, bye, voida);
+        pub(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
+        pub(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
+        pub(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
         
-        binding(MC3DScene, void, updateScene, voida);
-        binding(MC3DScene, void, drawScene, voida);
+        pub(MC3DScene, void, updateScene, voida);
+        pub(MC3DScene, void, drawScene, voida);
         
-        binding(MC3DScene, void, lockCamera, MCBool lock);
-        binding(MC3DScene, MCCamera*, getCamera, voida);
-        binding(MC3DScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
+        pub(MC3DScene, void, lockCamera, MCBool lock);
+        pub(MC3DScene, MCCamera*, getCamera, voida);
+        pub(MC3DScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
 
         return cla;
     }else{

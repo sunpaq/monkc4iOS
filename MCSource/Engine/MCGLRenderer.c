@@ -14,12 +14,11 @@
 oninit(MCGLRenderer)
 {
     if(init(MCObject)){
-        MCGLEngine* engine = MCGLEngine_getInstance(0, 0, 0);
-        MCGLEngine_featureSwith(0, engine, MCGLDepthTest, MCTrue);
-        MCGLEngine_setClearScreenColor(0, engine, (MCColorRGBAf){0.05, 0.25, 0.35, 1.0});
-        MCGLEngine_featureSwith(0, engine, MCGLCullFace, MCTrue);
-        MCGLEngine_cullFace(0, engine, MCGLBack);
-        MCGLEngine_setFrontCounterClockWise(0, engine, MCFalse);//CCW
+        MCGLEngine_featureSwith(MCGLDepthTest, MCTrue);
+        MCGLEngine_setClearScreenColor((MCColorRGBAf){0.05, 0.25, 0.35, 1.0});
+        MCGLEngine_featureSwith(MCGLCullFace, MCTrue);
+        MCGLEngine_cullFace(MCGLBack);
+        MCGLEngine_setFrontCounterClockWise(MCFalse);//CCW
         
         obj->context = new(MCGLContext);
         
@@ -29,13 +28,13 @@ oninit(MCGLRenderer)
     }
 }
 
-method(MCGLRenderer, void, bye, voida)
+public(MCGLRenderer, void, bye, voida)
 {
     release(obj->context);
     MCObject_bye(0, superobj, 0);
 }
 
-method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
+public(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
     GLuint vertShader, fragShader;
     MCGLEngine_compileShader(&vertShader, GL_VERTEX_SHADER, vcode);
@@ -85,13 +84,13 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
     return obj;
 }
 
-method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader)
+public(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader)
 {
     //TODO
     return obj;
 }
 
-method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
+public(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 {
     //update nodes
     if (rootnode != mull) {
@@ -102,9 +101,9 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
     //MCGLContext_submitModelViewProjectionMatrix(0, obj->context, 0);
 }
 
-method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
+public(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
-    MCGLEngine_clearScreen(0, 0, 0);
+    MCGLEngine_clearScreen(0);
     glUseProgram(obj->Id);
     
     if (rootnode != mull) {
@@ -115,11 +114,11 @@ method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 onload(MCGLRenderer)
 {
     if (load(MCObject)) {
-        binding(MCGLRenderer, void, bye, voida);
-        binding(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode);
-        binding(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader);
-        binding(MCGLRenderer, void, updateNodes, MC3DNode* rootnode);
-        binding(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
+        pub(MCGLRenderer, void, bye, voida);
+        pub(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode);
+        pub(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader);
+        pub(MCGLRenderer, void, updateNodes, MC3DNode* rootnode);
+        pub(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
         return cla;
     }else{
         return mull;

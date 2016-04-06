@@ -22,6 +22,6 @@ class(MCMatrial, MCObject,
       MCInt       specularLightPower;
 );
 
-method(MCMatrial, void, prepareMatrial, MCGLContext* ctx);
+public(MCMatrial, void, prepareMatrial, MCGLContext* ctx);
 
 #endif /* MCMatrial_h */

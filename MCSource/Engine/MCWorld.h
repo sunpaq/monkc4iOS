@@ -15,8 +15,8 @@
 
 class(MCWorld, MCObject);
 
-method(MCWorld, void, bye, voida);
-method(MCWorld, MCWorld*, initWith, voida);
+public(MCWorld, void, bye, voida);
+public(MCWorld, MCWorld*, initWith, voida);
 
 
 #endif /* MCWorld_h */

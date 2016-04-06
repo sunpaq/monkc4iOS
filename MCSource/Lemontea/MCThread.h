@@ -113,8 +113,8 @@ class(MCRunnable, MCObject,
 	void (*init_routine)(void)
 );
 
-method(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
-method(MCRunnable, void, run, voida);
+public(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
+public(MCRunnable, void, run, voida);
 #endif
 
 
@@ -132,7 +132,7 @@ class(MCThread, MCObject,
 	MCRunnable* runnable
 );
 
-method(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable);
+public(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable);
 
 //global class functions
 int MCThread_cancel(MCThread* thread);
@@ -143,9 +143,9 @@ void MCThread_stop(void* result);
 pthread_t MCThread_self();
 
 
-method(MCThread, int, start, void* result);
-method(MCThread, int, equal, MCThread* thread);
-method(MCThread, void, bye, voida);
+public(MCThread, int, start, void* result);
+public(MCThread, int, equal, MCThread* thread);
+public(MCThread, void, bye, voida);
 #endif
 
 //if you need, you can set the attribute use the raw pthread APIs

@@ -1,0 +1,1 @@
+pri(MCObject, void*, access, const char* varname);

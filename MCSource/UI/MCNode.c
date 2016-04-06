@@ -18,43 +18,43 @@ oninit(MCNode)
     }
 }
 
-protocol(MCNode, MCAccessbleProtocol, void*, access, const char* varname)
+private(MCNode, void*, access, const char* varname)
 {
     if (SEQ(S(frame),    varname)) return addrof(obj->frame);
     if (SEQ(S(anchor),   varname)) return addrof(obj->anchor);
     if (SEQ(S(position), varname)) return addrof(obj->position);
     if (SEQ(S(color),    varname)) return addrof(obj->color);
     void* varp = mull;
-    varp = ff(superobj, access, varname);
+    varp = ff(obj, access, varname);
     return varp;
 }
 
-protocol(MCNode, MCTouchbleProtocol, void, onTouchEvent, MCPoint point)
+private(MCNode, void, onTouchEvent, MCPoint point)
 {
     if(mc_rect_contains(addrof(obj->frame), point)) {
         var(color) = mc_color_mix(obj->color, mc_color(128,0,0));
     }
 }
 
-method(MCNode, void, bye, voida)
+public(MCNode, void, bye, voida)
 {
     //clean up
     release(var(children));
 }
 
-method(MCNode, MCNode*, initWithFrame, MCRect frame)
+public(MCNode, MCNode*, initWithFrame, MCRect frame)
 {
     var(frame) = frame;
     return obj;
 }
 
-method(MCNode, MCNode*, initWithSize, MCSize size)
+public(MCNode, MCNode*, initWithSize, MCSize size)
 {
     var(frame) = mc_rect(0, 0, size.width, size.height);
     return obj;
 }
 
-method(MCNode, MCNode*, addChild, MCNode* child)
+public(MCNode, MCNode*, addChild, MCNode* child)
 {
     retain(child);
     child->parent = obj;
@@ -82,7 +82,7 @@ static inline MCRect calculate_drawframe(MCNode* obj)
 }
 */
 
-method(MCNode, void, draw, voida)
+public(MCNode, void, draw, voida)
 {
     //draw self
     //MCRect drawframe = calculate_drawframe(obj);
@@ -104,13 +104,13 @@ method(MCNode, void, draw, voida)
 onload(MCNode)
 {
     if (load(MCObject)) {
-        #include "MCAccessbleProtocol.h"
-        #include "MCTouchbleProtocol.h"
-        binding(MCNode, void, bye);
-        binding(MCNode, MCNode*, initWithFrame, MCRect frame);
-        binding(MCNode, MCNode*, initWithSize, MCSize size);
-        binding(MCNode, MCNode*, addChild, MCNode* child);
-        binding(MCNode, void, draw);
+        #include "MCAccessble.h"
+        #include "MCTouchble.h"
+        pub(MCNode, void, bye);
+        pub(MCNode, MCNode*, initWithFrame, MCRect frame);
+        pub(MCNode, MCNode*, initWithSize, MCSize size);
+        pub(MCNode, MCNode*, addChild, MCNode* child);
+        pub(MCNode, void, draw);
         return cla;
     }else{
         return mull;

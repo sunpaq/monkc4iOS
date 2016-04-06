@@ -22,7 +22,7 @@ class(MCTexture, MCObject,
       int height;
 );
 
-method(MCTexture, MCTexture*, initWithFileName, const char* name);
-method(MCTexture, void, prepareTexture, MCGLContext* ctx);
+public(MCTexture, MCTexture*, initWithFileName, const char* name);
+public(MCTexture, void, prepareTexture, MCGLContext* ctx);
 
 #endif /* MCTexture_h */

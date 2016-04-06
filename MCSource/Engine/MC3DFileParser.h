@@ -30,7 +30,8 @@ typedef struct {
     MC3DFaceElement v3;
 } MC3DFace;
 
-typedef struct {
+typedef struct MC3DObjBufferStruct {
+    struct MC3DObjBufferStruct *nextobj;
     MC3DFace*  facebuff;
     MCVector4* vertexbuff;
     MCVector3* texcoorbuff;
@@ -40,11 +41,13 @@ typedef struct {
     size_t vcursor;
     size_t tcursor;
     size_t ncursor;
+    char name[1024];
 } MC3DObjBuffer;
 
 MCInline MC3DObjBuffer* allocMC3DObjBuffer(size_t facecount, int vpf)
 {
     MC3DObjBuffer* buff = (MC3DObjBuffer*)malloc(sizeof(MC3DObjBuffer));
+    buff->nextobj = mull;
     buff->facebuff    = (MC3DFace*)malloc(sizeof(MC3DFace) * (facecount+1));
     buff->vertexbuff  = (MCVector4*)malloc(sizeof(MCVector4) * (facecount+1) * vpf);
     buff->texcoorbuff = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
@@ -53,11 +56,17 @@ MCInline MC3DObjBuffer* allocMC3DObjBuffer(size_t facecount, int vpf)
     buff->vcursor = 0;
     buff->tcursor = 0;
     buff->ncursor = 0;
+    buff->name[0] = '\0';
     return buff;
 }
 
 MCInline void freeMC3DObjBuffer(MC3DObjBuffer* buff)
 {
+    //recursively
+    if (buff->nextobj != mull) {
+        freeMC3DObjBuffer(buff->nextobj);
+    }
+    //clean up self
     free(buff->facebuff);
     free(buff->vertexbuff);
     free(buff->texcoorbuff);
@@ -137,7 +146,8 @@ enum LexerState {
     LSVertex,
     LSVertexTexture,
     LSVertexNormal,
-    LSFace
+    LSFace,
+    LSObject
 };
 
 //return face count
@@ -172,6 +182,9 @@ MCInline size_t processLine(MC3DObjBuffer* buff, const char* linebuff)
                 }
                 else if (strncmp(word, "f", 1) == 0) {
                     state = LSFace;
+                }
+                else if (strncmp(word, "o", 1) == 0) {
+                    state = LSObject;
                 }
                 break;
             case MCTokenFloat:
@@ -276,7 +289,19 @@ MCInline size_t processLine(MC3DObjBuffer* buff, const char* linebuff)
             }
         }
     }
-    
+    //objects
+    else if (state == LSObject) {
+        if (word[0] != 'o') {
+            size_t nlen = strlen(word);
+            strncpy(buff->name, word, nlen);
+            buff->name[nlen] = '\0';
+        }else{
+            //second object
+            if (buff->name[0] != '\0') {
+                allocMC3DObjBuffer(1024, 3);
+            }
+        }
+    }
     return buff->fcursor;
 }
 

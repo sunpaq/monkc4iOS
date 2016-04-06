@@ -311,9 +311,9 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 }
 
 //static structure (you can not use new and ff)
-#define structure(cls, ...)\
-typedef struct cls##Struct{\
-__VA_ARGS__;}cls;
+//#define structure(cls, ...)\
+//typedef struct cls##Struct{\
+//__VA_ARGS__;}cls;
 
 //dynamic class
 #define class(cls, supercls, ...)\
@@ -339,11 +339,12 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define preload(cls)                          _load_h(#cls, sizeof(cls), cls##_##load, hash(#cls));
 
 //method binding
-#define conforming(cls, pro, type, met, ...)  _binding(cla, S(met), (MCFuncPtr)A_B(pro, met))
-#define binding(cls, type, met, ...)  		  _binding(cla, S(met), (MCFuncPtr)A_B(cls, met))
+#define pri(cls, type, met, ...)              _binding(cla, S(met), (MCFuncPtr)met)
+#define pub(cls, type, met, ...)  		      _binding(cla, S(met), (MCFuncPtr)A_B(cls, met))
 #define hinding(cls, type, met, hash, ...)	  _binding_h(cla, S(met), (MCFuncPtr)A_B(cls, met), hash)
-#define method(cls, type, name, ...) 	      type cls##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
-#define protocol(cls, pro, type, name, ...)   static type pro##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
+#define utility(cls, type, name, ...) 	      type cls##_##name(__VA_ARGS__)
+#define public(cls, type, name, ...) 	      type cls##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
+#define private(cls, type, name, ...)         static type name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
 #define var(vname)                            (obj->vname)
 #define cast(type, obj) 				      ((type)obj)
 #define superobj                              (&(obj->super))

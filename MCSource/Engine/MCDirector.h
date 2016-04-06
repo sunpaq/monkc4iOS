@@ -17,12 +17,12 @@ class(MCDirector, MCObject,
       MC3DScene* lastScene;
 );
 
-method(MCDirector, void, bye, voida);
-method(MCDirector, void, updateAll, voida);
-method(MCDirector, void, drawAll, voida);
+public(MCDirector, void, bye, voida);
+public(MCDirector, void, updateAll, voida);
+public(MCDirector, void, drawAll, voida);
 
-method(MCDirector, void, pushScene, MC3DScene* scene);
-method(MCDirector, void, popScene, voida);
+public(MCDirector, void, pushScene, MC3DScene* scene);
+public(MCDirector, void, popScene, voida);
 
 //iOS callbacks
 //void onRootViewLoad(void* rootview);
