@@ -17,22 +17,15 @@
 #include "MC3DModel.h"
 #include "MCDirector.h"
 #include "MC3DFileParser.h"
-
-static void testparser()
-{
-    char* remain;
-    double d = strtod("2.6277e-08", &remain);
-    
-    double f = atof("2.6277e-08");
-    
-}
+#include "MC3DiOS.h"
+#include "Testbed.h"
 
 void onRootViewLoad(void* rootview)
 {
-    MCUIRegisterRootUIView(rootview);
+    //put the test code into Testbed.c
+    starttest();
     
-    //test
-    testparser();
+    MCUIRegisterRootUIView(rootview);
 }
 
 static MCDirector* director = mull;

@@ -119,6 +119,7 @@
 
 /* Begin PBXFileReference section */
 		FD0097D81CB3CB13000A85DE /* MC3DMtlParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MC3DMtlParser.h; sourceTree = "<group>"; };
+		FD0097DD1CB544CA000A85DE /* MC3DiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MC3DiOS.h; sourceTree = "<group>"; };
 		FD084E461CA0313E00FD6AEB /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		FD0B163E1C78447C004FD724 /* MC3DNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DNode.c; sourceTree = "<group>"; };
 		FD0B163F1C78447C004FD724 /* MC3DNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DNode.h; sourceTree = "<group>"; };
@@ -601,6 +602,7 @@
 			children = (
 				FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */,
 				FD5E18621B08FFE7006CB737 /* MC3DiOSDriver.h */,
+				FD0097DD1CB544CA000A85DE /* MC3DiOS.h */,
 			);
 			path = MCiOSDriver;
 			sourceTree = "<group>";

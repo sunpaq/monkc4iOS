@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "MC3DiOSDriver.h"
+#import "MC3DiOS.h"
 
 @interface AppDelegate ()
 
@@ -17,7 +17,6 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     GLchar* obj3d = (GLchar*)[[url path] UTF8String];
-    
     onOpenExternalFile(obj3d);
     return YES;
 }

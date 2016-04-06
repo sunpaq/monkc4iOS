@@ -7,7 +7,7 @@
 //
 
 #import "GameViewController.h"
-#import "MC3DiOSDriver.h"
+#import "MC3DiOS.h"
 
 @interface GameViewController () {
 
@@ -93,13 +93,13 @@
 
 - (void)update
 {
-    // monkc update
+    //monkc update
     onUpdate();
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    // monkc draw
+    //monkc draw
     onDraw();
 }
 

@@ -35,6 +35,8 @@ public(MCTexture, MCTexture*, initWithFileName, const char* name)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     
     glBindTexture(GL_TEXTURE_2D, 0);
+    
+    SOIL_free_image_data(obj->rawdata);
     return obj;
 }
 

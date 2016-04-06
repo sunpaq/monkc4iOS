@@ -9,34 +9,6 @@
 #ifndef __monkcGame__MC3DiOSDriver__
 #define __monkcGame__MC3DiOSDriver__
 
-//gesture callback
-void onGestureSwip();
-void onGesturePan(double x, double y);
-void onGesturePinch(double scale);
-
-//GL callback
-void onRootViewLoad(void* rootview);
-void onOpenExternalFile(const char* filepath);
-void onReceiveMemoryWarning();
-void onSetupGL(int windowWidth, int windowHeight);
-void onTearDownGL();
-void onUpdate();
-void onDraw();
-
-#ifdef __OBJC__
-#import <UIKit/UIKit.h>
-#import <GLKit/GLKit.h>
-
-@interface UIEventHandler : NSObject <UIGestureRecognizerDelegate>
-@property (nonatomic) UIView* targetView;
-@property UISwipeGestureRecognizer* swip;
-@property UIPinchGestureRecognizer* pinch;
-@property UIPanGestureRecognizer* pan;
-
-- (void) onButtonClicked:(id)sender;
-@end
-#endif
-
 #include <stdio.h>
 #include "monkc.h"
 #include "MC3DType.h"
@@ -70,6 +42,21 @@ void MCUIButtonRegisterCallback(mc_message msg);
 //File
 void MCFileGetPath(const char* filename, const char* extention, char* buffer);
 const char* MCFileCopyContent(const char* filename, const char* extention);
+
+//Objective-C parts
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <GLKit/GLKit.h>
+
+@interface UIEventHandler : NSObject <UIGestureRecognizerDelegate>
+@property (nonatomic) UIView* targetView;
+@property UISwipeGestureRecognizer* swip;
+@property UIPinchGestureRecognizer* pinch;
+@property UIPanGestureRecognizer* pan;
+
+- (void) onButtonClicked:(id)sender;
+@end
+#endif
 
 #endif /* defined(__monkcGame__MC3DiOSDriver__) */
 

@@ -9,86 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 #import "MC3DiOSDriver.h"
+#import "MC3DiOS.h"
 
 static UIView* _rootUIView = nil;
 static UIEventHandler* _handler = nil;
 static mc_message onButtonClickMsg = {nil, nil};
-
-#ifdef __OBJC__
-@implementation UIEventHandler
-
-//using ARC no need to release members
--(instancetype)init
-{
-    if ([super init]) {
-        //gesture
-        self.swip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwip:)];
-        self.swip.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
-        self.swip.delegate = self;
-        
-        self.pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(onPinch:)];
-        self.pinch.delegate = self;
-        
-        self.pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
-        self.pan.delegate = self;
-        
-        return self;
-    }else{
-        return nil;
-    }
-}
-
-- (void) onButtonClicked:(id)sender
-{
-    UIButton* btn = (UIButton*)sender;
-    if (onButtonClickMsg.address) {
-        _push_jump(onButtonClickMsg, (MCInt)btn.tag);
-    }
-}
-
-- (void)onSwip:(id)sender
-{
-    if (sender == self.swip) {
-        onGestureSwip();
-    }
-}
-
-- (void)onPinch:(id)sender
-{
-    if (sender == self.pinch) {
-        if (self.pinch.velocity > 0) {
-            onGesturePinch(-self.pinch.scale);
-        }else{
-            onGesturePinch(self.pinch.scale);
-        }
-    }
-}
-
-- (void)onPan:(id)sender
-{
-    if (sender == self.pan) {
-        CGPoint trans = [self.pan translationInView:self.targetView];
-        onGesturePan(trans.x, trans.y);
-    }
-}
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
-{
-    if (gestureRecognizer == self.swip) {
-        return true;
-    }
-    else if (gestureRecognizer == self.pinch) {
-        return true;
-    }
-    else if (gestureRecognizer == self.pan) {
-        return true;
-    }
-    
-    return false;
-}
-
-@end
-#endif /* __OBJC__ */
 
 MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight)
 {
@@ -214,6 +139,82 @@ const char* MCFileCopyContent(const char* filename, const char* extention)
     return buffer;
 }
 
+
+#ifdef __OBJC__
+@implementation UIEventHandler
+
+//using ARC no need to release members
+-(instancetype)init
+{
+    if ([super init]) {
+        //gesture
+        self.swip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwip:)];
+        self.swip.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;
+        self.swip.delegate = self;
+        
+        self.pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(onPinch:)];
+        self.pinch.delegate = self;
+        
+        self.pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+        self.pan.delegate = self;
+        
+        return self;
+    }else{
+        return nil;
+    }
+}
+
+- (void) onButtonClicked:(id)sender
+{
+    UIButton* btn = (UIButton*)sender;
+    if (onButtonClickMsg.address) {
+        _push_jump(onButtonClickMsg, (MCInt)btn.tag);
+    }
+}
+
+- (void)onSwip:(id)sender
+{
+    if (sender == self.swip) {
+        onGestureSwip();
+    }
+}
+
+- (void)onPinch:(id)sender
+{
+    if (sender == self.pinch) {
+        if (self.pinch.velocity > 0) {
+            onGesturePinch(-self.pinch.scale);
+        }else{
+            onGesturePinch(self.pinch.scale);
+        }
+    }
+}
+
+- (void)onPan:(id)sender
+{
+    if (sender == self.pan) {
+        CGPoint trans = [self.pan translationInView:self.targetView];
+        onGesturePan(trans.x, trans.y);
+    }
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer == self.swip) {
+        return true;
+    }
+    else if (gestureRecognizer == self.pinch) {
+        return true;
+    }
+    else if (gestureRecognizer == self.pan) {
+        return true;
+    }
+    
+    return false;
+}
+
+@end
+#endif /* __OBJC__ */
 
 
 
