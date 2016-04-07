@@ -33,7 +33,7 @@ oninit(UILayer)
     return obj;
 }
 
-public(UILayer, UILayer*, initWithScreenSize, unsigned width, unsigned height)
+method(UILayer, UILayer*, initWithScreenSize, unsigned width, unsigned height)
 {
     var(width) = width;
     var(height) = height;
@@ -55,7 +55,7 @@ public(UILayer, UILayer*, initWithScreenSize, unsigned width, unsigned height)
     return obj;
 }
 
-public(UILayer, void, onFrameRenderFinished, MCUInt fps)
+method(UILayer, void, onFrameRenderFinished, MCUInt fps)
 {
     char buff[100];
     sprintf(buff, "FPS:%d", fps);
@@ -63,8 +63,8 @@ public(UILayer, void, onFrameRenderFinished, MCUInt fps)
     
 }
 
-//public(MainScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
-public(UILayer, void, onButtonClicked, MCInt tag)
+//method(MainScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
+method(UILayer, void, onButtonClicked, MCInt tag)
 {
     MCCamera* cam = ff(obj, getCamera, 0);
     
@@ -109,9 +109,9 @@ public(UILayer, void, onButtonClicked, MCInt tag)
 onload(UILayer)
 {
     if (load(MCObject)) {
-        pub(UILayer, void, onFrameRenderFinished, MCUInt fps);
-        pub(UILayer, void, onButtonClicked, MCInt tag);
-        pub(UILayer, UILayer*, initWithScreenSize, double width, double height);
+        binding(UILayer, void, onFrameRenderFinished, MCUInt fps);
+        binding(UILayer, void, onButtonClicked, MCInt tag);
+        binding(UILayer, UILayer*, initWithScreenSize, double width, double height);
         return cla;
     }else{
         return mull;

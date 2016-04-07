@@ -47,22 +47,22 @@ typedef enum {
     MCFileCreateAtomic = O_CREAT | O_EXCL
 } MCFileOpenType;
 
-public(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
-public(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname);
+method(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
+method(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname);
 
-public(MCFile, size_t, readAllFromBegin, off_t offset);
-public(MCFile, size_t, readFromBegin, off_t offset, size_t nbytes);
-public(MCFile, size_t, readAtLastPosition, off_t offset, size_t nbytes);
-public(MCFile, size_t, readFromEnd, off_t offset, size_t nbytes);
-public(MCFile, size_t, writeToBegin, off_t offset, void* buf, size_t nbytes);
-public(MCFile, size_t, writeToLastTime, off_t offset, void* buf, size_t nbytes);
-public(MCFile, size_t, writeToEnd, off_t offset, void* buf, size_t nbytes);
+method(MCFile, size_t, readAllFromBegin, off_t offset);
+method(MCFile, size_t, readFromBegin, off_t offset, size_t nbytes);
+method(MCFile, size_t, readAtLastPosition, off_t offset, size_t nbytes);
+method(MCFile, size_t, readFromEnd, off_t offset, size_t nbytes);
+method(MCFile, size_t, writeToBegin, off_t offset, void* buf, size_t nbytes);
+method(MCFile, size_t, writeToLastTime, off_t offset, void* buf, size_t nbytes);
+method(MCFile, size_t, writeToEnd, off_t offset, void* buf, size_t nbytes);
 
-public(MCFile, int, duplicateFd, voida);
-public(MCFile, int, duplicateFdTo, int fd);
-public(MCFile, void, printAttribute, voida);
-public(MCFile, void, bye, voida);
-public(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
+method(MCFile, int, duplicateFd, voida);
+method(MCFile, int, duplicateFdTo, int fd);
+method(MCFile, void, printAttribute, voida);
+method(MCFile, void, bye, voida);
+method(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
 /*
 R_OK
 W_OK
@@ -131,30 +131,30 @@ class(MCStream, MCObject,
     char**       lineArray;
 );
 
-public(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path);
-public(MCStream, MCStream*, initWithPathDefaultType, const char* path);
+method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path);
+method(MCStream, MCStream*, initWithPathDefaultType, const char* path);
 
-public(MCStream, void, bye, voida);
-public(MCStream, int, getFileDescriptor, voida);
+method(MCStream, void, bye, voida);
+method(MCStream, int, getFileDescriptor, voida);
 
-public(MCStream, int, getChar, voida);
-public(MCStream, int, putChar, int charCode);
-public(MCStream, int, pushbackChar, int charCodeToBePushBack);
+method(MCStream, int, getChar, voida);
+method(MCStream, int, putChar, int charCode);
+method(MCStream, int, pushbackChar, int charCodeToBePushBack);
 
-public(MCStream, char*, getCString, MCCharBuffer* recvBuffer);
-public(MCStream, char*, putCString, MCCharBuffer* sendBuffer);
-public(MCStream, MCString*, getMCString, voida);
-public(MCStream, int, putMCString, MCString* str);
+method(MCStream, char*, getCString, MCCharBuffer* recvBuffer);
+method(MCStream, char*, putCString, MCCharBuffer* sendBuffer);
+method(MCStream, MCString*, getMCString, voida);
+method(MCStream, int, putMCString, MCString* str);
 
-public(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs);
-public(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs);
+method(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs);
+method(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs);
 
-public(MCStream, off_t, tellOffset, voida);
-public(MCStream, int, seekFromBegin, off_t offset);
-public(MCStream, int, seekFromCurrent, off_t offset);
-public(MCStream, int, seekFromEnd, off_t offset);
-public(MCStream, long, tellSize, voida);
-public(MCStream, void, dump, voida);
+method(MCStream, off_t, tellOffset, voida);
+method(MCStream, int, seekFromBegin, off_t offset);
+method(MCStream, int, seekFromCurrent, off_t offset);
+method(MCStream, int, seekFromEnd, off_t offset);
+method(MCStream, long, tellSize, voida);
+method(MCStream, void, dump, voida);
 
 #endif
 
@@ -166,8 +166,8 @@ public(MCStream, void, dump, voida);
 class(MCByteStream, MCStream,
 );
 
-public(MCByteStream, void, bye, voida);
-public(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
+method(MCByteStream, void, bye, voida);
+method(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
 
 #endif
 
@@ -179,7 +179,7 @@ public(MCByteStream, MCByteStream*, newWithPath, MCStreamType type, char* path);
 class(MCStdinStream, MCStream,
 );
 
-public(MCStdinStream, void, bye, voida);
+method(MCStdinStream, void, bye, voida);
 #endif
 
 /* MCStdoutStream */
@@ -190,7 +190,7 @@ public(MCStdinStream, void, bye, voida);
 class(MCStdoutStream, MCStream,
 );
 
-public(MCStdoutStream, void, bye, voida);
+method(MCStdoutStream, void, bye, voida);
 #endif
 
 /* MCStderrStream */
@@ -201,7 +201,7 @@ public(MCStdoutStream, void, bye, voida);
 class(MCStdoutStream, MCStream,
 );
 
-public(MCStdoutStream, void, bye);
+method(MCStdoutStream, void, bye);
 #endif
 
 #ifndef MCStderrStream_
@@ -210,7 +210,7 @@ public(MCStdoutStream, void, bye);
 class(MCStderrStream, MCStream,
 );
 
-public(MCStderrStream, void, bye, voida);
+method(MCStderrStream, void, bye, voida);
 #endif
 
 /* MCSelect */
@@ -234,11 +234,11 @@ class(MCSelect, MCObject,
 	fd_set exceptionfd_result_set;
 	struct timeval timeout);
 
-public(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
-public(MCSelect, int, waitForFdsetChange, voida);
-public(MCSelect, void, addFd, MCSelect_fd_type type, int fd);
-public(MCSelect, void, removeFd, MCSelect_fd_type type, int fd);
-public(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);
+method(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
+method(MCSelect, int, waitForFdsetChange, voida);
+method(MCSelect, void, addFd, MCSelect_fd_type type, int fd);
+method(MCSelect, void, removeFd, MCSelect_fd_type type, int fd);
+method(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);
 
 #endif
 

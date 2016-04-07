@@ -9,7 +9,7 @@
 #include "Testbed.h"
 
 //static void test(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGeneric arg3, MCLongLong arg4, MCPtr arg5, MCFuncPtr arg6)
-//static void testpublic(mc_message_arg(MCObject), ...)
+//static void testmethod(mc_message_arg(MCObject), ...)
 //{
 //    char c = arg1;
 //    double f = arg3.mcdouble.d;

@@ -18,8 +18,9 @@ oninit(MCNode)
     }
 }
 
-private(MCNode, void*, access, const char* varname)
+function(void*, access, const char* varname)
 {
+    varscope(MCNode);
     if (SEQ(S(frame),    varname)) return addrof(obj->frame);
     if (SEQ(S(anchor),   varname)) return addrof(obj->anchor);
     if (SEQ(S(position), varname)) return addrof(obj->position);
@@ -29,32 +30,33 @@ private(MCNode, void*, access, const char* varname)
     return varp;
 }
 
-private(MCNode, void, onTouchEvent, MCPoint point)
+function(void, onTouchEvent, MCPoint point)
 {
+    varscope(MCNode);
     if(mc_rect_contains(addrof(obj->frame), point)) {
         var(color) = mc_color_mix(obj->color, mc_color(128,0,0));
     }
 }
 
-public(MCNode, void, bye, voida)
+method(MCNode, void, bye, voida)
 {
     //clean up
     release(var(children));
 }
 
-public(MCNode, MCNode*, initWithFrame, MCRect frame)
+method(MCNode, MCNode*, initWithFrame, MCRect frame)
 {
     var(frame) = frame;
     return obj;
 }
 
-public(MCNode, MCNode*, initWithSize, MCSize size)
+method(MCNode, MCNode*, initWithSize, MCSize size)
 {
     var(frame) = mc_rect(0, 0, size.width, size.height);
     return obj;
 }
 
-public(MCNode, MCNode*, addChild, MCNode* child)
+method(MCNode, MCNode*, addChild, MCNode* child)
 {
     retain(child);
     child->parent = obj;
@@ -82,7 +84,7 @@ static inline MCRect calculate_drawframe(MCNode* obj)
 }
 */
 
-public(MCNode, void, draw, voida)
+method(MCNode, void, draw, voida)
 {
     //draw self
     //MCRect drawframe = calculate_drawframe(obj);
@@ -106,11 +108,11 @@ onload(MCNode)
     if (load(MCObject)) {
         #include "MCAccessble.h"
         #include "MCTouchble.h"
-        pub(MCNode, void, bye);
-        pub(MCNode, MCNode*, initWithFrame, MCRect frame);
-        pub(MCNode, MCNode*, initWithSize, MCSize size);
-        pub(MCNode, MCNode*, addChild, MCNode* child);
-        pub(MCNode, void, draw);
+        binding(MCNode, void, bye);
+        binding(MCNode, MCNode*, initWithFrame, MCRect frame);
+        binding(MCNode, MCNode*, initWithSize, MCSize size);
+        binding(MCNode, MCNode*, addChild, MCNode* child);
+        binding(MCNode, void, draw);
         return cla;
     }else{
         return mull;

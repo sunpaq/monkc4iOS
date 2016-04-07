@@ -26,16 +26,16 @@ oninit(MC3DNode)
     }
 }
 
-public(MC3DNode, void, bye, voida)
+method(MC3DNode, void, bye, voida)
 {
     int count = MC3DNode_childCount(0, obj, 0);
     for (int i=0; i<count-1; i++) {
         ff(obj->children[i], bye, 0);
     }
-    MCObject_bye(0, superobj, 0);
+    MCObject_bye(0, sobj, 0);
 }
 
-public(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
+method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
 {
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
         if (obj->children[i] == mull) {
@@ -48,13 +48,13 @@ public(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
     return MC3DErrChildrenFull;
 }
 
-public(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child)
+method(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child)
 {
     child->visible = MCFalse;
     return MC3DSuccess;
 }
 
-public(MC3DNode, void, cleanUnvisibleChild, voida)
+method(MC3DNode, void, cleanUnvisibleChild, voida)
 {
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
         MC3DNode* node = obj->children[i];
@@ -65,14 +65,14 @@ public(MC3DNode, void, cleanUnvisibleChild, voida)
     }
 }
 
-public(MC3DNode, int, childCount, voida)
+method(MC3DNode, int, childCount, voida)
 {
     size_t arraySize = sizeof(obj->children);
     size_t nodeSize = sizeof(MC3DNode*);
     return ((int)(arraySize / nodeSize));
 }
 
-public(MC3DNode, MC3DNode*, childCarousel, voida)
+method(MC3DNode, MC3DNode*, childCarousel, voida)
 {
     static MCUInt lastIndex = 0;
     int count = MC3DNode_childCount(0, obj, 0);
@@ -90,7 +90,7 @@ public(MC3DNode, MC3DNode*, childCarousel, voida)
     return mull;
 }
 
-public(MC3DNode, void, setAllVisible, MCBool visible)
+method(MC3DNode, void, setAllVisible, MCBool visible)
 {
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
         MC3DNode* node = obj->children[i];
@@ -100,7 +100,7 @@ public(MC3DNode, void, setAllVisible, MCBool visible)
     }
 }
 
-public(MC3DNode, void, update, MCGLContext* ctx)
+method(MC3DNode, void, update, MCGLContext* ctx)
 {
     //material
     if (obj->material != mull) {
@@ -126,7 +126,7 @@ public(MC3DNode, void, update, MCGLContext* ctx)
     }
 }
 
-public(MC3DNode, void, draw, MCGLContext* ctx)
+method(MC3DNode, void, draw, MCGLContext* ctx)
 {
     //draw self
     for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
@@ -145,12 +145,12 @@ public(MC3DNode, void, draw, MCGLContext* ctx)
     }
 }
 
-public(MC3DNode, void, hide, voida)
+method(MC3DNode, void, hide, voida)
 {
     var(visible) = MCFalse;
 }
 
-public(MC3DNode, void, show, voida)
+method(MC3DNode, void, show, voida)
 {
     var(visible) = MCTrue;
 }
@@ -158,17 +158,17 @@ public(MC3DNode, void, show, voida)
 onload(MC3DNode)
 {
     if (load(MCObject)) {
-        pub(MC3DNode, void, bye, voida);
-        pub(MC3DNode, void, addChild, MC3DNode* child);
-        pub(MC3DNode, void, removeChild, MC3DNode* child);
-        pub(MC3DNode, void, cleanUnvisibleChild, voida);
-        pub(MC3DNode, int, childCount, voida);
-        pub(MC3DNode, MC3DNode*, childCarousel, voida);
-        pub(MC3DNode, void, setAllVisible, MCBool visible);
-        pub(MC3DNode, void, update, voida);
-        pub(MC3DNode, void, draw, voida);
-        pub(MC3DNode, void, hide, voida);
-        pub(MC3DNode, void, show, voida);
+        binding(MC3DNode, void, bye, voida);
+        binding(MC3DNode, void, addChild, MC3DNode* child);
+        binding(MC3DNode, void, removeChild, MC3DNode* child);
+        binding(MC3DNode, void, cleanUnvisibleChild, voida);
+        binding(MC3DNode, int, childCount, voida);
+        binding(MC3DNode, MC3DNode*, childCarousel, voida);
+        binding(MC3DNode, void, setAllVisible, MCBool visible);
+        binding(MC3DNode, void, update, voida);
+        binding(MC3DNode, void, draw, voida);
+        binding(MC3DNode, void, hide, voida);
+        binding(MC3DNode, void, show, voida);
         return cla;
     }else{
         return mull;

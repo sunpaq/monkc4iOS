@@ -212,7 +212,7 @@ _mc_atomic_set_pointer:
 /*
 infos about ARM 32 platform:
 
-stack-align: 	public(8byte) non-public(4byte)
+stack-align: 	method(8byte) non-method(4byte)
 frame-pointer:  fp is r11 in ARM mode / r7 in thumb mode
 keep-fp:		-mapcs-frame will keep the fp not to be optimized out
 
@@ -278,7 +278,7 @@ _mc_atomic_set_pointer:
 /*
 infos about ARM 64 platform:
 
-stack-align: 	public(16byte) non-public(16byte)
+stack-align: 	public (16byte) non-public (16byte)
 frame-pointer: 	fp is r11 in ARM mode / r7 in thumb mode
 keep-fp:		-mapcs-frame will keep the fp not to be optimized out
 

@@ -10,30 +10,30 @@ class(MCClock, MCObject,
       char* currentGMTBuff[50];
 );
 
-public(MCClock, MCClock*, setTimeToNow, voida);
-public(MCClock, void, setTime, int tm_sec, int tm_min, int tm_hour, 
+method(MCClock, MCClock*, setTimeToNow, voida);
+method(MCClock, void, setTime, int tm_sec, int tm_min, int tm_hour, 
 						 int tm_mday, int tm_mon, int tm_year,
 						 int tm_wday);
-public(MCClock, void, adjustTime, int tm_sec, int tm_min, int tm_hour, 
+method(MCClock, void, adjustTime, int tm_sec, int tm_min, int tm_hour, 
                             int tm_mday, int tm_mon, int tm_year,
                             int tm_wday);
 
-public(MCClock, void, setRawtime, struct tm rawtime_in);
-public(MCClock, void, setRawtimeFields, int tm_sec, int tm_min, int tm_hour, 
+method(MCClock, void, setRawtime, struct tm rawtime_in);
+method(MCClock, void, setRawtimeFields, int tm_sec, int tm_min, int tm_hour, 
 							      int tm_mday, int tm_mon, int tm_year,
 							      int tm_wday, int tm_yday, int tm_isdst);
 
-public(MCClock, void, getTime, time_t* const result);
-public(MCClock, void, getRawtime, struct tm* const result);
-public(MCClock, char*, getTimeByString, voida);
-public(MCClock, void, getCPUClocksPerSecond, clock_t* const result);
-public(MCClock, void, getCPUClocksSinceStart, clock_t* const result);
-public(MCClock, char*, getCurrentTimeString, voida);//retrun the same format as asctime: Sun Sep 16 01:03:52 1973\n\0
-public(MCClock, char*, getCurrentGMTTimeString, voida);
+method(MCClock, void, getTime, time_t* const result);
+method(MCClock, void, getRawtime, struct tm* const result);
+method(MCClock, char*, getTimeByString, voida);
+method(MCClock, void, getCPUClocksPerSecond, clock_t* const result);
+method(MCClock, void, getCPUClocksSinceStart, clock_t* const result);
+method(MCClock, char*, getCurrentTimeString, voida);//retrun the same format as asctime: Sun Sep 16 01:03:52 1973\n\0
+method(MCClock, char*, getCurrentGMTTimeString, voida);
 
-public(MCClock, void, printTime, voida);
-public(MCClock, void, printCurrentTime, voida);
-public(MCClock, void, printCurrentGMTTime, voida);
+method(MCClock, void, printTime, voida);
+method(MCClock, void, printCurrentTime, voida);
+method(MCClock, void, printCurrentGMTTime, voida);
 
 char* MCClock_rawtime2String(time_t* timeval);
 char* MCClock_settableTime2String(struct tm *tm);

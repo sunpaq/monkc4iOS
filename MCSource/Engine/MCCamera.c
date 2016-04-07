@@ -1,7 +1,7 @@
 #include "MCCamera.h"
 
-compute(MCCamera, MCMatrix4, mvproj);
-compute(MCCamera, MCMatrix3, normal);
+compute(MCMatrix4, mvproj);
+compute(MCMatrix3, normal);
 
 oninit(MCCamera)
 {
@@ -20,27 +20,29 @@ oninit(MCCamera)
         var(tht) = 60;
         var(fai) = 45;
         
-        com(MCCamera, MCMatrix4, mvproj);
-        com(MCCamera, MCMatrix3, normal);
+        var(mvproj) = mvproj;
+        var(normal) = normal;
         return obj;
     }else{
         return mull;
     }
 }
 
-compute(MCCamera, MCMatrix4, mvproj)
+compute(MCMatrix4, mvproj)
 {
+    varscope(MCCamera);
     MCMatrix4 mvp = MCMatrix4Multiply(var(projectionMatrix), var(modelViewMatrix));
     return mvp;
 }
 
-compute(MCCamera, MCMatrix3, normal)
+compute(MCMatrix3, normal)
 {
+    varscope(MCCamera);
     MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(obj->modelViewMatrix), NULL);
     return nor;
 }
 
-public(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height)
+method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height)
 {
     //setting camera
     obj->ratio = MCRatioMake(width, height);
@@ -48,13 +50,14 @@ public(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height
     return obj;
 }
 
-public(MCCamera, void, reset, voida)
+method(MCCamera, void, reset, voida)
 {
     init(MCCamera);
 }
 
-private(MCCamera, void, updatePosition, MCVector3* result)
+function(void, updatePosition, MCVector3* result)
 {
+    varscope(MCCamera);
     var(currentPosition) = MCWorldCoorFromLocal(MCVertexFromSpherical(var(R), var(tht), var(fai)), var(lookat));
     if (result != mull) {
         result->x = var(currentPosition).x;
@@ -63,16 +66,18 @@ private(MCCamera, void, updatePosition, MCVector3* result)
     }
 }
 
-private(MCCamera, void, updateRatioFocalDistance, voida)
+function(void, updateRatioFocalDistance, voida)
 {
+    varscope(MCCamera);
     var(projectionMatrix) = MCMatrix4MakePerspective(MCDegreesToRadians(obj->view_angle),
                                                      var(ratio),
                                                      var(focal_length),
                                                      var(max_distance));
 }
 
-private(MCCamera, void, updateLookat, voida)
+function(void, updateLookat, voida)
 {
+    varscope(MCCamera);
     MCVector3 modelpos = var(lookat);
     MCVector3 eyelocal = MCVertexFromSpherical(var(R), var(tht), var(fai));
     MCVector3 eye = MCWorldCoorFromLocal(eyelocal, modelpos);
@@ -96,17 +101,17 @@ private(MCCamera, void, updateLookat, voida)
 }
 
 //override
-public(MCCamera, void, update, MCGLContext* ctx)
+method(MCCamera, void, update, MCGLContext* ctx)
 {
     updateRatioFocalDistance(0, obj, 0);
     updatePosition(0, obj, mull);
     updateLookat(0, obj, 0);
     
-    MCGLContext_setUniformMatrix4(0, ctx, "modelViewProjectionMatrix", computevar(mvproj).m);
-    MCGLContext_setUniformMatrix3(0, ctx, "normalMatrix", computevar(normal).m);
+    MCGLContext_setUniformMatrix4(0, ctx, "modelViewProjectionMatrix", cvar(mvproj).m);
+    MCGLContext_setUniformMatrix3(0, ctx, "normalMatrix", cvar(normal).m);
 }
 
-public(MCCamera, void, move, double deltaFai, double deltaTht)
+method(MCCamera, void, move, double deltaFai, double deltaTht)
 {
     obj->fai = obj->fai + deltaFai;   //Left
     obj->tht = obj->tht + deltaTht;   //Up
@@ -119,12 +124,12 @@ public(MCCamera, void, move, double deltaFai, double deltaTht)
 onload(MCCamera)
 {
     if (load(MCObject)) {
-        pri(MCCamera, void, updatePosition, MCVertex* result);
-        pri(MCCamera, void, updateRatioFocalDistance);
-        pri(MCCamera, void, updateLookat);
+        mixing(void, updatePosition, MCVertex* result);
+        mixing(void, updateRatioFocalDistance);
+        mixing(void, updateLookat);
         
-        pub(MCCamera, void, reset, MCBool updateOrNot);
-        pub(MCCamera, void, update);
+        binding(MCCamera, void, reset, MCBool updateOrNot);
+        binding(MCCamera, void, update);
         return cla;
     }else{
         return mull;

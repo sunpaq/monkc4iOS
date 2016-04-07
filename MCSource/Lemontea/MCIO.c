@@ -100,7 +100,7 @@ oninit(MCFile)
     }
 }
 
-public(MCFile, MCFile*, initWithPathName, char* pathname, int oflag)
+method(MCFile, MCFile*, initWithPathName, char* pathname, int oflag)
 {
 	if((obj->fd = open(pathname, oflag, 0774))==-1)
 		return mull;
@@ -111,65 +111,65 @@ public(MCFile, MCFile*, initWithPathName, char* pathname, int oflag)
 	return obj;
 }
 
-public(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname)
+method(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname)
 {
     return MCFile_initWithPathName(address, obj, pathname, MCFileReadWriteTrunc);
 }
 
-public(MCFile, size_t, readAllFromBegin, off_t offset)
+method(MCFile, size_t, readAllFromBegin, off_t offset)
 {
     return MCFile_readFromBegin(0, obj, offset, var(attribute.st_size));
 }
 
-public(MCFile, size_t, readFromBegin, off_t offset, size_t nbytes)
+method(MCFile, size_t, readFromBegin, off_t offset, size_t nbytes)
 {
     //use pread/pwrite for atomic operation
     return pread(obj->fd, obj->buffer, nbytes, offset);
 }
 
-public(MCFile, size_t, readAtLastPosition, off_t offset, size_t nbytes)
+method(MCFile, size_t, readAtLastPosition, off_t offset, size_t nbytes)
 {
     return pread(obj->fd, obj->buffer, nbytes, offset);
 }
 
-public(MCFile, size_t, readFromEnd, off_t offset, size_t nbytes)
+method(MCFile, size_t, readFromEnd, off_t offset, size_t nbytes)
 {
     return pread(obj->fd, obj->buffer, nbytes, offset);
 }
 
-public(MCFile, size_t, writeToBegin, off_t offset, void* buf, size_t nbytes)
+method(MCFile, size_t, writeToBegin, off_t offset, void* buf, size_t nbytes)
 {
     return pwrite(obj->fd, buf, nbytes, offset);
 }
 
-public(MCFile, size_t, writeToLastTime, off_t offset, void* buf, size_t nbytes)
+method(MCFile, size_t, writeToLastTime, off_t offset, void* buf, size_t nbytes)
 {
     return pwrite(obj->fd, buf, nbytes, offset);
 }
 
-public(MCFile, size_t, writeToEnd, off_t offset, void* buf, size_t nbytes)
+method(MCFile, size_t, writeToEnd, off_t offset, void* buf, size_t nbytes)
 {
     return pwrite(obj->fd, buf, nbytes, offset);
 }
 
-public(MCFile, int, duplicateFd, voida)
+method(MCFile, int, duplicateFd, voida)
 {
     return dup(obj->fd);
 }
 
-public(MCFile, int, duplicateFdTo, int fd)
+method(MCFile, int, duplicateFdTo, int fd)
 {
     return dup2(obj->fd, fd);
 }
 
-public(MCFile, void, bye, voida)
+method(MCFile, void, bye, voida)
 {
     //release obj->buffer
     free(obj->buffer);
     close(obj->fd);
 }
 
-public(MCFile, void, printAttribute, voida)
+method(MCFile, void, printAttribute, voida)
 {
     printf("uid:%d gid:%d size:%lld st_mode:%o lmtime:%s",
            obj->attribute.st_uid,
@@ -179,7 +179,7 @@ public(MCFile, void, printAttribute, voida)
            ctime(&obj->attribute.st_mtime));
 }
 
-public(MCFile, int, checkPermissionUseRealIDOfProcess, int mode)
+method(MCFile, int, checkPermissionUseRealIDOfProcess, int mode)
 {
     int res;
     if ((res = access(obj->pathname, mode)) != -1)
@@ -190,22 +190,22 @@ public(MCFile, int, checkPermissionUseRealIDOfProcess, int mode)
 onload(MCFile)
 {
     if (load(MCObject)) {
-        pub(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
-        pub(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname);
+        binding(MCFile, MCFile*, initWithPathName, char* pathname, int oflag);
+        binding(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname);
         
-        pub(MCFile, size_t, readAllFromBegin, off_t offset);
-        pub(MCFile, int, readFromBegin, off_t offset, size_t nbytes);
-        pub(MCFile, int, readAtLastPosition, off_t offset, size_t nbytes);
-        pub(MCFile, int, readFromEnd, off_t offset, size_t nbytes);
-        pub(MCFile, int, writeToBegin, off_t offset, void* buf, size_t nbytes);
-        pub(MCFile, int, writeToLastTime, off_t offset, void* buf, size_t nbytes);
-        pub(MCFile, int, writeToEnd, off_t offset, void* buf, size_t nbytes);
+        binding(MCFile, size_t, readAllFromBegin, off_t offset);
+        binding(MCFile, int, readFromBegin, off_t offset, size_t nbytes);
+        binding(MCFile, int, readAtLastPosition, off_t offset, size_t nbytes);
+        binding(MCFile, int, readFromEnd, off_t offset, size_t nbytes);
+        binding(MCFile, int, writeToBegin, off_t offset, void* buf, size_t nbytes);
+        binding(MCFile, int, writeToLastTime, off_t offset, void* buf, size_t nbytes);
+        binding(MCFile, int, writeToEnd, off_t offset, void* buf, size_t nbytes);
         
-        pub(MCFile, int, duplicateFd);
-        pub(MCFile, int, duplicateFdTo, int fd);
-        pub(MCFile, void, printAttribute);
-        pub(MCFile, void, bye);
-        pub(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
+        binding(MCFile, int, duplicateFd);
+        binding(MCFile, int, duplicateFdTo, int fd);
+        binding(MCFile, void, printAttribute);
+        binding(MCFile, void, bye);
+        binding(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
         return cla;
     }else{
         return mull;
@@ -226,7 +226,7 @@ oninit(MCStream)
     }
 }
 
-public(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
+method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
 {
     //FILE *fopen(const char *restrict pathname, const char *restrict type);
     //type:
@@ -276,12 +276,12 @@ public(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
     return obj;
 }
 
-public(MCStream, MCStream*, initWithPathDefaultType, const char* path)
+method(MCStream, MCStream*, initWithPathDefaultType, const char* path)
 {
     return MCStream_initWithPath(0, obj, MakeMCStreamType(MCStreamBuf_FullBuffered, MCStreamOpen_ReadWrite), path);
 }
 
-public(MCStream, void, bye, voida)
+method(MCStream, void, bye, voida)
 {
     //0=OK/EOF=ERROR
     if(fclose(obj->fileObject))
@@ -290,85 +290,85 @@ public(MCStream, void, bye, voida)
     
 }
 
-public(MCStream, int, getFileDescriptor, voida)
+method(MCStream, int, getFileDescriptor, voida)
 {
     return fileno(obj->fileObject);
 }
 
-public(MCStream, int, getChar, voida)
+method(MCStream, int, getChar, voida)
 {
     return fgetc(obj->fileObject);
 }
 
-public(MCStream, int, putChar, int charCode)
+method(MCStream, int, putChar, int charCode)
 {
     return fputc(charCode, obj->fileObject);
 }
 
-public(MCStream, int, pushbackChar, int charCodeToBePushBack)
+method(MCStream, int, pushbackChar, int charCodeToBePushBack)
 {
     return ungetc(charCodeToBePushBack, obj->fileObject);
 }
 
-public(MCStream, char*, getCString, MCCharBuffer* recvBuffer)
+method(MCStream, char*, getCString, MCCharBuffer* recvBuffer)
 {
     fgets(recvBuffer->data, cast(int, recvBuffer->size), obj->fileObject);
     return recvBuffer->data;
 }
 
-public(MCStream, char*, putCString, MCCharBuffer* sendBuffer)
+method(MCStream, char*, putCString, MCCharBuffer* sendBuffer)
 {
     fputs(sendBuffer->data, obj->fileObject);
     return sendBuffer->data;
 }
 
-public(MCStream, MCString*, getMCString, voida)
+method(MCStream, MCString*, getMCString, voida)
 {
     char buff[1024];
     fgets(buff, sizeof(buff), obj->fileObject);
     return ff(new(MCString), initWithCString, &buff[0]);
 }
 
-public(MCStream, int, putMCString, MCString* str)
+method(MCStream, int, putMCString, MCString* str)
 {
     return fputs(str->buff, obj->fileObject);
 }
 
-public(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs)
+method(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs)
 {
     //size_t fread(void *restrict ptr, size_t size, size_t nobj, FILE *restrict fp);
     return fread(recvBuffer, objectSize, numberOfObjs, obj->fileObject);
 }
 
-public(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs)
+method(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs)
 {
     //size_t fwrite(const void *restrict ptr, size_t size, size_t nobj, FILE *restrict fp);
     return fwrite(sendBuffer, objectSize, numberOfObjs, obj->fileObject);
 }
 
-public(MCStream, off_t, tellOffset, voida)
+method(MCStream, off_t, tellOffset, voida)
 {
     //off_t ftello(FILE *fp);
     return ftello(obj->fileObject);
 }
 
-public(MCStream, int, seekFromBegin, off_t offset)
+method(MCStream, int, seekFromBegin, off_t offset)
 {
     //int fseeko(FILE *fp, off_t offset, int whence);//SEEK_SET/SEEK_CUR/SEEK_END
     return fseeko(obj->fileObject, offset, SEEK_SET);
 }
 
-public(MCStream, int, seekFromCurrent, off_t offset)
+method(MCStream, int, seekFromCurrent, off_t offset)
 {
     return fseeko(obj->fileObject, offset, SEEK_CUR);
 }
 
-public(MCStream, int, seekFromEnd, off_t offset)
+method(MCStream, int, seekFromEnd, off_t offset)
 {
     return fseeko(obj->fileObject, offset, SEEK_END);
 }
 
-public(MCStream, long, tellSize, voida)
+method(MCStream, long, tellSize, voida)
 {
     fseek(var(fileObject), 0, SEEK_END);
     long size = ftell(var(fileObject));
@@ -376,7 +376,7 @@ public(MCStream, long, tellSize, voida)
     return size;
 }
 
-public(MCStream, void, dump, voida)
+method(MCStream, void, dump, voida)
 {
     int i;
     for (i=0; i<obj->lineCount; i++) {
@@ -387,30 +387,30 @@ public(MCStream, void, dump, voida)
 onload(MCStream)
 {
     if (load(MCObject)) {
-        pub(MCStream, MCStream*, initWithPath, MCStreamType type, char* path);
-        pub(MCStream, MCStream*, initWithPathDefaultType, const char* path);
+        binding(MCStream, MCStream*, initWithPath, MCStreamType type, char* path);
+        binding(MCStream, MCStream*, initWithPathDefaultType, const char* path);
         
-        pub(MCStream, void, bye);
-        pub(MCStream, int, getFileDescriptor);
+        binding(MCStream, void, bye);
+        binding(MCStream, int, getFileDescriptor);
         
-        pub(MCStream, int, getChar);
-        pub(MCStream, int, putChar, int charCode);
-        pub(MCStream, int, pushbackChar, int charCodeToBePushBack);
+        binding(MCStream, int, getChar);
+        binding(MCStream, int, putChar, int charCode);
+        binding(MCStream, int, pushbackChar, int charCodeToBePushBack);
         
-        pub(MCStream, char*, getCString, MCCharBuffer* recvBuffer);
-        pub(MCStream, char*, putCString, MCCharBuffer* sendBuffer);
-        pub(MCStream, MCString*, getMCString);
-        pub(MCStream, MCString*, putMCString, MCString* str);
+        binding(MCStream, char*, getCString, MCCharBuffer* recvBuffer);
+        binding(MCStream, char*, putCString, MCCharBuffer* sendBuffer);
+        binding(MCStream, MCString*, getMCString);
+        binding(MCStream, MCString*, putMCString, MCString* str);
         
-        pub(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs);
-        pub(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs);
+        binding(MCStream, size_t, getBianryObject, void* recvBuffer,  size_t objectSize, size_t numberOfObjs);
+        binding(MCStream, size_t, putBianryObject, void* sendBuffer,  size_t objectSize, size_t numberOfObjs);
         
-        pub(MCStream, off_t, tellOffset);
-        pub(MCStream, int, seekFromBegin, off_t offset);
-        pub(MCStream, int, seekFromCurrent, off_t offset);
-        pub(MCStream, int, seekFromEnd, off_t offset);
-        pub(MCStream, size_t, tellSize, voida);
-        pub(MCStream, void, dump, voida);
+        binding(MCStream, off_t, tellOffset);
+        binding(MCStream, int, seekFromBegin, off_t offset);
+        binding(MCStream, int, seekFromCurrent, off_t offset);
+        binding(MCStream, int, seekFromEnd, off_t offset);
+        binding(MCStream, size_t, tellSize, voida);
+        binding(MCStream, void, dump, voida);
         
         return cla;
     }else{
@@ -436,7 +436,7 @@ oninit(MCSelect)
     }
 }
 
-public(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond)
+method(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond)
 {
     //timeout.tv_sec
     //timeout.tv_usec
@@ -445,7 +445,7 @@ public(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond)
     return;
 }
 
-public(MCSelect, int, waitForFdsetChange, voida)
+method(MCSelect, int, waitForFdsetChange, voida)
 {
     obj->readfd_result_set = obj->readfd_set;
     obj->writefd_result_set = obj->writefd_set;
@@ -458,7 +458,7 @@ public(MCSelect, int, waitForFdsetChange, voida)
                   (obj->timeout.tv_usec==0 && obj->timeout.tv_sec==0)? NULL : &obj->timeout);
 }
 
-public(MCSelect, void, addFd, MCSelect_fd_type type, int fd)
+method(MCSelect, void, addFd, MCSelect_fd_type type, int fd)
 {
     if(fd > obj->maxfd) obj->maxfd = fd;
     switch(type){
@@ -474,7 +474,7 @@ public(MCSelect, void, addFd, MCSelect_fd_type type, int fd)
     }
 }
 
-public(MCSelect, void, removeFd, MCSelect_fd_type type, int fd)
+method(MCSelect, void, removeFd, MCSelect_fd_type type, int fd)
 {
     switch(type){
         case MCSelect_Readfd:
@@ -489,7 +489,7 @@ public(MCSelect, void, removeFd, MCSelect_fd_type type, int fd)
     }
 }
 
-public(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd)
+method(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd)
 {
     switch(type){
         case MCSelect_Readfd:
@@ -507,11 +507,11 @@ public(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd)
 onload(MCSelect)
 {
     if (load(MCObject)) {
-        pub(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
-        pub(MCSelect, int, waitForFdsetChange);
-        pub(MCSelect, void, addFd, MCSelect_fd_type type, int fd);
-        pub(MCSelect, void, removeFd, MCSelect_fd_type type, int fd);
-        pub(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);
+        binding(MCSelect, void, initWithSecondAndMicrosec, long second, long microsecond);
+        binding(MCSelect, int, waitForFdsetChange);
+        binding(MCSelect, void, addFd, MCSelect_fd_type type, int fd);
+        binding(MCSelect, void, removeFd, MCSelect_fd_type type, int fd);
+        binding(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);
         return cla;
     }else{
         return mull;

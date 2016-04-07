@@ -23,11 +23,11 @@ class(MC3DModel, MC3DNode,
       const char* defaultExtension;
 );
 
-public(MC3DModel, void, bye, voida);
-public(MC3DModel, MC3DModel*, initWithFilePath, const char* path);
-public(MC3DModel, MC3DModel*, initWithFileName, const char* name);
-public(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
-public(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color);
+method(MC3DModel, void, bye, voida);
+method(MC3DModel, MC3DModel*, initWithFilePath, const char* path);
+method(MC3DModel, MC3DModel*, initWithFileName, const char* name);
+method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
+method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color);
 
 
 #endif /* MC3DModel_h */

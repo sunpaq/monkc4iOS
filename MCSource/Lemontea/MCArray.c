@@ -14,7 +14,7 @@ oninit(MCArray)
     }
 }
 
-public(MCArray, MCArray*, initWithSize, int size)
+method(MCArray, MCArray*, initWithSize, int size)
 {
 	obj->count = 0;
 	obj->size = size;
@@ -23,15 +23,15 @@ public(MCArray, MCArray*, initWithSize, int size)
 	return obj;
 }
 
-public(MCArray, void, bye, voida)
+method(MCArray, void, bye, voida)
 {
     if (obj->buff != mull) {
         free(obj->buff);
     }
-    MCObject_bye(0, superobj, 0);
+    MCObject_bye(0, sobj, 0);
 }
 
-public(MCArray, MCArray*, clear, voida)
+method(MCArray, MCArray*, clear, voida)
 {
     free(obj->buff);
     return MCArray_initWithSize(0, obj, 10);
@@ -68,7 +68,7 @@ static void delete_item(MCArray* obj, int index)
 	obj->count--;
 }
 
-public(MCArray, MCArray*, addItem, void* item)
+method(MCArray, MCArray*, addItem, void* item)
 {
 	if(obj->indexLast >= obj->size){
 		expand_array(obj);
@@ -77,7 +77,7 @@ public(MCArray, MCArray*, addItem, void* item)
 	return obj;
 }
 
-public(MCArray, MCArray*, addItemToIndex, void* item, int index)
+method(MCArray, MCArray*, addItemToIndex, void* item, int index)
 {
 	if(index >= obj->size){
 		expand_array(obj);
@@ -86,7 +86,7 @@ public(MCArray, MCArray*, addItemToIndex, void* item, int index)
 	return obj;
 }
 
-public(MCArray, MCArray*, removeLastItem, voida)
+method(MCArray, MCArray*, removeLastItem, voida)
 {
 	delete_item(obj, obj->indexLast);
 	return obj;
@@ -97,19 +97,19 @@ static void visitor(mc_message_arg(MCArray), void* eachitem, int index)
 	delete_item(obj, index);
 }
 
-public(MCArray, MCArray*, removeItem, void* item)
+method(MCArray, MCArray*, removeItem, void* item)
 {
     MCArray_visiteEachBy(0, obj, make_msg((mo)obj, visitor));
 	return obj;
 }
 
-public(MCArray, MCArray*, removeItemByIndex, int index)
+method(MCArray, MCArray*, removeItemByIndex, int index)
 {
 	delete_item(obj, index);
 	return obj;
 }
 
-public(MCArray, void*, getItemByIndex, int index)
+method(MCArray, void*, getItemByIndex, int index)
 {
 	return deref(obj->buff)[index];
 }
@@ -118,7 +118,7 @@ public(MCArray, void*, getItemByIndex, int index)
 void example_visitor1(mc_message_arg(MCArray), void* item, int index){}
 void example_visitor2(mc_message_arg(MCArray), void* item, int index, void* data){}
 
-public(MCArray, void, visiteEachBy, mc_message visitorFunction)
+method(MCArray, void, visiteEachBy, mc_message visitorFunction)
 {
 	int i;
 	for(i=0; i<(obj->size); i++){
@@ -130,7 +130,7 @@ public(MCArray, void, visiteEachBy, mc_message visitorFunction)
 	}
 }
 
-public(MCArray, void, visiteEachWithData, mc_message visitorFunction, void* data)
+method(MCArray, void, visiteEachWithData, mc_message visitorFunction, void* data)
 {
 	int i;
 	for(i=0; i<(obj->size); i++){
@@ -145,19 +145,19 @@ public(MCArray, void, visiteEachWithData, mc_message visitorFunction, void* data
 onload(MCArray)
 {
     if (load(MCObject)) {
-        pub(MCArray, MCArray*, initWithSize, int size);
-        pub(MCArray, MCArray*, addItem, void* item);
-        pub(MCArray, MCArray*, addItemToIndex, void* item, int index);
+        binding(MCArray, MCArray*, initWithSize, int size);
+        binding(MCArray, MCArray*, addItem, void* item);
+        binding(MCArray, MCArray*, addItemToIndex, void* item, int index);
         
-        pub(MCArray, MCArray*, removeLastItem);
-        pub(MCArray, MCArray*, removeItem, void* item);
-        pub(MCArray, MCArray*, removeItemByIndex, int index);
-        pub(MCArray, MCArray*, clear);
-        pub(MCArray, void, bye);
+        binding(MCArray, MCArray*, removeLastItem);
+        binding(MCArray, MCArray*, removeItem, void* item);
+        binding(MCArray, MCArray*, removeItemByIndex, int index);
+        binding(MCArray, MCArray*, clear);
+        binding(MCArray, void, bye);
         
-        pub(MCArray, void*, getItemByIndex, int index);
-        pub(MCArray, void, visiteEachBy, mc_message visitorFunction);
-        pub(MCArray, void, visiteEachWithData, lamdafunc visitorFunction, void* data);
+        binding(MCArray, void*, getItemByIndex, int index);
+        binding(MCArray, void, visiteEachBy, mc_message visitorFunction);
+        binding(MCArray, void, visiteEachWithData, lamdafunc visitorFunction, void* data);
         return cla;
     }else{
         return mull;

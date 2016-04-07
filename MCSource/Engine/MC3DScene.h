@@ -31,16 +31,16 @@ class(MC3DScene, MCObject,
       MCClock*      clock;
 );
 
-public(MC3DScene, void, bye, voida);
-public(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
-public(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
-public(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
+method(MC3DScene, void, bye, voida);
+method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
+method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
+method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
 
-public(MC3DScene, void, updateScene, voida);
-public(MC3DScene, void, drawScene, voida);
+method(MC3DScene, void, updateScene, voida);
+method(MC3DScene, void, drawScene, voida);
 
-public(MC3DScene, void, lockCamera, MCBool lock);
-public(MC3DScene, MCCamera*, getCamera, voida);
-public(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht);
+method(MC3DScene, void, lockCamera, MCBool lock);
+method(MC3DScene, MCCamera*, getCamera, voida);
+method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht);
 
 #endif /* MC3DScene_h */

@@ -1,1 +1,1 @@
-pri(MCObject, void, onTouchEvent, MCPoint point);
+mixing(void, onTouchEvent, MCPoint point);

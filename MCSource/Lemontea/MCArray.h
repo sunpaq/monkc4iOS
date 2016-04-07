@@ -10,17 +10,17 @@ class(MCArray, MCObject,
 	void* (*buff)[];
 );
 
-public(MCArray, MCArray*, initWithSize, int size);
-public(MCArray, MCArray*, addItem, void* item);
-public(MCArray, MCArray*, addItemToIndex, void* item, int index);
-public(MCArray, MCArray*, removeLastItem, voida);
-public(MCArray, MCArray*, removeItem, void* item);
-public(MCArray, MCArray*, removeItemByIndex, int index);
-public(MCArray, MCArray*, clear, voida);
-public(MCArray, void, bye, voida);
-public(MCArray, void*, getItemByIndex, int index);
-public(MCArray, void, visiteEachBy, mc_message visitorFunction);
-public(MCArray, void, visiteEachWithData, mc_message visitorFunction, void* data);
+method(MCArray, MCArray*, initWithSize, int size);
+method(MCArray, MCArray*, addItem, void* item);
+method(MCArray, MCArray*, addItemToIndex, void* item, int index);
+method(MCArray, MCArray*, removeLastItem, voida);
+method(MCArray, MCArray*, removeItem, void* item);
+method(MCArray, MCArray*, removeItemByIndex, int index);
+method(MCArray, MCArray*, clear, voida);
+method(MCArray, void, bye, voida);
+method(MCArray, void*, getItemByIndex, int index);
+method(MCArray, void, visiteEachBy, mc_message visitorFunction);
+method(MCArray, void, visiteEachWithData, mc_message visitorFunction, void* data);
 void example_visitor1(mc_message_arg(MCArray), void* item, int index);
 void example_visitor2(mc_message_arg(MCArray), void* item, int index, void* data);
 

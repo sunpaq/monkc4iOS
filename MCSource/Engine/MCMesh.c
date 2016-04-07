@@ -24,13 +24,13 @@ oninit(MCMesh)
     }
 }
 
-public(MCMesh, void, bye, voida)
+method(MCMesh, void, bye, voida)
 {
     glDeleteBuffers(1, &obj->vertexBufferId);
     glDeleteVertexArraysOES(1, &obj->vertexArrayId);
 }
 
-public(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
+method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
 {
     obj->vertexAttribArray[0] = (MCVertexAttribute){MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(0)};
     obj->vertexAttribArray[1] = (MCVertexAttribute){MCVertexAttribNormal,   3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(12)};
@@ -40,7 +40,7 @@ public(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
     return obj;
 }
 
-public(MCMesh, void, prepareMesh, MCGLContext* ctx)
+method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
     //VAO
     glBindVertexArrayOES(obj->vertexArrayId);
@@ -61,7 +61,7 @@ public(MCMesh, void, prepareMesh, MCGLContext* ctx)
     glBindVertexArrayOES(0);
 }
 
-public(MCMesh, void, drawMesh, MCGLContext* ctx)
+method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArrayOES(obj->vertexArrayId);
     glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);//36
@@ -69,7 +69,7 @@ public(MCMesh, void, drawMesh, MCGLContext* ctx)
     glBindVertexArrayOES(0);
 }
 
-public(MCMesh, void, dump, voida)
+method(MCMesh, void, dump, voida)
 {
     int total   = (int)obj->vertexDataSize / 4;
     
@@ -84,11 +84,11 @@ public(MCMesh, void, dump, voida)
 onload(MCMesh)
 {
     if (load(MCObject)) {
-        pub(MCMesh, void, bye, voida);
-        pub(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
-        pub(MCMesh, void, prepareMesh, voida);
-        pub(MCMesh, void, drawMesh, voida);
-        pub(MCMesh, void, dump, voida);
+        binding(MCMesh, void, bye, voida);
+        binding(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
+        binding(MCMesh, void, prepareMesh, voida);
+        binding(MCMesh, void, drawMesh, voida);
+        binding(MCMesh, void, dump, voida);
         return cla;
     }else{
         return mull;

@@ -24,10 +24,10 @@ class(MCMesh, MCObject,
       MCVertexAttribute vertexAttribArray[MCVertexAttribIndexMax];
 );
 
-public(MCMesh, void, bye, voida);
-public(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
-public(MCMesh, void, prepareMesh, MCGLContext* ctx);
-public(MCMesh, void, drawMesh, MCGLContext* ctx);
-public(MCMesh, void, dump, voida);
+method(MCMesh, void, bye, voida);
+method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
+method(MCMesh, void, prepareMesh, MCGLContext* ctx);
+method(MCMesh, void, drawMesh, MCGLContext* ctx);
+method(MCMesh, void, dump, voida);
 
 #endif /* MCMesh_h */

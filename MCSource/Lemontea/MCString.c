@@ -12,13 +12,13 @@ oninit(MCString)
     }
 }
 
-public(MCString, void, bye, voida)
+method(MCString, void, bye, voida)
 {
     debug_log("MCString bye");    
     free(obj->buff);
 }
 
-public(MCString, MCString*, initWithCString, const char* str)
+method(MCString, MCString*, initWithCString, const char* str)
 {
     size_t len = strlen(str);
     if (len >= block_size) {
@@ -72,7 +72,7 @@ static void get_chars_until_enter(char resultString[])
 	resultString[i]='\0';
 }
 
-public(MCString, void, add, char* str)
+method(MCString, void, add, char* str)
 {
     if (block_size-obj->size < strlen(str)+1) {
         char* newbuff = malloc(sizeof(char) * (obj->size + block_size));
@@ -85,18 +85,18 @@ public(MCString, void, add, char* str)
     strncat(obj->buff, str, strlen(str));
 }
 
-public(MCString, void, print, voida)
+method(MCString, void, print, voida)
 {
 	printf("%s", obj->buff);
 }
 
-public(MCString, const char*, toCString, char const buff[])
+method(MCString, const char*, toCString, char const buff[])
 {
 	strcpy(cast(char*, buff), obj->buff);
 	return buff;
 }
 
-public(MCString, int, equalTo, MCString* stringToComp)
+method(MCString, int, equalTo, MCString* stringToComp)
 {
 	int res;
 	res = strcmp(obj->buff, stringToComp->buff);
@@ -106,17 +106,17 @@ public(MCString, int, equalTo, MCString* stringToComp)
 		return 0;
 }
 
-public(MCString, char, getOneChar, voida)
+method(MCString, char, getOneChar, voida)
 {
 	return get_one_char();
 }
 
-public(MCString, void, getCharsUntilEnter, char resultString[])
+method(MCString, void, getCharsUntilEnter, char resultString[])
 {
 	get_chars_until_enter(resultString);
 }
 
-public(MCString, MCBool, startWith, const char* str)
+method(MCString, MCBool, startWith, const char* str)
 {
     size_t len = strlen(str);
     if (len > obj->length) {
@@ -130,7 +130,7 @@ public(MCString, MCBool, startWith, const char* str)
     }
 }
 
-public(MCString, double, getFloat, char** endptr)
+method(MCString, double, getFloat, char** endptr)
 {
     return strtod(obj->buff, endptr);
 }
@@ -138,16 +138,16 @@ public(MCString, double, getFloat, char** endptr)
 onload(MCString)
 {
     if (load(MCObject)) {
-        pub(MCString, MCString*, initWithCString, char* str);
-        pub(MCString, void, add, char* str);
-        pub(MCString, void, print);
-        pub(MCString, char*, toCString, char const buff[]);
-        pub(MCString, int, equalTo, MCString* stringToComp);
-        pub(MCString, char, getOneChar);
-        pub(MCString, void, getCharsUntilEnter, char const resultString[]);
-        pub(MCString, void, bye);
-        pub(MCString, MCBool, startWith, const char* str);
-        pub(MCString, double, getFloat, char** endptr);
+        binding(MCString, MCString*, initWithCString, char* str);
+        binding(MCString, void, add, char* str);
+        binding(MCString, void, print);
+        binding(MCString, char*, toCString, char const buff[]);
+        binding(MCString, int, equalTo, MCString* stringToComp);
+        binding(MCString, char, getOneChar);
+        binding(MCString, void, getCharsUntilEnter, char const resultString[]);
+        binding(MCString, void, bye);
+        binding(MCString, MCBool, startWith, const char* str);
+        binding(MCString, double, getFloat, char** endptr);
         return cla;
     }else{
         return mull;

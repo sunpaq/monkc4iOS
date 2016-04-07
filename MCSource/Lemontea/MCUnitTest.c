@@ -54,12 +54,12 @@ void fail(char* message)
 onload(MCUnitTestCase)
 {
     if (load(MCObject)) {
-        pub(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* resultRef);
-        pub(MCUnitTestCase, void, bye);
-        pub(MCUnitTestCase, void, setUp);
-        pub(MCUnitTestCase, void, tearDown);
-        pub(MCUnitTestCase, void, runTests);
-        pub(MCUnitTestCase, void, runATestMethod, char* errmsg);
+        binding(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* resultRef);
+        binding(MCUnitTestCase, void, bye);
+        binding(MCUnitTestCase, void, setUp);
+        binding(MCUnitTestCase, void, tearDown);
+        binding(MCUnitTestCase, void, runTests);
+        binding(MCUnitTestCase, void, runATestMethod, char* errmsg);
         return cla;
     }else{
         return mull;
@@ -76,7 +76,7 @@ oninit(MCUnitTestCase)
     }
 }
 
-public(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* resultRef)
+method(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* resultRef)
 {
 	if(resultRef!=mull){
 		retain(resultRef);
@@ -87,19 +87,19 @@ public(MCUnitTestCase, MCUnitTestCase*, initWithTestResult, MCUnitTestResult* re
 	return obj;
 }
 
-public(MCUnitTestCase, void, bye, voida)
+method(MCUnitTestCase, void, bye, voida)
 {
 	if(obj->unitTestResultRef!=mull)
 		release(&(obj->unitTestResultRef));
 }
 
-public(MCUnitTestCase, void, setUp, voida)
+method(MCUnitTestCase, void, setUp, voida)
 {
 	//set up fixture
 	runtime_log("----MCUnitTestCase setUp\n");
 }
 
-public(MCUnitTestCase, void, tearDown, voida)
+method(MCUnitTestCase, void, tearDown, voida)
 {
 	//tear down fixture
 	runtime_log("----MCUnitTestCase tearDown\n");
@@ -142,7 +142,7 @@ static void runMethodByPointer(MCUnitTestCase* obj, mc_hashitem* amethod)
 	ff(obj, tearDown, mull);
 }
 
-public(MCUnitTestCase, void, runTests, voida)
+method(MCUnitTestCase, void, runTests, voida)
 {
 	runtime_log("%s\n", "MCUnitTestCase runTests");
 	unsigned i;
@@ -172,7 +172,7 @@ public(MCUnitTestCase, void, runTests, voida)
 	}
 }
 
-public(MCUnitTestCase, void, runATestMethod, char* methodName)
+method(MCUnitTestCase, void, runATestMethod, char* methodName)
 {
     mc_hashtable* table = cast(MCObject*, obj)->isa->table;
     MCHashTableIndex index = hash(methodName) % get_tablesize(table->level);
@@ -184,9 +184,9 @@ public(MCUnitTestCase, void, runATestMethod, char* methodName)
 onload(MCUnitTestSuite)
 {
     if (load(MCObject)) {
-        pub(MCUnitTestSuite, void, bye);
-        pub(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* tcase);
-        pub(MCUnitTestSuite, void, runTestCases);
+        binding(MCUnitTestSuite, void, bye);
+        binding(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* tcase);
+        binding(MCUnitTestSuite, void, runTestCases);
         return cla;
     }else{
         return mull;
@@ -206,14 +206,14 @@ oninit(MCUnitTestSuite)
     }
 }
 
-public(MCUnitTestSuite, void, bye, voida)
+method(MCUnitTestSuite, void, bye, voida)
 {
 	MCUnitTestCase *iter, *save;
 	for(iter=obj->first_case; (save=iter)!=mull; release(save))
 		iter = iter->next_case;
 }
 
-public(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* volatile tcase)
+method(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* volatile tcase)
 {
 	retain(tcase);
     *(obj->last_case_p) = tcase;
@@ -221,7 +221,7 @@ public(MCUnitTestSuite, void, addTestCase, MCUnitTestCase* volatile tcase)
 	obj->test_case_count++;
 }
 
-public(MCUnitTestSuite, void, runTestCases, voida)
+method(MCUnitTestSuite, void, runTestCases, voida)
 {
 	runtime_log("%s\n", "MCUnitTestSuite runTestCases");
 	MCUnitTestCase *iter = mull;
@@ -244,17 +244,17 @@ oninit(MCUnitTestResult)
     }
 }
 
-public(MCUnitTestResult, void, bye, voida)
+method(MCUnitTestResult, void, bye, voida)
 {
 	//nothing to clean
 }
 
-public(MCUnitTestResult, void, addSuccessInfo, char* succinfo)
+method(MCUnitTestResult, void, addSuccessInfo, char* succinfo)
 {
 	//
 }
 
-public(MCUnitTestResult, void, addFailInfo, char* failinfo)
+method(MCUnitTestResult, void, addFailInfo, char* failinfo)
 {
 	//
 }
@@ -262,9 +262,9 @@ public(MCUnitTestResult, void, addFailInfo, char* failinfo)
 onload(MCUnitTestResult)
 {
     if (load(MCObject)) {
-        pub(MCUnitTestResult, void, bye);
-        pub(MCUnitTestResult, void, addSuccessInfo, char* succinfo);
-        pub(MCUnitTestResult, void, addFailInfo, char* failinfo);
+        binding(MCUnitTestResult, void, bye);
+        binding(MCUnitTestResult, void, addSuccessInfo, char* succinfo);
+        binding(MCUnitTestResult, void, addFailInfo, char* failinfo);
         return cla;
     }else{
         return mull;
@@ -292,14 +292,14 @@ oninit(MCUnitTestRunner)
     }
 }
 
-public(MCUnitTestRunner, void, bye, voida)
+method(MCUnitTestRunner, void, bye, voida)
 {
 	MCUnitTestSuite *iter, *save;
 	for(iter=obj->first_suite; (save=iter)!=mull; release(save))
 		iter = iter->next_suite;
 }
 
-public(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite)
+method(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite)
 {
 	retain(testSuite);
 	MCUnitTestSuite **iter;
@@ -308,7 +308,7 @@ public(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite)
 	obj->test_suite_count++;
 }
 
-public(MCUnitTestRunner, void, runTestSuites, voida)
+method(MCUnitTestRunner, void, runTestSuites, voida)
 {
 	runtime_log("%s\n", "MCUnitTestRunner runTestSuites");
 	MCUnitTestSuite *iter;
@@ -319,9 +319,9 @@ public(MCUnitTestRunner, void, runTestSuites, voida)
 onload(MCUnitTestRunner)
 {
     if (load(MCObject)) {
-        pub(MCUnitTestRunner, void, bye);
-        pub(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite);
-        pub(MCUnitTestRunner, void, runTestSuites);
+        binding(MCUnitTestRunner, void, bye);
+        binding(MCUnitTestRunner, void, addTestSuite, MCUnitTestSuite* testSuite);
+        binding(MCUnitTestRunner, void, runTestSuites);
         return cla;
     }else{
         return mull;

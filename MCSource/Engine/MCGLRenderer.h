@@ -20,12 +20,12 @@ class(MCGLRenderer, MCObject,
       MCGLContext* context;
 );
 //life cycle
-public(MCGLRenderer, void, bye, voida);
-public(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode);
-public(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader);
+method(MCGLRenderer, void, bye, voida);
+method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode);
+method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader);
 //draw
-public(MCGLRenderer, void, updateNodes, MC3DNode* rootnode);
-public(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
+method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode);
+method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
 
 
 #endif /* MCGLRenderer_h */

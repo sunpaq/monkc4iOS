@@ -17,6 +17,6 @@ class(MCLight, MC3DNode,
       MCVector3   diffuseLightPosition;
 );
 
-public(MCLight, void, update, MCGLContext* ctx);
+method(MCLight, void, update, MCGLContext* ctx);
 
 #endif /* MCLight_h */

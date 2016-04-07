@@ -9,12 +9,12 @@ oninit(MCSocketClientInfo)
     }
 }
 
-public(MCSocketClientInfo, void, dumpInfo, voida)
+method(MCSocketClientInfo, void, dumpInfo, voida)
 {
 	printf("accept a client: %s\n", obj->address.sa_data);
 }
 
-public(MCSocketClientInfo, void, bye, voida)
+method(MCSocketClientInfo, void, bye, voida)
 {
 	//nothing to do
 }
@@ -22,8 +22,8 @@ public(MCSocketClientInfo, void, bye, voida)
 onload(MCSocketClientInfo)
 {
     if (load(MCObject)) {
-        pub(MCSocketClientInfo, void, dumpInfo);
-        pub(MCSocketClientInfo, void, bye);
+        binding(MCSocketClientInfo, void, dumpInfo);
+        binding(MCSocketClientInfo, void, bye);
         return cla;
     }else{
         return mull;
@@ -106,13 +106,13 @@ static void create_and_bind_socket(MCSocket* this, MCSocketType socket_type, cha
 	//return sfd;
 }
 
-public(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port)
+method(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port)
 {
     create_and_bind_socket(obj, socket_type, ip, port);
     return obj;
 }
 
-public(MCSocket, void, bye, voida)
+method(MCSocket, void, bye, voida)
 {
 	close(obj->sfd);
 }
@@ -121,13 +121,13 @@ public(MCSocket, void, bye, voida)
 //EBADF
 //ENOTSOCK
 //EOPNOTSUPP
-public(MCSocket, int, listeningStart, voida)
+method(MCSocket, int, listeningStart, voida)
 {
 	if(obj->isServer!=1)return -1;
 	return listen(obj->sfd, MCSocket_Queue_Length);
 }
 
-public(MCSocket, MCSocketClientInfo*, acceptARequest, voida)
+method(MCSocket, MCSocketClientInfo*, acceptARequest, voida)
 {
 	if (obj->isServer!=1)return mull;
 	MCSocketClientInfo* clientinfo = new(MCSocketClientInfo);
@@ -135,32 +135,32 @@ public(MCSocket, MCSocketClientInfo*, acceptARequest, voida)
 	return clientinfo;
 }
 
-public(MCSocket, void, recv, voida)
+method(MCSocket, void, recv, voida)
 {
     //recv(int, void *, size_t, int)
 }
 
-public(MCSocket, void, recvfrom, voida)
+method(MCSocket, void, recvfrom, voida)
 {
     //recvfrom(int, void *, size_t, int, struct sockaddr *restrict, socklen_t *restrict)
 }
 
-public(MCSocket, void, recvmsg, voida)
+method(MCSocket, void, recvmsg, voida)
 {
     //recvmsg(int, struct msghdr *, int)
 }
 
-public(MCSocket, void, send, voida)
+method(MCSocket, void, send, voida)
 {
     //send(int, const void *, size_t, int)
 }
 
-public(MCSocket, void, sendto, voida)
+method(MCSocket, void, sendto, voida)
 {
     //sendto(int, const void *, size_t, int, const struct sockaddr *, socklen_t)
 }
 
-public(MCSocket, void, sendmsg, voida)
+method(MCSocket, void, sendmsg, voida)
 {
     //sendmsg(int, const struct msghdr *, int)
 }
@@ -168,16 +168,16 @@ public(MCSocket, void, sendmsg, voida)
 onload(MCSocket)
 {
     if (load(MCObject)) {
-        pub(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port);
-        pub(MCSocket, int, listeningStart);
-        pub(MCSocket, MCSocketClientInfo*, acceptARequest);
-        pub(MCSocket, void, recv);
-        pub(MCSocket, void, recvfrom);
-        pub(MCSocket, void, recvmsg);
-        pub(MCSocket, void, send);
-        pub(MCSocket, void, sendto);
-        pub(MCSocket, void, sendmsg);
-        pub(MCSocket, void, bye);
+        binding(MCSocket, MCSocket*, initWithTypeIpPort, MCSocketType socket_type, char* ip, char* port);
+        binding(MCSocket, int, listeningStart);
+        binding(MCSocket, MCSocketClientInfo*, acceptARequest);
+        binding(MCSocket, void, recv);
+        binding(MCSocket, void, recvfrom);
+        binding(MCSocket, void, recvmsg);
+        binding(MCSocket, void, send);
+        binding(MCSocket, void, sendto);
+        binding(MCSocket, void, sendmsg);
+        binding(MCSocket, void, bye);
         return cla;
     }else{
         return mull;

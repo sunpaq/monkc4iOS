@@ -14,11 +14,11 @@ class(MCNode, MCObject,
     MCArray *children;
 );
 
-public(MCNode, MCNode*, initWithFrame, MCRect frame);
-public(MCNode, MCNode*, initWithSize, MCSize size);
-public(MCNode, MCNode*, addChild, MCNode* child);
-public(MCNode, void, draw, voida);
-public(MCNode, void, bye, voida);
+method(MCNode, MCNode*, initWithFrame, MCRect frame);
+method(MCNode, MCNode*, initWithSize, MCSize size);
+method(MCNode, MCNode*, addChild, MCNode* child);
+method(MCNode, void, draw, voida);
+method(MCNode, void, bye, voida);
 
 including(MCTouchble);
 including(MCAccessble);

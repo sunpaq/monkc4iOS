@@ -68,9 +68,9 @@ oninit(MCCube)
         mesh->vertexDataPtr = gCubeVertexData;
         mesh->vertexDataSize = sizeof(gCubeVertexData);
                 
-        superobj->meshes[0] = mesh;
-        superobj->material = new(MCMatrial);
-        superobj->texture = new(MCTexture);
+        sobj->meshes[0] = mesh;
+        sobj->material = new(MCMatrial);
+        sobj->texture = new(MCTexture);
         
         return obj;
     }else{

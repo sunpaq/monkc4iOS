@@ -18,9 +18,9 @@ class(UILayer, MCObject,
       MCBool visible;
 );
 
-public(UILayer, UILayer*, initWithScreenSize, unsigned width, unsigned height);
-public(UILayer, void, onFrameRenderFinished, MCUInt fps);
-public(UILayer, void, onButtonClicked, MCInt tag);
+method(UILayer, UILayer*, initWithScreenSize, unsigned width, unsigned height);
+method(UILayer, void, onFrameRenderFinished, MCUInt fps);
+method(UILayer, void, onButtonClicked, MCInt tag);
 
 
 #endif /* defined(__monkcGame__MCUILayer__) */

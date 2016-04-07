@@ -33,9 +33,9 @@ oninit(MCPanel)
         mesh->vertexDataPtr = vertices;
         mesh->vertexDataSize = sizeof(vertices);
         
-        supervar(meshes)[0] = mesh;
-        supervar(material) = new(MCMatrial);
-        supervar(texture) = new(MCTexture);//will initialized outside
+        svar(meshes)[0] = mesh;
+        svar(material) = new(MCMatrial);
+        svar(texture) = new(MCTexture);//will initialized outside
         
         return obj;
     }else{

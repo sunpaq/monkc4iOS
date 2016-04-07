@@ -44,7 +44,7 @@ oninit(MCGLContext)
     }
 }
 
-public(MCGLContext, void, submitModelViewProjectionMatrix, voida)
+method(MCGLContext, void, submitModelViewProjectionMatrix, voida)
 {
     if (obj->modelMatrix != mull) {
         glUniformMatrix4fv(obj->uniformLocations[1], 1, 0, obj->modelMatrix->m);
@@ -57,7 +57,7 @@ public(MCGLContext, void, submitModelViewProjectionMatrix, voida)
     }
 }
 
-public(MCGLContext, void, beforeLinkProgram, GLuint id)
+method(MCGLContext, void, beforeLinkProgram, GLuint id)
 {
     // Bind attribute locations.
     // This needs to be done prior to linking.
@@ -68,7 +68,7 @@ public(MCGLContext, void, beforeLinkProgram, GLuint id)
     }
 }
 
-public(MCGLContext, void, afterLinkProgram, GLuint id)
+method(MCGLContext, void, afterLinkProgram, GLuint id)
 {
     // Get uniform locations.
     for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
@@ -81,7 +81,7 @@ public(MCGLContext, void, afterLinkProgram, GLuint id)
 
 }
 
-public(MCGLContext, int, getUniformLocation, const char* name)
+method(MCGLContext, int, getUniformLocation, const char* name)
 {
     for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
         const char* attrname = obj->uniformNames[i];
@@ -92,7 +92,7 @@ public(MCGLContext, int, getUniformLocation, const char* name)
     return MC3DErrUniformNotFound;
 }
 
-public(MCGLContext, void, setUniformMatrix3, const char* name, float m[])
+method(MCGLContext, void, setUniformMatrix3, const char* name, float m[])
 {
     int loc = MCGLContext_getUniformLocation(0, obj, name);
     if (loc != MC3DErrUniformNotFound) {
@@ -100,7 +100,7 @@ public(MCGLContext, void, setUniformMatrix3, const char* name, float m[])
     }
 }
 
-public(MCGLContext, void, setUniformMatrix4, const char* name, float m[])
+method(MCGLContext, void, setUniformMatrix4, const char* name, float m[])
 {
     int loc = MCGLContext_getUniformLocation(0, obj, name);
     if (loc != MC3DErrUniformNotFound) {
@@ -108,7 +108,7 @@ public(MCGLContext, void, setUniformMatrix4, const char* name, float m[])
     }
 }
 
-public(MCGLContext, void, setUniformScalar,  const char* name, MCInt x)
+method(MCGLContext, void, setUniformScalar,  const char* name, MCInt x)
 {
     int loc = MCGLContext_getUniformLocation(0, obj, name);
     if (loc != MC3DErrUniformNotFound) {
@@ -116,7 +116,7 @@ public(MCGLContext, void, setUniformScalar,  const char* name, MCInt x)
     }
 }
 
-public(MCGLContext, void, setUniformVector1, const char* name, double x)
+method(MCGLContext, void, setUniformVector1, const char* name, double x)
 {
     int loc = MCGLContext_getUniformLocation(0, obj, name);
     if (loc != MC3DErrUniformNotFound) {
@@ -124,7 +124,7 @@ public(MCGLContext, void, setUniformVector1, const char* name, double x)
     }
 }
 
-public(MCGLContext, void, setUniformVector2, const char* name, MCVector2 vec2)
+method(MCGLContext, void, setUniformVector2, const char* name, MCVector2 vec2)
 {
     int loc = MCGLContext_getUniformLocation(0, obj, name);
     if (loc != MC3DErrUniformNotFound) {
@@ -132,7 +132,7 @@ public(MCGLContext, void, setUniformVector2, const char* name, MCVector2 vec2)
     }
 }
 
-public(MCGLContext, void, setUniformVector3, const char* name, MCVector3 vec3)
+method(MCGLContext, void, setUniformVector3, const char* name, MCVector3 vec3)
 {
     int loc = MCGLContext_getUniformLocation(0, obj, name);
     if (loc != MC3DErrUniformNotFound) {
@@ -140,7 +140,7 @@ public(MCGLContext, void, setUniformVector3, const char* name, MCVector3 vec3)
     }
 }
 
-public(MCGLContext, void, setUniformVector4, const char* name, MCVector4 vec4)
+method(MCGLContext, void, setUniformVector4, const char* name, MCVector4 vec4)
 {
     int loc = MCGLContext_getUniformLocation(0, obj, name);
     if (loc != MC3DErrUniformNotFound) {
@@ -151,18 +151,18 @@ public(MCGLContext, void, setUniformVector4, const char* name, MCVector4 vec4)
 onload(MCGLContext)
 {
     if (load(MCObject)) {
-        pub(MCGLContext, void, submitModelViewProjectionMatrix, voida);
-        pub(MCGLContext, void, beforeLinkProgram, GLuint id);
-        pub(MCGLContext, void, afterLinkProgram, GLuint id);
+        binding(MCGLContext, void, submitModelViewProjectionMatrix, voida);
+        binding(MCGLContext, void, beforeLinkProgram, GLuint id);
+        binding(MCGLContext, void, afterLinkProgram, GLuint id);
         
-        pub(MCGLContext, int, getUniformLocation, const char* name);
-        pub(MCGLContext, void, setUniformMatrix3, const char* name, float m[]);
-        pub(MCGLContext, void, setUniformMatrix4, const char* name, float m[]);
-        pub(MCGLContext, void, setUniformScalar,  const char* name, MCInt x);
-        pub(MCGLContext, void, setUniformVector1, const char* name, double x);
-        pub(MCGLContext, void, setUniformVector2, const char* name, MCVector2 vec2);
-        pub(MCGLContext, void, setUniformVector3, const char* name, MCVector3 vec3);
-        pub(MCGLContext, void, setUniformVector4, const char* name, MCVector4 vec4);
+        binding(MCGLContext, int, getUniformLocation, const char* name);
+        binding(MCGLContext, void, setUniformMatrix3, const char* name, float m[]);
+        binding(MCGLContext, void, setUniformMatrix4, const char* name, float m[]);
+        binding(MCGLContext, void, setUniformScalar,  const char* name, MCInt x);
+        binding(MCGLContext, void, setUniformVector1, const char* name, double x);
+        binding(MCGLContext, void, setUniformVector2, const char* name, MCVector2 vec2);
+        binding(MCGLContext, void, setUniformVector3, const char* name, MCVector3 vec3);
+        binding(MCGLContext, void, setUniformVector4, const char* name, MCVector4 vec4);
         
         return cla;
     }else{

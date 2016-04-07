@@ -1,1 +1,1 @@
-pri(MCObject, void*, access, const char* varname);
+mixing(void*, access, const char* varname);

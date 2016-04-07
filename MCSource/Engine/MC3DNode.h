@@ -32,19 +32,19 @@ class(MC3DNode, MCObject,
       struct MC3DNodeStruct* children[MC3DNodeMaxChildNum];
 );
 
-public(MC3DNode, void, bye, voida);
+method(MC3DNode, void, bye, voida);
 //0=success
-public(MC3DNode, MC3DErrCode, addChild, MC3DNode* child);
-public(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child);
-public(MC3DNode, void, cleanUnvisibleChild, voida);
-public(MC3DNode, int, childCount, voida);
-public(MC3DNode, MC3DNode*, childCarousel, voida);
-public(MC3DNode, void, setAllVisible, MCBool visible);
+method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child);
+method(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child);
+method(MC3DNode, void, cleanUnvisibleChild, voida);
+method(MC3DNode, int, childCount, voida);
+method(MC3DNode, MC3DNode*, childCarousel, voida);
+method(MC3DNode, void, setAllVisible, MCBool visible);
 
 //draw
-public(MC3DNode, void, update, MCGLContext* ctx);
-public(MC3DNode, void, draw, MCGLContext* ctx);
-public(MC3DNode, void, hide, voida);
-public(MC3DNode, void, show, voida);
+method(MC3DNode, void, update, MCGLContext* ctx);
+method(MC3DNode, void, draw, MCGLContext* ctx);
+method(MC3DNode, void, hide, voida);
+method(MC3DNode, void, show, voida);
 
 #endif /* MC3DNode_h */

@@ -21,14 +21,14 @@ class(MCCamera, MC3DNode,
     double tht;
     double fai;
     
-    _compute(MCCamera, MCMatrix4, mvproj);
-    _compute(MCCamera, MCMatrix3, normal);
+    _compute(MCMatrix4, mvproj);
+    _compute(MCMatrix3, normal);
 );
 
-public(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
-public(MCCamera, void, move, double deltaFai, double deltaTht);
-public(MCCamera, void, reset, voida);
-public(MCCamera, void, update, MCGLContext* ctx);//override
+method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
+method(MCCamera, void, move, double deltaFai, double deltaTht);
+method(MCCamera, void, reset, voida);
+method(MCCamera, void, update, MCGLContext* ctx);//override
 
 #define MCLensStandard50mm (0.050)
 #define MCLensWide24mm     (0.024)
