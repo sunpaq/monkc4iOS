@@ -142,7 +142,7 @@ const char* MCFileCopyContent(const char* filename, const char* extention)
 void MCGLError(const char* errmsg)
 {
     if (_handler) {
-        [_handler onMCGLError:errmsg];
+        [_handler handleMCGLError:errmsg];
     }
 }
 
@@ -178,7 +178,7 @@ void MCGLError(const char* errmsg)
     }
 }
 
-- (void) onMCGLError:(const char*)errmsg
+- (void) handleMCGLError:(const char*)errmsg
 {
     [[[UIAlertView alloc] initWithTitle:@"ERROR"
                                 message:[NSString stringWithUTF8String:errmsg]

@@ -64,6 +64,18 @@ method(MCDirector, void, popScene, voida)
     ff(var(lastScene), lockCamera, MCFalse);
 }
 
+method(MCDirector, void, resizeAllScene, int width, int height)
+{
+    MC3DScene* iter = var(lastScene);
+    while (iter && iter->prev != mull) {
+        if (iter->mainCamera != mull) {
+            iter->mainCamera->ratio = (double)(width/height);
+            ff(iter->mainCamera, updateRatioFocalDistance, 0);
+        }
+        iter = iter->prev;
+    }
+}
+
 onload(MCDirector)
 {
     if (load(MCObject)) {
@@ -72,6 +84,8 @@ onload(MCDirector)
         binding(MCDirector, void, drawAll, voida);
         binding(MCDirector, void, pushScene, MC3DScene* scene);
         binding(MCDirector, void, popScene, voida);
+        binding(MCDirector, void, resizeAllScene, int width, int height);
+
         return cla;
     }else{
         return mull;

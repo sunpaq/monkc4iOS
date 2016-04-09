@@ -9,12 +9,6 @@
 #import "AppDelegate.h"
 #import "MC3DiOS.h"
 
-//MCGL Errors
-void onMCGLError(const char* errmsg)
-{
-
-}
-
 @interface AppDelegate ()
 
 @end

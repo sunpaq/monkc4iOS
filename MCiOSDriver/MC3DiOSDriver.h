@@ -58,7 +58,7 @@ const char* MCFileCopyContent(const char* filename, const char* extention);
 @property UIPanGestureRecognizer* pan;
 
 - (void) onButtonClicked:(id)sender;
-- (void) onMCGLError:(const char*)errmsg;
+- (void) handleMCGLError:(const char*)errmsg;
 @end
 #endif
 

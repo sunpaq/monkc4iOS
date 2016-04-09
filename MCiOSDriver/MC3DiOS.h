@@ -22,5 +22,7 @@ void onGestureSwip();
 void onGesturePan(double x, double y);
 void onGesturePinch(double scale);
 
-//Error Handling
+//Orientation Handling
+void onResizeScreen(int windowWidth, int windowHeight);
+
 #endif /* MC3DiOS_h */

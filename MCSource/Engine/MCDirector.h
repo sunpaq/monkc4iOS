@@ -23,6 +23,7 @@ method(MCDirector, void, drawAll, voida);
 
 method(MCDirector, void, pushScene, MC3DScene* scene);
 method(MCDirector, void, popScene, voida);
+method(MCDirector, void, resizeAllScene, int width, int height);
 
 //iOS callbacks
 //void onRootViewLoad(void* rootview);

@@ -2,12 +2,13 @@
 
 compute(MCMatrix4, mvproj);
 compute(MCMatrix3, normal);
+function(void, updateRatioFocalDistance, voida);
 
 oninit(MCCamera)
 {
     if (init(MCObject)) {
         var(ratio) = MCRatioHDTV16x9;//MCRatioCameraFilm3x2;
-        var(focal_length) = MCLensWide24mm;//MCLensStandard50mm;
+        var(focal_length) = MCLensStandard50mm;//MCLensWide24mm;
         var(view_angle) = MCLensStandard50mmViewAngle;
         var(max_distance) = 100;//100 metres
         var(lookat) = MCVector3Make(0,0,0);
@@ -17,11 +18,13 @@ oninit(MCCamera)
         var(currentPosition) = MCVector3Make(0, 0, 0);
         //local spherical coordinate
         var(R) = 100;
-        var(tht) = 60;
-        var(fai) = 45;
+        var(tht) = 60.0;
+        var(fai) = 45.0;
         
         var(mvproj) = mvproj;
         var(normal) = normal;
+        
+        updateRatioFocalDistance(0, obj, 0);
         return obj;
     }else{
         return mull;
@@ -31,6 +34,7 @@ oninit(MCCamera)
 compute(MCMatrix4, mvproj)
 {
     varscope(MCCamera);
+    updateRatioFocalDistance(0, obj, 0);
     MCMatrix4 mvp = MCMatrix4Multiply(var(projectionMatrix), var(modelViewMatrix));
     return mvp;
 }
@@ -55,6 +59,15 @@ method(MCCamera, void, reset, voida)
     init(MCCamera);
 }
 
+function(void, updateRatioFocalDistance, voida)
+{
+    varscope(MCCamera);
+    var(projectionMatrix) = MCMatrix4MakePerspective(MCDegreesToRadians(obj->view_angle),
+                                                     var(ratio),
+                                                     var(focal_length),
+                                                     var(max_distance));
+}
+
 function(void, updatePosition, MCVector3* result)
 {
     varscope(MCCamera);
@@ -66,15 +79,6 @@ function(void, updatePosition, MCVector3* result)
     }
 }
 
-function(void, updateRatioFocalDistance, voida)
-{
-    varscope(MCCamera);
-    var(projectionMatrix) = MCMatrix4MakePerspective(MCDegreesToRadians(obj->view_angle),
-                                                     var(ratio),
-                                                     var(focal_length),
-                                                     var(max_distance));
-}
-
 function(void, updateLookat, voida)
 {
     varscope(MCCamera);
@@ -82,28 +86,23 @@ function(void, updateLookat, voida)
     MCVector3 eyelocal = MCVertexFromSpherical(var(R), var(tht), var(fai));
     MCVector3 eye = MCWorldCoorFromLocal(eyelocal, modelpos);
     
-    if (var(tht) < 90.0) {
+    MCVector3 up = (MCVector3){0.0, 1.0, 0.0};
+    if (var(tht) > 0.0 && var(tht) < 90.0) {
         MCVector3 Npole = MCVector3Make(0, var(R)/MCCosDegrees(var(tht)), 0);
-        var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
-                                                   modelpos.x, modelpos.y, modelpos.z,
-                                                   Npole.x-eye.x, Npole.y-eye.y, Npole.z-eye.z);
+        up = (MCVector3){Npole.x-eye.x, Npole.y-eye.y, Npole.z-eye.z};
     }
-    if (var(tht) > 90.0) {
+    else if (var(tht) > 90.0 && var(tht) < 180.0) {
         MCVector3 Spole = MCVector3Make(0, -var(R)/MCCosDegrees(180.0-var(tht)), 0);
-        var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
-                                                   modelpos.x, modelpos.y, modelpos.z,
-                                                   eye.x-Spole.x, eye.y-Spole.y, eye.z-Spole.z);
+        up = (MCVector3){eye.x-Spole.x, eye.y-Spole.y, eye.z-Spole.z};
     }
-    if (var(tht) == 90.0) {
-        var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
-                                                   modelpos.x, modelpos.y, modelpos.z, 0, 1, 0);
-    }
+    var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
+                                               modelpos.x, modelpos.y, modelpos.z,
+                                               up.x, up.y, up.z);
 }
 
 //override
 method(MCCamera, void, update, MCGLContext* ctx)
 {
-    updateRatioFocalDistance(0, obj, 0);
     updatePosition(0, obj, mull);
     updateLookat(0, obj, 0);
     
@@ -115,8 +114,14 @@ method(MCCamera, void, move, double deltaFai, double deltaTht)
 {
     obj->fai = obj->fai + deltaFai;   //Left
     obj->tht = obj->tht + deltaTht;   //Up
-    //camera->fai = camera->fai - 0.1; //Right
-    //camera->tht = camera->tht - 0.1; //Down
+
+    //keep the tht -180 ~ 180
+    if (obj->tht < -179.99) {
+        obj->tht = -179.99;
+    }
+    if (obj->tht > 179.99) {
+        obj->tht = 179.99;
+    }
     
     updateLookat(0, obj, 0);
 }

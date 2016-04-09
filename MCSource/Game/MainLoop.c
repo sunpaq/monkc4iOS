@@ -55,15 +55,15 @@ void onSetupGL(int windowWidth, int windowHeight)
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
         mainScene->mainCamera->R = 30;
 
-        MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, "teapot", (MCColorRGBAf){0.2, 0.2, 0.8, 1.0});
-        if (model != mull) {
-            ff(mainScene->rootnode, addChild, model);
-            ff(director, pushScene, mainScene);
-        }else{
-            MCGLError("model teapot can not be open. file broken.");
-        }
+//        MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, "teapot", (MCColorRGBAf){0.2, 0.2, 0.8, 1.0});
+//        if (model != mull) {
+//            ff(mainScene->rootnode, addChild, model);
+//            ff(director, pushScene, mainScene);
+//        }else{
+//            MCGLError("model teapot can not be open. file broken.");
+//        }
         
-        MC3DModel* model2 = ff(new(MC3DModel), initWithFileNameColor, "airbus", (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
+        MC3DModel* model2 = ff(new(MC3DModel), initWithFileNameColor, "sph", (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
         if (model2 != mull) {
             ff(mainScene->rootnode, addChild, model2);
             ff(director, pushScene, mainScene);
@@ -72,7 +72,7 @@ void onSetupGL(int windowWidth, int windowHeight)
 
         //scene2
         MC3DScene* scene2 = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
-        MC3DModel* model3 = ff(new(MC3DModel), initWithFileNameColor, "Avent", (MCColorRGBAf){0.2, 0.6, 0.6, 1.0});//Avent
+        MC3DModel* model3 = ff(new(MC3DModel), initWithFileNameColor, "Avent", (MCColorRGBAf){0.3, 0.3, 0.3, 1.0});//Avent
         ff(scene2->rootnode, addChild, model3);
         ff(director, pushScene, scene2);
         
@@ -115,8 +115,7 @@ void onGesturePan(double x, double y)
 {
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != mull && director->lastScene != mull && camera != mull) {
-        camera->fai -= x * 0.1;
-        camera->tht += y * 0.1;
+        MCCamera_move(0, camera, x*-0.1, y*0.1);
     }
 }
 
@@ -135,5 +134,12 @@ void onGesturePinch(double scale)
                 camera->R += s;
             }
         }
+    }
+}
+
+void onResizeScreen(int windowWidth, int windowHeight)
+{
+    if (director) {
+        ff(director, resizeAllScene, windowWidth, windowHeight);
     }
 }
