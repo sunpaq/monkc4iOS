@@ -232,74 +232,30 @@ MCInline size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     else if (state == LSFace) {
         if (iq != 0) {
             buff->facetype = MC3DFaceVertexOnly;
+            //only support convex polygon convert to triangles.
             for (int i=0; i<= iq-2; i++) {//iq max 6
                 buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[0];
                 buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[i+1];//max 5
                 buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[i+2];//max 6
                 buff->fcursor++;
             }
-            
-//            if (iq == 3) {
-//                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[0];
-//                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
-//                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[2];
-//                buff->fcursor++;
-//            }else if (iq == 4){
-//                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[0];
-//                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
-//                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[2];
-//                buff->fcursor++;
-//                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[2];
-//                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
-//                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[3];
-//                buff->fcursor++;
-//            }
         }
         else if (gq != 0) {
             buff->facetype = MC3DFaceAll;
-            if (gq == 3*3) {
+            
+            for (int i=0; i< gq-6; i=i+3) {
                 //v1
                 buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
                 buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
                 buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];
                 //v2
-                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[3];
-                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[4];
-                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[5];
+                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[i + 3];
+                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[i + 4];
+                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[i + 5];
                 //v3
-                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[6];
-                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[7];
-                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[8];
-                
-                buff->fcursor++;
-            }else if (gq == 4*3){
-                //v1
-                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
-                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
-                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];
-                //v2
-                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[3];
-                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[4];
-                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[5];
-                //v3
-                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[6];
-                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[7];
-                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[8];
-                
-                buff->fcursor++;
-                
-                //v1
-                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
-                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
-                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];
-                //v3
-                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[6];
-                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[7];
-                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[8];
-                //v4
-                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[9];
-                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[10];
-                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[11];
+                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[i + 6];
+                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[i + 7];
+                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[i + 8];
                 
                 buff->fcursor++;
             }
