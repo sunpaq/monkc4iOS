@@ -153,7 +153,7 @@
 		FD4CC2021C99AC0F00051C15 /* monkey2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey2.obj; sourceTree = "<group>"; };
 		FD4CC2061C99B19E00051C15 /* ball.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ball.obj; sourceTree = "<group>"; };
 		FD4CC2081C99B21600051C15 /* cube.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.obj; sourceTree = "<group>"; };
-		FD4CC20B1C9AEAEC00051C15 /* MC3DFileParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DFileParser.h; sourceTree = "<group>"; };
+		FD4CC20B1C9AEAEC00051C15 /* MC3DObjParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DObjParser.h; sourceTree = "<group>"; };
 		FD4DC4471C01459100A3B9F2 /* MCGLRenderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLRenderer.c; sourceTree = "<group>"; };
 		FD4DC4481C01459100A3B9F2 /* MCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLRenderer.h; sourceTree = "<group>"; };
 		FD4F1F261C2FC89900D17CD9 /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
@@ -378,7 +378,7 @@
 				FD4CC1FC1C96DD2E00051C15 /* MC3DModel.c */,
 				FD4CC1FD1C96DD2E00051C15 /* MC3DModel.h */,
 				FD776DE71CA6D67100C5A4DE /* MCLexer.h */,
-				FD4CC20B1C9AEAEC00051C15 /* MC3DFileParser.h */,
+				FD4CC20B1C9AEAEC00051C15 /* MC3DObjParser.h */,
 				FD0097D81CB3CB13000A85DE /* MC3DMtlParser.h */,
 				FD593D2C1C9D91D20065BFC5 /* MCDirector.c */,
 				FD593D2D1C9D91D20065BFC5 /* MCDirector.h */,

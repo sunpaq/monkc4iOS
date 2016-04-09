@@ -16,7 +16,6 @@
 #include "MCPanel.h"
 #include "MC3DModel.h"
 #include "MCDirector.h"
-#include "MC3DFileParser.h"
 #include "MC3DiOS.h"
 #include "Testbed.h"
 
@@ -48,20 +47,24 @@ void onReceiveMemoryWarning()
 
 void onSetupGL(int windowWidth, int windowHeight)
 {
-    MCLogTypeSet(MC_VERBOSE);
+    MCLogTypeSet(MC_DEBUG);
     if (director == mull) {
         director = new(MCDirector);
         
         //scene1
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
-        MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, "sph", (MCColorRGBAf){0.2, 0.2, 0.2, 1.0});
-        ff(mainScene->rootnode, addChild, model);
-        ff(director, pushScene, mainScene);
-        
+        MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, "teapot", (MCColorRGBAf){0.2, 0.2, 0.8, 1.0});
+        if (model == mull) {
+            MCGLError("model teapot can not be open. file broken.");
+        }else{
+            ff(mainScene->rootnode, addChild, model);
+            ff(director, pushScene, mainScene);
+        }
+
         //scene2
         MC3DScene* scene2 = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
         //scene2->mainCamera->R = 30;
-        MC3DModel* model2 = ff(new(MC3DModel), initWithFileNameColor, "Avent", (MCColorRGBAf){0.9, 0.9, 0.2, 1.0});
+        MC3DModel* model2 = ff(new(MC3DModel), initWithFileNameColor, "sph", (MCColorRGBAf){0.6, 0.6, 0.6, 1.0});//Avent
         ff(scene2->rootnode, addChild, model2);
         ff(director, pushScene, scene2);
         

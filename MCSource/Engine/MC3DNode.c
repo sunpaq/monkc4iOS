@@ -38,13 +38,14 @@ method(MC3DNode, void, bye, voida)
 method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
 {
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
-        if (obj->children[i] == mull) {
+        if (obj->children[i] == mull && child != mull) {
             obj->children[i] = child;
             child->index = i;
             return MC3DSuccess;
         }
     }
-    error_log("MC3DNode: children array full, can not add new child");
+    error_log("MC3DNode: %s, can not add new child!\n",
+              (child==mull)? "child is NULL" : "children array FULL");
     return MC3DErrChildrenFull;
 }
 

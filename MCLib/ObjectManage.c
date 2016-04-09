@@ -193,10 +193,16 @@ mo mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash
     mo aobject = mull;
     //new a object package by a block
     aobject = (mo)malloc(size);
-    aobject->isa = aclass;
-    aobject->saved_isa = aclass;
-    runtime_log("----alloc[NEW:%s]: new alloc\n", classname);
-    return aobject;
+    if (aobject != mull) {
+        aobject->isa = aclass;
+        aobject->saved_isa = aclass;
+        runtime_log("----alloc[NEW:%s]: new alloc\n", classname);
+        return aobject;
+    }else{
+        error_log("----alloc[NEW:%s]: new alloc FAILED\n", classname);
+        exit(-1);
+    }
+
 #else
     mc_class* aclass = _load_h(classname, size, loader, hashval);
 	mc_blockpool* fp = &aclass->free_pool;

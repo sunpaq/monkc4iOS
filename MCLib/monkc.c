@@ -94,9 +94,9 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 		//set item
         //MCBool isOverride, MCBool isFreeValue
 		set_item(&mc_global_classtable, item, MCFalse, MCTrue, (char*)name);
-		runtime_log("load a class[%s]\n", nameofc(aclass));
+		runtime_log("load a class[%s]\n", name);
 	}else{
-		runtime_log("find a class[%s]\n", nameofc(aclass));
+		runtime_log("find a class[%s]\n", name);
 	}
 	//unlock
 	unlock_global_classtable();

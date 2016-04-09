@@ -7,7 +7,7 @@
 //
 
 #include "MC3DModel.h"
-#include "MC3DFileParser.h"
+#include "MC3DObjParser.h"
 
 oninit(MC3DModel)
 {
@@ -27,27 +27,30 @@ method(MC3DModel, void, bye, voida)
 
 method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
 {
-    MC3DObjBuffer* buff = parse3DObjFile(path);
     
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
-    
-    mesh->vertexCount = (GLsizei)buff->fcursor*3;
-    mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
-    mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
-    
-    for (int i=0; i<buff->fcursor; i++) {
-        loadFaceData(mesh, buff, buff->facebuff[i], i, color);
+    MC3DObjBuffer* buff = parse3DObjFile(path);
+    if (buff == mull) {
+        error_log("MC3DModel - can not parse file:%s\n", path);
+        return mull;
+    }else{
+        mesh->vertexCount = (GLsizei)buff->fcursor*3;
+        mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
+        mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
+        
+        for (int i=0; i<buff->fcursor; i++) {
+            loadFaceData(mesh, buff, buff->facebuff[i], i, color);
+        }
+        
+        //ff(mesh, dump, 0);
+        
+        svar(meshes)[0] = mesh;
+        svar(material) = new(MCMatrial);
+        svar(texture) = mull;
+        
+        freeMC3DObjBuffer(buff);
+        return obj;
     }
-    
-    freeMC3DObjBuffer(buff);
-    
-    //ff(mesh, dump, 0);
-    
-    svar(meshes)[0] = mesh;
-    svar(material) = new(MCMatrial);
-    svar(texture) = mull;
-    
-    return obj;
 }
 
 method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)

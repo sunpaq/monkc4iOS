@@ -72,15 +72,20 @@ mc_hashitem* new_item(const char* key, MCGeneric value)
 mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
 {
 	mc_hashitem* aitem = (mc_hashitem*)malloc(sizeof(mc_hashitem));
-	aitem->next = mull;
-	aitem->hash = hashval;
-	aitem->index = 0;
-	aitem->level = MCHashTableLevel1;
-    //strcpy(aitem->key, key);
-    //aitem->key[MAX_KEY_CHARS] = '\0';
-	aitem->key = (char*)key;
-	aitem->value = value;
-	return aitem;
+    if (aitem != mull) {
+        aitem->next = mull;
+        aitem->hash = hashval;
+        aitem->index = 0;
+        aitem->level = MCHashTableLevel1;
+        //strcpy(aitem->key, key);
+        //aitem->key[MAX_KEY_CHARS] = '\0';
+        aitem->key = (char*)key;
+        aitem->value = value;
+        return aitem;
+    }else{
+        error_log("Monk-C HashTable new_item failed, key=%s\n", key);
+        exit(-1);
+    }
 }
 
 
@@ -107,13 +112,13 @@ MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
 		//if the item have already been setted. we free the old one
 		if(mc_compare_key(olditem->key, item->key) == 0){
 			if(isOverride == MCFalse){
-				error_log("[%s]:set-item key[%s] already been setted, free temp item\n", classname, item->key);
+				runtime_log("[%s]:set-item key[%s] already been setted, free temp item\n", classname, item->key);
 				if(isFreeValue == MCTrue)free(item->value.mcfuncptr);
 				free(item);
                 (*table_p)->items[index] = mull;
 				return index;
 			}else{
-				error_log("[%s]:reset-item key[%s] already been setted, replace old item\n", classname, item->key);
+				runtime_log("[%s]:reset-item key[%s] already been setted, replace old item\n", classname, item->key);
 				if(isFreeValue == MCTrue)free(olditem->value.mcfuncptr);
 				item->level = (*table_p)->level;
 				item->index = index;

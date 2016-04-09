@@ -139,6 +139,12 @@ const char* MCFileCopyContent(const char* filename, const char* extention)
     return buffer;
 }
 
+void MCGLError(const char* errmsg)
+{
+    if (_handler) {
+        [_handler onMCGLError:errmsg];
+    }
+}
 
 #ifdef __OBJC__
 @implementation UIEventHandler
@@ -170,6 +176,15 @@ const char* MCFileCopyContent(const char* filename, const char* extention)
     if (onButtonClickMsg.address) {
         _push_jump(onButtonClickMsg, (MCInt)btn.tag);
     }
+}
+
+- (void) onMCGLError:(const char*)errmsg
+{
+    [[[UIAlertView alloc] initWithTitle:@"ERROR"
+                                message:[NSString stringWithUTF8String:errmsg]
+                               delegate:self
+                      cancelButtonTitle:@"OK, got it."
+                      otherButtonTitles:nil, nil] show];
 }
 
 - (void)onSwip:(id)sender

@@ -22,4 +22,5 @@ void onGestureSwip();
 void onGesturePan(double x, double y);
 void onGesturePinch(double scale);
 
+//Error Handling
 #endif /* MC3DiOS_h */

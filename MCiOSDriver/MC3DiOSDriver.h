@@ -39,6 +39,9 @@ void MCUIAddLabel(const char* labelname, MCColor color, double x, double y, MCIn
 void MCUILabelTextUpdate(const char* newtext, MCInt tag);
 void MCUIButtonRegisterCallback(mc_message msg);
 
+//MCGL Errors
+void MCGLError(const char* errmsg);
+
 //File
 void MCFileGetPath(const char* filename, const char* extention, char* buffer);
 const char* MCFileCopyContent(const char* filename, const char* extention);
@@ -55,6 +58,7 @@ const char* MCFileCopyContent(const char* filename, const char* extention);
 @property UIPanGestureRecognizer* pan;
 
 - (void) onButtonClicked:(id)sender;
+- (void) onMCGLError:(const char*)errmsg;
 @end
 #endif
 

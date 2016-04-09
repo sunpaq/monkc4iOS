@@ -66,12 +66,14 @@ MCInline void freeMC3DObjBuffer(MC3DObjBuffer* buff)
     if (buff->nextobj != mull) {
         freeMC3DObjBuffer(buff->nextobj);
     }
-    //clean up self
-    free(buff->facebuff);
-    free(buff->vertexbuff);
-    free(buff->texcoorbuff);
-    free(buff->normalbuff);
-    free(buff);
+    if (buff != mull) {
+        //clean up self
+        free(buff->facebuff);
+        free(buff->vertexbuff);
+        free(buff->texcoorbuff);
+        free(buff->normalbuff);
+        free(buff);
+    }
 }
 
 MCInline void loadFaceElement(MCMesh* mesh, MC3DObjBuffer* buff,
@@ -331,6 +333,10 @@ MCInline MC3DObjBuffer* parse3DObjFile(const char* filename)
     FILE* f = fopen(filename, "r");
     if (f != NULL) {
         size_t c = detectFaceCount(f);
+        if (c == 0) {
+            error_log("MC3DObjParser - object face count is ZERO\n");
+            return mull;
+        }
         MC3DObjBuffer* buff = allocMC3DObjBuffer(c, 3);
         
         const int linesize = 1024;
