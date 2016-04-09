@@ -54,14 +54,14 @@ void onSetupGL(int windowWidth, int windowHeight)
         
         //scene1
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
-        MC3DModel* model = ff(new(MC3DModel), initWithFileName, "sph");
+        MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, "sph", (MCColorRGBAf){0.2, 0.2, 0.2, 1.0});
         ff(mainScene->rootnode, addChild, model);
         ff(director, pushScene, mainScene);
         
         //scene2
         MC3DScene* scene2 = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
-        scene2->mainCamera->R = 30;
-        MC3DModel* model2 = ff(new(MC3DModel), initWithFileName, "airbus");
+        //scene2->mainCamera->R = 30;
+        MC3DModel* model2 = ff(new(MC3DModel), initWithFileNameColor, "Avent", (MCColorRGBAf){0.9, 0.9, 0.2, 1.0});
         ff(scene2->rootnode, addChild, model2);
         ff(director, pushScene, scene2);
         

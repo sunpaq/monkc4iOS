@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FD0097DF1CB8D781000A85DE /* Avent.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD0097DE1CB8D781000A85DE /* Avent.obj */; };
 		FD084E471CA0313E00FD6AEB /* teapot.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD084E461CA0313E00FD6AEB /* teapot.obj */; };
 		FD0B16401C78447C004FD724 /* MC3DNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B163E1C78447C004FD724 /* MC3DNode.c */; };
 		FD0B16431C784FB7004FD724 /* MC3DScene.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16411C784FB7004FD724 /* MC3DScene.c */; };
@@ -120,6 +121,7 @@
 /* Begin PBXFileReference section */
 		FD0097D81CB3CB13000A85DE /* MC3DMtlParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MC3DMtlParser.h; sourceTree = "<group>"; };
 		FD0097DD1CB544CA000A85DE /* MC3DiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MC3DiOS.h; sourceTree = "<group>"; };
+		FD0097DE1CB8D781000A85DE /* Avent.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Avent.obj; sourceTree = "<group>"; };
 		FD084E461CA0313E00FD6AEB /* teapot.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = teapot.obj; sourceTree = "<group>"; };
 		FD0B163E1C78447C004FD724 /* MC3DNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DNode.c; sourceTree = "<group>"; };
 		FD0B163F1C78447C004FD724 /* MC3DNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DNode.h; sourceTree = "<group>"; };
@@ -205,7 +207,7 @@
 		FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		FD5EFD571B0E3D9D00D2492A /* mcicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mcicon.png; sourceTree = "<group>"; };
-		FD776DE71CA6D67100C5A4DE /* MCFileParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCFileParser.h; sourceTree = "<group>"; };
+		FD776DE71CA6D67100C5A4DE /* MCLexer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCLexer.h; sourceTree = "<group>"; };
 		FD819E5B1C2D4797007D4BE4 /* MCWorld.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCWorld.c; sourceTree = "<group>"; };
 		FD819E5C1C2D4797007D4BE4 /* MCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWorld.h; sourceTree = "<group>"; };
 		FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLEngine.c; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				FD0097DE1CB8D781000A85DE /* Avent.obj */,
 				FDC83B751CB2AAE5009E7159 /* airbus.obj */,
 				FD4CC2021C99AC0F00051C15 /* monkey2.obj */,
 				FD4CC2061C99B19E00051C15 /* ball.obj */,
@@ -374,7 +377,7 @@
 				FD0B16421C784FB7004FD724 /* MC3DScene.h */,
 				FD4CC1FC1C96DD2E00051C15 /* MC3DModel.c */,
 				FD4CC1FD1C96DD2E00051C15 /* MC3DModel.h */,
-				FD776DE71CA6D67100C5A4DE /* MCFileParser.h */,
+				FD776DE71CA6D67100C5A4DE /* MCLexer.h */,
 				FD4CC20B1C9AEAEC00051C15 /* MC3DFileParser.h */,
 				FD0097D81CB3CB13000A85DE /* MC3DMtlParser.h */,
 				FD593D2C1C9D91D20065BFC5 /* MCDirector.c */,
@@ -729,6 +732,7 @@
 				FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */,
 				FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */,
 				FD4CC1F51C91C8C200051C15 /* tex5.png in Resources */,
+				FD0097DF1CB8D781000A85DE /* Avent.obj in Resources */,
 				FDC83B761CB2AAE5009E7159 /* airbus.obj in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
 				FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */,

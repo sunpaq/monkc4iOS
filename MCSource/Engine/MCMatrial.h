@@ -14,10 +14,10 @@
 #include "MCGLContext.h"
 
 class(MCMatrial, MCObject,
-      double     ambientLightStrength;
+      double      ambientLightStrength;
       MCVector3   ambientLightColor;
       MCVector3   diffuseLightColor;
-      double     specularLightStrength;
+      double      specularLightStrength;
       MCVector3   specularLightColor;
       MCInt       specularLightPower;
 );
