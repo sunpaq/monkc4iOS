@@ -15,7 +15,6 @@
 
 @property (strong, nonatomic) EAGLContext *context;
 
-- (void)setupGL;
 - (void)tearDownGL;
 @end
 
@@ -34,9 +33,18 @@
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
+    //split view
+    if (self.splitViewController != nil) {
+        self.splitViewController.delegate = self;
+    }
+    
     //register rootview
-    onRootViewLoad((__bridge void *)(view));
-    [self setupGL];
+	if (self.uiview) {
+		onRootViewLoad((__bridge void *)(self.uiview));
+	}
+	
+    //OpenGL
+    [self setupGL:view];
 }
 
 - (void)dealloc
@@ -70,7 +78,7 @@
     return YES;
 }
 
-- (void)setupGL
+- (void)setupGL:(GLKView*)glv
 {
     [EAGLContext setCurrentContext:self.context];
     
@@ -101,6 +109,45 @@
 {
     //monkc draw
     onDraw();
+}
+
+//UISplitViewControllerDelegate
+//-(BOOL)splitViewController:(UISplitViewController *)splitViewController
+//collapseSecondaryViewController:(UIViewController *)secondaryViewController
+// ontoPrimaryViewController:(UIViewController *)primaryViewController
+//{
+//    return YES;
+//}
+
+-(UIViewController *)primaryViewControllerForCollapsingSplitViewController:(UISplitViewController *)splitViewController
+{
+    return nil;
+}
+
+-(UIViewController *)primaryViewControllerForExpandingSplitViewController:(UISplitViewController *)splitViewController
+{
+    return nil;//default
+}
+
+-(BOOL)splitViewController:(UISplitViewController *)splitViewController showViewController:(UIViewController *)vc sender:(id)sender
+{
+	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+		return YES;
+	}else{
+		return NO;
+	}
+}
+
+//-(BOOL)splitViewController:(UISplitViewController *)splitViewController showDetailViewController:(UIViewController *)vc sender:(id)sender
+//{
+//    return YES;
+//}
+
+-(void)viewDidLayoutSubviews
+{
+    CGSize size = self.view.bounds.size;
+    onResizeScreen(size.width, size.height);
+
 }
 
 @end

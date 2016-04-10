@@ -69,7 +69,7 @@ method(MCDirector, void, resizeAllScene, int width, int height)
     MC3DScene* iter = var(lastScene);
     while (iter && iter->prev != mull) {
         if (iter->mainCamera != mull) {
-            iter->mainCamera->ratio = (double)(width/height);
+            iter->mainCamera->ratio = MCRatioMake(width, height);
             ff(iter->mainCamera, updateRatioFocalDistance, 0);
         }
         iter = iter->prev;

@@ -139,7 +139,7 @@ void onGesturePinch(double scale)
 
 void onResizeScreen(int windowWidth, int windowHeight)
 {
-    if (director) {
+    if (director != mull) {
         ff(director, resizeAllScene, windowWidth, windowHeight);
     }
 }
