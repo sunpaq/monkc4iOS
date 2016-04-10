@@ -37,14 +37,18 @@
     if (self.splitViewController != nil) {
         self.splitViewController.delegate = self;
     }
-    
-    //register rootview
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	//register rootview
 	if (self.uiview) {
 		onRootViewLoad((__bridge void *)(self.uiview));
 	}
 	
-    //OpenGL
-    [self setupGL:view];
+	//OpenGL
+	[self setupGL:(GLKView *)self.view];
 }
 
 - (void)dealloc
@@ -131,6 +135,7 @@
 
 -(BOOL)splitViewController:(UISplitViewController *)splitViewController showViewController:(UIViewController *)vc sender:(id)sender
 {
+
 	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
 		return YES;
 	}else{
@@ -148,6 +153,15 @@
     CGSize size = self.view.bounds.size;
     onResizeScreen(size.width, size.height);
 
+}
+
+-(IBAction)onFullScreenClicked:(id)sender
+{
+	//[self.parentViewController dismissViewControllerAnimated:self.parentViewController completion:nil];
+}
+
+-(IBAction)hideUnhideMaster:(id)sender
+{
 }
 
 @end

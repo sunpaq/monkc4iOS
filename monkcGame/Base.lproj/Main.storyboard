@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Split View Controller-->
@@ -11,22 +10,22 @@
             <objects>
                 <splitViewController modalPresentationStyle="pageSheet" id="UZq-sT-cfX" customClass="SplitViewController" sceneMemberID="viewController">
                     <connections>
-                        <segue destination="llM-0u-7jb" kind="relationship" relationship="masterViewController" id="AOd-yI-tVz"/>
                         <segue destination="BV1-FR-VrT" kind="relationship" relationship="detailViewController" id="Rlo-w3-jGc"/>
+                        <segue destination="llM-0u-7jb" kind="relationship" relationship="masterViewController" id="Yev-Jp-Slj"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sbq-sS-LZw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-846" y="-277"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Files-->
         <scene sceneID="WiN-Rs-i6Y">
             <objects>
-                <tableViewController id="AAT-XS-jDj" sceneMemberID="viewController">
+                <tableViewController title="Files" id="AAT-XS-jDj" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="28" sectionHeaderHeight="28" sectionFooterHeight="28" id="4If-9Z-6kz">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="nIc-9f-259">
                                 <rect key="frame" x="0.0" y="92" width="600" height="28"/>
@@ -34,6 +33,7 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nIc-9f-259" id="2If-SS-rhL">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="27.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -42,7 +42,9 @@
                             <outlet property="delegate" destination="AAT-XS-jDj" id="JU0-5n-1tN"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="fhD-cm-KaT"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="DHW-Kj-4P6"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dEq-tk-Jkt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -51,16 +53,14 @@
         <!--Files-->
         <scene sceneID="5Yy-ch-kPu">
             <objects>
-                <navigationController title="Files" id="llM-0u-7jb" sceneMemberID="viewController">
-                    <value key="contentSizeForViewInPopover" type="size" width="300" height="600"/>
+                <navigationController title="Files" hidesBarsOnSwipe="YES" id="llM-0u-7jb" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <value key="contentSizeForViewInPopover" type="size" width="100" height="600"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eE7-hX-wjK">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="daO-a8-rOU">
-                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </toolbar>
                     <connections>
                         <segue destination="AAT-XS-jDj" kind="relationship" relationship="rootViewController" id="JHM-Bt-Fgy"/>
                     </connections>
@@ -81,17 +81,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jjE-pE-3zl" customClass="MCGLUIView">
-                                <rect key="frame" x="20" y="20" width="560" height="560"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.094747340425531915" colorSpace="calibratedWhite"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jjE-pE-3zl">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJX-IN-475">
+                                        <rect key="frame" x="313" y="810" width="46" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="onFullScreenClicked:" destination="BV1-FR-VrT" eventType="touchDown" id="CF9-62-yhU"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="jjE-pE-3zl" secondAttribute="bottom" constant="20" symbolic="YES" id="DXn-FJ-k3F"/>
-                            <constraint firstItem="jjE-pE-3zl" firstAttribute="trailing" secondItem="3se-qz-xqx" secondAttribute="trailingMargin" id="X51-6K-KhZ"/>
-                            <constraint firstItem="jjE-pE-3zl" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leadingMargin" id="YTm-y0-MjU"/>
-                            <constraint firstItem="jjE-pE-3zl" firstAttribute="top" secondItem="8aa-yV-Osq" secondAttribute="bottom" id="huj-4W-CIr"/>
+                            <constraint firstItem="jjE-pE-3zl" firstAttribute="leading" secondItem="3se-qz-xqx" secondAttribute="leading" id="1rm-IV-8Nn"/>
+                            <constraint firstItem="jjE-pE-3zl" firstAttribute="bottom" secondItem="qHh-Mt-9TT" secondAttribute="top" id="A66-Vn-bxG"/>
+                            <constraint firstAttribute="trailing" secondItem="jjE-pE-3zl" secondAttribute="trailing" id="Q1t-zJ-iAb"/>
+                            <constraint firstItem="jjE-pE-3zl" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="top" id="vd9-Iy-afD"/>
                         </constraints>
                     </view>
                     <splitViewDetailSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

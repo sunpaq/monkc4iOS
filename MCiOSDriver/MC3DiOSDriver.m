@@ -46,10 +46,10 @@ void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color
         [btn setTitle:[NSString stringWithCString:labelname encoding:NSUTF8StringEncoding] forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor colorWithRed:color.R green:color.G blue:color.B alpha:1.0] forState:UIControlStateNormal];
         [btn sizeToFit];
-        if (x > _rootUIView.bounds.size.width) {
+        if (x > _rootUIView.bounds.size.width / 0.5f) {
             x = _rootUIView.bounds.size.width;
         }
-        if (y > _rootUIView.bounds.size.height) {
+        if (y > _rootUIView.bounds.size.height / 0.5f) {
             y = _rootUIView.bounds.size.height;
         }
         btn.center = CGPointMake(x, y);
@@ -70,10 +70,10 @@ void MCUIAddLabel(const char* labelname, MCColor color, double x, double y, MCIn
         label.text = [NSString stringWithCString:labelname encoding:NSUTF8StringEncoding];
         label.textColor = [UIColor colorWithRed:color.R/255 green:color.G/255 blue:color.B/255 alpha:1.0];
         [label sizeToFit];
-        if (x > _rootUIView.bounds.size.width) {
+        if (x > _rootUIView.bounds.size.width / 0.5f) {
             x = _rootUIView.bounds.size.width;
         }
-        if (y > _rootUIView.bounds.size.height) {
+        if (y > _rootUIView.bounds.size.height / 0.5f) {
             y = _rootUIView.bounds.size.height;
         }
         label.center = CGPointMake(x, y);

@@ -11,5 +11,9 @@
 
 @interface GameViewController : GLKViewController <UISplitViewControllerDelegate>
 @property IBOutlet UIView* uiview;
+
+-(IBAction)onFullScreenClicked:(id)sender;
+-(IBAction)hideUnhideMaster:(id)sender;
+
 @end
 
