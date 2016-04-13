@@ -85,6 +85,8 @@
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
 		FDE489E71CBA983000129D2B /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE489E61CBA983000129D2B /* SplitViewController.m */; };
 		FDE489F41CBE88F400129D2B /* MCSkybox.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F21CBE88F400129D2B /* MCSkybox.c */; };
+		FDE489F81CBE8FA700129D2B /* MCCubeMapTex.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F61CBE8FA700129D2B /* MCCubeMapTex.c */; };
+		FDE489FB1CBE910E00129D2B /* MC2DTex.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F91CBE910E00129D2B /* MC2DTex.c */; };
 		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
 		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
 		FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF060F1B060BE1000064E3 /* GameViewController.m */; };
@@ -239,6 +241,10 @@
 		FDE489F21CBE88F400129D2B /* MCSkybox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkybox.c; sourceTree = "<group>"; };
 		FDE489F31CBE88F400129D2B /* MCSkybox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkybox.h; sourceTree = "<group>"; };
 		FDE489F51CBE8D2400129D2B /* MCLexer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCLexer.h; sourceTree = "<group>"; };
+		FDE489F61CBE8FA700129D2B /* MCCubeMapTex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCCubeMapTex.c; sourceTree = "<group>"; };
+		FDE489F71CBE8FA700129D2B /* MCCubeMapTex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCubeMapTex.h; sourceTree = "<group>"; };
+		FDE489F91CBE910E00129D2B /* MC2DTex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC2DTex.c; sourceTree = "<group>"; };
+		FDE489FA1CBE910E00129D2B /* MC2DTex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC2DTex.h; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -375,6 +381,10 @@
 				FD51835C1C7CBEAA00A74DDE /* MCMatrial.h */,
 				FD0B16471C788AF2004FD724 /* MCTexture.c */,
 				FD0B16481C788AF2004FD724 /* MCTexture.h */,
+				FDE489F91CBE910E00129D2B /* MC2DTex.c */,
+				FDE489FA1CBE910E00129D2B /* MC2DTex.h */,
+				FDE489F61CBE8FA700129D2B /* MCCubeMapTex.c */,
+				FDE489F71CBE8FA700129D2B /* MCCubeMapTex.h */,
 				FD5183581C7CBCF200A74DDE /* MCLight.c */,
 				FD5183591C7CBCF200A74DDE /* MCLight.h */,
 				FD0B163E1C78447C004FD724 /* MC3DNode.c */,
@@ -804,6 +814,8 @@
 				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,
 				FDFF066C1B06315B000064E3 /* MCMath.c in Sources */,
 				FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */,
+				FDE489FB1CBE910E00129D2B /* MC2DTex.c in Sources */,
+				FDE489F81CBE8FA700129D2B /* MCCubeMapTex.c in Sources */,
 				FD5E188C1B09CECB006CB737 /* MCCamera.c in Sources */,
 				FD5E188D1B09CECB006CB737 /* MCCube.c in Sources */,
 				FDAE48101C7DF00E009DEE97 /* image_helper.c in Sources */,

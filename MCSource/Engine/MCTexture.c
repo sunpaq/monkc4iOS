@@ -19,24 +19,48 @@ oninit(MCTexture)
     }
 }
 
+function(unsigned char*, loadImageRawdata, const char* name)
+{
+    varscope(MCTexture);
+    obj->rawdata = SOIL_load_image(name, &obj->width, &obj->height, 0, SOIL_LOAD_RGB);
+    return obj->rawdata;
+}
+
+function(void, rawdataToTexbuffer, GLenum textype)
+{
+    varscope(MCTexture);
+    glTexImage2D(textype, 0, GL_RGB, obj->width, obj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj->rawdata);
+    glGenerateMipmap(textype);
+}
+
+//GL_TEXTURE_2D
+function(void, setupTexParameter, GLenum textype)
+{
+    glTexParameteri(textype, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(textype, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(textype, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(textype, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+}
+
+function(void, freeRawdata, voida)
+{
+    varscope(MCTexture);
+    SOIL_free_image_data(obj->rawdata);
+}
+
 method(MCTexture, MCTexture*, initWithFileName, const char* name)
 {
-    obj->rawdata = SOIL_load_image(name, &obj->width, &obj->height, 0, SOIL_LOAD_RGB);
-    
     glActiveTexture(obj->textureUnit);
     glGenBuffers(1, &obj->Id);
     glBindTexture(GL_TEXTURE_2D, obj->Id);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, obj->width, obj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj->rawdata);
-    glGenerateMipmap(GL_TEXTURE_2D);
     
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    loadImageRawdata(0, obj, name);
+    rawdataToTexbuffer(0, obj, GL_TEXTURE_2D);
+    setupTexParameter(0, obj, GL_TEXTURE_2D);
+    freeRawdata(0, obj, 0);
     
     glBindTexture(GL_TEXTURE_2D, 0);
-    
-    SOIL_free_image_data(obj->rawdata);
+
     return obj;
 }
 
@@ -50,6 +74,11 @@ method(MCTexture, void, prepareTexture, MCGLContext* ctx)
 onload(MCTexture)
 {
     if (load(MCObject)) {
+        mixing(unsigned char*, loadImageRawdata, const char* name);
+        mixing(void, rawdataToTexbuffer, voida);
+        mixing(void, setupTexParameter, GLenum textype);
+        mixing(void, freeRawdata, voida);
+        
         binding(MCTexture, MCTexture*, initWithFileName, const char* name);
         binding(MCTexture, void, prepareTexture, MCGLContext* ctx);
 
