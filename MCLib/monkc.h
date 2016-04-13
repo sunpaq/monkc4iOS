@@ -342,7 +342,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define function(type, name, ...)             static type name(MCFuncPtr volatile address, void* volatile _obj, __VA_ARGS__)
 
 //property
-#define _compute(type, name)                  type (*name)(void*)
+#define computing(type, name)                 type (*name)(void*)
 #define compute(type, name)                   static type name(void* _obj)
 
 //variable
