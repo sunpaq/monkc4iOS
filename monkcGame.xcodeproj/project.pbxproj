@@ -84,6 +84,7 @@
 		FDC83B761CB2AAE5009E7159 /* airbus.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDC83B751CB2AAE5009E7159 /* airbus.obj */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
 		FDE489E71CBA983000129D2B /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE489E61CBA983000129D2B /* SplitViewController.m */; };
+		FDE489F41CBE88F400129D2B /* MCSkybox.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F21CBE88F400129D2B /* MCSkybox.c */; };
 		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
 		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
 		FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF060F1B060BE1000064E3 /* GameViewController.m */; };
@@ -208,7 +209,6 @@
 		FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		FD5EFD571B0E3D9D00D2492A /* mcicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mcicon.png; sourceTree = "<group>"; };
-		FD776DE71CA6D67100C5A4DE /* MCLexer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCLexer.h; sourceTree = "<group>"; };
 		FD819E5B1C2D4797007D4BE4 /* MCWorld.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCWorld.c; sourceTree = "<group>"; };
 		FD819E5C1C2D4797007D4BE4 /* MCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWorld.h; sourceTree = "<group>"; };
 		FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLEngine.c; sourceTree = "<group>"; };
@@ -236,6 +236,9 @@
 		FDCB46AE1B11E3C300403320 /* MCOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrbit.h; sourceTree = "<group>"; };
 		FDE489E51CBA983000129D2B /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
 		FDE489E61CBA983000129D2B /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
+		FDE489F21CBE88F400129D2B /* MCSkybox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkybox.c; sourceTree = "<group>"; };
+		FDE489F31CBE88F400129D2B /* MCSkybox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkybox.h; sourceTree = "<group>"; };
+		FDE489F51CBE8D2400129D2B /* MCLexer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCLexer.h; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -380,11 +383,12 @@
 				FD0B16421C784FB7004FD724 /* MC3DScene.h */,
 				FD4CC1FC1C96DD2E00051C15 /* MC3DModel.c */,
 				FD4CC1FD1C96DD2E00051C15 /* MC3DModel.h */,
-				FD776DE71CA6D67100C5A4DE /* MCLexer.h */,
 				FD4CC20B1C9AEAEC00051C15 /* MC3DObjParser.h */,
 				FD0097D81CB3CB13000A85DE /* MC3DMtlParser.h */,
 				FD593D2C1C9D91D20065BFC5 /* MCDirector.c */,
 				FD593D2D1C9D91D20065BFC5 /* MCDirector.h */,
+				FDE489F21CBE88F400129D2B /* MCSkybox.c */,
+				FDE489F31CBE88F400129D2B /* MCSkybox.h */,
 			);
 			name = Engine;
 			path = MCSource/Engine;
@@ -565,6 +569,7 @@
 		FDFF06501B06315B000064E3 /* Lemontea */ = {
 			isa = PBXGroup;
 			children = (
+				FDE489F51CBE8D2400129D2B /* MCLexer.h */,
 				FD5E188E1B09DEB6006CB737 /* MCArray.c */,
 				FD5E188F1B09DEB6006CB737 /* MCArray.h */,
 				FDFF06511B06315B000064E3 /* MCBuffer.c */,
@@ -795,6 +800,7 @@
 				FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */,
 				FDFF064C1B06314C000064E3 /* Messaging.c in Sources */,
 				FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */,
+				FDE489F41CBE88F400129D2B /* MCSkybox.c in Sources */,
 				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,
 				FDFF066C1B06315B000064E3 /* MCMath.c in Sources */,
 				FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */,
