@@ -10,14 +10,22 @@
 
 @implementation SplitViewController
 
--(void)viewDidLoad
-{
-    [super viewDidLoad];
 //    UISplitViewControllerDisplayModeAutomatic,
 //    UISplitViewControllerDisplayModePrimaryHidden,
 //    UISplitViewControllerDisplayModeAllVisible,
 //    UISplitViewControllerDisplayModePrimaryOverlay,
-    self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+
+-(void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+
+    }else{
+        self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
+
+    }
 }
 
 @end

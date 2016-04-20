@@ -63,7 +63,7 @@ void onSetupGL(int windowWidth, int windowHeight)
 //            MCGLError("model teapot can not be open. file broken.");
 //        }
         
-        MC3DModel* model2 = ff(new(MC3DModel), initWithFileNameColor, "sph", (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
+        MC3DModel* model2 = ff(new(MC3DModel), initWithFileNameColor, "monkey2", (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
         if (model2 != mull) {
             ff(mainScene->rootnode, addChild, model2);
             ff(director, pushScene, mainScene);

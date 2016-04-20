@@ -10,8 +10,8 @@
             <objects>
                 <splitViewController modalPresentationStyle="pageSheet" id="UZq-sT-cfX" customClass="SplitViewController" sceneMemberID="viewController">
                     <connections>
-                        <segue destination="BV1-FR-VrT" kind="relationship" relationship="detailViewController" id="Rlo-w3-jGc"/>
                         <segue destination="llM-0u-7jb" kind="relationship" relationship="masterViewController" id="Yev-Jp-Slj"/>
+                        <segue destination="1Ge-p1-RZg" kind="relationship" relationship="detailViewController" id="lHi-io-eGW"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sbq-sS-LZw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -21,7 +21,7 @@
         <!--Files-->
         <scene sceneID="WiN-Rs-i6Y">
             <objects>
-                <tableViewController title="Files" id="AAT-XS-jDj" sceneMemberID="viewController">
+                <tableViewController title="Files" id="AAT-XS-jDj" customClass="ListViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="28" sectionHeaderHeight="28" sectionFooterHeight="28" id="4If-9Z-6kz">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,7 +31,7 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="28"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nIc-9f-259" id="2If-SS-rhL">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="28"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </tableViewCellContentView>
@@ -39,7 +39,7 @@
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="AAT-XS-jDj" id="Pw3-3V-VAL"/>
-                            <outlet property="delegate" destination="AAT-XS-jDj" id="JU0-5n-1tN"/>
+                            <outlet property="delegate" destination="AAT-XS-jDj" id="fAq-ad-3t9"/>
                         </connections>
                     </tableView>
                     <toolbarItems/>
@@ -49,6 +49,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dEq-tk-Jkt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="769" y="-759"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="tXV-P3-8IT">
+            <objects>
+                <navigationController id="1Ge-p1-RZg" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Pwl-Yt-v1E">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BV1-FR-VrT" kind="relationship" relationship="rootViewController" id="l6i-XA-ceL"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bdp-bw-27P" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-194" y="211"/>
         </scene>
         <!--Files-->
         <scene sceneID="5Yy-ch-kPu">
@@ -104,6 +120,7 @@
                             <constraint firstItem="jjE-pE-3zl" firstAttribute="top" secondItem="3se-qz-xqx" secondAttribute="top" id="vd9-Iy-afD"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="gd4-io-dCC"/>
                     <splitViewDetailSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="uiview" destination="jjE-pE-3zl" id="Ljm-0h-S2R"/>
@@ -111,7 +128,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-26" y="79"/>
+            <point key="canvasLocation" x="541" y="211"/>
         </scene>
     </scenes>
 </document>
