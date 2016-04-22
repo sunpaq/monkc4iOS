@@ -37,7 +37,10 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, uns
 method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
 
 method(MC3DScene, void, updateScene, voida);
-method(MC3DScene, void, drawScene, voida);
+
+//return -1 or positive fps number
+//please update your view only when it is not -1
+method(MC3DScene, int, drawScene, voida);
 
 method(MC3DScene, void, lockCamera, MCBool lock);
 method(MC3DScene, MCCamera*, getCamera, voida);

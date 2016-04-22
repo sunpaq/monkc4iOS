@@ -94,13 +94,15 @@ void onUpdate()
     }
 }
 
-void onDraw()
+int onDraw()
 {
+    int fps = -1;
     if (director != mull) {
-        MCDirector_drawAll(0, director, 0);
+        fps = MCDirector_drawAll(0, director, 0);
     }
     
     MCLogTypeSet(MC_VERBOSE);
+    return fps;
 }
 
 //gesture callback

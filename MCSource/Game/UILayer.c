@@ -41,15 +41,16 @@ method(UILayer, UILayer*, initWithScreenSize, unsigned width, unsigned height)
     mc_message msg = response_to(obj, onButtonClicked);
     MCUIButtonRegisterCallback(msg);
     
-    MCUIAddLabelButton("", "Start",     mc_color(0, 255, 0),     50, 30, START, MCFalse);
-    MCUIAddLabelButton("", "Stop",      mc_color(255, 0, 0),     50, 70, STOP, MCFalse);
-    MCUIAddLabelButton("", "ZoomIn",    mc_color(255, 255, 255), 50, 110, ZOOM_IN, MCTrue);
-    MCUIAddLabelButton("", "ZoomOut",   mc_color(255, 255, 255), 50, 150, ZOOM_OUT, MCTrue);
-    MCUIAddLabelButton("", "Left",      mc_color(255, 255, 255), var(width)-50, 30, LEFT, MCTrue);
-    MCUIAddLabelButton("", "Right",     mc_color(255, 255, 255), var(width)-50, 70, RIGHT, MCTrue);
-    MCUIAddLabelButton("", "Up",        mc_color(255, 255, 255), var(width)-50, 110, UP, MCTrue);
-    MCUIAddLabelButton("", "Down",      mc_color(255, 255, 255), var(width)-50, 150, DOWN, MCTrue);
-    MCUIAddLabelButton("", "Change",    mc_color(255, 255, 255), var(width)-50, var(height)-30, CHANGE, MCFalse);
+//    MCUIAddLabelButton("", "Start",     mc_color(0, 255, 0),     50, 30, START, MCFalse);
+//    MCUIAddLabelButton("", "Stop",      mc_color(255, 0, 0),     50, 70, STOP, MCFalse);
+//    MCUIAddLabelButton("", "ZoomIn",    mc_color(255, 255, 255), 50, 110, ZOOM_IN, MCTrue);
+//    MCUIAddLabelButton("", "ZoomOut",   mc_color(255, 255, 255), 50, 150, ZOOM_OUT, MCTrue);
+//    MCUIAddLabelButton("", "Left",      mc_color(255, 255, 255), var(width)-50, 30, LEFT, MCTrue);
+//    MCUIAddLabelButton("", "Right",     mc_color(255, 255, 255), var(width)-50, 70, RIGHT, MCTrue);
+//    MCUIAddLabelButton("", "Up",        mc_color(255, 255, 255), var(width)-50, 110, UP, MCTrue);
+//    MCUIAddLabelButton("", "Down",      mc_color(255, 255, 255), var(width)-50, 150, DOWN, MCTrue);
+//    MCUIAddLabelButton("", "Change",    mc_color(255, 255, 255), var(width)-50, var(height)-30, CHANGE, MCFalse);
+    
     MCUIAddLabel("FPS",                 mc_color(255, 255, 255), 30, var(height)-30, FPS_TAG);
     
     return obj;

@@ -112,7 +112,10 @@
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
     //monkc draw
-    onDraw();
+    int fps = onDraw();
+	if (self.fpsLabel && fps > 0) {
+		self.fpsLabel.text = [NSString stringWithFormat:@"fps:%d", fps];
+	}
 }
 
 //UISplitViewControllerDelegate

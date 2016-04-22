@@ -98,15 +98,12 @@ method(MC3DScene, void, updateScene, voida)
     MCGLRenderer_updateNodes(0, var(renderer), var(rootnode));
 }
 
-method(MC3DScene, void, drawScene, voida)
+method(MC3DScene, int, drawScene, voida)
 {
     MCGLRenderer_drawNodes(0, var(renderer), var(rootnode));
     
     //calculate FPS
-    MCInt fps = -1;
-    if ((fps = MCGLEngine_tickFPS(var(clock))) > 0) {
-        UILayer_onFrameRenderFinished(0, obj->uilayer, fps);
-    }
+    return MCGLEngine_tickFPS(var(clock));
 }
 
 onload(MC3DScene)

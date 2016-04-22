@@ -31,11 +31,13 @@ method(MCDirector, void, updateAll, voida)
     }
 }
 
-method(MCDirector, void, drawAll, voida)
+method(MCDirector, int, drawAll, voida)
 {
+    int fps = -1;
     if (var(lastScene) != mull) {
-        MC3DScene_drawScene(0, var(lastScene), 0);
+        fps = MC3DScene_drawScene(0, var(lastScene), 0);
     }
+    return fps;
 }
 
 method(MCDirector, void, pushScene, MC3DScene* scene)

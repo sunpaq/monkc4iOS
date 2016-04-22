@@ -16,7 +16,7 @@ void onReceiveMemoryWarning();
 void onSetupGL(int windowWidth, int windowHeight);
 void onTearDownGL();
 void onUpdate();
-void onDraw();
+int onDraw();
 //Gesture callback
 void onGestureSwip();
 void onGesturePan(double x, double y);

@@ -15,5 +15,8 @@
 -(IBAction)onFullScreenClicked:(id)sender;
 -(IBAction)hideUnhideMaster:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIView *hudView;
+@property (weak, nonatomic) IBOutlet UILabel *fpsLabel;
+
 @end
 

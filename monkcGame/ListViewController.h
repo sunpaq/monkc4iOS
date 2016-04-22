@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ListViewController : UITableViewController <UITableViewDelegate>
+@interface ListViewController : UITableViewController
 @property IBOutlet UITableViewController* detailViewController;
 -(IBAction) dismissSelf;
 @end

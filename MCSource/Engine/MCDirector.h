@@ -19,7 +19,10 @@ class(MCDirector, MCObject,
 
 method(MCDirector, void, bye, voida);
 method(MCDirector, void, updateAll, voida);
-method(MCDirector, void, drawAll, voida);
+
+//return -1 or positive fps number
+//please update your view only when it is not -1
+method(MCDirector, int, drawAll, voida);
 
 method(MCDirector, void, pushScene, MC3DScene* scene);
 method(MCDirector, void, popScene, voida);
