@@ -176,6 +176,7 @@ double onZoomInOut(double value)
 void onResizeScreen(int windowWidth, int windowHeight)
 {
     if (director != mull) {
+        
         ff(director, resizeAllScene, windowWidth, windowHeight);
     }
 }
