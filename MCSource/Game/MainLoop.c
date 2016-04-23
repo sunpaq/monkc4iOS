@@ -37,11 +37,15 @@ void onOpenExternalFile(const char* filepath)
     ff(director->lastScene->rootnode, addChild, model);
 }
 
-void onOpenFile(const char* filename)
+//pass an int pointer as the file lock
+//pass mull avoid using lock
+void onOpenFile(const char* filename, int* lock)
 {
+    if(lock != mull) *lock = 1;
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
     
     ff(director->lastScene->rootnode, addChild, model);
+    if(lock != mull) *lock = 0;
 }
 
 void onReceiveMemoryWarning()
@@ -64,7 +68,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         mainScene->super.nextResponder = (MCObject*)director;
         ff(director, pushScene, mainScene);
         if (filename) {
-            onOpenFile(filename);
+            onOpenFile(filename, mull);
         }
                 
         /*

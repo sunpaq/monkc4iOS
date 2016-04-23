@@ -9,10 +9,14 @@
 #import "ListViewController.h"
 #import "MC3DiOS.h"
 
-@implementation ListViewController
+@implementation ListViewController {
+    
+}
 
 -(void)viewDidLoad
 {
+    [super viewDidLoad];
+        
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.listData = [NSMutableArray array];
@@ -37,7 +41,11 @@
 -(void) delayOpen:(NSString*)name
 {
     const char* cfile = [name cStringUsingEncoding:NSUTF8StringEncoding];
-    onOpenFile(cfile);
+    static int lock = 0;
+    if (lock == 0) {
+        onOpenFile(cfile, &lock);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model" object:name];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

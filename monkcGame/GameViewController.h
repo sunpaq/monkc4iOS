@@ -14,7 +14,10 @@
 @property (strong, nonatomic) IBOutlet GLKView *uiview;
 @property (weak, nonatomic) IBOutlet UILabel *fpsLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *stepper;
+@property (weak, nonatomic) IBOutlet UINavigationItem *naviItem;
 
 @property NSString* filename;
+
+- (void) onReceiveModelName:(NSString*)name;
 @end
 

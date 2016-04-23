@@ -37,6 +37,13 @@
     if (self.splitViewController != nil) {
         self.splitViewController.delegate = self;
     }
+	
+	//[[NSNotificationCenter defaultCenter] postNotificationName:@"open.model" object:name];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(onReceiveModelName:)
+												 name:@"sapindus.open.model"
+											   object:nil];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -176,6 +183,13 @@
 - (IBAction)zoomInOut:(id)sender {
 	UIStepper* s = (UIStepper*)sender;
 	onZoomInOut(s.value);
+}
+
+- (void) onReceiveModelName:(NSNotification*)noti {
+	if (noti) {
+		NSString* name = (NSString*)noti.object;
+		self.naviItem.title = name;
+	}
 }
 
 @end

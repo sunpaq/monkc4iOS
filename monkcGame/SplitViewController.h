@@ -10,8 +10,6 @@
 
 @interface SplitViewController : UISplitViewController
 
-@property IBOutlet UINavigationController* nvc;
-@property IBOutlet UIViewController* glvc;
-
+@property (nonatomic) NSString* currentFileName;
 
 @end

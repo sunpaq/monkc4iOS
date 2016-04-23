@@ -18,9 +18,7 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    self.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
 
-    /*
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         self.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
 
@@ -28,7 +26,6 @@
         self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
 
     }
-    */
 }
 
 @end

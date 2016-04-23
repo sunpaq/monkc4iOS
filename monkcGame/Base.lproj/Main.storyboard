@@ -176,13 +176,14 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Model Name" id="gd4-io-dCC">
+                    <navigationItem key="navigationItem" title="Model Name" prompt="left slide-in to find file list" id="gd4-io-dCC">
                         <barButtonItem key="backBarButtonItem" title="Model" id="IMl-qc-h0i"/>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <splitViewDetailSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="fpsLabel" destination="j4H-d8-6Hb" id="EGW-Ao-B6i"/>
+                        <outlet property="naviItem" destination="gd4-io-dCC" id="811-Ak-22U"/>
                         <outlet property="stepper" destination="CIl-pj-ZRi" id="WJx-zK-4MJ"/>
                         <outlet property="uiview" destination="3se-qz-xqx" id="muW-VD-NN7"/>
                     </connections>
