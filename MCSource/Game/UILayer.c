@@ -51,7 +51,7 @@ method(UILayer, UILayer*, initWithScreenSize, unsigned width, unsigned height)
 //    MCUIAddLabelButton("", "Down",      mc_color(255, 255, 255), var(width)-50, 150, DOWN, MCTrue);
 //    MCUIAddLabelButton("", "Change",    mc_color(255, 255, 255), var(width)-50, var(height)-30, CHANGE, MCFalse);
     
-    MCUIAddLabel("FPS",                 mc_color(255, 255, 255), 30, var(height)-30, FPS_TAG);
+//    MCUIAddLabel("FPS",                 mc_color(255, 255, 255), 30, var(height)-30, FPS_TAG);
     
     return obj;
 }

@@ -9,5 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface MasterNavController : UINavigationController
--(IBAction) onCloseClicked:(id)sender;
 @end

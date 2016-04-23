@@ -10,13 +10,10 @@
 #import <GLKit/GLKit.h>
 
 @interface GameViewController : GLKViewController <UISplitViewControllerDelegate>
-@property IBOutlet UIView* uiview;
 
--(IBAction)onFullScreenClicked:(id)sender;
--(IBAction)hideUnhideMaster:(id)sender;
-
-@property (weak, nonatomic) IBOutlet UIView *hudView;
+@property (strong, nonatomic) IBOutlet GLKView *uiview;
 @property (weak, nonatomic) IBOutlet UILabel *fpsLabel;
+@property (weak, nonatomic) IBOutlet UIStepper *stepper;
 
 @end
 

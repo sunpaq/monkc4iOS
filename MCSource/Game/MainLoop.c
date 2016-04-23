@@ -101,7 +101,7 @@ int onDraw()
         fps = MCDirector_drawAll(0, director, 0);
     }
     
-    MCLogTypeSet(MC_VERBOSE);
+    MCLogTypeSet(MC_DEBUG);
     return fps;
 }
 
@@ -109,7 +109,7 @@ int onDraw()
 void onGestureSwip()
 {
     if (director != mull && director->lastScene != mull) {
-        MCDirector_popScene(0, director, 0);
+        //MCDirector_popScene(0, director, 0);
     }
 }
 
@@ -139,9 +139,28 @@ void onGesturePinch(double scale)
     }
 }
 
+double onZoomInOut(double value)
+{
+    MCCamera* camera = director->lastScene->mainCamera;
+    if (director != mull && director->lastScene != mull && camera != mull) {
+        if (value > 0) {
+            camera->R = value;
+        }
+    }
+    return camera->R;
+}
+
 void onResizeScreen(int windowWidth, int windowHeight)
 {
     if (director != mull) {
         ff(director, resizeAllScene, windowWidth, windowHeight);
     }
 }
+
+void onStartStopBtn(int startOrStop)
+{
+    if (director && director->lastScene) {
+        director->lastScene->cameraLock = !startOrStop;
+    }
+}
+

@@ -17,9 +17,4 @@
     
 }
 
--(IBAction) onCloseClicked:(id)sender
-{
-    [sender dismissViewControllerAnimated:YES completion:nil];
-}
-
 @end

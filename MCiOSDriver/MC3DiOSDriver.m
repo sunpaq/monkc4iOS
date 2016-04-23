@@ -36,7 +36,7 @@ void MCUIRegisterRootUIView(void* rootview)
     
     [_handler.targetView addGestureRecognizer:_handler.pan];
     [_handler.targetView addGestureRecognizer:_handler.pinch];
-    [_handler.targetView addGestureRecognizer:_handler.swip];
+    //[_handler.targetView addGestureRecognizer:_handler.swip];
 }
 
 void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, double x, double y, MCInt tag, MCBool isContinuous)

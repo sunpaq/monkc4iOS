@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ListViewController : UITableViewController
-@property IBOutlet UITableViewController* detailViewController;
--(IBAction) dismissSelf;
+-(IBAction)unwindToList:(UIStoryboardSegue *)segue;
 @end

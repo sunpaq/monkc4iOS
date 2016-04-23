@@ -46,7 +46,7 @@
 	if (self.uiview) {
 		onRootViewLoad((__bridge void *)(self.uiview));
 	}
-	
+
 	//OpenGL
 	[self setupGL:(GLKView *)self.view];
 }
@@ -91,6 +91,11 @@
     double height = self.view.bounds.size.height;
     
     onSetupGL(width, height);
+	
+	//stepper
+	if (self.stepper != nil) {
+		self.stepper.value = onZoomInOut(-1.0);
+	}
 }
 
 - (void)tearDownGL
@@ -158,13 +163,18 @@
 
 }
 
--(IBAction)onFullScreenClicked:(id)sender
-{
-	//[self.parentViewController dismissViewControllerAnimated:self.parentViewController completion:nil];
+- (IBAction)startStopBtnClicked:(id)sender {
+	UISwitch* s = (UISwitch*)sender;
+	if (s && s.isOn) {
+		onStartStopBtn(1);
+	}else{
+		onStartStopBtn(0);
+	}
 }
 
--(IBAction)hideUnhideMaster:(id)sender
-{
+- (IBAction)zoomInOut:(id)sender {
+	UIStepper* s = (UIStepper*)sender;
+	onZoomInOut(s.value);
 }
 
 @end

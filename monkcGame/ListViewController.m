@@ -25,9 +25,9 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
--(IBAction) dismissSelf
+-(IBAction)unwindToList:(UIStoryboardSegue *)segue
 {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+
 }
 
 @end
