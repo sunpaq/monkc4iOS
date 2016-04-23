@@ -12,7 +12,8 @@ oninit(MCDirector)
 {
     if (init(MCObject)) {
         var(lastScene) = mull;
-        
+        var(currentWidth) = 0;
+        var(currentHeight) = 0;
         return obj;
     }else{
         return mull;
@@ -84,14 +85,19 @@ method(MCDirector, void, popScene, voida)
 
 method(MCDirector, void, resizeAllScene, int width, int height)
 {
-    MC3DScene* iter = var(lastScene);
-    while (iter && iter->prev != mull) {
+    if (var(currentWidth) == width && var(currentHeight) == height) {
+        //no need to update
+        return;
+    }
+    MC3DScene* iter;
+    for (iter=var(lastScene); iter!=mull; iter=iter->prev) {
         if (iter->mainCamera != mull) {
             iter->mainCamera->ratio = MCRatioMake(width, height);
             ff(iter->mainCamera, updateRatioFocalDistance, 0);
         }
-        iter = iter->prev;
     }
+    var(currentWidth) = width;
+    var(currentHeight) = height;
 }
 
 onload(MCDirector)

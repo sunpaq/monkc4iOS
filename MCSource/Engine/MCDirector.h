@@ -15,6 +15,8 @@
 
 class(MCDirector, MCObject,
       MC3DScene* lastScene;
+      int currentWidth;
+      int currentHeight;
 );
 
 method(MCDirector, void, bye, voida);
