@@ -77,10 +77,10 @@ method(UILayer, void, onButtonClicked, MCInt tag)
             ff(obj, lockCamera, MCTrue);
             break;
         case ZOOM_IN:
-            cam->R -= 1;
+            cam->R_value -= 1;
             break;
         case ZOOM_OUT:
-            cam->R += 1;
+            cam->R_value += 1;
             break;
             
         case LEFT:

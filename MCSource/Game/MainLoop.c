@@ -64,7 +64,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         
         //scene1
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
-        mainScene->mainCamera->R = 30;
+        mainScene->mainCamera->R_value = 30;
         mainScene->super.nextResponder = (MCObject*)director;
         ff(director, pushScene, mainScene);
         if (filename) {
@@ -141,33 +141,30 @@ void onGesturePan(double x, double y)
 
 void onGesturePinch(double scale)
 {
-    double s = scale * 0.5;
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != mull && director->lastScene != mull && camera != mull) {
+        double s = scale * 0.5;
+        
         if (s >= 0) {//zoom out
-            if (camera->R < 100) {
-                camera->R += s;
+            if (camera->R_value < 100.0) {
+                camera->R_value += s;
             }
         }
         else {//zoom in
-            if (camera->R > 1) {
-                camera->R += s;
+            if (camera->R_value > 1) {
+                camera->R_value += s;
             }
         }
     }
 }
 
-double onZoomInOut(double value)
+double onZoomInOut(double percentage)
 {
     if (director != mull && director->lastScene != mull) {
         MCCamera* camera = director->lastScene->mainCamera;
         if (camera != mull) {
-            if (value > 0) {
-                camera->R = value;
-                return value;
-            }else{
-                return camera->R;
-            }
+            camera->R_percent = percentage;
+            return camera->Radius(camera);
         }
     }
     return 0;
