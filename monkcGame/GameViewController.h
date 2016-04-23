@@ -15,9 +15,12 @@
 @property (weak, nonatomic) IBOutlet UILabel *fpsLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *stepper;
 @property (weak, nonatomic) IBOutlet UINavigationItem *naviItem;
+@property (weak, nonatomic) IBOutlet UILabel *camDistance;
 
 @property NSString* filename;
 
-- (void) onReceiveModelName:(NSString*)name;
+- (void) onOpenModelStart:(NSNotification*)noti;
+- (void) onOpenModelStop:(NSNotification*)noti;
+
 @end
 

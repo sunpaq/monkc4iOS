@@ -32,6 +32,8 @@ void onGesturePinch(double scale);
 //Orientation Handling
 void onResizeScreen(int windowWidth, int windowHeight);
 void onStartStopBtn(int startOrStop);
-double onZoomInOut(double value);
+
+//pass the percentage of origin camera distance
+double onZoomInOut(double percentage);
 
 #endif /* MC3DiOS_h */

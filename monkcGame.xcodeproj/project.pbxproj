@@ -81,6 +81,7 @@
 		FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDAE48171C7E0943009DEE97 /* mcicon.jpg */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
 		FDD1F1B41CBFF6800079C434 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDD1F1B31CBFF6800079C434 /* MCRuntimeAsmIOS.S */; };
+		FDD87DF51CCBCC1400D292D3 /* DetailNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */; };
 		FDE489E71CBA983000129D2B /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE489E61CBA983000129D2B /* SplitViewController.m */; };
 		FDE489F41CBE88F400129D2B /* MCSkybox.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F21CBE88F400129D2B /* MCSkybox.c */; };
 		FDE489F81CBE8FA700129D2B /* MCCubeMapTex.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F61CBE8FA700129D2B /* MCCubeMapTex.c */; };
@@ -235,6 +236,8 @@
 		FDCB46AD1B11E3C300403320 /* MCOrbit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCOrbit.c; sourceTree = "<group>"; };
 		FDCB46AE1B11E3C300403320 /* MCOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrbit.h; sourceTree = "<group>"; };
 		FDD1F1B31CBFF6800079C434 /* MCRuntimeAsmIOS.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = MCRuntimeAsmIOS.S; path = MCRuntimeAsm/MCRuntimeAsmIOS.S; sourceTree = "<group>"; };
+		FDD87DF31CCBCC1400D292D3 /* DetailNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailNavController.h; sourceTree = "<group>"; };
+		FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailNavController.m; sourceTree = "<group>"; };
 		FDE489E51CBA983000129D2B /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
 		FDE489E61CBA983000129D2B /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		FDE489F21CBE88F400129D2B /* MCSkybox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkybox.c; sourceTree = "<group>"; };
@@ -508,6 +511,8 @@
 				FDFF06081B060BE1000064E3 /* AppDelegate.m */,
 				FD9A56491CC8E2BC00F90DCB /* MasterNavController.h */,
 				FD9A564A1CC8E2BC00F90DCB /* MasterNavController.m */,
+				FDD87DF31CCBCC1400D292D3 /* DetailNavController.h */,
+				FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */,
 				FDE489E51CBA983000129D2B /* SplitViewController.h */,
 				FDE489E61CBA983000129D2B /* SplitViewController.m */,
 				FD9A56461CC696A200F90DCB /* ListViewController.h */,
@@ -782,6 +787,7 @@
 				FD5E18901B09DEB6006CB737 /* MCArray.c in Sources */,
 				FD5183571C7CA5EA00A74DDE /* MCGLContext.c in Sources */,
 				FD0B16461C788ADE004FD724 /* MCMesh.c in Sources */,
+				FDD87DF51CCBCC1400D292D3 /* DetailNavController.m in Sources */,
 				FD5E188B1B09CECB006CB737 /* MC3DMainLoop.c in Sources */,
 				FDFF06691B06315B000064E3 /* MCContext.c in Sources */,
 				FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */,

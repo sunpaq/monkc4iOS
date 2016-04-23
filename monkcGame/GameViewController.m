@@ -40,8 +40,12 @@
 	
 	//[[NSNotificationCenter defaultCenter] postNotificationName:@"open.model" object:name];
 	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(onReceiveModelName:)
-												 name:@"sapindus.open.model"
+											 selector:@selector(onOpenModelStart:)
+												 name:@"sapindus.open.model.start"
+											   object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(onOpenModelStop:)
+												 name:@"sapindus.open.model.stop"
 											   object:nil];
 
 }
@@ -99,11 +103,6 @@
 	
 	const char* cfile = [self.filename cStringUsingEncoding:NSUTF8StringEncoding];
     onSetupGL(width, height, cfile);
-	
-	//stepper
-	if (self.stepper != nil) {
-		self.stepper.value = onZoomInOut(-1.0);
-	}
 }
 
 - (void)tearDownGL
@@ -182,12 +181,30 @@
 
 - (IBAction)zoomInOut:(id)sender {
 	UIStepper* s = (UIStepper*)sender;
-	onZoomInOut(s.value);
+	if (s.value == 0) {
+		s.value = 100;
+		s.maximumValue = 200;
+		s.minimumValue = 0;
+	}
+	double percent = s.value / 100.0;
+	double R = onZoomInOut(percent);
+	self.camDistance.text = [NSString stringWithFormat:@"camera:%dm", (int)R];
 }
 
-- (void) onReceiveModelName:(NSNotification*)noti {
+- (void) onOpenModelStart:(NSNotification*)noti
+{
 	if (noti) {
 		NSString* name = (NSString*)noti.object;
+		self.naviItem.prompt = nil;
+		self.naviItem.title = [NSString stringWithFormat:@"Loading %@ please wait...", name];
+	}
+}
+
+- (void) onOpenModelStop:(NSNotification*)noti
+{
+	if (noti) {
+		NSString* name = (NSString*)noti.object;
+		self.naviItem.prompt = nil;
 		self.naviItem.title = name;
 	}
 }

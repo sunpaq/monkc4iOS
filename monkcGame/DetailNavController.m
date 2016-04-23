@@ -1,14 +1,14 @@
 //
-//  MasterNavController.m
+//  DetailNavController.m
 //  monkcGame
 //
-//  Created by Sun YuLi on 16/4/21.
+//  Created by Sun YuLi on 16/4/23.
 //  Copyright © 2016年 oreisoft. All rights reserved.
 //
 
-#import "MasterNavController.h"
+#import "DetailNavController.h"
 
-@implementation MasterNavController
+@implementation DetailNavController
 
 -(void)viewDidLoad
 {

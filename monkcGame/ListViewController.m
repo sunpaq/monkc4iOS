@@ -34,6 +34,7 @@
     NSString* filename = [self.listData objectAtIndex:i];
     if (filename && ![filename isEqualToString:@""]) {
         NSString* file = [filename stringByDeletingPathExtension];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model.start" object:file];
         [self performSelector:@selector(delayOpen:) withObject:file afterDelay:0.2f];
     }
 }
@@ -44,7 +45,7 @@
     static int lock = 0;
     if (lock == 0) {
         onOpenFile(cfile, &lock);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model" object:name];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model.stop" object:name];
     }
 }
 

@@ -1,5 +1,6 @@
 #include "MCCamera.h"
 
+compute(double, Radius);
 compute(MCMatrix4, mvproj);
 compute(MCMatrix3, normal);
 function(void, updateRatioFocalDistance, voida);
@@ -17,10 +18,12 @@ oninit(MCCamera)
         //world coordinate
         var(currentPosition) = MCVector3Make(0, 0, 0);
         //local spherical coordinate
-        var(R) = 100;
+        var(R_value) = 100;
+        var(R_percent) = 1.0;
         var(tht) = 60.0;
         var(fai) = 45.0;
         
+        var(Radius) = Radius;
         var(mvproj) = mvproj;
         var(normal) = normal;
         
@@ -29,6 +32,12 @@ oninit(MCCamera)
     }else{
         return mull;
     }
+}
+
+compute(double, Radius)
+{
+    varscope(MCCamera);
+    return (obj->R_value * obj->R_percent);
 }
 
 compute(MCMatrix4, mvproj)
@@ -50,7 +59,7 @@ method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height
 {
     //setting camera
     obj->ratio = MCRatioMake(width, height);
-    obj->R = 5;
+    obj->R_value = 5;
     return obj;
 }
 
@@ -71,7 +80,7 @@ function(void, updateRatioFocalDistance, voida)
 function(void, updatePosition, MCVector3* result)
 {
     varscope(MCCamera);
-    var(currentPosition) = MCWorldCoorFromLocal(MCVertexFromSpherical(var(R), var(tht), var(fai)), var(lookat));
+    var(currentPosition) = MCWorldCoorFromLocal(MCVertexFromSpherical(cvar(Radius), var(tht), var(fai)), var(lookat));
     if (result != mull) {
         result->x = var(currentPosition).x;
         result->y = var(currentPosition).x;
@@ -83,16 +92,16 @@ function(void, updateLookat, voida)
 {
     varscope(MCCamera);
     MCVector3 modelpos = var(lookat);
-    MCVector3 eyelocal = MCVertexFromSpherical(var(R), var(tht), var(fai));
+    MCVector3 eyelocal = MCVertexFromSpherical(obj->Radius(obj), var(tht), var(fai));
     MCVector3 eye = MCWorldCoorFromLocal(eyelocal, modelpos);
     
     MCVector3 up = (MCVector3){0.0, 1.0, 0.0};
     if (var(tht) > 0.0 && var(tht) < 90.0) {
-        MCVector3 Npole = MCVector3Make(0, var(R)/MCCosDegrees(var(tht)), 0);
+        MCVector3 Npole = MCVector3Make(0, cvar(Radius)/MCCosDegrees(var(tht)), 0);
         up = (MCVector3){Npole.x-eye.x, Npole.y-eye.y, Npole.z-eye.z};
     }
     else if (var(tht) > 90.0 && var(tht) < 180.0) {
-        MCVector3 Spole = MCVector3Make(0, -var(R)/MCCosDegrees(180.0-var(tht)), 0);
+        MCVector3 Spole = MCVector3Make(0, -cvar(Radius)/MCCosDegrees(180.0-var(tht)), 0);
         up = (MCVector3){eye.x-Spole.x, eye.y-Spole.y, eye.z-Spole.z};
     }
     var(modelViewMatrix) = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,

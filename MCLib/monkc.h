@@ -348,7 +348,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 //variable
 #define var(vname)                            (obj->vname)
 #define svar(vname)                           (obj->super.vname)
-#define cvar(vname)                           (obj->vname(obj))
+#define cvar(vname)                           obj->vname(obj)
 #define cast(type, obj) 				      ((type)obj)
 #define sobj                                  (&(obj->super))
 #define varscope(cls)                         cls* obj = (cls*)_obj

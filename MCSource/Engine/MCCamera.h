@@ -17,10 +17,12 @@ class(MCCamera, MC3DNode,
     MCVector3 currentPosition;
     //local spherical coordinate
     //R[0,unlimited) tht[0, 180.0), fai[0, 360.0)
-    double R;
+    double R_value;
+    double R_percent;
     double tht;
     double fai;
     
+    computing(double, Radius);
     computing(MCMatrix4, mvproj);
     computing(MCMatrix3, normal);
 );
