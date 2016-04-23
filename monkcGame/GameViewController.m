@@ -89,8 +89,9 @@
     //setup monkc
     double width = self.view.bounds.size.width;
     double height = self.view.bounds.size.height;
-    
-    onSetupGL(width, height);
+	
+	const char* cfile = [self.filename cStringUsingEncoding:NSUTF8StringEncoding];
+    onSetupGL(width, height, cfile);
 	
 	//stepper
 	if (self.stepper != nil) {

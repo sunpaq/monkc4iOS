@@ -11,12 +11,16 @@
 
 //GL callback
 void onRootViewLoad(void* rootview);
-void onOpenExternalFile(const char* filepath);
 void onReceiveMemoryWarning();
-void onSetupGL(int windowWidth, int windowHeight);
+void onSetupGL(int windowWidth, int windowHeight, const char* filename);
 void onTearDownGL();
 void onUpdate();
 int onDraw();
+
+//File callback
+void onOpenExternalFile(const char* filepath);
+void onOpenFile(const char* filename);
+
 //Gesture callback
 void onGestureSwip();
 void onGesturePan(double x, double y);

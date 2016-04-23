@@ -65,6 +65,7 @@
 		FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */; };
 		FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */; };
 		FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD571B0E3D9D00D2492A /* mcicon.png */; };
+		FD7FF8EA1CCB3FA9008106E5 /* SettingsListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7FF8E91CCB3FA9008106E5 /* SettingsListController.m */; };
 		FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5B1C2D4797007D4BE4 /* MCWorld.c */; };
 		FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */; };
 		FD9A56481CC696A200F90DCB /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9A56471CC696A200F90DCB /* ListViewController.m */; };
@@ -203,6 +204,8 @@
 		FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		FD5EFD571B0E3D9D00D2492A /* mcicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mcicon.png; sourceTree = "<group>"; };
+		FD7FF8E81CCB3FA9008106E5 /* SettingsListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsListController.h; sourceTree = "<group>"; };
+		FD7FF8E91CCB3FA9008106E5 /* SettingsListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsListController.m; sourceTree = "<group>"; };
 		FD819E5B1C2D4797007D4BE4 /* MCWorld.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCWorld.c; sourceTree = "<group>"; };
 		FD819E5C1C2D4797007D4BE4 /* MCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWorld.h; sourceTree = "<group>"; };
 		FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLEngine.c; sourceTree = "<group>"; };
@@ -503,6 +506,8 @@
 				FDE489E61CBA983000129D2B /* SplitViewController.m */,
 				FD9A56461CC696A200F90DCB /* ListViewController.h */,
 				FD9A56471CC696A200F90DCB /* ListViewController.m */,
+				FD7FF8E81CCB3FA9008106E5 /* SettingsListController.h */,
+				FD7FF8E91CCB3FA9008106E5 /* SettingsListController.m */,
 				FDFF060E1B060BE1000064E3 /* GameViewController.h */,
 				FDFF060F1B060BE1000064E3 /* GameViewController.m */,
 				FDFF06111B060BE1000064E3 /* Main.storyboard */,
@@ -779,6 +784,7 @@
 				FDFF066D1B06315B000064E3 /* MCProcess.c in Sources */,
 				FD0B16491C788AF2004FD724 /* MCTexture.c in Sources */,
 				FDFF06451B06314C000064E3 /* HashTable.c in Sources */,
+				FD7FF8EA1CCB3FA9008106E5 /* SettingsListController.m in Sources */,
 				FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */,
 				FD0B164C1C789203004FD724 /* MCVertex.c in Sources */,
 				FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */,

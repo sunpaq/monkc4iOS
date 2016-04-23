@@ -28,7 +28,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="nIc-9f-259">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="FilesListCell" id="nIc-9f-259">
                                 <rect key="frame" x="0.0" y="122" width="600" height="28"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nIc-9f-259" id="2If-SS-rhL">
@@ -36,6 +36,9 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="DTF-B9-IT6" kind="showDetail" id="dWP-9Y-ENf"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -50,8 +53,8 @@
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Title" prompt="Prompt" id="DHW-Kj-4P6">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="0FR-5g-oBh"/>
+                    <navigationItem key="navigationItem" title="Files List" prompt="powered by BohdiEngine" id="DHW-Kj-4P6">
+                        <barButtonItem key="backBarButtonItem" title="Files List" id="0FR-5g-oBh"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
@@ -62,13 +65,13 @@
         <!--Settings-->
         <scene sceneID="fJ6-aD-xZM">
             <objects>
-                <tableViewController id="SmE-68-Fdg" sceneMemberID="viewController">
+                <tableViewController id="SmE-68-Fdg" customClass="SettingsListController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="POg-e8-gQq">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="mHh-hF-Ztp">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SettingsListCell" id="mHh-hF-Ztp">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mHh-hF-Ztp" id="l0A-Yl-cmu">
@@ -120,7 +123,7 @@
             </objects>
             <point key="canvasLocation" x="-7" y="-655"/>
         </scene>
-        <!--Game View Controller-->
+        <!--Model Name-->
         <scene sceneID="tXr-a1-R10">
             <objects>
                 <viewController modalPresentationStyle="currentContext" id="BV1-FR-VrT" customClass="GameViewController" sceneMemberID="viewController">
@@ -173,7 +176,9 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="gd4-io-dCC"/>
+                    <navigationItem key="navigationItem" title="Model Name" id="gd4-io-dCC">
+                        <barButtonItem key="backBarButtonItem" title="Model" id="IMl-qc-h0i"/>
+                    </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <splitViewDetailSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
@@ -184,12 +189,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="778" y="33"/>
+            <point key="canvasLocation" x="714" y="111"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Model View-->
         <scene sceneID="lGh-hD-orP">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DTF-B9-IT6" sceneMemberID="viewController">
+                <navigationController title="Model View" automaticallyAdjustsScrollViewInsets="NO" id="DTF-B9-IT6" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fPN-Bd-jR1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -223,5 +228,8 @@
             <point key="canvasLocation" x="1366" y="-660"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="dWP-9Y-ENf"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.90393897251308897" green="0.41260930407416069" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
 </document>

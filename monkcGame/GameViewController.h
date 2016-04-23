@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *fpsLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *stepper;
 
+@property NSString* filename;
 @end
 

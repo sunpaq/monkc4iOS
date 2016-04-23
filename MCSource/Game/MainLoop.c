@@ -37,6 +37,13 @@ void onOpenExternalFile(const char* filepath)
     ff(director->lastScene->rootnode, addChild, model);
 }
 
+void onOpenFile(const char* filename)
+{
+    MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
+    
+    ff(director->lastScene->rootnode, addChild, model);
+}
+
 void onReceiveMemoryWarning()
 {
     MC3DScene* mainScene = director->lastScene;
@@ -45,7 +52,7 @@ void onReceiveMemoryWarning()
     }
 }
 
-void onSetupGL(int windowWidth, int windowHeight)
+void onSetupGL(int windowWidth, int windowHeight, const char* filename)
 {
     MCLogTypeSet(MC_DEBUG);
     if (director == mull) {
@@ -54,14 +61,20 @@ void onSetupGL(int windowWidth, int windowHeight)
         //scene1
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
         mainScene->mainCamera->R = 30;
-
-//        MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, "teapot", (MCColorRGBAf){0.2, 0.2, 0.8, 1.0});
-//        if (model != mull) {
-//            ff(mainScene->rootnode, addChild, model);
-//            ff(director, pushScene, mainScene);
-//        }else{
-//            MCGLError("model teapot can not be open. file broken.");
-//        }
+        mainScene->super.nextResponder = (MCObject*)director;
+        ff(director, pushScene, mainScene);
+        if (filename) {
+            onOpenFile(filename);
+        }
+        
+        /*
+        MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, "teapot", (MCColorRGBAf){0.2, 0.2, 0.8, 1.0});
+        if (model != mull) {
+            ff(mainScene->rootnode, addChild, model);
+            ff(director, pushScene, mainScene);
+        }else{
+            MCGLError("model teapot can not be open. file broken.");
+        }
         
         MC3DModel* model2 = ff(new(MC3DModel), initWithFileNameColor, "monkey2", (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
         if (model2 != mull) {
@@ -76,14 +89,15 @@ void onSetupGL(int windowWidth, int windowHeight)
         ff(scene2->rootnode, addChild, model3);
         ff(director, pushScene, scene2);
         
-        mainScene->super.nextResponder = (MCObject*)director;
         scene2->super.nextResponder = (MCObject*)director;
+        */
     }
 }
 
 void onTearDownGL()
 {
     release(director);
+    director = mull;
 }
 
 void onUpdate()
@@ -141,13 +155,18 @@ void onGesturePinch(double scale)
 
 double onZoomInOut(double value)
 {
-    MCCamera* camera = director->lastScene->mainCamera;
-    if (director != mull && director->lastScene != mull && camera != mull) {
-        if (value > 0) {
-            camera->R = value;
+    if (director != mull && director->lastScene != mull) {
+        MCCamera* camera = director->lastScene->mainCamera;
+        if (camera != mull) {
+            if (value > 0) {
+                camera->R = value;
+                return value;
+            }else{
+                return camera->R;
+            }
         }
     }
-    return camera->R;
+    return 0;
 }
 
 void onResizeScreen(int windowWidth, int windowHeight)
