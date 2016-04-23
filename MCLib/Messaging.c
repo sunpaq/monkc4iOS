@@ -39,11 +39,11 @@ mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hash
 	mc_message tmpmsg = {mull, mull};
 
 	if(obj == mull){
-		error_log("_self_response_to(obj) obj is mull. return {mull, mull}\n");
+		//no need to warning user
 		return tmpmsg;
 	}
 	if(obj->isa == mull){
-		error_log("_self_response_to(obj) obj->isa is mull. return {mull, mull}\n");
+		error_log("_self_response_to(obj, '%s') obj->isa is mull. return {mull, mull}\n", methodname);
 		return tmpmsg;
 	}
 

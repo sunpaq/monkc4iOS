@@ -18,14 +18,17 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    self.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
 
+    /*
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+        self.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
 
     }else{
         self.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryOverlay;
 
     }
+    */
 }
 
 @end

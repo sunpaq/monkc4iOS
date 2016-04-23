@@ -66,7 +66,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         if (filename) {
             onOpenFile(filename);
         }
-        
+                
         /*
         MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, "teapot", (MCColorRGBAf){0.2, 0.2, 0.8, 1.0});
         if (model != mull) {

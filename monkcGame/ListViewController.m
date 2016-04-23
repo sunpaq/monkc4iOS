@@ -30,7 +30,7 @@
     NSString* filename = [self.listData objectAtIndex:i];
     if (filename && ![filename isEqualToString:@""]) {
         NSString* file = [filename stringByDeletingPathExtension];
-        [self performSelector:@selector(delayOpen:) withObject:file afterDelay:0.5f];
+        [self performSelector:@selector(delayOpen:) withObject:file afterDelay:0.2f];
     }
 }
 
@@ -58,7 +58,7 @@
 //unwind segue
 -(IBAction)unwindToList:(UIStoryboardSegue *)segue
 {
-
+    //we can save data here
 }
 
 @end

@@ -19,8 +19,24 @@ oninit(MCDirector)
     }
 }
 
+function(void, releaseScenes, MC3DScene* scene)
+{
+    varscope(MCDirector);
+    if (scene!= mull) {
+        if (scene->prev != mull) {
+            releaseScenes(0, obj, scene->prev);
+        }else{
+            release(scene);
+        }
+    }
+}
+
 method(MCDirector, void, bye, voida)
 {
+    if (obj->lastScene != mull) {
+        releaseScenes(0, obj, obj->lastScene);
+    }
+    
     MCObject_bye(0, sobj, 0);
 }
 
@@ -81,6 +97,8 @@ method(MCDirector, void, resizeAllScene, int width, int height)
 onload(MCDirector)
 {
     if (load(MCObject)) {
+        mixing(void, releaseScenes, MC3DScene* scene);
+        
         binding(MCDirector, void, bye, voida);
         binding(MCDirector, void, updateAll, voida);
         binding(MCDirector, void, drawAll, voida);
