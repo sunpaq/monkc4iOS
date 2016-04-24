@@ -126,7 +126,7 @@ void onGesturePinch(double scale)
 {
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != mull && director->lastScene != mull && camera != mull) {
-        double s = scale * 0.5;
+        double s = scale * -0.5;
         
         MCCamera_pull(0, camera, s);
     }
