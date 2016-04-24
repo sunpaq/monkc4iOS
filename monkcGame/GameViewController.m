@@ -232,21 +232,30 @@
 	if ([self isRotateOrPan] == YES) {
 		//Rotate -> Pan
 		self.camDistance.text = @"camera height";
-		
+		//get current info
 		MC3DiOS_CameraCmd cmd;
 		cmd.type = MC3DiOS_GetCurrent;
 		cameraCommand(&cmd);
-		
+		//save
 		_savedCameraDistance = self.stepper.value;
 		_cameraHeightRatio = cmd.lookatY / 100;
-		
+		//lock rotation
+		cmd.type = MC3DiOS_LockRotation;
+		cmd.lockRotation = 1;
+		cameraCommand(&cmd);
+		//set state
 		[self setIsRotateOrPan:NO];
 	}
 	else if ([self isRotateOrPan] == NO) {
 		//Pan -> Rotate
 		self.camDistance.text = @"camera distance";
 		self.stepper.value = _savedCameraDistance;
-		
+		//unlock
+		MC3DiOS_CameraCmd cmd;
+		cmd.type = MC3DiOS_LockRotation;
+		cmd.lockRotation = 0;
+		cameraCommand(&cmd);
+		//set state
 		[self setIsRotateOrPan:YES];
 	}
 }

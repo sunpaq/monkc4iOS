@@ -42,7 +42,8 @@ typedef enum {
     MC3DiOS_CameraRadiusPDelta,
     MC3DiOS_CameraAngels,
     MC3DiOS_CameraAngelsDelta,
-    MC3DiOS_GetCurrent
+    MC3DiOS_GetCurrent,
+    MC3DiOS_LockRotation
 } MC3DiOS_CameraCmdType;
 
 typedef struct {
@@ -54,6 +55,7 @@ typedef struct {
     double rpercent;
     double tht;
     double fai;
+    int    lockRotation;
 } MC3DiOS_CameraCmd;
 
 void cameraCommand(MC3DiOS_CameraCmd* cmd);

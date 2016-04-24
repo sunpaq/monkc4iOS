@@ -28,6 +28,7 @@ oninit(MCCamera)
         var(normal) = normal;
         
         var(isReverseMovement) = MCTrue;
+        var(isLockRotation) = MCFalse;
         
         updateRatioFocalDistance(0, obj, 0);
         return obj;
@@ -123,6 +124,9 @@ method(MCCamera, void, update, MCGLContext* ctx)
 
 method(MCCamera, void, move, double deltaFai, double deltaTht)
 {
+    if (var(isLockRotation) == MCTrue) {
+        return;
+    }
     if (var(isReverseMovement)) {
         obj->fai += deltaFai;   //Left
         obj->tht += deltaTht;   //Up

@@ -27,6 +27,7 @@ class(MCCamera, MC3DNode,
     computing(MCMatrix3, normal);
     
     MCBool isReverseMovement;
+    MCBool isLockRotation;
 );
 
 method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);

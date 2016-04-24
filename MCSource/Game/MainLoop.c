@@ -113,7 +113,12 @@ void onGesturePan(double x, double y)
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != mull && director->lastScene != mull && camera != mull) {
         double sign = camera->isReverseMovement == MCTrue? -1.0f : 1.0f;
-        MCCamera_move(0, camera, x*sign, y*sign);
+        if (camera->isLockRotation == MCTrue) {
+            double factor = 0.01;
+            MCCamera_fucus(0, camera, x*sign*factor, y*sign*factor);
+        }else{
+            MCCamera_move(0, camera, x*sign, y*sign);
+        }
     }
 }
 
@@ -195,6 +200,9 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
                     cmd->tht = camera->tht;
                     cmd->fai = camera->fai;
                     
+                    break;
+                case MC3DiOS_LockRotation:
+                    camera->isLockRotation = cmd->lockRotation;
                     break;
                 default:
                     break;
