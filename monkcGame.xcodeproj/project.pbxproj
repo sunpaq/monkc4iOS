@@ -82,15 +82,7 @@
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
 		FDD1F1B41CBFF6800079C434 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDD1F1B31CBFF6800079C434 /* MCRuntimeAsmIOS.S */; };
 		FDD87DF51CCBCC1400D292D3 /* DetailNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */; };
-		FDD87DF91CCBFB5300D292D3 /* anime1.3.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87DF81CCBFB5300D292D3 /* anime1.3.obj */; };
-		FDD87DFD1CCC004400D292D3 /* anime1.4.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87DFC1CCC004400D292D3 /* anime1.4.obj */; };
-		FDD87DFF1CCC666A00D292D3 /* 7.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87DFE1CCC666A00D292D3 /* 7.obj */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
-		FDD87E071CCC979A00D292D3 /* 3.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E011CCC979A00D292D3 /* 3.obj */; };
-		FDD87E081CCC979A00D292D3 /* 4.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E021CCC979A00D292D3 /* 4.obj */; };
-		FDD87E091CCC979A00D292D3 /* 5.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E031CCC979A00D292D3 /* 5.obj */; };
-		FDD87E0A1CCC979A00D292D3 /* 6.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E041CCC979A00D292D3 /* 6.obj */; };
-		FDD87E0B1CCC979A00D292D3 /* 8.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E051CCC979A00D292D3 /* 8.obj */; };
 		FDE489E71CBA983000129D2B /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE489E61CBA983000129D2B /* SplitViewController.m */; };
 		FDE489F41CBE88F400129D2B /* MCSkybox.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F21CBE88F400129D2B /* MCSkybox.c */; };
 		FDE489F81CBE8FA700129D2B /* MCCubeMapTex.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F61CBE8FA700129D2B /* MCCubeMapTex.c */; };
@@ -247,15 +239,7 @@
 		FDD1F1B31CBFF6800079C434 /* MCRuntimeAsmIOS.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = MCRuntimeAsmIOS.S; path = MCRuntimeAsm/MCRuntimeAsmIOS.S; sourceTree = "<group>"; };
 		FDD87DF31CCBCC1400D292D3 /* DetailNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailNavController.h; sourceTree = "<group>"; };
 		FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailNavController.m; sourceTree = "<group>"; };
-		FDD87DF81CCBFB5300D292D3 /* anime1.3.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = anime1.3.obj; sourceTree = "<group>"; };
-		FDD87DFC1CCC004400D292D3 /* anime1.4.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = anime1.4.obj; sourceTree = "<group>"; };
-		FDD87DFE1CCC666A00D292D3 /* 7.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 7.obj; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
-		FDD87E011CCC979A00D292D3 /* 3.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 3.obj; sourceTree = "<group>"; };
-		FDD87E021CCC979A00D292D3 /* 4.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 4.obj; sourceTree = "<group>"; };
-		FDD87E031CCC979A00D292D3 /* 5.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 5.obj; sourceTree = "<group>"; };
-		FDD87E041CCC979A00D292D3 /* 6.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 6.obj; sourceTree = "<group>"; };
-		FDD87E051CCC979A00D292D3 /* 8.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 8.obj; sourceTree = "<group>"; };
 		FDE489E51CBA983000129D2B /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
 		FDE489E61CBA983000129D2B /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		FDE489F21CBE88F400129D2B /* MCSkybox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkybox.c; sourceTree = "<group>"; };
@@ -330,18 +314,10 @@
 			isa = PBXGroup;
 			children = (
 				FDD87E001CCC979A00D292D3 /* 2.obj */,
-				FDD87E011CCC979A00D292D3 /* 3.obj */,
-				FDD87E021CCC979A00D292D3 /* 4.obj */,
-				FDD87E031CCC979A00D292D3 /* 5.obj */,
-				FDD87E041CCC979A00D292D3 /* 6.obj */,
-				FDD87E051CCC979A00D292D3 /* 8.obj */,
-				FDD87DFE1CCC666A00D292D3 /* 7.obj */,
 				FD0097DE1CB8D781000A85DE /* Avent.obj */,
 				FD4CC2021C99AC0F00051C15 /* monkey2.obj */,
 				FD7FF8EB1CCB5FC5008106E5 /* sph.obj */,
 				FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */,
-				FDD87DF81CCBFB5300D292D3 /* anime1.3.obj */,
-				FDD87DFC1CCC004400D292D3 /* anime1.4.obj */,
 			);
 			name = models;
 			path = Resources/models;
@@ -746,13 +722,10 @@
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
 				FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */,
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
-				FDD87DFF1CCC666A00D292D3 /* 7.obj in Resources */,
 				FD3AB5C01CC678730049D100 /* Images.xcassets in Resources */,
 				FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */,
-				FDD87E0B1CCC979A00D292D3 /* 8.obj in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
 				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
-				FDD87E0A1CCC979A00D292D3 /* 6.obj in Resources */,
 				FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */,
 				FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
@@ -775,16 +748,12 @@
 				FD5EFD5E1B0E3D9D00D2492A /* Icon-76.png in Resources */,
 				FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */,
 				FD4CC1FB1C93B55100051C15 /* tex8.bmp in Resources */,
-				FDD87E091CCC979A00D292D3 /* 5.obj in Resources */,
 				FD5EFD681B0E3D9D00D2492A /* Icon.png in Resources */,
 				FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */,
 				FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */,
 				FD5EFD5D1B0E3D9D00D2492A /* Icon-60@3x.png in Resources */,
-				FDD87DFD1CCC004400D292D3 /* anime1.4.obj in Resources */,
 				FD5EFD631B0E3D9D00D2492A /* Icon-60.png in Resources */,
-				FDD87E071CCC979A00D292D3 /* 3.obj in Resources */,
 				FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */,
-				FDD87E081CCC979A00D292D3 /* 4.obj in Resources */,
 				FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */,
 				FD7FF8F01CCB6043008106E5 /* bottle_cap2.obj in Resources */,
 				FD4CC1F51C91C8C200051C15 /* tex5.png in Resources */,
@@ -793,7 +762,6 @@
 				FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */,
 				FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */,
 				FD5EFD5F1B0E3D9D00D2492A /* Icon-76@2x.png in Resources */,
-				FDD87DF91CCBFB5300D292D3 /* anime1.3.obj in Resources */,
 				FD5EFD641B0E3D9D00D2492A /* Icon-72.png in Resources */,
 				FD5EFD611B0E3D9D00D2492A /* Icon-Small@2x.png in Resources */,
 			);
