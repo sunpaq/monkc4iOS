@@ -33,8 +33,29 @@ void onGesturePinch(double scale);
 void onResizeScreen(int windowWidth, int windowHeight);
 void onStartStopBtn(int startOrStop);
 
-//pass the percentage of origin camera distance
-double onZoomInOut(double percentage);
-double onPanMode(double y_incremental);
+typedef enum {
+    MC3DiOS_CameraLookAt,
+    MC3DiOS_CameraLookAtDelta,
+    MC3DiOS_CameraRadius,
+    MC3DiOS_CameraRadiusDelta,
+    MC3DiOS_CameraRadiusPercent,
+    MC3DiOS_CameraRadiusPDelta,
+    MC3DiOS_CameraAngels,
+    MC3DiOS_CameraAngelsDelta,
+    MC3DiOS_GetCurrent
+} MC3DiOS_CameraCmdType;
+
+typedef struct {
+    MC3DiOS_CameraCmdType type;
+    double lookatX;
+    double lookatY;
+    double lookatZ;
+    double radius;
+    double rpercent;
+    double tht;
+    double fai;
+} MC3DiOS_CameraCmd;
+
+void cameraCommand(MC3DiOS_CameraCmd* cmd);
 
 #endif /* MC3DiOS_h */

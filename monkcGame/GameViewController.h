@@ -20,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *rotatePan;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
-@property BOOL rotateOrPan;
 @property NSString* filename;
 
 - (void) onOpenModelStart:(NSNotification*)noti;

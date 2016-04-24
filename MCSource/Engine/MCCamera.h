@@ -25,10 +25,14 @@ class(MCCamera, MC3DNode,
     computing(double, Radius);
     computing(MCMatrix4, mvproj);
     computing(MCMatrix3, normal);
+    
+    MCBool isReverseMovement;
 );
 
 method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
 method(MCCamera, void, move, double deltaFai, double deltaTht);
+method(MCCamera, void, fucus, double deltaX, double deltaY);
+method(MCCamera, void, pull, double deltaR);
 method(MCCamera, void, reset, voida);
 method(MCCamera, void, update, MCGLContext* ctx);//override
 

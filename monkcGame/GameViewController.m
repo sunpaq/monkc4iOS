@@ -10,7 +10,8 @@
 #import "MC3DiOS.h"
 
 @interface GameViewController () {
-
+	double _savedCameraDistance;
+	double _cameraHeightRatio; // height/100(stepper.value)
 }
 
 @property (strong, nonatomic) EAGLContext *context;
@@ -38,7 +39,6 @@
         self.splitViewController.delegate = self;
     }
 	
-	self.rotateOrPan = YES;
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(onOpenModelStart:)
 												 name:@"sapindus.open.model.start"
@@ -47,7 +47,31 @@
 											 selector:@selector(onOpenModelStop:)
 												 name:@"sapindus.open.model.stop"
 											   object:nil];
+}
 
+-(BOOL)isRotateOrPan
+{
+	if ([self.rotatePan.titleLabel.text isEqualToString:@"Rotate"]) {
+		return YES;
+	}
+	else if ([self.rotatePan.titleLabel.text isEqualToString:@"Pan"]) {
+		return NO;
+	}
+	return YES;
+}
+
+-(void)setIsRotateOrPan:(BOOL)b
+{
+	if (b) {
+		[self.stepper setTintColor:[UIColor blueColor]];
+		[self.rotatePan setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+		[self.rotatePan setTitle:@"Rotate" forState:UIControlStateNormal];
+
+	}else{
+		[self.stepper setTintColor:[UIColor redColor]];
+		[self.rotatePan setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+		[self.rotatePan setTitle:@"Pan" forState:UIControlStateNormal];
+	}
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -179,36 +203,51 @@
 	}
 }
 
-- (IBAction)zoomInOut:(id)sender {
+- (IBAction)steperValueChange:(id)sender {
 	UIStepper* s = (UIStepper*)sender;
-	if (self.rotateOrPan) {
-		//camera rotation mode
-		if (s.value == 0) {
-			s.value = 100;
-			s.maximumValue = 200;
-			s.minimumValue = 0;
-		}
-		double percent = s.value / 100.0;
-		double R = onZoomInOut(percent);
-		self.camDistance.text = [NSString stringWithFormat:@"camera:%dm", (int)R];
-	}else{
-		//camera pan mode
-		double percent = s.value / 100.0;
-		onPanMode(percent);
+	if ([self isRotateOrPan] == YES) {
+		double rpercent = s.value / 100;
+		//Currently Rotate
+		MC3DiOS_CameraCmd cmd;
+		cmd.type = MC3DiOS_CameraRadiusPercent;
+		cmd.rpercent = rpercent;
+		cameraCommand(&cmd);
+		
+		self.camDistance.text = [NSString stringWithFormat:@"distance:%dm", (int)s.value];
+	}
+	else if ([self isRotateOrPan] == NO) {
+		//Currently Pan
+		MC3DiOS_CameraCmd cmd;
+		cmd.type = MC3DiOS_CameraLookAt;
+		cmd.lookatX = 0;
+		cmd.lookatY = s.value * _cameraHeightRatio;
+		cmd.lookatZ = 0;
+		cameraCommand(&cmd);
+		
+		self.camDistance.text = [NSString stringWithFormat:@"height:%dm", (int)s.value];
 	}
 }
 
 - (IBAction)rotatePanSwitch:(id)sender {
-	if (self.rotateOrPan == YES) {
-		[self.rotatePan setTitle:@"Pan" forState:UIControlStateNormal];
-		self.rotateOrPan = NO;
-		self.toolbar.tintColor = [UIColor redColor];
+	if ([self isRotateOrPan] == YES) {
+		//Rotate -> Pan
 		self.camDistance.text = @"camera height";
-	}else{
-		[self.rotatePan setTitle:@"Rotate" forState:UIControlStateNormal];
-		self.rotateOrPan = YES;
-		self.toolbar.tintColor = [UIColor blueColor];
+		
+		MC3DiOS_CameraCmd cmd;
+		cmd.type = MC3DiOS_GetCurrent;
+		cameraCommand(&cmd);
+		
+		_savedCameraDistance = self.stepper.value;
+		_cameraHeightRatio = cmd.lookatY / 100;
+		
+		[self setIsRotateOrPan:NO];
+	}
+	else if ([self isRotateOrPan] == NO) {
+		//Pan -> Rotate
 		self.camDistance.text = @"camera distance";
+		self.stepper.value = _savedCameraDistance;
+		
+		[self setIsRotateOrPan:YES];
 	}
 }
 

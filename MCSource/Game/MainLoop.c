@@ -72,31 +72,6 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         if (filename) {
             onOpenFile(filename, mull);
         }
-                
-        /*
-        MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, "teapot", (MCColorRGBAf){0.2, 0.2, 0.8, 1.0});
-        if (model != mull) {
-            ff(mainScene->rootnode, addChild, model);
-            ff(director, pushScene, mainScene);
-        }else{
-            MCGLError("model teapot can not be open. file broken.");
-        }
-        
-        MC3DModel* model2 = ff(new(MC3DModel), initWithFileNameColor, "monkey2", (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
-        if (model2 != mull) {
-            ff(mainScene->rootnode, addChild, model2);
-            ff(director, pushScene, mainScene);
-        }
-
-
-        //scene2
-        MC3DScene* scene2 = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
-        MC3DModel* model3 = ff(new(MC3DModel), initWithFileNameColor, "Avent", (MCColorRGBAf){0.3, 0.3, 0.3, 1.0});//Avent
-        ff(scene2->rootnode, addChild, model3);
-        ff(director, pushScene, scene2);
-        
-        scene2->super.nextResponder = (MCObject*)director;
-        */
     }
 }
 
@@ -137,7 +112,8 @@ void onGesturePan(double x, double y)
 {
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != mull && director->lastScene != mull && camera != mull) {
-        MCCamera_move(0, camera, x*-0.1, y*0.1);
+        double sign = camera->isReverseMovement == MCTrue? -1.0f : 1.0f;
+        MCCamera_move(0, camera, x*sign, y*sign);
     }
 }
 
@@ -147,45 +123,8 @@ void onGesturePinch(double scale)
     if (director != mull && director->lastScene != mull && camera != mull) {
         double s = scale * 0.5;
         
-        if (s >= 0) {//zoom out
-            if (camera->R_value < 100.0) {
-                camera->R_value += s;
-            }
-        }
-        else {//zoom in
-            if (camera->R_value > 1) {
-                camera->R_value += s;
-            }
-        }
+        MCCamera_pull(0, camera, s);
     }
-}
-
-double onZoomInOut(double percentage)
-{
-    if (director != mull && director->lastScene != mull) {
-        MCCamera* camera = director->lastScene->mainCamera;
-        if (camera != mull) {
-            camera->R_percent = percentage;
-            return camera->Radius(camera);
-        }
-    }
-    return 0;
-}
-
-double onPanMode(double y_incremental)
-{
-    if (director != mull && director->lastScene != mull) {
-        MCCamera* camera = director->lastScene->mainCamera;
-        if (camera != mull) {
-            if (y_incremental < 0) {
-                return camera->lookat.y;
-            }else{
-                camera->lookat.y += y_incremental;
-                return camera->lookat.y;
-            }
-        }
-    }
-    return 0;
 }
 
 void onResizeScreen(int windowWidth, int windowHeight)
@@ -202,4 +141,66 @@ void onStartStopBtn(int startOrStop)
         director->lastScene->cameraLock = !startOrStop;
     }
 }
+
+//MC3DiOS_CameraLookAt,
+//MC3DiOS_CameraLookAtDelta,
+//MC3DiOS_CameraRadius,
+//MC3DiOS_CameraRadiusDelta,
+//MC3DiOS_CameraAngels,
+//MC3DiOS_CameraAngelsDelta
+void cameraCommand(MC3DiOS_CameraCmd* cmd)
+{
+    if (director != mull && director->lastScene != mull) {
+        MCCamera* camera = director->lastScene->mainCamera;
+        if (camera != mull) {
+            switch (cmd->type) {
+                case MC3DiOS_CameraLookAt:
+                    camera->lookat.x = cmd->lookatX;
+                    camera->lookat.y = cmd->lookatY;
+                    camera->lookat.z = cmd->lookatZ;
+                    break;
+                case MC3DiOS_CameraLookAtDelta:
+                    camera->lookat.x += cmd->lookatX;
+                    camera->lookat.y += cmd->lookatY;
+                    camera->lookat.z += cmd->lookatZ;
+                    break;
+                case MC3DiOS_CameraRadius:
+                    camera->R_value = cmd->radius;
+                    break;
+                case MC3DiOS_CameraRadiusDelta:
+                    camera->R_value += cmd->radius;
+                    break;
+                case MC3DiOS_CameraRadiusPercent:
+                    camera->R_percent = cmd->rpercent;
+                    break;
+                case MC3DiOS_CameraRadiusPDelta:
+                    camera->R_percent += cmd->rpercent;
+                    break;
+                case MC3DiOS_CameraAngels:
+                    camera->tht = cmd->tht;
+                    camera->fai = cmd->fai;
+                    break;
+                case MC3DiOS_CameraAngelsDelta:
+                    camera->tht += cmd->tht;
+                    camera->fai += cmd->fai;
+                    break;
+                case MC3DiOS_GetCurrent:
+                    cmd->lookatX = camera->lookat.x;
+                    cmd->lookatY = camera->lookat.y;
+                    cmd->lookatZ = camera->lookat.z;
+                    
+                    cmd->radius = camera->R_value;
+                    cmd->rpercent = camera->R_percent;
+                    
+                    cmd->tht = camera->tht;
+                    cmd->fai = camera->fai;
+                    
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+}
+
 

@@ -169,7 +169,7 @@
                                             <rect key="frame" x="486" y="8" width="94" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <connections>
-                                                <action selector="zoomInOut:" destination="BV1-FR-VrT" eventType="valueChanged" id="ODA-Ag-rrW"/>
+                                                <action selector="steperValueChange:" destination="BV1-FR-VrT" eventType="valueChanged" id="HUL-3j-P3z"/>
                                             </connections>
                                         </stepper>
                                     </barButtonItem>

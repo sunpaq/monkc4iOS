@@ -27,6 +27,8 @@ oninit(MCCamera)
         var(mvproj) = mvproj;
         var(normal) = normal;
         
+        var(isReverseMovement) = MCTrue;
+        
         updateRatioFocalDistance(0, obj, 0);
         return obj;
     }else{
@@ -121,9 +123,14 @@ method(MCCamera, void, update, MCGLContext* ctx)
 
 method(MCCamera, void, move, double deltaFai, double deltaTht)
 {
-    obj->fai = obj->fai + deltaFai;   //Left
-    obj->tht = obj->tht + deltaTht;   //Up
-
+    if (var(isReverseMovement)) {
+        obj->fai += deltaFai;   //Left
+        obj->tht += deltaTht;   //Up
+    }else{
+        obj->fai -= deltaFai;   //Left
+        obj->tht -= deltaTht;   //Up
+    }
+    
     //keep the tht -180 ~ 180
     if (obj->tht < -179.99) {
         obj->tht = -179.99;
@@ -131,8 +138,29 @@ method(MCCamera, void, move, double deltaFai, double deltaTht)
     if (obj->tht > 179.99) {
         obj->tht = 179.99;
     }
-    
     updateLookat(0, obj, 0);
+}
+
+method(MCCamera, void, fucus, double deltaX, double deltaY)
+{
+    if (var(isReverseMovement)) {
+        obj->lookat.x += deltaX;
+        obj->lookat.y += deltaY;
+        
+    }else{
+        obj->lookat.x -= deltaX;
+        obj->lookat.y -= deltaY;
+    }
+    updateLookat(0, obj, 0);
+}
+
+method(MCCamera, void, pull, double deltaR)
+{
+    if (var(isReverseMovement)) {
+        obj->R_value -= deltaR;
+    }else{
+        obj->R_value += deltaR;
+    }
 }
 
 onload(MCCamera)
@@ -142,8 +170,13 @@ onload(MCCamera)
         mixing(void, updateRatioFocalDistance);
         mixing(void, updateLookat);
         
+        binding(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
+        binding(MCCamera, void, move, double deltaFai, double deltaTht);
+        binding(MCCamera, void, fucus, double deltaX, double deltaY);
+        binding(MCCamera, void, pull, double deltaR);
         binding(MCCamera, void, reset, MCBool updateOrNot);
         binding(MCCamera, void, update);
+        
         return cla;
     }else{
         return mull;

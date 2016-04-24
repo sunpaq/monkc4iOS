@@ -66,7 +66,8 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArrayOES(obj->vertexArrayId);
-    glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);//36
+    glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);
+    
     //Unbind
     glBindVertexArrayOES(0);
 }
