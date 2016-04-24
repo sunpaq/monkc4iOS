@@ -43,8 +43,10 @@ void onOpenFile(const char* filename, int* lock)
 {
     if(lock != mull) *lock = 1;
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
-    
+    MC3DFrame frame = model->frame(model);
+    double mheight = frame.ymax - frame.ymin;
     ff(director->lastScene->rootnode, addChild, model);
+    director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
     if(lock != mull) *lock = 0;
 }
 
@@ -165,6 +167,22 @@ double onZoomInOut(double percentage)
         if (camera != mull) {
             camera->R_percent = percentage;
             return camera->Radius(camera);
+        }
+    }
+    return 0;
+}
+
+double onPanMode(double y_incremental)
+{
+    if (director != mull && director->lastScene != mull) {
+        MCCamera* camera = director->lastScene->mainCamera;
+        if (camera != mull) {
+            if (y_incremental < 0) {
+                return camera->lookat.y;
+            }else{
+                camera->lookat.y += y_incremental;
+                return camera->lookat.y;
+            }
         }
     }
     return 0;

@@ -9,11 +9,40 @@
 #include "MC3DModel.h"
 #include "MC3DObjParser.h"
 
+compute(MC3DFrame, frame)
+{
+    varscope(MC3DModel);
+    MC3DFrame allframe = (MC3DFrame){0,0,0,0,0,0};
+    
+    for (int i=0; i<MC3DNodeMaxMeshNum; i++) {
+        MCMesh* m = svar(meshes)[i];
+        if (m != mull) {
+            MC3DFrame mf = m->frame;
+            //MAX
+            MCMath_accumulateMaxd(&allframe.xmax, mf.xmax);
+            MCMath_accumulateMaxd(&allframe.ymax, mf.ymax);
+            MCMath_accumulateMaxd(&allframe.zmax, mf.zmax);
+            //MIN
+            MCMath_accumulateMind(&allframe.xmin, mf.xmin);
+            MCMath_accumulateMind(&allframe.ymin, mf.ymin);
+            MCMath_accumulateMind(&allframe.zmin, mf.zmin);
+        }else{
+            continue;
+        }
+    }
+    var(lastSavedFrame) = allframe;
+    return allframe;
+}
+
 oninit(MC3DModel)
 {
     if (init(MC3DNode)) {
         var(defaultColor) = (MCColorRGBAf){0.9, 0.9, 0.9, 1.0};
         var(defaultExtension) = "obj";
+        var(textureOnOff) = MCFalse;
+        
+        var(frame) = frame;
+        var(lastSavedFrame) = (MC3DFrame){0,0,0,0,0,0};
         return obj;
     }else{
         return mull;
@@ -42,6 +71,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
             loadFaceData(mesh, buff, buff->facebuff[i], i, color);
         }
         
+        mesh->frame = buff->frame;
         //ff(mesh, dump, 0);
         
         svar(meshes)[0] = mesh;

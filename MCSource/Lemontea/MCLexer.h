@@ -33,7 +33,7 @@ typedef struct {
 
 static const char MCWhiteSpace = ' ';
 static const char MCBackSlash0 = '\0';
-static const char MCNewLine    = '\n';
+//static const char MCNewLine    = '\n';
 
 #define MCCond_Digit(w)     (*w >= '0' && *w <= '9')
 #define MCCond_Alphabet(w)  (*w >= 'a' && *w <= 'z') || (*w >= 'A' && *w <= 'Z')
@@ -44,6 +44,16 @@ MCInline size_t MCCopyString(char* const dest, const char* src)
     strncpy(dest, src, len);
     dest[len] = MCBackSlash0;
     return len;
+}
+
+MCInline MCBool isNewLine(const char* s)
+{
+    if (*s == '\n') {
+        return MCTrue;
+    } else if (*s == '\r') { //Windows NewLine
+        return MCTrue;
+    }
+    return MCFalse;
 }
 
 MCInline MCBool isDigit(const char* w)
@@ -115,7 +125,7 @@ MCInline MCBool isFloat(const char* n)
 
 MCInline MCBool isDate(const char* s)
 {
-    while (*s != MCNewLine && *s != MCBackSlash0) {
+    while (isNewLine(s) == MCFalse && *s != MCBackSlash0) {
         if (MCCond_Digit(s) || *s == '/') {
             s++; continue;
         } else {
@@ -131,7 +141,7 @@ MCInline int getDate(const char* s, int* buff)
     const char* remain = s;
     char digit[512];
     int b = 0, i = 0;
-    while (*remain != MCNewLine && *remain != MCBackSlash0) {
+    while (isNewLine(s) == MCFalse && *remain != MCBackSlash0) {
         //a int
         if (MCCond_Digit(remain)) {
             digit[i++] = *remain;
@@ -212,7 +222,7 @@ MCInline const char* nextWord(const char** target_p, char buff[])
 {
     const char* str = trimWhiteSpace(target_p);//skip whitespace
     int i = 0;
-    while ( (*str != ' ') && (*str != '\n') && (*str != '\0') ) {
+    while ( (*str != ' ') && isNewLine(str) == MCFalse && (*str != '\0') ) {
         buff[i++] = *str++;
     }
     buff[i] = '\0';

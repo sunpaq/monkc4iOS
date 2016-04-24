@@ -11,12 +11,16 @@
 
 @interface GameViewController : GLKViewController <UISplitViewControllerDelegate>
 
+//Outlets
 @property (strong, nonatomic) IBOutlet GLKView *uiview;
 @property (weak, nonatomic) IBOutlet UILabel *fpsLabel;
 @property (weak, nonatomic) IBOutlet UIStepper *stepper;
 @property (weak, nonatomic) IBOutlet UINavigationItem *naviItem;
 @property (weak, nonatomic) IBOutlet UILabel *camDistance;
+@property (weak, nonatomic) IBOutlet UIButton *rotatePan;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
+@property BOOL rotateOrPan;
 @property NSString* filename;
 
 - (void) onOpenModelStart:(NSNotification*)noti;

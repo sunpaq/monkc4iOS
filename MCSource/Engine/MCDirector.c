@@ -8,12 +8,23 @@
 
 #include "MCDirector.h"
 
+compute(MCCamera*, cameraHandler)
+{
+    varscope(MCDirector);
+    if (var(lastScene) != mull && var(lastScene)->mainCamera != mull) {
+        return var(lastScene)->mainCamera;
+    }
+    return mull;
+}
+
 oninit(MCDirector)
 {
     if (init(MCObject)) {
         var(lastScene) = mull;
         var(currentWidth) = 0;
         var(currentHeight) = 0;
+        
+        var(cameraHandler) = cameraHandler;
         return obj;
     }else{
         return mull;
@@ -100,6 +111,16 @@ method(MCDirector, void, resizeAllScene, int width, int height)
     var(currentHeight) = height;
 }
 
+method(MCDirector, void, cameraFocusOn, MCVector3 vertex)
+{
+    MCCamera* c = cvar(cameraHandler);
+    if (c != mull) {
+        c->lookat.x = vertex.x;
+        c->lookat.y = vertex.y;
+        c->lookat.z = vertex.z;
+    }
+}
+
 onload(MCDirector)
 {
     if (load(MCObject)) {
@@ -111,6 +132,7 @@ onload(MCDirector)
         binding(MCDirector, void, pushScene, MC3DScene* scene);
         binding(MCDirector, void, popScene, voida);
         binding(MCDirector, void, resizeAllScene, int width, int height);
+        binding(MCDirector, void, cameraFocusOn, MCVector3 vertex);
 
         return cla;
     }else{

@@ -83,6 +83,18 @@ typedef union {
     double m[4];
 } MCVector4;
 
+typedef union {
+    struct {
+        double xmax;
+        double xmin;
+        double ymax;
+        double ymin;
+        double zmax;
+        double zmin;
+    };
+    double m[6];
+} MC3DFrame;
+
 typedef enum {
     MCGLSLScalar_float,
     //MCGLSLScalar_double, //GLES not support

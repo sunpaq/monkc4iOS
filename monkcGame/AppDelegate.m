@@ -15,6 +15,25 @@
 
 @implementation AppDelegate
 
+-(void) delayOpen:(NSString*)name
+{
+    const char* cfile = [name cStringUsingEncoding:NSUTF8StringEncoding];
+    static int lock = 0;
+    if (lock == 0) {
+        onOpenFile(cfile, &lock);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model.stop" object:name];
+    }
+}
+
+- (void)openExtraModel:(NSString*)filename
+{
+    if (filename && ![filename isEqualToString:@""]) {
+        NSString* file = [filename stringByDeletingPathExtension];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model.start" object:file];
+        [self performSelector:@selector(delayOpen:) withObject:file afterDelay:0.2f];
+    }
+}
+
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     GLchar* obj3d = (GLchar*)[[url path] UTF8String];
     onOpenExternalFile(obj3d);

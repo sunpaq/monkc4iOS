@@ -12,6 +12,8 @@
 oninit(MCMesh)
 {
     if (init(MCObject)) {
+        var(frame) = (MC3DFrame){0,0,0,0,0,0};
+
         obj->useage = GL_STATIC_DRAW;//default
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
         

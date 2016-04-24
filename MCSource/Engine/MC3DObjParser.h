@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include "MC3DType.h"
+#include "MCMath.h"
 #include "MCLexer.h"
 
 typedef struct {
@@ -32,6 +33,7 @@ typedef struct {
 
 typedef struct MC3DObjBufferStruct {
     struct MC3DObjBufferStruct *nextobj;
+    MC3DFrame  frame;
     MC3DFace*  facebuff;
     MCVector4* vertexbuff;
     MCVector3* texcoorbuff;
@@ -48,6 +50,7 @@ MCInline MC3DObjBuffer* allocMC3DObjBuffer(size_t facecount, int vpf)
 {
     MC3DObjBuffer* buff = (MC3DObjBuffer*)malloc(sizeof(MC3DObjBuffer));
     buff->nextobj = mull;
+    buff->frame = (MC3DFrame){0,0,0,0,0,0};
     buff->facebuff    = (MC3DFace*)malloc(sizeof(MC3DFace) * (facecount+1));
     buff->vertexbuff  = (MCVector4*)malloc(sizeof(MCVector4) * (facecount+1) * vpf);
     buff->texcoorbuff = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
@@ -76,6 +79,8 @@ MCInline void freeMC3DObjBuffer(MC3DObjBuffer* buff)
     }
 }
 
+MCBool MC3DObjParser_textureOnOff = MCFalse;
+
 MCInline void loadFaceElement(MCMesh* mesh, MC3DObjBuffer* buff,
                               MC3DFaceElement element, int offset, MCColorRGBAf color) {
     MCVector4* vertexbuff = buff->vertexbuff;
@@ -91,7 +96,15 @@ MCInline void loadFaceElement(MCMesh* mesh, MC3DObjBuffer* buff,
     mesh->vertexDataPtr[offset+0] = vertexbuff[v].x;
     mesh->vertexDataPtr[offset+1] = vertexbuff[v].y;
     mesh->vertexDataPtr[offset+2] = vertexbuff[v].z;
-
+    //3D frame max
+    MCMath_accumulateMaxd(&buff->frame.xmax, vertexbuff[v].x);
+    MCMath_accumulateMaxd(&buff->frame.ymax, vertexbuff[v].y);
+    MCMath_accumulateMaxd(&buff->frame.zmax, vertexbuff[v].z);
+    //3D frame min
+    MCMath_accumulateMind(&buff->frame.xmin, vertexbuff[v].x);
+    MCMath_accumulateMind(&buff->frame.ymin, vertexbuff[v].y);
+    MCMath_accumulateMind(&buff->frame.zmin, vertexbuff[v].z);
+    
     //normal
     int n = element.normalIndex - 1;
     if (n < 0) {
@@ -112,7 +125,7 @@ MCInline void loadFaceElement(MCMesh* mesh, MC3DObjBuffer* buff,
     mesh->vertexDataPtr[offset+8] = color.B.f;
     //texture
     int t = element.texcoordIndex - 1;
-    if (t < 0) {
+    if (t < 0 || MC3DObjParser_textureOnOff==MCFalse) {
         mesh->vertexDataPtr[offset+9]  = 0;
         mesh->vertexDataPtr[offset+10] = 0;
     }else{
@@ -168,7 +181,7 @@ MCInline size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     
     char word[256];
     const char* remain = linebuff;
-    while (*remain != '\n' && *remain != '\0') {
+    while (isNewLine(remain) == MCFalse && *remain != '\0') {
         token = tokenize(nextWord(&remain, word));
 
         switch (token.type) {
@@ -285,7 +298,7 @@ MCInline size_t detectFaceCount(FILE* f)
             const char* remain = linebuff;
             
             //process line start
-            while (*remain != '\n' && *remain != '\0') {
+            while (isNewLine(remain) == MCFalse && *remain != '\0') {
                 token = tokenize(nextWord(&remain, word));
                 switch (token.type) {
                     case MCTokenIdentifier:

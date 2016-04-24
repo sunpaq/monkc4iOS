@@ -21,6 +21,10 @@
 class(MC3DModel, MC3DNode,
       MCColorRGBAf defaultColor;
       const char* defaultExtension;
+      MCBool textureOnOff;
+      
+      MC3DFrame lastSavedFrame;
+      computing(MC3DFrame, frame);
 );
 
 method(MC3DModel, void, bye, voida);

@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+-(void) delayOpen:(NSString*)name;
+- (void)openExtraModel:(NSString*)filename;
 
 @end
 

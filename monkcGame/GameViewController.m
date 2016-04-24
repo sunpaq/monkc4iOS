@@ -38,7 +38,7 @@
         self.splitViewController.delegate = self;
     }
 	
-	//[[NSNotificationCenter defaultCenter] postNotificationName:@"open.model" object:name];
+	self.rotateOrPan = YES;
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(onOpenModelStart:)
 												 name:@"sapindus.open.model.start"
@@ -181,14 +181,35 @@
 
 - (IBAction)zoomInOut:(id)sender {
 	UIStepper* s = (UIStepper*)sender;
-	if (s.value == 0) {
-		s.value = 100;
-		s.maximumValue = 200;
-		s.minimumValue = 0;
+	if (self.rotateOrPan) {
+		//camera rotation mode
+		if (s.value == 0) {
+			s.value = 100;
+			s.maximumValue = 200;
+			s.minimumValue = 0;
+		}
+		double percent = s.value / 100.0;
+		double R = onZoomInOut(percent);
+		self.camDistance.text = [NSString stringWithFormat:@"camera:%dm", (int)R];
+	}else{
+		//camera pan mode
+		double percent = s.value / 100.0;
+		onPanMode(percent);
 	}
-	double percent = s.value / 100.0;
-	double R = onZoomInOut(percent);
-	self.camDistance.text = [NSString stringWithFormat:@"camera:%dm", (int)R];
+}
+
+- (IBAction)rotatePanSwitch:(id)sender {
+	if (self.rotateOrPan == YES) {
+		[self.rotatePan setTitle:@"Pan" forState:UIControlStateNormal];
+		self.rotateOrPan = NO;
+		self.toolbar.tintColor = [UIColor redColor];
+		self.camDistance.text = @"camera height";
+	}else{
+		[self.rotatePan setTitle:@"Rotate" forState:UIControlStateNormal];
+		self.rotateOrPan = YES;
+		self.toolbar.tintColor = [UIColor blueColor];
+		self.camDistance.text = @"camera distance";
+	}
 }
 
 - (void) onOpenModelStart:(NSNotification*)noti

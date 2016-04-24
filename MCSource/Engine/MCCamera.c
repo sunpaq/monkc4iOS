@@ -12,7 +12,7 @@ oninit(MCCamera)
         var(focal_length) = MCLensStandard50mm;//MCLensWide24mm;
         var(view_angle) = MCLensStandard50mmViewAngle;
         var(max_distance) = 100;//100 metres
-        var(lookat) = MCVector3Make(0,0,0);
+        var(lookat) = MCVector3Make(0,8,0);
         var(projectionMatrix) = MCMatrix4Identity();
         var(modelViewMatrix) = MCMatrix4Identity();
         //world coordinate

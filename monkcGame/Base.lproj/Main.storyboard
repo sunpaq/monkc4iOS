@@ -154,6 +154,16 @@
                                         </switch>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="OyQ-PU-eR6"/>
+                                    <barButtonItem style="plain" id="7PE-gT-yZk">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zMl-VM-nuq">
+                                            <rect key="frame" x="430" y="7" width="46" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="Rotate"/>
+                                            <connections>
+                                                <action selector="rotatePanSwitch:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nfl-JR-DHJ"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" id="TUE-Di-XPr">
                                         <stepper key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" maximumValue="200" stepValue="5" id="CIl-pj-ZRi">
                                             <rect key="frame" x="486" y="8" width="94" height="29"/>
@@ -193,7 +203,9 @@
                         <outlet property="camDistance" destination="uQD-Jh-6kk" id="7vG-rT-uN0"/>
                         <outlet property="fpsLabel" destination="j4H-d8-6Hb" id="EGW-Ao-B6i"/>
                         <outlet property="naviItem" destination="gd4-io-dCC" id="811-Ak-22U"/>
+                        <outlet property="rotatePan" destination="zMl-VM-nuq" id="Tk3-p9-JJl"/>
                         <outlet property="stepper" destination="CIl-pj-ZRi" id="WJx-zK-4MJ"/>
+                        <outlet property="toolbar" destination="Gng-4v-g6q" id="rgr-GX-VKY"/>
                         <outlet property="uiview" destination="3se-qz-xqx" id="muW-VD-NN7"/>
                     </connections>
                 </viewController>

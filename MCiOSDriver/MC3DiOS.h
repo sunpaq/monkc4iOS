@@ -35,5 +35,6 @@ void onStartStopBtn(int startOrStop);
 
 //pass the percentage of origin camera distance
 double onZoomInOut(double percentage);
+double onPanMode(double y_incremental);
 
 #endif /* MC3DiOS_h */

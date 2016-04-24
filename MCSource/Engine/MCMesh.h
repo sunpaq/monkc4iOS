@@ -15,6 +15,7 @@
 #include "MCGLContext.h"
 
 class(MCMesh, MCObject,
+      MC3DFrame  frame;
       GLenum     useage;
       GLsizei    vertexCount;
       GLuint     vertexArrayId;   //VAO

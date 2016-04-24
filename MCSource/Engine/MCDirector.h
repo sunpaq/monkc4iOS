@@ -17,6 +17,8 @@ class(MCDirector, MCObject,
       MC3DScene* lastScene;
       int currentWidth;
       int currentHeight;
+      
+      computing(MCCamera*, cameraHandler);
 );
 
 method(MCDirector, void, bye, voida);
@@ -29,6 +31,8 @@ method(MCDirector, int, drawAll, voida);
 method(MCDirector, void, pushScene, MC3DScene* scene);
 method(MCDirector, void, popScene, voida);
 method(MCDirector, void, resizeAllScene, int width, int height);
+
+method(MCDirector, void, cameraFocusOn, MCVector3 vertex);
 
 //iOS callbacks
 //void onRootViewLoad(void* rootview);
