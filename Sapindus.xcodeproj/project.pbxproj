@@ -249,7 +249,7 @@
 		FDE489F71CBE8FA700129D2B /* MCCubeMapTex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCubeMapTex.h; sourceTree = "<group>"; };
 		FDE489F91CBE910E00129D2B /* MC2DTex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC2DTex.c; sourceTree = "<group>"; };
 		FDE489FA1CBE910E00129D2B /* MC2DTex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC2DTex.h; sourceTree = "<group>"; };
-		FDFF06001B060BE1000064E3 /* monkcGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = monkcGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDFF06001B060BE1000064E3 /* Sapindus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sapindus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		FDFF06071B060BE1000064E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -258,7 +258,7 @@
 		FDFF060F1B060BE1000064E3 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; usesTabs = 1; };
 		FDFF06121B060BE1000064E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FDFF06171B060BE1000064E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		FDFF061D1B060BE1000064E3 /* monkcGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = monkcGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDFF061D1B060BE1000064E3 /* Sapindus.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Sapindus.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF06221B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FDFF06231B060BE1000064E3 /* monkcGameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = monkcGameTests.m; sourceTree = "<group>"; };
 		FDFF063A1B06314C000064E3 /* HashTable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashTable.c; sourceTree = "<group>"; };
@@ -501,8 +501,8 @@
 		FDFF06011B060BE1000064E3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FDFF06001B060BE1000064E3 /* monkcGame.app */,
-				FDFF061D1B060BE1000064E3 /* monkcGameTests.xctest */,
+				FDFF06001B060BE1000064E3 /* Sapindus.app */,
+				FDFF061D1B060BE1000064E3 /* Sapindus.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -641,9 +641,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FDFF05FF1B060BE1000064E3 /* monkcGame */ = {
+		FDFF05FF1B060BE1000064E3 /* Sapindus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FDFF06271B060BE1000064E3 /* Build configuration list for PBXNativeTarget "monkcGame" */;
+			buildConfigurationList = FDFF06271B060BE1000064E3 /* Build configuration list for PBXNativeTarget "Sapindus" */;
 			buildPhases = (
 				FDFF05FE1B060BE1000064E3 /* Resources */,
 				FDFF05FC1B060BE1000064E3 /* Sources */,
@@ -653,14 +653,14 @@
 			);
 			dependencies = (
 			);
-			name = monkcGame;
+			name = Sapindus;
 			productName = monkcGame;
-			productReference = FDFF06001B060BE1000064E3 /* monkcGame.app */;
+			productReference = FDFF06001B060BE1000064E3 /* Sapindus.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FDFF061C1B060BE1000064E3 /* monkcGameTests */ = {
+		FDFF061C1B060BE1000064E3 /* SapindusTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FDFF062A1B060BE1000064E3 /* Build configuration list for PBXNativeTarget "monkcGameTests" */;
+			buildConfigurationList = FDFF062A1B060BE1000064E3 /* Build configuration list for PBXNativeTarget "SapindusTests" */;
 			buildPhases = (
 				FDFF06191B060BE1000064E3 /* Sources */,
 				FDFF061A1B060BE1000064E3 /* Frameworks */,
@@ -671,9 +671,9 @@
 			dependencies = (
 				FDFF061F1B060BE1000064E3 /* PBXTargetDependency */,
 			);
-			name = monkcGameTests;
+			name = SapindusTests;
 			productName = monkcGameTests;
-			productReference = FDFF061D1B060BE1000064E3 /* monkcGameTests.xctest */;
+			productReference = FDFF061D1B060BE1000064E3 /* Sapindus.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -708,8 +708,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FDFF05FF1B060BE1000064E3 /* monkcGame */,
-				FDFF061C1B060BE1000064E3 /* monkcGameTests */,
+				FDFF05FF1B060BE1000064E3 /* Sapindus */,
+				FDFF061C1B060BE1000064E3 /* SapindusTests */,
 			);
 		};
 /* End PBXProject section */
@@ -854,7 +854,7 @@
 /* Begin PBXTargetDependency section */
 		FDFF061F1B060BE1000064E3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FDFF05FF1B060BE1000064E3 /* monkcGame */;
+			target = FDFF05FF1B060BE1000064E3 /* Sapindus */;
 			targetProxy = FDFF061E1B060BE1000064E3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -977,7 +977,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Sapindus;
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = arm64;
 			};
@@ -994,7 +994,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Sapindus;
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = arm64;
 			};
@@ -1015,8 +1015,8 @@
 				INFOPLIST_FILE = monkcGameTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oreisoft.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/monkcGame.app/monkcGame";
+				PRODUCT_NAME = Sapindus;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sapindus.app/Sapindus";
 			};
 			name = Debug;
 		};
@@ -1031,8 +1031,8 @@
 				INFOPLIST_FILE = monkcGameTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.oreisoft.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/monkcGame.app/monkcGame";
+				PRODUCT_NAME = Sapindus;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Sapindus.app/Sapindus";
 			};
 			name = Release;
 		};
@@ -1048,7 +1048,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FDFF06271B060BE1000064E3 /* Build configuration list for PBXNativeTarget "monkcGame" */ = {
+		FDFF06271B060BE1000064E3 /* Build configuration list for PBXNativeTarget "Sapindus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FDFF06281B060BE1000064E3 /* Debug */,
@@ -1057,7 +1057,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FDFF062A1B060BE1000064E3 /* Build configuration list for PBXNativeTarget "monkcGameTests" */ = {
+		FDFF062A1B060BE1000064E3 /* Build configuration list for PBXNativeTarget "SapindusTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FDFF062B1B060BE1000064E3 /* Debug */,
