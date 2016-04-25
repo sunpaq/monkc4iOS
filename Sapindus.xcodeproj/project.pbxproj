@@ -489,8 +489,8 @@
 			isa = PBXGroup;
 			children = (
 				FD5EFD3E1B0E3D9D00D2492A /* Resources */,
-				FDFF06021B060BE1000064E3 /* monkcGame */,
-				FDFF06201B060BE1000064E3 /* monkcGameTests */,
+				FDFF06021B060BE1000064E3 /* Sapindus */,
+				FDFF06201B060BE1000064E3 /* SapindusTests */,
 				FDFF06011B060BE1000064E3 /* Products */,
 				FDFF06391B06314C000064E3 /* MCLib */,
 				FDFF06761B063C9D000064E3 /* MCiOSDriver */,
@@ -507,7 +507,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FDFF06021B060BE1000064E3 /* monkcGame */ = {
+		FDFF06021B060BE1000064E3 /* Sapindus */ = {
 			isa = PBXGroup;
 			children = (
 				FDFF06071B060BE1000064E3 /* AppDelegate.h */,
@@ -529,6 +529,7 @@
 				FD3AB5BF1CC678730049D100 /* Images.xcassets */,
 				FDFF06031B060BE1000064E3 /* Supporting Files */,
 			);
+			name = Sapindus;
 			path = monkcGame;
 			sourceTree = "<group>";
 		};
@@ -541,12 +542,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FDFF06201B060BE1000064E3 /* monkcGameTests */ = {
+		FDFF06201B060BE1000064E3 /* SapindusTests */ = {
 			isa = PBXGroup;
 			children = (
 				FDFF06231B060BE1000064E3 /* monkcGameTests.m */,
 				FDFF06211B060BE1000064E3 /* Supporting Files */,
 			);
+			name = SapindusTests;
 			path = monkcGameTests;
 			sourceTree = "<group>";
 		};
