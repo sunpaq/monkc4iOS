@@ -695,7 +695,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FDFF05FB1B060BE1000064E3 /* Build configuration list for PBXProject "monkcGame" */;
+			buildConfigurationList = FDFF05FB1B060BE1000064E3 /* Build configuration list for PBXProject "Sapindus" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1039,7 +1039,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FDFF05FB1B060BE1000064E3 /* Build configuration list for PBXProject "monkcGame" */ = {
+		FDFF05FB1B060BE1000064E3 /* Build configuration list for PBXProject "Sapindus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FDFF06251B060BE1000064E3 /* Debug */,

@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:monkcGame.xcodeproj">
+      location = "self:/Users/sunyuli/Dev/monkc/monkc4iOS/Sapindus.xcodeproj">
    </FileRef>
 </Workspace>
