@@ -13,10 +13,11 @@
 #include "monkc.h"
 #include "MCTexture.h"
 
-class(MCCubeMapTex, MCTexture);
+class(MCCubeMapTex, MCTexture,
+      GLuint shaderid;
+      MCUInt vaoid);
 
-//override
-method(MCCubeMapTex, MCCubeMapTex*, initWithFileName, const char* name);
-method(MCCubeMapTex, void, prepareTexture, MCGLContext* ctx);
+method(MCCubeMapTex, MCCubeMapTex*, initWithFileNames, const char* namelist[]);
+method(MCCubeMapTex, void, drawTexture, MCGLContext* ctx);
 
 #endif /* MCCubeMapTex_h */

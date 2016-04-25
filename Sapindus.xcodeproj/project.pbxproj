@@ -70,6 +70,12 @@
 		FD7FF8F01CCB6043008106E5 /* bottle_cap2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */; };
 		FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5B1C2D4797007D4BE4 /* MCWorld.c */; };
 		FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */; };
+		FD8784831CCE5F8C0071DAB4 /* back.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD87847D1CCE5F8C0071DAB4 /* back.jpg */; };
+		FD8784841CCE5F8C0071DAB4 /* bottom.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD87847E1CCE5F8C0071DAB4 /* bottom.jpg */; };
+		FD8784851CCE5F8C0071DAB4 /* front.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD87847F1CCE5F8C0071DAB4 /* front.jpg */; };
+		FD8784861CCE5F8C0071DAB4 /* left.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD8784801CCE5F8C0071DAB4 /* left.jpg */; };
+		FD8784871CCE5F8C0071DAB4 /* right.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD8784811CCE5F8C0071DAB4 /* right.jpg */; };
+		FD8784881CCE5F8C0071DAB4 /* top.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD8784821CCE5F8C0071DAB4 /* top.jpg */; };
 		FD9A56481CC696A200F90DCB /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9A56471CC696A200F90DCB /* ListViewController.m */; };
 		FD9A564B1CC8E2BC00F90DCB /* MasterNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9A564A1CC8E2BC00F90DCB /* MasterNavController.m */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
@@ -216,6 +222,14 @@
 		FD819E5C1C2D4797007D4BE4 /* MCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWorld.h; sourceTree = "<group>"; };
 		FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLEngine.c; sourceTree = "<group>"; };
 		FD819E5F1C2EE4F0007D4BE4 /* MCGLEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLEngine.h; sourceTree = "<group>"; };
+		FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = MCSkyboxShader.vsh; sourceTree = "<group>"; };
+		FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = MCSkyboxShader.fsh; sourceTree = "<group>"; };
+		FD87847D1CCE5F8C0071DAB4 /* back.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = back.jpg; path = skybox/back.jpg; sourceTree = "<group>"; };
+		FD87847E1CCE5F8C0071DAB4 /* bottom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bottom.jpg; path = skybox/bottom.jpg; sourceTree = "<group>"; };
+		FD87847F1CCE5F8C0071DAB4 /* front.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = front.jpg; path = skybox/front.jpg; sourceTree = "<group>"; };
+		FD8784801CCE5F8C0071DAB4 /* left.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = left.jpg; path = skybox/left.jpg; sourceTree = "<group>"; };
+		FD8784811CCE5F8C0071DAB4 /* right.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = right.jpg; path = skybox/right.jpg; sourceTree = "<group>"; };
+		FD8784821CCE5F8C0071DAB4 /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = top.jpg; path = skybox/top.jpg; sourceTree = "<group>"; };
 		FD9A56461CC696A200F90DCB /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
 		FD9A56471CC696A200F90DCB /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
 		FD9A56491CC8E2BC00F90DCB /* MasterNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterNavController.h; sourceTree = "<group>"; };
@@ -326,6 +340,8 @@
 		FD50E2211C15DE00001CC314 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
+				FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */,
+				FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */,
 				FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */,
 				FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */,
 				FD43FEA31C394A220043E019 /* MCLightShader.fsh */,
@@ -452,6 +468,12 @@
 		FD5EFD561B0E3D9D00D2492A /* textures */ = {
 			isa = PBXGroup;
 			children = (
+				FD87847D1CCE5F8C0071DAB4 /* back.jpg */,
+				FD87847E1CCE5F8C0071DAB4 /* bottom.jpg */,
+				FD87847F1CCE5F8C0071DAB4 /* front.jpg */,
+				FD8784801CCE5F8C0071DAB4 /* left.jpg */,
+				FD8784811CCE5F8C0071DAB4 /* right.jpg */,
+				FD8784821CCE5F8C0071DAB4 /* top.jpg */,
 				FDAE48171C7E0943009DEE97 /* mcicon.jpg */,
 				FD5EFD571B0E3D9D00D2492A /* mcicon.png */,
 				FDA3DCDD1C9056BC0044965D /* tex1.jpg */,
@@ -733,26 +755,32 @@
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
 				FDFF06181B060BE1000064E3 /* LaunchScreen.xib in Resources */,
 				FD5EFD651B0E3D9D00D2492A /* Icon-72@2x.png in Resources */,
+				FD8784861CCE5F8C0071DAB4 /* left.jpg in Resources */,
 				FD5EFD691B0E3D9D00D2492A /* Icon@2x.png in Resources */,
 				FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */,
 				FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */,
 				FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
+				FD8784851CCE5F8C0071DAB4 /* front.jpg in Resources */,
 				FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */,
 				FD4CC1F31C91BD8300051C15 /* jongkhurun.png in Resources */,
 				FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */,
 				FD5EFD601B0E3D9D00D2492A /* Icon-Small.png in Resources */,
 				FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */,
 				FDFF06131B060BE1000064E3 /* Main.storyboard in Resources */,
+				FD8784841CCE5F8C0071DAB4 /* bottom.jpg in Resources */,
 				FD5EFD5A1B0E3D9D00D2492A /* Icon-40@2x.png in Resources */,
 				FD5EFD5C1B0E3D9D00D2492A /* Icon-60@2x.png in Resources */,
 				FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */,
 				FD5EFD5E1B0E3D9D00D2492A /* Icon-76.png in Resources */,
+				FD8784871CCE5F8C0071DAB4 /* right.jpg in Resources */,
 				FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */,
 				FD4CC1FB1C93B55100051C15 /* tex8.bmp in Resources */,
+				FD8784881CCE5F8C0071DAB4 /* top.jpg in Resources */,
 				FD5EFD681B0E3D9D00D2492A /* Icon.png in Resources */,
 				FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */,
 				FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */,
+				FD8784831CCE5F8C0071DAB4 /* back.jpg in Resources */,
 				FD5EFD5D1B0E3D9D00D2492A /* Icon-60@3x.png in Resources */,
 				FD5EFD631B0E3D9D00D2492A /* Icon-60.png in Resources */,
 				FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */,

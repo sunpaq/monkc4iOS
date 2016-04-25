@@ -15,6 +15,7 @@
 #include "MC3DBase.h"
 #include "MC3DShapeBase.h"
 #include "MCClock.h"
+#include "MCGLContext.h"
 
 typedef enum {
     MCGLErrNone = GL_NO_ERROR,
@@ -46,6 +47,7 @@ utility(MCGLEngine, void, cullBackFace, voida);
 //Texture
 utility(MCGLEngine, MCUInt, getMaxTextureUnits, voida);
 utility(MCGLEngine, void, activeTextureUnit, MCUInt index);
+utility(MCGLEngine, GLuint, prepareShader, MCGLContext* context, const char* vcode, const char* fcode);
 
 //Frame Rate (FPS)
 MCInline int MCGLEngine_tickFPS(MCClock* clock)

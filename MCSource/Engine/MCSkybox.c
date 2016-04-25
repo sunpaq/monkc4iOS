@@ -7,11 +7,16 @@
 //
 
 #include "MCSkybox.h"
+#include "MCGLEngine.h"
+#include "MCGLContext.h"
+#include "MC3DiOSDriver.h"
+
+//void MCFileGetPath(const char* filename, const char* extention, char* buffer);
+//const char* MCFileCopyContent(const char* filename, const char* extention);
 
 oninit(MCSkybox)
 {
-    if (init(MCObject)) {
-        var(cubetex) = mull;
+    if (init(MC3DNode)) {
         
         return obj;
     }else{
@@ -19,17 +24,18 @@ oninit(MCSkybox)
     }
 }
 
-method(MCSkybox, MCSkybox*, initWithFileName, MCStaticString name)
+method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[])
 {
+    svar(texture) = ff(new(MCCubeMapTex), initWithFileNames, namelist);
     return obj;
 }
 
 onload(MCSkybox)
 {
-    if (load(MCObject)) {
+    if (load(MC3DNode)) {
         
-        binding(MCSkybox, MCSkybox*, initWithFileName, MCStaticString name);
-        
+        binding(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[]);
+
         return cla;
     }else{
         return mull;

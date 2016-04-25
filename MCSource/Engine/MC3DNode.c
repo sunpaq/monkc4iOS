@@ -9,6 +9,19 @@
 #include "MC3DNode.h"
 #include "MCGLEngine.h"
 
+//prehash
+static MCHash _update;
+static MCHash _draw;
+static MCHash _drawTexture;
+
+//call this in onload
+static void prehash()
+{
+    _update = hash("update");
+    _draw   = hash("draw");
+    _drawTexture = hash("drawTexture");
+}
+
 oninit(MC3DNode)
 {
     if (init(MCObject)) {
@@ -20,6 +33,7 @@ oninit(MC3DNode)
         
         memset(var(children), (int)mull, sizeof(var(children)));
         memset(var(meshes), (int)mull, sizeof(var(meshes)));
+        
         return obj;
     }else{
         return mull;
@@ -108,40 +122,45 @@ method(MC3DNode, void, update, MCGLContext* ctx)
         MCMatrial_prepareMatrial(0, obj->material, ctx);
     }
     //texture
-    if (obj->texture != mull) {
-        MCTexture_prepareTexture(0, obj->texture, ctx);
-    }
+//    if (obj->texture != mull) {
+//        MCTexture_prepareTexture(0, obj->texture, ctx);
+//    }
     //update self mesh
-    for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
-        MCMesh* mesh = obj->meshes[i];
-        if (mesh != mull) {
-            MCMesh_prepareMesh(0, mesh, ctx);
-        }
-    }
+//    for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
+//        MCMesh* mesh = obj->meshes[i];
+//        if (mesh != mull) {
+//            MCMesh_prepareMesh(0, mesh, ctx);
+//        }
+//    }
     //update children
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
         MC3DNode* node = obj->children[i];
         if (node != mull && node->visible != MCFalse) {
-            ff(node, update, ctx);
+            fh(node, update, _update, ctx);
         }
     }
 }
 
 method(MC3DNode, void, draw, MCGLContext* ctx)
 {
-    //draw self
+    //draw self meshes
     for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
         MCMesh* mesh = obj->meshes[i];
         if (mesh != mull) {
+            MCMesh_prepareMesh(0, mesh, ctx);
             MCMesh_drawMesh(0, mesh, ctx);
         }
+    }
+    //draw self texture
+    if (obj->texture != mull) {
+        fh(obj->texture, drawTexture, _drawTexture, ctx);
     }
     
     //draw children
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
         MC3DNode* node = obj->children[i];
         if (node != mull && node->visible != MCFalse) {
-            ff(node, draw, ctx);
+            fh(node, draw, _draw, ctx);
         }
     }
 }
@@ -159,6 +178,7 @@ method(MC3DNode, void, show, voida)
 onload(MC3DNode)
 {
     if (load(MCObject)) {
+        prehash();
         binding(MC3DNode, void, bye, voida);
         binding(MC3DNode, void, addChild, MC3DNode* child);
         binding(MC3DNode, void, removeChild, MC3DNode* child);

@@ -11,6 +11,15 @@
 #include "MC3DBase.h"
 #include "MCIO.h"
 
+static MCHash _draw;
+static MCHash _update;
+
+static void prehash()
+{
+    _draw = hash("draw");
+    _update = hash("update");
+}
+
 oninit(MCGLRenderer)
 {
     if(init(MCObject)){
@@ -36,57 +45,19 @@ method(MCGLRenderer, void, bye, voida)
 
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
-    GLuint vertShader, fragShader;
-    MCGLEngine_compileShader(&vertShader, GL_VERTEX_SHADER, vcode);
-    MCGLEngine_compileShader(&fragShader, GL_FRAGMENT_SHADER, fcode);
-    
-    // Create shader program.
-    obj->Id = glCreateProgram();
-    
-    // Attach vertex shader to program.
-    glAttachShader(obj->Id, vertShader);
-    
-    // Attach fragment shader to program.
-    glAttachShader(obj->Id, fragShader);
-    
-    MCGLContext_beforeLinkProgram(0, obj->context, obj->Id);
-    
-    // Link program.
-    if (MCGLEngine_linkProgram(obj->Id) == 0) {
-        printf("Failed to link program: %d", obj->Id);
-        
-        if (vertShader) {
-            glDeleteShader(vertShader);
-            vertShader = 0;
-        }
-        if (fragShader) {
-            glDeleteShader(fragShader);
-            fragShader = 0;
-        }
-        if (obj->Id) {
-            glDeleteProgram(obj->Id);
-            obj->Id = 0;
-        }
-    }
-    
-    MCGLContext_afterLinkProgram(0, obj->context, obj->Id);
-    
-    // Release vertex and fragment shaders.
-    if (vertShader) {
-        glDetachShader(obj->Id, vertShader);
-        glDeleteShader(vertShader);
-    }
-    if (fragShader) {
-        glDetachShader(obj->Id, fragShader);
-        glDeleteShader(fragShader);
-    }
-    
+    obj->Id = MCGLEngine_prepareShader(obj->context, vcode, fcode);
     return obj;
 }
 
 method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader)
 {
-    //TODO
+    const char* vcode = MCFileCopyContent(vshader, "vsh");
+    const char* fcode = MCFileCopyContent(fshader, "fsh");
+    
+    MCGLRenderer_initWithShaderCodeString(0, obj, vcode, fcode);
+    
+    free((void*)vcode);
+    free((void*)fcode);
     return obj;
 }
 
@@ -94,7 +65,7 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 {
     //update nodes
     if (rootnode != mull) {
-        ff(rootnode, update, obj->context);
+        fh(rootnode, update, _update, obj->context);
     }
     
     //update model view projection matrix
@@ -107,13 +78,14 @@ method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
     glUseProgram(obj->Id);
     
     if (rootnode != mull) {
-        ff(rootnode, draw, obj->context);
+        fh(rootnode, draw, _draw, obj->context);
     }
 }
 
 onload(MCGLRenderer)
 {
     if (load(MCObject)) {
+        prehash();
         binding(MCGLRenderer, void, bye, voida);
         binding(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode);
         binding(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader);
