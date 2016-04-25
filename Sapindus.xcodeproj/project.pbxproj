@@ -76,6 +76,8 @@
 		FD8784861CCE5F8C0071DAB4 /* left.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD8784801CCE5F8C0071DAB4 /* left.jpg */; };
 		FD8784871CCE5F8C0071DAB4 /* right.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD8784811CCE5F8C0071DAB4 /* right.jpg */; };
 		FD8784881CCE5F8C0071DAB4 /* top.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD8784821CCE5F8C0071DAB4 /* top.jpg */; };
+		FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */; };
+		FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */; };
 		FD9A56481CC696A200F90DCB /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9A56471CC696A200F90DCB /* ListViewController.m */; };
 		FD9A564B1CC8E2BC00F90DCB /* MasterNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9A564A1CC8E2BC00F90DCB /* MasterNavController.m */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
@@ -743,6 +745,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */,
+				FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */,
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
 				FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */,
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,

@@ -47,9 +47,10 @@ method(MCCubeMapTex, MCCubeMapTex*, initWithFileNames, const char* namelist[])
     glGenBuffers(1, &sobj->Id);
     glBindTexture(GL_TEXTURE_CUBE_MAP, sobj->Id);
     
-    unsigned char* rawdates[6];
+    unsigned char* rawdates[6] = {mull, mull, mull, mull, mull, mull};
     for (int i=0; i<6; i++) {
-        rawdates[i] = ff(sobj, loadRawdata, namelist[i]);
+        MCLogTypeSet(MC_VERBOSE);
+        rawdates[i] = ff(sobj, loadImageRawdata, namelist[i]);
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, sobj->width, sobj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, rawdates[i]);
         ff(sobj, freeRawdata, 0);
     }

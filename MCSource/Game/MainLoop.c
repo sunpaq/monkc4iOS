@@ -45,8 +45,8 @@ void onOpenFile(const char* filename, int* lock)
     if(lock != mull) *lock = 1;
     
     //skybox
-    const char* names[6] = {"right.png","left.png","top.png","bottom.png","back.png","front.png"};
-    MCSkybox* sbox = ff(new(MCSkybox), initWithFileNames, names);
+    //const char* names[6] = {"right.png","left.png","top.png","bottom.png","back.png","front.png"};
+    //MCSkybox* sbox = ff(new(MCSkybox), initWithFileNames, names);
     
     //model
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
@@ -55,7 +55,7 @@ void onOpenFile(const char* filename, int* lock)
     director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
     
     //assemble
-    ff(director->lastScene->rootnode, addChild, sbox);
+    //ff(director->lastScene->rootnode, addChild, sbox);
     ff(director->lastScene->rootnode, addChild, model);
 
     if(lock != mull) *lock = 0;
