@@ -32,7 +32,7 @@
                                 <rect key="frame" x="0.0" y="122" width="600" height="28"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nIc-9f-259" id="2If-SS-rhL">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="27"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="27.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </tableViewCellContentView>
@@ -75,7 +75,7 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mHh-hF-Ztp" id="l0A-Yl-cmu">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -146,7 +146,7 @@
                                 <items>
                                     <barButtonItem style="plain" id="Fh0-yG-x96">
                                         <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="MaY-Jg-9Zx">
-                                            <rect key="frame" x="20" y="7" width="51" height="31"/>
+                                            <rect key="frame" x="20" y="6.5" width="51" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <connections>
                                                 <action selector="startStopBtnClicked:" destination="BV1-FR-VrT" eventType="valueChanged" id="91L-ei-FuH"/>
@@ -166,7 +166,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="TUE-Di-XPr">
                                         <stepper key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" maximumValue="200" stepValue="5" id="CIl-pj-ZRi">
-                                            <rect key="frame" x="486" y="8" width="94" height="29"/>
+                                            <rect key="frame" x="486" y="7.5" width="94" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <connections>
                                                 <action selector="steperValueChange:" destination="BV1-FR-VrT" eventType="valueChanged" id="HUL-3j-P3z"/>

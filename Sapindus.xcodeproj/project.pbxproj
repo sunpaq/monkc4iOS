@@ -8,6 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		FD0097DF1CB8D781000A85DE /* Avent.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD0097DE1CB8D781000A85DE /* Avent.obj */; };
+		FD00C4C01CD10BAE00DCA45F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4A91CD10BAE00DCA45F /* AppDelegate.m */; };
+		FD00C4C11CD10BAE00DCA45F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD00C4AA1CD10BAE00DCA45F /* LaunchScreen.xib */; };
+		FD00C4C21CD10BAE00DCA45F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FD00C4AC1CD10BAE00DCA45F /* Main.storyboard */; };
+		FD00C4C31CD10BAE00DCA45F /* DetailNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4AF1CD10BAE00DCA45F /* DetailNavController.m */; };
+		FD00C4C41CD10BAE00DCA45F /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4B11CD10BAE00DCA45F /* GameViewController.m */; };
+		FD00C4C51CD10BAE00DCA45F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD00C4B21CD10BAE00DCA45F /* Images.xcassets */; };
+		FD00C4C61CD10BAE00DCA45F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD00C4B31CD10BAE00DCA45F /* Info.plist */; };
+		FD00C4C71CD10BAE00DCA45F /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4B51CD10BAE00DCA45F /* ListViewController.m */; };
+		FD00C4C81CD10BAE00DCA45F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4B61CD10BAE00DCA45F /* main.m */; };
+		FD00C4C91CD10BAE00DCA45F /* MasterNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4B81CD10BAE00DCA45F /* MasterNavController.m */; };
+		FD00C4CA1CD10BAE00DCA45F /* SettingsListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4BA1CD10BAE00DCA45F /* SettingsListController.m */; };
+		FD00C4CB1CD10BAE00DCA45F /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4BC1CD10BAE00DCA45F /* SplitViewController.m */; };
+		FD00C4CC1CD10BAE00DCA45F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD00C4BE1CD10BAE00DCA45F /* Info.plist */; };
+		FD00C4CF1CD10D5E00DCA45F /* SapindusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */; };
 		FD0B16401C78447C004FD724 /* MC3DNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B163E1C78447C004FD724 /* MC3DNode.c */; };
 		FD0B16431C784FB7004FD724 /* MC3DScene.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16411C784FB7004FD724 /* MC3DScene.c */; };
 		FD0B16461C788ADE004FD724 /* MCMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16441C788ADE004FD724 /* MCMesh.c */; };
@@ -15,7 +29,6 @@
 		FD0B164C1C789203004FD724 /* MCVertex.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B164A1C789203004FD724 /* MCVertex.c */; };
 		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
 		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
-		FD3AB5C01CC678730049D100 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD3AB5BF1CC678730049D100 /* Images.xcassets */; };
 		FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA31C394A220043E019 /* MCLightShader.fsh */; };
 		FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA51C394A390043E019 /* MCLightShader.vsh */; };
 		FD43FEAC1C429A2D0043E019 /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD43FEAA1C429A2D0043E019 /* Testbed.c */; };
@@ -65,13 +78,10 @@
 		FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */; };
 		FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */; };
 		FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD571B0E3D9D00D2492A /* mcicon.png */; };
-		FD7FF8EA1CCB3FA9008106E5 /* SettingsListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7FF8E91CCB3FA9008106E5 /* SettingsListController.m */; };
 		FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD7FF8EB1CCB5FC5008106E5 /* sph.obj */; };
 		FD7FF8F01CCB6043008106E5 /* bottle_cap2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */; };
 		FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5B1C2D4797007D4BE4 /* MCWorld.c */; };
 		FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */ = {isa = PBXBuildFile; fileRef = FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */; };
-		FD9A56481CC696A200F90DCB /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9A56471CC696A200F90DCB /* ListViewController.m */; };
-		FD9A564B1CC8E2BC00F90DCB /* MasterNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9A564A1CC8E2BC00F90DCB /* MasterNavController.m */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
 		FDAE480F1C7DF00E009DEE97 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48041C7DF00E009DEE97 /* image_DXT.c */; };
 		FDAE48101C7DF00E009DEE97 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48061C7DF00E009DEE97 /* image_helper.c */; };
@@ -81,18 +91,10 @@
 		FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDAE48171C7E0943009DEE97 /* mcicon.jpg */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
 		FDD1F1B41CBFF6800079C434 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDD1F1B31CBFF6800079C434 /* MCRuntimeAsmIOS.S */; };
-		FDD87DF51CCBCC1400D292D3 /* DetailNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
-		FDE489E71CBA983000129D2B /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDE489E61CBA983000129D2B /* SplitViewController.m */; };
 		FDE489F41CBE88F400129D2B /* MCSkybox.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F21CBE88F400129D2B /* MCSkybox.c */; };
 		FDE489F81CBE8FA700129D2B /* MCCubeMapTex.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F61CBE8FA700129D2B /* MCCubeMapTex.c */; };
 		FDE489FB1CBE910E00129D2B /* MC2DTex.c in Sources */ = {isa = PBXBuildFile; fileRef = FDE489F91CBE910E00129D2B /* MC2DTex.c */; };
-		FDFF06061B060BE1000064E3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06051B060BE1000064E3 /* main.m */; };
-		FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06081B060BE1000064E3 /* AppDelegate.m */; };
-		FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF060F1B060BE1000064E3 /* GameViewController.m */; };
-		FDFF06131B060BE1000064E3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDFF06111B060BE1000064E3 /* Main.storyboard */; };
-		FDFF06181B060BE1000064E3 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDFF06161B060BE1000064E3 /* LaunchScreen.xib */; };
-		FDFF06241B060BE1000064E3 /* monkcGameTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FDFF06231B060BE1000064E3 /* monkcGameTests.m */; };
 		FDFF06451B06314C000064E3 /* HashTable.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF063A1B06314C000064E3 /* HashTable.c */; };
 		FDFF06471B06314C000064E3 /* Lock.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF063C1B06314C000064E3 /* Lock.c */; };
 		FDFF06481B06314C000064E3 /* Log.c in Sources */ = {isa = PBXBuildFile; fileRef = FDFF063D1B06314C000064E3 /* Log.c */; };
@@ -126,6 +128,27 @@
 		FD0097D81CB3CB13000A85DE /* MC3DMtlParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MC3DMtlParser.h; sourceTree = "<group>"; };
 		FD0097DD1CB544CA000A85DE /* MC3DiOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MC3DiOS.h; sourceTree = "<group>"; };
 		FD0097DE1CB8D781000A85DE /* Avent.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Avent.obj; sourceTree = "<group>"; };
+		FD00C4A81CD10BAE00DCA45F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		FD00C4A91CD10BAE00DCA45F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FD00C4AB1CD10BAE00DCA45F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		FD00C4AD1CD10BAE00DCA45F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		FD00C4AE1CD10BAE00DCA45F /* DetailNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailNavController.h; sourceTree = "<group>"; };
+		FD00C4AF1CD10BAE00DCA45F /* DetailNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailNavController.m; sourceTree = "<group>"; };
+		FD00C4B01CD10BAE00DCA45F /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
+		FD00C4B11CD10BAE00DCA45F /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
+		FD00C4B21CD10BAE00DCA45F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		FD00C4B31CD10BAE00DCA45F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD00C4B41CD10BAE00DCA45F /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		FD00C4B51CD10BAE00DCA45F /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		FD00C4B61CD10BAE00DCA45F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FD00C4B71CD10BAE00DCA45F /* MasterNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterNavController.h; sourceTree = "<group>"; };
+		FD00C4B81CD10BAE00DCA45F /* MasterNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterNavController.m; sourceTree = "<group>"; };
+		FD00C4B91CD10BAE00DCA45F /* SettingsListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsListController.h; sourceTree = "<group>"; };
+		FD00C4BA1CD10BAE00DCA45F /* SettingsListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsListController.m; sourceTree = "<group>"; };
+		FD00C4BB1CD10BAE00DCA45F /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
+		FD00C4BC1CD10BAE00DCA45F /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
+		FD00C4BE1CD10BAE00DCA45F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SapindusTests.m; sourceTree = "<group>"; };
 		FD0B163E1C78447C004FD724 /* MC3DNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DNode.c; sourceTree = "<group>"; };
 		FD0B163F1C78447C004FD724 /* MC3DNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DNode.h; sourceTree = "<group>"; };
 		FD0B16411C784FB7004FD724 /* MC3DScene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DScene.c; sourceTree = "<group>"; };
@@ -138,7 +161,6 @@
 		FD0B164B1C789203004FD724 /* MCVertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVertex.h; sourceTree = "<group>"; };
 		FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.fsh; sourceTree = "<group>"; };
 		FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.vsh; sourceTree = "<group>"; };
-		FD3AB5BF1CC678730049D100 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FD43FEA31C394A220043E019 /* MCLightShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.fsh; sourceTree = "<group>"; };
 		FD43FEA51C394A390043E019 /* MCLightShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.vsh; sourceTree = "<group>"; };
 		FD43FEAA1C429A2D0043E019 /* Testbed.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Testbed.c; sourceTree = "<group>"; };
@@ -208,18 +230,12 @@
 		FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		FD5EFD571B0E3D9D00D2492A /* mcicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mcicon.png; sourceTree = "<group>"; };
-		FD7FF8E81CCB3FA9008106E5 /* SettingsListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsListController.h; sourceTree = "<group>"; };
-		FD7FF8E91CCB3FA9008106E5 /* SettingsListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsListController.m; sourceTree = "<group>"; };
 		FD7FF8EB1CCB5FC5008106E5 /* sph.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sph.obj; sourceTree = "<group>"; };
 		FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bottle_cap2.obj; sourceTree = "<group>"; };
 		FD819E5B1C2D4797007D4BE4 /* MCWorld.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCWorld.c; sourceTree = "<group>"; };
 		FD819E5C1C2D4797007D4BE4 /* MCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWorld.h; sourceTree = "<group>"; };
 		FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGLEngine.c; sourceTree = "<group>"; };
 		FD819E5F1C2EE4F0007D4BE4 /* MCGLEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLEngine.h; sourceTree = "<group>"; };
-		FD9A56461CC696A200F90DCB /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
-		FD9A56471CC696A200F90DCB /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
-		FD9A56491CC8E2BC00F90DCB /* MasterNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterNavController.h; sourceTree = "<group>"; };
-		FD9A564A1CC8E2BC00F90DCB /* MasterNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterNavController.m; sourceTree = "<group>"; };
 		FDA3DCDD1C9056BC0044965D /* tex1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tex1.jpg; sourceTree = "<group>"; };
 		FDAE48041C7DF00E009DEE97 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
 		FDAE48051C7DF00E009DEE97 /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_DXT.h; sourceTree = "<group>"; };
@@ -237,11 +253,7 @@
 		FDCB46AD1B11E3C300403320 /* MCOrbit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCOrbit.c; sourceTree = "<group>"; };
 		FDCB46AE1B11E3C300403320 /* MCOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrbit.h; sourceTree = "<group>"; };
 		FDD1F1B31CBFF6800079C434 /* MCRuntimeAsmIOS.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = MCRuntimeAsmIOS.S; path = MCRuntimeAsm/MCRuntimeAsmIOS.S; sourceTree = "<group>"; };
-		FDD87DF31CCBCC1400D292D3 /* DetailNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailNavController.h; sourceTree = "<group>"; };
-		FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailNavController.m; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
-		FDE489E51CBA983000129D2B /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
-		FDE489E61CBA983000129D2B /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		FDE489F21CBE88F400129D2B /* MCSkybox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkybox.c; sourceTree = "<group>"; };
 		FDE489F31CBE88F400129D2B /* MCSkybox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkybox.h; sourceTree = "<group>"; };
 		FDE489F51CBE8D2400129D2B /* MCLexer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCLexer.h; sourceTree = "<group>"; };
@@ -250,17 +262,7 @@
 		FDE489F91CBE910E00129D2B /* MC2DTex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC2DTex.c; sourceTree = "<group>"; };
 		FDE489FA1CBE910E00129D2B /* MC2DTex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC2DTex.h; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* Sapindus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sapindus.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDFF06041B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FDFF06051B060BE1000064E3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		FDFF06071B060BE1000064E3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		FDFF06081B060BE1000064E3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		FDFF060E1B060BE1000064E3 /* GameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		FDFF060F1B060BE1000064E3 /* GameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; usesTabs = 1; };
-		FDFF06121B060BE1000064E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		FDFF06171B060BE1000064E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		FDFF061D1B060BE1000064E3 /* Sapindus.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Sapindus.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FDFF06221B060BE1000064E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FDFF06231B060BE1000064E3 /* monkcGameTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = monkcGameTests.m; sourceTree = "<group>"; };
 		FDFF063A1B06314C000064E3 /* HashTable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashTable.c; sourceTree = "<group>"; };
 		FDFF063C1B06314C000064E3 /* Lock.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Lock.c; sourceTree = "<group>"; };
 		FDFF063D1B06314C000064E3 /* Log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Log.c; sourceTree = "<group>"; };
@@ -310,6 +312,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FD00C4A71CD10BAE00DCA45F /* Sapindus */ = {
+			isa = PBXGroup;
+			children = (
+				FD00C4A81CD10BAE00DCA45F /* AppDelegate.h */,
+				FD00C4A91CD10BAE00DCA45F /* AppDelegate.m */,
+				FD00C4AA1CD10BAE00DCA45F /* LaunchScreen.xib */,
+				FD00C4AC1CD10BAE00DCA45F /* Main.storyboard */,
+				FD00C4AE1CD10BAE00DCA45F /* DetailNavController.h */,
+				FD00C4AF1CD10BAE00DCA45F /* DetailNavController.m */,
+				FD00C4B01CD10BAE00DCA45F /* GameViewController.h */,
+				FD00C4B11CD10BAE00DCA45F /* GameViewController.m */,
+				FD00C4B21CD10BAE00DCA45F /* Images.xcassets */,
+				FD00C4B31CD10BAE00DCA45F /* Info.plist */,
+				FD00C4B41CD10BAE00DCA45F /* ListViewController.h */,
+				FD00C4B51CD10BAE00DCA45F /* ListViewController.m */,
+				FD00C4B61CD10BAE00DCA45F /* main.m */,
+				FD00C4B71CD10BAE00DCA45F /* MasterNavController.h */,
+				FD00C4B81CD10BAE00DCA45F /* MasterNavController.m */,
+				FD00C4B91CD10BAE00DCA45F /* SettingsListController.h */,
+				FD00C4BA1CD10BAE00DCA45F /* SettingsListController.m */,
+				FD00C4BB1CD10BAE00DCA45F /* SplitViewController.h */,
+				FD00C4BC1CD10BAE00DCA45F /* SplitViewController.m */,
+			);
+			path = Sapindus;
+			sourceTree = "<group>";
+		};
+		FD00C4BD1CD10BAE00DCA45F /* SapindusTests */ = {
+			isa = PBXGroup;
+			children = (
+				FD00C4BE1CD10BAE00DCA45F /* Info.plist */,
+				FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */,
+			);
+			path = SapindusTests;
+			sourceTree = "<group>";
+		};
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
@@ -488,9 +525,9 @@
 		FDFF05F71B060BE1000064E3 = {
 			isa = PBXGroup;
 			children = (
+				FD00C4A71CD10BAE00DCA45F /* Sapindus */,
+				FD00C4BD1CD10BAE00DCA45F /* SapindusTests */,
 				FD5EFD3E1B0E3D9D00D2492A /* Resources */,
-				FDFF06021B060BE1000064E3 /* Sapindus */,
-				FDFF06201B060BE1000064E3 /* SapindusTests */,
 				FDFF06011B060BE1000064E3 /* Products */,
 				FDFF06391B06314C000064E3 /* MCLib */,
 				FDFF06761B063C9D000064E3 /* MCiOSDriver */,
@@ -505,59 +542,6 @@
 				FDFF061D1B060BE1000064E3 /* Sapindus.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		FDFF06021B060BE1000064E3 /* Sapindus */ = {
-			isa = PBXGroup;
-			children = (
-				FDFF06071B060BE1000064E3 /* AppDelegate.h */,
-				FDFF06081B060BE1000064E3 /* AppDelegate.m */,
-				FD9A56491CC8E2BC00F90DCB /* MasterNavController.h */,
-				FD9A564A1CC8E2BC00F90DCB /* MasterNavController.m */,
-				FDD87DF31CCBCC1400D292D3 /* DetailNavController.h */,
-				FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */,
-				FDE489E51CBA983000129D2B /* SplitViewController.h */,
-				FDE489E61CBA983000129D2B /* SplitViewController.m */,
-				FD9A56461CC696A200F90DCB /* ListViewController.h */,
-				FD9A56471CC696A200F90DCB /* ListViewController.m */,
-				FD7FF8E81CCB3FA9008106E5 /* SettingsListController.h */,
-				FD7FF8E91CCB3FA9008106E5 /* SettingsListController.m */,
-				FDFF060E1B060BE1000064E3 /* GameViewController.h */,
-				FDFF060F1B060BE1000064E3 /* GameViewController.m */,
-				FDFF06111B060BE1000064E3 /* Main.storyboard */,
-				FDFF06161B060BE1000064E3 /* LaunchScreen.xib */,
-				FD3AB5BF1CC678730049D100 /* Images.xcassets */,
-				FDFF06031B060BE1000064E3 /* Supporting Files */,
-			);
-			name = Sapindus;
-			path = monkcGame;
-			sourceTree = "<group>";
-		};
-		FDFF06031B060BE1000064E3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FDFF06041B060BE1000064E3 /* Info.plist */,
-				FDFF06051B060BE1000064E3 /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		FDFF06201B060BE1000064E3 /* SapindusTests */ = {
-			isa = PBXGroup;
-			children = (
-				FDFF06231B060BE1000064E3 /* monkcGameTests.m */,
-				FDFF06211B060BE1000064E3 /* Supporting Files */,
-			);
-			name = SapindusTests;
-			path = monkcGameTests;
-			sourceTree = "<group>";
-		};
-		FDFF06211B060BE1000064E3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FDFF06221B060BE1000064E3 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		FDFF06391B06314C000064E3 /* MCLib */ = {
@@ -724,15 +708,15 @@
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
 				FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */,
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
-				FD3AB5C01CC678730049D100 /* Images.xcassets in Resources */,
 				FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
 				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
 				FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */,
 				FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
-				FDFF06181B060BE1000064E3 /* LaunchScreen.xib in Resources */,
 				FD5EFD651B0E3D9D00D2492A /* Icon-72@2x.png in Resources */,
+				FD00C4CC1CD10BAE00DCA45F /* Info.plist in Resources */,
+				FD00C4C61CD10BAE00DCA45F /* Info.plist in Resources */,
 				FD5EFD691B0E3D9D00D2492A /* Icon@2x.png in Resources */,
 				FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */,
 				FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */,
@@ -743,13 +727,14 @@
 				FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */,
 				FD5EFD601B0E3D9D00D2492A /* Icon-Small.png in Resources */,
 				FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */,
-				FDFF06131B060BE1000064E3 /* Main.storyboard in Resources */,
 				FD5EFD5A1B0E3D9D00D2492A /* Icon-40@2x.png in Resources */,
 				FD5EFD5C1B0E3D9D00D2492A /* Icon-60@2x.png in Resources */,
 				FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */,
 				FD5EFD5E1B0E3D9D00D2492A /* Icon-76.png in Resources */,
+				FD00C4C11CD10BAE00DCA45F /* LaunchScreen.xib in Resources */,
 				FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */,
 				FD4CC1FB1C93B55100051C15 /* tex8.bmp in Resources */,
+				FD00C4C21CD10BAE00DCA45F /* Main.storyboard in Resources */,
 				FD5EFD681B0E3D9D00D2492A /* Icon.png in Resources */,
 				FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */,
 				FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */,
@@ -758,6 +743,7 @@
 				FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */,
 				FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */,
 				FD7FF8F01CCB6043008106E5 /* bottle_cap2.obj in Resources */,
+				FD00C4C51CD10BAE00DCA45F /* Images.xcassets in Resources */,
 				FD4CC1F51C91C8C200051C15 /* tex5.png in Resources */,
 				FD0097DF1CB8D781000A85DE /* Avent.obj in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
@@ -785,7 +771,6 @@
 			files = (
 				FD43FEAC1C429A2D0043E019 /* Testbed.c in Sources */,
 				FDFF064D1B06314C000064E3 /* monkc.c in Sources */,
-				FD9A56481CC696A200F90DCB /* ListViewController.m in Sources */,
 				FDFF06701B06315B000064E3 /* MCThread.c in Sources */,
 				FD819E601C2EE4F0007D4BE4 /* MCGLEngine.c in Sources */,
 				FD4CC1FE1C96DD2E00051C15 /* MC3DModel.c in Sources */,
@@ -793,21 +778,23 @@
 				FD5E18901B09DEB6006CB737 /* MCArray.c in Sources */,
 				FD5183571C7CA5EA00A74DDE /* MCGLContext.c in Sources */,
 				FD0B16461C788ADE004FD724 /* MCMesh.c in Sources */,
-				FDD87DF51CCBCC1400D292D3 /* DetailNavController.m in Sources */,
 				FD5E188B1B09CECB006CB737 /* MC3DMainLoop.c in Sources */,
 				FDFF06691B06315B000064E3 /* MCContext.c in Sources */,
 				FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */,
 				FD0B16401C78447C004FD724 /* MC3DNode.c in Sources */,
 				FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */,
 				FDAE48121C7DF00E009DEE97 /* stb_image_aug.c in Sources */,
+				FD00C4C71CD10BAE00DCA45F /* ListViewController.m in Sources */,
+				FD00C4C81CD10BAE00DCA45F /* main.m in Sources */,
 				FDFF06471B06314C000064E3 /* Lock.c in Sources */,
 				FDFF066D1B06315B000064E3 /* MCProcess.c in Sources */,
 				FD0B16491C788AF2004FD724 /* MCTexture.c in Sources */,
+				FD00C4CA1CD10BAE00DCA45F /* SettingsListController.m in Sources */,
 				FDFF06451B06314C000064E3 /* HashTable.c in Sources */,
-				FD7FF8EA1CCB3FA9008106E5 /* SettingsListController.m in Sources */,
 				FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */,
 				FD0B164C1C789203004FD724 /* MCVertex.c in Sources */,
 				FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */,
+				FD00C4CB1CD10BAE00DCA45F /* SplitViewController.m in Sources */,
 				FDAE48111C7DF00E009DEE97 /* SOIL.c in Sources */,
 				FDFF066A1B06315B000064E3 /* MCException.c in Sources */,
 				FDFF066B1B06315B000064E3 /* MCIO.c in Sources */,
@@ -816,9 +803,7 @@
 				FD593D2E1C9D91D20065BFC5 /* MCDirector.c in Sources */,
 				FD51835A1C7CBCF200A74DDE /* MCLight.c in Sources */,
 				FDAE480F1C7DF00E009DEE97 /* image_DXT.c in Sources */,
-				FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */,
 				FDFF064C1B06314C000064E3 /* Messaging.c in Sources */,
-				FDFF06101B060BE1000064E3 /* GameViewController.m in Sources */,
 				FDE489F41CBE88F400129D2B /* MCSkybox.c in Sources */,
 				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,
 				FDFF066C1B06315B000064E3 /* MCMath.c in Sources */,
@@ -828,17 +813,18 @@
 				FD5E188C1B09CECB006CB737 /* MCCamera.c in Sources */,
 				FD5E188D1B09CECB006CB737 /* MCCube.c in Sources */,
 				FDAE48101C7DF00E009DEE97 /* image_helper.c in Sources */,
+				FD00C4C31CD10BAE00DCA45F /* DetailNavController.m in Sources */,
 				FDFF066F1B06315B000064E3 /* MCString.c in Sources */,
 				FDFF066E1B06315B000064E3 /* MCSocket.c in Sources */,
 				FDD1F1B41CBFF6800079C434 /* MCRuntimeAsmIOS.S in Sources */,
+				FD00C4C41CD10BAE00DCA45F /* GameViewController.m in Sources */,
 				FD51835D1C7CBEAA00A74DDE /* MCMatrial.c in Sources */,
+				FD00C4C01CD10BAE00DCA45F /* AppDelegate.m in Sources */,
 				FDFF06671B06315B000064E3 /* MCBuffer.c in Sources */,
-				FDFF06061B060BE1000064E3 /* main.m in Sources */,
 				FDFF06681B06315B000064E3 /* MCClock.c in Sources */,
+				FD00C4C91CD10BAE00DCA45F /* MasterNavController.m in Sources */,
 				FD5E18801B09CE60006CB737 /* MCNode.c in Sources */,
-				FD9A564B1CC8E2BC00F90DCB /* MasterNavController.m in Sources */,
 				FDFF06711B06315B000064E3 /* MCUnitTest.c in Sources */,
-				FDE489E71CBA983000129D2B /* SplitViewController.m in Sources */,
 				FDFF06481B06314C000064E3 /* Log.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -847,7 +833,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FDFF06241B060BE1000064E3 /* monkcGameTests.m in Sources */,
+				FD00C4CF1CD10D5E00DCA45F /* SapindusTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -862,20 +848,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		FDFF06111B060BE1000064E3 /* Main.storyboard */ = {
+		FD00C4AA1CD10BAE00DCA45F /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FDFF06121B060BE1000064E3 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		FDFF06161B060BE1000064E3 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				FDFF06171B060BE1000064E3 /* Base */,
+				FD00C4AB1CD10BAE00DCA45F /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		FD00C4AC1CD10BAE00DCA45F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FD00C4AD1CD10BAE00DCA45F /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -975,7 +961,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = monkcGame/Info.plist;
+				INFOPLIST_FILE = Sapindus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;
@@ -992,7 +978,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				INFOPLIST_FILE = monkcGame/Info.plist;
+				INFOPLIST_FILE = Sapindus/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;

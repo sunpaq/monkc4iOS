@@ -18,6 +18,9 @@
     self.tableView.delegate = self;
     
     self.listData = [NSMutableArray arrayWithObjects:
+                     @"Tutorial",
+                     @"3rd Party Library License",
+                     @"3rd Party Demo Contents License",
                      @"Backgroud Color",
                      @"Rotation Direction",
                      @"Show FPS", nil];
