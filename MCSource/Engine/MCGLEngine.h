@@ -47,7 +47,9 @@ utility(MCGLEngine, void, cullBackFace, voida);
 //Texture
 utility(MCGLEngine, MCUInt, getMaxTextureUnits, voida);
 utility(MCGLEngine, void, activeTextureUnit, MCUInt index);
-utility(MCGLEngine, GLuint, prepareShader, MCGLContext* context, const char* vcode, const char* fcode);
+//Shader
+utility(MCGLEngine, GLuint, createShader, voida);
+utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const char* fcode);
 
 //Frame Rate (FPS)
 MCInline int MCGLEngine_tickFPS(MCClock* clock)

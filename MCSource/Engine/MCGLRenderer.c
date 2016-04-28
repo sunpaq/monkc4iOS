@@ -30,6 +30,7 @@ oninit(MCGLRenderer)
         MCGLEngine_setFrontCounterClockWise(MCFalse);//CCW
         
         obj->context = new(MCGLContext);
+        obj->Id = MCGLEngine_createShader(0);
         
         return obj;
     }else{
@@ -43,9 +44,35 @@ method(MCGLRenderer, void, bye, voida)
     MCObject_bye(0, sobj, 0);
 }
 
+function(void, beforeLinkProgram, voida)
+{
+    varscope(MCGLRenderer);
+    // Bind attribute locations.
+    // This needs to be done prior to linking.
+    for (int i=0; i<MAX_VATTR_NUM-1; i++) {
+        if (var(context)->vertexAttributeNames[i] != mull) {
+            glBindAttribLocation(var(Id), i, var(context)->vertexAttributeNames[i]);
+        }
+    }
+}
+
+function(void, afterLinkProgram, voida)
+{
+    varscope(MCGLRenderer);
+    // Get uniform locations.
+    for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
+        const char* name = var(context)->uniformNames[i];
+        if (name != mull) {
+            var(context)->uniformLocations[i] = glGetUniformLocation(var(Id), name);
+        }
+    }
+}
+
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
-    obj->Id = MCGLEngine_prepareShader(obj->context, vcode, fcode);
+    beforeLinkProgram(0, obj, 0);
+    MCGLEngine_prepareShader(obj->Id, vcode, fcode);
+    afterLinkProgram(0, obj, 0);
     return obj;
 }
 

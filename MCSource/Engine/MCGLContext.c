@@ -44,42 +44,40 @@ oninit(MCGLContext)
     }
 }
 
-method(MCGLContext, void, submitModelViewProjectionMatrix, voida)
-{
-    if (obj->modelMatrix != mull) {
-        glUniformMatrix4fv(obj->uniformLocations[1], 1, 0, obj->modelMatrix->m);
-    }
-    if (obj->viewMatrix != mull) {
-        glUniformMatrix4fv(obj->uniformLocations[2], 1, 0, obj->viewMatrix->m);
-    }
-    if (obj->projectionMatrix != mull) {
-        glUniformMatrix4fv(obj->uniformLocations[3], 1, 0, obj->projectionMatrix->m);
-    }
-}
+//method(MCGLContext, void, submitModelViewProjectionMatrix, voida)
+//{
+//    if (obj->modelMatrix != mull) {
+//        glUniformMatrix4fv(obj->uniformLocations[1], 1, 0, obj->modelMatrix->m);
+//    }
+//    if (obj->viewMatrix != mull) {
+//        glUniformMatrix4fv(obj->uniformLocations[2], 1, 0, obj->viewMatrix->m);
+//    }
+//    if (obj->projectionMatrix != mull) {
+//        glUniformMatrix4fv(obj->uniformLocations[3], 1, 0, obj->projectionMatrix->m);
+//    }
+//}
 
-method(MCGLContext, void, beforeLinkProgram, GLuint id)
-{
-    // Bind attribute locations.
-    // This needs to be done prior to linking.
-    for (int i=0; i<MAX_VATTR_NUM-1; i++) {
-        if (obj->vertexAttributeNames[i] != mull) {
-            glBindAttribLocation(id, i, obj->vertexAttributeNames[i]);
-        }
-    }
-}
-
-method(MCGLContext, void, afterLinkProgram, GLuint id)
-{
-    // Get uniform locations.
-    for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
-        const char* name = obj->uniformNames[i];
-        if (name != mull) {
-            obj->uniformLocations[i] = glGetUniformLocation(id, name);
-        }
-    }
-    
-
-}
+//method(MCGLContext, void, beforeLinkProgram, GLuint id)
+//{
+//    // Bind attribute locations.
+//    // This needs to be done prior to linking.
+//    for (int i=0; i<MAX_VATTR_NUM-1; i++) {
+//        if (obj->vertexAttributeNames[i] != mull) {
+//            glBindAttribLocation(id, i, obj->vertexAttributeNames[i]);
+//        }
+//    }
+//}
+//
+//method(MCGLContext, void, afterLinkProgram, GLuint id)
+//{
+//    // Get uniform locations.
+//    for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
+//        const char* name = obj->uniformNames[i];
+//        if (name != mull) {
+//            obj->uniformLocations[i] = glGetUniformLocation(id, name);
+//        }
+//    }
+//}
 
 method(MCGLContext, int, getUniformLocation, const char* name)
 {
@@ -151,9 +149,9 @@ method(MCGLContext, void, setUniformVector4, const char* name, MCVector4 vec4)
 onload(MCGLContext)
 {
     if (load(MCObject)) {
-        binding(MCGLContext, void, submitModelViewProjectionMatrix, voida);
-        binding(MCGLContext, void, beforeLinkProgram, GLuint id);
-        binding(MCGLContext, void, afterLinkProgram, GLuint id);
+//        binding(MCGLContext, void, submitModelViewProjectionMatrix, voida);
+//        binding(MCGLContext, void, beforeLinkProgram, GLuint id);
+//        binding(MCGLContext, void, afterLinkProgram, GLuint id);
         
         binding(MCGLContext, int, getUniformLocation, const char* name);
         binding(MCGLContext, void, setUniformMatrix3, const char* name, float m[]);

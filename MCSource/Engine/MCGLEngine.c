@@ -92,14 +92,19 @@ utility(MCGLEngine, void, activeTextureUnit, MCUInt index)
     glActiveTexture(GL_TEXTURE0+index);
 }
 
-utility(MCGLEngine, GLuint, prepareShader, MCGLContext* context, const char* vcode, const char* fcode)
+utility(MCGLEngine, GLuint, createShader, voida)
 {
-    GLuint vertShader, fragShader, Id;
+    return glCreateProgram();
+}
+
+utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const char* fcode)
+{
+    GLuint vertShader, fragShader;
     MCGLEngine_compileShader(&vertShader, GL_VERTEX_SHADER, vcode);
     MCGLEngine_compileShader(&fragShader, GL_FRAGMENT_SHADER, fcode);
     
     // Create shader program.
-    Id = glCreateProgram();
+    //Id = glCreateProgram();
     
     // Attach vertex shader to program.
     glAttachShader(Id, vertShader);
@@ -107,9 +112,9 @@ utility(MCGLEngine, GLuint, prepareShader, MCGLContext* context, const char* vco
     // Attach fragment shader to program.
     glAttachShader(Id, fragShader);
     
-    if (context != mull) {
-        MCGLContext_beforeLinkProgram(0, context, Id);
-    }
+//    if (context != mull) {
+//        MCGLContext_beforeLinkProgram(0, context, Id);
+//    }
     
     // Link program.
     if (MCGLEngine_linkProgram(Id) == 0) {
@@ -129,9 +134,9 @@ utility(MCGLEngine, GLuint, prepareShader, MCGLContext* context, const char* vco
         }
     }
     
-    if (context != mull) {
-        MCGLContext_afterLinkProgram(0, context, Id);
-    }
+//    if (context != mull) {
+//        MCGLContext_afterLinkProgram(0, context, Id);
+//    }
     
     // Release vertex and fragment shaders.
     if (vertShader) {

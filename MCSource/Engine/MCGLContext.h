@@ -28,9 +28,9 @@ class(MCGLContext, MCObject,
 );
 
 //callbacks
-method(MCGLContext, void, submitModelViewProjectionMatrix, voida);
-method(MCGLContext, void, beforeLinkProgram, GLuint id);
-method(MCGLContext, void, afterLinkProgram, GLuint id);
+//method(MCGLContext, void, submitModelViewProjectionMatrix, voida);
+//method(MCGLContext, void, beforeLinkProgram, GLuint id);
+//method(MCGLContext, void, afterLinkProgram, GLuint id);
 //shader
 method(MCGLContext, int, getUniformLocation, const char* name);
 method(MCGLContext, void, setUniformMatrix3, const char* name, float m[]);
