@@ -64,7 +64,7 @@ method(MCTexture, MCTexture*, initWithFileName, const char* name)
     return obj;
 }
 
-method(MCTexture, void, prepareTexture, MCGLContext* ctx)
+method(MCTexture, void, drawTexture, MCGLContext* ctx)
 {
     glActiveTexture(obj->textureUnit);
     glBindTexture(GL_TEXTURE_2D, obj->Id);
@@ -80,7 +80,7 @@ onload(MCTexture)
         mixing(void, freeRawdata, voida);
         
         binding(MCTexture, MCTexture*, initWithFileName, const char* name);
-        binding(MCTexture, void, prepareTexture, MCGLContext* ctx);
+        binding(MCTexture, void, drawTexture, MCGLContext* ctx);
 
         return cla;
     }else{

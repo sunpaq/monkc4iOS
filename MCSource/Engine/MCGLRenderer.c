@@ -11,6 +11,15 @@
 #include "MC3DBase.h"
 #include "MCIO.h"
 
+static MCHash _draw;
+static MCHash _update;
+
+static void prehash()
+{
+    _draw = hash("draw");
+    _update = hash("update");
+}
+
 oninit(MCGLRenderer)
 {
     if(init(MCObject)){
@@ -21,6 +30,7 @@ oninit(MCGLRenderer)
         MCGLEngine_setFrontCounterClockWise(MCFalse);//CCW
         
         obj->context = new(MCGLContext);
+        obj->Id = MCGLEngine_createShader(0);
         
         return obj;
     }else{
@@ -34,59 +44,47 @@ method(MCGLRenderer, void, bye, voida)
     MCObject_bye(0, sobj, 0);
 }
 
+function(void, beforeLinkProgram, voida)
+{
+    varscope(MCGLRenderer);
+    // Bind attribute locations.
+    // This needs to be done prior to linking.
+    for (int i=0; i<MAX_VATTR_NUM-1; i++) {
+        if (var(context)->vertexAttributeNames[i] != mull) {
+            glBindAttribLocation(var(Id), i, var(context)->vertexAttributeNames[i]);
+        }
+    }
+}
+
+function(void, afterLinkProgram, voida)
+{
+    varscope(MCGLRenderer);
+    // Get uniform locations.
+    for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
+        const char* name = var(context)->uniformNames[i];
+        if (name != mull) {
+            var(context)->uniformLocations[i] = glGetUniformLocation(var(Id), name);
+        }
+    }
+}
+
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
-    GLuint vertShader, fragShader;
-    MCGLEngine_compileShader(&vertShader, GL_VERTEX_SHADER, vcode);
-    MCGLEngine_compileShader(&fragShader, GL_FRAGMENT_SHADER, fcode);
-    
-    // Create shader program.
-    obj->Id = glCreateProgram();
-    
-    // Attach vertex shader to program.
-    glAttachShader(obj->Id, vertShader);
-    
-    // Attach fragment shader to program.
-    glAttachShader(obj->Id, fragShader);
-    
-    MCGLContext_beforeLinkProgram(0, obj->context, obj->Id);
-    
-    // Link program.
-    if (MCGLEngine_linkProgram(obj->Id) == 0) {
-        printf("Failed to link program: %d", obj->Id);
-        
-        if (vertShader) {
-            glDeleteShader(vertShader);
-            vertShader = 0;
-        }
-        if (fragShader) {
-            glDeleteShader(fragShader);
-            fragShader = 0;
-        }
-        if (obj->Id) {
-            glDeleteProgram(obj->Id);
-            obj->Id = 0;
-        }
-    }
-    
-    MCGLContext_afterLinkProgram(0, obj->context, obj->Id);
-    
-    // Release vertex and fragment shaders.
-    if (vertShader) {
-        glDetachShader(obj->Id, vertShader);
-        glDeleteShader(vertShader);
-    }
-    if (fragShader) {
-        glDetachShader(obj->Id, fragShader);
-        glDeleteShader(fragShader);
-    }
-    
+    beforeLinkProgram(0, obj, 0);
+    MCGLEngine_prepareShader(obj->Id, vcode, fcode);
+    afterLinkProgram(0, obj, 0);
     return obj;
 }
 
 method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader)
 {
-    //TODO
+    const char* vcode = MCFileCopyContent(vshader, "vsh");
+    const char* fcode = MCFileCopyContent(fshader, "fsh");
+    
+    MCGLRenderer_initWithShaderCodeString(0, obj, vcode, fcode);
+    
+    free((void*)vcode);
+    free((void*)fcode);
     return obj;
 }
 
@@ -94,7 +92,7 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 {
     //update nodes
     if (rootnode != mull) {
-        ff(rootnode, update, obj->context);
+        fh(rootnode, update, _update, obj->context);
     }
     
     //update model view projection matrix
@@ -107,13 +105,14 @@ method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
     glUseProgram(obj->Id);
     
     if (rootnode != mull) {
-        ff(rootnode, draw, obj->context);
+        fh(rootnode, draw, _draw, obj->context);
     }
 }
 
 onload(MCGLRenderer)
 {
     if (load(MCObject)) {
+        prehash();
         binding(MCGLRenderer, void, bye, voida);
         binding(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode);
         binding(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader);

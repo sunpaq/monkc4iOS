@@ -13,13 +13,11 @@ oninit(MCMesh)
 {
     if (init(MCObject)) {
         var(frame) = (MC3DFrame){0,0,0,0,0,0};
+        var(isDataLoaded) = MCFalse;
 
         obj->useage = GL_STATIC_DRAW;//default
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
         
-        glGenVertexArraysOES(1, &obj->vertexArrayId);
-        glGenBuffers(1, &obj->vertexBufferId);
-
         return obj;
     }else{
         return mull;
@@ -44,23 +42,28 @@ method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
 
 method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
-    //VAO
-    glBindVertexArrayOES(obj->vertexArrayId);
-    //VBO
-    glBindBuffer(GL_ARRAY_BUFFER, obj->vertexBufferId);
-    glBufferData(GL_ARRAY_BUFFER, obj->vertexDataSize, obj->vertexDataPtr, obj->useage);
-    //VAttributes
-    int i;
-    for (i=0; i<MCVertexAttribIndexMax-1; i++) {
-        MCVertexAttribute attr = obj->vertexAttribArray[i];
-        
-        if (attr.vectorsize != (GLint)mull) {
+    if (var(isDataLoaded) == MCFalse) {
+        glGenVertexArraysOES(1, &obj->vertexArrayId);
+        glGenBuffers(1, &obj->vertexBufferId);
+        //VAO
+        glBindVertexArrayOES(obj->vertexArrayId);
+        //VBO
+        glBindBuffer(GL_ARRAY_BUFFER, obj->vertexBufferId);
+        glBufferData(GL_ARRAY_BUFFER, obj->vertexDataSize, obj->vertexDataPtr, obj->useage);
+        //VAttributes
+        int i;
+        for (i=0; i<MCVertexAttribIndexMax-1; i++) {
+            MCVertexAttribute attr = obj->vertexAttribArray[i];
             
-            MCVertexAttributeLoad(&obj->vertexAttribArray[i]);
+            if (attr.vectorsize != (GLint)mull) {
+                
+                MCVertexAttributeLoad(&obj->vertexAttribArray[i]);
+            }
         }
+        //Unbind
+        glBindVertexArrayOES(0);
+        var(isDataLoaded) = MCTrue;
     }
-    //Unbind
-    glBindVertexArrayOES(0);
 }
 
 method(MCMesh, void, drawMesh, MCGLContext* ctx)

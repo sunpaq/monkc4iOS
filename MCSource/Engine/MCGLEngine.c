@@ -92,4 +92,62 @@ utility(MCGLEngine, void, activeTextureUnit, MCUInt index)
     glActiveTexture(GL_TEXTURE0+index);
 }
 
+utility(MCGLEngine, GLuint, createShader, voida)
+{
+    return glCreateProgram();
+}
+
+utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const char* fcode)
+{
+    GLuint vertShader, fragShader;
+    MCGLEngine_compileShader(&vertShader, GL_VERTEX_SHADER, vcode);
+    MCGLEngine_compileShader(&fragShader, GL_FRAGMENT_SHADER, fcode);
+    
+    // Create shader program.
+    //Id = glCreateProgram();
+    
+    // Attach vertex shader to program.
+    glAttachShader(Id, vertShader);
+    
+    // Attach fragment shader to program.
+    glAttachShader(Id, fragShader);
+    
+//    if (context != mull) {
+//        MCGLContext_beforeLinkProgram(0, context, Id);
+//    }
+    
+    // Link program.
+    if (MCGLEngine_linkProgram(Id) == 0) {
+        printf("Failed to link program: %d", Id);
+        
+        if (vertShader) {
+            glDeleteShader(vertShader);
+            vertShader = 0;
+        }
+        if (fragShader) {
+            glDeleteShader(fragShader);
+            fragShader = 0;
+        }
+        if (Id) {
+            glDeleteProgram(Id);
+            Id = 0;
+        }
+    }
+    
+//    if (context != mull) {
+//        MCGLContext_afterLinkProgram(0, context, Id);
+//    }
+    
+    // Release vertex and fragment shaders.
+    if (vertShader) {
+        glDetachShader(Id, vertShader);
+        glDeleteShader(vertShader);
+    }
+    if (fragShader) {
+        glDetachShader(Id, fragShader);
+        glDeleteShader(fragShader);
+    }
+    
+    return Id;
+}
 

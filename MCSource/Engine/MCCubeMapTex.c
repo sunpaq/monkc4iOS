@@ -7,6 +7,8 @@
 //
 
 #include "MCCubeMapTex.h"
+#include "MC3DiOSDriver.h"
+#include "MCGLEngine.h"
 
 //GL_TEXTURE_CUBE_MAP
 //GL_TEXTURE_CUBE_MAP_POSITIVE_X  Right
@@ -19,49 +21,72 @@
 oninit(MCCubeMapTex)
 {
     if (init(MCTexture)) {
+        glGenVertexArraysOES(1, &obj->vaoid);
         return obj;
     }else{
         return mull;
     }
 }
 
-//override
-method(MCCubeMapTex, MCCubeMapTex*, initWithFileName, const char* name)
+function(GLuint, prepareShader, voida)
 {
-    ff(sobj, loadRawdata, name);
+    varscope(MCCubeMapTex);
+    const char* vcode = MCFileCopyContent("MCSkyboxShader", "vsh");
+    const char* fcode = MCFileCopyContent("MCSkyboxShader", "fsh");
+    var(shaderid) = MCGLEngine_prepareShader(mull, vcode, fcode);
+    free((void*)vcode);
+    free((void*)fcode);
+    return var(shaderid);
+}
+
+method(MCCubeMapTex, MCCubeMapTex*, initWithFileNames, const char* namelist[])
+{
+    prepareShader(0, obj, 0);
     
     glActiveTexture(sobj->textureUnit);
     glGenBuffers(1, &sobj->Id);
     glBindTexture(GL_TEXTURE_CUBE_MAP, sobj->Id);
     
-    glTexImage2D(GL_TEXTURE_CUBE_MAP, 0, GL_RGB, sobj->width, sobj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, sobj->rawdata);
-    
-    glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
-    
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    unsigned char* rawdates[6] = {mull, mull, mull, mull, mull, mull};
+    for (int i=0; i<6; i++) {
+        MCLogTypeSet(MC_VERBOSE);
+        rawdates[i] = ff(sobj, loadImageRawdata, namelist[i]);
+        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, sobj->width, sobj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, rawdates[i]);
+        ff(sobj, freeRawdata, 0);
+    }
+
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     
     glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-    
-    ff(sobj, freeRawdata, 0);
     return obj;
 }
 
 //override
-method(MCCubeMapTex, void, prepareTexture, MCGLContext* ctx)
+method(MCCubeMapTex, void, drawTexture, MCGLContext* ctx)
 {
-    glActiveTexture(sobj->textureUnit);
+    glDepthMask(GL_FALSE);
+    glUseProgram(obj->shaderid);
+    
+    glBindVertexArray(obj->vaoid);
     glBindTexture(GL_TEXTURE_CUBE_MAP, sobj->Id);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    
+    glBindVertexArray(0);
+    glDepthMask(GL_TRUE);
 }
 
 onload(MCCubeMapTex)
 {
     if (load(MCTexture)) {
+        mixing(GLuint, prepareShader, voida);
+
         //override
-        binding(MCCubeMapTex, MCCubeMapTex*, initWithFileName, const char* name);
-        binding(MCCubeMapTex, void, prepareTexture, MCGLContext* ctx);
+        binding(MCCubeMapTex, MCCubeMapTex*, initWithFileNames, const char* namelist[]);
+        binding(MCCubeMapTex, void, drawTexture, MCGLContext* ctx);
         return cla;
     }else{
         return mull;

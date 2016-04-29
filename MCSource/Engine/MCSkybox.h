@@ -11,12 +11,11 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MCTexture.h"
+#include "MC3DNode.h"
+#include "MCCubeMapTex.h"
 
-class(MCSkybox, MCObject,
-      MCTexture* cubetex;
-);
+class(MCSkybox, MC3DNode);
 
-method(MCSkybox, MCSkybox*, initWithFileName, MCStaticString name);
+method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[]);
 
 #endif /* MCSkybox_h */

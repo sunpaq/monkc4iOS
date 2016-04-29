@@ -1,7 +1,7 @@
 #include "MCCamera.h"
 
 compute(double, Radius);
-compute(MCMatrix4, mvproj);
+//compute(MCMatrix4, mvproj);
 compute(MCMatrix3, normal);
 function(void, updateRatioFocalDistance, voida);
 
@@ -24,7 +24,7 @@ oninit(MCCamera)
         var(fai) = 45.0;
         
         var(Radius) = Radius;
-        var(mvproj) = mvproj;
+        //var(mvproj) = mvproj;
         var(normal) = normal;
         
         var(isReverseMovement) = MCTrue;
@@ -43,13 +43,13 @@ compute(double, Radius)
     return (obj->R_value * obj->R_percent);
 }
 
-compute(MCMatrix4, mvproj)
-{
-    varscope(MCCamera);
-    updateRatioFocalDistance(0, obj, 0);
-    MCMatrix4 mvp = MCMatrix4Multiply(var(projectionMatrix), var(modelViewMatrix));
-    return mvp;
-}
+//compute(MCMatrix4, mvproj)
+//{
+//    varscope(MCCamera);
+//    updateRatioFocalDistance(0, obj, 0);
+//    MCMatrix4 mvp = MCMatrix4Multiply(var(projectionMatrix), var(modelViewMatrix));
+//    return mvp;
+//}
 
 compute(MCMatrix3, normal)
 {
@@ -118,7 +118,8 @@ method(MCCamera, void, update, MCGLContext* ctx)
     updatePosition(0, obj, mull);
     updateLookat(0, obj, 0);
     
-    MCGLContext_setUniformMatrix4(0, ctx, "modelViewProjectionMatrix", cvar(mvproj).m);
+    MCGLContext_setUniformMatrix4(0, ctx, "modelViewMatrix", var(modelViewMatrix).m);
+    MCGLContext_setUniformMatrix4(0, ctx, "projectionMatrix", var(projectionMatrix).m);
     MCGLContext_setUniformMatrix3(0, ctx, "normalMatrix", cvar(normal).m);
 }
 

@@ -1,4 +1,4 @@
-#version 300 core
+#version 300 es
 
 //vertex attributes
 layout (location=0) in vec4 position;
@@ -7,7 +7,7 @@ layout (location=2) in vec3 color;
 layout (location=3) in vec2 texcoord;
 
 //uniform variables from code
-uniform mat4  modelViewProjectionMatrix;
+uniform mat4  modelViewMatrix;
 uniform mat4  modelMatrix;
 uniform mat4  viewMatrix;
 uniform mat4  projectionMatrix;
@@ -64,5 +64,5 @@ void main()
     texturecoord = texcoord;
     
     //Position
-    gl_Position = modelViewProjectionMatrix * position;
+    gl_Position = projectionMatrix * modelViewMatrix * position;
 }
