@@ -1,4 +1,4 @@
-#version 300 core
+#version 300 es
 
 //varying variables use to pass value between vertex & fragment shader
 in  lowp vec4 combinedlight;
