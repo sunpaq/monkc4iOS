@@ -22,6 +22,7 @@ class(MCMesh, MCObject,
       GLuint     vertexBufferId;  //VBO
       GLfloat*   vertexDataPtr;   //gCubeVertexData
       GLsizeiptr vertexDataSize;  //sizeof(gCubeVertexData)
+      MCBool     isDataLoaded;
       MCVertexAttribute vertexAttribArray[MCVertexAttribIndexMax];
 );
 
