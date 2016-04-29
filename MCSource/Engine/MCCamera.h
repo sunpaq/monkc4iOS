@@ -23,7 +23,7 @@ class(MCCamera, MC3DNode,
     double fai;
     
     computing(double, Radius);
-    computing(MCMatrix4, mvproj);
+    //computing(MCMatrix4, mvproj);
     computing(MCMatrix3, normal);
     
     MCBool isReverseMovement;
