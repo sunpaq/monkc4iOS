@@ -50,6 +50,7 @@ utility(MCGLEngine, void, activeTextureUnit, MCUInt index);
 //Shader
 utility(MCGLEngine, GLuint, createShader, voida);
 utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const char* fcode);
+utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, const char* fname);
 
 //Frame Rate (FPS)
 MCInline int MCGLEngine_tickFPS(MCClock* clock)

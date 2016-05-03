@@ -101,7 +101,6 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
-    MCGLEngine_clearScreen(0);
     glUseProgram(obj->Id);
     
     if (rootnode != mull) {

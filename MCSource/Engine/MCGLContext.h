@@ -18,9 +18,12 @@
 
 class(MCGLContext, MCObject,
       
-      MCMatrix4* modelMatrix;
-      MCMatrix4* viewMatrix;
-      MCMatrix4* projectionMatrix;
+      MCMatrix4 modelMatrix;
+      MCMatrix4 viewMatrix;
+      MCMatrix4 projectionMatrix;
+      
+      MCMatrix4 boxViewMatrix;
+      MCMatrix4 boxProjectionMatrix;
       
       const char* vertexAttributeNames[MAX_VATTR_NUM];
       const char* uniformNames[MAX_UNIFORM_NUM];

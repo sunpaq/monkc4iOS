@@ -151,3 +151,17 @@ utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const c
     return Id;
 }
 
+utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, const char* fname)
+{
+    char* vcode = (char*)MCFileCopyContent(vname, "vsh");
+    char* fcode = (char*)MCFileCopyContent(fname, "fsh");
+    MCGLEngine_prepareShader(Id, vcode, fcode);
+    if (vcode) {
+        free((void*)vcode);
+    }
+    if (fcode) {
+        free((void*)fcode);
+    }
+    return Id;
+}
+

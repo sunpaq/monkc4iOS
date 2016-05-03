@@ -88,6 +88,8 @@
 		FDAE48161C7DFEDC009DEE97 /* MCPanel.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48141C7DFEDC009DEE97 /* MCPanel.c */; };
 		FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDAE48171C7E0943009DEE97 /* mcicon.jpg */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
+		FDD12FFE1CD8C5C2006E74AA /* MCSkyboxCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = FDD12FFC1CD8C5C2006E74AA /* MCSkyboxCamera.c */; };
+		FDD130091CD8C652006E74AA /* BEAssetsManager.c in Sources */ = {isa = PBXBuildFile; fileRef = FDD130031CD8C652006E74AA /* BEAssetsManager.c */; };
 		FDD1F1B41CBFF6800079C434 /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FDD1F1B31CBFF6800079C434 /* MCRuntimeAsmIOS.S */; };
 		FDD87DF51CCBCC1400D292D3 /* DetailNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
@@ -252,6 +254,12 @@
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
 		FDCB46AD1B11E3C300403320 /* MCOrbit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCOrbit.c; sourceTree = "<group>"; };
 		FDCB46AE1B11E3C300403320 /* MCOrbit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCOrbit.h; sourceTree = "<group>"; };
+		FDD12FFC1CD8C5C2006E74AA /* MCSkyboxCamera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkyboxCamera.c; sourceTree = "<group>"; };
+		FDD12FFD1CD8C5C2006E74AA /* MCSkyboxCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkyboxCamera.h; sourceTree = "<group>"; };
+		FDD130031CD8C652006E74AA /* BEAssetsManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BEAssetsManager.c; sourceTree = "<group>"; };
+		FDD130041CD8C652006E74AA /* BEAssetsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEAssetsManager.h; sourceTree = "<group>"; };
+		FDD130071CD8C652006E74AA /* MC3DMtlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DMtlParser.h; sourceTree = "<group>"; };
+		FDD130081CD8C652006E74AA /* MC3DObjParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DObjParser.h; sourceTree = "<group>"; };
 		FDD1F1B31CBFF6800079C434 /* MCRuntimeAsmIOS.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = MCRuntimeAsmIOS.S; path = MCRuntimeAsm/MCRuntimeAsmIOS.S; sourceTree = "<group>"; };
 		FDD87DF31CCBCC1400D292D3 /* DetailNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailNavController.h; sourceTree = "<group>"; };
 		FDD87DF41CCBCC1400D292D3 /* DetailNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailNavController.m; sourceTree = "<group>"; };
@@ -416,6 +424,8 @@
 				FD593D2D1C9D91D20065BFC5 /* MCDirector.h */,
 				FDE489F21CBE88F400129D2B /* MCSkybox.c */,
 				FDE489F31CBE88F400129D2B /* MCSkybox.h */,
+				FDD12FFC1CD8C5C2006E74AA /* MCSkyboxCamera.c */,
+				FDD12FFD1CD8C5C2006E74AA /* MCSkyboxCamera.h */,
 			);
 			name = Engine;
 			path = MCSource/Engine;
@@ -508,6 +518,33 @@
 			name = SOIL;
 			path = MCSource/Engine/external/SOIL;
 			sourceTree = SOURCE_ROOT;
+		};
+		FDD130021CD8C652006E74AA /* BEAssets */ = {
+			isa = PBXGroup;
+			children = (
+				FDD130031CD8C652006E74AA /* BEAssetsManager.c */,
+				FDD130041CD8C652006E74AA /* BEAssetsManager.h */,
+				FDD130051CD8C652006E74AA /* external */,
+				FDD130071CD8C652006E74AA /* MC3DMtlParser.h */,
+				FDD130081CD8C652006E74AA /* MC3DObjParser.h */,
+			);
+			path = BEAssets;
+			sourceTree = "<group>";
+		};
+		FDD130051CD8C652006E74AA /* external */ = {
+			isa = PBXGroup;
+			children = (
+				FDD130061CD8C652006E74AA /* SOIL */,
+			);
+			path = external;
+			sourceTree = "<group>";
+		};
+		FDD130061CD8C652006E74AA /* SOIL */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SOIL;
+			sourceTree = "<group>";
 		};
 		FDFF05F71B060BE1000064E3 = {
 			isa = PBXGroup;
@@ -602,6 +639,7 @@
 		FDFF064F1B06315B000064E3 /* MCSource */ = {
 			isa = PBXGroup;
 			children = (
+				FDD130021CD8C652006E74AA /* BEAssets */,
 				FD5E18791B09CE60006CB737 /* UI */,
 				FD5E18821B09CECB006CB737 /* Engine */,
 				FDFF06501B06315B000064E3 /* Lemontea */,
@@ -847,6 +885,7 @@
 				FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */,
 				FD593D2E1C9D91D20065BFC5 /* MCDirector.c in Sources */,
 				FD51835A1C7CBCF200A74DDE /* MCLight.c in Sources */,
+				FDD12FFE1CD8C5C2006E74AA /* MCSkyboxCamera.c in Sources */,
 				FDAE480F1C7DF00E009DEE97 /* image_DXT.c in Sources */,
 				FDFF06091B060BE1000064E3 /* AppDelegate.m in Sources */,
 				FDFF064C1B06314C000064E3 /* Messaging.c in Sources */,
@@ -870,6 +909,7 @@
 				FD5E18801B09CE60006CB737 /* MCNode.c in Sources */,
 				FD9A564B1CC8E2BC00F90DCB /* MasterNavController.m in Sources */,
 				FDFF06711B06315B000064E3 /* MCUnitTest.c in Sources */,
+				FDD130091CD8C652006E74AA /* BEAssetsManager.c in Sources */,
 				FDE489E71CBA983000129D2B /* SplitViewController.m in Sources */,
 				FDFF06481B06314C000064E3 /* Log.c in Sources */,
 			);

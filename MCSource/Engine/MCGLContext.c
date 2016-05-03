@@ -15,10 +15,6 @@ oninit(MCGLContext)
         memset(obj->vertexAttributeNames, (int)mull, sizeof(obj->vertexAttributeNames));
         memset(obj->uniformNames, (int)mull, sizeof(obj->uniformNames));
         
-        var(modelMatrix) = mull;
-        var(viewMatrix) = mull;
-        var(projectionMatrix) = mull;
-        
         obj->vertexAttributeNames[0] = "position";
         obj->vertexAttributeNames[1] = "normal";
         obj->vertexAttributeNames[2] = "color";
