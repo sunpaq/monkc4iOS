@@ -11,10 +11,6 @@ class(MCCamera, MC3DNode,
     double view_angle;
     double max_distance;
     MCVector3 lookat;
-    MCMatrix4 projectionMatrix;
-    MCMatrix4 modelViewMatrix;
-    //world coordinate
-    MCVector3 currentPosition;
     //local spherical coordinate
     //R[0,unlimited) tht[0, 180.0), fai[0, 360.0)
     double R_value;
@@ -23,8 +19,10 @@ class(MCCamera, MC3DNode,
     double fai;
     
     computing(double, Radius);
-    //computing(MCMatrix4, mvproj);
     computing(MCMatrix3, normal);
+    computing(MCMatrix4, modelViewMatrix);
+    computing(MCMatrix4, projectionMatrix);
+    computing(MCVector3, currentPosition);
     
     MCBool isReverseMovement;
     MCBool isLockRotation;

@@ -58,6 +58,7 @@ mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hash
         }else{
             runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
             if (MC_STRICT_MODE == 1) {
+                printf("Monk-C: %s can not response %s\n", nameof(obj), methodname);
                 exit(-1);
             }else{
                 return tmpmsg;

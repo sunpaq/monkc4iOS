@@ -17,10 +17,14 @@
 #include "UILayer.h"
 #include "MCClock.h"
 #include "MCLight.h"
+#include "MCSkybox.h"
 
 class(MC3DScene, MCObject,
       struct MC3DSceneStruct* next;
       struct MC3DSceneStruct* prev;
+      
+      MCBool        skyboxShow;
+      MCSkybox*     skyboxRef;
       
       MCGLRenderer* renderer;
       MC3DNode*     rootnode;
