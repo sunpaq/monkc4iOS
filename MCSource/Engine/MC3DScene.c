@@ -91,7 +91,7 @@ method(MC3DScene, MCCamera*, getCamera, voida)
 method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
 {
     if (var(cameraLock) == MCFalse) {
-        MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d, deltaTht.d);
+        MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d / 5, deltaTht.d / 5);
         MCCamera_move(0, var(mainCamera), deltaFai.d, deltaTht.d);
     }
 }

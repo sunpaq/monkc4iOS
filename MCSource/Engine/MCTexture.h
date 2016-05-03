@@ -13,11 +13,12 @@
 #include "monkc.h"
 #include "MC3DType.h"
 #include "MCGLContext.h"
+#include "BEAssetsManager.h"
 
 class(MCTexture, MCObject,
       GLuint Id;
       GLenum textureUnit;
-      unsigned char* rawdata;
+      BE2DTextureData* rawdata;
       int width;
       int height;
 );

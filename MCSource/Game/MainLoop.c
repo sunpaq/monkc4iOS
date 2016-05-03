@@ -122,6 +122,9 @@ void onGestureSwip()
 void onGesturePan(double x, double y)
 {
     MCCamera* camera = director->lastScene->mainCamera;
+    MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
+    MCCamera* cam2 = &sbcam->super;
+    
     if (director != mull && director->lastScene != mull && camera != mull) {
         double sign = camera->isReverseMovement == MCTrue? -1.0f : 1.0f;
         if (camera->isLockRotation == MCTrue) {
@@ -129,6 +132,7 @@ void onGesturePan(double x, double y)
             MCCamera_fucus(0, camera, x*sign*factor, y*sign*factor);
         }else{
             MCCamera_move(0, camera, x*sign, y*sign);
+            MCCamera_move(0, cam2, x*sign / 5, y*sign / 5);
         }
     }
 }
@@ -167,6 +171,9 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
 {
     if (director != mull && director->lastScene != mull) {
         MCCamera* camera = director->lastScene->mainCamera;
+        MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
+        MCCamera* cam2 = &sbcam->super;
+        
         if (camera != mull) {
             switch (cmd->type) {
                 case MC3DiOS_CameraLookAt:
@@ -194,10 +201,14 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
                 case MC3DiOS_CameraAngels:
                     camera->tht = cmd->tht;
                     camera->fai = cmd->fai;
+                    cam2->tht   = cmd->tht;
+                    cam2->fai   = cmd->fai;
                     break;
                 case MC3DiOS_CameraAngelsDelta:
                     camera->tht += cmd->tht;
                     camera->fai += cmd->fai;
+                    cam2->tht   += cmd->tht;
+                    cam2->fai   += cmd->fai;
                     break;
                 case MC3DiOS_GetCurrent:
                     cmd->lookatX = camera->lookat.x;

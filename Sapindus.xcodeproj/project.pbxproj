@@ -14,7 +14,6 @@
 		FD00C4C31CD10BAE00DCA45F /* DetailNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4AF1CD10BAE00DCA45F /* DetailNavController.m */; };
 		FD00C4C41CD10BAE00DCA45F /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4B11CD10BAE00DCA45F /* GameViewController.m */; };
 		FD00C4C51CD10BAE00DCA45F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD00C4B21CD10BAE00DCA45F /* Images.xcassets */; };
-		FD00C4C61CD10BAE00DCA45F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD00C4B31CD10BAE00DCA45F /* Info.plist */; };
 		FD00C4C71CD10BAE00DCA45F /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4B51CD10BAE00DCA45F /* ListViewController.m */; };
 		FD00C4C81CD10BAE00DCA45F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4B61CD10BAE00DCA45F /* main.m */; };
 		FD00C4C91CD10BAE00DCA45F /* MasterNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4B81CD10BAE00DCA45F /* MasterNavController.m */; };
@@ -29,6 +28,10 @@
 		FD0B164C1C789203004FD724 /* MCVertex.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B164A1C789203004FD724 /* MCVertex.c */; };
 		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
 		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
+		FD316BB71CD8DEC0005DA831 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = FD316BAD1CD8DEC0005DA831 /* image_DXT.c */; };
+		FD316BB81CD8DEC0005DA831 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FD316BAF1CD8DEC0005DA831 /* image_helper.c */; };
+		FD316BB91CD8DEC0005DA831 /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = FD316BB11CD8DEC0005DA831 /* SOIL.c */; };
+		FD316BBA1CD8DEC0005DA831 /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = FD316BB31CD8DEC0005DA831 /* stb_image_aug.c */; };
 		FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA31C394A220043E019 /* MCLightShader.fsh */; };
 		FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA51C394A390043E019 /* MCLightShader.vsh */; };
 		FD43FEAC1C429A2D0043E019 /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD43FEAA1C429A2D0043E019 /* Testbed.c */; };
@@ -90,13 +93,7 @@
 		FD8784881CCE5F8C0071DAB4 /* top.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD8784821CCE5F8C0071DAB4 /* top.jpg */; };
 		FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */; };
 		FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */; };
-		FD9A56481CC696A200F90DCB /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9A56471CC696A200F90DCB /* ListViewController.m */; };
-		FD9A564B1CC8E2BC00F90DCB /* MasterNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD9A564A1CC8E2BC00F90DCB /* MasterNavController.m */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
-		FDAE480F1C7DF00E009DEE97 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48041C7DF00E009DEE97 /* image_DXT.c */; };
-		FDAE48101C7DF00E009DEE97 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48061C7DF00E009DEE97 /* image_helper.c */; };
-		FDAE48111C7DF00E009DEE97 /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48081C7DF00E009DEE97 /* SOIL.c */; };
-		FDAE48121C7DF00E009DEE97 /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE480A1C7DF00E009DEE97 /* stb_image_aug.c */; };
 		FDAE48161C7DFEDC009DEE97 /* MCPanel.c in Sources */ = {isa = PBXBuildFile; fileRef = FDAE48141C7DFEDC009DEE97 /* MCPanel.c */; };
 		FDAE48181C7E0943009DEE97 /* mcicon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDAE48171C7E0943009DEE97 /* mcicon.jpg */; };
 		FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FDCB46AD1B11E3C300403320 /* MCOrbit.c */; };
@@ -173,6 +170,16 @@
 		FD0B164B1C789203004FD724 /* MCVertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVertex.h; sourceTree = "<group>"; };
 		FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.fsh; sourceTree = "<group>"; };
 		FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.vsh; sourceTree = "<group>"; };
+		FD316BAD1CD8DEC0005DA831 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
+		FD316BAE1CD8DEC0005DA831 /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_DXT.h; sourceTree = "<group>"; };
+		FD316BAF1CD8DEC0005DA831 /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_helper.c; sourceTree = "<group>"; };
+		FD316BB01CD8DEC0005DA831 /* image_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_helper.h; sourceTree = "<group>"; };
+		FD316BB11CD8DEC0005DA831 /* SOIL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SOIL.c; sourceTree = "<group>"; };
+		FD316BB21CD8DEC0005DA831 /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
+		FD316BB31CD8DEC0005DA831 /* stb_image_aug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stb_image_aug.c; sourceTree = "<group>"; };
+		FD316BB41CD8DEC0005DA831 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image_aug.h; sourceTree = "<group>"; };
+		FD316BB51CD8DEC0005DA831 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stbi_DDS_aug.h; sourceTree = "<group>"; };
+		FD316BB61CD8DEC0005DA831 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stbi_DDS_aug_c.h; sourceTree = "<group>"; };
 		FD43FEA31C394A220043E019 /* MCLightShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.fsh; sourceTree = "<group>"; };
 		FD43FEA51C394A390043E019 /* MCLightShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.vsh; sourceTree = "<group>"; };
 		FD43FEAA1C429A2D0043E019 /* Testbed.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Testbed.c; sourceTree = "<group>"; };
@@ -256,21 +263,7 @@
 		FD8784801CCE5F8C0071DAB4 /* left.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = left.jpg; path = skybox/left.jpg; sourceTree = "<group>"; };
 		FD8784811CCE5F8C0071DAB4 /* right.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = right.jpg; path = skybox/right.jpg; sourceTree = "<group>"; };
 		FD8784821CCE5F8C0071DAB4 /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = top.jpg; path = skybox/top.jpg; sourceTree = "<group>"; };
-		FD9A56461CC696A200F90DCB /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
-		FD9A56471CC696A200F90DCB /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
-		FD9A56491CC8E2BC00F90DCB /* MasterNavController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterNavController.h; sourceTree = "<group>"; };
-		FD9A564A1CC8E2BC00F90DCB /* MasterNavController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterNavController.m; sourceTree = "<group>"; };
 		FDA3DCDD1C9056BC0044965D /* tex1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tex1.jpg; sourceTree = "<group>"; };
-		FDAE48041C7DF00E009DEE97 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
-		FDAE48051C7DF00E009DEE97 /* image_DXT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_DXT.h; sourceTree = "<group>"; };
-		FDAE48061C7DF00E009DEE97 /* image_helper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_helper.c; sourceTree = "<group>"; };
-		FDAE48071C7DF00E009DEE97 /* image_helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = image_helper.h; sourceTree = "<group>"; };
-		FDAE48081C7DF00E009DEE97 /* SOIL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SOIL.c; sourceTree = "<group>"; };
-		FDAE48091C7DF00E009DEE97 /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
-		FDAE480A1C7DF00E009DEE97 /* stb_image_aug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = stb_image_aug.c; sourceTree = "<group>"; };
-		FDAE480B1C7DF00E009DEE97 /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image_aug.h; sourceTree = "<group>"; };
-		FDAE480C1C7DF00E009DEE97 /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stbi_DDS_aug.h; sourceTree = "<group>"; };
-		FDAE480D1C7DF00E009DEE97 /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stbi_DDS_aug_c.h; sourceTree = "<group>"; };
 		FDAE48141C7DFEDC009DEE97 /* MCPanel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCPanel.c; sourceTree = "<group>"; };
 		FDAE48151C7DFEDC009DEE97 /* MCPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPanel.h; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
@@ -377,6 +370,31 @@
 			path = SapindusTests;
 			sourceTree = "<group>";
 		};
+		FD316BAB1CD8DEC0005DA831 /* external */ = {
+			isa = PBXGroup;
+			children = (
+				FD316BAC1CD8DEC0005DA831 /* SOIL */,
+			);
+			path = external;
+			sourceTree = "<group>";
+		};
+		FD316BAC1CD8DEC0005DA831 /* SOIL */ = {
+			isa = PBXGroup;
+			children = (
+				FD316BAD1CD8DEC0005DA831 /* image_DXT.c */,
+				FD316BAE1CD8DEC0005DA831 /* image_DXT.h */,
+				FD316BAF1CD8DEC0005DA831 /* image_helper.c */,
+				FD316BB01CD8DEC0005DA831 /* image_helper.h */,
+				FD316BB11CD8DEC0005DA831 /* SOIL.c */,
+				FD316BB21CD8DEC0005DA831 /* SOIL.h */,
+				FD316BB31CD8DEC0005DA831 /* stb_image_aug.c */,
+				FD316BB41CD8DEC0005DA831 /* stb_image_aug.h */,
+				FD316BB51CD8DEC0005DA831 /* stbi_DDS_aug.h */,
+				FD316BB61CD8DEC0005DA831 /* stbi_DDS_aug_c.h */,
+			);
+			path = SOIL;
+			sourceTree = "<group>";
+		};
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
@@ -420,7 +438,6 @@
 		FD5E18821B09CECB006CB737 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
-				FDAE48031C7DF00E009DEE97 /* SOIL */,
 				FD5E18831B09CECB006CB737 /* MC3DBase.h */,
 				FD5E18841B09CECB006CB737 /* MC3DMainLoop.c */,
 				FD5E18851B09CECB006CB737 /* MC3DShapeBase.h */,
@@ -544,49 +561,16 @@
 			path = textures;
 			sourceTree = "<group>";
 		};
-		FDAE48031C7DF00E009DEE97 /* SOIL */ = {
-			isa = PBXGroup;
-			children = (
-				FDAE48041C7DF00E009DEE97 /* image_DXT.c */,
-				FDAE48051C7DF00E009DEE97 /* image_DXT.h */,
-				FDAE48061C7DF00E009DEE97 /* image_helper.c */,
-				FDAE48071C7DF00E009DEE97 /* image_helper.h */,
-				FDAE48081C7DF00E009DEE97 /* SOIL.c */,
-				FDAE48091C7DF00E009DEE97 /* SOIL.h */,
-				FDAE480A1C7DF00E009DEE97 /* stb_image_aug.c */,
-				FDAE480B1C7DF00E009DEE97 /* stb_image_aug.h */,
-				FDAE480C1C7DF00E009DEE97 /* stbi_DDS_aug.h */,
-				FDAE480D1C7DF00E009DEE97 /* stbi_DDS_aug_c.h */,
-			);
-			name = SOIL;
-			path = MCSource/Engine/external/SOIL;
-			sourceTree = SOURCE_ROOT;
-		};
 		FDD130021CD8C652006E74AA /* BEAssets */ = {
 			isa = PBXGroup;
 			children = (
+				FD316BAB1CD8DEC0005DA831 /* external */,
 				FDD130031CD8C652006E74AA /* BEAssetsManager.c */,
 				FDD130041CD8C652006E74AA /* BEAssetsManager.h */,
-				FDD130051CD8C652006E74AA /* external */,
 				FDD130071CD8C652006E74AA /* MC3DMtlParser.h */,
 				FDD130081CD8C652006E74AA /* MC3DObjParser.h */,
 			);
 			path = BEAssets;
-			sourceTree = "<group>";
-		};
-		FDD130051CD8C652006E74AA /* external */ = {
-			isa = PBXGroup;
-			children = (
-				FDD130061CD8C652006E74AA /* SOIL */,
-			);
-			path = external;
-			sourceTree = "<group>";
-		};
-		FDD130061CD8C652006E74AA /* SOIL */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SOIL;
 			sourceTree = "<group>";
 		};
 		FDFF05F71B060BE1000064E3 = {
@@ -798,7 +782,6 @@
 				FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */,
 				FD5EFD601B0E3D9D00D2492A /* Icon-Small.png in Resources */,
 				FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */,
-				FDFF06131B060BE1000064E3 /* Main.storyboard in Resources */,
 				FD8784841CCE5F8C0071DAB4 /* bottom.jpg in Resources */,
 				FD5EFD5A1B0E3D9D00D2492A /* Icon-40@2x.png in Resources */,
 				FD5EFD5C1B0E3D9D00D2492A /* Icon-60@2x.png in Resources */,
@@ -847,6 +830,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD316BB91CD8DEC0005DA831 /* SOIL.c in Sources */,
 				FD43FEAC1C429A2D0043E019 /* Testbed.c in Sources */,
 				FDFF064D1B06314C000064E3 /* monkc.c in Sources */,
 				FDFF06701B06315B000064E3 /* MCThread.c in Sources */,
@@ -856,12 +840,12 @@
 				FD5E18901B09DEB6006CB737 /* MCArray.c in Sources */,
 				FD5183571C7CA5EA00A74DDE /* MCGLContext.c in Sources */,
 				FD0B16461C788ADE004FD724 /* MCMesh.c in Sources */,
+				FD316BBA1CD8DEC0005DA831 /* stb_image_aug.c in Sources */,
 				FD5E188B1B09CECB006CB737 /* MC3DMainLoop.c in Sources */,
 				FDFF06691B06315B000064E3 /* MCContext.c in Sources */,
 				FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */,
 				FD0B16401C78447C004FD724 /* MC3DNode.c in Sources */,
 				FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */,
-				FDAE48121C7DF00E009DEE97 /* stb_image_aug.c in Sources */,
 				FD00C4C71CD10BAE00DCA45F /* ListViewController.m in Sources */,
 				FD00C4C81CD10BAE00DCA45F /* main.m in Sources */,
 				FDFF06471B06314C000064E3 /* Lock.c in Sources */,
@@ -873,7 +857,6 @@
 				FD0B164C1C789203004FD724 /* MCVertex.c in Sources */,
 				FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */,
 				FD00C4CB1CD10BAE00DCA45F /* SplitViewController.m in Sources */,
-				FDAE48111C7DF00E009DEE97 /* SOIL.c in Sources */,
 				FDFF066A1B06315B000064E3 /* MCException.c in Sources */,
 				FDFF066B1B06315B000064E3 /* MCIO.c in Sources */,
 				FDAE48161C7DFEDC009DEE97 /* MCPanel.c in Sources */,
@@ -881,7 +864,6 @@
 				FD593D2E1C9D91D20065BFC5 /* MCDirector.c in Sources */,
 				FD51835A1C7CBCF200A74DDE /* MCLight.c in Sources */,
 				FDD12FFE1CD8C5C2006E74AA /* MCSkyboxCamera.c in Sources */,
-				FDAE480F1C7DF00E009DEE97 /* image_DXT.c in Sources */,
 				FDFF064C1B06314C000064E3 /* Messaging.c in Sources */,
 				FDE489F41CBE88F400129D2B /* MCSkybox.c in Sources */,
 				FDFF064E1B06314C000064E3 /* ObjectManage.c in Sources */,
@@ -889,14 +871,15 @@
 				FD4F1F281C2FC89900D17CD9 /* MainLoop.c in Sources */,
 				FDE489FB1CBE910E00129D2B /* MC2DTex.c in Sources */,
 				FDE489F81CBE8FA700129D2B /* MCCubeMapTex.c in Sources */,
+				FD316BB81CD8DEC0005DA831 /* image_helper.c in Sources */,
 				FD5E188C1B09CECB006CB737 /* MCCamera.c in Sources */,
 				FD5E188D1B09CECB006CB737 /* MCCube.c in Sources */,
-				FDAE48101C7DF00E009DEE97 /* image_helper.c in Sources */,
 				FD00C4C31CD10BAE00DCA45F /* DetailNavController.m in Sources */,
 				FDFF066F1B06315B000064E3 /* MCString.c in Sources */,
 				FDFF066E1B06315B000064E3 /* MCSocket.c in Sources */,
 				FDD1F1B41CBFF6800079C434 /* MCRuntimeAsmIOS.S in Sources */,
 				FD00C4C41CD10BAE00DCA45F /* GameViewController.m in Sources */,
+				FD316BB71CD8DEC0005DA831 /* image_DXT.c in Sources */,
 				FD51835D1C7CBEAA00A74DDE /* MCMatrial.c in Sources */,
 				FD00C4C01CD10BAE00DCA45F /* AppDelegate.m in Sources */,
 				FDFF06671B06315B000064E3 /* MCBuffer.c in Sources */,
@@ -905,7 +888,6 @@
 				FD5E18801B09CE60006CB737 /* MCNode.c in Sources */,
 				FDFF06711B06315B000064E3 /* MCUnitTest.c in Sources */,
 				FDD130091CD8C652006E74AA /* BEAssetsManager.c in Sources */,
-				FDE489E71CBA983000129D2B /* SplitViewController.m in Sources */,
 				FDFF06481B06314C000064E3 /* Log.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

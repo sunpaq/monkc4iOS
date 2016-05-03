@@ -7,7 +7,6 @@
 //
 
 #include "MCTexture.h"
-#include "SOIL.h"
 
 oninit(MCTexture)
 {
@@ -22,8 +21,8 @@ oninit(MCTexture)
 function(unsigned char*, loadImageRawdata, const char* name)
 {
     varscope(MCTexture);
-    obj->rawdata = SOIL_load_image(name, &obj->width, &obj->height, 0, SOIL_LOAD_RGB);
-    return obj->rawdata;
+    var(rawdata) = BE2DTextureData_newWithPath(name);
+    return obj->rawdata->raw;
 }
 
 function(void, rawdataToTexbuffer, GLenum textype)
@@ -45,7 +44,7 @@ function(void, setupTexParameter, GLenum textype)
 function(void, freeRawdata, voida)
 {
     varscope(MCTexture);
-    SOIL_free_image_data(obj->rawdata);
+    release(obj->rawdata);
 }
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name)
