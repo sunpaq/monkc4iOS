@@ -102,9 +102,11 @@ method(MCDirector, void, resizeAllScene, int width, int height)
     }
     MC3DScene* iter;
     for (iter=var(lastScene); iter!=mull; iter=iter->prev) {
+        if (iter->skyboxRef != mull) {
+            iter->skyboxRef->camera->super.ratio = MCRatioMake(width, height);
+        }
         if (iter->mainCamera != mull) {
             iter->mainCamera->ratio = MCRatioMake(width, height);
-            ff(iter->mainCamera, updateRatioFocalDistance, 0);
         }
     }
     var(currentWidth) = width;

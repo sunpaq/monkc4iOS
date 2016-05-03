@@ -91,19 +91,19 @@ method(MC3DScene, MCCamera*, getCamera, voida)
 method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
 {
     if (var(cameraLock) == MCFalse) {
+        MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d, deltaTht.d);
         MCCamera_move(0, var(mainCamera), deltaFai.d, deltaTht.d);
     }
-    ff(var(mainCamera), updateLookat, 0);
 }
 
 method(MC3DScene, void, updateScene, voida)
 {
-    MCSkybox_update(0, var(skyboxRef), var(renderer)->context);
-
-    
     MC3DScene_moveCameraOneStep(0, obj, (MCDouble)1.0, (MCDouble)0.0);
+    
+    MCSkybox_update(0, var(skyboxRef), var(renderer)->context);
     MCCamera_update(0, obj->mainCamera, obj->renderer->context);
     MCLight_update(0, obj->light, obj->renderer->context);
+    
     MCGLRenderer_updateNodes(0, var(renderer), var(rootnode));
 }
 
