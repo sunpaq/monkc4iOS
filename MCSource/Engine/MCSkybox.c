@@ -86,9 +86,11 @@ method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], unsigned 
 {
     //Shader
     var(pid) = MCGLEngine_createShader(0);
+    glUseProgram(var(pid));
+    glUniform1i(cubeSampler_loc, 0);
+    glBindAttribLocation(var(pid), 0, "position");
     MCGLEngine_prepareShaderName(var(pid), "MCSkyboxShader", "MCSkyboxShader");
     
-    glBindAttribLocation(var(pid), 0, "position");
     viewMatrix_loc       = glGetUniformLocation(var(pid), "boxViewMatrix");
     projectionMatrix_loc = glGetUniformLocation(var(pid), "boxProjectionMatrix");
     cubeSampler_loc      = glGetUniformLocation(var(pid), "cubeSampler");
@@ -125,11 +127,12 @@ method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], unsigned 
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    //glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     //Unbind
     glBindVertexArrayOES(0);
     
+    release(var(cubetex));
     return obj;
 }
 
@@ -149,15 +152,19 @@ method(MCSkybox, void, update, MCGLContext* ctx)
     //MCSkyboxCamera_move(0, var(camera), 1.0, 0.0);
     ctx->boxViewMatrix = var(camera)->viewMatrix(var(camera));
     ctx->boxProjectionMatrix = var(camera)->projectionMatrix(var(camera));
+    
+    if (ctx->boxCameraRatio != obj->camera->super.ratio) {
+        glUseProgram(var(pid));
+        glUniformMatrix4fv(projectionMatrix_loc, 1, 0, ctx->boxProjectionMatrix.m);
+        ctx->boxCameraRatio = obj->camera->super.ratio;
+    }
 }
 
 method(MCSkybox, void, draw, MCGLContext* ctx)
 {
     glDepthMask(GL_FALSE);
     glUseProgram(var(pid));
-    glUniformMatrix4fv(viewMatrix_loc,       1, 0, ctx->boxViewMatrix.m);
-    glUniformMatrix4fv(projectionMatrix_loc, 1, 0, ctx->boxProjectionMatrix.m);
-    glUniform1i(cubeSampler_loc, 0);
+    glUniformMatrix4fv(viewMatrix_loc, 1, 0, ctx->boxViewMatrix.m);
     
     glBindVertexArray(obj->vaoid);
     glActiveTexture(GL_TEXTURE0);

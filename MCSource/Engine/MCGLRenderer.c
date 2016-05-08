@@ -29,8 +29,9 @@ oninit(MCGLRenderer)
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(MCFalse);//CCW
         
-        obj->context = new(MCGLContext);
         obj->Id = MCGLEngine_createShader(0);
+        obj->context = new(MCGLContext);
+        obj->context->pid = obj->Id;
         
         return obj;
     }else{
@@ -106,6 +107,8 @@ method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
     if (rootnode != mull) {
         fh(rootnode, draw, _draw, obj->context);
     }
+    
+    glFlush();
 }
 
 onload(MCGLRenderer)

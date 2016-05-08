@@ -105,11 +105,21 @@ utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6
     return data;
 }
 
+method(BECubeTextureData, void, bye, voida)
+{
+    for (int i=0; i<6; i++) {
+        BE2DTextureData* face = obj->faces[i];
+        if (face != mull) {
+            release(face);
+        }
+    }
+    MCObject_bye(0, sobj, 0);
+}
+
 onload(BECubeTextureData)
 {
     if (load(MCObject)) {
-        
-        
+        binding(BECubeTextureData, void, bye, voida);
         return cla;
     }else{
         return mull;

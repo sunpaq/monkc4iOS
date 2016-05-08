@@ -17,13 +17,16 @@
 #define MAX_UNIFORM_NUM   100
 
 class(MCGLContext, MCObject,
+      GLuint pid;
       
       MCMatrix4 modelMatrix;
       MCMatrix4 viewMatrix;
       MCMatrix4 projectionMatrix;
+      double cameraRatio;
       
       MCMatrix4 boxViewMatrix;
       MCMatrix4 boxProjectionMatrix;
+      double boxCameraRatio;
       
       const char* vertexAttributeNames[MAX_VATTR_NUM];
       const char* uniformNames[MAX_UNIFORM_NUM];
@@ -31,13 +34,16 @@ class(MCGLContext, MCObject,
 );
 
 //shader
-method(MCGLContext, int, getUniformLocation, const char* name);
-method(MCGLContext, void, setUniformMatrix3, const char* name, float m[]);
-method(MCGLContext, void, setUniformMatrix4, const char* name, float m[]);
-method(MCGLContext, void, setUniformScalar,  const char* name, MCInt x);
-method(MCGLContext, void, setUniformVector1, const char* name, double x);
-method(MCGLContext, void, setUniformVector2, const char* name, MCVector2 vec2);
-method(MCGLContext, void, setUniformVector3, const char* name, MCVector3 vec3);
-method(MCGLContext, void, setUniformVector4, const char* name, MCVector4 vec4);
+//please cache the location index when you first call the setters
+//then directly pass the location index and pass name mull
+method(MCGLContext, void, activateShaderProgram, voida);
+method(MCGLContext, int,  getUniformLocation, const char* name);
+method(MCGLContext, int,  setUniformMatrix3,  const char* name, int loc, float m[]);
+method(MCGLContext, int,  setUniformMatrix4,  const char* name, int loc, float m[]);
+method(MCGLContext, int,  setUniformScalar,   const char* name, int loc, MCInt x);
+method(MCGLContext, int,  setUniformVector1,  const char* name, int loc, double x);
+method(MCGLContext, int,  setUniformVector2,  const char* name, int loc, MCVector2 vec2);
+method(MCGLContext, int,  setUniformVector3,  const char* name, int loc, MCVector3 vec3);
+method(MCGLContext, int,  setUniformVector4,  const char* name, int loc, MCVector4 vec4);
 
 #endif /* MCGLContext_h */

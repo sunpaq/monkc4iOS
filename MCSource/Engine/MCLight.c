@@ -12,6 +12,7 @@ oninit(MCLight)
 {
     if (init(MC3DNode)) {
         obj->diffuseLightPosition = MCVector3Make(1.0, 1.0, 1.0);
+        obj->dataChanged = MCTrue;
         return obj;
     }else{
         return mull;
@@ -20,7 +21,16 @@ oninit(MCLight)
 
 method(MCLight, void, update, MCGLContext* ctx)
 {
-    MCGLContext_setUniformVector3(0, ctx, "diffuseLightPosition",  obj->diffuseLightPosition);
+    if (obj->dataChanged == MCTrue) {
+        glUseProgram(ctx->pid);
+        static int loc = -1;
+        if (loc != -1) {
+            MCGLContext_setUniformVector3(0, ctx, mull, loc, obj->diffuseLightPosition);
+        }else{
+            loc = MCGLContext_setUniformVector3(0, ctx, "diffuseLightPosition", -1, obj->diffuseLightPosition);
+        }
+        obj->dataChanged = MCFalse;
+    }
 }
 
 onload(MCLight)

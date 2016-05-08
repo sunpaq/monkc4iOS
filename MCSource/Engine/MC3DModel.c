@@ -65,7 +65,11 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
     }else{
         mesh->vertexCount = (GLsizei)buff->fcursor*3;
         mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
-        mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
+        if (mesh->vertexDataSize != 0) {
+            mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
+        }else{
+            mesh->vertexDataPtr = mull;
+        }
         
         for (int i=0; i<buff->fcursor; i++) {
             loadFaceData(mesh, buff, buff->facebuff[i], i, color);

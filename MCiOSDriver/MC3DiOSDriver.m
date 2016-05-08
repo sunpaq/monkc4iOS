@@ -164,7 +164,7 @@ void MCGLError(const char* errmsg)
 //using ARC no need to release members
 -(instancetype)init
 {
-    if ([super init]) {
+    if (self=[super init]) {
         //gesture
         self.swip = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(onSwip:)];
         self.swip.direction = UISwipeGestureRecognizerDirectionRight | UISwipeGestureRecognizerDirectionLeft;

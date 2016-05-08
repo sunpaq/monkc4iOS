@@ -42,6 +42,7 @@ class(BECubeTextureData, MCObject,
 
 utility(BECubeTextureData, BECubeTextureData*, newWithFacePaths, const char* facepaths[6]);
 utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6], const char* extension);
+method(BECubeTextureData, void, bye, voida);
 
 //BEAssetsManager is an utility class
 //utility(BEAssetsManager, BE2DTextureData*, load2DTexture, BE2DTextureData* texture);

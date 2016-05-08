@@ -14,6 +14,7 @@
 #include "MCGLContext.h"
 
 class(MCMatrial, MCObject,
+      MCBool      dataChanged;
       double      ambientLightStrength;
       MCVector3   ambientLightColor;
       MCVector3   diffuseLightColor;

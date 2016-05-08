@@ -15,6 +15,7 @@
 
 class(MCLight, MC3DNode,
       MCVector3   diffuseLightPosition;
+      MCBool dataChanged;
 );
 
 method(MCLight, void, update, MCGLContext* ctx);
