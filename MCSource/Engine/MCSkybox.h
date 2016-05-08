@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include "monkc.h"
 #include "MC3DNode.h"
-#include "MCCubeMapTex.h"
 #include "BEAssetsManager.h"
 #include "MCSkyboxCamera.h"
 

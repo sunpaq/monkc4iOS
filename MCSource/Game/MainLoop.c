@@ -32,7 +32,7 @@ static MCDirector* director = mull;
 
 void onOpenExternalFile(const char* filepath)
 {
-    MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filepath, (MCColorRGBAf){1.0, 0.5, 0.0, 0.0});
+    MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filepath, (MCColorRGBAf){1.0, 1.0, 1.0, 1.0});
     
     ff(director->lastScene->rootnode, setAllVisible, MCFalse);
     ff(director->lastScene->rootnode, addChild, model);
