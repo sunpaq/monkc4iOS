@@ -19,6 +19,7 @@
 #include "MCDirector.h"
 #include "MC3DiOS.h"
 #include "Testbed.h"
+#include "MCThread.h"
 
 void onRootViewLoad(void* rootview)
 {
@@ -38,15 +39,9 @@ void onOpenExternalFile(const char* filepath)
     ff(director->lastScene->rootnode, addChild, model);
 }
 
-//pass an int pointer as the file lock
-//pass mull avoid using lock
-void onOpenFile(const char* filename, int* lock)
+static void asyncReadModel(void* argument)
 {
-    if(lock != mull) *lock = 1;
-    
-    //skybox
-    //const char* names[6] = {"right.png","left.png","top.png","bottom.png","back.png","front.png"};
-    //MCSkybox* sbox = ff(new(MCSkybox), initWithFileNames, names);
+    const char* filename = (const char*)argument;
     
     //model
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
@@ -57,7 +52,18 @@ void onOpenFile(const char* filename, int* lock)
     //assemble
     //ff(director->lastScene->rootnode, addChild, sbox);
     ff(director->lastScene->rootnode, addChild, model);
+}
 
+//pass an int pointer as the file lock
+//pass mull avoid using lock
+void onOpenFile(const char* filename, int* lock)
+{
+    if(lock != mull) *lock = 1;
+    
+    MCThread* bgt = ff(new(MCThread), initWithFPointerArgument, asyncReadModel, filename);
+    ff(bgt, start, 0);
+    MCThread_joinThread(bgt->tid);//wait backgroud thread
+    
     if(lock != mull) *lock = 0;
 }
 
