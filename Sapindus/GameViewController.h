@@ -22,8 +22,5 @@
 
 @property NSString* filename;
 
-- (void) onOpenModelStart:(NSNotification*)noti;
-- (void) onOpenModelStop:(NSNotification*)noti;
-
 @end
 

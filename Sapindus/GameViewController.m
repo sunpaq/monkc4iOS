@@ -39,14 +39,8 @@
         self.splitViewController.delegate = self;
     }
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(onOpenModelStart:)
-												 name:@"sapindus.open.model.start"
-											   object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(onOpenModelStop:)
-												 name:@"sapindus.open.model.stop"
-											   object:nil];
+    self.naviItem.prompt = nil;
+    self.naviItem.title = self.filename;
 }
 
 -(BOOL)isRotateOrPan
@@ -257,24 +251,6 @@
 		cameraCommand(&cmd);
 		//set state
 		[self setIsRotateOrPan:YES];
-	}
-}
-
-- (void) onOpenModelStart:(NSNotification*)noti
-{
-	if (noti) {
-		NSString* name = (NSString*)noti.object;
-		self.naviItem.prompt = nil;
-		self.naviItem.title = [NSString stringWithFormat:@"Loading %@ please wait...", name];
-	}
-}
-
-- (void) onOpenModelStop:(NSNotification*)noti
-{
-	if (noti) {
-		NSString* name = (NSString*)noti.object;
-		self.naviItem.prompt = nil;
-		self.naviItem.title = name;
 	}
 }
 

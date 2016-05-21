@@ -52,6 +52,8 @@ static void asyncReadModel(void* argument)
     //assemble
     //ff(director->lastScene->rootnode, addChild, sbox);
     ff(director->lastScene->rootnode, addChild, model);
+    
+    MCThread_exitWithStatus(NULL);
 }
 
 //pass an int pointer as the file lock
@@ -61,8 +63,9 @@ void onOpenFile(const char* filename, int* lock)
     if(lock != mull) *lock = 1;
     
     MCThread* bgt = ff(new(MCThread), initWithFPointerArgument, asyncReadModel, filename);
+    //MCThread_joinThread(bgt->tid);//wait backgroud thread
+    
     ff(bgt, start, 0);
-    MCThread_joinThread(bgt->tid);//wait backgroud thread
     
     if(lock != mull) *lock = 0;
 }
@@ -86,9 +89,10 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         mainScene->mainCamera->R_value = 30;
         mainScene->super.nextResponder = (MCObject*)director;
         ff(director, pushScene, mainScene);
-        if (filename) {
-            onOpenFile(filename, mull);
-        }
+    }
+    
+    if (filename != mull) {
+        onOpenFile(filename, mull);
     }
 }
 

@@ -7,10 +7,13 @@
 //
 
 #import "ListViewController.h"
+#import "DetailNavController.h"
+#import "GameViewController.h"
 #import "MC3DiOS.h"
 
 @implementation ListViewController {
-    
+    DetailNavController* _dnc;
+    GameViewController*  _gvc;
 }
 
 -(void)viewDidLoad
@@ -33,19 +36,9 @@
     NSInteger i = indexPath.row;
     NSString* filename = [self.listData objectAtIndex:i];
     if (filename && ![filename isEqualToString:@""]) {
-        NSString* file = [filename stringByDeletingPathExtension];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model.start" object:file];
-        [self performSelector:@selector(delayOpen:) withObject:file afterDelay:0.2f];
-    }
-}
-
--(void) delayOpen:(NSString*)name
-{
-    const char* cfile = [name cStringUsingEncoding:NSUTF8StringEncoding];
-    static int lock = 0;
-    if (lock == 0) {
-        onOpenFile(cfile, &lock);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model.stop" object:name];
+        
+        [_gvc setFilename:[filename stringByDeletingPathExtension]];
+        
     }
 }
 
@@ -68,6 +61,13 @@
 -(IBAction)unwindToList:(UIStoryboardSegue *)segue
 {
     //we can save data here
+    
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    _dnc = (DetailNavController*)segue.destinationViewController;
+    _gvc = _dnc.childViewControllers.firstObject;
 }
 
 @end
