@@ -50,11 +50,18 @@ static void asyncReadModel(void* argument)
     director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
     
     //assemble
-    //ff(director->lastScene->rootnode, addChild, sbox);
+    //ff(director->lastScene, loadSkybox, 0);
     ff(director->lastScene->rootnode, addChild, model);
     
     MCThread_exitWithStatus(NULL);
 }
+
+//static void asyncReadSkybox()
+//{
+//    ff(director->lastScene, loadSkybox, 0);
+//    
+//    MCThread_exitWithStatus(NULL);
+//}
 
 //pass an int pointer as the file lock
 //pass mull avoid using lock
@@ -63,7 +70,7 @@ void onOpenFile(const char* filename, int* lock)
     if(lock != mull) *lock = 1;
     
     MCThread* bgt = ff(new(MCThread), initWithFPointerArgument, asyncReadModel, filename);
-    //MCThread_joinThread(bgt->tid);//wait backgroud thread
+    MCThread_joinThread(bgt->tid);//wait backgroud thread
     
     ff(bgt, start, 0);
     
@@ -90,6 +97,13 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         mainScene->super.nextResponder = (MCObject*)director;
         ff(director, pushScene, mainScene);
     }
+    
+//    if (director->lastScene->skyboxRef == mull) {
+//        MCThread* bgt = ff(new(MCThread), initWithFPointerArgument, asyncReadSkybox, mull);
+//        MCThread_joinThread(bgt->tid);//wait backgroud thread
+//        
+//        ff(bgt, start, 0);
+//    }
     
     if (filename != mull) {
         onOpenFile(filename, mull);

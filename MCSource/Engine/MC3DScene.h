@@ -22,6 +22,9 @@ class(MC3DScene, MCObject,
       struct MC3DSceneStruct* next;
       struct MC3DSceneStruct* prev;
       
+      unsigned      scenewidth;
+      unsigned      sceneheight;
+      
       MCBool        skyboxShow;
       MCSkybox*     skyboxRef;
       
@@ -37,7 +40,7 @@ method(MC3DScene, void, bye, voida);
 method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
 method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
 method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
-
+method(MC3DScene, void, loadSkybox, voida);
 method(MC3DScene, void, updateScene, voida);
 
 //return -1 or positive fps number

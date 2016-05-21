@@ -8,7 +8,7 @@ compute(MCVector3, currentPosition);
 
 oninit(MCCamera)
 {
-    if (init(MCObject)) {
+    if (init(MC3DNode)) {
         var(ratio) = MCRatioHDTV16x9;//MCRatioCameraFilm3x2;
         var(focal_length) = MCLensStandard50mm;//MCLensWide24mm;
         var(view_angle) = MCLensStandard50mmViewAngle;
@@ -169,7 +169,7 @@ method(MCCamera, void, pull, double deltaR)
 
 onload(MCCamera)
 {
-    if (load(MCObject)) {
+    if (load(MC3DNode)) {
         binding(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
         binding(MCCamera, void, move, double deltaFai, double deltaTht);
         binding(MCCamera, void, fucus, double deltaX, double deltaY);

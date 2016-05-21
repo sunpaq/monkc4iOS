@@ -30,6 +30,7 @@ oninit(MC3DNode)
         var(transform) = MCMatrix4Identity();
         var(material) = mull;
         var(texture) = mull;
+        var(zorder) = -1;
         
         memset(var(children), (int)mull, sizeof(var(children)));
         memset(var(meshes), (int)mull, sizeof(var(meshes)));
@@ -51,10 +52,26 @@ method(MC3DNode, void, bye, voida)
 
 method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
 {
+    MC3DNode* old = mull;
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
+        if (child->zorder == i) {
+            old = obj->children[i];
+
+            obj->children[i] = child;
+            child->index = i;
+            
+            if (old != mull) {
+                old->zorder = -1;
+                return MC3DNode_addChild(0, obj, old);
+            }
+            
+            return MC3DSuccess;
+        }
+        
         if (obj->children[i] == mull && child != mull) {
             obj->children[i] = child;
             child->index = i;
+            child->zorder = i;
             return MC3DSuccess;
         }
     }
@@ -67,6 +84,17 @@ method(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child)
 {
     child->visible = MCFalse;
     return MC3DSuccess;
+}
+
+method(MC3DNode, void, copyChildrenFrom, MC3DNode* node)
+{
+    for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
+        MC3DNode* child = node->children[i];
+        if (child) {
+            obj->children[i] = child;
+            retain(child);
+        }
+    }
 }
 
 method(MC3DNode, void, cleanUnvisibleChild, voida)
@@ -182,6 +210,7 @@ onload(MC3DNode)
         binding(MC3DNode, void, bye, voida);
         binding(MC3DNode, void, addChild, MC3DNode* child);
         binding(MC3DNode, void, removeChild, MC3DNode* child);
+        binding(MC3DNode, void, copyChildrenFrom, MC3DNode* node);
         binding(MC3DNode, void, cleanUnvisibleChild, voida);
         binding(MC3DNode, int, childCount, voida);
         binding(MC3DNode, MC3DNode*, childCarousel, voida);

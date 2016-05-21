@@ -218,7 +218,7 @@ typedef struct
     mc_hashitem* items[];
 }mc_hashtable;
 
-static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {1001, 2001, 10001, 40001, 100001};//100
+static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {5001, 9001, 17001, 33001, 123001};//100
 MCInline MCHashTableSize get_tablesize(const MCHashTableLevel level)
 {
     if(level > MCHashTableLevelMax){

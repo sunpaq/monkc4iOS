@@ -23,6 +23,8 @@ oninit(MC3DScene)
         
         var(next) = mull;
         var(prev) = mull;
+        var(scenewidth) = 0;
+        var(sceneheight)= 0;
         
         var(cameraLock) = MCFalse;
         
@@ -43,14 +45,23 @@ method(MC3DScene, void, bye, voida)
     MCObject_bye(0, sobj, 0);
 }
 
+method(MC3DScene, void, loadSkybox, voida)
+{
+    if (var(skyboxRef) == mull) {
+        var(skyboxRef) = MCSkybox_initWithDefaultFiles(0, new(MCSkybox), var(scenewidth), var(sceneheight));
+        var(skyboxShow) = MCTrue;
+    }
+}
+
 method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height,
        const char* vsource, const char* fsource)
 {
+    var(scenewidth)  = width;
+    var(sceneheight) = height;
     MCCamera_initWithWidthHeight(0, var(mainCamera), width, height);
     MCGLRenderer_initWithShaderCodeString(0, var(renderer), vsource, fsource);
-    
-    var(skyboxRef) = MCSkybox_initWithDefaultFiles(0, new(MCSkybox), width, height);
-    //ff(var(rootnode), addChild, var(skyboxRef));
+    var(skyboxRef) = mull;
+    var(skyboxShow) = MCFalse;
     return obj;
 }
 
@@ -87,7 +98,9 @@ method(MC3DScene, MCCamera*, getCamera, voida)
 method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
 {
     if (var(cameraLock) == MCFalse) {
-        MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d / 5, deltaTht.d / 5);
+        if (var(skyboxRef) != mull) {
+            MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d / 5, deltaTht.d / 5);
+        }
         MCCamera_move(0, var(mainCamera), deltaFai.d, deltaTht.d);
     }
 }
@@ -124,6 +137,7 @@ onload(MC3DScene)
 {
     if (load(MCObject)) {
         binding(MC3DScene, void, bye, voida);
+        binding(MC3DScene, void, loadSkybox, voida);
         binding(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
         binding(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
         binding(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
