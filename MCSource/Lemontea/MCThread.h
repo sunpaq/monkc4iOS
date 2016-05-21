@@ -102,50 +102,32 @@ pthread_mutex_unlock     pthread_mutex_unlock
 #define MCCondSignal(cond) 								pthread_cond_signal(&cond)
 #define MCCondBroadcast(cond) 							pthread_cond_broadcast(&cond)
 
-
-/* MCRunnable */
-
-
-#ifndef MCRunnable_
-#define MCRunnable_
-
-class(MCRunnable, MCObject,
-	void (*init_routine)(void)
-);
-
-method(MCRunnable, MCRunnable*, initWithFunctionPointer, void (*init_routine)(void));
-method(MCRunnable, void, run, voida);
-#endif
-
-
 /* MCThread */
-
 
 #ifndef MCThread_ 
 #define MCThread_
 
 class(MCThread, MCObject,
-	pthread_t self;
+	pthread_t tid;
 	pthread_attr_t attribute;
 	pthread_once_t once_control;
 	int isRunOnce;
-	MCRunnable* runnable
+    void* functionPointer;
+    void* functionArgument;
 );
 
-method(MCThread, MCThread*, initWithRunnable, MCRunnable* runnable);
-
-//global class functions
-int MCThread_cancel(MCThread* thread);
-int MCThread_join(MCThread* thread, void** result);
-int MCThread_detach(MCThread* thread);
-
-void MCThread_stop(void* result);
-pthread_t MCThread_self();
-
-
+method(MCThread, void, bye, voida);
+method(MCThread, MCThread*, initWithFPointerArgument, void* fp, void* farg);
+method(MCThread, MCThread*, initWithFPointer, void* fp);
+method(MCThread, int, detach, voida);
 method(MCThread, int, start, void* result);
 method(MCThread, int, equal, MCThread* thread);
-method(MCThread, void, bye, voida);
+
+utility(MCThread, int, cancelThread, pthread_t tid);
+utility(MCThread, int, joinThread, pthread_t tid);
+utility(MCThread, void, exitWithStatus, void* status);
+utility(MCThread, pthread_t, currentThread);
+
 #endif
 
 //if you need, you can set the attribute use the raw pthread APIs
