@@ -12,13 +12,12 @@
 oninit(MC3DScene)
 {
     if (init(MCObject)) {
-        var(skyboxShow) = MCTrue;
+        var(skyboxShow) = MCFalse;
         var(skyboxRef)  = mull;
         
         var(renderer)   = new(MCGLRenderer);
         var(rootnode)   = new(MC3DNode);
         var(mainCamera) = new(MCCamera);
-        var(uilayer)    = new(UILayer);
         var(clock)      = new(MCClock);
         var(light)      = new(MCLight);
         
@@ -26,7 +25,6 @@ oninit(MC3DScene)
         var(prev) = mull;
         
         var(cameraLock) = MCFalse;
-        ff(var(uilayer), responseChainConnect, obj);
         
         return obj;
     }else{
@@ -39,7 +37,6 @@ method(MC3DScene, void, bye, voida)
     release(var(renderer));
     release(var(rootnode));
     release(var(mainCamera));
-    release(var(uilayer));
     release(var(clock));
     release(var(light));
     
@@ -51,7 +48,6 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width,
 {
     MCCamera_initWithWidthHeight(0, var(mainCamera), width, height);
     MCGLRenderer_initWithShaderCodeString(0, var(renderer), vsource, fsource);
-    UILayer_initWithScreenSize(0, var(uilayer), width, height);
     
     var(skyboxRef) = MCSkybox_initWithDefaultFiles(0, new(MCSkybox), width, height);
     //ff(var(rootnode), addChild, var(skyboxRef));
@@ -100,7 +96,10 @@ method(MC3DScene, void, updateScene, voida)
 {
     MC3DScene_moveCameraOneStep(0, obj, (MCDouble)1.0, (MCDouble)0.0);
     
-    MCSkybox_update(0, var(skyboxRef), var(renderer)->context);
+    if(var(skyboxShow) == MCTrue) {
+        MCSkybox_update(0, var(skyboxRef), var(renderer)->context);
+    }
+    
     MCCamera_update(0, obj->mainCamera, obj->renderer->context);
     MCLight_update(0, obj->light, obj->renderer->context);
     
@@ -111,7 +110,9 @@ method(MC3DScene, int, drawScene, voida)
 {
     MCGLEngine_clearScreen(0);
     
-    MCSkybox_draw(0, var(skyboxRef), var(renderer)->context);
+    if (var(skyboxShow) == MCTrue) {
+        MCSkybox_draw(0, var(skyboxRef), var(renderer)->context);
+    }
     
     MCGLRenderer_drawNodes(0, var(renderer), var(rootnode));
     

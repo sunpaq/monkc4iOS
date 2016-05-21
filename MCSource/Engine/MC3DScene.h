@@ -14,7 +14,6 @@
 #include "MC3DNode.h"
 #include "MCGLRenderer.h"
 #include "MCCamera.h"
-#include "UILayer.h"
 #include "MCClock.h"
 #include "MCLight.h"
 #include "MCSkybox.h"
@@ -31,7 +30,6 @@ class(MC3DScene, MCObject,
       MCCamera*     mainCamera;
       MCLight*      light;
       MCBool        cameraLock;
-      UILayer*      uilayer;
       MCClock*      clock;
 );
 

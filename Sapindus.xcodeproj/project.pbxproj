@@ -53,7 +53,6 @@
 		FD51835D1C7CBEAA00A74DDE /* MCMatrial.c in Sources */ = {isa = PBXBuildFile; fileRef = FD51835B1C7CBEAA00A74DDE /* MCMatrial.c */; };
 		FD593D2E1C9D91D20065BFC5 /* MCDirector.c in Sources */ = {isa = PBXBuildFile; fileRef = FD593D2C1C9D91D20065BFC5 /* MCDirector.c */; };
 		FD5E18631B08FFE7006CB737 /* MC3DiOSDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */; };
-		FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18761B09C4B0006CB737 /* UILayer.c */; };
 		FD5E18801B09CE60006CB737 /* MCNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E187B1B09CE60006CB737 /* MCNode.c */; };
 		FD5E188B1B09CECB006CB737 /* MC3DMainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18841B09CECB006CB737 /* MC3DMainLoop.c */; };
 		FD5E188C1B09CECB006CB737 /* MCCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = FD5E18871B09CECB006CB737 /* MCCamera.c */; };
@@ -208,8 +207,6 @@
 		FD593D2D1C9D91D20065BFC5 /* MCDirector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCDirector.h; sourceTree = "<group>"; };
 		FD5E18611B08FFE7006CB737 /* MC3DiOSDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MC3DiOSDriver.m; sourceTree = "<group>"; };
 		FD5E18621B08FFE7006CB737 /* MC3DiOSDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DiOSDriver.h; sourceTree = "<group>"; };
-		FD5E18761B09C4B0006CB737 /* UILayer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UILayer.c; sourceTree = "<group>"; };
-		FD5E18771B09C4B0006CB737 /* UILayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILayer.h; sourceTree = "<group>"; };
 		FD5E187A1B09CE60006CB737 /* MCAccessble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAccessble.h; sourceTree = "<group>"; };
 		FD5E187B1B09CE60006CB737 /* MCNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCNode.c; sourceTree = "<group>"; };
 		FD5E187C1B09CE60006CB737 /* MCNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNode.h; sourceTree = "<group>"; };
@@ -651,8 +648,6 @@
 			isa = PBXGroup;
 			children = (
 				FD4F1F261C2FC89900D17CD9 /* MainLoop.c */,
-				FD5E18761B09C4B0006CB737 /* UILayer.c */,
-				FD5E18771B09C4B0006CB737 /* UILayer.h */,
 				FD43FEAA1C429A2D0043E019 /* Testbed.c */,
 				FD43FEAB1C429A2D0043E019 /* Testbed.h */,
 			);
@@ -832,7 +827,6 @@
 				FD316BBA1CD8DEC0005DA831 /* stb_image_aug.c in Sources */,
 				FD5E188B1B09CECB006CB737 /* MC3DMainLoop.c in Sources */,
 				FDFF06691B06315B000064E3 /* MCContext.c in Sources */,
-				FD5E18781B09C4B0006CB737 /* UILayer.c in Sources */,
 				FD0B16401C78447C004FD724 /* MC3DNode.c in Sources */,
 				FD819E5D1C2D4797007D4BE4 /* MCWorld.c in Sources */,
 				FD00C4C71CD10BAE00DCA45F /* ListViewController.m in Sources */,
