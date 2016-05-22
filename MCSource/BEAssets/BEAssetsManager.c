@@ -35,7 +35,9 @@ oninit(BE2DTextureData)
 utility(BE2DTextureData, BE2DTextureData*, newWithPathType, const char* path, unsigned type)
 {
     BE2DTextureData* data = new(BE2DTextureData);
-    data->path = path;
+    size_t psize = strlen(path) * sizeof(char);
+    data->path = strcpy(malloc(psize), path);
+
     if (type >= data->AUTO && type<= data->RGBA ) {
         data->type = type;
     }else{

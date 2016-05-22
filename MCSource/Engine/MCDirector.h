@@ -12,9 +12,14 @@
 #include <stdio.h>
 #include "monkc.h"
 #include "MC3DScene.h"
+#include "MCThread.h"
 
 class(MCDirector, MCObject,
       MC3DScene* lastScene;
+      
+      MCThread* skyboxThread;
+      MCThread* modelThread;
+      
       int currentWidth;
       int currentHeight;
       

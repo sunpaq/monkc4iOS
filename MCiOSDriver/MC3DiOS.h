@@ -19,10 +19,7 @@ int onDraw();
 
 //File callback
 void onOpenExternalFile(const char* filepath);
-
-//pass an int pointer as the file lock
-//pass mull avoid using lock
-void onOpenFile(const char* filename, int* lock);
+void onOpenFile(const char* filename);
 
 //Gesture callback
 void onGestureSwip();

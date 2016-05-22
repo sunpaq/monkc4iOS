@@ -23,7 +23,7 @@ class(BE2DTextureData, MCObject,
       
       //input
       unsigned type;
-      const char* path;
+      char* path;
       
       //output
       unsigned char* raw;

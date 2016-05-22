@@ -25,6 +25,9 @@ oninit(MCDirector)
         var(currentHeight) = 0;
         
         var(cameraHandler) = cameraHandler;
+        
+        var(skyboxThread) = new(MCThread);
+        var(modelThread) = new(MCThread);
         return obj;
     }else{
         return mull;
@@ -48,7 +51,9 @@ method(MCDirector, void, bye, voida)
     if (obj->lastScene != mull) {
         releaseScenes(0, obj, obj->lastScene);
     }
-    
+    release(var(skyboxThread));
+    release(var(modelThread));
+
     MCObject_bye(0, sobj, 0);
 }
 

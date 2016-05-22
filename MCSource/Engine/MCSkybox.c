@@ -60,6 +60,11 @@ static GLfloat skyboxVertices[] = {
 oninit(MCSkybox)
 {
     if (init(MC3DNode)) {
+        var(pid)   = 0;
+        var(vaoid) = 0;
+        var(vboid) = 0;
+        var(texid) = 0;
+        
         var(camera) = new(MCSkyboxCamera);
         
         MCGLEngine_setClearScreenColor((MCColorRGBAf){0.05, 0.25, 0.35, 1.0});

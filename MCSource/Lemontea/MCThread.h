@@ -120,7 +120,7 @@ method(MCThread, void, bye, voida);
 method(MCThread, MCThread*, initWithFPointerArgument, void* fp, void* farg);
 method(MCThread, MCThread*, initWithFPointer, void* fp);
 method(MCThread, int, detach, voida);
-method(MCThread, int, start, void* result);
+method(MCThread, int, start, voida);
 method(MCThread, int, equal, MCThread* thread);
 
 utility(MCThread, int, cancelThread, pthread_t tid);

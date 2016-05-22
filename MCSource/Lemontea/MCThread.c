@@ -42,7 +42,7 @@ method(MCThread, int, detach, voida)
     return pthread_detach(obj->tid);
 }
 
-method(MCThread, int, start, void* result)
+method(MCThread, int, start, voida)
 {
     int res;
     if (obj->isRunOnce==1)
@@ -92,7 +92,7 @@ onload(MCThread)
         binding(MCThread, MCThread*, initWithFPointerArgument, void* fp, void* farg);
         binding(MCThread, MCThread*, initWithFPointer, void* fp);
         binding(MCThread, int, detach, voida);
-        binding(MCThread, int, start, void* result);
+        binding(MCThread, int, start, voida);
         binding(MCThread, int, equal, MCThread* thread);
         return cla;
     }else{

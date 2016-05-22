@@ -18,11 +18,8 @@
 -(void) delayOpen:(NSString*)name
 {
     const char* cfile = [name cStringUsingEncoding:NSUTF8StringEncoding];
-    static int lock = 0;
-    if (lock == 0) {
-        onOpenFile(cfile, &lock);
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model.stop" object:name];
-    }
+    onOpenFile(cfile);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"sapindus.open.model.stop" object:name];
 }
 
 - (void)openExtraModel:(NSString*)filename

@@ -39,42 +39,26 @@ void onOpenExternalFile(const char* filepath)
     ff(director->lastScene->rootnode, addChild, model);
 }
 
-static void asyncReadModel(void* argument)
+static void asyncReadSkybox()
 {
-    const char* filename = (const char*)argument;
-    
+    ff(director->lastScene, loadSkybox, 0);
+}
+
+void onOpenFile(const char* filename)
+{
     //model
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
     MC3DFrame frame = model->frame(model);
     double mheight = frame.ymax - frame.ymin;
-    director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
+    
+    //wait skybox loading
+    //MCThread_joinThread(director->skyboxThread->tid);
     
     //assemble
-    //ff(director->lastScene, loadSkybox, 0);
+    director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
     ff(director->lastScene->rootnode, addChild, model);
     
     MCThread_exitWithStatus(NULL);
-}
-
-//static void asyncReadSkybox()
-//{
-//    ff(director->lastScene, loadSkybox, 0);
-//    
-//    MCThread_exitWithStatus(NULL);
-//}
-
-//pass an int pointer as the file lock
-//pass mull avoid using lock
-void onOpenFile(const char* filename, int* lock)
-{
-    if(lock != mull) *lock = 1;
-    
-    MCThread* bgt = ff(new(MCThread), initWithFPointerArgument, asyncReadModel, filename);
-    MCThread_joinThread(bgt->tid);//wait backgroud thread
-    
-    ff(bgt, start, 0);
-    
-    if(lock != mull) *lock = 0;
 }
 
 void onReceiveMemoryWarning()
@@ -90,23 +74,23 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
     MCLogTypeSet(MC_DEBUG);
     if (director == mull) {
         director = new(MCDirector);
+        director->currentWidth = windowWidth;
+        director->currentHeight = windowHeight;
         
         //scene1
-        MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader, windowWidth, windowHeight);
+        MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader,
+                                  director->currentWidth, director->currentHeight);
         mainScene->mainCamera->R_value = 30;
         mainScene->super.nextResponder = (MCObject*)director;
         ff(director, pushScene, mainScene);
     }
     
-//    if (director->lastScene->skyboxRef == mull) {
-//        MCThread* bgt = ff(new(MCThread), initWithFPointerArgument, asyncReadSkybox, mull);
-//        MCThread_joinThread(bgt->tid);//wait backgroud thread
-//        
-//        ff(bgt, start, 0);
-//    }
-    
     if (filename != mull) {
-        onOpenFile(filename, mull);
+        ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, mull);
+        ff(director->skyboxThread, start, 0);
+        
+        ff(director->modelThread, initWithFPointerArgument, onOpenFile, filename);
+        ff(director->modelThread, start, 0);
     }
 }
 

@@ -10,6 +10,7 @@
 #import <GLKit/GLKit.h>
 #import "MC3DiOSDriver.h"
 #import "MC3DiOS.h"
+#import <pthread.h>
 
 static UIView* _rootUIView = nil;
 static UIEventHandler* _handler = nil;
@@ -115,6 +116,9 @@ MCUInt MCLoadSpriteTexture(const char* name, const char* suffix)
 
 void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 {
+    static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_lock(&lock);
+    
     CFStringRef fname = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
     CFStringRef  fext = CFStringCreateWithCString(NULL, extention, kCFStringEncodingUTF8);
     CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
@@ -126,6 +130,8 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
     CFRelease(fext);
     CFRelease(path);
     CFRelease(url);
+    
+    pthread_mutex_unlock(&lock);
 }
 
 const char* MCFileCopyContent(const char* filename, const char* extention)
