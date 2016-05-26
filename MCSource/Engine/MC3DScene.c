@@ -45,13 +45,13 @@ method(MC3DScene, void, bye, voida)
     MCObject_bye(0, sobj, 0);
 }
 
-method(MC3DScene, void, loadSkybox, voida)
-{
-    if (var(skyboxRef) == mull) {
-        var(skyboxRef) = MCSkybox_initWithDefaultFiles(0, new(MCSkybox), var(scenewidth), var(sceneheight));
-        var(skyboxShow) = MCTrue;
-    }
-}
+//method(MC3DScene, void, loadSkybox, voida)
+//{
+//    if (var(skyboxRef) == mull) {
+//        var(skyboxRef) = MCSkybox_initWithDefaultFiles(0, new(MCSkybox), 0);
+//        var(skyboxShow) = MCTrue;
+//    }
+//}
 
 method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height,
        const char* vsource, const char* fsource)
@@ -137,7 +137,7 @@ onload(MC3DScene)
 {
     if (load(MCObject)) {
         binding(MC3DScene, void, bye, voida);
-        binding(MC3DScene, void, loadSkybox, voida);
+        //binding(MC3DScene, void, loadSkybox, voida);
         binding(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
         binding(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
         binding(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);

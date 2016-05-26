@@ -87,7 +87,7 @@ method(MCSkybox, void, bye, voida)
     MC3DNode_bye(0, sobj, 0);
 }
 
-method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], unsigned width, unsigned height)
+method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, double widthHeightRatio)
 {
     //Shader
     var(pid) = MCGLEngine_createShader(0);
@@ -101,8 +101,8 @@ method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], unsigned 
     cubeSampler_loc      = glGetUniformLocation(var(pid), "cubeSampler");
     
     //Camera
-    MCSkyboxCamera_initWithWidthHeight(0, var(camera), width, height);
-
+    MCSkyboxCamera_initWithWidthHeightRatio(0, var(camera), widthHeightRatio);
+    
     //Mesh & Texture
     MCUInt buffers[2];
     glGenVertexArraysOES(1, &var(vaoid));
@@ -121,9 +121,8 @@ method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], unsigned 
     //Texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, var(texid));
-    var(cubetex) = BECubeTextureData_newWithFaces(namelist, "jpg");
     for (int i=0; i<6; i++) {
-        BE2DTextureData* face = var(cubetex)->faces[i];
+        BE2DTextureData* face = cubetex->faces[i];
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0,
                      GL_RGB, face->width, face->height, 0,
                      GL_RGB, GL_UNSIGNED_BYTE, face->raw);
@@ -137,14 +136,27 @@ method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], unsigned 
     //Unbind
     glBindVertexArrayOES(0);
     
-    release(var(cubetex));
     return obj;
 }
 
-method(MCSkybox, MCSkybox*, initWithDefaultFiles, unsigned width, unsigned height)
+method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], double widthHeightRatio)
+{
+    BECubeTextureData* data = BECubeTextureData_newWithFaces(namelist, "jpg");
+    MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, obj, data, widthHeightRatio);
+    release(data);
+    return skybox;
+}
+
+method(MCSkybox, MCSkybox*, initWithDefaultFilesRatio, double widthHeightRatio)
 {
     const char* names[6] = {"right","left","top","bottom","back","front"};
-    return MCSkybox_initWithFileNames(0, obj, names, width, height);
+    return MCSkybox_initWithFileNames(0, obj, names, widthHeightRatio);
+}
+
+method(MCSkybox, MCSkybox*, initWithDefaultFiles, voida)
+{
+    const char* names[6] = {"right","left","top","bottom","back","front"};
+    return MCSkybox_initWithFileNames(0, obj, names, MCRatioHDTV16x9);
 }
 
 method(MCSkybox, void, resizeWithWidthHeight, unsigned width, unsigned height)
@@ -185,8 +197,10 @@ onload(MCSkybox)
 {
     if (load(MC3DNode)) {
         binding(MCSkybox, void, bye, voida);
-        binding(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], unsigned width, unsigned height);
-        binding(MCSkybox, MCSkybox*, initWithDefaultFiles, unsigned width, unsigned height);
+        binding(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, double widthHeightRatio);
+        binding(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], double widthHeightRatio);
+        binding(MCSkybox, MCSkybox*, initWithDefaultFilesRatio, double widthHeightRatio);
+        binding(MCSkybox, MCSkybox*, initWithDefaultFiles, voida);
         binding(MCSkybox, void, resizeWithWidthHeight, unsigned width, unsigned height);
         binding(MCSkybox, void, update, MCGLContext* ctx);
         binding(MCSkybox, void, draw, MCGLContext* ctx);

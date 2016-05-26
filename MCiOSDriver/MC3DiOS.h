@@ -9,6 +9,9 @@
 #ifndef MC3DiOS_h
 #define MC3DiOS_h
 
+//App lifecycle
+void onAppStart();
+
 //GL callback
 void onRootViewLoad(void* rootview);
 void onReceiveMemoryWarning();

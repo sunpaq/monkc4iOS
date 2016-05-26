@@ -22,12 +22,13 @@ class(MCSkybox, MC3DNode,
       MCUInt pid;
       MCUInt vaoid;
       MCUInt vboid;
-      MCUInt texid;
-      BECubeTextureData* cubetex);
+      MCUInt texid);
 
 method(MCSkybox, void, bye, voida);
-method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], unsigned width, unsigned height);
-method(MCSkybox, MCSkybox*, initWithDefaultFiles, unsigned width, unsigned height);
+method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, double widthHeightRatio);
+method(MCSkybox, MCSkybox*, initWithFileNames, const char* namelist[], double widthHeightRatio);
+method(MCSkybox, MCSkybox*, initWithDefaultFilesRatio, double widthHeightRatio);
+method(MCSkybox, MCSkybox*, initWithDefaultFiles, voida);
 method(MCSkybox, void, resizeWithWidthHeight, unsigned width, unsigned height);
 //override
 method(MCSkybox, void, update, MCGLContext* ctx);

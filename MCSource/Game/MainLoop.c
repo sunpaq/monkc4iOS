@@ -21,6 +21,17 @@
 #include "Testbed.h"
 #include "MCThread.h"
 
+static MCDirector* director = mull;
+static BECubeTextureData* cubtex = mull;
+
+void onAppStart()
+{
+    if (cubtex == mull) {
+        const char* names[6] = {"right","left","top","bottom","back","front"};
+        cubtex = BECubeTextureData_newWithFaces(names, "jpg");
+    }
+}
+
 void onRootViewLoad(void* rootview)
 {
     //put the test code into Testbed.c
@@ -28,8 +39,6 @@ void onRootViewLoad(void* rootview)
     
     MCUIRegisterRootUIView(rootview);
 }
-
-static MCDirector* director = mull;
 
 void onOpenExternalFile(const char* filepath)
 {
@@ -39,10 +48,10 @@ void onOpenExternalFile(const char* filepath)
     ff(director->lastScene->rootnode, addChild, model);
 }
 
-static void asyncReadSkybox()
-{
-    ff(director->lastScene, loadSkybox, 0);
-}
+//static void asyncReadSkybox()
+//{
+//    ff(director->lastScene, loadSkybox, 0);
+//}
 
 void onOpenFile(const char* filename)
 {
@@ -72,6 +81,7 @@ void onReceiveMemoryWarning()
 void onSetupGL(int windowWidth, int windowHeight, const char* filename)
 {
     MCLogTypeSet(MC_DEBUG);
+
     if (director == mull) {
         director = new(MCDirector);
         director->currentWidth = windowWidth;
@@ -80,14 +90,20 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         //scene1
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader,
                                   director->currentWidth, director->currentHeight);
+        
+        MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
+        mainScene->skyboxRef = skybox;
+        mainScene->skyboxShow = MCTrue;
+        
         mainScene->mainCamera->R_value = 30;
         mainScene->super.nextResponder = (MCObject*)director;
+        
         ff(director, pushScene, mainScene);
     }
     
     if (filename != mull) {
-        ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, mull);
-        ff(director->skyboxThread, start, 0);
+//        ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, mull);
+//        ff(director->skyboxThread, start, 0);
         
         ff(director->modelThread, initWithFPointerArgument, onOpenFile, filename);
         ff(director->modelThread, start, 0);

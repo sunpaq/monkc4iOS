@@ -15,6 +15,8 @@ compute(MCMatrix4, boxProjectionMatrix);
 oninit(MCSkyboxCamera)
 {
     if (init(MCCamera)) {
+        svar(ratio) = MCRatioHDTV16x9;
+
         //world coordinate
         svar(lookat) = MCVector3Make(0,0,-1);
         
@@ -61,10 +63,11 @@ compute(MCMatrix4, boxProjectionMatrix)
 }
 
 //override
-method(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeight, unsigned width, unsigned height)
+method(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeightRatio, double ratio)
 {
     //setting camera
-    sobj->ratio = MCRatioMake(width, height);
+    //sobj->ratio = MCRatioMake(width, height);
+    sobj->ratio = ratio;
     return obj;
 }
 
@@ -112,8 +115,7 @@ onload(MCSkyboxCamera)
 {
     if (load(MCCamera)) {
         binding(MCSkyboxCamera, void, bye, voida);
-
-        binding(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeight, unsigned width, unsigned height);
+        binding(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeightRatio, double ratio);
         binding(MCSkyboxCamera, void, move, double deltaFai, double deltaTht);
         binding(MCSkyboxCamera, void, update, MCGLContext* ctx);
         
