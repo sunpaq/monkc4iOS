@@ -164,6 +164,20 @@ void MCGLError(const char* errmsg)
     }
 }
 
+void MCGLStartLoading()
+{
+    if (_handler) {
+        [_handler handleMCLoading:YES];
+    }
+}
+
+void MCGLStopLoading()
+{
+    if (_handler) {
+        [_handler handleMCLoading:NO];
+    }
+}
+
 #ifdef __OBJC__
 @implementation UIEventHandler
 
@@ -182,6 +196,7 @@ void MCGLError(const char* errmsg)
         self.pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
         self.pan.delegate = self;
         
+        self.indicator = nil;
         return self;
     }else{
         return nil;
@@ -203,6 +218,22 @@ void MCGLError(const char* errmsg)
                                delegate:self
                       cancelButtonTitle:@"OK, got it."
                       otherButtonTitles:nil, nil] show];
+}
+
+- (void) handleMCLoading:(BOOL)startOrStop
+{
+    if (startOrStop) {
+        if (self.indicator == nil) {
+            self.indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+            self.indicator.center = _rootUIView.center;
+            [_rootUIView addSubview:self.indicator];
+        }
+        [self.indicator startAnimating];
+    }else{
+        if (self.indicator != nil) {
+            [self.indicator stopAnimating];
+        }
+    }
 }
 
 - (void)onSwip:(id)sender

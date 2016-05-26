@@ -52,22 +52,7 @@ method(MC3DNode, void, bye, voida)
 
 method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
 {
-    MC3DNode* old = mull;
     for (int i=0; i<MC3DNodeMaxChildNum-1; i++) {
-//        if (child->zorder == i) {
-//            old = obj->children[i];
-//
-//            obj->children[i] = child;
-//            child->index = i;
-//            
-//            if (old != mull) {
-//                old->zorder = -1;
-//                return MC3DNode_addChild(0, obj, old);
-//            }
-//            
-//            return MC3DSuccess;
-//        }
-        
         if (obj->children[i] == mull && child != mull) {
             obj->children[i] = child;
             child->index = i;

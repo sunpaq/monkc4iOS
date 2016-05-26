@@ -67,6 +67,7 @@ void onOpenFile(const char* filename)
     director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
     ff(director->lastScene->rootnode, addChild, model);
     
+    MCGLStopLoading();
     MCThread_exitWithStatus(NULL);
 }
 
@@ -104,6 +105,8 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
     if (filename != mull) {
 //        ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, mull);
 //        ff(director->skyboxThread, start, 0);
+        
+        MCGLStartLoading();
         
         ff(director->modelThread, initWithFPointerArgument, onOpenFile, filename);
         ff(director->modelThread, start, 0);

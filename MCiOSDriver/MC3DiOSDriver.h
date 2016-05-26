@@ -41,6 +41,8 @@ void MCUIButtonRegisterCallback(mc_message msg);
 
 //MCGL Errors
 void MCGLError(const char* errmsg);
+void MCGLStartLoading();
+void MCGLStopLoading();
 
 //File
 void MCFileGetPath(const char* filename, const char* extention, char* buffer);
@@ -53,12 +55,14 @@ const char* MCFileCopyContent(const char* filename, const char* extention);
 
 @interface UIEventHandler : NSObject <UIGestureRecognizerDelegate>
 @property (nonatomic) UIView* targetView;
+@property (atomic) UIActivityIndicatorView* indicator;
 @property UISwipeGestureRecognizer* swip;
 @property UIPinchGestureRecognizer* pinch;
 @property UIPanGestureRecognizer* pan;
 
 - (void) onButtonClicked:(id)sender;
 - (void) handleMCGLError:(const char*)errmsg;
+- (void) handleMCLoading:(BOOL)startOrStop;
 @end
 #endif
 
