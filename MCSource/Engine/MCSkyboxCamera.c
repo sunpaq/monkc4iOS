@@ -111,6 +111,12 @@ method(MCSkyboxCamera, void, update, MCGLContext* ctx)
     MCGLContext_setUniformMatrix4(0, ctx, mull, loc_boxProjectionMatrix, cvar(projectionMatrix).m);
 }
 
+method(MCSkyboxCamera, void, setAttitude, double fai, double tht)
+{
+    sobj->fai = fai;
+    sobj->tht = tht;
+}
+
 onload(MCSkyboxCamera)
 {
     if (load(MCCamera)) {
@@ -118,6 +124,7 @@ onload(MCSkyboxCamera)
         binding(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeightRatio, double ratio);
         binding(MCSkyboxCamera, void, move, double deltaFai, double deltaTht);
         binding(MCSkyboxCamera, void, update, MCGLContext* ctx);
+        binding(MCSkyboxCamera, void, setAttitude, double fai, double tht);
         
         return cla;
     }else{

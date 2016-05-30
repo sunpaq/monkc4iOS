@@ -17,7 +17,7 @@ void onRootViewLoad(void* rootview);
 void onReceiveMemoryWarning();
 void onSetupGL(int windowWidth, int windowHeight, const char* filename);
 void onTearDownGL();
-void onUpdate();
+void onUpdate(double roll, double yaw, double pitch);
 int onDraw();
 
 //File callback

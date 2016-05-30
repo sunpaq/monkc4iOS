@@ -45,14 +45,6 @@ method(MC3DScene, void, bye, voida)
     MCObject_bye(0, sobj, 0);
 }
 
-//method(MC3DScene, void, loadSkybox, voida)
-//{
-//    if (var(skyboxRef) == mull) {
-//        var(skyboxRef) = MCSkybox_initWithDefaultFiles(0, new(MCSkybox), 0);
-//        var(skyboxShow) = MCTrue;
-//    }
-//}
-
 method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height,
        const char* vsource, const char* fsource)
 {
@@ -98,10 +90,17 @@ method(MC3DScene, MCCamera*, getCamera, voida)
 method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
 {
     if (var(cameraLock) == MCFalse) {
-        if (var(skyboxRef) != mull) {
-            MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d / 5, deltaTht.d / 5);
-        }
+//        if (var(skyboxRef) != mull) {
+//            MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d / 5, deltaTht.d / 5);
+//        }
         MCCamera_move(0, var(mainCamera), deltaFai.d, deltaTht.d);
+    }
+}
+
+method(MC3DScene, void, moveSkyboxCamera, MCDouble deltaFai, MCDouble deltaTht)
+{
+    if (var(skyboxRef) != mull) {
+        MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d, deltaTht.d);
     }
 }
 
@@ -137,7 +136,6 @@ onload(MC3DScene)
 {
     if (load(MCObject)) {
         binding(MC3DScene, void, bye, voida);
-        //binding(MC3DScene, void, loadSkybox, voida);
         binding(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
         binding(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
         binding(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
@@ -148,6 +146,7 @@ onload(MC3DScene)
         binding(MC3DScene, void, lockCamera, MCBool lock);
         binding(MC3DScene, MCCamera*, getCamera, voida);
         binding(MC3DScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
+        binding(MC3DScene, void, moveSkyboxCamera, MCDouble deltaFai, MCDouble deltaTht);
 
         return cla;
     }else{

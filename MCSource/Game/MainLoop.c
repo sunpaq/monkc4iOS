@@ -119,10 +119,12 @@ void onTearDownGL()
     director = mull;
 }
 
-void onUpdate()
+void onUpdate(double roll, double yaw, double pitch)
 {
+    //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
     MCLogTypeSet(MC_SILENT);
     if (director != mull) {
+        MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, roll*180, (pitch-1)*45);
         MCDirector_updateAll(0, director, 0);
     }
 }

@@ -40,7 +40,6 @@ method(MC3DScene, void, bye, voida);
 method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height, const char* vsource, const char* fsource);
 method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, unsigned height, const char* vname, const char* fname);
 method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height);
-method(MC3DScene, void, loadSkybox, voida);
 method(MC3DScene, void, updateScene, voida);
 
 //return -1 or positive fps number
@@ -50,5 +49,6 @@ method(MC3DScene, int, drawScene, voida);
 method(MC3DScene, void, lockCamera, MCBool lock);
 method(MC3DScene, MCCamera*, getCamera, voida);
 method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht);
+method(MC3DScene, void, moveSkyboxCamera, MCDouble deltaFai, MCDouble deltaTht);
 
 #endif /* MC3DScene_h */

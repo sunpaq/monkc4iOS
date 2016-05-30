@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #import "MC3DiOS.h"
+#import <CoreMotion/CoreMotion.h>
 
 @interface GameViewController () {
 	double _savedCameraDistance;
@@ -15,6 +16,7 @@
 }
 
 @property (strong, nonatomic) EAGLContext *context;
+@property CMMotionManager* motionManager;
 
 - (void)tearDownGL;
 @end
@@ -121,22 +123,55 @@
 	
 	const char* cfile = [self.filename cStringUsingEncoding:NSUTF8StringEncoding];
     onSetupGL(width, height, cfile);
+    
+    //Core Motion
+    [self startDeviceMotion];
 }
 
 - (void)tearDownGL
 {
+    //Core Motion
+    [self stopDeviceMotion];
+    
     [EAGLContext setCurrentContext:self.context];
     
     //clean monkc
     onTearDownGL();
 }
 
+- (void)startDeviceMotion
+{
+    self.motionManager = [[CMMotionManager alloc] init];
+
+    if ([self.motionManager isAccelerometerAvailable]) {
+        self.motionManager.deviceMotionUpdateInterval = 1.0 / 60.0;
+        [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
+    }
+}
+
+- (void)stopDeviceMotion
+{
+    if ([self.motionManager isAccelerometerAvailable]) {
+        [self.motionManager stopDeviceMotionUpdates];
+        self.motionManager = nil;
+    }
+}
+
 #pragma mark - GLKView and GLKViewController delegate methods
 
 - (void)update
 {
+    CMAttitude* att = nil;
+    
+    //Core Motion
+    att = self.motionManager.deviceMotion.attitude;
+    
     //monkc update
-    onUpdate();
+    if (att) {
+        onUpdate(att.roll, att.yaw, att.pitch);
+    }else{
+        onUpdate(0.0, 0.0, 0.0);
+    }
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
