@@ -102,13 +102,13 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
-    glUseProgram(obj->Id);
+    MCGLEngine_tryUseShaderProgram(obj->Id);
     
     if (rootnode != mull) {
         fh(rootnode, draw, _draw, obj->context);
     }
     
-    glFlush();
+    //glFlush();
 }
 
 onload(MCGLRenderer)

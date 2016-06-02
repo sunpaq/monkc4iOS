@@ -47,10 +47,13 @@ utility(MCGLEngine, void, cullBackFace, voida);
 //Texture
 utility(MCGLEngine, MCUInt, getMaxTextureUnits, voida);
 utility(MCGLEngine, void, activeTextureUnit, MCUInt index);
+utility(MCGLEngine, void, bindCubeTexture, MCUInt tid);
+utility(MCGLEngine, void, bind2DTexture, MCUInt tid);
 //Shader
 utility(MCGLEngine, GLuint, createShader, voida);
 utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const char* fcode);
 utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, const char* fname);
+utility(MCGLEngine, GLuint, tryUseShaderProgram, GLuint Id);
 
 //Frame Rate (FPS)
 MCInline int MCGLEngine_tickFPS(MCClock* clock)

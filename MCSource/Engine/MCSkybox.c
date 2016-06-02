@@ -91,7 +91,7 @@ method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, dou
 {
     //Shader
     var(pid) = MCGLEngine_createShader(0);
-    glUseProgram(var(pid));
+    MCGLEngine_tryUseShaderProgram(var(pid));
     glUniform1i(cubeSampler_loc, 0);
     glBindAttribLocation(var(pid), 0, "position");
     MCGLEngine_prepareShaderName(var(pid), "MCSkyboxShader", "MCSkyboxShader");
@@ -119,8 +119,8 @@ method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, dou
         sizeof(GLfloat) * 3, MCBUFFER_OFFSET(0)};
     MCVertexAttributeLoad(&attr);
     //Texture
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, var(texid));
+    MCGLEngine_activeTextureUnit(0);
+    MCGLEngine_bindCubeTexture(var(texid));
     for (int i=0; i<6; i++) {
         BE2DTextureData* face = cubetex->faces[i];
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0,
@@ -132,7 +132,6 @@ method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, dou
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     //glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
     //Unbind
     glBindVertexArrayOES(0);
     
@@ -171,7 +170,7 @@ method(MCSkybox, void, update, MCGLContext* ctx)
     ctx->boxProjectionMatrix = var(camera)->projectionMatrix(var(camera));
     
     if (ctx->boxCameraRatio != obj->camera->super.ratio) {
-        glUseProgram(var(pid));
+        MCGLEngine_tryUseShaderProgram(var(pid));
         glUniformMatrix4fv(projectionMatrix_loc, 1, 0, ctx->boxProjectionMatrix.m);
         ctx->boxCameraRatio = obj->camera->super.ratio;
     }
@@ -180,12 +179,12 @@ method(MCSkybox, void, update, MCGLContext* ctx)
 method(MCSkybox, void, draw, MCGLContext* ctx)
 {
     glDepthMask(GL_FALSE);
-    glUseProgram(var(pid));
+    MCGLEngine_tryUseShaderProgram(var(pid));
     glUniformMatrix4fv(viewMatrix_loc, 1, 0, ctx->boxViewMatrix.m);
     
     glBindVertexArray(obj->vaoid);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, obj->texid);
+    MCGLEngine_activeTextureUnit(0);
+    //MCGLEngine_bindCubeTexture(obj->texid);
     
     glDrawArrays(GL_TRIANGLES, 0, 36);
     

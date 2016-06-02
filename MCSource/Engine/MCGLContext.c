@@ -8,6 +8,7 @@
 
 #include "MCGLContext.h"
 #include "MC3DBase.h"
+#include "MCGLEngine.h"
 
 oninit(MCGLContext)
 {
@@ -42,7 +43,7 @@ oninit(MCGLContext)
 
 method(MCGLContext, void, activateShaderProgram, voida)
 {
-    glUseProgram(var(pid));
+    MCGLEngine_tryUseShaderProgram(var(pid));
 }
 
 method(MCGLContext, int, getUniformLocation, const char* name)

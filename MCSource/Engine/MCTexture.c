@@ -7,11 +7,12 @@
 //
 
 #include "MCTexture.h"
+#include "MCGLEngine.h"
 
 oninit(MCTexture)
 {
     if (init(MCObject)) {
-        obj->textureUnit = GL_TEXTURE0;
+        obj->textureUnit = GL_TEXTURE1;
         return obj;
     }else{
         return mull;
@@ -49,24 +50,22 @@ function(void, freeRawdata, voida)
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name)
 {
-    glActiveTexture(obj->textureUnit);
     glGenBuffers(1, &obj->Id);
-    glBindTexture(GL_TEXTURE_2D, obj->Id);
+    MCGLEngine_activeTextureUnit(obj->textureUnit);
+    MCGLEngine_bind2DTexture(obj->Id);
     
     loadImageRawdata(0, obj, name);
     rawdataToTexbuffer(0, obj, GL_TEXTURE_2D);
     setupTexParameter(0, obj, GL_TEXTURE_2D);
     freeRawdata(0, obj, 0);
     
-    glBindTexture(GL_TEXTURE_2D, 0);
-
     return obj;
 }
 
 method(MCTexture, void, drawTexture, MCGLContext* ctx)
 {
-    glActiveTexture(obj->textureUnit);
-    glBindTexture(GL_TEXTURE_2D, obj->Id);
+    MCGLEngine_activeTextureUnit(obj->textureUnit);
+    MCGLEngine_bind2DTexture(obj->Id);
     //MCGLContext_setUniformVector1(0, ctx, "texsampler", obj->textureUnit-GL_TEXTURE0);
 }
 

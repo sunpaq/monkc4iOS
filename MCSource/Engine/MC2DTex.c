@@ -7,6 +7,7 @@
 //
 
 #include "MC2DTex.h"
+#include "MCGLEngine.h"
 
 oninit(MC2DTex)
 {
@@ -24,8 +25,8 @@ method(MC2DTex, MC2DTex*, initWithFileName, const char* name)
 
 method(MC2DTex, void, drawTexture, MCGLContext* ctx)
 {
-    glActiveTexture(sobj->textureUnit);
-    glBindTexture(GL_TEXTURE_2D, sobj->Id);
+    MCGLEngine_activeTextureUnit(sobj->textureUnit);
+    MCGLEngine_bind2DTexture(sobj->Id);
 }
 
 onload(MC2DTex)

@@ -89,7 +89,29 @@ utility(MCGLEngine, MCUInt, getMaxTextureUnits, voida)
 
 utility(MCGLEngine, void, activeTextureUnit, MCUInt index)
 {
-    glActiveTexture(GL_TEXTURE0+index);
+    static int texCache = -1;
+    if (index != texCache) {
+        glActiveTexture(GL_TEXTURE0 + (0x0001*index));
+        texCache = index;
+    }
+}
+
+utility(MCGLEngine, void, bindCubeTexture, MCUInt tid)
+{
+    static int texCache = -1;
+    if (tid != texCache) {
+        glBindTexture(GL_TEXTURE_CUBE_MAP, tid);
+        texCache = tid;
+    }
+}
+
+utility(MCGLEngine, void, bind2DTexture, MCUInt tid)
+{
+    static int texCache = -1;
+    if (tid != texCache) {
+        glBindTexture(GL_TEXTURE_2D, tid);
+        texCache = tid;
+    }
 }
 
 utility(MCGLEngine, GLuint, createShader, voida)
@@ -164,4 +186,15 @@ utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, con
     }
     return Id;
 }
+
+utility(MCGLEngine, GLuint, tryUseShaderProgram, GLuint Id)
+{
+    static int idCache = -1;
+    if (Id != idCache) {
+        glUseProgram(Id);
+        idCache = Id;
+    }
+    return idCache;
+}
+
 

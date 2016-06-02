@@ -7,6 +7,7 @@
 //
 
 #include "MCLight.h"
+#include "MCGLEngine.h"
 
 oninit(MCLight)
 {
@@ -22,7 +23,8 @@ oninit(MCLight)
 method(MCLight, void, update, MCGLContext* ctx)
 {
     if (obj->dataChanged == MCTrue) {
-        glUseProgram(ctx->pid);
+        MCGLEngine_tryUseShaderProgram(ctx->pid);
+
         static int loc = -1;
         if (loc != -1) {
             MCGLContext_setUniformVector3(0, ctx, mull, loc, obj->diffuseLightPosition);
