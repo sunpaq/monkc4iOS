@@ -13,8 +13,9 @@
 #include "monkc.h"
 #include "MCVertex.h"
 #include "MCGLContext.h"
+#include "MCLinkedList.h"
 
-class(MCMesh, MCObject,
+class(MCMesh, MCItem,
       MC3DFrame  frame;
       GLenum     useage;
       GLsizei    vertexCount;

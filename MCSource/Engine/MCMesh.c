@@ -11,7 +11,7 @@
 
 oninit(MCMesh)
 {
-    if (init(MCObject)) {
+    if (init(MCItem)) {
         var(frame) = (MC3DFrame){0,0,0,0,0,0};
         var(isDataLoaded) = MCFalse;
 
@@ -89,7 +89,7 @@ method(MCMesh, void, dump, voida)
 
 onload(MCMesh)
 {
-    if (load(MCObject)) {
+    if (load(MCItem)) {
         binding(MCMesh, void, bye, voida);
         binding(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
         binding(MCMesh, void, prepareMesh, voida);

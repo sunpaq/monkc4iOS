@@ -26,6 +26,7 @@
 		FD0B16461C788ADE004FD724 /* MCMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16441C788ADE004FD724 /* MCMesh.c */; };
 		FD0B16491C788AF2004FD724 /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16471C788AF2004FD724 /* MCTexture.c */; };
 		FD0B164C1C789203004FD724 /* MCVertex.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B164A1C789203004FD724 /* MCVertex.c */; };
+		FD0E0FAF1CFF214A0048A666 /* MCLinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0E0FAD1CFF214A0048A666 /* MCLinkedList.c */; };
 		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
 		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
 		FD316BB71CD8DEC0005DA831 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = FD316BAD1CD8DEC0005DA831 /* image_DXT.c */; };
@@ -164,6 +165,8 @@
 		FD0B16481C788AF2004FD724 /* MCTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTexture.h; sourceTree = "<group>"; };
 		FD0B164A1C789203004FD724 /* MCVertex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCVertex.c; sourceTree = "<group>"; };
 		FD0B164B1C789203004FD724 /* MCVertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVertex.h; sourceTree = "<group>"; };
+		FD0E0FAD1CFF214A0048A666 /* MCLinkedList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCLinkedList.c; sourceTree = "<group>"; };
+		FD0E0FAE1CFF214A0048A666 /* MCLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLinkedList.h; sourceTree = "<group>"; };
 		FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.fsh; sourceTree = "<group>"; };
 		FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.vsh; sourceTree = "<group>"; };
 		FD316BAD1CD8DEC0005DA831 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
@@ -618,6 +621,8 @@
 				FDE489F51CBE8D2400129D2B /* MCLexer.h */,
 				FD5E188E1B09DEB6006CB737 /* MCArray.c */,
 				FD5E188F1B09DEB6006CB737 /* MCArray.h */,
+				FD0E0FAD1CFF214A0048A666 /* MCLinkedList.c */,
+				FD0E0FAE1CFF214A0048A666 /* MCLinkedList.h */,
 				FDFF06511B06315B000064E3 /* MCBuffer.c */,
 				FDFF06521B06315B000064E3 /* MCBuffer.h */,
 				FDFF06531B06315B000064E3 /* MCClock.c */,
@@ -814,6 +819,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD0E0FAF1CFF214A0048A666 /* MCLinkedList.c in Sources */,
 				FD316BB91CD8DEC0005DA831 /* SOIL.c in Sources */,
 				FD43FEAC1C429A2D0043E019 /* Testbed.c in Sources */,
 				FDFF064D1B06314C000064E3 /* monkc.c in Sources */,
@@ -1003,7 +1009,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Sapindus/Info.plist;
@@ -1020,7 +1025,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Sapindus/Info.plist;

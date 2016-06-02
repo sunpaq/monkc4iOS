@@ -14,8 +14,8 @@ compute(MC3DFrame, frame)
     varscope(MC3DModel);
     MC3DFrame allframe = (MC3DFrame){0,0,0,0,0,0};
     
-    for (int i=0; i<MC3DNodeMaxMeshNum; i++) {
-        MCMesh* m = svar(meshes)[i];
+    MCLinkedListForEach(svar(meshes),
+        MCMesh* m = (MCMesh*)item;
         if (m != mull) {
             MC3DFrame mf = m->frame;
             //MAX
@@ -26,10 +26,9 @@ compute(MC3DFrame, frame)
             MCMath_accumulateMind(&allframe.xmin, mf.xmin);
             MCMath_accumulateMind(&allframe.ymin, mf.ymin);
             MCMath_accumulateMind(&allframe.zmin, mf.zmin);
-        }else{
-            continue;
         }
-    }
+    )
+    
     var(lastSavedFrame) = allframe;
     return allframe;
 }
@@ -78,7 +77,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         mesh->frame = buff->frame;
         //ff(mesh, dump, 0);
         
-        svar(meshes)[0] = mesh;
+        MCLinkedList_addItem(0, svar(meshes), (MCItem*)mesh);
         svar(material) = new(MCMatrial);
         svar(texture) = mull;
         

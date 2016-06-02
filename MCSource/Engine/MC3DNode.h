@@ -17,20 +17,19 @@
 #include "MCMatrial.h"
 #include "MCTexture.h"
 #include "MCGLContext.h"
+#include "MCLinkedList.h"
 
-#define MC3DNodeMaxChildNum 100
-#define MC3DNodeMaxMeshNum  100
-
-class(MC3DNode, MCObject,
+class(MC3DNode, MCItem,
       MCUInt index;
       MCInt zorder;
       MCBool visible;
       MCVector3 center;
       MCMatrix4 transform;
-      MCMesh* meshes[MC3DNodeMaxMeshNum];
       MCMatrial* material;
       MCTexture* texture;
-      struct MC3DNodeStruct* children[MC3DNodeMaxChildNum];
+      
+      MCLinkedList* meshes;
+      MCLinkedList* children;
 );
 
 method(MC3DNode, void, bye, voida);
@@ -40,7 +39,6 @@ method(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child);
 method(MC3DNode, void, copyChildrenFrom, MC3DNode* node);
 method(MC3DNode, void, cleanUnvisibleChild, voida);
 method(MC3DNode, int, childCount, voida);
-method(MC3DNode, MC3DNode*, childCarousel, voida);
 method(MC3DNode, void, setAllVisible, MCBool visible);
 
 //draw

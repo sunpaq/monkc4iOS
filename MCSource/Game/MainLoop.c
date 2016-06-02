@@ -124,7 +124,12 @@ void onUpdate(double roll, double yaw, double pitch)
     //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
     MCLogTypeSet(MC_SILENT);
     if (director != mull) {
-        MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, roll*180, (pitch-1)*45);
+        if (director->currentWidth < director->currentHeight) {
+            MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, roll*360, (pitch-1)*45);
+        }else{
+            MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, pitch*360, (roll-1)*45);
+        }
+        
         MCDirector_updateAll(0, director, 0);
     }
 }

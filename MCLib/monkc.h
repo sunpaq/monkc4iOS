@@ -477,7 +477,7 @@ typedef struct {
     MCObject* volatile object;
 } mc_message;
 #define mc_message_arg(Class) void* volatile address, Class* volatile obj
-MCInline mc_message make_msg(mo const obj, void* address) { return (mc_message){address, obj}; };
+MCInline mc_message make_msg(void* obj, void* address) { return (mc_message){address, (mo)obj}; };
 
 //write by asm
 void* _push_jump(mc_message volatile msg, ...);
