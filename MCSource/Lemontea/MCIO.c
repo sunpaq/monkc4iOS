@@ -4,7 +4,7 @@
 
 void MCFile_flushAllCacheToDisk()
 {
-    void sync(void);
+	sync();
 }
 
 int MCFile_flushAFileCacheToDisk(int fd)
@@ -257,10 +257,10 @@ method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
 
         }else{
             linebuff[i] = '\n';
-            linebuff[i+1] = (char)NULL;
+            linebuff[i+1] = '\0';
             MCCharBuffer* line = NewMCCharBuffer(sizeof(char) * i+1);
             CopyToCharBuffer(line, linebuff);
-            line->data[i+1] = (char)NULL;
+            line->data[i+1] = '\0';
             textbuff[lcount++] = (line->data);
             i = 0;
         }

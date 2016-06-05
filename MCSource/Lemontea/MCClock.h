@@ -6,10 +6,11 @@
 
 class(MCClock, MCObject,
       struct tm rawtime;
-      char* currentTimeBuff[50];
-      char* currentGMTBuff[50];
+      char* currentTimeBuff;
+      char* currentGMTBuff;
 );
 
+method(MCClock, void, bye, voida);
 method(MCClock, MCClock*, setTimeToNow, voida);
 method(MCClock, void, setTime, int tm_sec, int tm_min, int tm_hour, 
 						 int tm_mday, int tm_mon, int tm_year,

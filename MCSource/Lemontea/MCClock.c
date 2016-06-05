@@ -3,10 +3,18 @@
 oninit(MCClock)
 {
     if (init(MCObject)) {
+        var(currentTimeBuff) = (char*)malloc(sizeof(char) * 1024);
+        var(currentGMTBuff) = (char*)malloc(sizeof(char) * 1024);
         return obj;
     }else{
         return mull;
     }
+}
+
+method(MCClock, void, bye, voida)
+{
+	release(var(currentTimeBuff));
+	release(var(currentGMTBuff));
 }
 
 method(MCClock, MCClock*, setTimeToNow, voida)
@@ -77,8 +85,8 @@ method(MCClock, void, getRawtime, struct tm* const result)
 
 method(MCClock, char*, getTimeByString, voida)
 {
-	strcpy(obj->currentTimeBuff[0], asctime(&(obj->rawtime)));
-	return obj->currentTimeBuff[0];
+	strcpy((char*)obj->currentTimeBuff, asctime(&(obj->rawtime)));
+	return (char*)obj->currentTimeBuff;
 }
 
 method(MCClock, void, getCPUClocksPerSecond, clock_t* const result)
@@ -94,15 +102,15 @@ method(MCClock, void, getCPUClocksSinceStart, clock_t* const result)
 method(MCClock, char*, getCurrentTimeString, voida)
 {
 	time_t timer = time(NULL);
-	strcpy(obj->currentTimeBuff[0], asctime(localtime(&timer)));
-	return obj->currentTimeBuff[0];
+	strcpy((char*)obj->currentTimeBuff, asctime(localtime(&timer)));
+	return (char*)obj->currentTimeBuff;
 }
 
 method(MCClock, char*, getCurrentGMTTimeString, voida)
 {
 	time_t timer = time(NULL);
-	strcpy(obj->currentGMTBuff[0], asctime(gmtime(&timer)));
-	return obj->currentGMTBuff[0];
+	strcpy((char*)obj->currentGMTBuff, asctime(gmtime(&timer)));
+	return (char*)obj->currentGMTBuff;
 }
 
 method(MCClock, void, printTime, voida)
@@ -145,6 +153,7 @@ struct tm* MCClock_rawtime2SettableTimeLocal(time_t* timeval)
 onload(MCClock)
 {
     if (load(MCObject)) {
+    	binding(MCClock, void, bye, voida);
         binding(MCClock, void, setTimeToNow);
         binding(MCClock,
                 void, setTime, int tm_sec, int tm_min, int tm_hour,

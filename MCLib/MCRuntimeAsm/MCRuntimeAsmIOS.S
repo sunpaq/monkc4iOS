@@ -11,7 +11,7 @@
 
 .text
 .globl __push_jump
-.p2align 4, 0x90
+.p2align 4, 0x00
 __push_jump:
 	cmpl $0, 0(%esp)
 	je 0f					#; confirm return address not nil
@@ -26,7 +26,7 @@ __push_jump:
 
 .text
 .globl	_mc_atomic_get_integer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_get_integer:
 	pushl %ebp				
 	movl %esp, %ebp
@@ -41,7 +41,7 @@ _mc_atomic_get_integer:
 
 .text
 .globl	_mc_atomic_get_pointer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_get_pointer:
 	pushl %ebp				
 	movl %esp, %ebp
@@ -56,7 +56,7 @@ _mc_atomic_get_pointer:
 
 .text
 .globl	_mc_atomic_set_integer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_set_integer:
 	pushl %ebp				
 	movl %esp, %ebp
@@ -83,7 +83,7 @@ _mc_atomic_set_integer:
 
 .text
 .globl	_mc_atomic_set_pointer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_set_pointer:
 	pushl %ebp				
 	movl %esp, %ebp
@@ -133,7 +133,7 @@ __push_jump:
 
 .text
 .globl	_mc_atomic_get_integer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_get_integer:
 	pushq %rbp				
 	movq %rsp, %rbp
@@ -147,7 +147,7 @@ _mc_atomic_get_integer:
 
 .text
 .globl	_mc_atomic_get_pointer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_get_pointer:
 	pushq %rbp				
 	movq %rsp, %rbp
@@ -161,7 +161,7 @@ _mc_atomic_get_pointer:
 
 .text
 .globl	_mc_atomic_set_integer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_set_integer:
 	pushq %rbp				
 	movq %rsp, %rbp
@@ -186,7 +186,7 @@ _mc_atomic_set_integer:
 
 .text
 .globl	_mc_atomic_set_pointer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_set_pointer:
 	pushq %rbp				
 	movq %rsp, %rbp
@@ -244,7 +244,7 @@ return 0 success
 
 .text
 .globl	_mc_atomic_get_integer
-.p2align 3, 0x90
+.p2align 3, 0x00
 _mc_atomic_get_integer:
 	ldrex v1, [r0]
 	mov r0, v1
@@ -252,7 +252,7 @@ _mc_atomic_get_integer:
 
 .text
 .globl	_mc_atomic_get_pointer
-.p2align 3, 0x90
+.p2align 3, 0x00
 _mc_atomic_get_pointer:
 	ldrex v1, [r0]
 	mov r0, v1
@@ -260,7 +260,7 @@ _mc_atomic_get_pointer:
 
 .text
 .globl	_mc_atomic_set_integer
-.p2align 3, 0x90
+.p2align 3, 0x00
 _mc_atomic_set_integer:
 	strex v1, r2, [r0]
 	mov r0, v1
@@ -268,7 +268,7 @@ _mc_atomic_set_integer:
 
 .text
 .globl	_mc_atomic_set_pointer
-.p2align 3, 0x90
+.p2align 3, 0x00
 _mc_atomic_set_pointer:
 	strex v1, r2, [r0]
 	mov r0, v1
@@ -293,7 +293,7 @@ a1 a2 a3 a4 v1 v2 v3 v4 v5 v6 v7  v8    lr
 #ifdef __arm64__
 .text
 .globl __push_jump
-.p2align 4
+.p2align 4, 0x00
 __push_jump:
 	cmp x0, #0
 	beq 0f
@@ -324,7 +324,7 @@ a1 a2 a3 a4 v1 v2 v3 v4 v5 v6 v7  v8
 
 .text
 .globl	_mc_atomic_get_integer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_get_integer:
 	ldxr w4, [x0,#0]
 	mov x0, x4
@@ -332,7 +332,7 @@ _mc_atomic_get_integer:
 
 .text
 .globl	_mc_atomic_get_pointer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_get_pointer:
 	ldxr w4, [x0,#0]
 	mov x0, x4
@@ -340,7 +340,7 @@ _mc_atomic_get_pointer:
 
 .text
 .globl	_mc_atomic_set_integer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_set_integer:
 	stxr w2, w4, [x0,#0]
 	mov x0, x4
@@ -348,7 +348,7 @@ _mc_atomic_set_integer:
 
 .text
 .globl	_mc_atomic_set_pointer
-.p2align 4, 0x90
+.p2align 4, 0x00
 _mc_atomic_set_pointer:
 	stxr w2, w4, [x0,#0]
 	mov x0, x4

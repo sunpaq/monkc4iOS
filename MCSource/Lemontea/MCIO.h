@@ -1,3 +1,6 @@
+#ifndef MCFile_
+#define MCFile_
+
 #include "MCContext.h"
 #include "MCBuffer.h"
 #include "MCString.h"
@@ -17,9 +20,6 @@
 #include <limits.h>
 
 /* MCFile */
-
-#ifndef MCFile_
-#define MCFile_
 
 class(MCFile, MCObject,
 	int fd;
