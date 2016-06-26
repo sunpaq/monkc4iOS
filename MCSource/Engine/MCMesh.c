@@ -27,7 +27,7 @@ oninit(MCMesh)
 method(MCMesh, void, bye, voida)
 {
     glDeleteBuffers(1, &obj->vertexBufferId);
-    glDeleteVertexArraysOES(1, &obj->vertexArrayId);
+    glDeleteVertexArrays(1, &obj->vertexArrayId);
 }
 
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
@@ -43,10 +43,10 @@ method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
 method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
     if (var(isDataLoaded) == MCFalse) {
-        glGenVertexArraysOES(1, &obj->vertexArrayId);
+        glGenVertexArrays(1, &obj->vertexArrayId);
         glGenBuffers(1, &obj->vertexBufferId);
         //VAO
-        glBindVertexArrayOES(obj->vertexArrayId);
+        glBindVertexArray(obj->vertexArrayId);
         //VBO
         glBindBuffer(GL_ARRAY_BUFFER, obj->vertexBufferId);
         glBufferData(GL_ARRAY_BUFFER, obj->vertexDataSize, obj->vertexDataPtr, obj->useage);
@@ -61,18 +61,18 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
             }
         }
         //Unbind
-        glBindVertexArrayOES(0);
+        glBindVertexArray(0);
         var(isDataLoaded) = MCTrue;
     }
 }
 
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
-    glBindVertexArrayOES(obj->vertexArrayId);
+    glBindVertexArray(obj->vertexArrayId);
     glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);
     
     //Unbind
-    glBindVertexArrayOES(0);
+    glBindVertexArray(0);
 }
 
 method(MCMesh, void, dump, voida)

@@ -401,18 +401,18 @@ extern void _clear_class_list();
 
 MCInline const char* mc_nameofc(const mc_class* aclass) {
     if(aclass==mull)
-        return "";
+        return "unknown";
     if(aclass->item==mull)
-        return "";
+        return "unknown";
+    if(aclass->item->key==mull)
+        return "unknown";
     return aclass->item->key;
 }
 
 MCInline const char* mc_nameof(const MCObject* aobject) {
-    if(aobject==mull)
-        return "";
     if(aobject->isa==mull)
-        return "";
-    return aobject->isa->item->key;
+        return "unknown";
+    return mc_nameofc(aobject->isa);
 }
 
 /*

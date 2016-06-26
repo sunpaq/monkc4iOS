@@ -122,7 +122,7 @@ static int ref_count_down(mo const this)
 		}
 		if(this->ref_count == 0)
 		{
-			runtime_log("recycle/release(%s) count=0 return\n", nameof(this));
+			runtime_log("recycle/release(unknown) count=0 return\n");
 			return REFCOUNT_ERR;
 		}
 		if(this->ref_count == REFCOUNT_NO_MM){

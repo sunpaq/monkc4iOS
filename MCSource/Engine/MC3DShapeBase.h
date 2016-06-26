@@ -43,8 +43,7 @@ MCInline MCUInt MCDrawLinePrepare(MCVector3 p1, MCVector3 p2)
 MCInline void MCDrawLine(MCUInt bufferid)
 {
     const MCUInt count = 3*2;
-    //glBindVertexArrayOES(0);
-    glBindVertexArrayOES(bufferid);
+    glBindVertexArray(bufferid);
     glDrawArrays(MCLines, 0, count);
 }
 

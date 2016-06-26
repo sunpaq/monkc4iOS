@@ -12,49 +12,69 @@
 #include "MC3DiOSDriver.h"
 #include "MCCamera.h"
 
-static GLfloat skyboxVertices[] = {
+static GLfloat _skyboxVertices[] = {
     // Positions
-    -1.0f,  1.0f, -1.0f,
-    -1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-    1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f, //010 2
+    -1.0f, -1.0f, -1.0f, //000 0
+    1.0f, -1.0f, -1.0f,  //100 4
+    1.0f, -1.0f, -1.0f,  //100 4
+    1.0f,  1.0f, -1.0f,  //110 6
+    -1.0f,  1.0f, -1.0f, //010 2
     
-    -1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f, //001 1
+    -1.0f, -1.0f, -1.0f, //000 0
+    -1.0f,  1.0f, -1.0f, //010 2
+    -1.0f,  1.0f, -1.0f, //010 2
+    -1.0f,  1.0f,  1.0f, //011 3
+    -1.0f, -1.0f,  1.0f, //001 1
     
-    1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
+    1.0f, -1.0f, -1.0f,  //100 4
+    1.0f, -1.0f,  1.0f,  //101 5
+    1.0f,  1.0f,  1.0f,  //111 7
+    1.0f,  1.0f,  1.0f,  //111 7
+    1.0f,  1.0f, -1.0f,  //110 6
+    1.0f, -1.0f, -1.0f,  //100 4
     
-    -1.0f, -1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f, //001 1
+    -1.0f,  1.0f,  1.0f, //011 3
+    1.0f,  1.0f,  1.0f,  //111 7
+    1.0f,  1.0f,  1.0f,  //111 7
+    1.0f, -1.0f,  1.0f,  //101 5
+    -1.0f, -1.0f,  1.0f, //001 1
     
-    -1.0f,  1.0f, -1.0f,
-    1.0f,  1.0f, -1.0f,
-    1.0f,  1.0f,  1.0f,
-    1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f, //010 2
+    1.0f,  1.0f, -1.0f,  //110 6
+    1.0f,  1.0f,  1.0f,  //111 7
+    1.0f,  1.0f,  1.0f,  //111 7
+    -1.0f,  1.0f,  1.0f, //011 3
+    -1.0f,  1.0f, -1.0f, //010 2
     
-    -1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-    1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-    1.0f, -1.0f,  1.0f
+    -1.0f, -1.0f, -1.0f, //000 0
+    -1.0f, -1.0f,  1.0f, //001 1
+    1.0f, -1.0f, -1.0f,  //100 4
+    1.0f, -1.0f, -1.0f,  //100 4
+    -1.0f, -1.0f,  1.0f, //001 1
+    1.0f, -1.0f,  1.0f   //101 5
+};
+
+static GLfloat skyboxVertices[] = {
+    -1.0f, -1.0f, -1.0f, //000 0
+    -1.0f, -1.0f,  1.0f, //001 1
+    -1.0f,  1.0f, -1.0f, //010 2
+    -1.0f,  1.0f,  1.0f, //011 3
+    1.0f, -1.0f, -1.0f,  //100 4
+    1.0f, -1.0f,  1.0f,  //101 5
+    1.0f,  1.0f, -1.0f,  //110 6
+    1.0f,  1.0f,  1.0f,  //111 7
+};
+
+static GLuint indexs[] = {
+    2,0,4,4,6,2,
+    1,0,2,2,3,1,
+    4,5,7,7,6,4,
+    1,3,7,7,5,1,
+    2,6,7,7,3,2,
+    0,1,4,4,1,5
 };
 
 oninit(MCSkybox)
@@ -105,12 +125,12 @@ method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, dou
     
     //Mesh & Texture
     MCUInt buffers[2];
-    glGenVertexArraysOES(1, &var(vaoid));
+    glGenVertexArrays(1, &var(vaoid));
     glGenBuffers(2, buffers);
     var(vboid) = buffers[0];
     var(texid) = buffers[1];
     //VAO
-    glBindVertexArrayOES(var(vaoid));
+    glBindVertexArray(var(vaoid));
     //VBO
     glBindBuffer(GL_ARRAY_BUFFER, var(vboid));
     glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), skyboxVertices, GL_STATIC_DRAW);
@@ -131,9 +151,9 @@ method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, dou
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     //Unbind
-    glBindVertexArrayOES(0);
+    glBindVertexArray(0);
     
     return obj;
 }
@@ -183,10 +203,11 @@ method(MCSkybox, void, draw, MCGLContext* ctx)
     glUniformMatrix4fv(viewMatrix_loc, 1, 0, ctx->boxViewMatrix.m);
     
     glBindVertexArray(obj->vaoid);
-    MCGLEngine_activeTextureUnit(0);
+    MCGLEngine_activeTextureUnit(obj->texid);
     //MCGLEngine_bindCubeTexture(obj->texid);
     
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    //glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, indexs);
     
     glBindVertexArray(0);
     glDepthMask(GL_TRUE);

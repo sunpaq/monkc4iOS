@@ -67,10 +67,10 @@ MCInline MCVector3 MCVertexCross(MCVector3 v1, MCVector3 v2) {
 }
 
 MCInline void putMCVertexes(MCVector3 verp[], MCUInt count) {
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, verp);
-    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)count*3);
-    glDisableClientState(GL_VERTEX_ARRAY);
+//    glEnableClientState(GL_VERTEX_ARRAY);
+//    glVertexPointer(3, GL_FLOAT, 0, verp);
+//    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)count*3);
+//    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 //world is right hand y on top, local is left hand z on top

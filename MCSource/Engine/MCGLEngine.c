@@ -52,7 +52,8 @@ utility(MCGLEngine, void, setClearScreenColor, MCColorRGBAf color)
 
 utility(MCGLEngine, void, setPointSize, double pointsize)
 {
-    glPointSize((GLfloat)pointsize);
+    //use gl_PointSize in shader
+    //glPointSize((GLfloat)pointsize);
 }
 
 utility(MCGLEngine, void, setLineWidth, double linewidth)
