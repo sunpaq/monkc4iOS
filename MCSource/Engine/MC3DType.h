@@ -10,9 +10,15 @@
 #define monkcGame_MC3DType_h
 
 #ifdef __APPLE__
-//#include <OpenGLES/ES1/glext.h>
-//#include <OpenGLES/ES2/glext.h>
 #include <OpenGLES/ES3/glext.h>
+#elif __ANDROID__
+#ifndef GL_GLEXT_PROTOTYPES
+#define GL_GLEXT_PROTOTYPES 1
+#endif
+#include <GLES3/gl3.h>
+#include <GLES3/gl3ext.h>
+#include <GLES3/gl3platform.h>
+#include <GLES3/gl31.h>
 #else
 #include <GL/gl.h>
 #endif
