@@ -15,23 +15,6 @@
 #include "MCUIBase.h"
 #include "MCBuffer.h"
 
-#define MCMatrix4ToGLKMatrix4(mat) (GLKMatrix4){(mat).m00, (mat).m01, (mat).m02, (mat).m03, \
-                                                (mat).m10, (mat).m11, (mat).m12, (mat).m13, \
-                                                (mat).m20, (mat).m21, (mat).m22, (mat).m23, \
-                                                (mat).m30, (mat).m31, (mat).m32, (mat).m33}
-
-#define MCMatrix4FromGLKMatrix4(mat) (MCMatrix4){(mat).m00, (mat).m01, (mat).m02, (mat).m03, \
-                                                 (mat).m10, (mat).m11, (mat).m12, (mat).m13, \
-                                                 (mat).m20, (mat).m21, (mat).m22, (mat).m23, \
-                                                 (mat).m30, (mat).m31, (mat).m32, (mat).m33}
-
-MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight);
-MCMatrix4 MCMatrix4MakeLookAt(double eyeX, double eyeY, double eyeZ,
-                              double centerX, double centerY, double centerZ,
-                              double upX, double upY, double upZ);
-
-MCUInt MCLoadSpriteTexture(const char* name, const char* suffix);
-
 //UI parts use UIKit
 void MCUIRegisterRootUIView(void* rootview);
 void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color, double x, double y, MCInt tag, MCBool isContinous);
@@ -51,7 +34,6 @@ const char* MCFileCopyContent(const char* filename, const char* extention);
 //Objective-C parts
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>
-#import <GLKit/GLKit.h>
 
 @interface UIEventHandler : NSObject <UIGestureRecognizerDelegate>
 @property (nonatomic) UIView* targetView;

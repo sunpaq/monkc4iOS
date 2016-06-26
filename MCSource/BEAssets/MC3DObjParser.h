@@ -230,17 +230,17 @@ MCInline size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     //save float value into buffer
     if (state == LSVertex) {
         for (int i=0; i<fq; i++)
-            buff->vertexbuff[buff->vcursor].m[i] = fqueue[i];
+            buff->vertexbuff[buff->vcursor].v[i] = fqueue[i];
         buff->vcursor++;
     }
     else if (state == LSVertexTexture) {
         for (int i=0; i<fq; i++)
-            buff->texcoorbuff[buff->tcursor].m[i] = fqueue[i];
+            buff->texcoorbuff[buff->tcursor].v[i] = fqueue[i];
         buff->tcursor++;
     }
     else if (state == LSVertexNormal) {
         for (int i=0; i<fq; i++)
-            buff->normalbuff[buff->ncursor].m[i] = fqueue[i];
+            buff->normalbuff[buff->ncursor].v[i] = fqueue[i];
         buff->ncursor++;
     }
     

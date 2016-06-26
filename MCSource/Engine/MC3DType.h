@@ -24,6 +24,7 @@
 #endif
 
 #include "monkc.h"
+#include "MCMath.h"
 
 typedef enum {
     MCGLDepthTest = GL_DEPTH_TEST,
@@ -64,30 +65,6 @@ typedef enum {
     MCGLTexCoord0,
     MCGLTexCoord1
 } MCGLIndex;
-
-typedef struct {
-    double x;
-    double y;
-} MCVector2;
-
-typedef union {
-    struct {
-        double x;
-        double y;
-        double z;
-    };
-    double m[3];
-} MCVector3;
-
-typedef union {
-    struct {
-        double x;
-        double y;
-        double z;
-        double w;
-    };
-    double m[4];
-} MCVector4;
 
 typedef union {
     struct {
@@ -167,39 +144,5 @@ typedef enum {
     //MCGLSLMatrix_dmat4x4,
     
 } MCGLSLTypeMatrix;
-
-/*
- copy from Apple GLKit
- m30, m31, and m32 correspond to the translation values tx, ty, and tz, respectively.
- m[12], m[13], and m[14] correspond to the translation values tx, ty, and tz, respectively.
- #if defined(__STRICT_ANSI__)
- struct _MCMatrix4
- {
- float m[16];
- } __attribute__((aligned(16)));
- typedef struct _MCMatrix4 MCMatrix4;
- #else
- */
-
-typedef union {
-    struct
-    {
-        float m00, m01, m02;
-        float m10, m11, m12;
-        float m20, m21, m22;
-    };
-    float m[9];
-} __attribute__((aligned(16))) MCMatrix3;
-
-typedef union {
-    struct
-    {
-        float m00, m01, m02, m03;
-        float m10, m11, m12, m13;
-        float m20, m21, m22, m23;
-        float m30, m31, m32, m33;
-    };
-    float m[16];
-} __attribute__((aligned(16))) MCMatrix4;
 
 #endif

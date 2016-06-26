@@ -2,6 +2,7 @@
 #define _MC3DBase
 
 #include <math.h>
+#include "MCMath.h"
 #include "MC3DType.h"
 #include "MC3DiOSDriver.h"
 
@@ -14,64 +15,6 @@ typedef enum {
     MC3DErrChildNotFound,
     MC3DErrUniformNotFound = -1,
 } MC3DErrCode;
-
-MCInline double MCDegreesToRadians(double degrees) { return degrees * (M_PI / 180); }
-MCInline double MCRadiansToDegrees(double radians) { return radians * (180 / M_PI); }
-MCInline double MCCircleFacingAngle(double degrees) {
-    if (degrees < 180.0)
-        return degrees+180.0;
-    if (degrees > 180.0)
-        return degrees-180.0;
-    //degrees == 180.0
-    return 0.0;
-}
-
-MCInline double MCSinDegrees(double degress)       { return sin(MCDegreesToRadians(degress)); }
-MCInline double MCCosDegrees(double degress)       { return cos(MCDegreesToRadians(degress)); }
-MCInline double MCTanDegrees(double degress)       { return tan(MCDegreesToRadians(degress)); }
-
-
-MCInline MCVector3 MCVector3Make(double x, double y, double z) {
-    return (MCVector3){x, y, z};
-}
-
-MCInline MCVector3 MCVertexMakeReverse(double x, double y, double z) {
-    return (MCVector3){-x, -y, -z};
-}
-
-MCInline MCVector3 MCVertexReverse(MCVector3 vtx) {
-    return (MCVector3){-vtx.x, -vtx.y, -vtx.z};
-}
-
-MCInline MCVector3 MCVertexMiddle(MCVector3 v1, MCVector3 v2) {
-    return (MCVector3){(v1.x+v2.x)/2.0f, (v1.y+v2.y)/2.0f, (v1.z+v2.z)/2.0f};
-}
-
-MCInline MCVector3 MCVertexAdd(MCVector3 v1, MCVector3 v2) {
-    return (MCVector3){v1.x+v2.x, v1.y+v2.y, v1.z+v2.z};
-}
-
-MCInline MCVector3 MCVertexSub(MCVector3 v1, MCVector3 v2) {
-    //the same as add -v2
-    return (MCVector3){v1.x-v2.x, v1.y-v2.y, v1.z-v2.z};
-}
-
-MCInline double MCVertexDot(MCVector3 v1, MCVector3 v2) {
-    return (v1.x*v2.x + v1.y*v2.y + v1.z*v2.z);
-}
-
-MCInline MCVector3 MCVertexCross(MCVector3 v1, MCVector3 v2) {
-    return (MCVector3){v1.y*v2.z - v2.y*v1.z,
-                      v2.x*v1.z - v1.x*v2.z,
-                      v1.x*v2.y - v2.x*v1.y};
-}
-
-MCInline void putMCVertexes(MCVector3 verp[], MCUInt count) {
-//    glEnableClientState(GL_VERTEX_ARRAY);
-//    glVertexPointer(3, GL_FLOAT, 0, verp);
-//    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)count*3);
-//    glDisableClientState(GL_VERTEX_ARRAY);
-}
 
 //world is right hand y on top, local is left hand z on top
 MCInline MCVector3 MCWorldCoorFromLocal(MCVector3 localvertex, MCVector3 modelposition) {
@@ -102,13 +45,6 @@ MCInline MCVector3 MCVertexFromSpherical(double R, double tht, double fai) {
     double z = R * cos(tht);
 #endif
     return (MCVector3){x,y,z};
-}
-
-MCInline MCMatrix4 MCMatrix4Identity() {
-    return (MCMatrix4){1,0,0,0,
-                       0,1,0,0,
-                       0,0,1,0,
-                       0,0,0,1};
 }
 
 MCInline MCMatrix4 MCMatrix4MakePerspective(float fovyRadians, float aspect, float nearZ, float farZ)
@@ -150,12 +86,6 @@ static inline MCMatrix3 MCMatrix4GetMatrix3(MCMatrix4 matrix)
     return m;
 }
 
-static const MCMatrix3 MCMatrix3Identity = {
-    1.0f, 0.0f, 0.0f,
-    0.0f, 1.0f, 0.0f,
-    0.0f, 0.0f, 1.0f,
-};
-
 static inline MCMatrix3 MCMatrix3Scale(MCMatrix3 matrix, float sx, float sy, float sz)
 {
     MCMatrix3 m = { matrix.m[0] * sx, matrix.m[1] * sx, matrix.m[2] * sx,
@@ -188,6 +118,28 @@ static inline MCMatrix3 MCMatrix3Invert(MCMatrix3 matrix, int* isInvertible) {
 
 static inline MCMatrix3 MCMatrix3InvertAndTranspose(MCMatrix3 matrix, void* isInvertible) {
     return MCMatrix3Transpose(MCMatrix3Invert(matrix, isInvertible));
+}
+
+static inline MCMatrix4 MCMatrix4MakeLookAt(float eyeX, float eyeY, float eyeZ,
+                                           float centerX, float centerY, float centerZ,
+                                           float upX, float upY, float upZ)
+{
+    MCVector3 ev = { eyeX, eyeY, eyeZ };
+    MCVector3 cv = { centerX, centerY, centerZ };
+    MCVector3 uv = { upX, upY, upZ };
+    MCVector3 n = MCVector3Normalize(MCVector3Add(ev, MCVector3Reverse(cv)));
+    MCVector3 u = MCVector3Normalize(MCVector3Cross(uv, n));
+    MCVector3 v = MCVector3Cross(n, u);
+    
+    MCMatrix4 m = { u.v[0], v.v[0], n.v[0], 0.0f,
+        u.v[1], v.v[1], n.v[1], 0.0f,
+        u.v[2], v.v[2], n.v[2], 0.0f,
+        MCVector3Dot(MCVector3Reverse(u), ev),
+        MCVector3Dot(MCVector3Reverse(v), ev),
+        MCVector3Dot(MCVector3Reverse(n), ev),
+        1.0f };
+    
+    return m;
 }
 
 #endif

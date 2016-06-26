@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <GLKit/GLKit.h>
 #import "MC3DiOSDriver.h"
 #import "MC3DiOS.h"
 #import <pthread.h>
@@ -15,19 +14,6 @@
 static UIView* _rootUIView = nil;
 static UIEventHandler* _handler = nil;
 static mc_message onButtonClickMsg = {nil, nil};
-
-MCMatrix4 MCMatrix4Multiply(MCMatrix4 matrixLeft, MCMatrix4 matrixRight)
-{
-    return MCMatrix4FromGLKMatrix4(GLKMatrix4Multiply(MCMatrix4ToGLKMatrix4(matrixLeft),
-                                                      MCMatrix4ToGLKMatrix4(matrixRight)));
-}
-
-MCMatrix4 MCMatrix4MakeLookAt(double eyeX, double eyeY, double eyeZ,
-                              double centerX, double centerY, double centerZ,
-                              double upX, double upY, double upZ)
-{
-    return MCMatrix4FromGLKMatrix4(GLKMatrix4MakeLookAt(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ));
-}
 
 void MCUIRegisterRootUIView(void* rootview)
 {
@@ -93,25 +79,6 @@ void MCUILabelTextUpdate(const char* newtext, MCInt tag)
 void MCUIButtonRegisterCallback(mc_message msg)
 {
     onButtonClickMsg = msg;
-}
-
-//GLKTextureLoader
-MCUInt MCLoadSpriteTexture(const char* name, const char* suffix)
-{
-    NSString* spname = [NSString stringWithUTF8String:name];
-    NSString* spsuffix = [NSString stringWithUTF8String:suffix];
-    GLKTextureInfo *spriteTexture;
-    NSError *theError;
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:spname ofType:spsuffix]; // 1
-    spriteTexture = [GLKTextureLoader textureWithContentsOfFile:filePath options:nil error:&theError]; // 2
-    
-    if (theError == nil) {
-        glBindTexture(spriteTexture.target, spriteTexture.name); // 3
-        glEnable(spriteTexture.target); // 4
-        return (MCUInt)spriteTexture.name;
-    }else{
-        return 0;
-    }
 }
 
 void MCFileGetPath(const char* filename, const char* extention, char* buffer)
