@@ -7,6 +7,7 @@
 //
 
 #include "MCGLEngine.h"
+#include "MC3DiOSDriver.h"
 
 //Global
 utility(MCGLEngine, MCBool, isFeatureOn, MCGLFeature feature)

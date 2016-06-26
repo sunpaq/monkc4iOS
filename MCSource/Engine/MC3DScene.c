@@ -8,6 +8,7 @@
 
 #include "MC3DScene.h"
 #include "MCGLEngine.h"
+#include "MC3DiOSDriver.h"
 
 oninit(MC3DScene)
 {

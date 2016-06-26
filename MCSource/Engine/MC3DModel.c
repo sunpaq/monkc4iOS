@@ -8,6 +8,7 @@
 
 #include "MC3DModel.h"
 #include "MC3DObjParser.h"
+#include "MC3DiOSDriver.h"
 
 compute(MC3DFrame, frame)
 {

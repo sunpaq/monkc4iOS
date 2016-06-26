@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MCVertex.h"
+#include "MC3DBase.h"
 #include "MCGLContext.h"
 #include "MCLinkedList.h"
 

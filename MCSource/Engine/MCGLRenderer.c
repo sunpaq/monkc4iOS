@@ -10,6 +10,7 @@
 #include "MCGLEngine.h"
 #include "MC3DBase.h"
 #include "MCIO.h"
+#include "MC3DiOSDriver.h"
 
 static MCHash _draw;
 static MCHash _update;

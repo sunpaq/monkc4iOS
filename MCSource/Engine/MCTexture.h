@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MC3DType.h"
+#include "MC3DBase.h"
 #include "MCGLContext.h"
 #include "BEAssetsManager.h"
 

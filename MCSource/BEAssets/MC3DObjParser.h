@@ -10,7 +10,7 @@
 #define MC3DFileParser_h
 
 #include <stdio.h>
-#include "MC3DType.h"
+#include "MC3DBase.h"
 #include "MCMath.h"
 #include "MCLexer.h"
 #include "MCMesh.h"

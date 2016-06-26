@@ -25,7 +25,6 @@
 		FD0B16431C784FB7004FD724 /* MC3DScene.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16411C784FB7004FD724 /* MC3DScene.c */; };
 		FD0B16461C788ADE004FD724 /* MCMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16441C788ADE004FD724 /* MCMesh.c */; };
 		FD0B16491C788AF2004FD724 /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B16471C788AF2004FD724 /* MCTexture.c */; };
-		FD0B164C1C789203004FD724 /* MCVertex.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0B164A1C789203004FD724 /* MCVertex.c */; };
 		FD0E0FAF1CFF214A0048A666 /* MCLinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = FD0E0FAD1CFF214A0048A666 /* MCLinkedList.c */; };
 		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
 		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
@@ -163,8 +162,6 @@
 		FD0B16451C788ADE004FD724 /* MCMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMesh.h; sourceTree = "<group>"; };
 		FD0B16471C788AF2004FD724 /* MCTexture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTexture.c; sourceTree = "<group>"; };
 		FD0B16481C788AF2004FD724 /* MCTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTexture.h; sourceTree = "<group>"; };
-		FD0B164A1C789203004FD724 /* MCVertex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCVertex.c; sourceTree = "<group>"; };
-		FD0B164B1C789203004FD724 /* MCVertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVertex.h; sourceTree = "<group>"; };
 		FD0E0FAD1CFF214A0048A666 /* MCLinkedList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCLinkedList.c; sourceTree = "<group>"; };
 		FD0E0FAE1CFF214A0048A666 /* MCLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLinkedList.h; sourceTree = "<group>"; };
 		FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.fsh; sourceTree = "<group>"; };
@@ -218,7 +215,6 @@
 		FD5E18831B09CECB006CB737 /* MC3DBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DBase.h; sourceTree = "<group>"; };
 		FD5E18841B09CECB006CB737 /* MC3DMainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DMainLoop.c; sourceTree = "<group>"; };
 		FD5E18851B09CECB006CB737 /* MC3DShapeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DShapeBase.h; sourceTree = "<group>"; };
-		FD5E18861B09CECB006CB737 /* MC3DType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DType.h; sourceTree = "<group>"; };
 		FD5E18871B09CECB006CB737 /* MCCamera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCCamera.c; sourceTree = "<group>"; };
 		FD5E18881B09CECB006CB737 /* MCCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCamera.h; sourceTree = "<group>"; };
 		FD5E18891B09CECB006CB737 /* MCCube.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCCube.c; sourceTree = "<group>"; };
@@ -436,7 +432,6 @@
 				FD5E18831B09CECB006CB737 /* MC3DBase.h */,
 				FD5E18841B09CECB006CB737 /* MC3DMainLoop.c */,
 				FD5E18851B09CECB006CB737 /* MC3DShapeBase.h */,
-				FD5E18861B09CECB006CB737 /* MC3DType.h */,
 				FD5E18871B09CECB006CB737 /* MCCamera.c */,
 				FD5E18881B09CECB006CB737 /* MCCamera.h */,
 				FD5E18891B09CECB006CB737 /* MCCube.c */,
@@ -453,8 +448,6 @@
 				FD819E5C1C2D4797007D4BE4 /* MCWorld.h */,
 				FD819E5E1C2EE4F0007D4BE4 /* MCGLEngine.c */,
 				FD819E5F1C2EE4F0007D4BE4 /* MCGLEngine.h */,
-				FD0B164A1C789203004FD724 /* MCVertex.c */,
-				FD0B164B1C789203004FD724 /* MCVertex.h */,
 				FD0B16441C788ADE004FD724 /* MCMesh.c */,
 				FD0B16451C788ADE004FD724 /* MCMesh.h */,
 				FD51835B1C7CBEAA00A74DDE /* MCMatrial.c */,
@@ -843,7 +836,6 @@
 				FD00C4CA1CD10BAE00DCA45F /* SettingsListController.m in Sources */,
 				FDFF06451B06314C000064E3 /* HashTable.c in Sources */,
 				FDCB46AF1B11E3C300403320 /* MCOrbit.c in Sources */,
-				FD0B164C1C789203004FD724 /* MCVertex.c in Sources */,
 				FD4DC4491C01459100A3B9F2 /* MCGLRenderer.c in Sources */,
 				FD00C4CB1CD10BAE00DCA45F /* SplitViewController.m in Sources */,
 				FDFF066A1B06315B000064E3 /* MCException.c in Sources */,
