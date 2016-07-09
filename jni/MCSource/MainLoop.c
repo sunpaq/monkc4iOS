@@ -102,6 +102,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         ff(director, pushScene, mainScene);
     }
     
+    //filename = mull;
     if (filename != mull) {
 //        ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, mull);
 //        ff(director->skyboxThread, start, 0);
@@ -110,6 +111,8 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         
         ff(director->modelThread, initWithFPointerArgument, onOpenFile, filename);
         ff(director->modelThread, start, 0);
+    }else{
+        ff(director->lastScene->rootnode, addChild, new(MCCube));
     }
 }
 
