@@ -9,8 +9,14 @@
 #ifndef BEAssetsManager_h
 #define BEAssetsManager_h
 
+#include "monkc.h"
 #include "MC3DObjParser.h"
 //#include "MC3DMtlParser.h"
+
+#ifdef __ANDROID__
+#include <android/native_window.h>
+#include <android/asset_manager.h>
+#endif
 
 //handle image, no GL related code
 class(BE2DTextureData, MCObject,
@@ -46,5 +52,16 @@ method(BECubeTextureData, void, bye, voida);
 
 //BEAssetsManager is an utility class
 //utility(BEAssetsManager, BE2DTextureData*, load2DTexture, BE2DTextureData* texture);
+
+//File
+#ifdef __ANDROID__
+void MCFileSetAssetManager(AAssetManager* assetManager);
+AAssetManager* MCFileGetAssetManager();
+#endif
+
+void MCFileGetPath(const char* filename, const char* extention, char* buffer);
+const char* MCFileCopyContent(const char* filename, const char* extention);
+const char* MCFileCopyContentWithPath(const char* filepath, const char* extention);
+void MCFileReleaseContent(void* buff);
 
 #endif /* BEAssetsManager_h */

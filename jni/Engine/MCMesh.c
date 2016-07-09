@@ -17,7 +17,7 @@ oninit(MCMesh)
 
         obj->useage = GL_STATIC_DRAW;//default
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
-        
+        debug_log("MCMesh - init finished");
         return obj;
     }else{
         return mull;
@@ -32,6 +32,7 @@ method(MCMesh, void, bye, voida)
 
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
 {
+    debug_log("MCMesh - initWithDefaultVertexAttributes");
     obj->vertexAttribArray[0] = (MCVertexAttribute){MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(0)};
     obj->vertexAttribArray[1] = (MCVertexAttribute){MCVertexAttribNormal,   3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(12)};
     obj->vertexAttribArray[2] = (MCVertexAttribute){MCVertexAttribColor,    3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(24)};
@@ -75,17 +76,17 @@ method(MCMesh, void, drawMesh, MCGLContext* ctx)
     glBindVertexArray(0);
 }
 
-method(MCMesh, void, dump, voida)
-{
-    int total   = (int)obj->vertexDataSize / 4;
+// method(MCMesh, void, dump, voida)
+// {
+//     int total   = (int)obj->vertexDataSize / 4;
     
-    for (int i = 1; i<total; i++) {
-        printf("%f ", obj->vertexDataPtr[i-1]);
-        if (i % 11 == 0) {
-            printf("\n");
-        }
-    }
-}
+//     for (int i = 1; i<total; i++) {
+//         printf("%f ", obj->vertexDataPtr[i-1]);
+//         if (i % 11 == 0) {
+//             printf("\n");
+//         }
+//     }
+// }
 
 onload(MCMesh)
 {
@@ -94,7 +95,7 @@ onload(MCMesh)
         binding(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
         binding(MCMesh, void, prepareMesh, voida);
         binding(MCMesh, void, drawMesh, voida);
-        binding(MCMesh, void, dump, voida);
+        //binding(MCMesh, void, dump, voida);
         return cla;
     }else{
         return mull;

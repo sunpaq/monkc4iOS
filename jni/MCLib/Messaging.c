@@ -50,7 +50,7 @@ mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hash
 	if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != mull){
 		tmpmsg.object = obj;
 		tmpmsg.address = res->value.mcfuncptr;
-		runtime_log("return a message[%s/%s]\n", nameof(obj), methodname);
+		//runtime_log("return a message[%s/%s]\n", nameof(obj), methodname);
 		return tmpmsg;
 	}else{
         if (obj->nextResponder != mull) {

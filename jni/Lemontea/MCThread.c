@@ -66,7 +66,13 @@ method(MCThread, int, equal, MCThread* thread)
 
 utility(MCThread, int, cancelThread, pthread_t tid)
 {
-    return pthread_cancel(tid);
+#ifdef __APPLE__
+	return pthread_cancel(tid);
+#elif __ANDROID__
+	return 0;
+#else
+	return pthread_cancel(tid);
+#endif
 }
 
 utility(MCThread, int, joinThread, pthread_t tid)

@@ -171,12 +171,22 @@ typedef enum {
 } MCLogType;
 extern void MCLogTypeSet(MCLogType type);
 
+#ifdef __ANDROID__
+#include <android/log.h>
+#define runtime_log(...)       __android_log_print(ANDROID_LOG_VERBOSE, "[monkc]", __VA_ARGS__)
+#define debug_log(...)         __android_log_print(ANDROID_LOG_INFO,    "[monkc]", __VA_ARGS__)
+#define error_log(...)         __android_log_print(ANDROID_LOG_ERROR,   "[monkc]", __VA_ARGS__)
+#define runtime_logt(tag, ...) __android_log_print(ANDROID_LOG_WARN,  tag, __VA_ARGS__)
+#define debug_logt(tag, ...)   __android_log_print(ANDROID_LOG_INFO,  tag, __VA_ARGS__)
+#define error_logt(tag, ...)   __android_log_print(ANDROID_LOG_ERROR, tag, __VA_ARGS__)
+#else
 void error_log(char* volatile fmt, ...);
 void debug_log(char* volatile fmt, ...);
 void runtime_log(char* volatile fmt, ...);
 void error_logt(char* volatile tag, char* volatile fmt, ...);
 void debug_logt(char* volatile tag, char* volatile fmt, ...);
 void runtime_logt(char* volatile tag, char* volatile fmt, ...);
+#endif
 
 /* *
  * Configure hash table size:
@@ -218,7 +228,7 @@ typedef struct
     mc_hashitem* items[];
 }mc_hashtable;
 
-static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {5001, 9001, 17001, 33001, 123001};//100
+static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {3001, 9001, 17001, 33001, 123001};//100
 MCInline MCHashTableSize get_tablesize(const MCHashTableLevel level)
 {
     if(level > MCHashTableLevelMax){

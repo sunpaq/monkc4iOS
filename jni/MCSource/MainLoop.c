@@ -34,16 +34,17 @@ void onAppStart()
 
 void onRootViewLoad(void* rootview)
 {
+#ifdef __APPLE__
     //put the test code into Testbed.c
     starttest();
-    
     MCUIRegisterRootUIView(rootview);
+#endif
 }
 
 void onOpenExternalFile(const char* filepath)
 {
     MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filepath, (MCColorRGBAf){1.0, 1.0, 1.0, 1.0});
-    
+
     ff(director->lastScene->rootnode, setAllVisible, MCFalse);
     ff(director->lastScene->rootnode, addChild, model);
 }
@@ -57,18 +58,37 @@ void onOpenFile(const char* filename)
 {
     //model
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
-    MC3DFrame frame = model->frame(model);
-    double mheight = frame.ymax - frame.ymin;
-    
-    //wait skybox loading
-    //MCThread_joinThread(director->skyboxThread->tid);
-    
-    //assemble
-    director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
-    ff(director->lastScene->rootnode, addChild, model);
-    
+    if (model != mull) {
+        error_log("Create MC3DModel success:%s\n", filename);
+
+        MC3DFrame frame = model->frame(model);
+        double mheight = frame.ymax - frame.ymin;
+
+        //wait skybox loading
+        //MCThread_joinThread(director->skyboxThread->tid);
+
+        //assemble
+        director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
+        ff(director->lastScene->rootnode, addChild, model);
+
+    } else {
+        error_log("Can not create MC3DModel:%s\n", filename);
+    }
+}
+
+void onOpenFileAndExitThread(const char* filename)
+{
+    onOpenFile(filename);
     MCGLStopLoading();
-    MCThread_exitWithStatus(NULL);
+    MCThread_exitWithStatus((void*)200);
+}
+
+void onOpenFileAsync(const char* filename)
+{
+    MCGLStartLoading();//call in UI thread
+    
+    ff(director->modelThread, initWithFPointerArgument, onOpenFileAndExitThread, filename);
+    ff(director->modelThread, start, 0);
 }
 
 void onReceiveMemoryWarning()
@@ -81,38 +101,49 @@ void onReceiveMemoryWarning()
 
 void onSetupGL(int windowWidth, int windowHeight, const char* filename)
 {
-    MCLogTypeSet(MC_DEBUG);
+    debug_log("onSetupGL called: width=%d height=%d filename=%s", windowWidth, windowHeight, filename);
+	MCLogTypeSet(MC_SILENT);
 
     if (director == mull) {
+    	debug_log("onSetupGL create director");
         director = new(MCDirector);
         director->currentWidth = windowWidth;
         director->currentHeight = windowHeight;
-        
+        debug_log("onSetupGL director created");
+
         //scene1
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader,
                                   director->currentWidth, director->currentHeight);
-        
-        MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
-        mainScene->skyboxRef = skybox;
-        mainScene->skyboxShow = MCTrue;
-        
-        mainScene->mainCamera->R_value = 30;
+        debug_log("onSetupGL main scene created current screen size: %dx%d", windowWidth, windowHeight);
+
+        if (cubtex != mull) {
+            MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
+            mainScene->skyboxRef = skybox;
+            mainScene->skyboxShow = MCTrue;
+        }
+
+        mainScene->mainCamera->R_value = 20;
+        mainScene->mainCamera->tht = 60;
+        mainScene->mainCamera->fai = 45;
+
         mainScene->super.nextResponder = (MCObject*)director;
-        
+
         ff(director, pushScene, mainScene);
+        debug_log("onSetupGL main scene pushed into director");
     }
-    
-    //filename = mull;
+
     if (filename != mull) {
-//        ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, mull);
-//        ff(director->skyboxThread, start, 0);
-        
-        MCGLStartLoading();
-        
-        ff(director->modelThread, initWithFPointerArgument, onOpenFile, filename);
-        ff(director->modelThread, start, 0);
-    }else{
-        ff(director->lastScene->rootnode, addChild, new(MCCube));
+        if (director->lastScene->skyboxRef != mull) {
+            //ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, mull);
+            //ff(director->skyboxThread, start, 0);
+        }
+
+        onOpenFileAsync(filename);
+    } else {
+#ifdef __ANDROID__
+    	onOpenFile("2");
+    	//ff(director->lastScene->rootnode, addChild, new(MCCube));
+#endif
     }
 }
 
@@ -127,12 +158,15 @@ void onUpdate(double roll, double yaw, double pitch)
     //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
     MCLogTypeSet(MC_SILENT);
     if (director != mull) {
-        if (director->currentWidth < director->currentHeight) {
-            MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, roll*360, (pitch-1)*45);
-        }else{
-            MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, pitch*360, (roll-1)*45);
-        }
-        
+
+    	if (director->lastScene->skyboxRef != mull) {
+            if (director->currentWidth < director->currentHeight) {
+                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, roll*360, (pitch-1)*45);
+            }else{
+                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, pitch*360, (roll-1)*45);
+            }
+    	}
+
         MCDirector_updateAll(0, director, 0);
     }
 }
@@ -143,7 +177,7 @@ int onDraw()
     if (director != mull) {
         fps = MCDirector_drawAll(0, director, 0);
     }
-    
+
     MCLogTypeSet(MC_DEBUG);
     return fps;
 }
@@ -161,7 +195,7 @@ void onGesturePan(double x, double y)
     MCCamera* camera = director->lastScene->mainCamera;
     MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
     MCCamera* cam2 = &sbcam->super;
-    
+
     if (director != mull && director->lastScene != mull && camera != mull) {
         double sign = camera->isReverseMovement == MCTrue? -1.0f : 1.0f;
         if (camera->isLockRotation == MCTrue) {
@@ -179,7 +213,7 @@ void onGesturePinch(double scale)
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != mull && director->lastScene != mull && camera != mull) {
         double s = scale * -0.5;
-        
+
         MCCamera_pull(0, camera, s);
     }
 }
@@ -210,7 +244,7 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
         MCCamera* camera = director->lastScene->mainCamera;
         MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
         MCCamera* cam2 = &sbcam->super;
-        
+
         if (camera != mull) {
             switch (cmd->type) {
                 case MC3DiOS_CameraLookAt:

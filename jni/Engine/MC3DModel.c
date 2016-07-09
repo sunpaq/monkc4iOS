@@ -8,7 +8,8 @@
 
 #include "MC3DModel.h"
 #include "MC3DObjParser.h"
-#include "MC3DiOSDriver.h"
+#include "MCMath.h"
+#include "MCLinkedList.h"
 
 compute(MC3DFrame, frame)
 {
@@ -56,13 +57,16 @@ method(MC3DModel, void, bye, voida)
 
 method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
 {
-    
+    debug_log("MC3DModel - initWithFilePathColor: %s", path);
+
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
+    debug_log("MC3DModel - mesh created: %s", path);
     MC3DObjBuffer* buff = parse3DObjFile(path);
     if (buff == mull) {
         error_log("MC3DModel - can not parse file:%s\n", path);
         return mull;
     }else{
+        debug_log("MC3DModel - successful parse file:%s\n", path);
         mesh->vertexCount = (GLsizei)buff->fcursor*3;
         mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
         if (mesh->vertexDataSize != 0) {
@@ -74,7 +78,8 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         for (int i=0; i<buff->fcursor; i++) {
             loadFaceData(mesh, buff, buff->facebuff[i], i, color);
         }
-        
+        debug_log("MC3DModel - face data loaded: %s", path);
+
         mesh->frame = buff->frame;
         //ff(mesh, dump, 0);
         
@@ -83,6 +88,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         svar(texture) = mull;
         
         freeMC3DObjBuffer(buff);
+        debug_log("MC3DModel - model created: %s", path);
         return obj;
     }
 }
@@ -96,6 +102,7 @@ method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRG
 {
     char path[PATH_MAX];
     MCFileGetPath(name, var(defaultExtension), path);
+    debug_log("MC3DModel - find path: %s", path);
     return MC3DModel_initWithFilePathColor(0, obj, path, color);
 }
 

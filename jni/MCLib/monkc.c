@@ -61,7 +61,7 @@ MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFu
 	return res;
 }
 
-static inline mc_class* findClass(const char* name, const MCHash hashval)
+static inline mc_class* findclass(const char* name, const MCHash hashval)
 {
 	mc_hashitem* item = mull;
 	//create a class hashtable
@@ -71,7 +71,7 @@ static inline mc_class* findClass(const char* name, const MCHash hashval)
 	if (item == mull)
 		return mull;
 	else
-		runtime_log("findClass item key:%s, value:%p\n", item->key, item->value);
+		runtime_log("findClass item key:%s, value:%p\n", item->key, item->value.mcptr);
 	return (mc_class*)(item->value.mcptr);
 }
 
@@ -82,7 +82,7 @@ mc_class* _load(const char* name, size_t objsize, MCLoaderPointer loader)
 
 mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHash hashval)
 {
-	mc_class* aclass = findClass(name, hashval);
+	mc_class* aclass = findclass(name, hashval);
 	//try lock spin lock
 	trylock_global_classtable();
 	if(aclass == mull){
@@ -122,7 +122,7 @@ static int ref_count_down(mo const this)
 		}
 		if(this->ref_count == 0)
 		{
-			runtime_log("recycle/release(unknown) count=0 return\n");
+			runtime_log("recycle/release(%s) count=0 return\n", nameof(this));
 			return REFCOUNT_ERR;
 		}
 		if(this->ref_count == REFCOUNT_NO_MM){

@@ -10,7 +10,6 @@
 #include "MCGLEngine.h"
 #include "MC3DBase.h"
 #include "MCIO.h"
-#include "MC3DiOSDriver.h"
 
 static MCHash _draw;
 static MCHash _update;
@@ -29,11 +28,13 @@ oninit(MCGLRenderer)
         MCGLEngine_featureSwith(MCGLCullFace, MCTrue);
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(MCFalse);//CCW
-        
-        obj->Id = MCGLEngine_createShader(0);
+
+        //obj->Id = MCGLEngine_createShader(0);
+    	obj->Id = glCreateProgram();
+
         obj->context = new(MCGLContext);
         obj->context->pid = obj->Id;
-        
+
         return obj;
     }else{
         return mull;
@@ -110,6 +111,12 @@ method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
     }
     
     //glFlush();
+    // GLfloat diffuse_color[3];
+    // GLfloat diffuse_pos[3];
+    // ff(obj->context, getUniformVector, "diffuseLightColor", diffuse_color);
+    // ff(obj->context, getUniformVector, "diffuseLightPosition", diffuse_pos);
+    // debug_log("diffuseLightColor    %f/%f/%f\n", diffuse_color[0], diffuse_color[1], diffuse_color[2]);
+    // debug_log("diffuseLightPosition %f/%f/%f\n", diffuse_pos[0], diffuse_pos[1], diffuse_pos[2]);
 }
 
 onload(MCGLRenderer)

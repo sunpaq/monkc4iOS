@@ -17,7 +17,6 @@
 #include "MCMatrial.h"
 #include "MCTexture.h"
 #include "MCGLContext.h"
-#include "MCLinkedList.h"
 
 class(MC3DNode, MCItem,
       MCUInt index;

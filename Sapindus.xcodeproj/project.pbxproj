@@ -67,6 +67,8 @@
 		FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */; };
 		FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
+		FDB21AF21D31092800838F68 /* MC3DObjParser.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB21AF11D31092800838F68 /* MC3DObjParser.c */; };
+		FDB21AF41D31102100838F68 /* MC3DAndroidDriver.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB21AF31D31102100838F68 /* MC3DAndroidDriver.c */; };
 		FDB9B5951D30F633005215B0 /* BEAssetsManager.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB9B51E1D30F633005215B0 /* BEAssetsManager.c */; };
 		FDB9B5961D30F633005215B0 /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB9B5221D30F633005215B0 /* image_DXT.c */; };
 		FDB9B5971D30F633005215B0 /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB9B5241D30F633005215B0 /* image_helper.c */; };
@@ -200,6 +202,9 @@
 		FD8784821CCE5F8C0071DAB4 /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = top.jpg; path = skybox/top.jpg; sourceTree = "<group>"; };
 		FDA3DCDD1C9056BC0044965D /* tex1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tex1.jpg; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
+		FDB21AF01D30FAEF00838F68 /* MCUIBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCUIBase.h; sourceTree = "<group>"; };
+		FDB21AF11D31092800838F68 /* MC3DObjParser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DObjParser.c; sourceTree = "<group>"; };
+		FDB21AF31D31102100838F68 /* MC3DAndroidDriver.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DAndroidDriver.c; sourceTree = "<group>"; };
 		FDB9B51E1D30F633005215B0 /* BEAssetsManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BEAssetsManager.c; sourceTree = "<group>"; };
 		FDB9B51F1D30F633005215B0 /* BEAssetsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEAssetsManager.h; sourceTree = "<group>"; };
 		FDB9B5221D30F633005215B0 /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
@@ -309,7 +314,6 @@
 		FDB9B5911D30F633005215B0 /* MCNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCNode.c; sourceTree = "<group>"; };
 		FDB9B5921D30F633005215B0 /* MCNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNode.h; sourceTree = "<group>"; };
 		FDB9B5931D30F633005215B0 /* MCTouchble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTouchble.h; sourceTree = "<group>"; };
-		FDB9B5941D30F633005215B0 /* MCUIBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUIBase.h; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* Sapindus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sapindus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF061D1B060BE1000064E3 /* Sapindus.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Sapindus.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -474,6 +478,7 @@
 				FDB9B5201D30F633005215B0 /* external */,
 				FDB9B52C1D30F633005215B0 /* MC3DMtlParser.h */,
 				FDB9B52D1D30F633005215B0 /* MC3DObjParser.h */,
+				FDB21AF11D31092800838F68 /* MC3DObjParser.c */,
 			);
 			name = BEAssets;
 			path = jni/BEAssets;
@@ -507,6 +512,7 @@
 		FDB9B52E1D30F633005215B0 /* Engine */ = {
 			isa = PBXGroup;
 			children = (
+				FDB21AF01D30FAEF00838F68 /* MCUIBase.h */,
 				FDB9B52F1D30F633005215B0 /* MC2DTex.c */,
 				FDB9B5301D30F633005215B0 /* MC2DTex.h */,
 				FDB9B5311D30F633005215B0 /* MC3DBase.h */,
@@ -596,6 +602,7 @@
 				FDB9B5771D30F633005215B0 /* MC3DiOS.h */,
 				FDB9B5781D30F633005215B0 /* MC3DiOSDriver.h */,
 				FDB9B5791D30F633005215B0 /* MC3DiOSDriver.m */,
+				FDB21AF31D31102100838F68 /* MC3DAndroidDriver.c */,
 			);
 			name = MCDriver;
 			path = jni/MCDriver;
@@ -651,7 +658,6 @@
 				FDB9B5911D30F633005215B0 /* MCNode.c */,
 				FDB9B5921D30F633005215B0 /* MCNode.h */,
 				FDB9B5931D30F633005215B0 /* MCTouchble.h */,
-				FDB9B5941D30F633005215B0 /* MCUIBase.h */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -841,6 +847,7 @@
 				FDB9B59C1D30F633005215B0 /* MC3DModel.c in Sources */,
 				FDB9B5991D30F633005215B0 /* stb_image_aug.c in Sources */,
 				FDB9B5A11D30F633005215B0 /* MCDirector.c in Sources */,
+				FDB21AF41D31102100838F68 /* MC3DAndroidDriver.c in Sources */,
 				FDB9B5981D30F633005215B0 /* SOIL.c in Sources */,
 				FDB9B5A61D30F633005215B0 /* MCMatrial.c in Sources */,
 				FD00C4C71CD10BAE00DCA45F /* ListViewController.m in Sources */,
@@ -868,6 +875,7 @@
 				FD00C4CB1CD10BAE00DCA45F /* SplitViewController.m in Sources */,
 				FDB9B5AD1D30F633005215B0 /* MCWorld.c in Sources */,
 				FDB9B59E1D30F633005215B0 /* MC3DScene.c in Sources */,
+				FDB21AF21D31092800838F68 /* MC3DObjParser.c in Sources */,
 				FDB9B5AF1D30F633005215B0 /* MCBuffer.c in Sources */,
 				FDB9B5BD1D30F633005215B0 /* Lock.c in Sources */,
 				FDB9B5B31D30F633005215B0 /* MCIO.c in Sources */,

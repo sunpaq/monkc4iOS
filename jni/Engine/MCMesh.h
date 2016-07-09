@@ -11,9 +11,10 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MC3DBase.h"
+#include "MCVertex.h"
 #include "MCGLContext.h"
 #include "MCLinkedList.h"
+#include "MCMath.h"
 
 class(MCMesh, MCItem,
       MC3DFrame  frame;

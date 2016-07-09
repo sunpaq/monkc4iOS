@@ -11,12 +11,13 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MC3DBase.h"
+#include "MC3DType.h"
 #include "MCMesh.h"
 #include "MCTexture.h"
 #include "MCMatrial.h"
 #include "MCIO.h"
 #include "MC3DNode.h"
+#include "MCMath.h"
 
 class(MC3DModel, MC3DNode,
       MCColorRGBAf defaultColor;

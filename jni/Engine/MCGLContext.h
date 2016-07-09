@@ -11,7 +11,8 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MC3DBase.h"
+#include "MCMath.h"
+#include "MC3DType.h"
 
 #define MAX_VATTR_NUM     100
 #define MAX_UNIFORM_NUM   100
@@ -45,5 +46,7 @@ method(MCGLContext, int,  setUniformVector1,  const char* name, int loc, double 
 method(MCGLContext, int,  setUniformVector2,  const char* name, int loc, MCVector2 vec2);
 method(MCGLContext, int,  setUniformVector3,  const char* name, int loc, MCVector3 vec3);
 method(MCGLContext, int,  setUniformVector4,  const char* name, int loc, MCVector4 vec4);
+//for debug
+method(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params);
 
 #endif /* MCGLContext_h */

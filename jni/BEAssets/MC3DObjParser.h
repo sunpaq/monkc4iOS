@@ -10,10 +10,12 @@
 #define MC3DFileParser_h
 
 #include <stdio.h>
-#include "MC3DBase.h"
+#include "monkc.h"
+//#include "MC3DType.h"
 #include "MCMath.h"
 #include "MCLexer.h"
 #include "MCMesh.h"
+#include "BEAssetsManager.h"
 
 typedef struct {
     int vertexIndex;
@@ -280,95 +282,11 @@ MCInline size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     return buff->fcursor;
 }
 
-//return total triangle face count
-MCInline size_t detectFaceCount(FILE* f)
-{
-    if (f != mull) {
-        const int linesize = 1024;
-        char linebuff[linesize];
-        size_t tcount = 0;//triangle
-        size_t fcount = 0;//polygon
-        
-        size_t icount = 0;//int
-        size_t gcount = 0;//int group
-        
-        fseek(f, 0, SEEK_SET);
-        while (fgets(linebuff, linesize, f) != NULL) {
-            linebuff[linesize-1] = '\0';
-            icount = 0; gcount = 0; MCToken token; char word[256];
-            const char* remain = linebuff;
-            
-            //process line start
-            while (isNewLine(remain) == MCFalse && *remain != '\0') {
-                token = tokenize(nextWord(&remain, word));
-                switch (token.type) {
-                    case MCTokenIdentifier:
-                        if (strncmp(word, "f", 1) == 0) {
-                            fcount++;
-                        }
-                        break;
-                    case MCTokenInteger:
-                        icount++;
-                        break;
-                    case MCTokenDate:
-                        gcount++;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            //process line end
-            if (icount != 0 && gcount == 0) {//only vertex
-                if (icount < 3) {
-                    tcount = fcount;
-                }else{
-                    tcount += (icount - 1);
-                }
-            }
-            else if (icount == 0 && gcount != 0) {//vertex tex normal
-                if (gcount < 3) {
-                    tcount = fcount;
-                }else{
-                    tcount += (gcount - 1);
-                }
-            }
-            else {
-                tcount += 0;
-            }
-        }
-        return tcount;
-    }else{
-        return 0;
-    }
-}
+size_t countFaces(const char* linebuff, size_t tcount);
 
-MCInline MC3DObjBuffer* parse3DObjFile(const char* filename)
-{
-    FILE* f = fopen(filename, "r");
-    if (f != NULL) {
-        size_t c = detectFaceCount(f);
-        if (c == 0) {
-            error_log("MC3DObjParser - object face count is ZERO\n");
-            return mull;
-        }
-        MC3DObjBuffer* buff = allocMC3DObjBuffer(c, 3);
-        
-        const int linesize = 1024;
-        char linebuff[linesize];
-        
-        fseek(f, 0, SEEK_SET);
-        while (fgets(linebuff, linesize, f) != NULL) {
-            linebuff[linesize-1] = '\0';
-            //process a line
-            processObjLine(buff, linebuff);
-        }
-        
-        fclose(f);
-        return buff;//return face count
-    
-    }else{
-        return mull;
-    }
-}
+//return total triangle face count
+size_t detectFaceCount(FILE* f);
+size_t detectFaceCountFromBuff(const char* buff);
+MC3DObjBuffer* parse3DObjFile(const char* filename);
 
 #endif /* MC3DFileParser_h */

@@ -8,6 +8,7 @@
 
 #include "MC3DNode.h"
 #include "MCGLEngine.h"
+#include "MCLinkedList.h"
 
 //prehash
 static MCHash _update;

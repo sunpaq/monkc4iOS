@@ -97,18 +97,18 @@ method(MCProcess, int, getChildStopSignal, int status)
 	return WSTOPSIG(status);
 }
 
-method(MCProcess, int, isChildContinued, int status)
-{
-	if(WIFCONTINUED(status))
-		return 1;
-	else
-		return 0;
-}
+//method(MCProcess, int, isChildContinued, int status)
+//{
+//	if(WIFCONTINUED(status))
+//		return 1;
+//	else
+//		return 0;
+//}
 
-method(MCProcess, pid_t, waitAnyChildExitGetResourceUseage, int* statusAddr, int options, MCProcessRUseage* useage)
-{
-	return wait3(statusAddr, options, useage->rusage_p);
-}
+//method(MCProcess, pid_t, waitAnyChildExitGetResourceUseage, int* statusAddr, int options, MCProcessRUseage* useage)
+//{
+//	return wait3(statusAddr, options, useage->rusage_p);
+//}
 
 method(MCProcess, pid_t, waitPIDChildExitGetResourceUseage, pid_t pid, int* statusAddr, int options, MCProcessRUseage* useage)
 {
@@ -133,8 +133,8 @@ onload(MCProcess)
         binding(MCProcess, int, isCoreDumpFileGenerated, int status);
         binding(MCProcess, int, isChildStopped, int status);
         binding(MCProcess, int, getChildStopSignal, int status);
-        binding(MCProcess, int, isChildContinued, int status);
-        binding(MCProcess, pid_t, waitAnyChildExitGetResourceUseage, int* statusAddr, int options, MCProcessRUseage* useage);
+        //binding(MCProcess, int, isChildContinued, int status);
+        //binding(MCProcess, pid_t, waitAnyChildExitGetResourceUseage, int* statusAddr, int options, MCProcessRUseage* useage);
         binding(MCProcess, pid_t, waitPIDChildExitGetResourceUseage, pid_t pid, int* statusAddr, int options, MCProcessRUseage* useage);
         return cla;
     }else{

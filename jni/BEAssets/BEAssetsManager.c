@@ -6,8 +6,11 @@
 //  Copyright © 2016年 oreisoft. All rights reserved.
 //
 
+#ifdef __APPLE__
+#include <CoreFoundation/CoreFoundation.h>
+#include <pthread.h>
+#endif
 #include "BEAssetsManager.h"
-#include "MC3DiOSDriver.h"
 #include "SOIL.h"
 
 oninit(BE2DTextureData)
@@ -128,3 +131,159 @@ onload(BECubeTextureData)
     }
 }
 
+#ifdef __ANDROID__
+static AAssetManager* assetManager_ = mull;
+static ANativeWindow* window_ = mull;
+
+//File
+void MCFileSetAssetManager(AAssetManager* assetManager)
+{
+	assetManager_ = assetManager;
+}
+
+AAssetManager* MCFileGetAssetManager()
+{
+    return assetManager_;
+}
+#endif
+
+void MCFileGetPath(const char* filename, const char* extention, char* buffer)
+{
+#ifdef __ANDROID__
+    if (assetManager_ != mull) {
+		const char* subpath;
+		if (strcmp(extention, "fsh") == 0) {
+			subpath = "shaders";
+		} else if (strcmp(extention, "vsh") == 0) {
+			subpath = "shaders";
+		} else if (strcmp(extention, "obj") == 0) {
+			subpath = "raw";
+		} else if (strcmp(extention, "png") == 0) {
+			subpath = "textures";
+		} else if (strcmp(extention, "jpg") == 0) {
+			subpath = "textures";
+		} else {
+			subpath = "";
+		}
+
+		char fullname[1024];
+		sprintf(fullname, "%s.%s", filename, extention);
+
+		AAssetDir* rootdir = AAssetManager_openDir(assetManager_, subpath);
+		const char* name;
+		char fullpath[1024];
+		while ((name=AAssetDir_getNextFileName(rootdir)) != NULL) {
+			if (strcmp(fullname, name) == 0) {
+				sprintf(fullpath, "%s/%s", subpath, name);
+				strcpy(buffer, fullpath);
+			}
+		}
+	}
+#else
+    static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_lock(&lock);
+    
+    CFStringRef fname = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
+    CFStringRef  fext = CFStringCreateWithCString(NULL, extention, kCFStringEncodingUTF8);
+    CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
+    CFStringRef  path = CFURLCopyPath(url);
+    
+    CFStringGetCString(path, buffer, PATH_MAX, kCFStringEncodingUTF8);
+    
+    CFRelease(fname);
+    CFRelease(fext);
+    CFRelease(path);
+    CFRelease(url);
+    
+    pthread_mutex_unlock(&lock);
+#endif
+}
+
+const char* MCFileCopyContentWithPath(const char* filepath, const char* extention)
+{
+#ifdef __ANDROID__
+    if (assetManager_ != mull) {
+        AAsset* f = AAssetManager_open(assetManager_, filepath, AASSET_MODE_BUFFER);
+        if (f) {
+            const char* abuff = AAsset_getBuffer(f);
+                  off_t size = AAsset_getLength(f);
+            char* buff = (char*)malloc(size + 1);
+            memcpy(buff, abuff, size);
+            buff[size] = '\0';
+            AAsset_close(f);
+            return buff;
+        }else{
+            error_log("MCFileCopyContentWithPath(%s) Android assetManager_ can not open\n", filepath);
+        }
+    }
+    error_log("MCFileCopyContent(%s) Android assetManager_ is mull", filepath);
+    return mull;
+#else
+    //char path[PATH_MAX];
+    //MCFileGetPath(filename, extention, path);
+    
+    FILE* f = fopen(filepath, "r");
+    fseek(f, 0, SEEK_END);
+    long size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    char* const buffer = (char*)malloc(size * sizeof(char));
+    char* iter = buffer;
+    
+    if (f != NULL) {
+        char c;
+        while ((c = fgetc(f)) != EOF) {
+            *iter++ = c;
+        }
+        *iter = '\0';
+    }
+    
+    return buffer;
+#endif
+}
+
+const char* MCFileCopyContent(const char* filename, const char* extention)
+{
+    char fullpath[1024];
+    MCFileGetPath(filename, extention, fullpath);
+    return MCFileCopyContentWithPath(fullpath, extention);
+}
+
+void MCFileReleaseContent(void* buff)
+{
+	free(buff);
+}
+
+// static AAsset* openingAsset = mull;
+// FILE* MCFileOpenFile(const char* filename, const char* mode)
+// {
+// 	if(assetManager_ != mull){
+// 		openingAsset = AAssetManager_open(assetManager_, filename, AASSET_MODE_BUFFER);
+//         if (openingAsset) {
+//             off_t start, length;
+//             int fd = AAsset_openFileDescriptor(openingAsset, &start, &length);
+//             if (fd >= 0) {
+//                 FILE* out = fdopen(fd, mode);
+//                 return out;
+//             }else{
+//                 error_log("MCFileOpenFile(%s) file is compressed", filename);
+//                 return mull;
+//             }
+//         }else{
+//             error_log("MCFileOpenFile(%s) Android assetManager_ can not open", filename);
+//             return mull;
+//         }
+// 	}
+// 	error_log("MCFileOpenFile(%s) Android assetManager_ is mull", filename);
+// 	return mull;
+// }
+
+// void MCFileCloseFile(FILE* f)
+// {
+// 	if(f){
+// 		fclose(f);
+// 	}
+// 	if(openingAsset) {
+// 		AAsset_close(openingAsset);
+// 		openingAsset = mull;
+// 	}
+// }

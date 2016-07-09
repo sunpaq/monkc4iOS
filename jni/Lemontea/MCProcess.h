@@ -54,16 +54,16 @@ method(MCProcess, int, isCoreDumpFileGenerated, int status);
 
 method(MCProcess, int, isChildStopped, int status);
 method(MCProcess, int, getChildStopSignal, int status);
-method(MCProcess, int, isChildContinued, int status);
+//method(MCProcess, int, isChildContinued, int status);
 
 typedef struct MCProcessRUseage_struct {
     struct rusage* rusage_p;
     char* description;
 } MCProcessRUseage;
 //wait3
-method(MCProcess, 
-	pid_t, waitAnyChildExitGetResourceUseage, 
-	int* statusAddr, int options, MCProcessRUseage* useage);
+//method(MCProcess,
+//	pid_t, waitAnyChildExitGetResourceUseage,
+//	int* statusAddr, int options, MCProcessRUseage* useage);
 //wait4
 method(MCProcess, 
 	pid_t, waitPIDChildExitGetResourceUseage, 

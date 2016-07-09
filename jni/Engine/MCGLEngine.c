@@ -7,7 +7,7 @@
 //
 
 #include "MCGLEngine.h"
-#include "MC3DiOSDriver.h"
+#include "BEAssetsManager.h"
 
 //Global
 utility(MCGLEngine, MCBool, isFeatureOn, MCGLFeature feature)
@@ -53,8 +53,8 @@ utility(MCGLEngine, void, setClearScreenColor, MCColorRGBAf color)
 
 utility(MCGLEngine, void, setPointSize, double pointsize)
 {
-    //use gl_PointSize in shader
-    //glPointSize((GLfloat)pointsize);
+	//glPointSize is replaced by the gl_PointSize variable in the vertex shader.
+	//glPointSize((GLfloat)pointsize);
 }
 
 utility(MCGLEngine, void, setLineWidth, double linewidth)

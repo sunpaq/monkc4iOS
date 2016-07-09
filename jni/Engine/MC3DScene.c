@@ -8,7 +8,7 @@
 
 #include "MC3DScene.h"
 #include "MCGLEngine.h"
-#include "MC3DiOSDriver.h"
+#include "BEAssetsManager.h"
 
 oninit(MC3DScene)
 {
@@ -55,6 +55,7 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width,
     MCGLRenderer_initWithShaderCodeString(0, var(renderer), vsource, fsource);
     var(skyboxRef) = mull;
     var(skyboxShow) = MCFalse;
+    debug_log("MC3DScene - init end");
     return obj;
 }
 
@@ -64,6 +65,8 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, uns
     const char* vsource = MCFileCopyContent(vname, "vsh");
     const char* fsource = MCFileCopyContent(fname, "fsh");
     
+    //debug_log("MC3DScene vsource: %s", vsource);
+    //debug_log("MC3DScene fsource: %s", fsource);
     MC3DScene_initWithWidthHeightVSourceFSource(0, obj, width, height, vsource, fsource);
     
     free((void*)vsource);
@@ -74,7 +77,8 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, uns
 
 method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height)
 {
-    return MC3DScene_initWithWidthHeightVNameFName(0, obj, width, height, "MCGLRenderer", "MCGLRenderer");
+    debug_log("MC3DScene initWithWidthHeightDefaultShader %dx%d %s", width, height, "MCGLRenderer");
+	return MC3DScene_initWithWidthHeightVNameFName(0, obj, width, height, "MCGLRenderer", "MCGLRenderer");
 }
 
 method(MC3DScene, void, lockCamera, MCBool lock)
@@ -107,7 +111,7 @@ method(MC3DScene, void, moveSkyboxCamera, MCDouble deltaFai, MCDouble deltaTht)
 
 method(MC3DScene, void, updateScene, voida)
 {
-    MC3DScene_moveCameraOneStep(0, obj, (MCDouble)1.0, (MCDouble)0.0);
+    MC3DScene_moveCameraOneStep(0, obj, (MCDouble)0.5, (MCDouble)0.0);
     
     if(var(skyboxShow) == MCTrue) {
         MCSkybox_update(0, var(skyboxRef), var(renderer)->context);

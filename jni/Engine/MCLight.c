@@ -23,15 +23,19 @@ oninit(MCLight)
 method(MCLight, void, update, MCGLContext* ctx)
 {
     if (obj->dataChanged == MCTrue) {
-        MCGLEngine_tryUseShaderProgram(ctx->pid);
+        // MCGLEngine_tryUseShaderProgram(ctx->pid);
+        // static int loc = -1;
+        // if (loc != -1) {
+        //     MCGLContext_setUniformVector3(0, ctx, mull, loc, obj->diffuseLightPosition);
 
-        static int loc = -1;
-        if (loc != -1) {
-            MCGLContext_setUniformVector3(0, ctx, mull, loc, obj->diffuseLightPosition);
-        }else{
-            loc = MCGLContext_setUniformVector3(0, ctx, "diffuseLightPosition", -1, obj->diffuseLightPosition);
-        }
-        obj->dataChanged = MCFalse;
+        // }else{
+        //     loc = MCGLContext_setUniformVector3(0, ctx, "diffuseLightPosition", -1, obj->diffuseLightPosition);
+        // }
+        // obj->dataChanged = MCFalse;
+
+        int loc = MCGLContext_getUniformLocation(0, ctx, "diffuseLightPosition");
+        glUseProgram(ctx->pid);
+        glUniform3f(loc, obj->diffuseLightPosition.x, obj->diffuseLightPosition.y, obj->diffuseLightPosition.z);
     }
 }
 

@@ -81,49 +81,6 @@ void MCUIButtonRegisterCallback(mc_message msg)
     onButtonClickMsg = msg;
 }
 
-void MCFileGetPath(const char* filename, const char* extention, char* buffer)
-{
-    static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-    pthread_mutex_lock(&lock);
-    
-    CFStringRef fname = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
-    CFStringRef  fext = CFStringCreateWithCString(NULL, extention, kCFStringEncodingUTF8);
-    CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
-    CFStringRef  path = CFURLCopyPath(url);
-    
-    CFStringGetCString(path, buffer, PATH_MAX, kCFStringEncodingUTF8);
-    
-    CFRelease(fname);
-    CFRelease(fext);
-    CFRelease(path);
-    CFRelease(url);
-    
-    pthread_mutex_unlock(&lock);
-}
-
-const char* MCFileCopyContent(const char* filename, const char* extention)
-{
-    char path[PATH_MAX];
-    MCFileGetPath(filename, extention, path);
-    
-    FILE* f = fopen(path, "r");
-    fseek(f, 0, SEEK_END);
-    long size = ftell(f);
-    fseek(f, 0, SEEK_SET);
-    char* const buffer = (char*)malloc(size * sizeof(char));
-    char* iter = buffer;
-    
-    if (f != NULL) {
-        char c;
-        while ((c = fgetc(f)) != EOF) {
-            *iter++ = c;
-        }
-        *iter = '\0';
-    }
-    
-    return buffer;
-}
-
 void MCGLError(const char* errmsg)
 {
     if (_handler) {

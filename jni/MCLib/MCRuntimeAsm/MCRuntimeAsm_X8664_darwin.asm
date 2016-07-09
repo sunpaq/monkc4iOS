@@ -25,99 +25,16 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#;System V AMD64 ABI
-
-#;integer parameters will pass on these registers
-#;define int_arg1 %rdi
-#;define int_arg2 %rsi
-#;define int_arg3 %rdx
-#;define int_arg4 %rcx
-#;define int_arg5 %r8
-#;define int_arg6 %r9
-
-#;registers must preserved across function calls(without stack pointer %rbp %rsp)
-#;define preserved_reg1 %rbx
-#;define preserved_reg2 %r12
-#;define preserved_reg3 %r13
-#;define preserved_reg4 %r14
-#;define preserved_reg5 %r15
-
-
-#;void* _push_jump(id const obj, void* addr, ...);
-
 .text
 .globl __push_jump
-.p2align 4, 0x90
+.p2align 4, 0x00
 __push_jump:
-	cmpq $0, %rsi		#; confirm return address not nil
+	cmpq $0, %rdi		#; confirm return address not nil
 	je 0f
-	jmp *%rsi
+	jmp *%rdi
 0:
 	ret
 
-#;void* _clean_jump2(id const obj, void* addr, ...);
-
-.text
-.globl __clean_jump1
-.p2align 4, 0x90
-__clean_jump1:
-	movq %rbp, %rsp			#; unwind the current start frame
-	popq %rbp				#;
-	cmpq $0, %rsi		
-	je 0f
-	jmp *%rsi
-0:
-	ret
-
-
-.text
-.globl __clean_jump2
-.p2align 4, 0x90
-__clean_jump2:
-	movq %rbp, %rsp			#; unwind the current start frame
-	popq %rbp				#;
-	cmpq $0, %rsi		
-	je 0f
-	jmp *%rsi
-0:
-	ret
-
-
-.text
-.globl __clean_jump3
-.p2align 4, 0x90
-__clean_jump3:
-	movq %rbp, %rsp			#; unwind the current start frame
-	popq %rbp				#;
-	cmpq $0, %rsi		
-	je 0f
-	jmp *%rsi
-0:
-	ret
-
-
-.text
-.globl __clean_jump4
-.p2align 4, 0x90
-__clean_jump4:
-	movq %rbp, %rsp			#; unwind the current start frame
-	popq %rbp				#;
-	cmpq $0, %rsi		
-	je 0f
-	jmp *%rsi
-0:
-	ret
-
-
-
-#;define int_arg1 %rdi
-#;define int_arg2 %rsi
-#;define int_arg3 %rdx
-
-#;int mc_atomic_get_integer(volatile int* target);
-#;void* mc_atomic_get_pointer(volatile void** target);
-#;int mc_atomic_set_integer(volatile int* target, volatile int old, volatile int value);
-#;int mc_atomic_set_pointer(volatile void** target, volatile void* old, volatile void* value);
 
 .text
 .globl	_mc_atomic_get_integer

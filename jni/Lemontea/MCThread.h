@@ -1,5 +1,32 @@
-#include "MCContext.h"
+/* MCThread */
+
+#ifndef MCThread_
+#define MCThread_
+
 #include <pthread.h>
+#include "monkc.h"
+
+class(MCThread, MCObject,
+	pthread_t tid;
+	pthread_attr_t attribute;
+	pthread_once_t once_control;
+	int isRunOnce;
+    void* functionPointer;
+    void* functionArgument;
+);
+
+method(MCThread, void, bye, voida);
+method(MCThread, MCThread*, initWithFPointerArgument, void* fp, void* farg);
+method(MCThread, MCThread*, initWithFPointer, void* fp);
+method(MCThread, int, detach, voida);
+method(MCThread, int, start, voida);
+method(MCThread, int, equal, MCThread* thread);
+
+utility(MCThread, int, cancelThread, pthread_t tid);
+utility(MCThread, int, joinThread, pthread_t tid);
+utility(MCThread, void, exitWithStatus, void* status);
+utility(MCThread, pthread_t, currentThread);
+
 /*
 The pthread API:
 
@@ -101,32 +128,6 @@ pthread_mutex_unlock     pthread_mutex_unlock
 #define MCCondWait(cond, mutex) 						pthread_cond_wait(&cond, &mutex)
 #define MCCondSignal(cond) 								pthread_cond_signal(&cond)
 #define MCCondBroadcast(cond) 							pthread_cond_broadcast(&cond)
-
-/* MCThread */
-
-#ifndef MCThread_ 
-#define MCThread_
-
-class(MCThread, MCObject,
-	pthread_t tid;
-	pthread_attr_t attribute;
-	pthread_once_t once_control;
-	int isRunOnce;
-    void* functionPointer;
-    void* functionArgument;
-);
-
-method(MCThread, void, bye, voida);
-method(MCThread, MCThread*, initWithFPointerArgument, void* fp, void* farg);
-method(MCThread, MCThread*, initWithFPointer, void* fp);
-method(MCThread, int, detach, voida);
-method(MCThread, int, start, voida);
-method(MCThread, int, equal, MCThread* thread);
-
-utility(MCThread, int, cancelThread, pthread_t tid);
-utility(MCThread, int, joinThread, pthread_t tid);
-utility(MCThread, void, exitWithStatus, void* status);
-utility(MCThread, pthread_t, currentThread);
 
 #endif
 

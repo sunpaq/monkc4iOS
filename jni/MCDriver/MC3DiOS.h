@@ -23,6 +23,8 @@ int onDraw();
 //File callback
 void onOpenExternalFile(const char* filepath);
 void onOpenFile(const char* filename);
+void onOpenFileAsync(const char* filename);
+void onOpenFileAndExitThread(const char* filename);
 
 //Gesture callback
 void onGestureSwip();
@@ -32,6 +34,11 @@ void onGesturePinch(double scale);
 //Orientation Handling
 void onResizeScreen(int windowWidth, int windowHeight);
 void onStartStopBtn(int startOrStop);
+
+//MCGL Errors
+void MCGLError(const char* errmsg);
+void MCGLStartLoading();
+void MCGLStopLoading();
 
 typedef enum {
     MC3DiOS_CameraLookAt,

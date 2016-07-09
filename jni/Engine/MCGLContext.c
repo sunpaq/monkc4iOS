@@ -155,6 +155,13 @@ method(MCGLContext, int, setUniformVector4, const char* name, int loc, MCVector4
     return _loc;
 }
 
+method(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params)
+{
+    int loc = (int)ff(obj, getUniformLocation, name);
+    glGetUniformfv(var(pid), loc, params);
+    return loc;
+}
+
 onload(MCGLContext)
 {
     if (load(MCObject)) {
@@ -168,6 +175,7 @@ onload(MCGLContext)
         binding(MCGLContext, int,  setUniformVector2,  const char* name, int loc, MCVector2 vec2);
         binding(MCGLContext, int,  setUniformVector3,  const char* name, int loc, MCVector3 vec3);
         binding(MCGLContext, int,  setUniformVector4,  const char* name, int loc, MCVector4 vec4);
+        binding(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params);
         
         return cla;
     }else{

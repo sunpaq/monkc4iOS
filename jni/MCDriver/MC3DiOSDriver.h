@@ -22,15 +22,6 @@ void MCUIAddLabel(const char* labelname, MCColor color, double x, double y, MCIn
 void MCUILabelTextUpdate(const char* newtext, MCInt tag);
 void MCUIButtonRegisterCallback(mc_message msg);
 
-//MCGL Errors
-void MCGLError(const char* errmsg);
-void MCGLStartLoading();
-void MCGLStopLoading();
-
-//File
-void MCFileGetPath(const char* filename, const char* extention, char* buffer);
-const char* MCFileCopyContent(const char* filename, const char* extention);
-
 //Objective-C parts
 #ifdef __OBJC__
 #import <UIKit/UIKit.h>

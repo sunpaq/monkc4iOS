@@ -78,7 +78,7 @@ extern void MCLogTypeSet(MCLogType type)
     LOG_LEVEL = type;
 }
 
-//static char log_buf[1024];
+#ifndef __ANDROID__
 void error_log(char* volatile fmt, ...)
 {
 	va_list ap;
@@ -171,3 +171,4 @@ void runtime_logt(char* volatile tag, char* volatile fmt, ...)
 		va_end(ap);
 	}
 }
+#endif

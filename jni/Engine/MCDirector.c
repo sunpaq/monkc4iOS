@@ -7,6 +7,7 @@
 //
 
 #include "MCDirector.h"
+#include "MCThread.h"
 
 compute(MCCamera*, cameraHandler)
 {

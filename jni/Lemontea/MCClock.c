@@ -13,8 +13,8 @@ oninit(MCClock)
 
 method(MCClock, void, bye, voida)
 {
-	release(var(currentTimeBuff));
-	release(var(currentGMTBuff));
+    free(var(currentTimeBuff));
+    free(var(currentGMTBuff));
 }
 
 method(MCClock, MCClock*, setTimeToNow, voida)
