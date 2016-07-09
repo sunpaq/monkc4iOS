@@ -27,7 +27,7 @@ oninit(MCGLRenderer)
         MCGLEngine_setClearScreenColor((MCColorRGBAf){0.05, 0.25, 0.35, 1.0});
         MCGLEngine_featureSwith(MCGLCullFace, MCTrue);
         MCGLEngine_cullFace(MCGLBack);
-        MCGLEngine_setFrontCounterClockWise(MCFalse);//CCW
+        MCGLEngine_setFrontCounterClockWise(MCTrue);//CCW
 
         //obj->Id = MCGLEngine_createShader(0);
     	obj->Id = glCreateProgram();

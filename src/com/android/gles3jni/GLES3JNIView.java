@@ -39,10 +39,10 @@ class GLES3JNIView extends GLSurfaceView {
     public GLES3JNIView(Context context) {
         super(context);
 
-        // Pick an EGLConfig with RGB8 color, 16-bit depth, no stencil,
-        // supporting OpenGL ES 2.0 or later backwards-compatible versions.
-        setEGLConfigChooser(8, 8, 8, 0, 16, 0);
-        setEGLContextClientVersion(2);
+        // Pick an EGLConfig with RGBA8 color, 24-bit depth, no stencil,
+        // supporting OpenGL ES 3.0 or later backwards-compatible versions.
+        setEGLConfigChooser(8, 8, 8, 8, 24, 0);
+        setEGLContextClientVersion(3);
         setRenderer(new Renderer(context));
     }
     
@@ -65,6 +65,7 @@ class GLES3JNIView extends GLSurfaceView {
     	
         public void onDrawFrame(GL10 gl) {
             GLES3JNILib.step();
+            gl.glFlush();
         }
 
         public void onSurfaceChanged(GL10 gl, int width, int height) {

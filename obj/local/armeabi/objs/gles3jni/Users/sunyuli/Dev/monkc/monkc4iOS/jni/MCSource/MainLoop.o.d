@@ -42,7 +42,8 @@
  /Users/sunyuli/Dev/monkc/monkc4iOS/jni/Engine/MC3DScene.h \
  /Users/sunyuli/Dev/monkc/monkc4iOS/jni/Lemontea/MCThread.h \
  /Users/sunyuli/Dev/monkc/monkc4iOS/jni/MCDriver/MC3DiOS.h \
- /Users/sunyuli/Dev/monkc/monkc4iOS/jni/MCSource/Testbed.h
+ /Users/sunyuli/Dev/monkc/monkc4iOS/jni/MCSource/Testbed.h \
+ /Users/sunyuli/Dev/monkc/monkc4iOS/jni/Lemontea/MCException.h
 
 /Users/sunyuli/Dev/monkc/monkc4iOS/jni/Engine/MC3DBase.h:
 
@@ -129,3 +130,5 @@
 /Users/sunyuli/Dev/monkc/monkc4iOS/jni/MCDriver/MC3DiOS.h:
 
 /Users/sunyuli/Dev/monkc/monkc4iOS/jni/MCSource/Testbed.h:
+
+/Users/sunyuli/Dev/monkc/monkc4iOS/jni/Lemontea/MCException.h:

@@ -20,6 +20,7 @@
 #include "MC3DiOS.h"
 #include "Testbed.h"
 #include "MCThread.h"
+#include "MCException.h"
 
 static MCDirector* director = mull;
 static BECubeTextureData* cubtex = mull;
@@ -73,12 +74,19 @@ void onOpenFile(const char* filename)
 
     } else {
         error_log("Can not create MC3DModel:%s\n", filename);
+        throw(MC3DModel_ERROR);
     }
 }
 
 void onOpenFileAndExitThread(const char* filename)
 {
-    onOpenFile(filename);
+    try {
+        onOpenFile(filename);
+    }catch(MC3DModel_ERROR) {
+        error_log("MC3DModel_ERROR occur exit the process!");
+    }finally{
+        exit(-1);
+    }
     MCGLStopLoading();
     MCThread_exitWithStatus((void*)200);
 }
@@ -122,7 +130,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
             mainScene->skyboxShow = MCTrue;
         }
 
-        mainScene->mainCamera->R_value = 20;
+        mainScene->mainCamera->R_value = 30;
         mainScene->mainCamera->tht = 60;
         mainScene->mainCamera->fai = 45;
 
@@ -141,7 +149,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         onOpenFileAsync(filename);
     } else {
 #ifdef __ANDROID__
-    	onOpenFile("2");
+    	onOpenFileAsync("2");
     	//ff(director->lastScene->rootnode, addChild, new(MCCube));
 #endif
     }

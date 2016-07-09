@@ -6,6 +6,23 @@
 //  Copyright © 2015年 oreisoft. All rights reserved.
 //
 
+/*
+ Notice:
+ 
+ You must set the window system on both platform
+ as below: (RGBA=8888 Depth=24bit)
+ 
+ //iOS
+ <GLKViewController>
+ view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
+ view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+ 
+ //Android
+ <GLSurfaceView>
+ setEGLConfigChooser(8, 8, 8, 8, 24, 0);
+ setEGLContextClientVersion(3);
+ */
+
 #ifndef MCGLRenderer_h
 #define MCGLRenderer_h
 
