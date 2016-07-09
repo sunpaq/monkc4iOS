@@ -56,7 +56,8 @@ utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, con
 utility(MCGLEngine, GLuint, tryUseShaderProgram, GLuint Id);
 
 //Frame Rate (FPS)
-MCInline int MCGLEngine_tickFPS(MCClock* clock)
+MCInline
+utility(MCGLEngine, int, tickFPS, MCClock* clock)
 {
     static unsigned fcount = 0;
     static clock_t elapse = 0;
@@ -79,7 +80,8 @@ MCInline int MCGLEngine_tickFPS(MCClock* clock)
 }
 
 //Shader
-MCInline int MCGLEngine_compileShader(GLuint* shader, GLenum type, const GLchar *source)
+MCInline
+utility(MCGLEngine, int, compileShader, GLuint* shader, GLenum type, const GLchar *source)
 {
     GLint status;
     
@@ -105,7 +107,8 @@ MCInline int MCGLEngine_compileShader(GLuint* shader, GLenum type, const GLchar 
     return 1;
 }
 
-MCInline int MCGLEngine_linkProgram(GLuint prog)
+MCInline
+utility(MCGLEngine, int, linkProgram, GLuint prog)
 {
     GLint status;
     glLinkProgram(prog);
@@ -127,7 +130,8 @@ MCInline int MCGLEngine_linkProgram(GLuint prog)
     return 1;
 }
 
-MCInline int MCGLEngine_validateProgram(GLuint prog)
+MCInline
+utility(MCGLEngine, int, validateProgram, GLuint prog)
 {
     GLint logLength, status;
     
