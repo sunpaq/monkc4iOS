@@ -1,3 +1,5 @@
+#ifdef __ANDROID__
+
 #include <string.h>
 #include <jni.h>
 
@@ -26,4 +28,6 @@ JNIEXPORT jstring JNICALL Java_com_example_sapindus_JavaNativeBridge_timeFromJNI
 
 	return (*env)->NewStringUTF(env, buff);
 }
+
+#endif
 

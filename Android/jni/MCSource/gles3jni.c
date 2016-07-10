@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+#ifdef __ANDROID__
+
 #include <jni.h>
 #include <stdlib.h>
 #include <time.h>
@@ -73,3 +75,4 @@ Java_com_android_gles3jni_GLES3JNILib_setAssetManager(JNIEnv* env, jobject obj, 
 	MCFileSetAssetManager(AAssetManager_fromJava(env, man));
 }
 
+#endif
