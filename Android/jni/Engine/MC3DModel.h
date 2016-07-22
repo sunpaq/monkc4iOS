@@ -34,5 +34,4 @@ method(MC3DModel, MC3DModel*, initWithFileName, const char* name);
 method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
 method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color);
 
-
 #endif /* MC3DModel_h */

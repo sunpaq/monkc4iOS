@@ -41,6 +41,13 @@ method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
     return obj;
 }
 
+method(MCMesh, void, setVertex, GLuint offset, MCVector3 vec3)
+{
+    obj->vertexDataPtr[offset+0] = vec3.x;
+    obj->vertexDataPtr[offset+1] = vec3.y;
+    obj->vertexDataPtr[offset+2] = vec3.z;
+}
+
 method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
     if (var(isDataLoaded) == MCFalse) {
@@ -93,6 +100,7 @@ onload(MCMesh)
     if (load(MCItem)) {
         binding(MCMesh, void, bye, voida);
         binding(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
+        binding(MCMesh, void, setVertex, GLuint offset, MCVector3 vec3);
         binding(MCMesh, void, prepareMesh, voida);
         binding(MCMesh, void, drawMesh, voida);
         //binding(MCMesh, void, dump, voida);
@@ -101,3 +109,5 @@ onload(MCMesh)
         return mull;
     }
 }
+
+

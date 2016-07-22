@@ -15,6 +15,7 @@
 #include "MCGLContext.h"
 #include "MCLinkedList.h"
 #include "MCMath.h"
+#include "MC3DObjParser.h"
 
 class(MCMesh, MCItem,
       MC3DFrame  frame;
@@ -30,6 +31,7 @@ class(MCMesh, MCItem,
 
 method(MCMesh, void, bye, voida);
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
+method(MCMesh, void, setVertex, GLuint offset, MCVector3 vec3);
 method(MCMesh, void, prepareMesh, MCGLContext* ctx);
 method(MCMesh, void, drawMesh, MCGLContext* ctx);
 method(MCMesh, void, dump, voida);

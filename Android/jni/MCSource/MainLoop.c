@@ -149,7 +149,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         onOpenFileAsync(filename);
     } else {
 #ifdef __ANDROID__
-    	onOpenFileAsync("2");
+    	onOpenFileAsync("Avent");
     	//ff(director->lastScene->rootnode, addChild, new(MCCube));
 #endif
     }

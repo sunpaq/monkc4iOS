@@ -37,6 +37,16 @@ typedef union {
     double v[4];
 } MCVector4;
 
+MCInline MCVector2 MCVector2From3(MCVector3 vec3)
+{
+    return (MCVector2){vec3.x, vec3.y};
+}
+
+MCInline MCVector3 MCVector3From4(MCVector4 vec4)
+{
+    return (MCVector3){vec4.x, vec4.y, vec4.z};
+}
+
 /*
  copy from Apple GLKit
  m30, m31, and m32 correspond to the translation values tx, ty, and tz, respectively.

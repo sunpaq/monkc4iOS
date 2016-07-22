@@ -185,7 +185,6 @@
 		FD44CDB51D326CF200784EDF /* MC3DMtlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DMtlParser.h; sourceTree = "<group>"; };
 		FD44CDB61D326CF200784EDF /* MC3DNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DNode.c; sourceTree = "<group>"; };
 		FD44CDB71D326CF200784EDF /* MC3DNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DNode.h; sourceTree = "<group>"; };
-		FD44CDB81D326CF200784EDF /* MC3DObjParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DObjParser.h; sourceTree = "<group>"; };
 		FD44CDB91D326CF200784EDF /* MC3DScene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DScene.c; sourceTree = "<group>"; };
 		FD44CDBA1D326CF200784EDF /* MC3DScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DScene.h; sourceTree = "<group>"; };
 		FD44CDBB1D326CF200784EDF /* MC3DShapeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DShapeBase.h; sourceTree = "<group>"; };
@@ -316,6 +315,7 @@
 		FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		FD5EFD571B0E3D9D00D2492A /* mcicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mcicon.png; sourceTree = "<group>"; };
+		FD64C0EC1D42422A002EEB71 /* MCMathTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMathTriangle.h; sourceTree = "<group>"; };
 		FD7FF8EB1CCB5FC5008106E5 /* sph.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sph.obj; sourceTree = "<group>"; };
 		FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bottle_cap2.obj; sourceTree = "<group>"; };
 		FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = MCSkyboxShader.vsh; sourceTree = "<group>"; };
@@ -436,7 +436,6 @@
 				FD44CDB51D326CF200784EDF /* MC3DMtlParser.h */,
 				FD44CDB61D326CF200784EDF /* MC3DNode.c */,
 				FD44CDB71D326CF200784EDF /* MC3DNode.h */,
-				FD44CDB81D326CF200784EDF /* MC3DObjParser.h */,
 				FD44CDB91D326CF200784EDF /* MC3DScene.c */,
 				FD44CDBA1D326CF200784EDF /* MC3DScene.h */,
 				FD44CDBB1D326CF200784EDF /* MC3DShapeBase.h */,
@@ -509,6 +508,7 @@
 				FD44CDF71D326CF200784EDF /* MCThread.h */,
 				FD44CDF81D326CF200784EDF /* MCUnitTest.c */,
 				FD44CDF91D326CF200784EDF /* MCUnitTest.h */,
+				FD64C0EC1D42422A002EEB71 /* MCMathTriangle.h */,
 			);
 			name = Lemontea;
 			path = Android/jni/Lemontea;

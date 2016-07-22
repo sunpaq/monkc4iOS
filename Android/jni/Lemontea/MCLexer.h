@@ -20,8 +20,8 @@ typedef enum {
 } MCTokenType;
 
 typedef union {
-    int    Integer;
-    int    Date[3];
+    long   Integer;
+    long   Date[3];
     double Double;
     char   Word[128];
 } MCTokenValue;
@@ -136,7 +136,7 @@ MCInline MCBool isDate(const char* s)
 }
 
 //return int count
-MCInline int getDate(const char* s, int* buff)
+MCInline int getDate(const char* s, long* buff)
 {
     const char* remain = s;
     char digit[512];
