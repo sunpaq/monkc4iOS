@@ -47,4 +47,19 @@ MCInline MCBool IsVertexInTriangle(MCVector3 A, MCVector3 B, MCVector3 C, MCVect
     return (s == s1+s2+s3);
 }
 
+MCInline MCBool IsVertex4InTriangle(MCVector4 A4, MCVector4 B4, MCVector4 C4, MCVector4 P4)
+{
+    MCVector3 A = MCVector3From4(A4);
+    MCVector3 B = MCVector3From4(B4);
+    MCVector3 C = MCVector3From4(C4);
+    MCVector3 P = MCVector3From4(P4);
+    
+    double s  = MCTriangleVertexArea(A, B, C);
+    double s1 = MCTriangleVertexArea(P, A, B);
+    double s2 = MCTriangleVertexArea(P, B, C);
+    double s3 = MCTriangleVertexArea(P, C, A);
+    
+    return (s == s1+s2+s3);
+}
+
 #endif /* MCMathTriangle_h */

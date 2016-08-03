@@ -136,6 +136,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F88C173F1D51E16A000D07BA /* MCArrayLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCArrayLinkedList.h; sourceTree = "<group>"; };
 		FD0097DE1CB8D781000A85DE /* Avent.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Avent.obj; sourceTree = "<group>"; };
 		FD00C4A81CD10BAE00DCA45F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FD00C4A91CD10BAE00DCA45F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -496,6 +497,7 @@
 				FD44CDEB1D326CF200784EDF /* MCLexer.h */,
 				FD44CDEC1D326CF200784EDF /* MCLinkedList.c */,
 				FD44CDED1D326CF200784EDF /* MCLinkedList.h */,
+				F88C173F1D51E16A000D07BA /* MCArrayLinkedList.h */,
 				FD44CDEE1D326CF200784EDF /* MCMath.c */,
 				FD44CDEF1D326CF200784EDF /* MCMath.h */,
 				FD44CDF01D326CF200784EDF /* MCProcess.c */,

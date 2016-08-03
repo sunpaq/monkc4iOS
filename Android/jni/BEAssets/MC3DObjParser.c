@@ -1,6 +1,6 @@
 #include "MC3DObjParser.h"
 #include "BEAssetsManager.h"
-
+#include "MCArrayLinkedList.h"
 
 size_t countFaces(const char* linebuff, size_t tcount)
 {
@@ -223,6 +223,59 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
         }
         else if (gq != 0) {
             buff->facetype = MC3DFaceAll;
+            
+//            size_t count = gq / 3;
+//            MCArrayLinkedListItem array[count];
+//            long values[count];
+//            for (int i=0; i<count; i++) {
+//                values[i] = gqueue[i+3];
+//            }
+//            
+//            MCArrayLinkedListItem* head = initMCArrayLinkedList(array, values, count);
+//            MCArrayLinkedListItem* iter = head;
+//            while (iter != mull) {
+//                
+//                MCArrayLinkedListItem* i1 = head;
+//                MCArrayLinkedListItem* i2 = &array[i1->nextIndex];
+//                MCArrayLinkedListItem* i3 = &array[i2->nextIndex];
+//                MCArrayLinkedListItem* i4 = &array[i3->nextIndex];
+//                
+//                //make a triangle
+//                long idx1 = i1->value;
+//                long idx2 = i2->value;
+//                long idx3 = i3->value;
+//                
+//                MCVector4 a = buff->vertexbuff[idx1];
+//                MCVector4 b = buff->vertexbuff[idx2];
+//                MCVector4 c = buff->vertexbuff[idx3];
+//                
+//                MCBool success = MCTrue;
+//                MCArrayLinkedListItem* remain = i4;
+//                while (remain != mull) {
+//                    MCVector4 p = buff->vertexbuff[remain->value];
+//                    success = IsVertex4InTriangle(a, b, c, p);
+//                    remain = nextMCArrayLinkedListItem(array, remain);
+//                }
+//                
+//                if (success == MCTrue) {
+//                    buff->facebuff[buff->fcursor].v1.vertexIndex = idx1;
+//                    buff->facebuff[buff->fcursor].v2.vertexIndex = idx2;
+//                    buff->facebuff[buff->fcursor].v3.vertexIndex = idx3;
+//                    buff->fcursor++;
+//                    
+//                    deleteMCArrayLinkedListItem(array, i2);
+//                }else{
+//                    
+//                }
+//                
+//                iter = nextMCArrayLinkedListItem(array, iter);
+//            }
+            
+
+
+            
+            
+            
             
             for (int i=0; i< gq-6; i=i+3) {
                 //v1
