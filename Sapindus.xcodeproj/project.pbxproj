@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F8DCDAB71D52E09E00FD3FD2 /* MCArrayLinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = F8DCDAB61D52E09E00FD3FD2 /* MCArrayLinkedList.c */; };
+		F8DCDAB91D52E44000FD3FD2 /* MCGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = F8DCDAB81D52E44000FD3FD2 /* MCGeometry.c */; };
 		FD0097DF1CB8D781000A85DE /* Avent.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD0097DE1CB8D781000A85DE /* Avent.obj */; };
 		FD00C4C01CD10BAE00DCA45F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4A91CD10BAE00DCA45F /* AppDelegate.m */; };
 		FD00C4C11CD10BAE00DCA45F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FD00C4AA1CD10BAE00DCA45F /* LaunchScreen.xib */; };
@@ -137,6 +139,9 @@
 
 /* Begin PBXFileReference section */
 		F88C173F1D51E16A000D07BA /* MCArrayLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCArrayLinkedList.h; sourceTree = "<group>"; };
+		F8DCDAB51D52CF8C00FD3FD2 /* MCGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCGeometry.h; sourceTree = "<group>"; };
+		F8DCDAB61D52E09E00FD3FD2 /* MCArrayLinkedList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCArrayLinkedList.c; sourceTree = "<group>"; };
+		F8DCDAB81D52E44000FD3FD2 /* MCGeometry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGeometry.c; sourceTree = "<group>"; };
 		FD0097DE1CB8D781000A85DE /* Avent.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Avent.obj; sourceTree = "<group>"; };
 		FD00C4A81CD10BAE00DCA45F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FD00C4A91CD10BAE00DCA45F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -316,7 +321,6 @@
 		FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		FD5EFD571B0E3D9D00D2492A /* mcicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mcicon.png; sourceTree = "<group>"; };
-		FD64C0EC1D42422A002EEB71 /* MCMathTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMathTriangle.h; sourceTree = "<group>"; };
 		FD7FF8EB1CCB5FC5008106E5 /* sph.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sph.obj; sourceTree = "<group>"; };
 		FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bottle_cap2.obj; sourceTree = "<group>"; };
 		FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = MCSkyboxShader.vsh; sourceTree = "<group>"; };
@@ -498,8 +502,11 @@
 				FD44CDEC1D326CF200784EDF /* MCLinkedList.c */,
 				FD44CDED1D326CF200784EDF /* MCLinkedList.h */,
 				F88C173F1D51E16A000D07BA /* MCArrayLinkedList.h */,
+				F8DCDAB61D52E09E00FD3FD2 /* MCArrayLinkedList.c */,
 				FD44CDEE1D326CF200784EDF /* MCMath.c */,
 				FD44CDEF1D326CF200784EDF /* MCMath.h */,
+				F8DCDAB51D52CF8C00FD3FD2 /* MCGeometry.h */,
+				F8DCDAB81D52E44000FD3FD2 /* MCGeometry.c */,
 				FD44CDF01D326CF200784EDF /* MCProcess.c */,
 				FD44CDF11D326CF200784EDF /* MCProcess.h */,
 				FD44CDF21D326CF200784EDF /* MCSocket.c */,
@@ -510,7 +517,6 @@
 				FD44CDF71D326CF200784EDF /* MCThread.h */,
 				FD44CDF81D326CF200784EDF /* MCUnitTest.c */,
 				FD44CDF91D326CF200784EDF /* MCUnitTest.h */,
-				FD64C0EC1D42422A002EEB71 /* MCMathTriangle.h */,
 			);
 			name = Lemontea;
 			path = Android/jni/Lemontea;
@@ -901,6 +907,7 @@
 				FD44CE2A1D326CF200784EDF /* MC3DScene.c in Sources */,
 				FD44CE351D326CF200784EDF /* MCPanel.c in Sources */,
 				FD44CE5B1D326CF200784EDF /* JavaNativeBridge.c in Sources */,
+				F8DCDAB71D52E09E00FD3FD2 /* MCArrayLinkedList.c in Sources */,
 				FD44CE2E1D326CF200784EDF /* MCGLContext.c in Sources */,
 				FD44CE3C1D326CF200784EDF /* MCBuffer.c in Sources */,
 				FD00C4C41CD10BAE00DCA45F /* GameViewController.m in Sources */,
@@ -918,6 +925,7 @@
 				FD44CE481D326CF200784EDF /* MC3DAndroidDriver.c in Sources */,
 				FD44CE571D326CF200784EDF /* Messaging.c in Sources */,
 				FD44CE471D326CF200784EDF /* MCUnitTest.c in Sources */,
+				F8DCDAB91D52E44000FD3FD2 /* MCGeometry.c in Sources */,
 				FD44CE361D326CF200784EDF /* MCSkybox.c in Sources */,
 				FD44CE3A1D326CF200784EDF /* MCWorld.c in Sources */,
 				FD44CE381D326CF200784EDF /* MCTexture.c in Sources */,

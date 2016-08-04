@@ -111,6 +111,7 @@ typedef enum { MCFalse=0, MCTrue=1 } MCBool;
 #define MCFuncPtr(value) ((MCFuncPtr)value)
 #define MCDouble(value)  ((MCDouble)value)
 #define MCFloat(value)   ((MCFloat)value)
+#define MCBoolExpr(expr) ((expr)? MCTrue : MCFalse)
 
 /*
  Generic Type

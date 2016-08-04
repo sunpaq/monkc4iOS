@@ -47,6 +47,13 @@ MCInline MCVector3 MCVector3From4(MCVector4 vec4)
     return (MCVector3){vec4.x, vec4.y, vec4.z};
 }
 
+MCInline MCBool MCVector3Equal(MCVector3 v1, MCVector3 v2)
+{
+    return MCBoolExpr(v1.x == v2.x
+                      && v1.y == v2.y
+                      && v1.z == v2.z);
+}
+
 /*
  copy from Apple GLKit
  m30, m31, and m32 correspond to the translation values tx, ty, and tz, respectively.

@@ -1,6 +1,6 @@
 #include "MC3DObjParser.h"
 #include "BEAssetsManager.h"
-#include "MCArrayLinkedList.h"
+#include "MCGeometry.h"
 
 size_t countFaces(const char* linebuff, size_t tcount)
 {
@@ -207,7 +207,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                             continue;
                         }
                         MCVector3 p = MCVector3From4(buff->vertexbuff[iqueue[j]]);
-                        success = IsVertexInTriangle(a, b, c, p);
+                        success = MCTriangleContainsVertex(MCTriangleMake(a, b, c), p);
                     }
                     
                     if (success == MCTrue) {
@@ -270,11 +270,6 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
 //                
 //                iter = nextMCArrayLinkedListItem(array, iter);
 //            }
-            
-
-
-            
-            
             
             
             for (int i=0; i< gq-6; i=i+3) {

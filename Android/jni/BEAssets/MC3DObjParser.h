@@ -13,7 +13,7 @@
 #include "monkc.h"
 #include "MC3DType.h"
 #include "MCMath.h"
-#include "MCMathTriangle.h"
+#include "MCGeometry.h"
 #include "MCLexer.h"
 #include "BEAssetsManager.h"
 

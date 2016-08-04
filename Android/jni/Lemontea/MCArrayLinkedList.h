@@ -9,93 +9,62 @@
 #ifndef MCArrayLinkedList_h
 #define MCArrayLinkedList_h
 
-//MC array linked list
+#include "monkc.h"
 
-//CArrayLinkedListItem array[5];
-//long values[] = {123,456,789,111,222};
-//CArrayLinkedListItem* head = initCArrayLinkedList(array, values, 5);
-//
-//head = deleteCArrayLinkedListItem(array, &array[0]);
-//head = deleteCArrayLinkedListItem(array, &array[1]);
-//head = deleteCArrayLinkedListItem(array, &array[4]);
-//
-//CArrayLinkedListItem* current = head;
-//while (current != mull) {
-//    printf("current item value: %ld\n", current->value);
-//    current = nextCArrayLinkedListItem(array, current);
-//}
+//MC array linked list
+typedef struct MCALItemStruct {
+    struct MCALItemStruct* next;
+    struct MCALItemStruct* prev;
+    MCGeneric value;
+} MCALItem;
+
+MCInline MCALItem MCALItemMake(MCGeneric val)
+{
+    return (MCALItem){mull, mull, val};
+}
+
+MCInline void MCALItemLink(MCALItem* A, MCALItem* B)
+{
+    A->next = B;
+    B->prev = A;
+}
+
+MCInline MCBool MCALItemIsHead(MCALItem* item)
+{
+    return MCBoolExpr(item->prev == mull);
+}
+
+MCInline MCBool MCALItemIsTail(MCALItem* item)
+{
+    return MCBoolExpr(item->next == mull);
+}
 
 typedef struct {
-    long value;
-    long nextIndex;
-} MCArrayLinkedListItem;
+    size_t count;
+    size_t index;
+    MCALItem* head;
+    MCALItem array[];
+} MCArrayLinkedList;
 
-typedef enum {
-    NoItem = -1
-} MCArrayLinkedListConst;
-
-static inline long prevIndex(MCArrayLinkedListItem* item)
+MCInline void MCALSetHead(MCArrayLinkedList* list, MCALItem* item)
 {
-    return item->nextIndex-4;
+    item->prev = mull;
+    list->head = item;
 }
 
-static inline MCArrayLinkedListItem makeMCArrayLinkedListItem(long value, long nextIndex)
+MCInline void MCALSetTail(MCArrayLinkedList* list, MCALItem* item)
 {
-    return (MCArrayLinkedListItem){value, nextIndex};
+    item->next = mull;
 }
 
-static inline MCArrayLinkedListItem* getMCArrayLinkedListHead(MCArrayLinkedListItem array[])
+MCInline MCBool MCALIsEmpty(MCArrayLinkedList* list)
 {
-    int i = 0;
-    while (array[i].value == NoItem
-           && array[i].nextIndex != NoItem) {
-        i++;
-    }
-    MCArrayLinkedListItem* head = &array[i];
-    if (head->value == NoItem) {
-        return mull;
-    }else{
-        return head;
-    }
+    return MCBoolExpr(list->head == mull);
 }
 
-static inline MCArrayLinkedListItem* initMCArrayLinkedList(MCArrayLinkedListItem array[], long values[], size_t count)
-{
-    int i;
-    for (i=0; i<count; i++) {
-        if (i == count-1) {//last item
-            array[i].nextIndex = NoItem;
-        }else{
-            array[i].nextIndex = i+1;
-        }
-        array[i].value = values[i];
-    }
-    return &array[0];
-}
+MCArrayLinkedList* MCArrayLinkedListNew(MCGeneric values[], const size_t count);
+void MCArrayLinkedListRelease(MCArrayLinkedList* list);
 
-static inline MCArrayLinkedListItem* nextMCArrayLinkedListItem(MCArrayLinkedListItem array[], MCArrayLinkedListItem* item)
-{
-    if (item->nextIndex == NoItem) {
-        return mull;
-    }
-    MCArrayLinkedListItem* next = &array[item->nextIndex];
-    if (next->value == NoItem) {
-        return nextMCArrayLinkedListItem(array, next);
-    }else{
-        return next;
-    }
-}
-
-static inline MCArrayLinkedListItem* deleteMCArrayLinkedListItem(MCArrayLinkedListItem array[], MCArrayLinkedListItem* item)
-{
-    MCArrayLinkedListItem* prev;
-    if (item->nextIndex == NoItem) {
-        prev = &array[prevIndex(item)];
-        prev->nextIndex = NoItem;
-    }
-    item->value = NoItem;
-    //get non-deleted head item
-    return getMCArrayLinkedListHead(array);
-}
+MCALItem* MCALDeleteItem(MCArrayLinkedList* list, MCALItem* item);
 
 #endif /* MCArrayLinkedList_h */
