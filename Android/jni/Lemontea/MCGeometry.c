@@ -10,15 +10,38 @@
 #include "MCGeometry.h"
 #include "MCArrayLinkedList.h"
 
+int MCPolygonResolveConvex(MCPolygon* poly, MCTriangle* result)
+{
+    int resulti = 0;
+    size_t count = poly->count;
+    
+    MCVector3 start = MCVector3Make(poly->v[0], poly->v[1], poly->v[2]);
+    for (int i=1; i<count; i++) {
+        MCVector3 middle = MCVector3Make(poly->v[3], poly->v[4], poly->v[5]);
+        MCVector3 end    = MCVector3Make(poly->v[6], poly->v[7], poly->v[8]);
+        result[resulti++] = MCTriangleMake(start, middle, end);
+    }
+    
+    return resulti;
+}
+
 int MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* result)
 {
     int resulti = 0;
     size_t count = poly->count;
     MCGeneric vertexes[count];
-    MCArrayLinkedList* list = MCArrayLinkedListNew(MCPolygonVertexToGeneric(poly, vertexes), count);
     
+    //alloc on stack
+    MCArrayLinkedList List;
+    MCArrayLinkedList* list = &List;
+    
+    MCPolygonVertexToGeneric(poly, vertexes);
+    MCArrayLinkedListInit(list, vertexes, count);
+
     MCALItem* start = list->head;
-    while (MCALIsEmpty(list) == MCTrue) {
+    
+    while (MCALIsEmpty(list) == MCFalse) {
+        
         MCALItem* middle = start->next;
         MCALItem* end = middle->next;
 
@@ -26,7 +49,12 @@ int MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* result)
         MCVector3* s = (MCVector3*)(start->value.mcptr);
         MCVector3* m = (MCVector3*)(middle->value.mcptr);
         MCVector3* e = (MCVector3*)(end->value.mcptr);
-        MCTriangle triangle = MCTriangleMake(*s, *m, *e);
+        
+        size_t si = start->index;
+        size_t mi = middle->index;
+        size_t ei = end->index;
+        
+        MCTriangle triangle = MCTriangleMakeWithIndexes(*s, *m, *e, si, mi, ei);
         
         //test remain points
         MCALItem* remain = list->head;
@@ -49,6 +77,6 @@ int MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* result)
         }
     }
     
-    MCArrayLinkedListRelease(list);
     return resulti;
 }
+

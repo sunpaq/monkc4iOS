@@ -185,10 +185,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 exit(-1);
             }
             else if (iq == 3) {
-                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[0];
-                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
-                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[2];
-                buff->fcursor++;
+                buff->facebuff[buff->fcursor++] = MC3DFaceMakeVertexOnly(iqueue[0], iqueue[1], iqueue[2]);
             }
             else if (iq > 3) {
                 for (int i=0; i<iq-2; i++) {//remain 2 points
@@ -211,10 +208,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                     }
                     
                     if (success == MCTrue) {
-                        buff->facebuff[buff->fcursor].v1.vertexIndex = idx1;
-                        buff->facebuff[buff->fcursor].v2.vertexIndex = idx2;
-                        buff->facebuff[buff->fcursor].v3.vertexIndex = idx3;
-                        buff->fcursor++;
+                        buff->facebuff[buff->fcursor++] = MC3DFaceMakeVertexOnly(idx1, idx2, idx3);
                     }else{
                         continue;
                     }
@@ -223,70 +217,53 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
         }
         else if (gq != 0) {
             buff->facetype = MC3DFaceAll;
-            
-//            size_t count = gq / 3;
-//            MCArrayLinkedListItem array[count];
-//            long values[count];
-//            for (int i=0; i<count; i++) {
-//                values[i] = gqueue[i+3];
-//            }
-//            
-//            MCArrayLinkedListItem* head = initMCArrayLinkedList(array, values, count);
-//            MCArrayLinkedListItem* iter = head;
-//            while (iter != mull) {
-//                
-//                MCArrayLinkedListItem* i1 = head;
-//                MCArrayLinkedListItem* i2 = &array[i1->nextIndex];
-//                MCArrayLinkedListItem* i3 = &array[i2->nextIndex];
-//                MCArrayLinkedListItem* i4 = &array[i3->nextIndex];
-//                
-//                //make a triangle
-//                long idx1 = i1->value;
-//                long idx2 = i2->value;
-//                long idx3 = i3->value;
-//                
-//                MCVector4 a = buff->vertexbuff[idx1];
-//                MCVector4 b = buff->vertexbuff[idx2];
-//                MCVector4 c = buff->vertexbuff[idx3];
-//                
-//                MCBool success = MCTrue;
-//                MCArrayLinkedListItem* remain = i4;
-//                while (remain != mull) {
-//                    MCVector4 p = buff->vertexbuff[remain->value];
-//                    success = IsVertex4InTriangle(a, b, c, p);
-//                    remain = nextMCArrayLinkedListItem(array, remain);
-//                }
-//                
-//                if (success == MCTrue) {
-//                    buff->facebuff[buff->fcursor].v1.vertexIndex = idx1;
-//                    buff->facebuff[buff->fcursor].v2.vertexIndex = idx2;
-//                    buff->facebuff[buff->fcursor].v3.vertexIndex = idx3;
-//                    buff->fcursor++;
-//                    
-//                    deleteMCArrayLinkedListItem(array, i2);
-//                }else{
-//                    
-//                }
-//                
-//                iter = nextMCArrayLinkedListItem(array, iter);
-//            }
-            
-            
-            for (int i=0; i< gq-6; i=i+3) {
-                //v1
-                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
-                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
-                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];
-                //v2
-                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[i + 3];
-                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[i + 4];
-                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[i + 5];
-                //v3
-                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[i + 6];
-                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[i + 7];
-                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[i + 8];
+            if (gq < 9) {
+                error_log("detect a face less than 3 vertex!");
+                exit(-1);
+            }
+            else if (gq == 9) {
+                //face
+                buff->facebuff[buff->fcursor++] = MC3DFaceMake(gqueue[0], gqueue[1], gqueue[2],
+                                                               gqueue[3], gqueue[4], gqueue[5],
+                                                               gqueue[6], gqueue[7], gqueue[8]);
+            }
+            else if (gq > 9) {
+//#define ONLY_CONVEX
+#ifdef ONLY_CONVEX
+                for (int i=0; i< gq-6; i=i+3) {
+                    //face
+                    buff->facebuff[buff->fcursor] = (MC3DFace){
+                        {gqueue[0  ], gqueue[1  ], gqueue[2  ]},
+                        {gqueue[i+3], gqueue[i+4], gqueue[i+5]},
+                        {gqueue[i+6], gqueue[i+7], gqueue[i+8]}
+                    };
+                    buff->fcursor++;
+                }
+#else
+                int count = gq / 3;
+                MCVector3 vertexes[count];
+                MCTriangle triangles[count-2];
                 
-                buff->fcursor++;
+                for (int i=0; i<count; i++) {
+                    MCVector4 vec4 = buff->vertexbuff[gqueue[i*3]];
+                    vertexes[i] = MCVector3From4(vec4);
+                }
+                
+                MCPolygon Poly;
+                MCPolygon* poly = &Poly;
+                
+                MCPolygonInit(poly, vertexes, count);
+                int tricount = MCPolygonResolveConcave(poly, triangles);
+                
+                for (int i=0; i<tricount; i++) {
+                    MCTriangle tri = triangles[i];
+                    size_t si = tri.indexes[0];
+                    size_t mi = tri.indexes[1];
+                    size_t ei = tri.indexes[2];
+
+                    buff->facebuff[buff->fcursor++] = MC3DFaceMake(si, si+1, si+2, mi, mi+1, mi+2, ei, ei+1, ei+2);
+                }
+#endif
             }
         }
     }

@@ -9,19 +9,22 @@
 #include <stdio.h>
 #include "MCArrayLinkedList.h"
 
-MCArrayLinkedList* MCArrayLinkedListNew(MCGeneric values[], const size_t count)
+MCArrayLinkedList* MCArrayLinkedListInit(MCArrayLinkedList* list, MCGeneric values[], const size_t count)
 {
-    MCArrayLinkedList* list = (MCArrayLinkedList*)malloc(sizeof(MCArrayLinkedList)+sizeof(MCALItem)*count);
+    if (count > MCArrayLinkedListMax) {
+        error_log("MCArrayLinkedList item count can not over %ld\n", MCArrayLinkedListMax);
+        exit(-1);
+    }
     list->count = count;
     list->index = 0;
     
     int i;
     for (i=0; i<count; i++) {
-        MCALItem A = MCALItemMake(values[i+0]);
-        MCALItem B = MCALItemMake(values[i+1]);
+        MCALItem A = MCALItemMake(values[i+0], i+0);
+        MCALItem B = MCALItemMake(values[i+1], i+1);
         MCALItemLink(&A, &B);
     }
-    list->head = &list->array[0];
+    list->head = &(list->array[0]);
     
     return list;
 }

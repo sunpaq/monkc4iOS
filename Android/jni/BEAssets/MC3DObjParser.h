@@ -18,6 +18,12 @@
 #include "BEAssetsManager.h"
 
 typedef struct {
+    MCVector3 position;
+    MCVector3 normal;
+    MCVector3 color;
+} MC3DObjVertex;
+
+typedef struct {
     long vertexIndex;
     long texcoordIndex;
     long normalIndex;
@@ -33,6 +39,18 @@ typedef struct {
     MC3DFaceElement v2;
     MC3DFaceElement v3;
 } MC3DFace;
+
+MCInline MC3DFace MC3DFaceMake(long v1v, long v1t, long v1n,
+                               long v2v, long v2t, long v2n,
+                               long v3v, long v3t, long v3n)
+{
+    return (MC3DFace){{v1v, v1t, v1n}, {v2v, v2t, v2n}, {v3v, v3t, v3n}};
+}
+
+MCInline MC3DFace MC3DFaceMakeVertexOnly(long v1v, long v2v, long v3v)
+{
+    return (MC3DFace){{v1v, 0, 0}, {v2v, 0, 0}, {v3v, 0, 0}};
+}
 
 typedef struct MC3DObjBufferStruct {
     struct MC3DObjBufferStruct *nextobj;

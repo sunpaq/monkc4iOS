@@ -15,12 +15,13 @@
 typedef struct MCALItemStruct {
     struct MCALItemStruct* next;
     struct MCALItemStruct* prev;
+    size_t index;
     MCGeneric value;
 } MCALItem;
 
-MCInline MCALItem MCALItemMake(MCGeneric val)
+MCInline MCALItem MCALItemMake(MCGeneric val, size_t index)
 {
-    return (MCALItem){mull, mull, val};
+    return (MCALItem){mull, mull, index, val};
 }
 
 MCInline void MCALItemLink(MCALItem* A, MCALItem* B)
@@ -39,11 +40,12 @@ MCInline MCBool MCALItemIsTail(MCALItem* item)
     return MCBoolExpr(item->next == mull);
 }
 
+#define MCArrayLinkedListMax 1024
 typedef struct {
     size_t count;
     size_t index;
     MCALItem* head;
-    MCALItem array[];
+    MCALItem array[MCArrayLinkedListMax];
 } MCArrayLinkedList;
 
 MCInline void MCALSetHead(MCArrayLinkedList* list, MCALItem* item)
@@ -62,9 +64,7 @@ MCInline MCBool MCALIsEmpty(MCArrayLinkedList* list)
     return MCBoolExpr(list->head == mull);
 }
 
-MCArrayLinkedList* MCArrayLinkedListNew(MCGeneric values[], const size_t count);
-void MCArrayLinkedListRelease(MCArrayLinkedList* list);
-
+MCArrayLinkedList* MCArrayLinkedListInit(MCArrayLinkedList* list, MCGeneric values[], const size_t count);
 MCALItem* MCALDeleteItem(MCArrayLinkedList* list, MCALItem* item);
 
 #endif /* MCArrayLinkedList_h */

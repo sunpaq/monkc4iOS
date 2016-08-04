@@ -14,23 +14,24 @@
 
 //Triangle
 
-typedef union {
-    struct {
-        MCVector3 a;
-        MCVector3 b;
-        MCVector3 c;
-    };
-    MCVector3 v[3];
+typedef struct {
+    MCVector3 a;
+    MCVector3 b;
+    MCVector3 c;
+    size_t indexes[3];
 } MCTriangle;
 
-typedef union {
-    struct {
-        MCVector4 a;
-        MCVector4 b;
-        MCVector4 c;
-    };
-    MCVector4 v[3];
+typedef struct {
+    MCVector4 a;
+    MCVector4 b;
+    MCVector4 c;
+    size_t indexes[3];
 } MCTriangle4;
+
+MCInline MCTriangle MCTriangleMakeWithIndexes(MCVector3 a, MCVector3 b, MCVector3 c, size_t ai, size_t bi, size_t ci)
+{
+    return (MCTriangle){a, b, c, ai, bi, ci};
+}
 
 MCInline MCTriangle MCTriangleMake(MCVector3 a, MCVector3 b, MCVector3 c)
 {
@@ -110,43 +111,38 @@ MCInline MCBool MCTriangle4ContainsVertex4(MCTriangle4 tri4, MCVector4 P4)
 
 //Polygon
 
+#define MCPolygonMax 1024
 typedef struct {
     size_t count;
     size_t index;
-    MCVector3 v[];
+    double v[MCPolygonMax*3];
+    int triangleIndex[MCPolygonMax];
 } MCPolygon;
 
-MCInline MCPolygon* MCPolygonNew(size_t count)
+MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, double vertexes[], size_t count)
 {
-    MCPolygon* poly = (MCPolygon*)malloc(sizeof(MCPolygon)+sizeof(MCVector3)*count);
+    if (count > MCPolygonMax) {
+        error_log("MCPolygon vertex count can not over %ld\n", MCPolygonMax);
+        exit(-1);
+    }
     poly->count = count;
     poly->index = 0;
-
-    return poly;
-}
-
-MCInline MCPolygon* MCPolyInit(MCPolygon* poly, MCVector3 vertexes[])
-{
-    size_t count = poly->count;
     for (int i=0; i<count; i++) {
         poly->v[i] = vertexes[i];
     }
     return poly;
 }
 
-MCInline MCGeneric* MCPolygonVertexToGeneric(MCPolygon* poly, MCGeneric values[])
+MCInline void MCPolygonVertexToGeneric(MCPolygon* poly, MCGeneric values[])
 {
     size_t count = poly->count;
     for (int i=0; i<count; i++) {
-        values[i].mcptr = &poly->v[i];
+        values[i].mcdouble.d = poly->v[i];
     }
-    return values;
 }
 
-MCInline void MCPolygonRelease(MCPolygon* poly)
-{
-    free(poly);
-}
+//return count of triangles
+int MCPolygonResolveConvex(MCPolygon* poly, MCTriangle* result);
 
 //return count of triangles
 int MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* result);
