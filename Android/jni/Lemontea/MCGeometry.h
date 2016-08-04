@@ -11,6 +11,7 @@
 
 #include <math.h>
 #include "MCMath.h"
+#include "MCArrayLinkedList.h"
 
 //Triangle
 
@@ -18,20 +19,13 @@ typedef struct {
     MCVector3 a;
     MCVector3 b;
     MCVector3 c;
-    size_t indexes[3];
 } MCTriangle;
 
 typedef struct {
     MCVector4 a;
     MCVector4 b;
     MCVector4 c;
-    size_t indexes[3];
 } MCTriangle4;
-
-MCInline MCTriangle MCTriangleMakeWithIndexes(MCVector3 a, MCVector3 b, MCVector3 c, size_t ai, size_t bi, size_t ci)
-{
-    return (MCTriangle){a, b, c, ai, bi, ci};
-}
 
 MCInline MCTriangle MCTriangleMake(MCVector3 a, MCVector3 b, MCVector3 c)
 {
@@ -115,11 +109,11 @@ MCInline MCBool MCTriangle4ContainsVertex4(MCTriangle4 tri4, MCVector4 P4)
 typedef struct {
     size_t count;
     size_t index;
-    double v[MCPolygonMax*3];
-    int triangleIndex[MCPolygonMax];
+    MCArrayLinkedList vertexIndexes;
+    MCVector3 vertexData[MCPolygonMax];
 } MCPolygon;
 
-MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, double vertexes[], size_t count)
+MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
 {
     if (count > MCPolygonMax) {
         error_log("MCPolygon vertex count can not over %ld\n", MCPolygonMax);
@@ -127,25 +121,21 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, double vertexes[], size_t cou
     }
     poly->count = count;
     poly->index = 0;
+    MCGeneric generic[count];
     for (int i=0; i<count; i++) {
-        poly->v[i] = vertexes[i];
+        poly->vertexData[i] = vertexes[i];
+        generic[i].mclong = i;
     }
+    MCArrayLinkedList* list = &(poly->vertexIndexes);
+    MCArrayLinkedListInit(list, generic, count);
     return poly;
-}
-
-MCInline void MCPolygonVertexToGeneric(MCPolygon* poly, MCGeneric values[])
-{
-    size_t count = poly->count;
-    for (int i=0; i<count; i++) {
-        values[i].mcdouble.d = poly->v[i];
-    }
 }
 
 //return count of triangles
 int MCPolygonResolveConvex(MCPolygon* poly, MCTriangle* result);
 
 //return count of triangles
-int MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* result);
+size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle triangleResult[], size_t vertexIndex[]);
 
 #endif /* MCGeometry_h */
 

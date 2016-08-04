@@ -253,15 +253,18 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 MCPolygon* poly = &Poly;
                 
                 MCPolygonInit(poly, vertexes, count);
-                int tricount = MCPolygonResolveConcave(poly, triangles);
+                size_t vindexResult[count];
+                size_t tricount = MCPolygonResolveConcave(poly, triangles, vindexResult);
                 
                 for (int i=0; i<tricount; i++) {
-                    MCTriangle tri = triangles[i];
-                    size_t si = tri.indexes[0];
-                    size_t mi = tri.indexes[1];
-                    size_t ei = tri.indexes[2];
+                    
+                    buff->facebuff[buff->fcursor] = (MC3DFace){
+                        {vindexResult[i], vindexResult[i], vindexResult[i]},
+                        {gqueue[i+3],     gqueue[i+4],     gqueue[i+5]},
+                        {gqueue[i+6],     gqueue[i+7],     gqueue[i+8]}
+                    };
+                    buff->fcursor++;
 
-                    buff->facebuff[buff->fcursor++] = MC3DFaceMake(si, si+1, si+2, mi, mi+1, mi+2, ei, ei+1, ei+2);
                 }
 #endif
             }

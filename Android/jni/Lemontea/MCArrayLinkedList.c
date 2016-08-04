@@ -20,8 +20,8 @@ MCArrayLinkedList* MCArrayLinkedListInit(MCArrayLinkedList* list, MCGeneric valu
     
     int i;
     for (i=0; i<count; i++) {
-        MCALItem A = MCALItemMake(values[i+0], i+0);
-        MCALItem B = MCALItemMake(values[i+1], i+1);
+        MCALItem A = MCALItemMake(values[i+0]);
+        MCALItem B = MCALItemMake(values[i+1]);
         MCALItemLink(&A, &B);
     }
     list->head = &(list->array[0]);

@@ -15,13 +15,12 @@
 typedef struct MCALItemStruct {
     struct MCALItemStruct* next;
     struct MCALItemStruct* prev;
-    size_t index;
     MCGeneric value;
 } MCALItem;
 
-MCInline MCALItem MCALItemMake(MCGeneric val, size_t index)
+MCInline MCALItem MCALItemMake(MCGeneric val)
 {
-    return (MCALItem){mull, mull, index, val};
+    return (MCALItem){mull, mull, val};
 }
 
 MCInline void MCALItemLink(MCALItem* A, MCALItem* B)
