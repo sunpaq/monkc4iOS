@@ -11,7 +11,7 @@
 #include "MCMath.h"
 #include "MCLinkedList.h"
 
-function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int faceIndex, MCColorRGBAf color);
+function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DTriangleFace face, int faceIndex, MCColorRGBAf color);
 
 compute(MC3DFrame, frame)
 {
@@ -131,14 +131,14 @@ onload(MC3DModel)
 static MCBool MC3DObjParser_textureOnOff = MCFalse;
 
 function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
-        MC3DFaceElement element, int offset, MCColorRGBAf color)
+        MCVector3 element, int offset, MCColorRGBAf color)
 {
     MCVector3* vertexbuff  = buff->vertexbuff;
     MCVector2* texcoorbuff = buff->texcoorbuff;
     MCVector3* normalbuff  = buff->normalbuff;
     
     //vertex
-    long v = element.vertexIndex - 1;
+    long v = element.x - 1;
     if (v < 0) {
         error_log("MC3DFileParser: invalide vertex data!");
         exit(-1);
@@ -155,7 +155,7 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
     MCMath_accumulateMind(&buff->frame.zmin, vertexbuff[v].z);
     
     //normal
-    long n = element.normalIndex - 1;
+    long n = element.z - 1;
     if (n < 0) {
         MCMesh_setVertex(0, mesh, offset+3, MCVector3Make(0, 0, 0));
         error_log("MC3DFileParser: invalide normal data!");
@@ -168,7 +168,7 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
     MCMesh_setVertex(0, mesh, offset+6, MCVector3Make(color.R.f, color.G.f, color.B.f));
     
     //texture
-    long t = element.texcoordIndex - 1;
+    long t = element.y - 1;
     if (t < 0 || MC3DObjParser_textureOnOff==MCFalse) {
         mesh->vertexDataPtr[offset+9]  = 0;
         mesh->vertexDataPtr[offset+10] = 0;
@@ -185,12 +185,12 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
 #endif
 }
 
-function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int faceIndex, MCColorRGBAf color)
+function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DTriangleFace face, int faceIndex, MCColorRGBAf color)
 {
     int offset = faceIndex * 33;
-    loadFaceElement(0, mull, mesh, buff, face.v1, offset+0, color);
-    loadFaceElement(0, mull, mesh, buff, face.v2, offset+11, color);
-    loadFaceElement(0, mull, mesh, buff, face.v3, offset+22, color);
+    loadFaceElement(0, mull, mesh, buff, (MCVector3){face.v1, face.t1, face.n1}, offset+0, color);
+    loadFaceElement(0, mull, mesh, buff, (MCVector3){face.v2, face.t2, face.n2}, offset+11, color);
+    loadFaceElement(0, mull, mesh, buff, (MCVector3){face.v3, face.t3, face.n3}, offset+22, color);
     
 #if 0
     debug_log("[%d/%d/%d %d/%d/%d %d/%d/%d]\n",

@@ -17,45 +17,30 @@
 #include "MCLexer.h"
 #include "BEAssetsManager.h"
 
-typedef struct {
-    MCVector3 position;
-    MCVector3 normal;
-    MCVector3 color;
-} MC3DObjVertex;
-
-typedef struct {
-    long vertexIndex;
-    long texcoordIndex;
-    long normalIndex;
-} MC3DFaceElement;
-
 typedef enum {
     MC3DFaceVertexOnly,
     MC3DFaceAll
 } MC3DFaceType;
 
-typedef struct {
-    MC3DFaceElement v1;
-    MC3DFaceElement v2;
-    MC3DFaceElement v3;
-} MC3DFace;
-
-MCInline MC3DFace MC3DFaceMake(long v1v, long v1t, long v1n,
-                               long v2v, long v2t, long v2n,
-                               long v3v, long v3t, long v3n)
-{
-    return (MC3DFace){{v1v, v1t, v1n}, {v2v, v2t, v2n}, {v3v, v3t, v3n}};
-}
-
-MCInline MC3DFace MC3DFaceMakeVertexOnly(long v1v, long v2v, long v3v)
-{
-    return (MC3DFace){{v1v, 0, 0}, {v2v, 0, 0}, {v3v, 0, 0}};
-}
+typedef union {
+    struct {
+        long v1;
+        long v2;
+        long v3;
+        long t1;
+        long t2;
+        long t3;
+        long n1;
+        long n2;
+        long n3;
+    };
+    long v[9];
+} MC3DTriangleFace;
 
 typedef struct MC3DObjBufferStruct {
     struct MC3DObjBufferStruct *nextobj;
     MC3DFrame  frame;
-    MC3DFace*  facebuff;
+    MC3DTriangleFace* facebuff;
     MCVector3* vertexbuff;
     MCVector2* texcoorbuff;
     MCVector3* normalbuff;
@@ -69,13 +54,14 @@ typedef struct MC3DObjBufferStruct {
 
 MCInline MC3DObjBuffer* allocMC3DObjBuffer(size_t facecount, int vpf)
 {
+    size_t count = (facecount+1) * vpf;
     MC3DObjBuffer* buff = (MC3DObjBuffer*)malloc(sizeof(MC3DObjBuffer));
     buff->nextobj = mull;
     buff->frame = (MC3DFrame){0,0,0,0,0,0};
-    buff->facebuff    = (MC3DFace*)malloc(sizeof(MC3DFace) * (facecount+1));
-    buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
-    buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount+1) * vpf);
-    buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
+    buff->facebuff    = (MC3DTriangleFace*)malloc(sizeof(MC3DTriangleFace) * count);
+    buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * count);
+    buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * count);
+    buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * count);
     buff->fcursor = 0;
     buff->vcursor = 0;
     buff->tcursor = 0;

@@ -14,7 +14,7 @@ typedef enum {
     MCTokenIdentifier,
     MCTokenFloat,
     MCTokenInteger,
-    MCTokenDate,
+    MCTokenXSV,
     MCTokenComment,
     MCTokenUnknown
 } MCTokenType;
@@ -123,10 +123,10 @@ MCInline MCBool isFloat(const char* n)
     return MCTrue;
 }
 
-MCInline MCBool isDate(const char* s)
+MCInline MCBool isXSV(const char* s, const char sc)
 {
     while (isNewLine(s) == MCFalse && *s != MCBackSlash0) {
-        if (MCCond_Digit(s) || *s == '/') {
+        if (MCCond_Digit(s) || *s == sc) {
             s++; continue;
         } else {
             return MCFalse;
@@ -136,7 +136,7 @@ MCInline MCBool isDate(const char* s)
 }
 
 //return int count
-MCInline int getDate(const char* s, long* buff)
+MCInline int getXSV(const char* s, const char sc, long* buff)
 {
     const char* remain = s;
     char digit[512];
@@ -146,7 +146,7 @@ MCInline int getDate(const char* s, long* buff)
         if (MCCond_Digit(remain)) {
             digit[i++] = *remain;
         }
-        else if (*remain == '/') {
+        else if (*remain == sc) {
             if (i == 0) {
                 //no digit
                 buff[b++] = 0;
@@ -174,6 +174,27 @@ MCInline int getDate(const char* s, long* buff)
     return b;
 }
 
+MCInline int getXSV3(const char* s, const char sc, long* buff1, long* buff2, long* buff3)
+{
+    long buff[4096];
+    int count = getXSV(s, sc, buff);
+    
+    int j=0;
+    for (int i=0; i<count; i=i+3) {
+        buff1[j++] = buff[i];
+    }
+    j=0;
+    for (int i=1; i<count; i=i+3) {
+        buff2[j++] = buff[i];
+    }
+    j=0;
+    for (int i=2; i<count; i=i+3) {
+        buff3[j++] = buff[i];
+    }
+    
+    return (count==0)?(0):(count/3);
+}
+
 //MCTokenWord,
 //MCTokenFloat,
 //MCTokenInteger,
@@ -197,9 +218,9 @@ MCInline MCToken tokenize(const char* word)
         token.type = MCTokenInteger;
         token.value.Integer = atoi(word);
     }
-    else if (isDate(word) == MCTrue) {
-        token.type = MCTokenDate;
-        getDate(word, token.value.Date);
+    else if (isXSV(word, '/') == MCTrue) {
+        token.type = MCTokenXSV;
+        getXSV(word, '/', token.value.Date);
     }
     else if (strncmp("#", word, 1) == 0) {
         token.type = MCTokenComment;

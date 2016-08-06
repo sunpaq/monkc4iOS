@@ -22,7 +22,7 @@ size_t countFaces(const char* linebuff, size_t tcount)
             case MCTokenInteger:
                 icount++;
                 break;
-            case MCTokenDate:
+            case MCTokenXSV:
                 gcount++;
                 break;
             default:
@@ -105,9 +105,11 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     static enum LexerState state = LSIdle;
     
     //template storage
-    double fqueue[1024] = {0.0, 0.0, 0.0, 0.0};          int fq=0;//float
-    long   iqueue[1024] = {0, 0, 0, 0};                  int iq=0;//integer
-    long   gqueue[4096] = {0,0,0, 0,0,0, 0,0,0, 0,0,0};  int gq=0;//igroup
+    double fqueue[1024] = {}; int fq=0;//float
+    long   iqueue[1024] = {}; int iq=0;//int
+    long   vqueue[1024] = {}; int vq=0;//vertex
+    long   tqueue[1024] = {}; int tq=0;//texture
+    long   nqueue[1024] = {}; int nq=0;//normal
     
     //MCToken token;
     MCToken token;
@@ -146,9 +148,12 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
             case MCTokenInteger:
                 iqueue[iq++] = token.value.Integer;
                 break;
-            case MCTokenDate:
-                c = getDate(word, &gqueue[gq]);
-                gq += c;
+            case MCTokenXSV:
+                c = getXSV3(word, '/', &vqueue[vq], &tqueue[tq], &nqueue[nq]);
+                vq += c;
+                tq += c;
+                nq += c;
+                
                 break;
             case MCTokenComment:
                 return 0;
@@ -185,12 +190,21 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 exit(-1);
             }
             else if (iq == 3) {
-                buff->facebuff[buff->fcursor++] = MC3DFaceMakeVertexOnly(iqueue[0], iqueue[1], iqueue[2]);
+                buff->facebuff[buff->fcursor++] = (MC3DTriangleFace){iqueue[0], iqueue[1], iqueue[2]};
             }
             else if (iq > 3) {
+#define ONLY_CONVEX
+#ifdef ONLY_CONVEX
+                for (int i=0; i<iq-2; i++) {
+                    buff->facebuff[buff->fcursor++] = (MC3DTriangleFace){
+                        iqueue[0], iqueue[i+1], iqueue[i+2]
+                    };
+                }
+                
+#else
                 for (int i=0; i<iq-2; i++) {//remain 2 points
                     //make a triangle
-                    long idx1 = iqueue[i];
+                    long idx1 = iqueue[i+0];
                     long idx2 = iqueue[i+1];
                     long idx3 = iqueue[i+2];
 
@@ -208,37 +222,40 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                     }
                     
                     if (success == MCTrue) {
-                        buff->facebuff[buff->fcursor++] = MC3DFaceMakeVertexOnly(idx1, idx2, idx3);
+                        buff->facebuff[buff->fcursor++] = (MC3DTriangleFace){idx1, idx2, idx3};
                     }else{
                         continue;
                     }
                 }
+#endif
             }
         }
-        else if (gq != 0) {
+        if (vq != 0) {
             buff->facetype = MC3DFaceAll;
-            if (gq < 9) {
+            if (vq < 3) {
                 error_log("detect a face less than 3 vertex!");
                 exit(-1);
             }
-            else if (gq == 9) {
+            else if (vq == 3) {
                 //face
-                buff->facebuff[buff->fcursor++] = MC3DFaceMake(gqueue[0], gqueue[1], gqueue[2],
-                                                               gqueue[3], gqueue[4], gqueue[5],
-                                                               gqueue[6], gqueue[7], gqueue[8]);
+                buff->facebuff[buff->fcursor++] = (MC3DTriangleFace){
+                    vqueue[0], vqueue[1], vqueue[2],
+                    tqueue[0], tqueue[1], tqueue[2],
+                    nqueue[0], nqueue[1], nqueue[2]
+                };
             }
-            else if (gq > 9) {
+            else if (vq > 3) {
 #define ONLY_CONVEX
 #ifdef ONLY_CONVEX
-                for (int i=0; i< gq-6; i=i+3) {
-                    //face
-                    buff->facebuff[buff->fcursor] = (MC3DFace){
-                        {gqueue[0  ], gqueue[1  ], gqueue[2  ]},
-                        {gqueue[i+3], gqueue[i+4], gqueue[i+5]},
-                        {gqueue[i+6], gqueue[i+7], gqueue[i+8]}
+                
+                for (int i=0; i<vq-2; i++) {
+                    buff->facebuff[buff->fcursor++] = (MC3DTriangleFace){
+                        vqueue[0], vqueue[i+1], vqueue[i+2],
+                        tqueue[0], tqueue[i+1], tqueue[i+2],
+                        nqueue[0], nqueue[i+1], nqueue[i+2]
                     };
-                    buff->fcursor++;
                 }
+
 #else
                 int count = gq / 3;
                 MCVector3 vertexes[count];
