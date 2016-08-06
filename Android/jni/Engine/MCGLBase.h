@@ -154,4 +154,29 @@ typedef enum {
     
 } MCGLSLTypeMatrix;
 
+typedef struct {
+    GLuint        index;
+    GLint         vectorsize;
+    GLenum        vectortype;
+    GLboolean     normalized;
+    GLsizei       stride;
+    const GLvoid* ptr_offset;
+} MCGLVertexAttribute;
+
+MCInline void MCGLVertexAttributeLoad(MCGLVertexAttribute* attr)
+{
+    glEnableVertexAttribArray(attr->index);
+    glVertexAttribPointer(attr->index, attr->vectorsize, attr->vectortype,
+                          attr->normalized, attr->stride, attr->ptr_offset);
+}
+
+typedef enum {
+    MCGLVertexAttribPosition,
+    MCGLVertexAttribNormal,
+    MCGLVertexAttribColor,
+    MCGLVertexAttribTexCoord0,
+    MCGLVertexAttribTexCoord1,
+    MCGLVertexAttribIndexMax
+} MCGLVertexAttribIndex;
+
 #endif

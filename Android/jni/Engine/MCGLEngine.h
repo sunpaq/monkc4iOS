@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MC3DType.h"
+#include "MCGLBase.h"
 #include "MC3DBase.h"
 #include "MC3DShapeBase.h"
 #include "MCClock.h"

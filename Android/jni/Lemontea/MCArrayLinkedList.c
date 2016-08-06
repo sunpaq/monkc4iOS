@@ -16,13 +16,15 @@ MCArrayLinkedList* MCArrayLinkedListInit(MCArrayLinkedList* list, MCGeneric valu
         exit(-1);
     }
     list->count = count;
-    list->index = 0;
+    list->cursor = 0;
     
     int i;
     for (i=0; i<count; i++) {
-        MCALItem A = MCALItemMake(values[i+0]);
-        MCALItem B = MCALItemMake(values[i+1]);
-        MCALItemLink(&A, &B);
+        MCALItem* A = &(list->array[i+0]);
+        MCALItem* B = &(list->array[i+1]);
+        A->value = values[i+0];
+        B->value = values[i+1];
+        MCALItemLink(A, B);
     }
     list->head = &(list->array[0]);
     

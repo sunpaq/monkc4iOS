@@ -42,7 +42,7 @@ MCInline MCBool MCALItemIsTail(MCALItem* item)
 #define MCArrayLinkedListMax 1024
 typedef struct {
     size_t count;
-    size_t index;
+    size_t cursor;
     MCALItem* head;
     MCALItem array[MCArrayLinkedListMax];
 } MCArrayLinkedList;

@@ -135,9 +135,10 @@ method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, dou
     glBindBuffer(GL_ARRAY_BUFFER, var(vboid));
     glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), skyboxVertices, GL_STATIC_DRAW);
     //VAttributes
-    MCVertexAttribute attr = (MCVertexAttribute){MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE,
+    MCGLVertexAttribute attr = (MCGLVertexAttribute){
+        MCGLVertexAttribPosition, 3, GL_FLOAT, GL_FALSE,
         sizeof(GLfloat) * 3, MCBUFFER_OFFSET(0)};
-    MCVertexAttributeLoad(&attr);
+    MCGLVertexAttributeLoad(&attr);
     //Texture
     MCGLEngine_activeTextureUnit(0);
     MCGLEngine_bindCubeTexture(var(texid));

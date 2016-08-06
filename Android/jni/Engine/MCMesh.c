@@ -14,7 +14,7 @@ oninit(MCMesh)
     if (init(MCItem)) {
         var(frame) = (MC3DFrame){0,0,0,0,0,0};
         var(isDataLoaded) = MCFalse;
-
+        obj->vertexCursor = 0;
         obj->useage = GL_STATIC_DRAW;//default
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
         debug_log("MCMesh - init finished");
@@ -33,19 +33,37 @@ method(MCMesh, void, bye, voida)
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
 {
     debug_log("MCMesh - initWithDefaultVertexAttributes");
-    obj->vertexAttribArray[0] = (MCVertexAttribute){MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(0)};
-    obj->vertexAttribArray[1] = (MCVertexAttribute){MCVertexAttribNormal,   3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(12)};
-    obj->vertexAttribArray[2] = (MCVertexAttribute){MCVertexAttribColor,    3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(24)};
-    obj->vertexAttribArray[3] = (MCVertexAttribute){MCVertexAttribTexCoord0,2, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(36)};
+    obj->vertexAttribArray[0] = (MCGLVertexAttribute){
+        MCGLVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(0)};
+    obj->vertexAttribArray[1] = (MCGLVertexAttribute){
+        MCGLVertexAttribNormal,   3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(12)};
+    obj->vertexAttribArray[2] = (MCGLVertexAttribute){
+        MCGLVertexAttribColor,    3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(24)};
+    obj->vertexAttribArray[3] = (MCGLVertexAttribute){
+        MCGLVertexAttribTexCoord0,2, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(36)};
     
     return obj;
 }
 
-method(MCMesh, void, setVertex, GLuint offset, MCVector3 vec3)
+method(MCMesh, void, addVertex, MCMeshVertexData data)
 {
-    obj->vertexDataPtr[offset+0] = vec3.x;
-    obj->vertexDataPtr[offset+1] = vec3.y;
-    obj->vertexDataPtr[offset+2] = vec3.z;
+    //position
+    obj->vertexDataPtr[obj->vertexCursor+0] = data.x;
+    obj->vertexDataPtr[obj->vertexCursor+1] = data.y;
+    obj->vertexDataPtr[obj->vertexCursor+2] = data.z;
+    //normal
+    obj->vertexDataPtr[obj->vertexCursor+3] = data.nx;
+    obj->vertexDataPtr[obj->vertexCursor+4] = data.ny;
+    obj->vertexDataPtr[obj->vertexCursor+5] = data.nz;
+    //color
+    obj->vertexDataPtr[obj->vertexCursor+6] = data.r;
+    obj->vertexDataPtr[obj->vertexCursor+7] = data.g;
+    obj->vertexDataPtr[obj->vertexCursor+8] = data.b;
+    //texcoord
+    obj->vertexDataPtr[obj->vertexCursor+9]  = data.u;
+    obj->vertexDataPtr[obj->vertexCursor+10] = data.v;
+    
+    obj->vertexCursor++;
 }
 
 method(MCMesh, void, prepareMesh, MCGLContext* ctx)
@@ -60,12 +78,10 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
         glBufferData(GL_ARRAY_BUFFER, obj->vertexDataSize, obj->vertexDataPtr, obj->useage);
         //VAttributes
         int i;
-        for (i=0; i<MCVertexAttribIndexMax-1; i++) {
-            MCVertexAttribute attr = obj->vertexAttribArray[i];
-            
+        for (i=0; i<MCGLVertexAttribIndexMax-1; i++) {
+            MCGLVertexAttribute attr = obj->vertexAttribArray[i];
             if (attr.vectorsize != (GLint)mull) {
-                
-                MCVertexAttributeLoad(&obj->vertexAttribArray[i]);
+                MCGLVertexAttributeLoad(&obj->vertexAttribArray[i]);
             }
         }
         //Unbind
@@ -100,7 +116,7 @@ onload(MCMesh)
     if (load(MCItem)) {
         binding(MCMesh, void, bye, voida);
         binding(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
-        binding(MCMesh, void, setVertex, GLuint offset, MCVector3 vec3);
+        binding(MCMesh, void, addVertex, MCMeshVertexData data);
         binding(MCMesh, void, prepareMesh, voida);
         binding(MCMesh, void, drawMesh, voida);
         //binding(MCMesh, void, dump, voida);

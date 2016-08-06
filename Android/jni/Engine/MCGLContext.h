@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "monkc.h"
 #include "MCMath.h"
-#include "MC3DType.h"
+#include "MCGLBase.h"
 
 #define MAX_VATTR_NUM     100
 #define MAX_UNIFORM_NUM   100

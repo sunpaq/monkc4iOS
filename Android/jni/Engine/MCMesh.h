@@ -11,27 +11,47 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MCVertex.h"
 #include "MCGLContext.h"
 #include "MCLinkedList.h"
 #include "MCMath.h"
 #include "MC3DObjParser.h"
 
+typedef struct {
+    //position
+    GLfloat x;
+    GLfloat y;
+    GLfloat z;
+    //normal
+    GLfloat nx;
+    GLfloat ny;
+    GLfloat nz;
+    //color
+    GLfloat r;
+    GLfloat g;
+    GLfloat b;
+    //texcoord
+    GLfloat u;
+    GLfloat v;
+
+} MCMeshVertexData;
+
 class(MCMesh, MCItem,
       MC3DFrame  frame;
       GLenum     useage;
       GLsizei    vertexCount;
+      GLsizei    vertexCursor;
       GLuint     vertexArrayId;   //VAO
       GLuint     vertexBufferId;  //VBO
       GLfloat*   vertexDataPtr;   //gCubeVertexData
       GLsizeiptr vertexDataSize;  //sizeof(gCubeVertexData)
+      GLuint*    vertexIndexes;
       MCBool     isDataLoaded;
-      MCVertexAttribute vertexAttribArray[MCVertexAttribIndexMax];
+      MCGLVertexAttribute vertexAttribArray[MCGLVertexAttribIndexMax];
 );
 
 method(MCMesh, void, bye, voida);
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
-method(MCMesh, void, setVertex, GLuint offset, MCVector3 vec3);
+method(MCMesh, void, addVertex, MCMeshVertexData data);
 method(MCMesh, void, prepareMesh, MCGLContext* ctx);
 method(MCMesh, void, drawMesh, MCGLContext* ctx);
 method(MCMesh, void, dump, voida);
