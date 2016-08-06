@@ -19,7 +19,7 @@
 
 #define MC3DLineMaxChars 1024
 
-typedef GLsizei MC3DIndex;
+typedef long    MC3DIndex;
 typedef GLfloat MC3DFloat;
 
 typedef struct {

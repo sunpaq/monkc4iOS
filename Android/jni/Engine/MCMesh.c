@@ -93,7 +93,7 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArray(obj->vertexArrayId);
-    glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei)obj->vertexCount);
     
     //Unbind
     glBindVertexArray(0);

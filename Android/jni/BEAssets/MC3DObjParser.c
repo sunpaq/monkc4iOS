@@ -41,7 +41,7 @@ void MC3DObjRelease(MC3DObj* obj)
     }
 }
 
-static inline void MC3DObjAddPosition(MC3DObj* obj, MC3DPosition pos)
+static void MC3DObjAddPosition(MC3DObj* obj, MC3DPosition pos)
 {
     //3D frame max
     MCMath_accumulateMaxd(&obj->frame.xmax, pos.x);
@@ -55,12 +55,12 @@ static inline void MC3DObjAddPosition(MC3DObj* obj, MC3DPosition pos)
     obj->positionData[obj->pcursor++] = pos;
 }
 
-static inline void MC3DObjAddNormal(MC3DObj* obj, MC3DNormal nor)
+static void MC3DObjAddNormal(MC3DObj* obj, MC3DNormal nor)
 {
     obj->normalData[obj->ncursor++] = nor;
 }
 
-static inline void MC3DObjAddTexcoord(MC3DObj* obj, MC3DTexCoord tex)
+static void MC3DObjAddTexcoord(MC3DObj* obj, MC3DTexCoord tex)
 {
     obj->texcoordData[obj->tcursor++] = tex;
 }
@@ -99,30 +99,33 @@ static void MC3DObjAddFace(MC3DObj* obj, MC3DIndex indexes[], MC3DIndex count)
 
 static void MC3DObjGetMetadata(const char* buff, MC3DObjMetadata* meta)
 {
+    meta->datatype = MC3DObjUnknown;
+    meta->faceCount = 0;
+    meta->vertexesCount = 0;
+    
     if (buff != mull) {
         char linebuff[MC3DLineMaxChars];
-        
+        char word[256];
+        MCToken token;
+
         char* c = (char*) buff;
         while (*c != '\0' && *c != EOF) {
             //get a line
             int i;
-            for (i = 0; *c != '\n'; c++) { linebuff[i++] = *c; }
+            for (i = 0; *c != '\n'; c++) {
+                linebuff[i++] = *c;
+            }
             linebuff[i] = '\0';
             c++;//skip newline
             
             //process face line
             if (strncmp(linebuff, "f", 1) == 0) {
-                MCToken token; char word[256];
+                meta->faceCount++;
+
                 const char* remain = linebuff;
-            
                 while (isNewLine(remain) == MCFalse && *remain != '\0') {
                     token = tokenize(nextWord(&remain, word));
                     switch (token.type) {
-                        case MCTokenIdentifier:
-                            if (strncmp(word, "f", 1) == 0) {
-                                meta->faceCount++;
-                            }
-                            break;
                         case MCTokenInteger:
                             meta->datatype = MC3DObjVertexOnly;
                             break;
@@ -138,10 +141,9 @@ static void MC3DObjGetMetadata(const char* buff, MC3DObjMetadata* meta)
             else if (strncmp(linebuff, "v", 1) == 0) {
                 meta->vertexesCount++;
             }
+            //next line;
+            c = c+i;
         }
-        debug_log("MC3DObjParser - object face count is %d\n", meta->faceCount);
-    }else{
-        debug_log("MC3DObjParser - can not get metadata buff is mull\n");
     }
 }
 

@@ -38,8 +38,8 @@ typedef struct {
 class(MCMesh, MCItem,
       MC3DFrame  frame;
       GLenum     useage;
-      GLsizei    vertexCount;
-      GLsizei    vertexCursor;
+      long       vertexCount;
+      long       vertexCursor;
       GLuint     vertexArrayId;   //VAO
       GLuint     vertexBufferId;  //VBO
       GLfloat*   vertexDataPtr;   //gCubeVertexData
