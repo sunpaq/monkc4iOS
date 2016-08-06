@@ -14,8 +14,11 @@ utility(MCMath, double, accumulateMaxd, double* result, double value);
 utility(MCMath, double, accumulateMind, double* result, double value);
 
 typedef struct {
-    double x;
-    double y;
+    struct {
+        double x;
+        double y;
+    };
+    double v[2];
 } MCVector2;
 
 typedef union {

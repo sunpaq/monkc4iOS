@@ -194,16 +194,16 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                     long idx2 = iqueue[i+1];
                     long idx3 = iqueue[i+2];
 
-                    MCVector3 a = MCVector3From4(buff->vertexbuff[idx1]);
-                    MCVector3 b = MCVector3From4(buff->vertexbuff[idx2]);
-                    MCVector3 c = MCVector3From4(buff->vertexbuff[idx3]);
+                    MCVector3 a = buff->vertexbuff[idx1];
+                    MCVector3 b = buff->vertexbuff[idx2];
+                    MCVector3 c = buff->vertexbuff[idx3];
                     
                     MCBool success = MCTrue;
                     for (int j=0; j<iq; j++) {
                         if (j==i || j==i+1 || j==i+2) {
                             continue;
                         }
-                        MCVector3 p = MCVector3From4(buff->vertexbuff[iqueue[j]]);
+                        MCVector3 p = buff->vertexbuff[iqueue[j]];
                         success = MCTriangleContainsVertex(MCTriangleMake(a, b, c), p);
                     }
                     

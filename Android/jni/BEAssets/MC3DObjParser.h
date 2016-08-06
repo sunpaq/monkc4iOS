@@ -56,8 +56,8 @@ typedef struct MC3DObjBufferStruct {
     struct MC3DObjBufferStruct *nextobj;
     MC3DFrame  frame;
     MC3DFace*  facebuff;
-    MCVector4* vertexbuff;
-    MCVector3* texcoorbuff;
+    MCVector3* vertexbuff;
+    MCVector2* texcoorbuff;
     MCVector3* normalbuff;
     MC3DFaceType facetype;
     size_t fcursor;
@@ -73,8 +73,8 @@ MCInline MC3DObjBuffer* allocMC3DObjBuffer(size_t facecount, int vpf)
     buff->nextobj = mull;
     buff->frame = (MC3DFrame){0,0,0,0,0,0};
     buff->facebuff    = (MC3DFace*)malloc(sizeof(MC3DFace) * (facecount+1));
-    buff->vertexbuff  = (MCVector4*)malloc(sizeof(MCVector4) * (facecount+1) * vpf);
-    buff->texcoorbuff = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
+    buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
+    buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount+1) * vpf);
     buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
     buff->fcursor = 0;
     buff->vcursor = 0;

@@ -133,8 +133,8 @@ static MCBool MC3DObjParser_textureOnOff = MCFalse;
 function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
         MC3DFaceElement element, int offset, MCColorRGBAf color)
 {
-    MCVector4* vertexbuff  = buff->vertexbuff;
-    MCVector3* texcoorbuff = buff->texcoorbuff;
+    MCVector3* vertexbuff  = buff->vertexbuff;
+    MCVector2* texcoorbuff = buff->texcoorbuff;
     MCVector3* normalbuff  = buff->normalbuff;
     
     //vertex
@@ -143,7 +143,7 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
         error_log("MC3DFileParser: invalide vertex data!");
         exit(-1);
     }
-    MCMesh_setVertex(0, mesh, offset, MCVector3From4(vertexbuff[v]));
+    MCMesh_setVertex(0, mesh, offset, vertexbuff[v]);
     
     //3D frame max
     MCMath_accumulateMaxd(&buff->frame.xmax, vertexbuff[v].x);
