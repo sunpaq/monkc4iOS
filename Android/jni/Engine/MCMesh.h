@@ -44,8 +44,9 @@ class(MCMesh, MCItem,
       MC3DFrame  frame;
       GLenum     useage;
       GLsizei    vertexCount;
-      GLuint     vertexArrayId;   //VAO
-      GLuint     vertexBufferId;  //VBO
+      GLuint     vaoid;  //VAO
+      GLuint     vboid;  //VBO
+      GLuint     eboid;  //EBO
       GLfloat*   vertexDataPtr;   //gCubeVertexData
       GLsizeiptr vertexDataSize;  //sizeof(gCubeVertexData)
       GLuint*    vertexIndexes;

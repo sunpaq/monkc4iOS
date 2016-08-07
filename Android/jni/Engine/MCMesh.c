@@ -28,8 +28,9 @@ oninit(MCMesh)
 
 method(MCMesh, void, bye, voida)
 {
-    glDeleteBuffers(1, &obj->vertexBufferId);
-    glDeleteVertexArrays(1, &obj->vertexArrayId);
+    glDeleteBuffers(1, &obj->vboid);
+    glDeleteBuffers(1, &obj->eboid);
+    glDeleteVertexArrays(1, &obj->vaoid);
 }
 
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
@@ -73,13 +74,17 @@ method(MCMesh, void, setVertexData, GLuint offset, MCMeshVertexData data)
 method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
     if (var(isDataLoaded) == MCFalse) {
-        glGenVertexArrays(1, &obj->vertexArrayId);
-        glGenBuffers(1, &obj->vertexBufferId);
+        glGenVertexArrays(1, &obj->vaoid);
+        glGenBuffers(1, &obj->vboid);
+        glGenBuffers(1, &obj->eboid);
         //VAO
-        glBindVertexArray(obj->vertexArrayId);
+        glBindVertexArray(obj->vaoid);
         //VBO
-        glBindBuffer(GL_ARRAY_BUFFER, obj->vertexBufferId);
+        glBindBuffer(GL_ARRAY_BUFFER, obj->vboid);
         glBufferData(GL_ARRAY_BUFFER, obj->vertexDataSize, obj->vertexDataPtr, obj->useage);
+        //EBO
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->eboid);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*obj->vertexCount, obj->vertexIndexes, obj->useage);
         //VAttributes
         int i;
         for (i=0; i<MCVertexAttribIndexMax-1; i++) {
@@ -96,9 +101,9 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
-    glBindVertexArray(obj->vertexArrayId);
+    glBindVertexArray(obj->vaoid);
     if (var(vertexIndexes) != mull) {
-        glDrawElements(GL_LINES, obj->vertexCount, GL_UNSIGNED_INT, obj->vertexIndexes);
+        glDrawElements(GL_TRIANGLE_FAN, obj->vertexCount, GL_UNSIGNED_INT, 0);
     }else{
         glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);
     }
