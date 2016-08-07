@@ -39,6 +39,7 @@ typedef enum {
     MCGLDepthTest = GL_DEPTH_TEST,
     MCGLBlend = GL_BLEND,
     MCGLCullFace = GL_CULL_FACE,
+    MCGLMultiSample = GL_MULTISAMPLE
 } MCGLFeature;
 
 typedef struct {
