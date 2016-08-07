@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MC3DType.h"
+#include "MCGLBase.h"
 #include "MCMath.h"
 #include "MCGeometry.h"
 #include "MCLexer.h"

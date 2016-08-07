@@ -68,13 +68,13 @@ typedef enum {
     MCFragmentShader = GL_FRAGMENT_SHADER
 } MCShaderType;
 
-typedef enum {
-    MCGLPosition = 0,
-    MCGLNormal,
-    MCGLColor,
-    MCGLTexCoord0,
-    MCGLTexCoord1
-} MCGLIndex;
+//typedef enum {
+//    MCGLPosition = 0,
+//    MCGLNormal,
+//    MCGLColor,
+//    MCGLTexCoord0,
+//    MCGLTexCoord1
+//} MCGLIndex;
 
 typedef union {
     struct {
@@ -87,6 +87,30 @@ typedef union {
     };
     double m[6];
 } MC3DFrame;
+
+typedef struct {
+    GLuint index;
+    GLint  vectorsize;
+    GLenum vectortype;
+    GLboolean normalized;
+    GLsizei stride;
+    const GLvoid* ptr_offset;
+} MCVertexAttribute;
+
+MCInline void MCVertexAttributeLoad(MCVertexAttribute* attr)
+{
+    glEnableVertexAttribArray(attr->index);
+    glVertexAttribPointer(attr->index, attr->vectorsize, attr->vectortype, attr->normalized, attr->stride, attr->ptr_offset);
+}
+
+typedef enum {
+    MCVertexAttribPosition,
+    MCVertexAttribNormal,
+    MCVertexAttribColor,
+    MCVertexAttribTexCoord0,
+    MCVertexAttribTexCoord1,
+    MCVertexAttribIndexMax
+} MCVertexAttribIndex;
 
 typedef enum {
     MCGLSLScalar_float,

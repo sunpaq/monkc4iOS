@@ -34,8 +34,8 @@ MCInline MCUInt MCDrawLinePrepare(MCVector3 p1, MCVector3 p2)
     glGenBuffers(1, &bufferid);
     glBindBuffer(GL_ARRAY_BUFFER, bufferid);
     glBufferData(GL_ARRAY_BUFFER, 6, data, GL_STATIC_DRAW);//GL_STREAM_DRAW, GL_DYNAMIC_DRAW
-    glEnableVertexAttribArray(MCGLPosition);
-    glVertexAttribPointer(MCGLPosition, 3, GL_FLOAT, GL_FALSE, 0, MCBUFFER_OFFSET(0));
+    glEnableVertexAttribArray(MCVertexAttribPosition);
+    glVertexAttribPointer(MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 0, MCBUFFER_OFFSET(0));
     return bufferid;
 }
 

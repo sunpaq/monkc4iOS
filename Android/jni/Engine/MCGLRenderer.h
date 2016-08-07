@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 #include "monkc.h"
-#include "MC3DType.h"
+#include "MCGLBase.h"
 #include "MC3DNode.h"
 #include "MCGLContext.h"
 

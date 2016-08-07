@@ -36,6 +36,7 @@
     view.context = self.context;
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    view.drawableStencilFormat = GLKViewDrawableStencilFormat8;
     view.drawableMultisample = GLKViewDrawableMultisample4X;
     
     //split view

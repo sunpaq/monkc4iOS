@@ -51,7 +51,6 @@
 		FD44CE361D326CF200784EDF /* MCSkybox.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDD31D326CF200784EDF /* MCSkybox.c */; };
 		FD44CE371D326CF200784EDF /* MCSkyboxCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDD51D326CF200784EDF /* MCSkyboxCamera.c */; };
 		FD44CE381D326CF200784EDF /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDD71D326CF200784EDF /* MCTexture.c */; };
-		FD44CE391D326CF200784EDF /* MCVertex.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDDA1D326CF200784EDF /* MCVertex.c */; };
 		FD44CE3A1D326CF200784EDF /* MCWorld.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDDC1D326CF200784EDF /* MCWorld.c */; };
 		FD44CE3B1D326CF200784EDF /* MCArray.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDDF1D326CF200784EDF /* MCArray.c */; };
 		FD44CE3C1D326CF200784EDF /* MCBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDE11D326CF200784EDF /* MCBuffer.c */; };
@@ -194,7 +193,7 @@
 		FD44CDB91D326CF200784EDF /* MC3DScene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DScene.c; sourceTree = "<group>"; };
 		FD44CDBA1D326CF200784EDF /* MC3DScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DScene.h; sourceTree = "<group>"; };
 		FD44CDBB1D326CF200784EDF /* MC3DShapeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DShapeBase.h; sourceTree = "<group>"; };
-		FD44CDBC1D326CF200784EDF /* MC3DType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DType.h; sourceTree = "<group>"; };
+		FD44CDBC1D326CF200784EDF /* MCGLBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLBase.h; sourceTree = "<group>"; };
 		FD44CDBD1D326CF200784EDF /* MCCamera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCCamera.c; sourceTree = "<group>"; };
 		FD44CDBE1D326CF200784EDF /* MCCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCCamera.h; sourceTree = "<group>"; };
 		FD44CDBF1D326CF200784EDF /* MCCube.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCCube.c; sourceTree = "<group>"; };
@@ -224,8 +223,6 @@
 		FD44CDD71D326CF200784EDF /* MCTexture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTexture.c; sourceTree = "<group>"; };
 		FD44CDD81D326CF200784EDF /* MCTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTexture.h; sourceTree = "<group>"; };
 		FD44CDD91D326CF200784EDF /* MCUIBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUIBase.h; sourceTree = "<group>"; };
-		FD44CDDA1D326CF200784EDF /* MCVertex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCVertex.c; sourceTree = "<group>"; };
-		FD44CDDB1D326CF200784EDF /* MCVertex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCVertex.h; sourceTree = "<group>"; };
 		FD44CDDC1D326CF200784EDF /* MCWorld.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCWorld.c; sourceTree = "<group>"; };
 		FD44CDDD1D326CF200784EDF /* MCWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCWorld.h; sourceTree = "<group>"; };
 		FD44CDDF1D326CF200784EDF /* MCArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCArray.c; sourceTree = "<group>"; };
@@ -444,7 +441,7 @@
 				FD44CDB91D326CF200784EDF /* MC3DScene.c */,
 				FD44CDBA1D326CF200784EDF /* MC3DScene.h */,
 				FD44CDBB1D326CF200784EDF /* MC3DShapeBase.h */,
-				FD44CDBC1D326CF200784EDF /* MC3DType.h */,
+				FD44CDBC1D326CF200784EDF /* MCGLBase.h */,
 				FD44CDBD1D326CF200784EDF /* MCCamera.c */,
 				FD44CDBE1D326CF200784EDF /* MCCamera.h */,
 				FD44CDBF1D326CF200784EDF /* MCCube.c */,
@@ -474,8 +471,6 @@
 				FD44CDD71D326CF200784EDF /* MCTexture.c */,
 				FD44CDD81D326CF200784EDF /* MCTexture.h */,
 				FD44CDD91D326CF200784EDF /* MCUIBase.h */,
-				FD44CDDA1D326CF200784EDF /* MCVertex.c */,
-				FD44CDDB1D326CF200784EDF /* MCVertex.h */,
 				FD44CDDC1D326CF200784EDF /* MCWorld.c */,
 				FD44CDDD1D326CF200784EDF /* MCWorld.h */,
 			);
@@ -900,7 +895,6 @@
 				FD44CE2C1D326CF200784EDF /* MCCube.c in Sources */,
 				FD44CE4A1D326CF200784EDF /* MC3DXWindow.c in Sources */,
 				FD44CE2F1D326CF200784EDF /* MCGLEngine.c in Sources */,
-				FD44CE391D326CF200784EDF /* MCVertex.c in Sources */,
 				FD44CE3D1D326CF200784EDF /* MCClock.c in Sources */,
 				FD44CE3B1D326CF200784EDF /* MCArray.c in Sources */,
 				FD00C4C31CD10BAE00DCA45F /* DetailNavController.m in Sources */,
