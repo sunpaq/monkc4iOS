@@ -185,33 +185,20 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 exit(-1);
             }
             else if (iq == 3) {
-                buff->facebuff[buff->fcursor++] = MC3DFaceMakeVertexOnly(iqueue[0], iqueue[1], iqueue[2]);
+                buff->facebuff[buff->fcursor++] = (MC3DFace) {
+                    iqueue[0], 0, 0,
+                    iqueue[1], 0, 0,
+                    iqueue[2], 0, 0
+                };
             }
             else if (iq > 3) {
-                for (int i=0; i<iq-2; i++) {//remain 2 points
-                    //make a triangle
-                    long idx1 = iqueue[i+0];
-                    long idx2 = iqueue[i+1];
-                    long idx3 = iqueue[i+2];
-
-                    MCVector3 a = buff->vertexbuff[idx1];
-                    MCVector3 b = buff->vertexbuff[idx2];
-                    MCVector3 c = buff->vertexbuff[idx3];
-                    
-                    MCBool success = MCTrue;
-                    for (int j=0; j<iq; j++) {
-                        if (j==i || j==i+1 || j==i+2) {
-                            continue;
-                        }
-                        MCVector3 p = buff->vertexbuff[iqueue[j]];
-                        success = MCTriangleContainsVertex(MCTriangleMake(a, b, c), p);
-                    }
-                    
-                    if (success == MCTrue) {
-                        buff->facebuff[buff->fcursor++] = MC3DFaceMakeVertexOnly(idx1, idx2, idx3);
-                    }else{
-                        continue;
-                    }
+                //convex polygon have N-2 triangles
+                for (int i=0; i<iq-2; i++) {
+                    buff->facebuff[buff->fcursor++] = (MC3DFace) {
+                        iqueue[0  ], 0, 0,
+                        iqueue[i+1], 0, 0,
+                        iqueue[i+2], 0, 0
+                    };
                 }
             }
         }
@@ -223,21 +210,22 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
             }
             else if (gq == 9) {
                 //face
-                buff->facebuff[buff->fcursor++] = MC3DFaceMake(gqueue[0], gqueue[1], gqueue[2],
-                                                               gqueue[3], gqueue[4], gqueue[5],
-                                                               gqueue[6], gqueue[7], gqueue[8]);
+                buff->facebuff[buff->fcursor++] = (MC3DFace) {
+                    gqueue[0], gqueue[1], gqueue[2],
+                    gqueue[3], gqueue[4], gqueue[5],
+                    gqueue[6], gqueue[7], gqueue[8]
+                };
             }
             else if (gq > 9) {
 #define ONLY_CONVEX
 #ifdef ONLY_CONVEX
                 for (int i=0; i< gq-6; i=i+3) {
                     //face
-                    buff->facebuff[buff->fcursor] = (MC3DFace){
-                        {gqueue[0  ], gqueue[1  ], gqueue[2  ]},
-                        {gqueue[i+3], gqueue[i+4], gqueue[i+5]},
-                        {gqueue[i+6], gqueue[i+7], gqueue[i+8]}
+                    buff->facebuff[buff->fcursor++] = (MC3DFace){
+                        gqueue[0  ], gqueue[1  ], gqueue[2  ],
+                        gqueue[i+3], gqueue[i+4], gqueue[i+5],
+                        gqueue[i+6], gqueue[i+7], gqueue[i+8]
                     };
-                    buff->fcursor++;
                 }
 #else
                 int count = gq / 3;

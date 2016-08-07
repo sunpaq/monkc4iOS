@@ -17,9 +17,27 @@
 #include "MCMath.h"
 #include "MC3DObjParser.h"
 
+typedef union {
+    struct {
+        GLfloat x;
+        GLfloat y;
+        GLfloat z;
+        GLfloat nx;
+        GLfloat ny;
+        GLfloat nz;
+        GLfloat r;
+        GLfloat g;
+        GLfloat b;
+        GLfloat u;
+        GLfloat v;
+    };
+    GLfloat data[11];
+} MCMeshVertexData;
+
 class(MCMesh, MCItem,
       MC3DFrame  frame;
       GLenum     useage;
+      GLenum     mode;
       GLsizei    vertexCount;
       GLuint     vertexArrayId;   //VAO
       GLuint     vertexBufferId;  //VBO
@@ -32,7 +50,7 @@ class(MCMesh, MCItem,
 
 method(MCMesh, void, bye, voida);
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
-method(MCMesh, void, setVertex, GLuint offset, MCVector3 vec3);
+method(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data);
 method(MCMesh, void, prepareMesh, MCGLContext* ctx);
 method(MCMesh, void, drawMesh, MCGLContext* ctx);
 method(MCMesh, void, dump, voida);

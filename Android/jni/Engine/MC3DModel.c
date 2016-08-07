@@ -128,74 +128,56 @@ onload(MC3DModel)
     }
 }
 
-static MCBool MC3DObjParser_textureOnOff = MCFalse;
+function(void, calculateFrame, MC3DObjBuffer* buff, MCVector3 v)
+{
+    //3D frame max
+    MCMath_accumulateMaxd(&buff->frame.xmax, v.x);
+    MCMath_accumulateMaxd(&buff->frame.ymax, v.y);
+    MCMath_accumulateMaxd(&buff->frame.zmax, v.z);
+    //3D frame min
+    MCMath_accumulateMind(&buff->frame.xmin, v.x);
+    MCMath_accumulateMind(&buff->frame.ymin, v.y);
+    MCMath_accumulateMind(&buff->frame.zmin, v.z);
+}
 
 function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
-        MC3DFaceElement element, int offset, MCColorRGBAf color)
+        MC3DFaceElement e, int offset, MCColorRGBAf color)
 {
-    MCVector3* vertexbuff  = buff->vertexbuff;
-    MCVector2* texcoorbuff = buff->texcoorbuff;
-    MCVector3* normalbuff  = buff->normalbuff;
+    long vi = e.vi - 1;
+    long ni = e.ni - 1;
+    long ti = e.ti - 1;
     
-    //vertex
-    long v = element.vertexIndex - 1;
-    if (v < 0) {
+    MCVector3 v = buff->vertexbuff[vi];
+    MCVector3 n = buff->normalbuff[ni];
+    MCVector2 t = buff->texcoorbuff[ti];
+
+    if (vi < 0) {
         error_log("MC3DFileParser: invalide vertex data!");
         exit(-1);
     }
-    MCMesh_setVertex(0, mesh, offset, vertexbuff[v]);
-    
-    //3D frame max
-    MCMath_accumulateMaxd(&buff->frame.xmax, vertexbuff[v].x);
-    MCMath_accumulateMaxd(&buff->frame.ymax, vertexbuff[v].y);
-    MCMath_accumulateMaxd(&buff->frame.zmax, vertexbuff[v].z);
-    //3D frame min
-    MCMath_accumulateMind(&buff->frame.xmin, vertexbuff[v].x);
-    MCMath_accumulateMind(&buff->frame.ymin, vertexbuff[v].y);
-    MCMath_accumulateMind(&buff->frame.zmin, vertexbuff[v].z);
-    
-    //normal
-    long n = element.normalIndex - 1;
-    if (n < 0) {
-        MCMesh_setVertex(0, mesh, offset+3, MCVector3Make(0, 0, 0));
-        error_log("MC3DFileParser: invalide normal data!");
-        //exit(-1);
-    }else{
-        MCMesh_setVertex(0, mesh, offset+3, normalbuff[n]);
+    if (ni < 0) {
+        //error_log("MC3DFileParser: empty normal data, set to 0!");
+        n = (MCVector3){1.0,1.0,1.0};
+    }
+    if (ti < 0) {
+        //error_log("MC3DFileParser: empty texcoord data, set to 0!");
+        t = (MCVector2){0,0};
     }
     
-    //color
-    MCMesh_setVertex(0, mesh, offset+6, MCVector3Make(color.R.f, color.G.f, color.B.f));
-    
-    //texture
-    long t = element.texcoordIndex - 1;
-    if (t < 0 || MC3DObjParser_textureOnOff==MCFalse) {
-        mesh->vertexDataPtr[offset+9]  = 0;
-        mesh->vertexDataPtr[offset+10] = 0;
-    }else{
-        mesh->vertexDataPtr[offset+9]  = texcoorbuff[t].x;
-        mesh->vertexDataPtr[offset+10] = texcoorbuff[t].y;
-    }
-    
-#if 0
-    debug_log("[V%f,%f,%f T%f,%f N%f,%f,%f]\n",
-              buff->vertexbuff[v].x, buff->vertexbuff[v].y, buff->vertexbuff[v].z,
-              buff->texcoorbuff[t].x, buff->texcoorbuff[t].y,
-              buff->normalbuff[n].x, buff->normalbuff[n].y, buff->normalbuff[n].z);
-#endif
+    calculateFrame(0, mull, buff, v);
+    MCMesh_setVertex(0, mesh, offset, &(MCMeshVertexData){
+        v.x, v.y, v.z,
+        n.x, n.y, n.z,
+        color.R.f, color.G.f, color.B.f,
+        //t.x, t.y
+        0,0
+    });
 }
 
 function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int faceIndex, MCColorRGBAf color)
 {
     int offset = faceIndex * 33;
-    loadFaceElement(0, mull, mesh, buff, face.v1, offset+0, color);
-    loadFaceElement(0, mull, mesh, buff, face.v2, offset+11, color);
-    loadFaceElement(0, mull, mesh, buff, face.v3, offset+22, color);
-    
-#if 0
-    debug_log("[%d/%d/%d %d/%d/%d %d/%d/%d]\n",
-              face.v1.vertexIndex, face.v1.texcoordIndex, face.v1.normalIndex,
-              face.v2.vertexIndex, face.v2.texcoordIndex, face.v2.normalIndex,
-              face.v3.vertexIndex, face.v3.texcoordIndex, face.v3.normalIndex);
-#endif
+    loadFaceElement(0, mull, mesh, buff, face.e1, offset+0, color);
+    loadFaceElement(0, mull, mesh, buff, face.e2, offset+11, color);
+    loadFaceElement(0, mull, mesh, buff, face.e3, offset+22, color);
 }
