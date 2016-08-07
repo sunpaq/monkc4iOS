@@ -14,6 +14,7 @@ oninit(MCMesh)
     if (init(MCItem)) {
         var(frame) = (MC3DFrame){0,0,0,0,0,0};
         var(isDataLoaded) = MCFalse;
+        var(isLineMode) = MCTrue;
 
         obj->useage = GL_STATIC_DRAW;//default
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
@@ -77,7 +78,7 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArray(obj->vertexArrayId);
-    glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);
+    glDrawArrays((var(isLineMode)==MCTrue)?GL_LINES:GL_TRIANGLES, 0, obj->vertexCount);
     
     //Unbind
     glBindVertexArray(0);

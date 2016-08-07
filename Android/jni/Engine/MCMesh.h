@@ -26,6 +26,7 @@ class(MCMesh, MCItem,
       GLfloat*   vertexDataPtr;   //gCubeVertexData
       GLsizeiptr vertexDataSize;  //sizeof(gCubeVertexData)
       MCBool     isDataLoaded;
+      MCBool     isLineMode;
       MCVertexAttribute vertexAttribArray[MCVertexAttribIndexMax];
 );
 
