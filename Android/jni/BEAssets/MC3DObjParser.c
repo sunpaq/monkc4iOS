@@ -36,7 +36,7 @@ size_t countFaces(const char* linebuff, size_t tcount)
             return fcount;
         }else{
             //tcount += (icount - 1);
-            return tcount + (icount - 1);
+            return tcount + (icount - 2);
         }
     }
     else if (icount == 0 && gcount != 0) {//vertex tex normal
@@ -45,7 +45,7 @@ size_t countFaces(const char* linebuff, size_t tcount)
             return fcount;
         }else{
             //tcount += (gcount - 1);
-            return tcount + (gcount - 1);
+            return tcount + (gcount - 2);
         }
     }
     else {
@@ -233,8 +233,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 MCTriangle triangles[count-2];
                 
                 for (int i=0; i<count; i++) {
-                    MCVector4 vec4 = buff->vertexbuff[gqueue[i*3]];
-                    vertexes[i] = MCVector3From4(vec4);
+                    vertexes[i] = buff->vertexbuff[gqueue[i*3]];
                 }
                 
                 MCPolygon Poly;
@@ -247,9 +246,9 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 for (int i=0; i<tricount; i++) {
                     
                     buff->facebuff[buff->fcursor] = (MC3DFace){
-                        {vindexResult[i], vindexResult[i], vindexResult[i]},
-                        {gqueue[i+3],     gqueue[i+4],     gqueue[i+5]},
-                        {gqueue[i+6],     gqueue[i+7],     gqueue[i+8]}
+                        vindexResult[i], vindexResult[i], vindexResult[i],
+                        gqueue[i+3],     gqueue[i+4],     gqueue[i+5],
+                        gqueue[i+6],     gqueue[i+7],     gqueue[i+8]
                     };
                     buff->fcursor++;
 

@@ -70,10 +70,10 @@ MCInline MC3DObjBuffer* MC3DObjBufferAlloc(size_t facecount, int vpf)
     MC3DObjBuffer* buff = (MC3DObjBuffer*)malloc(sizeof(MC3DObjBuffer));
     buff->nextobj = mull;
     buff->frame = (MC3DFrame){};
-    buff->facebuff    = (MC3DFace*)malloc(sizeof(MC3DFace) * (facecount+1));
-    buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
-    buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount+1) * vpf);
-    buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount+1) * vpf);
+    buff->facebuff    = (MC3DFace*) malloc(sizeof(MC3DFace)  * (facecount));
+    buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
+    buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount) * vpf);
+    buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
     buff->fcursor = 0;
     buff->vcursor = 0;
     buff->tcursor = 0;
