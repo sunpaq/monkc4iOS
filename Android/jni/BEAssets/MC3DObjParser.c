@@ -105,11 +105,11 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     static enum LexerState state = LSIdle;
     
     //template storage
-    double fqueue[1024] = {}; int fq=0;//float
-    long   iqueue[1024] = {}; int iq=0;//int
-    long   vqueue[1024] = {}; int vq=0;//vertex
-    long   tqueue[1024] = {}; int tq=0;//texture
-    long   nqueue[1024] = {}; int nq=0;//normal
+    GLfloat  fqueue[1024] = {}; int fq=0;//float
+    GLuint   iqueue[1024] = {}; int iq=0;//int
+    GLuint   vqueue[1024] = {}; int vq=0;//vertex
+    GLuint   tqueue[1024] = {}; int tq=0;//texture
+    GLuint   nqueue[1024] = {}; int nq=0;//normal
     
     //MCToken token;
     MCToken token;
@@ -146,10 +146,10 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 fqueue[fq++] = token.value.Double;
                 break;
             case MCTokenInteger:
-                iqueue[iq++] = token.value.Integer;
+                iqueue[iq++] = (GLuint)token.value.Integer;
                 break;
             case MCTokenXSV:
-                c = getXSV3(word, '/', &vqueue[vq], &tqueue[tq], &nqueue[nq]);
+                c = getXSV3(word, '/', (long*)&vqueue[vq], (long*)&tqueue[tq], (long*)&nqueue[nq]);
                 vq += c;
                 tq += c;
                 nq += c;

@@ -42,6 +42,7 @@ utility(MCGLEngine, void, setClearScreenColor, MCColorRGBAf color);
 utility(MCGLEngine, void, setPointSize, double pointsize);
 utility(MCGLEngine, void, setLineWidth, double linewidth);
 utility(MCGLEngine, void, setFrontCounterClockWise, MCBool isCCW);
+utility(MCGLEngine, void, setFrontPolygonMode, MCBool fillOrLine);
 utility(MCGLEngine, void, cullFace, MCGLFace face);
 utility(MCGLEngine, void, cullBackFace, voida);
 //Texture

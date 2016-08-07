@@ -64,10 +64,19 @@ utility(MCGLEngine, void, setLineWidth, double linewidth)
 
 utility(MCGLEngine, void, setFrontCounterClockWise, MCBool isCCW)
 {
-    if (isCCW) {
+    if (isCCW == MCTrue) {
         glFrontFace(GL_CCW);
     }else{
         glFrontFace(GL_CW);
+    }
+}
+
+utility(MCGLEngine, void, setFrontPolygonMode, MCBool fillOrLine)
+{
+    if (fillOrLine == MCTrue) {
+        glEnable(GL_POLYGON_OFFSET_FILL);
+    }else{
+        //glEnable(GL_POLYGON_OFFSET_LINE);
     }
 }
 

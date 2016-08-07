@@ -76,11 +76,50 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         }else{
             mesh->vertexDataPtr = mull;
         }
-        
-        for (int i=0; i<buff->fcursor; i++) {
-            loadFaceData(0, mull, mesh, buff, buff->facebuff[i], i, color);
+        for (int i=0; i<buff->vcursor; i++) {
+
         }
-        debug_log("MC3DModel - face data loaded: %s", path);
+        
+        mesh->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*mesh->vertexCount);
+        mesh->vertexCursor = 0;
+        
+        //vertex
+        for (int f=0; f<buff->fcursor; f++) {
+            MC3DTriangleFace face = buff->facebuff[f];
+            
+            for (int e=0; e<3; e++) {
+                MCVector3 v = buff->vertexbuff[face.v[e+0]];
+                MCVector2 t = buff->texcoorbuff[face.v[e+3]];
+                MCVector3 n = buff->normalbuff[face.v[e+6]];
+                
+                mesh->vertexDataPtr[f*33+e*11+0] = v.x;
+                mesh->vertexDataPtr[f*33+e*11+1] = v.y;
+                mesh->vertexDataPtr[f*33+e*11+2] = v.z;
+                
+                mesh->vertexDataPtr[f*33+e*11+3] = n.x;
+                mesh->vertexDataPtr[f*33+e*11+4] = n.y;
+                mesh->vertexDataPtr[f*33+e*11+5] = n.z;
+                
+                mesh->vertexDataPtr[f*33+e*11+6] = color.R.f;
+                mesh->vertexDataPtr[f*33+e*11+7] = color.G.f;
+                mesh->vertexDataPtr[f*33+e*11+8] = color.B.f;
+                
+                mesh->vertexDataPtr[f*33+e*11+9]  = 0;//t.x;
+                mesh->vertexDataPtr[f*33+e*11+10] = 0;//t.y;
+            }
+            
+            mesh->vertexIndexes[f*3+0] = face.v1;
+            mesh->vertexIndexes[f*3+1] = face.v2;
+            mesh->vertexIndexes[f*3+2] = face.v3;
+            mesh->vertexCursor = mesh->vertexCursor+3;
+        }
+        
+        
+        
+//        for (int i=0; i<buff->fcursor; i++) {
+//            loadFaceData(0, mull, mesh, buff, buff->facebuff[i], i, color);
+//        }
+//        debug_log("MC3DModel - face data loaded: %s", path);
 
         mesh->frame = buff->frame;
         //ff(mesh, dump, 0);
@@ -188,9 +227,34 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
 function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DTriangleFace face, int faceIndex, MCColorRGBAf color)
 {
     int offset = faceIndex * 33;
-    loadFaceElement(0, mull, mesh, buff, (MCVector3){face.v1, face.t1, face.n1}, offset+0, color);
-    loadFaceElement(0, mull, mesh, buff, (MCVector3){face.v2, face.t2, face.n2}, offset+11, color);
-    loadFaceElement(0, mull, mesh, buff, (MCVector3){face.v3, face.t3, face.n3}, offset+22, color);
+    
+    for (int i=0; i<3; i++) {
+        MCMesh_setVertexData(0, mesh, offset+i*11, (MCMeshVertexData){
+            buff->vertexbuff[i].x, buff->vertexbuff[i].y, buff->vertexbuff[i].z,
+            buff->normalbuff[i].x, buff->normalbuff[i].y, buff->vertexbuff[i].z,
+            color.R.f,                   color.G.f,                   color.B.f,
+            buff->texcoorbuff[face.t1].x, buff->texcoorbuff[face.t1].y, faceIndex*3+0
+        });
+    }
+
+    
+    MCMesh_setVertexData(0, mesh, offset+11, (MCMeshVertexData){
+        buff->vertexbuff[face.v2].x, buff->vertexbuff[face.v2].y, buff->vertexbuff[face.v2].z,
+        buff->normalbuff[face.n2].x, buff->normalbuff[face.n2].y, buff->vertexbuff[face.n2].z,
+        color.R.f,                   color.G.f,                   color.B.f,
+        buff->texcoorbuff[face.t2].x, buff->texcoorbuff[face.t2].y, faceIndex*3+1
+    });
+    
+    MCMesh_setVertexData(0, mesh, offset+22, (MCMeshVertexData){
+        buff->vertexbuff[face.v1].x, buff->vertexbuff[face.v1].y, buff->vertexbuff[face.v1].z,
+        buff->normalbuff[face.n1].x, buff->normalbuff[face.n1].y, buff->vertexbuff[face.n1].z,
+        color.R.f,                   color.G.f,                   color.B.f,
+        buff->texcoorbuff[face.t1].x, buff->texcoorbuff[face.t1].y, faceIndex*3+2
+    });
+    
+    //loadFaceElement(0, mull, mesh, buff, (MCVector3){face.v1, face.t1, face.n1}, offset+0, color);
+    //loadFaceElement(0, mull, mesh, buff, (MCVector3){face.v2, face.t2, face.n2}, offset+11, color);
+    //loadFaceElement(0, mull, mesh, buff, (MCVector3){face.v3, face.t3, face.n3}, offset+22, color);
     
 #if 0
     debug_log("[%d/%d/%d %d/%d/%d %d/%d/%d]\n",

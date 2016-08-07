@@ -24,17 +24,17 @@ typedef enum {
 
 typedef union {
     struct {
-        long v1;
-        long v2;
-        long v3;
-        long t1;
-        long t2;
-        long t3;
-        long n1;
-        long n2;
-        long n3;
+        GLuint v1;
+        GLuint v2;
+        GLuint v3;
+        GLuint t1;
+        GLuint t2;
+        GLuint t3;
+        GLuint n1;
+        GLuint n2;
+        GLuint n3;
     };
-    long v[9];
+    GLuint v[9];
 } MC3DTriangleFace;
 
 typedef struct MC3DObjBufferStruct {

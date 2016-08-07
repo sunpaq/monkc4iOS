@@ -14,6 +14,8 @@ oninit(MCMesh)
     if (init(MCItem)) {
         var(frame) = (MC3DFrame){0,0,0,0,0,0};
         var(isDataLoaded) = MCFalse;
+        var(vertexIndexes) = mull;
+        var(vertexCursor)  = 0;
 
         obj->useage = GL_STATIC_DRAW;//default
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
@@ -48,6 +50,26 @@ method(MCMesh, void, setVertex, GLuint offset, MCVector3 vec3)
     obj->vertexDataPtr[offset+2] = vec3.z;
 }
 
+method(MCMesh, void, setVertexData, GLuint offset, MCMeshVertexData data)
+{
+    obj->vertexDataPtr[offset+0] = data.x;
+    obj->vertexDataPtr[offset+1] = data.y;
+    obj->vertexDataPtr[offset+2] = data.z;
+    
+    obj->vertexDataPtr[offset+3] = data.nx;
+    obj->vertexDataPtr[offset+4] = data.ny;
+    obj->vertexDataPtr[offset+5] = data.nz;
+
+    obj->vertexDataPtr[offset+6] = data.r;
+    obj->vertexDataPtr[offset+7] = data.g;
+    obj->vertexDataPtr[offset+8] = data.b;
+
+    obj->vertexDataPtr[offset+9] = data.u;
+    obj->vertexDataPtr[offset+10] = data.v;
+
+    obj->vertexIndexes[obj->vertexCursor++] = data.i;
+}
+
 method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
     if (var(isDataLoaded) == MCFalse) {
@@ -62,9 +84,7 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
         int i;
         for (i=0; i<MCVertexAttribIndexMax-1; i++) {
             MCVertexAttribute attr = obj->vertexAttribArray[i];
-            
             if (attr.vectorsize != (GLint)mull) {
-                
                 MCVertexAttributeLoad(&obj->vertexAttribArray[i]);
             }
         }
@@ -77,8 +97,11 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArray(obj->vertexArrayId);
-    glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);
-    
+    if (var(vertexIndexes) != mull) {
+        glDrawElements(GL_LINES, obj->vertexCount, GL_UNSIGNED_INT, obj->vertexIndexes);
+    }else{
+        glDrawArrays(GL_TRIANGLES, 0, obj->vertexCount);
+    }
     //Unbind
     glBindVertexArray(0);
 }
@@ -101,6 +124,7 @@ onload(MCMesh)
         binding(MCMesh, void, bye, voida);
         binding(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
         binding(MCMesh, void, setVertex, GLuint offset, MCVector3 vec3);
+        binding(MCMesh, void, setVertexData, GLuint offset, MCMeshVertexData data);
         binding(MCMesh, void, prepareMesh, voida);
         binding(MCMesh, void, drawMesh, voida);
         //binding(MCMesh, void, dump, voida);
