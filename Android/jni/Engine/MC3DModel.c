@@ -63,7 +63,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
 
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
     debug_log("MC3DModel - mesh created: %s", path);
-    MC3DObjBuffer* buff = parse3DObjFile(path);
+    MC3DObjBuffer* buff = MC3DObjBufferParse(path);
     if (buff == mull) {
         error_log("MC3DModel - can not parse file:%s\n", path);
         return mull;
@@ -89,7 +89,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         svar(material) = new(MCMatrial);
         svar(texture) = mull;
         
-        freeMC3DObjBuffer(buff);
+        MC3DObjBufferRelease(buff);
         debug_log("MC3DModel - model created: %s", path);
         return obj;
     }

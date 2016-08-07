@@ -50,18 +50,6 @@ typedef union {
     long data[9];
 } MC3DFace;
 
-//MCInline MC3DFace MC3DFaceMake(long v1v, long v1t, long v1n,
-//                               long v2v, long v2t, long v2n,
-//                               long v3v, long v3t, long v3n)
-//{
-//    return (MC3DFace){{v1v, v1t, v1n}, {v2v, v2t, v2n}, {v3v, v3t, v3n}};
-//}
-//
-//MCInline MC3DFace MC3DFaceMakeVertexOnly(long v1v, long v2v, long v3v)
-//{
-//    return (MC3DFace){{v1v, 0, 0}, {v2v, 0, 0}, {v3v, 0, 0}};
-//}
-
 typedef struct MC3DObjBufferStruct {
     struct MC3DObjBufferStruct *nextobj;
     MC3DFrame  frame;
@@ -77,7 +65,7 @@ typedef struct MC3DObjBufferStruct {
     char name[1024];
 } MC3DObjBuffer;
 
-MCInline MC3DObjBuffer* allocMC3DObjBuffer(size_t facecount, int vpf)
+MCInline MC3DObjBuffer* MC3DObjBufferAlloc(size_t facecount, int vpf)
 {
     MC3DObjBuffer* buff = (MC3DObjBuffer*)malloc(sizeof(MC3DObjBuffer));
     buff->nextobj = mull;
@@ -94,11 +82,11 @@ MCInline MC3DObjBuffer* allocMC3DObjBuffer(size_t facecount, int vpf)
     return buff;
 }
 
-MCInline void freeMC3DObjBuffer(MC3DObjBuffer* buff)
+MCInline void MC3DObjBufferRelease(MC3DObjBuffer* buff)
 {
     //recursively
     if (buff->nextobj != mull) {
-        freeMC3DObjBuffer(buff->nextobj);
+        MC3DObjBufferRelease(buff->nextobj);
     }
     if (buff != mull) {
         //clean up self
@@ -119,6 +107,6 @@ enum LexerState {
     LSGroup
 };
 
-MC3DObjBuffer* parse3DObjFile(const char* filename);
+MC3DObjBuffer* MC3DObjBufferParse(const char* filename);
 
 #endif /* MC3DFileParser_h */

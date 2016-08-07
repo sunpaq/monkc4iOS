@@ -261,7 +261,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     return buff->fcursor;
 }
 
-MC3DObjBuffer* parse3DObjFile(const char* filename)
+MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
 {
 #ifdef __ANDROID__
     const char* assetbuff = MCFileCopyContentWithPath(filename, "obj");
@@ -307,7 +307,7 @@ MC3DObjBuffer* parse3DObjFile(const char* filename)
             error_log("MC3DObjParser - object face count is ZERO\n");
             return mull;
         }
-        MC3DObjBuffer* buff = allocMC3DObjBuffer(c, 3);
+        MC3DObjBuffer* buff = MC3DObjBufferAlloc(c, 3);
         
         const int linesize = 1024;
         char linebuff[linesize];
