@@ -97,17 +97,140 @@ static void MC3DObjAddFace(MC3DObj* obj, MC3DIndex indexes[], MC3DIndex count)
     }
 }
 
+size_t detectFaceCount(FILE* f);
+size_t detectFaceCountFromBuff(const char* buff);
+
 static void MC3DObjGetMetadata(const char* buff, MC3DObjMetadata* meta)
 {
     meta->datatype = MC3DObjUnknown;
     meta->faceCount = 0;
     meta->vertexesCount = 0;
     
-    if (buff != mull) {
-        char linebuff[MC3DLineMaxChars];
-        char word[256];
-        MCToken token;
+    meta->faceCount = detectFaceCountFromBuff(buff);
+    meta->vertexesCount = meta->faceCount * 3;
+    
+    
+//    if (buff != mull) {
+//        char linebuff[MC3DLineMaxChars] = {};
+//        char word[256];
+//        MCToken token;
+//
+//        char* c = (char*)buff;
+//        while (*c != '\0' && *c != EOF) {
+//            //get a line
+//            int i;
+//            for (i = 0; *c != '\n'; c++) {
+//                linebuff[i++] = (char)*c;
+//            }
+//            linebuff[i] = '\0';
+//            c++;//skip newline
+//            
+//            //process face line
+//            if (strncmp(linebuff, "f", 1) == 0) {
+//                meta->faceCount++;
+//
+//                const char* remain = linebuff;
+//                while (isNewLine(remain) == MCFalse && *remain != '\0') {
+//                    token = tokenize(nextWord(&remain, word));
+//                    switch (token.type) {
+//                        case MCTokenInteger:
+//                            meta->datatype = MC3DObjVertexOnly;
+//                            break;
+//                        case MCTokenDate:
+//                            meta->datatype = MC3DObjPosNorTex;
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                }
+//            }
+//            //process vertex line
+//            else if (strncmp(linebuff, "v", 1) == 0) {
+//                meta->vertexesCount++;
+//            }
+//            //next line;
+//            c = c+i;
+//        }
+//    }
+}
 
+size_t countFaces(const char* linebuff, size_t tcount)
+{
+    size_t fcount = 0;//polygon
+    size_t icount = 0;//int
+    size_t gcount = 0;//int group
+    MCToken token; char word[256];
+    const char* remain = linebuff;
+    
+    //process line start
+    while (isNewLine(remain) == MCFalse && *remain != '\0') {
+        token = tokenize(nextWord(&remain, word));
+        switch (token.type) {
+            case MCTokenIdentifier:
+                if (strncmp(word, "f", 1) == 0) {
+                    fcount++;
+                }
+                break;
+            case MCTokenInteger:
+                icount++;
+                break;
+            case MCTokenDate:
+                gcount++;
+                break;
+            default:
+                break;
+        }
+    }
+    //process line end
+    if (icount != 0 && gcount == 0) {//only vertex
+        if (icount < 3) {
+            //tcount = fcount;
+            return fcount;
+        }else{
+            //tcount += (icount - 1);
+            return tcount + (icount - 2);
+        }
+    }
+    else if (icount == 0 && gcount != 0) {//vertex tex normal
+        if (gcount < 3) {
+            //tcount = fcount;
+            return fcount;
+        }else{
+            //tcount += (gcount - 1);
+            return tcount + (gcount - 2);
+        }
+    }
+    else {
+        //tcount += 0;
+        return tcount;
+    }
+}
+
+size_t detectFaceCount(FILE* f)
+{
+    if (f != mull) {
+        const int linesize = 1024;
+        char linebuff[linesize];
+        size_t tcount = 0;//triangle
+        
+        fseek(f, 0, SEEK_SET);
+        while (fgets(linebuff, linesize, f) != NULL) {
+            linebuff[linesize-1] = '\0';
+            tcount = countFaces(linebuff, tcount);
+        }
+        return tcount;
+    }else{
+        return 0;
+    }
+}
+
+size_t detectFaceCountFromBuff(const char* buff)
+{
+    if (buff != mull) {
+        const int linesize = 1024;
+        char linebuff[linesize];
+        size_t tcount = 0;//triangle
+        
         char* c = (char*) buff;
         while (*c != '\0' && *c != EOF) {
             //get a line
@@ -117,141 +240,16 @@ static void MC3DObjGetMetadata(const char* buff, MC3DObjMetadata* meta)
             }
             linebuff[i] = '\0';
             c++;//skip newline
-            
-            //process face line
-            if (strncmp(linebuff, "f", 1) == 0) {
-                meta->faceCount++;
-
-                const char* remain = linebuff;
-                while (isNewLine(remain) == MCFalse && *remain != '\0') {
-                    token = tokenize(nextWord(&remain, word));
-                    switch (token.type) {
-                        case MCTokenInteger:
-                            meta->datatype = MC3DObjVertexOnly;
-                            break;
-                        case MCTokenDate:
-                            meta->datatype = MC3DObjPosNorTex;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-            //process vertex line
-            else if (strncmp(linebuff, "v", 1) == 0) {
-                meta->vertexesCount++;
-            }
-            //next line;
-            c = c+i;
+            //process a line
+            tcount = countFaces(linebuff, tcount);
+            //debug_log("detectFaceCountFromBuff - countFaces tcount=%d", tcount);
         }
+        debug_log("MC3DObjParser - object face count is %d\n", tcount);
+        return tcount;
+    }else{
+        return 0;
     }
 }
-
-//    //3D frame max
-//    MCMath_accumulateMaxd(&buff->frame.xmax, vertexbuff[v].x);
-//    MCMath_accumulateMaxd(&buff->frame.ymax, vertexbuff[v].y);
-//    MCMath_accumulateMaxd(&buff->frame.zmax, vertexbuff[v].z);
-//    //3D frame min
-//    MCMath_accumulateMind(&buff->frame.xmin, vertexbuff[v].x);
-//    MCMath_accumulateMind(&buff->frame.ymin, vertexbuff[v].y);
-//    MCMath_accumulateMind(&buff->frame.zmin, vertexbuff[v].z);
-
-//size_t countFaces(const char* linebuff, size_t tcount)
-//{
-//    size_t fcount = 0;//polygon
-//    size_t icount = 0;//int
-//    size_t gcount = 0;//int group
-//    MCToken token; char word[256];
-//    const char* remain = linebuff;
-//    
-//    //process line start
-//    while (isNewLine(remain) == MCFalse && *remain != '\0') {
-//        token = tokenize(nextWord(&remain, word));
-//        switch (token.type) {
-//            case MCTokenIdentifier:
-//                if (strncmp(word, "f", 1) == 0) {
-//                    fcount++;
-//                }
-//                break;
-//            case MCTokenInteger:
-//                icount++;
-//                break;
-//            case MCTokenDate:
-//                gcount++;
-//                break;
-//            default:
-//                break;
-//        }
-//    }
-//    //process line end
-//    if (icount != 0 && gcount == 0) {//only vertex
-//        if (icount < 3) {
-//            //tcount = fcount;
-//            return fcount;
-//        }else{
-//            //tcount += (icount - 1);
-//            return tcount + (icount - 1);
-//        }
-//    }
-//    else if (icount == 0 && gcount != 0) {//vertex tex normal
-//        if (gcount < 3) {
-//            //tcount = fcount;
-//            return fcount;
-//        }else{
-//            //tcount += (gcount - 1);
-//            return tcount + (gcount - 1);
-//        }
-//    }
-//    else {
-//        //tcount += 0;
-//        return tcount;
-//    }
-//}
-//
-//size_t detectFaceCount(FILE* f)
-//{
-//    if (f != mull) {
-//        const int linesize = 1024;
-//        char linebuff[linesize];
-//        size_t tcount = 0;//triangle
-//        
-//        fseek(f, 0, SEEK_SET);
-//        while (fgets(linebuff, linesize, f) != NULL) {
-//            linebuff[linesize-1] = '\0';
-//            tcount = countFaces(linebuff, tcount);
-//        }
-//        return tcount;
-//    }else{
-//        return 0;
-//    }
-//}
-//
-//size_t detectFaceCountFromBuff(const char* buff)
-//{
-//    if (buff != mull) {
-//        const int linesize = 1024;
-//        char linebuff[linesize];
-//        size_t tcount = 0;//triangle
-//        
-//        char* c = (char*) buff;
-//        while (*c != '\0' && *c != EOF) {
-//            //get a line
-//            int i;
-//            for (i = 0; *c != '\n'; c++) {
-//                linebuff[i++] = *c;
-//            }
-//            linebuff[i] = '\0';
-//            c++;//skip newline
-//            //process a line
-//            tcount = countFaces(linebuff, tcount);
-//            //debug_log("detectFaceCountFromBuff - countFaces tcount=%d", tcount);
-//        }
-//        debug_log("MC3DObjParser - object face count is %d\n", tcount);
-//        return tcount;
-//    }else{
-//        return 0;
-//    }
-//}
 
 size_t processObjLine(MC3DObj* buff, const char* linebuff)
 {
