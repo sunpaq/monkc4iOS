@@ -76,7 +76,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         }else{
             mesh->vertexDataPtr = mull;
         }
-        mesh->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*mesh->vertexCount);
+        //mesh->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*mesh->vertexCount);
         
         for (int i=0; i<buff->fcursor; i++) {
             loadFaceData(0, mull, mesh, buff, buff->facebuff[i], i, color);
@@ -151,21 +151,21 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
         error_log("MC3DFileParser: invalide vertex data!");
         exit(-1);
     }else{
-        v = buff->vertexbuff[e.vi];
+        v = buff->vertexbuff[e.vi-1];
     }
     
     if (e.ni == 0) {
         //error_log("MC3DFileParser: empty normal data, set to 0!");
         n = (MCVector3){1.0,1.0,1.0};
     }else{
-        n = buff->normalbuff[e.ni];
+        n = buff->normalbuff[e.ni-1];
     }
     
     if (e.ti == 0) {
         //error_log("MC3DFileParser: empty texcoord data, set to 0!");
         t = (MCVector2){0,0};
     }else{
-        t = buff->texcoorbuff[e.ti];
+        t = buff->texcoorbuff[e.ti-1];
     }
     
     calculateFrame(0, mull, buff, v);
@@ -177,7 +177,7 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
         0,0
     });
 
-    mesh->vertexIndexes[(offset==0)?(0):(offset/11)] = (GLuint)e.vi;
+    //mesh->vertexIndexes[(offset==0)?(0):(offset/11)] = (GLuint)e.vi;
 }
 
 function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int faceIndex, MCColorRGBAf color)
