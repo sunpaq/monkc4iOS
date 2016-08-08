@@ -55,13 +55,9 @@ MCInline double MCTriangleAreaByEdgeLength(double a, double b, double c)
 
 MCInline double MCTriangleAreaByVertexes(MCVector3 A, MCVector3 B, MCVector3 C)
 {
-    MCVector3 va = MCVector3Sub(A, B);
-    MCVector3 vb = MCVector3Sub(B, C);
-    MCVector3 vc = MCVector3Sub(C, A);
-    
-    double a = MCVector3Length(va);
-    double b = MCVector3Length(vb);
-    double c = MCVector3Length(vc);
+    double a = MCVector3Length(MCVector3Sub(B, A));
+    double b = MCVector3Length(MCVector3Sub(C, B));
+    double c = MCVector3Length(MCVector3Sub(A, C));
     
     return MCTriangleAreaByEdgeLength(a, b, c);
 }
@@ -85,12 +81,25 @@ MCInline MCBool MCTriangleContainsVertex(MCTriangle tri, MCVector3 P)
     MCVector3 B = tri.b;
     MCVector3 C = tri.c;
     
-    double s  = MCTriangleAreaByVertexes(A, B, C);
-    double s1 = MCTriangleAreaByVertexes(P, A, B);
-    double s2 = MCTriangleAreaByVertexes(P, B, C);
-    double s3 = MCTriangleAreaByVertexes(P, C, A);
+    MCVector3 AB = MCVector3Sub(B, A);
+    MCVector3 AP = MCVector3Sub(P, A);
+    MCVector3 ABPCross = MCVector3Cross(AB, AP);
+
+    MCVector3 BC = MCVector3Sub(C, B);
+    MCVector3 BP = MCVector3Sub(P, B);
+    MCVector3 BCPCross = MCVector3Cross(BC, BP);
+
+    MCVector3 CA = MCVector3Sub(A, C);
+    MCVector3 CP = MCVector3Sub(P, C);
+    MCVector3 CAPCross = MCVector3Cross(CA, CP);
+
+    if ((MCVector3Dot(ABPCross, BCPCross) > 0)
+        && (MCVector3Dot(BCPCross, CAPCross) > 0)
+        && (MCVector3Dot(CAPCross, ABPCross) > 0)) {
+        return MCTrue;
+    }
     
-    return MCBoolExpr(s == s1+s2+s3);
+    return MCFalse;
 }
 
 MCInline MCBool MCTriangle4ContainsVertex4(MCTriangle4 tri4, MCVector4 P4)
