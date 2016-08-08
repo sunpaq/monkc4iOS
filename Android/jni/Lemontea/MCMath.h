@@ -1,8 +1,30 @@
 #include "MCContext.h"
 #include <math.h>
+#include <float.h>
 
 #ifndef MCMath_ 
 #define MCMath_
+
+MCInline MCBool MCSamefloat(float A, float B) {
+    if (fabsf(A-B) < FLT_EPSILON) {
+        return MCTrue;
+    }
+    return MCFalse;
+}
+
+MCInline MCBool MCSamedouble(double A, double B) {
+    if (fabs(A-B) < DBL_EPSILON) {
+        return MCTrue;
+    }
+    return MCFalse;
+}
+
+MCInline MCBool MCSamelongdouble(long double A, long double B) {
+    if (fabsl(A-B) < LDBL_EPSILON) {
+        return MCTrue;
+    }
+    return MCFalse;
+}
 
 utility(MCMath, void, bye, voida);
 utility(MCMath, int, addInteger2, int a, int b);
@@ -52,9 +74,10 @@ MCInline MCVector3 MCVector3From4(MCVector4 vec4)
 
 MCInline MCBool MCVector3Equal(MCVector3 v1, MCVector3 v2)
 {
-    return MCBoolExpr(v1.x == v2.x
-                      && v1.y == v2.y
-                      && v1.z == v2.z);
+    if (MCSamedouble(v1.x, v2.x) && MCSamedouble(v1.y, v2.y) && MCSamedouble(v1.z, v2.z)) {
+        return MCTrue;
+    }
+    return MCFalse;
 }
 
 /*

@@ -32,7 +32,7 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle triangleResult[], siz
     MCArrayLinkedList* list = &poly->vertexIndexes;
     MCALItem* start = list->head;
     
-    while (MCALIsEmpty(list) == MCFalse) {
+    while (list->count >= 3) {
         MCALItem* middle = start->next;
         MCALItem* finish = middle->next;
 
@@ -41,9 +41,9 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle triangleResult[], siz
         long idx2 = middle->value.mclong;
         long idx3 = finish->value.mclong;
         
-        MCVector3* s = &(poly->vertexData[idx1]);
-        MCVector3* m = &(poly->vertexData[idx2]);
-        MCVector3* e = &(poly->vertexData[idx3]);
+        MCVector3* s = &(poly->vertexData[idx1-1]);
+        MCVector3* m = &(poly->vertexData[idx2-1]);
+        MCVector3* e = &(poly->vertexData[idx3-1]);
         
         MCTriangle triangle = MCTriangleMake(*s, *m, *e);
         
@@ -51,11 +51,12 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle triangleResult[], siz
         MCALItem* remain = list->head;
         MCBool success = MCTrue;
         for (int i=0; i<list->count; i++) {
-            MCVector3* p = (MCVector3*)(remain->value.mcptr);
-            if (MCTriangleVertexesHave(triangle, *p) == MCTrue) {
+            MCVector3* p = &(poly->vertexData[remain->value.mclong-1]);
+            if (MCTriangleHaveVertex(triangle, *p) == MCTrue) {
                 continue;
             }
-            success = MCTriangleContainsVertex(triangle, *p);
+            success = !MCTriangleContainsVertex(triangle, *p);
+            success = MCTriangleCCWFaceUpZyx(triangle);
             remain = remain->next;
         }
         

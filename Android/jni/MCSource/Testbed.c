@@ -8,6 +8,8 @@
 
 #include "Testbed.h"
 #include "MCLinkedList.h"
+#include "MCGeometry.h"
+
 //static void test(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGeneric arg3, MCLongLong arg4, MCPtr arg5, MCFuncPtr arg6)
 //static void testmethod(mc_message_arg(MCObject), ...)
 //{
@@ -54,9 +56,34 @@
 //    exit(-1);
 //}
 
+MCBool testMCBool(int a, int b)
+{
+    return (a==b);
+}
+
+static void testGeometry()
+{
+    MCVector3 a, b, c, p1, p2;
+    
+    a = (MCVector3){0,0,0};
+    b = (MCVector3){0,2,0};
+    c = (MCVector3){2,0,0};
+    p1 = (MCVector3){0.5,0.5,0};
+    p2 = (MCVector3){1.5,1.5,0};
+
+    MCBool p1b = MCTriangleContainsVertex(MCTriangleMake(a, b, c), p1);
+    MCBool p2b = MCTriangleContainsVertex(MCTriangleMake(a, b, c), p2);
+    
+    printf("p1b=%d p2b=%d bool=%d A==B(%d)\n", p1b, p2b, testMCBool(5,5), MCVector3Equal(a, b));
+    
+    
+    exit(-1);
+}
+
 void starttest()
 {
     //testclass();
     //testparser();
     //testCArrayLinkedList();
+    //testGeometry();
 }

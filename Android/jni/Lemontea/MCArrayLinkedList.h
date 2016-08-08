@@ -31,12 +31,12 @@ MCInline void MCALItemLink(MCALItem* A, MCALItem* B)
 
 MCInline MCBool MCALItemIsHead(MCALItem* item)
 {
-    return MCBoolExpr(item->prev == mull);
+    return (item->prev == mull);
 }
 
 MCInline MCBool MCALItemIsTail(MCALItem* item)
 {
-    return MCBoolExpr(item->next == mull);
+    return (item->next == mull);
 }
 
 #define MCArrayLinkedListMax 1024
@@ -60,7 +60,7 @@ MCInline void MCALSetTail(MCArrayLinkedList* list, MCALItem* item)
 
 MCInline MCBool MCALIsEmpty(MCArrayLinkedList* list)
 {
-    return MCBoolExpr(list->head == mull);
+    return (list->head == mull);
 }
 
 MCArrayLinkedList* MCArrayLinkedListInit(MCArrayLinkedList* list, MCGeneric values[], const size_t count);
