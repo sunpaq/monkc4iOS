@@ -12,13 +12,17 @@
 oninit(MCMesh)
 {
     if (init(MCItem)) {
-        var(frame) = (MC3DFrame){0,0,0,0,0,0};
         var(isDataLoaded) = MCFalse;
-        var(isLineMode) = MCFalse;
-
-        var(useage) = GL_STATIC_DRAW;
-        var(mode) = GL_TRIANGLES;
         
+        var(frame) = (MC3DFrame){0,0,0,0,0,0};
+        var(useage) = GL_STATIC_DRAW;
+        var(mode) = GL_TRIANGLE_FAN;
+        
+        var(vertexDataPtr) = mull;
+        var(vertexDataSize)= 0;
+        var(vertexIndexes) = mull;
+        var(vertexCount)   = 0;
+
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
         debug_log("MCMesh - init finished");
         return obj;
@@ -29,8 +33,8 @@ oninit(MCMesh)
 
 method(MCMesh, void, bye, voida)
 {
-    glDeleteBuffers(1, &obj->vertexBufferId);
-    glDeleteVertexArrays(1, &obj->vertexArrayId);
+    glDeleteBuffers(1, &obj->VBO);
+    glDeleteVertexArrays(1, &obj->VAO);
 }
 
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
@@ -65,13 +69,19 @@ method(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data)
 method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
     if (var(isDataLoaded) == MCFalse) {
-        glGenVertexArrays(1, &obj->vertexArrayId);
-        glGenBuffers(1, &obj->vertexBufferId);
+        glGenVertexArrays(1, &obj->VAO);
+        glGenBuffers(1, &obj->VBO);
         //VAO
-        glBindVertexArray(obj->vertexArrayId);
+        glBindVertexArray(obj->VAO);
         //VBO
-        glBindBuffer(GL_ARRAY_BUFFER, obj->vertexBufferId);
+        glBindBuffer(GL_ARRAY_BUFFER, obj->VBO);
         glBufferData(GL_ARRAY_BUFFER, obj->vertexDataSize, obj->vertexDataPtr, obj->useage);
+        //EBO
+        if (var(vertexIndexes) != mull) {
+            glGenBuffers(1, &obj->EBO);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->EBO);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*obj->vertexCount, obj->vertexIndexes, obj->useage);
+        }
         //VAttributes
         int i;
         for (i=0; i<MCVertexAttribIndexMax-1; i++) {
@@ -88,8 +98,12 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
-    glBindVertexArray(obj->vertexArrayId);
-    glDrawArrays(var(mode), 0, obj->vertexCount);
+    glBindVertexArray(obj->VAO);
+    if (var(vertexIndexes) != mull) {
+        glDrawElements(var(mode), 100, GL_UNSIGNED_INT, (GLvoid*)0);
+    }else{
+        glDrawArrays(var(mode), 0, var(vertexCount));
+    }
     //Unbind
     glBindVertexArray(0);
 }

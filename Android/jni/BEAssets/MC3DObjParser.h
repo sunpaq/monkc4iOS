@@ -18,9 +18,9 @@
 #include "BEAssetsManager.h"
 
 typedef struct {
-    long vi;
-    long ti;
-    long ni;
+    GLuint vi;
+    GLuint ti;
+    GLuint ni;
 } MC3DFaceElement;
 
 typedef enum {
@@ -35,17 +35,17 @@ typedef union {
         MC3DFaceElement e3;
     };
     struct {
-        long v1;
-        long t1;
-        long n1;
+        GLuint v1;
+        GLuint t1;
+        GLuint n1;
         
-        long v2;
-        long t2;
-        long n2;
+        GLuint v2;
+        GLuint t2;
+        GLuint n2;
         
-        long v3;
-        long t3;
-        long n3;
+        GLuint v3;
+        GLuint t3;
+        GLuint n3;
     };
     long data[9];
 } MC3DFace;

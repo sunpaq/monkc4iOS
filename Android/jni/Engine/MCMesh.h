@@ -34,16 +34,21 @@ typedef union {
 } MCMeshVertexData;
 
 class(MCMesh, MCItem,
+      MCBool     isDataLoaded;
+      
       MC3DFrame  frame;
       GLenum     useage;
       GLenum     mode;
-      GLsizei    vertexCount;
-      GLuint     vertexArrayId;   //VAO
-      GLuint     vertexBufferId;  //VBO
+      
+      GLuint     VAO;  //VAO
+      GLuint     VBO;  //VBO
+      GLuint     EBO;  //EBO
+      
       GLfloat*   vertexDataPtr;   //gCubeVertexData
       GLsizeiptr vertexDataSize;  //sizeof(gCubeVertexData)
-      MCBool     isDataLoaded;
-      MCBool     isLineMode;
+      GLuint*    vertexIndexes;
+      GLsizei    vertexCount;
+
       MCVertexAttribute vertexAttribArray[MCVertexAttribIndexMax];
 );
 
