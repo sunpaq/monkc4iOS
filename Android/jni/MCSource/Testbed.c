@@ -74,7 +74,9 @@ static void testGeometry()
     MCBool p1b = MCTriangleContainsVertex(MCTriangleMake(a, b, c), p1);
     MCBool p2b = MCTriangleContainsVertex(MCTriangleMake(a, b, c), p2);
     
-    printf("p1b=%d p2b=%d bool=%d\n A==B(%d)\n", p1b, p2b, testMCBool(5,5), MCVector3Equal(a, b));
+    printf("p1b=%d p2b=%d bool=%d A==B(%d)\n", p1b, p2b, testMCBool(5,5), MCVector3Equal(a, b));
+    
+    
     exit(-1);
 }
 

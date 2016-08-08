@@ -67,7 +67,7 @@ MCInline double MCTriangleArea(MCTriangle tri)
     return MCTriangleAreaByVertexes(tri.a, tri.b, tri.c);
 }
 
-MCInline MCBool MCTriangleVertexesHave(MCTriangle tri, MCVector3 P)
+MCInline MCBool MCTriangleHaveVertex(MCTriangle tri, MCVector3 P)
 {
     if (MCVector3Equal(tri.a, P) || MCVector3Equal(tri.b, P) || MCVector3Equal(tri.c, P)) {
         return MCTrue;
@@ -110,6 +110,42 @@ MCInline MCBool MCTriangle4ContainsVertex4(MCTriangle4 tri4, MCVector4 P4)
     MCVector3 P = MCVector3From4(P4);
     
     return MCTriangleContainsVertex(MCTriangleMake(A, B, C), P);
+}
+
+MCInline MCBool MCTriangleCCWFaceUpZyx(MCTriangle tri)
+{
+    MCVector3 Z = (MCVector3){0,0,1};
+
+    MCVector3 A = tri.a;
+    MCVector3 B = tri.b;
+    MCVector3 C = tri.c;
+    
+    MCVector3 AB = MCVector3Sub(B, A);
+    MCVector3 BC = MCVector3Sub(C, B);
+
+    MCVector3 ABCCross = MCVector3Cross(AB, BC);
+    double ZDot = MCVector3Dot(Z, ABCCross);
+    if (ZDot > 0) {
+        return MCTrue;
+    }
+    
+    //direction verctor on XY plane
+    if (ZDot == 0) {
+        //direction verctor on Y axis
+        if (ABCCross.x == 0) {
+            if (ABCCross.y > 0) {
+                return MCTrue;
+            }
+        }
+        //direction verctor on X axis
+        if (ABCCross.y == 0) {
+            if (ABCCross.x > 0) {
+                return MCTrue;
+            }
+        }
+    }
+    
+    return MCFalse;
 }
 
 //Polygon

@@ -52,10 +52,11 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle triangleResult[], siz
         MCBool success = MCTrue;
         for (int i=0; i<list->count; i++) {
             MCVector3* p = (MCVector3*)(remain->value.mcptr);
-            if (MCTriangleVertexesHave(triangle, *p) == MCTrue) {
+            if (MCTriangleHaveVertex(triangle, *p) == MCTrue) {
                 continue;
             }
-            success = MCTriangleContainsVertex(triangle, *p);
+            success = !MCTriangleContainsVertex(triangle, *p);
+            success = MCTriangleCCWFaceUpZyx(triangle);
             remain = remain->next;
         }
         
