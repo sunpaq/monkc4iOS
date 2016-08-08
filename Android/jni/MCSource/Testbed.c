@@ -85,5 +85,5 @@ void starttest()
     //testclass();
     //testparser();
     //testCArrayLinkedList();
-    testGeometry();
+    //testGeometry();
 }

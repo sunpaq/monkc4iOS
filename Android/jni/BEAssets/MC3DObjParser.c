@@ -217,7 +217,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 };
             }
             else if (gq > 9) {
-#define ONLY_CONVEX
+//#define ONLY_CONVEX
 #ifdef ONLY_CONVEX
                 for (int i=0; i< gq-6; i=i+3) {
                     //face
@@ -236,7 +236,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                     vertexes[i] = buff->vertexbuff[gqueue[i*3]];
                 }
                 
-                MCPolygon Poly;
+                MCPolygon Poly = {};
                 MCPolygon* poly = &Poly;
                 
                 MCPolygonInit(poly, vertexes, count);
@@ -246,7 +246,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 for (int i=0; i<tricount; i++) {
                     
                     buff->facebuff[buff->fcursor] = (MC3DFace){
-                        vindexResult[i], vindexResult[i], vindexResult[i],
+                        vindexResult[i+0], vindexResult[i+1], vindexResult[i+2],
                         gqueue[i+3],     gqueue[i+4],     gqueue[i+5],
                         gqueue[i+6],     gqueue[i+7],     gqueue[i+8]
                     };

@@ -150,29 +150,28 @@ MCInline MCBool MCTriangleCCWFaceUpZyx(MCTriangle tri)
 
 //Polygon
 
-#define MCPolygonMax 1024
+#define MCPolygonMaxV 1024
 typedef struct {
     size_t count;
     size_t index;
     MCArrayLinkedList vertexIndexes;
-    MCVector3 vertexData[MCPolygonMax];
+    MCVector3 vertexData[MCPolygonMaxV];
 } MCPolygon;
 
 MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
 {
-    if (count > MCPolygonMax) {
-        error_log("MCPolygon vertex count can not over %ld\n", MCPolygonMax);
+    if (count > MCPolygonMaxV) {
+        error_log("MCPolygon vertex count can not over %ld\n", MCPolygonMaxV);
         exit(-1);
     }
     poly->count = count;
     poly->index = 0;
     MCGeneric generic[count];
-    for (int i=0; i<count; i++) {
+    for (size_t i=0; i<count; i++) {
         poly->vertexData[i] = vertexes[i];
-        generic[i].mclong = i;
+        generic[i].mcsizet = i;
     }
-    MCArrayLinkedList* list = &(poly->vertexIndexes);
-    MCArrayLinkedListInit(list, generic, count);
+    MCArrayLinkedListInit(&(poly->vertexIndexes), generic, count);
     return poly;
 }
 
