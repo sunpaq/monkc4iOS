@@ -33,7 +33,7 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
     MCALItem* start = list->head;
     size_t tryCount = list->count^2;
     
-    while (list->count > 3) {
+    while (list->count >= 3) {
         MCALItem* middle = start->next;
         MCALItem* finish = middle->next;
 
@@ -45,20 +45,32 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
         MCVector3* s = &(poly->vertexData[idx1]);
         MCVector3* m = &(poly->vertexData[idx2]);
         MCVector3* e = &(poly->vertexData[idx3]);
-        
         MCTriangle triangle = MCTriangleMake(*s, *m, *e);
         
-        //test remain points
-        MCALItem* remain = list->head;
-        MCBool success = MCTrue;
-        for (int i=0; i<list->count; i++) {
-            MCVector3* p = &(poly->vertexData[remain->value.mcsizet]);
-            if (MCTriangleHaveVertex(triangle, *p) == MCTrue) {
-                continue;
+        //final triangle
+        if (list->count == 3) {
+            if (triangleResult != mull) {
+                triangleResult[triangleCount++] = triangle;
             }
-            success = !MCTriangleContainsVertex(triangle, *p);
-            success = MCTriangleCCWFaceUpZyx(triangle);
-            remain = remain->next;
+            if (vindexResult != mull) {
+                vindexResult[vertexCount++] = idx1;
+                vindexResult[vertexCount++] = idx2;
+                vindexResult[vertexCount++] = idx3;
+            }
+            return triangleCount;
+        }
+        
+        MCBool success = MCTrue;
+        //test whether triangle face up
+        if (MCVector3Dot(MCTriangleCCWFaceUp(triangle), poly->faceupv) < 0) {
+            success = MCFalse;
+        }
+        //test remain points in triangle
+        for (int i=0; i<list->count; i++) {
+            MCVector3* p = &(poly->vertexData[i]);
+            if(MCTriangleContainsVertex(triangle, *p)){
+                success = MCFalse;
+            }
         }
         
         if (success == MCTrue) {

@@ -77,6 +77,10 @@ MCInline MCBool MCTriangleHaveVertex(MCTriangle tri, MCVector3 P)
 
 MCInline MCBool MCTriangleContainsVertex(MCTriangle tri, MCVector3 P)
 {
+    if (MCTriangleHaveVertex(tri, P) == MCTrue) {
+        return MCFalse;
+    }
+    
     MCVector3 A = tri.a;
     MCVector3 B = tri.b;
     MCVector3 C = tri.c;
@@ -112,40 +116,16 @@ MCInline MCBool MCTriangle4ContainsVertex4(MCTriangle4 tri4, MCVector4 P4)
     return MCTriangleContainsVertex(MCTriangleMake(A, B, C), P);
 }
 
-MCInline MCBool MCTriangleCCWFaceUpZyx(MCTriangle tri)
+MCInline MCVector3 MCTriangleCCWFaceUp(MCTriangle tri)
 {
-    MCVector3 Z = (MCVector3){0,0,1};
-
     MCVector3 A = tri.a;
     MCVector3 B = tri.b;
     MCVector3 C = tri.c;
     
     MCVector3 AB = MCVector3Sub(B, A);
     MCVector3 BC = MCVector3Sub(C, B);
-
-    MCVector3 ABCCross = MCVector3Cross(AB, BC);
-    double ZDot = MCVector3Dot(Z, ABCCross);
-    if (ZDot > 0) {
-        return MCTrue;
-    }
     
-    //direction verctor on XY plane
-    if (ZDot == 0) {
-        //direction verctor on Y axis
-        if (ABCCross.x == 0) {
-            if (ABCCross.y > 0) {
-                return MCTrue;
-            }
-        }
-        //direction verctor on X axis
-        if (ABCCross.y == 0) {
-            if (ABCCross.x > 0) {
-                return MCTrue;
-            }
-        }
-    }
-    
-    return MCFalse;
+    return MCVector3Cross(AB, BC);
 }
 
 //Polygon
@@ -154,6 +134,7 @@ MCInline MCBool MCTriangleCCWFaceUpZyx(MCTriangle tri)
 typedef struct {
     size_t count;
     size_t index;
+    MCVector3 faceupv;
     MCArrayLinkedList vertexIndexes;
     MCVector3 vertexData[MCPolygonMaxV];
 } MCPolygon;
@@ -173,6 +154,9 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t 
     }
     MCArrayLinkedListInitCircle(&(poly->vertexIndexes), generic, count);
     
+    //assume first vertex is convex
+    poly->faceupv = MCTriangleCCWFaceUp((MCTriangle){vertexes[count-1], vertexes[0], vertexes[1]});
+
     return poly;
 }
 
