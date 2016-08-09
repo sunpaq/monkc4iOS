@@ -33,7 +33,6 @@ typedef struct {
 
 static const char MCWhiteSpace = ' ';
 static const char MCBackSlash0 = '\0';
-//static const char MCNewLine    = '\n';
 
 #define MCCond_Digit(w)     (*w >= '0' && *w <= '9')
 #define MCCond_Alphabet(w)  (*w >= 'a' && *w <= 'z') || (*w >= 'A' && *w <= 'Z')
@@ -46,6 +45,9 @@ MCInline size_t MCCopyString(char* const dest, const char* src)
     return len;
 }
 
+//Old Mac9 end of line sequence: \r
+//Unix OSX end of line sequence: \n
+//Windows  end of line sequence: \r\n
 MCInline MCBool isNewLine(const char* s)
 {
     if (*s == '\n') {
