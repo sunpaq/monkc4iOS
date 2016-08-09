@@ -222,7 +222,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 };
             }
             else if (gq > 9) {
-#define ONLY_CONVEX
+//#define ONLY_CONVEX
 #ifdef ONLY_CONVEX
                 for (int i=0; i< gq-6; i=i+3) {
                     //face
