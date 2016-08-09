@@ -41,6 +41,7 @@ MCInline MCBool MCALItemIsTail(MCALItem* item)
 
 #define MCArrayLinkedListMax 1024
 typedef struct {
+    MCBool isCircle;
     size_t count;
     size_t index;
     MCALItem* head;
@@ -64,6 +65,8 @@ MCInline MCBool MCALIsEmpty(MCArrayLinkedList* list)
 }
 
 MCArrayLinkedList* MCArrayLinkedListInit(MCArrayLinkedList* list, MCGeneric values[], const size_t count);
+MCArrayLinkedList* MCArrayLinkedListInitCircle(MCArrayLinkedList* list, MCGeneric values[], const size_t count);
+
 MCALItem* MCALDeleteItem(MCArrayLinkedList* list, MCALItem* item);
 
 #endif /* MCArrayLinkedList_h */

@@ -25,25 +25,26 @@ int MCPolygonResolveConvex(MCPolygon* poly, MCTriangle* result)
     return resulti;
 }
 
-size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle triangleResult[], size_t vindexResult[])
+size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size_t* vindexResult)
 {
     size_t triangleCount = 0;
     size_t vertexCount = 0;
     MCArrayLinkedList* list = &poly->vertexIndexes;
     MCALItem* start = list->head;
+    size_t tryCount = list->count^2;
     
-    while (list->count >= 3) {
+    while (list->count > 3) {
         MCALItem* middle = start->next;
         MCALItem* finish = middle->next;
 
         //make a triangle
-        long idx1 = start->value.mclong;
-        long idx2 = middle->value.mclong;
-        long idx3 = finish->value.mclong;
+        long idx1 = start->value.mcsizet;
+        long idx2 = middle->value.mcsizet;
+        long idx3 = finish->value.mcsizet;
         
-        MCVector3* s = &(poly->vertexData[idx1-1]);
-        MCVector3* m = &(poly->vertexData[idx2-1]);
-        MCVector3* e = &(poly->vertexData[idx3-1]);
+        MCVector3* s = &(poly->vertexData[idx1]);
+        MCVector3* m = &(poly->vertexData[idx2]);
+        MCVector3* e = &(poly->vertexData[idx3]);
         
         MCTriangle triangle = MCTriangleMake(*s, *m, *e);
         
@@ -51,7 +52,7 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle triangleResult[], siz
         MCALItem* remain = list->head;
         MCBool success = MCTrue;
         for (int i=0; i<list->count; i++) {
-            MCVector3* p = &(poly->vertexData[remain->value.mclong-1]);
+            MCVector3* p = &(poly->vertexData[remain->value.mcsizet]);
             if (MCTriangleHaveVertex(triangle, *p) == MCTrue) {
                 continue;
             }
@@ -69,10 +70,16 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle triangleResult[], siz
                 vindexResult[vertexCount++] = idx2;
                 vindexResult[vertexCount++] = idx3;
             }
-            MCALDeleteItem(list, middle);
+            list->head = MCALDeleteItem(list, middle);
         }else{
-            start = start->next;
-            continue;
+            if (tryCount > 0) {
+                tryCount--;
+                start = start->next;
+                continue;
+            }else{
+                error_log("MCGeometry: failed to resolve a polygon remain n=(%d)\n", list->count);
+                return 0;
+            }
         }
     }
     

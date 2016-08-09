@@ -166,12 +166,13 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t 
     }
     poly->count = count;
     poly->index = 0;
-    MCGeneric generic[count];
+    MCGeneric generic[MCPolygonMaxV] = {};
     for (size_t i=0; i<count; i++) {
         poly->vertexData[i] = vertexes[i];
         generic[i].mcsizet = i;
     }
-    MCArrayLinkedListInit(&(poly->vertexIndexes), generic, count);
+    MCArrayLinkedListInitCircle(&(poly->vertexIndexes), generic, count);
+    
     return poly;
 }
 
@@ -179,7 +180,7 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t 
 int MCPolygonResolveConvex(MCPolygon* poly, MCTriangle* result);
 
 //return count of triangles
-size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle triangleResult[], size_t vertexIndex[]);
+size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size_t* vindexResult);
 
 #endif /* MCGeometry_h */
 

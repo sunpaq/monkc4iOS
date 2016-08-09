@@ -101,13 +101,18 @@ size_t detectFaceCountFromBuff(const char* buff)
 
 size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
 {
+    if (buff == mull || linebuff == mull) {
+        error_log("MC3DObjParser: Fatal error buff=(%d) linebuff=(%d)\n", buff==mull, linebuff==mull);
+        exit(-1);
+    }
+    
     int c=0;
     static enum LexerState state = LSIdle;
     
     //template storage
-    double fqueue[1024] = {0.0, 0.0, 0.0, 0.0};          int fq=0;//float
-    long   iqueue[1024] = {0, 0, 0, 0};                  int iq=0;//integer
-    long   gqueue[4096] = {0,0,0, 0,0,0, 0,0,0, 0,0,0};  int gq=0;//igroup
+    double fqueue[1024] = {}; int fq=0;//float
+    long   iqueue[1024] = {}; int iq=0;//integer
+    long   gqueue[4096] = {}; int gq=0;//igroup
     
     //MCToken token;
     MCToken token;
@@ -229,26 +234,45 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 }
 #else
                 int count = gq / 3;
-                MCVector3 vertexes[count];
-                MCTriangle triangles[count-2];
+                MCVector3 vertexes[1024];
+                MCTriangle triangles[1024-2];
                 
                 for (int i=0; i<count; i++) {
                     vertexes[i] = buff->vertexbuff[gqueue[i*3]];
                 }
                 
                 MCPolygon Poly = {};
-                MCPolygon* poly = &Poly;
-                
-                MCPolygonInit(poly, vertexes, count);
-                size_t vindexResult[count];
-                size_t tricount = MCPolygonResolveConcave(poly, triangles, vindexResult);
+                MCPolygonInit(&Poly, vertexes, count);
+                size_t viresult[1024];
+                size_t tricount = MCPolygonResolveConcave(&Poly, triangles, viresult);
+                if (tricount == 0) {
+                    error_log("poly: %s\n", linebuff);
+                }else{
+                    //debug_log("poly: %s\n", linebuff);
+                }
                 
                 for (int i=0; i<tricount; i++) {
                     
+                    size_t vi1 = viresult[i*3+0];
+                    size_t vi2 = viresult[i*3+1];
+                    size_t vi3 = viresult[i*3+2];
+                    
+                    long v1 = gqueue[vi1*3+0];
+                    long t1 = gqueue[vi1*3+1];
+                    long n1 = gqueue[vi1*3+2];
+
+                    long v2 = gqueue[vi2*3+0];
+                    long t2 = gqueue[vi2*3+1];
+                    long n2 = gqueue[vi2*3+2];
+                    
+                    long v3 = gqueue[vi3*3+0];
+                    long t3 = gqueue[vi3*3+1];
+                    long n3 = gqueue[vi3*3+2];
+
                     buff->facebuff[buff->fcursor] = (MC3DFace){
-                        vindexResult[i+0], vindexResult[i+1], vindexResult[i+2],
-                        gqueue[i+3],     gqueue[i+4],     gqueue[i+5],
-                        gqueue[i+6],     gqueue[i+7],     gqueue[i+8]
+                        v1, t1, n1,
+                        v2, t2, n2,
+                        v3, t3, n3
                     };
                     buff->fcursor++;
 
