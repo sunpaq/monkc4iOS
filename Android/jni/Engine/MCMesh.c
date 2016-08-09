@@ -16,7 +16,7 @@ oninit(MCMesh)
         
         var(frame) = (MC3DFrame){0,0,0,0,0,0};
         var(useage) = GL_STATIC_DRAW;
-        var(mode) = GL_TRIANGLE_FAN;
+        var(mode) = GL_TRIANGLES;
         
         var(vertexDataPtr) = mull;
         var(vertexDataSize)= 0;
