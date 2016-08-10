@@ -137,6 +137,7 @@ typedef struct {
     MCVector3 vertexData[MCPolygonMaxV];
     MCVector3 vertexFaceup[MCPolygonMaxV];
     MCVector3 faceup;
+    size_t convexHull[MCPolygonMaxV];
 } MCPolygon;
 
 MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
@@ -154,6 +155,9 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t 
     MCGeneric generic[MCPolygonMaxV] = {};
     for (size_t i=0; i<count; i++) {
         MCVector3 v = vertexes[i];
+        poly->vertexData[i] = v;
+        generic[i].mcsizet = i;
+        
         if (v.x > poly->vertexData[xmaxi].x) {
             xmaxi = i;
         }
@@ -163,8 +167,7 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t 
         if (v.z > poly->vertexData[zmaxi].z) {
             zmaxi = i;
         }
-        poly->vertexData[i] = v;
-        generic[i].mcsizet = i;
+
         if (i==0) {
             poly->vertexFaceup[0] = MCTriangleCCWFaceUp((MCTriangle){
                 vertexes[count-1], vertexes[0], vertexes[1]
@@ -184,20 +187,24 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t 
     
     //not sure the 0 index vertex is convex
     MCVector3 Aface = poly->vertexFaceup[0];
+    MCVector3 Bface = {};
     size_t A = 0;
     size_t B = 0;
     
     for (int i=1; i<count; i++) {
-        if (MCVector3Dot(Aface, poly->vertexFaceup[i]) >= 0) {
+        MCVector3 fu = poly->vertexFaceup[i];
+        if (MCVector3Dot(Aface, fu) >= 0) {
             A++;
         } else {
+            Bface = fu;
             B++;
         }
     }
     
     if (A==0 || B==0) {
         poly->isConvex = MCTrue;
-    } else {
+    }
+    else {
         //all equal
         if (xmaxi == ymaxi && ymaxi == zmaxi) {
             poly->faceup = poly->vertexFaceup[xmaxi];
