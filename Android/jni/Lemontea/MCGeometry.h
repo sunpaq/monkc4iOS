@@ -138,6 +138,9 @@ typedef struct {
     MCVector3 vertexFaceup[MCPolygonMaxV];
     MCVector3 faceup;
     size_t convexHull[MCPolygonMaxV];
+    size_t convexCount;
+//    size_t concaveSet[MCPolygonMaxV];
+//    size_t concaveCount;
 } MCPolygon;
 
 MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
@@ -146,6 +149,7 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t 
         error_log("MCPolygon vertex count can not over %ld\n", MCPolygonMaxV);
         exit(-1);
     }
+    
     poly->count = count;
     poly->index = 0;
     size_t xmaxi = 0;
@@ -185,53 +189,97 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t 
         }
     }
     
-    //not sure the 0 index vertex is convex
-    MCVector3 Aface = poly->vertexFaceup[0];
-    MCVector3 Bface = {};
-    size_t A = 0;
-    size_t B = 0;
-    
-    for (int i=1; i<count; i++) {
-        MCVector3 fu = poly->vertexFaceup[i];
-        if (MCVector3Dot(Aface, fu) >= 0) {
-            A++;
-        } else {
-            Bface = fu;
-            B++;
+    //test remain points in triangle
+    poly->convexCount = 0;
+    poly->convexHull[poly->convexCount++] = 0;
+    MCBool success = MCTrue;
+
+    for (size_t i=0; i<count; i++) {
+        size_t idx1 = 0;
+        size_t idx2 = i+1;
+        size_t idx3 = i+2;
+
+        MCTriangle tri = MCTriangleMake(poly->vertexData[idx1],
+                                        poly->vertexData[idx2],
+                                        poly->vertexData[idx3]);
+        
+        for (size_t n=0; n<count; n++) {
+            if (n==idx1 || n==idx2 || n==idx3) {
+                continue;
+            }
+            MCVector3 p = poly->vertexData[n];
+            if(MCTriangleContainsVertex(tri, p)){
+                success = MCFalse;
+            }
+        }
+        
+        if (success) {
+            poly->convexHull[poly->convexCount++] = idx2;
+            if (i==count-1) {
+                poly->convexHull[poly->convexCount++] = count-1;
+            }
         }
     }
     
-    if (A==0 || B==0) {
-        poly->isConvex = MCTrue;
+    poly->isConvex = success;
+    poly->faceup = poly->vertexFaceup[poly->convexHull[2]];
+
+    if (poly->isConvex) {
+        
     }
-    else {
-        //all equal
-        if (xmaxi == ymaxi && ymaxi == zmaxi) {
-            poly->faceup = poly->vertexFaceup[xmaxi];
-        }
-        //all diff
-        else if (xmaxi != ymaxi && ymaxi != zmaxi && zmaxi != xmaxi) {
-            //sort
-            size_t sorted[3] = {xmaxi, ymaxi, zmaxi};
-            MCMath_sortSizet(sorted, 3);
-            poly->faceup = MCTriangleCCWFaceUp((MCTriangle){
-                sorted[0], sorted[1], sorted[2]
-            });
-        }
-        //2 equals
-        else if (xmaxi == ymaxi || xmaxi == zmaxi || ymaxi == zmaxi) {
-            //sort
-            size_t sorted[3] = {xmaxi, ymaxi, zmaxi};
-            MCMath_sortSizet(sorted, 3);
-            poly->faceup = poly->vertexFaceup[sorted[2]];
-        }
-        else{
-            error_log("It is impossible!\n");
-            exit(-1);
-        }
-        poly->isConvex = MCFalse;
+        
+//        //all equal
+//        if (xmaxi == ymaxi && ymaxi == zmaxi) {
+//            poly->faceup = poly->vertexFaceup[xmaxi];
+//        }
+//        //all diff
+//        else if (xmaxi != ymaxi && ymaxi != zmaxi && zmaxi != xmaxi) {
+//            //sort
+//            size_t sorted[3] = {xmaxi, ymaxi, zmaxi};
+//            MCMath_sortSizet(sorted, 3);
+//            poly->faceup = MCTriangleCCWFaceUp((MCTriangle){
+//                sorted[0], sorted[1], sorted[2]
+//            });
+//        }
+//        //2 equals
+//        else if (xmaxi == ymaxi || xmaxi == zmaxi || ymaxi == zmaxi) {
+//            //sort
+//            size_t sorted[3] = {xmaxi, ymaxi, zmaxi};
+//            MCMath_sortSizet(sorted, 3);
+//            poly->faceup = poly->vertexFaceup[sorted[2]];
+//        }
+//        else{
+//            error_log("It is impossible!\n");
+//            exit(-1);
+//        }
+        
         MCArrayLinkedListInitCircle(&(poly->vertexIndexes), generic, count);
-    }
+        
+        //not sure the 0 index vertex is convex
+//        MCVector3 Aface = poly->vertexFaceup[poly->convexHull[1]];
+//        MCVector3 Bface = {};
+//        size_t A = 0;
+//        size_t B = 0;
+//        
+//        for (int i=1; i<count; i++) {
+//            MCVector3 fu = poly->vertexFaceup[i];
+//            if (MCVector3Dot(Aface, fu) >= 0) {
+//                A++;
+//            } else {
+//                Bface = fu;
+//                B++;
+//            }
+//        }
+//        
+//        if (A==0 || B==0) {
+//            poly->isConvex = MCTrue;
+//        }
+//        else {
+//
+//        }
+//    }
+    
+
     
     return poly;
 }
