@@ -41,29 +41,29 @@ utility(MCMath, double, accumulateMind, double* result, double value);
 
 typedef union {
     struct {
-        double x;
-        double y;
+        float x;
+        float y;
     };
-    double v[2];
+    float v[2];
 } MCVector2;
 
 typedef union {
     struct {
-        double x;
-        double y;
-        double z;
+        float x;
+        float y;
+        float z;
     };
-    double v[3];
+    float v[3];
 } MCVector3;
 
 typedef union {
     struct {
-        double x;
-        double y;
-        double z;
-        double w;
+        float x;
+        float y;
+        float z;
+        float w;
     };
-    double v[4];
+    float v[4];
 } MCVector4;
 
 MCInline MCVector2 MCVector2From3(MCVector3 vec3)

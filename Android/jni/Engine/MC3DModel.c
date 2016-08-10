@@ -156,7 +156,8 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
     
     if (e.ni == 0) {
         //error_log("MC3DFileParser: empty normal data, set to 0!");
-        n = (MCVector3){1.0,1.0,1.0};
+        n = MCVector3Cross(MCVector3Sub(buff->vertexbuff[e.vi-1], buff->vertexbuff[e.vi]),
+                           MCVector3Sub(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1]));
     }else{
         n = buff->normalbuff[e.ni-1];
     }

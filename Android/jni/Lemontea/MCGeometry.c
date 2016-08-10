@@ -27,7 +27,7 @@ int MCPolygonResolveConvex(MCPolygon* poly, MCTriangle* result)
 
 size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size_t* vindexResult)
 {
-    //debug_log("begin resolve a polgon n=%d\n", poly->count);
+    debug_log("begin resolve a polgon n=%d\n", poly->count);
 
     size_t triangleCount = 0;
     size_t vertexCount = 0;
@@ -40,9 +40,10 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
         MCALItem* finish = middle->next;
 
         //make a triangle
-        long idx1 = start->value.mcsizet;
-        long idx2 = middle->value.mcsizet;
-        long idx3 = finish->value.mcsizet;
+        size_t idx1 = start->value.mcsizet;
+        size_t idx2 = middle->value.mcsizet;
+        size_t idx3 = finish->value.mcsizet;
+        debug_log("try (%d/%d/%d) - ", idx1, idx2, idx3);
         
         MCVector3* s = &(poly->vertexData[idx1]);
         MCVector3* m = &(poly->vertexData[idx2]);
@@ -59,21 +60,24 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
                 vindexResult[vertexCount++] = idx2;
                 vindexResult[vertexCount++] = idx3;
             }
-            //debug_log("final ear: %d/%d/%d\n", idx1, idx2, idx3);
+            debug_log("final ear: %d/%d/%d\n", idx1, idx2, idx3);
             return triangleCount;
         }
         
         MCBool success = MCTrue;
         //test whether triangle face up
-        if (MCVector3Dot(MCTriangleCCWFaceUp(triangle), poly->faceup) < 0) {
-            //debug_log("face up test failed: %d/%d/%d\n", idx1, idx2, idx3);
+        if (MCVector3Dot(poly->vertexFaceup[idx2], poly->faceup) < 0) {
+            debug_log("face up test failed: %d/%d/%d\n", idx1, idx2, idx3);
             success = MCFalse;
         }
         //test remain points in triangle
         for (int i=0; i<list->count; i++) {
+            if (i==idx1 || i==idx2 || i==idx3) {
+                continue;
+            }
             MCVector3* p = &(poly->vertexData[i]);
             if(MCTriangleContainsVertex(triangle, *p)){
-                //debug_log("vertex in triangle test failed: %d/%d/%d\n", idx1, idx2, idx3);
+                debug_log("vertex in triangle test failed: %d/%d/%d\n", idx1, idx2, idx3);
                 success = MCFalse;
             }
         }
@@ -87,7 +91,7 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
                 vindexResult[vertexCount++] = idx2;
                 vindexResult[vertexCount++] = idx3;
             }
-            //debug_log("cut a ear: %d/%d/%d\n", idx1, idx2, idx3);
+            debug_log("cut a ear: %d/%d/%d\n", idx1, idx2, idx3);
             list->head = MCALDeleteItem(list, middle);
         }else{
             if (tryCount > 0) {

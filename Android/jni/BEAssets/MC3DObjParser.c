@@ -2,6 +2,8 @@
 #include "BEAssetsManager.h"
 #include "MCGeometry.h"
 
+static size_t epcount = 0;
+
 size_t countFaces(const char* linebuff, size_t tcount)
 {
     size_t fcount = 0;//polygon
@@ -110,7 +112,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     static enum LexerState state = LSIdle;
     
     //template storage
-    double fqueue[1024] = {}; int fq=0;//float
+    float  fqueue[1024] = {}; int fq=0;//float
     long   iqueue[1024] = {}; int iq=0;//integer
     long   gqueue[4096] = {}; int gq=0;//igroup
     
@@ -249,7 +251,6 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                     if (tricount == 0) {
                         //error_log("poly: %s\n", linebuff);
                         MCPolygonDumpVertexData(&Poly);
-                        static size_t epcount = 0;
                         error_log("error poly %ld\n", epcount++);
                     }else{
                         //debug_log("poly: %s\n", linebuff);
@@ -289,6 +290,8 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
 
 MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
 {
+    epcount = 0;
+    
 #ifdef __ANDROID__
     const char* assetbuff = MCFileCopyContentWithPath(filename, "obj");
     if (assetbuff != mull) {
