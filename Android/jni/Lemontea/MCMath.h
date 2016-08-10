@@ -29,6 +29,10 @@ MCInline MCBool MCSamelongdouble(long double A, long double B) {
 utility(MCMath, void, bye, voida);
 utility(MCMath, int, addInteger2, int a, int b);
 
+utility(MCMath, void, sortInt, int* sorted, size_t count);
+utility(MCMath, void, sortLong, long* sorted, size_t count);
+utility(MCMath, void, sortSizet, size_t* sorted, size_t count);
+
 utility(MCMath, int, accumulateMaxi, int* result, int value);
 utility(MCMath, int, accumulateMini, int* result, int value);
 

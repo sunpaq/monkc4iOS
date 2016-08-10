@@ -27,6 +27,8 @@ int MCPolygonResolveConvex(MCPolygon* poly, MCTriangle* result)
 
 size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size_t* vindexResult)
 {
+    //debug_log("begin resolve a polgon n=%d\n", poly->count);
+
     size_t triangleCount = 0;
     size_t vertexCount = 0;
     MCArrayLinkedList* list = &poly->vertexIndexes;
@@ -57,18 +59,21 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
                 vindexResult[vertexCount++] = idx2;
                 vindexResult[vertexCount++] = idx3;
             }
+            //debug_log("final ear: %d/%d/%d\n", idx1, idx2, idx3);
             return triangleCount;
         }
         
         MCBool success = MCTrue;
         //test whether triangle face up
-        if (MCVector3Dot(MCTriangleCCWFaceUp(triangle), poly->faceupv) < 0) {
+        if (MCVector3Dot(MCTriangleCCWFaceUp(triangle), poly->faceup) < 0) {
+            //debug_log("face up test failed: %d/%d/%d\n", idx1, idx2, idx3);
             success = MCFalse;
         }
         //test remain points in triangle
         for (int i=0; i<list->count; i++) {
             MCVector3* p = &(poly->vertexData[i]);
             if(MCTriangleContainsVertex(triangle, *p)){
+                //debug_log("vertex in triangle test failed: %d/%d/%d\n", idx1, idx2, idx3);
                 success = MCFalse;
             }
         }
@@ -82,6 +87,7 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
                 vindexResult[vertexCount++] = idx2;
                 vindexResult[vertexCount++] = idx3;
             }
+            //debug_log("cut a ear: %d/%d/%d\n", idx1, idx2, idx3);
             list->head = MCALDeleteItem(list, middle);
         }else{
             if (tryCount > 0) {
@@ -97,4 +103,15 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
     
     return triangleCount;
 }
+
+void MCPolygonDumpVertexData(MCPolygon* poly)
+{
+    printf("{\n");
+    for (int i=0; i<poly->count; i++) {
+        printf("{%f,%f,%f},\n", poly->vertexData[i].x, poly->vertexData[i].y, poly->vertexData[i].z);
+    }
+    printf("}");
+    printf("total %ld vertexes\n", poly->count);
+}
+
 

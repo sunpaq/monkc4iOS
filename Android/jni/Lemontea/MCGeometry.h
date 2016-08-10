@@ -134,9 +134,11 @@ MCInline MCVector3 MCTriangleCCWFaceUp(MCTriangle tri)
 typedef struct {
     size_t count;
     size_t index;
-    MCVector3 faceupv;
+    MCBool isConvex;
     MCArrayLinkedList vertexIndexes;
     MCVector3 vertexData[MCPolygonMaxV];
+    MCVector3 vertexFaceup[MCPolygonMaxV];
+    MCVector3 faceup;
 } MCPolygon;
 
 MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
@@ -147,16 +149,94 @@ MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t 
     }
     poly->count = count;
     poly->index = 0;
+    size_t xmaxi = 0;
+    size_t ymaxi = 0;
+    size_t zmaxi = 0;
+
     MCGeneric generic[MCPolygonMaxV] = {};
     for (size_t i=0; i<count; i++) {
-        poly->vertexData[i] = vertexes[i];
+        MCVector3 v = vertexes[i];
+        if (v.x > poly->vertexData[xmaxi].x) {
+            xmaxi = i;
+        }
+        if (v.y > poly->vertexData[ymaxi].y) {
+            ymaxi = i;
+        }
+        if (v.z > poly->vertexData[zmaxi].z) {
+            zmaxi = i;
+        }
+        poly->vertexData[i] = v;
         generic[i].mcsizet = i;
+        if (i==0) {
+            poly->vertexFaceup[0] = MCTriangleCCWFaceUp((MCTriangle){
+                vertexes[count-1], vertexes[0], vertexes[1]
+            });
+        }
+        else if (i==count-1) {
+            poly->vertexFaceup[count-1] = MCTriangleCCWFaceUp((MCTriangle){
+                vertexes[count-2], vertexes[count-1], vertexes[0]
+            });
+        }
+        else {
+            poly->vertexFaceup[i] = MCTriangleCCWFaceUp((MCTriangle){
+                vertexes[i-1], vertexes[i], vertexes[i+1]
+            });
+        }
     }
-    MCArrayLinkedListInitCircle(&(poly->vertexIndexes), generic, count);
     
-    //assume first vertex is convex
-    poly->faceupv = MCTriangleCCWFaceUp((MCTriangle){vertexes[count-1], vertexes[0], vertexes[1]});
-
+    MCVector3 Aface = poly->vertexFaceup[0];
+    MCVector3 Bface = {};
+    size_t A = 0;
+    size_t B = 0;
+    
+    for (int i=1; i<count; i++) {
+        if (MCVector3Dot(Aface, poly->vertexFaceup[i]) > 0) {
+            A++;
+        } else {
+            Bface = poly->vertexFaceup[i];
+            B++;
+        }
+    }
+    
+    if (A==0 || B==0) {
+        poly->isConvex = MCTrue;
+    } else {
+        if (A > B) {
+            poly->faceup = Aface;
+        }
+        else if(A < B) {
+            poly->faceup = Bface;
+        }
+        else {
+            //all equal
+            if (xmaxi == ymaxi && ymaxi == zmaxi) {
+                poly->faceup = poly->vertexFaceup[xmaxi];
+            }
+            //all diff
+            else if (xmaxi != ymaxi && ymaxi != zmaxi && zmaxi != xmaxi) {
+                //sort
+                size_t sorted[3] = {xmaxi, ymaxi, zmaxi};
+                MCMath_sortSizet(sorted, 3);
+                poly->faceup = MCTriangleCCWFaceUp((MCTriangle){
+                    sorted[0], sorted[1], sorted[2]
+                });
+            }
+            //2 equals
+            else if (xmaxi == ymaxi || xmaxi == zmaxi || ymaxi == zmaxi) {
+                //sort
+                size_t sorted[3] = {xmaxi, ymaxi, zmaxi};
+                MCMath_sortSizet(sorted, 3);
+                poly->faceup = poly->vertexFaceup[sorted[2]];
+            }
+            else{
+                error_log("It is impossible!\n");
+                exit(-1);
+            }
+        }
+        poly->isConvex = MCFalse;
+        MCArrayLinkedListInitCircle(&(poly->vertexIndexes), generic, count);
+    }
+    
     return poly;
 }
 
@@ -165,6 +245,9 @@ int MCPolygonResolveConvex(MCPolygon* poly, MCTriangle* result);
 
 //return count of triangles
 size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size_t* vindexResult);
+
+//dump vertex data
+void MCPolygonDumpVertexData(MCPolygon* poly);
 
 #endif /* MCGeometry_h */
 
