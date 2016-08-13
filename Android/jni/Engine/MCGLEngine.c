@@ -73,14 +73,12 @@ utility(MCGLEngine, void, setFrontCounterClockWise, MCBool isCCW)
 
 utility(MCGLEngine, void, cullFace, MCGLFace face)
 {
-    glEnable(GL_CULL_FACE);
     glCullFace(face);
-    glDisable(GL_CULL_FACE);
 }
 
 utility(MCGLEngine, void, cullBackFace, voida)
 {
-    MCGLEngine_cullFace(GL_BACK);
+    MCGLEngine_cullFace(MCGLBack);
 }
 
 //Texture
