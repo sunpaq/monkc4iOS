@@ -10,6 +10,19 @@
 
 @implementation SettingsListController
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        self.skyboxSwitch = [UISwitch new];
+        self.skyboxSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"SkyboxOn"];
+        [self.skyboxSwitch addTarget:self
+                              action:@selector(onSkyboxSwitchValueChanged:)
+                    forControlEvents:UIControlEventValueChanged];
+    }
+    return self;
+}
+
 -(void)viewDidLoad
 {
     [super viewDidLoad];
@@ -21,7 +34,7 @@
                      @"Tutorial",
                      @"3rd Party Library License",
                      @"3rd Party Demo Contents License",
-                     @"Backgroud Color",
+                     @"Skybox On",
                      @"Rotation Direction",
                      @"Show FPS", nil];
 }
@@ -37,8 +50,21 @@
     NSInteger i = indexPath.row;
     if (cell && i <= self.listData.count) {
         cell.textLabel.text = [self.listData objectAtIndex:i];
+        if (indexPath.row == 3) {
+            cell.accessoryView = self.skyboxSwitch;
+        }
     }
     return cell;
+}
+
+- (void) onSkyboxSwitchValueChanged:(id)sender
+{
+    UISwitch* sw = (UISwitch*)sender;
+    if (sw.isOn) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SkyboxOn"];
+    }else{
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SkyboxOn"];
+    }
 }
 
 @end

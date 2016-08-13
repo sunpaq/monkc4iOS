@@ -127,7 +127,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         if (cubtex != mull) {
             MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
             mainScene->skyboxRef = skybox;
-            mainScene->skyboxShow = MCTrue;
+            mainScene->skyboxShow = getSkyboxOn();
         }
 
         mainScene->mainCamera->R_value = 30;

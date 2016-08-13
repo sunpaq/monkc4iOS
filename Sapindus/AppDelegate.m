@@ -9,6 +9,14 @@
 #import "AppDelegate.h"
 #import "MC3DiOS.h"
 
+int getSkyboxOn()
+{
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SkyboxOn"]) {
+        return 1;
+    }
+    return 0;
+}
+
 @interface AppDelegate ()
 
 @end
