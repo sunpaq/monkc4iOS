@@ -179,4 +179,27 @@ typedef enum {
     
 } MCGLSLTypeMatrix;
 
+typedef enum {
+    MCGLUniformScalar,
+    MCGLUniformVec1,
+    MCGLUniformVec2,
+    MCGLUniformVec3,
+    MCGLUniformVec4,
+    MCGLUniformMat3,
+    MCGLUniformMat4
+} MCGLUniformType;
+
+typedef struct {
+    MCGLUniformType type;
+    union {
+        MCInt  scalar;
+        double vec1;
+        MCVector2 vec2;
+        MCVector3 vec3;
+        MCVector4 vec4;
+        MCMatrix3 mat3;
+        MCMatrix4 mat4;
+    } data;
+} MCGLUniform;
+
 #endif

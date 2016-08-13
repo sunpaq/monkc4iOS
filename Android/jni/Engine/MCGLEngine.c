@@ -73,9 +73,10 @@ utility(MCGLEngine, void, setFrontCounterClockWise, MCBool isCCW)
 
 utility(MCGLEngine, void, cullFace, MCGLFace face)
 {
-    glEnable(GL_CULL_FACE);
+    if(!glIsEnabled(GL_CULL_FACE)) {
+        glEnable(GL_CULL_FACE);
+    }
     glCullFace(face);
-    glDisable(GL_CULL_FACE);
 }
 
 utility(MCGLEngine, void, cullBackFace, voida)
@@ -191,7 +192,11 @@ utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, con
 
 utility(MCGLEngine, void, tryUseShaderProgram, GLuint Id)
 {
-    glUseProgram(Id);
+    GLint cid;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &cid);
+    if (Id != cid) {
+        glUseProgram(Id);
+    }
 }
 
 

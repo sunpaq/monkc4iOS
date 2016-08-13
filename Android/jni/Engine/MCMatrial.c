@@ -58,6 +58,19 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
     
     if (var(dataChanged) == MCTrue) {
         MCGLContext_activateShaderProgram(0, ctx, 0);
+        
+        MCGLUniform ambientLightStrength;
+        MCGLUniform ambientLightColor;
+        MCGLUniform diffuseLightColor;
+        MCGLUniform specularLightStrength;
+        MCGLUniform specularLightColor;
+        MCGLUniform specularLightPower;
+
+        ambientLightStrength.type = MCGLUniformVec1;
+        ambientLightStrength.data.vec1 = obj->ambientLightStrength;
+
+        
+        
         MCGLContext_setUniformVector1(0, ctx, mull, loc_ambientLightStrength, obj->ambientLightStrength);
         MCGLContext_setUniformVector3(0, ctx, mull, loc_ambientLightColor,    obj->ambientLightColor);
         MCGLContext_setUniformVector3(0, ctx, mull, loc_diffuseLightColor,    obj->diffuseLightColor);

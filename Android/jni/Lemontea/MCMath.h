@@ -193,6 +193,22 @@ MCInline MCVector3 MCVector3Cross(MCVector3 v1, MCVector3 v2) {
         v1.x*v2.y - v2.x*v1.y};
 }
 
+MCInline MCBool MCMatrix4Equal(MCMatrix4* l, MCMatrix4* r)
+{
+    for (int i=0; i<16; i++) {
+        if(l->m[i] != r->m[i])
+            return MCFalse;
+    }
+    return MCTrue;
+}
+
+MCInline void MCMatrix4Copy(MCMatrix4* target, MCMatrix4* source)
+{
+    for (int i=0; i<16; i++) {
+        target->m[i] = source->m[i];
+    }
+}
+
 MCInline MCMatrix4 MCMatrix4Multiply(MCMatrix4 l, MCMatrix4 r)
 {
     MCMatrix4 m;

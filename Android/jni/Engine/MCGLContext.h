@@ -38,14 +38,21 @@ class(MCGLContext, MCObject,
 //please cache the location index when you first call the setters
 //then directly pass the location index and pass name mull
 method(MCGLContext, void, activateShaderProgram, voida);
+
+method(MCGLContext, void, updateProjectionMatrix, MCMatrix4* mp);
+method(MCGLContext, void, updateModelMatrix, MCMatrix4* mm);
+method(MCGLContext, void, updateViewMatrix, MCMatrix4* mv);
+
 method(MCGLContext, int,  getUniformLocation, const char* name);
-method(MCGLContext, int,  setUniformMatrix3,  const char* name, int loc, float m[]);
-method(MCGLContext, int,  setUniformMatrix4,  const char* name, int loc, float m[]);
-method(MCGLContext, int,  setUniformScalar,   const char* name, int loc, MCInt x);
-method(MCGLContext, int,  setUniformVector1,  const char* name, int loc, double x);
-method(MCGLContext, int,  setUniformVector2,  const char* name, int loc, MCVector2 vec2);
-method(MCGLContext, int,  setUniformVector3,  const char* name, int loc, MCVector3 vec3);
-method(MCGLContext, int,  setUniformVector4,  const char* name, int loc, MCVector4 vec4);
+method(MCGLContext, int,  setUniform, const char* name, int loc, MCGLUniform* uniform);
+
+//method(MCGLContext, int,  setUniformMatrix3,  const char* name, int loc, float m[]);
+//method(MCGLContext, int,  setUniformMatrix4,  const char* name, int loc, float m[]);
+//method(MCGLContext, int,  setUniformScalar,   const char* name, int loc, MCInt x);
+//method(MCGLContext, int,  setUniformVector1,  const char* name, int loc, double x);
+//method(MCGLContext, int,  setUniformVector2,  const char* name, int loc, MCVector2 vec2);
+//method(MCGLContext, int,  setUniformVector3,  const char* name, int loc, MCVector3 vec3);
+//method(MCGLContext, int,  setUniformVector4,  const char* name, int loc, MCVector4 vec4);
 //for debug
 method(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params);
 
