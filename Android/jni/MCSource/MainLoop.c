@@ -27,10 +27,10 @@ static BECubeTextureData* cubtex = mull;
 
 void onAppStart()
 {
-    if (cubtex == mull) {
-        const char* names[6] = {"right","left","top","bottom","back","front"};
-        cubtex = BECubeTextureData_newWithFaces(names, "jpg");
-    }
+//    if (cubtex == mull) {
+//        const char* names[6] = {"right","left","top","bottom","back","front"};
+//        cubtex = BECubeTextureData_newWithFaces(names, "jpg");
+//    }
 }
 
 void onRootViewLoad(void* rootview)
@@ -167,7 +167,7 @@ void onUpdate(double roll, double yaw, double pitch)
     MCLogTypeSet(MC_SILENT);
     if (director != mull) {
 
-    	if (director->lastScene->skyboxRef != mull) {
+    	if (director->lastScene->isDrawSky(director->lastScene)) {
             if (director->currentWidth < director->currentHeight) {
                 MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, roll*360, (pitch-1)*45);
             }else{
@@ -250,8 +250,11 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
 {
     if (director != mull && director->lastScene != mull) {
         MCCamera* camera = director->lastScene->mainCamera;
-        MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
-        MCCamera* cam2 = &sbcam->super;
+        MCCamera* cam2 = mull;
+        if (director->lastScene->isDrawSky(director->lastScene)) {
+            MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
+            cam2 = &sbcam->super;
+        }
 
         if (camera != mull) {
             switch (cmd->type) {
@@ -280,14 +283,18 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
                 case MC3DiOS_CameraAngels:
                     camera->tht = cmd->tht;
                     camera->fai = cmd->fai;
-                    cam2->tht   = cmd->tht;
-                    cam2->fai   = cmd->fai;
+                    if (cam2) {
+                        cam2->tht   = cmd->tht;
+                        cam2->fai   = cmd->fai;
+                    }
                     break;
                 case MC3DiOS_CameraAngelsDelta:
                     camera->tht += cmd->tht;
                     camera->fai += cmd->fai;
-                    cam2->tht   += cmd->tht;
-                    cam2->fai   += cmd->fai;
+                    if (cam2) {
+                        cam2->tht   += cmd->tht;
+                        cam2->fai   += cmd->fai;
+                    }
                     break;
                 case MC3DiOS_GetCurrent:
                     cmd->lookatX = camera->lookat.x;

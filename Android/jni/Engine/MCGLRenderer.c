@@ -30,11 +30,7 @@ oninit(MCGLRenderer)
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(MCTrue);//CCW
 
-        //obj->Id = MCGLEngine_createShader(0);
-    	obj->Id = glCreateProgram();
-
         obj->context = new(MCGLContext);
-        obj->context->pid = obj->Id;
 
         return obj;
     }else{
@@ -55,7 +51,7 @@ function(void, beforeLinkProgram, voida)
     // This needs to be done prior to linking.
     for (int i=0; i<MAX_VATTR_NUM-1; i++) {
         if (var(context)->vertexAttributeNames[i] != mull) {
-            glBindAttribLocation(var(Id), i, var(context)->vertexAttributeNames[i]);
+            glBindAttribLocation(obj->context->pid, i, var(context)->vertexAttributeNames[i]);
         }
     }
 }
@@ -67,7 +63,7 @@ function(void, afterLinkProgram, voida)
     for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
         const char* name = var(context)->uniformNames[i];
         if (name != mull) {
-            var(context)->uniformLocations[i] = glGetUniformLocation(var(Id), name);
+            var(context)->uniformLocations[i] = glGetUniformLocation(obj->context->pid, name);
         }
     }
 }
@@ -75,7 +71,7 @@ function(void, afterLinkProgram, voida)
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
     beforeLinkProgram(0, obj, 0);
-    MCGLEngine_prepareShader(obj->Id, vcode, fcode);
+    MCGLEngine_prepareShader(obj->context->pid, vcode, fcode);
     afterLinkProgram(0, obj, 0);
     return obj;
 }
@@ -105,8 +101,7 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
-    MCGLEngine_tryUseShaderProgram(obj->Id);
-    
+    MCGLContext_activateShaderProgram(0, obj->context, 0);
     if (rootnode != mull) {
         fh(rootnode, draw, _draw, obj->context);
     }

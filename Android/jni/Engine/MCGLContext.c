@@ -13,6 +13,8 @@
 oninit(MCGLContext)
 {
     if (init(MCObject)) {
+        var(pid) = glCreateProgram();
+        
         memset(obj->vertexAttributeNames, (int)mull, sizeof(obj->vertexAttributeNames));
         memset(obj->uniformNames, (int)mull, sizeof(obj->uniformNames));
         
@@ -43,7 +45,7 @@ oninit(MCGLContext)
 
 method(MCGLContext, void, activateShaderProgram, voida)
 {
-    MCGLEngine_tryUseShaderProgram(var(pid));
+    glUseProgram(var(pid));
 }
 
 method(MCGLContext, int, getUniformLocation, const char* name)

@@ -189,14 +189,9 @@ utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, con
     return Id;
 }
 
-utility(MCGLEngine, GLuint, tryUseShaderProgram, GLuint Id)
+utility(MCGLEngine, void, tryUseShaderProgram, GLuint Id)
 {
-    static int idCache = -1;
-    if (Id != idCache) {
-        glUseProgram(Id);
-        idCache = Id;
-    }
-    return idCache;
+    glUseProgram(Id);
 }
 
 

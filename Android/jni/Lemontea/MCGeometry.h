@@ -113,7 +113,7 @@ MCInline MCBool MCTriangleContainsVertex(MCTriangle tri, MCVector3 P)
     MCVector3 C = tri.c;
     
     if (MCVertexOnLine(A, B, P) || MCVertexOnLine(B, C, P) || MCVertexOnLine(C, A, P)) {
-        return MCFalse;
+        return MCTrue;
     }
     
     if (MCVertexesInSameSideOf(A, B, C, P)

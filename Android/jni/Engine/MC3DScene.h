@@ -34,6 +34,8 @@ class(MC3DScene, MCObject,
       MCLight*      light;
       MCBool        cameraLock;
       MCClock*      clock;
+      
+      computing(MCBool, isDrawSky);
 );
 
 method(MC3DScene, void, bye, voida);
