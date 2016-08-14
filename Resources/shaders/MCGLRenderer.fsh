@@ -20,11 +20,12 @@ bool isVec4Zero(lowp vec4 v)
 
 void main()
 {
-    lowp vec4 color = texture(texsampler, texturecoord);
-    
-    if (isVec4Zero(color)) {
-        color = vec4(vertexcolor, 1.0f);
-    }
+//    lowp vec4 color = texture(texsampler, texturecoord);
+//    
+//    if (isVec4Zero(color)) {
+//        color = vec4(vertexcolor, 1.0f);
+//    }
     //Color Output
+    lowp vec4 color = vec4(vertexcolor, 1.0f);
     FragColor = combinedlight * color;
 }

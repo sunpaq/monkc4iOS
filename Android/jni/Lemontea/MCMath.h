@@ -29,6 +29,10 @@ MCInline MCBool MCSamelongdouble(long double A, long double B) {
 utility(MCMath, void, bye, voida);
 utility(MCMath, int, addInteger2, int a, int b);
 
+utility(MCMath, void, sortInt, int* sorted, size_t count);
+utility(MCMath, void, sortLong, long* sorted, size_t count);
+utility(MCMath, void, sortSizet, size_t* sorted, size_t count);
+
 utility(MCMath, int, accumulateMaxi, int* result, int value);
 utility(MCMath, int, accumulateMini, int* result, int value);
 
@@ -37,29 +41,29 @@ utility(MCMath, double, accumulateMind, double* result, double value);
 
 typedef union {
     struct {
-        double x;
-        double y;
+        float x;
+        float y;
     };
-    double v[2];
+    float v[2];
 } MCVector2;
 
 typedef union {
     struct {
-        double x;
-        double y;
-        double z;
+        float x;
+        float y;
+        float z;
     };
-    double v[3];
+    float v[3];
 } MCVector3;
 
 typedef union {
     struct {
-        double x;
-        double y;
-        double z;
-        double w;
+        float x;
+        float y;
+        float z;
+        float w;
     };
-    double v[4];
+    float v[4];
 } MCVector4;
 
 MCInline MCVector2 MCVector2From3(MCVector3 vec3)
@@ -72,9 +76,25 @@ MCInline MCVector3 MCVector3From4(MCVector4 vec4)
     return (MCVector3){vec4.x, vec4.y, vec4.z};
 }
 
+MCInline MCBool MCVector2Equal(MCVector2 v1, MCVector2 v2)
+{
+    if (MCSamefloat(v1.x, v2.x) && MCSamefloat(v1.y, v2.y)) {
+        return MCTrue;
+    }
+    return MCFalse;
+}
+
 MCInline MCBool MCVector3Equal(MCVector3 v1, MCVector3 v2)
 {
-    if (MCSamedouble(v1.x, v2.x) && MCSamedouble(v1.y, v2.y) && MCSamedouble(v1.z, v2.z)) {
+    if (MCSamefloat(v1.x, v2.x) && MCSamefloat(v1.y, v2.y) && MCSamefloat(v1.z, v2.z)) {
+        return MCTrue;
+    }
+    return MCFalse;
+}
+
+MCInline MCBool MCVector4Equal(MCVector4 v1, MCVector4 v2)
+{
+    if (MCSamefloat(v1.x, v2.x) && MCSamefloat(v1.y, v2.y) && MCSamefloat(v1.z, v2.z) && MCSamefloat(v1.w, v2.w)) {
         return MCTrue;
     }
     return MCFalse;
@@ -187,6 +207,31 @@ MCInline MCVector3 MCVector3Cross(MCVector3 v1, MCVector3 v2) {
     return (MCVector3){v1.y*v2.z - v2.y*v1.z,
         v2.x*v1.z - v1.x*v2.z,
         v1.x*v2.y - v2.x*v1.y};
+}
+
+MCInline MCBool MCMatrix3Equal(MCMatrix3* l, MCMatrix3* r)
+{
+    for (int i=0; i<9; i++) {
+        if(l->m[i] != r->m[i])
+            return MCFalse;
+    }
+    return MCTrue;
+}
+
+MCInline MCBool MCMatrix4Equal(MCMatrix4* l, MCMatrix4* r)
+{
+    for (int i=0; i<16; i++) {
+        if(l->m[i] != r->m[i])
+            return MCFalse;
+    }
+    return MCTrue;
+}
+
+MCInline void MCMatrix4Copy(MCMatrix4* target, MCMatrix4* source)
+{
+    for (int i=0; i<16; i++) {
+        target->m[i] = source->m[i];
+    }
 }
 
 MCInline MCMatrix4 MCMatrix4Multiply(MCMatrix4 l, MCMatrix4 r)

@@ -2,6 +2,8 @@
 #include "BEAssetsManager.h"
 #include "MCGeometry.h"
 
+static size_t epcount = 0;
+
 size_t countFaces(const char* linebuff, size_t tcount)
 {
     size_t fcount = 0;//polygon
@@ -110,7 +112,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     static enum LexerState state = LSIdle;
     
     //template storage
-    double fqueue[1024] = {}; int fq=0;//float
+    float  fqueue[1024] = {}; int fq=0;//float
     long   iqueue[1024] = {}; int iq=0;//integer
     long   gqueue[4096] = {}; int gq=0;//igroup
     
@@ -222,17 +224,6 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 };
             }
             else if (gq > 9) {
-#define ONLY_CONVEX
-#ifdef ONLY_CONVEX
-                for (int i=0; i< gq-6; i=i+3) {
-                    //face
-                    buff->facebuff[buff->fcursor++] = (MC3DFace){
-                        gqueue[0  ], gqueue[1  ], gqueue[2  ],
-                        gqueue[i+3], gqueue[i+4], gqueue[i+5],
-                        gqueue[i+6], gqueue[i+7], gqueue[i+8]
-                    };
-                }
-#else
                 int count = gq / 3;
                 MCVector3 vertexes[1024];
                 MCTriangle triangles[1024-2];
@@ -243,41 +234,54 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 
                 MCPolygon Poly = {};
                 MCPolygonInit(&Poly, vertexes, count);
-                size_t viresult[1024];
-                size_t tricount = MCPolygonResolveConcave(&Poly, triangles, viresult);
-                if (tricount == 0) {
-                    error_log("poly: %s\n", linebuff);
-                }else{
-                    //debug_log("poly: %s\n", linebuff);
-                }
                 
-                for (int i=0; i<tricount; i++) {
+                if (Poly.isConvex) {
+                    //debug_log("CONVEX poly: %s\n", linebuff);
+                    for (int i=0; i< gq-6; i=i+3) {
+                        //face
+                        buff->facebuff[buff->fcursor++] = (MC3DFace){
+                            gqueue[0  ], gqueue[1  ], gqueue[2  ],
+                            gqueue[i+3], gqueue[i+4], gqueue[i+5],
+                            gqueue[i+6], gqueue[i+7], gqueue[i+8]
+                        };
+                    }
+                }else{
+                    size_t viresult[1024];
+                    size_t tricount = MCPolygonResolveConcave(&Poly, triangles, viresult);
+                    if (tricount == 0) {
+                        //error_log("poly: %s\n", linebuff);
+                        MCPolygonDumpVertexData(&Poly);
+                        error_log("error poly %ld\n", epcount++);
+                    }else{
+                        //debug_log("poly: %s\n", linebuff);
+                    }
                     
-                    size_t vi1 = viresult[i*3+0];
-                    size_t vi2 = viresult[i*3+1];
-                    size_t vi3 = viresult[i*3+2];
-                    
-                    long v1 = gqueue[vi1*3+0];
-                    long t1 = gqueue[vi1*3+1];
-                    long n1 = gqueue[vi1*3+2];
-
-                    long v2 = gqueue[vi2*3+0];
-                    long t2 = gqueue[vi2*3+1];
-                    long n2 = gqueue[vi2*3+2];
-                    
-                    long v3 = gqueue[vi3*3+0];
-                    long t3 = gqueue[vi3*3+1];
-                    long n3 = gqueue[vi3*3+2];
-
-                    buff->facebuff[buff->fcursor] = (MC3DFace){
-                        v1, t1, n1,
-                        v2, t2, n2,
-                        v3, t3, n3
-                    };
-                    buff->fcursor++;
-
+                    for (int i=0; i<tricount; i++) {
+                        
+                        size_t vi1 = viresult[i*3+0];
+                        size_t vi2 = viresult[i*3+1];
+                        size_t vi3 = viresult[i*3+2];
+                        
+                        long v1 = gqueue[vi1*3+0];
+                        long t1 = gqueue[vi1*3+1];
+                        long n1 = gqueue[vi1*3+2];
+                        
+                        long v2 = gqueue[vi2*3+0];
+                        long t2 = gqueue[vi2*3+1];
+                        long n2 = gqueue[vi2*3+2];
+                        
+                        long v3 = gqueue[vi3*3+0];
+                        long t3 = gqueue[vi3*3+1];
+                        long n3 = gqueue[vi3*3+2];
+                        
+                        buff->facebuff[buff->fcursor] = (MC3DFace){
+                            v1, t1, n1,
+                            v2, t2, n2,
+                            v3, t3, n3
+                        };
+                        buff->fcursor++;
+                    }
                 }
-#endif
             }
         }
     }
@@ -286,6 +290,8 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
 
 MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
 {
+    epcount = 0;
+    
 #ifdef __ANDROID__
     const char* assetbuff = MCFileCopyContentWithPath(filename, "obj");
     if (assetbuff != mull) {

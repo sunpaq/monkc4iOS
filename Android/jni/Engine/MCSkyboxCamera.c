@@ -10,6 +10,8 @@
 
 compute(MCMatrix4, boxViewMatrix);
 compute(MCMatrix4, boxProjectionMatrix);
+compute(MCGLUniform, viewUniform);
+compute(MCGLUniform, projectionUniform);
 
 //current positon always 0,0,0
 oninit(MCSkyboxCamera)
@@ -28,6 +30,8 @@ oninit(MCSkyboxCamera)
         
         var(viewMatrix)       = boxViewMatrix;
         var(projectionMatrix) = boxProjectionMatrix;
+        var(viewUniform)      = viewUniform;
+        var(projectionUniform)= projectionUniform;
         
         return obj;
     }else{
@@ -60,6 +64,24 @@ compute(MCMatrix4, boxProjectionMatrix)
                                     svar(ratio),
                                     svar(focal_length),
                                     svar(max_distance));
+}
+
+compute(MCGLUniform, viewUniform)
+{
+    varscope(MCSkyboxCamera);
+    MCGLUniform uniform;
+    uniform.type = MCGLUniformMat4;
+    uniform.data.mat4 = cvar(viewMatrix);
+    return uniform;
+}
+
+compute(MCGLUniform, projectionUniform)
+{
+    varscope(MCSkyboxCamera);
+    MCGLUniform uniform;
+    uniform.type = MCGLUniformMat4;
+    uniform.data.mat4 = cvar(projectionMatrix);
+    return uniform;
 }
 
 //override
@@ -107,8 +129,14 @@ method(MCSkyboxCamera, void, update, MCGLContext* ctx)
     
     //change value
     MCGLContext_activateShaderProgram(0, ctx, 0);
-    MCGLContext_setUniformMatrix4(0, ctx, mull, loc_boxViewMatrix, cvar(viewMatrix).m);
-    MCGLContext_setUniformMatrix4(0, ctx, mull, loc_boxProjectionMatrix, cvar(projectionMatrix).m);
+    
+    MCGLUniform uv = cvar(viewUniform);
+    MCGLUniform up = cvar(projectionUniform);
+
+    MCGLContext_updateUniform(0, ctx, "boxViewMatrix", uv.data);
+    MCGLContext_updateUniform(0, ctx, "boxProjectionMatrix", up.data);
+    
+    MCGLContext_setUniforms(0, ctx, 0);
 }
 
 method(MCSkyboxCamera, void, setAttitude, double fai, double tht)

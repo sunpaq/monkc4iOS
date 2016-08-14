@@ -53,7 +53,7 @@ utility(MCGLEngine, void, bind2DTexture, MCUInt tid);
 utility(MCGLEngine, GLuint, createShader, voida);
 utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const char* fcode);
 utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, const char* fname);
-utility(MCGLEngine, GLuint, tryUseShaderProgram, GLuint Id);
+utility(MCGLEngine, void, tryUseShaderProgram, GLuint Id);
 
 //Frame Rate (FPS)
 MCInline

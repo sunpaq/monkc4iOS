@@ -75,34 +75,52 @@ MCInline MCBool MCTriangleHaveVertex(MCTriangle tri, MCVector3 P)
     return MCFalse;
 }
 
+MCInline MCBool MCVertexOnLine(MCVector3 A, MCVector3 B, MCVector3 P)
+{
+    MCVector3 AB = MCVector3Sub(B, A);
+    
+    MCVector3 AP = MCVector3Sub(P, A);
+    MCVector3 PB = MCVector3Sub(B, P);
+    
+    float lab = MCVector3Length(AB);
+    float lapb = MCVector3Length(MCVector3Add(AP, PB));
+
+    if (MCSamefloat(lab, lapb)) {
+        return MCTrue;
+    }
+    return MCFalse;
+}
+
+MCInline MCBool MCVertexesInSameSideOf(MCVector3 A, MCVector3 B, MCVector3 p1, MCVector3 p2)
+{
+    MCVector3 AB = MCVector3Sub(B, A);
+    MCVector3 AP1 = MCVector3Sub(p1, A);
+    MCVector3 AP2 = MCVector3Sub(p2, A);
+    
+    MCVector3 cross1 = MCVector3Cross(AB, AP1);
+    MCVector3 cross2 = MCVector3Cross(AB, AP2);
+    
+    if (MCVector3Dot(cross1, cross2) >= 0) {
+        return MCTrue;
+    }
+    return MCFalse;
+}
+
 MCInline MCBool MCTriangleContainsVertex(MCTriangle tri, MCVector3 P)
 {
-    if (MCTriangleHaveVertex(tri, P) == MCTrue) {
-        return MCFalse;
-    }
-    
     MCVector3 A = tri.a;
     MCVector3 B = tri.b;
     MCVector3 C = tri.c;
     
-    MCVector3 AB = MCVector3Sub(B, A);
-    MCVector3 AP = MCVector3Sub(P, A);
-    MCVector3 ABPCross = MCVector3Cross(AB, AP);
-
-    MCVector3 BC = MCVector3Sub(C, B);
-    MCVector3 BP = MCVector3Sub(P, B);
-    MCVector3 BCPCross = MCVector3Cross(BC, BP);
-
-    MCVector3 CA = MCVector3Sub(A, C);
-    MCVector3 CP = MCVector3Sub(P, C);
-    MCVector3 CAPCross = MCVector3Cross(CA, CP);
-
-    if ((MCVector3Dot(ABPCross, BCPCross) > 0)
-        && (MCVector3Dot(BCPCross, CAPCross) > 0)
-        && (MCVector3Dot(CAPCross, ABPCross) > 0)) {
+    if (MCVertexOnLine(A, B, P) || MCVertexOnLine(B, C, P) || MCVertexOnLine(C, A, P)) {
         return MCTrue;
     }
     
+    if (MCVertexesInSameSideOf(A, B, C, P)
+        && MCVertexesInSameSideOf(B, C, A, P)
+        && MCVertexesInSameSideOf(C, A, B, P)) {
+        return MCTrue;
+    }
     return MCFalse;
 }
 
@@ -134,37 +152,29 @@ MCInline MCVector3 MCTriangleCCWFaceUp(MCTriangle tri)
 typedef struct {
     size_t count;
     size_t index;
-    MCVector3 faceupv;
+    MCBool isConvex;
+    
     MCArrayLinkedList vertexIndexes;
     MCVector3 vertexData[MCPolygonMaxV];
+    //MCVector3 vertexFaceup[MCPolygonMaxV];
+    MCVector3 faceup;
+    
+    size_t convexHull[MCPolygonMaxV];
+    size_t convexCount;
+    size_t concaveSet[MCPolygonMaxV];
+    size_t concaveCount;
 } MCPolygon;
 
-MCInline MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
-{
-    if (count > MCPolygonMaxV) {
-        error_log("MCPolygon vertex count can not over %ld\n", MCPolygonMaxV);
-        exit(-1);
-    }
-    poly->count = count;
-    poly->index = 0;
-    MCGeneric generic[MCPolygonMaxV] = {};
-    for (size_t i=0; i<count; i++) {
-        poly->vertexData[i] = vertexes[i];
-        generic[i].mcsizet = i;
-    }
-    MCArrayLinkedListInitCircle(&(poly->vertexIndexes), generic, count);
-    
-    //assume first vertex is convex
-    poly->faceupv = MCTriangleCCWFaceUp((MCTriangle){vertexes[count-1], vertexes[0], vertexes[1]});
-
-    return poly;
-}
+MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count);
 
 //return count of triangles
 int MCPolygonResolveConvex(MCPolygon* poly, MCTriangle* result);
 
 //return count of triangles
 size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size_t* vindexResult);
+
+//dump vertex data
+void MCPolygonDumpVertexData(MCPolygon* poly);
 
 #endif /* MCGeometry_h */
 

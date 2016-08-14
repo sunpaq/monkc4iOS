@@ -33,7 +33,6 @@
 #include "MCGLContext.h"
 
 class(MCGLRenderer, MCObject,
-      GLuint Id;//shader program id
       MCGLContext* context;
 );
 //life cycle

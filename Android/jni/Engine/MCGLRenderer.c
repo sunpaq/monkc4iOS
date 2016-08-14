@@ -30,11 +30,7 @@ oninit(MCGLRenderer)
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(MCTrue);//CCW
 
-        //obj->Id = MCGLEngine_createShader(0);
-    	obj->Id = glCreateProgram();
-
         obj->context = new(MCGLContext);
-        obj->context->pid = obj->Id;
 
         return obj;
     }else{
@@ -48,35 +44,83 @@ method(MCGLRenderer, void, bye, voida)
     MCObject_bye(0, sobj, 0);
 }
 
-function(void, beforeLinkProgram, voida)
-{
-    varscope(MCGLRenderer);
-    // Bind attribute locations.
-    // This needs to be done prior to linking.
-    for (int i=0; i<MAX_VATTR_NUM-1; i++) {
-        if (var(context)->vertexAttributeNames[i] != mull) {
-            glBindAttribLocation(var(Id), i, var(context)->vertexAttributeNames[i]);
-        }
-    }
-}
+static const char* attri[4] = {
+    "position",
+    "normal",
+    "color",
+    "texcoord"
+};
 
-function(void, afterLinkProgram, voida)
-{
-    varscope(MCGLRenderer);
-    // Get uniform locations.
-    for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
-        const char* name = var(context)->uniformNames[i];
-        if (name != mull) {
-            var(context)->uniformLocations[i] = glGetUniformLocation(var(Id), name);
-        }
-    }
-}
+static const char* names[15] = {
+    "modelViewMatrix",
+    "modelMatrix",
+    "viewMatrix",
+    "projectionMatrix",
+    "viewPosition",
+    
+    "normalMatrix",
+    
+    "ambientLightStrength",
+    "ambientLightColor",
+    
+    "diffuseLightPosition",
+    "diffuseLightColor",
+    
+    "specularLightPower",
+    "specularLightStrength",
+    "specularLightPosition",
+    "specularLightColor",
+    
+    "texsampler"
+};
+
+//uniform mat4  modelViewMatrix;
+//uniform mat4  modelMatrix;
+//uniform mat4  viewMatrix;
+//uniform mat4  projectionMatrix;
+//uniform vec3  viewPosition;
+//
+//uniform mat3  normalMatrix;
+//
+//uniform float ambientLightStrength;
+//uniform vec3  ambientLightColor;
+//
+//uniform vec3  diffuseLightPosition;
+//uniform vec3  diffuseLightColor;
+//
+//uniform int   specularLightPower;
+//uniform float specularLightStrength;
+//uniform vec3  specularLightPosition;
+//uniform vec3  specularLightColor;
+//
+//uniform sampler2D texsampler;
+
+static MCGLUniformType types[15] = {
+    MCGLUniformMat4,
+    MCGLUniformMat4,
+    MCGLUniformMat4,
+    MCGLUniformMat4,
+    MCGLUniformVec3,
+    
+    MCGLUniformMat3,
+    
+    MCGLUniformVec1,
+    MCGLUniformVec3,
+    
+    MCGLUniformVec3,
+    MCGLUniformVec3,
+    
+    MCGLUniformScalar,
+    MCGLUniformVec1,
+    MCGLUniformVec3,
+    MCGLUniformVec3,
+    
+    MCGLUniformScalar
+};
 
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
-    beforeLinkProgram(0, obj, 0);
-    MCGLEngine_prepareShader(obj->Id, vcode, fcode);
-    afterLinkProgram(0, obj, 0);
+    MCGLContext_initWithShaderCode(0, obj->context, vcode, fcode, attri, 4, types, names, 15);
     return obj;
 }
 
@@ -105,7 +149,9 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
-    MCGLEngine_tryUseShaderProgram(obj->Id);
+    MCGLContext_activateShaderProgram(0, obj->context, 0);
+    //batch setup
+    MCGLContext_setUniforms(0, obj->context, 0);
     
     if (rootnode != mull) {
         fh(rootnode, draw, _draw, obj->context);

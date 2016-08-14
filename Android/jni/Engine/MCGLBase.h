@@ -179,4 +179,86 @@ typedef enum {
     
 } MCGLSLTypeMatrix;
 
+typedef enum {
+    MCGLUniformScalar,
+    MCGLUniformVec1,
+    MCGLUniformVec2,
+    MCGLUniformVec3,
+    MCGLUniformVec4,
+    MCGLUniformMat3,
+    MCGLUniformMat4
+} MCGLUniformType;
+
+typedef union {
+    MCInt  scalar;
+    double vec1;
+    MCVector2 vec2;
+    MCVector3 vec3;
+    MCVector4 vec4;
+    MCMatrix3 mat3;
+    MCMatrix4 mat4;
+} MCGLUniformData;
+
+typedef struct {
+    GLint location;
+    MCGLUniformType type;
+    MCGLUniformData data;
+    char name[128];
+} MCGLUniform;
+
+MCInline void MCGLUniformSetName(MCGLUniform* f, const char* name) {
+    strcpy(f->name, name);
+    f->name[strlen(name)] = '\0';
+}
+
+MCInline MCBool MCGLUniformDataEqual(MCGLUniformType type, MCGLUniformData* d1, MCGLUniformData* d2) {
+    switch (type) {
+        case MCGLUniformScalar:
+            if (d1->scalar == d2->scalar) {
+                return MCTrue;
+            }
+            break;
+        case MCGLUniformVec1:
+            if (MCSamedouble(d1->vec1, d2->vec1)) {
+                return MCTrue;
+            }
+            break;
+        case MCGLUniformVec2:
+            if (MCVector2Equal(d1->vec2, d2->vec2)) {
+                return MCTrue;
+            }
+            break;
+        case MCGLUniformVec3:
+            if (MCVector3Equal(d1->vec3, d2->vec3)) {
+                return MCTrue;
+            }
+            break;
+        case MCGLUniformVec4:
+            if (MCVector4Equal(d1->vec4, d2->vec4)) {
+                return MCTrue;
+            }
+            break;
+        case MCGLUniformMat3:
+            if (MCMatrix3Equal(&d1->mat3, &d2->mat3)) {
+                return MCTrue;
+            }
+            break;
+        case MCGLUniformMat4:
+            if (MCMatrix4Equal(&d1->mat4, &d2->mat4)) {
+                return MCTrue;
+            }
+            break;
+        default:
+            break;
+    }
+    return MCFalse;
+}
+
+MCInline MCBool MCGLUniformEqual(MCGLUniform* u1, MCGLUniform* u2) {
+    if (u1->type == u2->type) {
+        return MCGLUniformDataEqual(u1->type, &u1->data, &u2->data);
+    }
+    return MCFalse;
+}
+
 #endif

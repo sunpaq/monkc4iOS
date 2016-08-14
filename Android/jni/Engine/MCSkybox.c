@@ -80,12 +80,12 @@ static GLuint indexs[] = {
 oninit(MCSkybox)
 {
     if (init(MC3DNode)) {
-        var(pid)   = 0;
         var(vaoid) = 0;
         var(vboid) = 0;
         var(texid) = 0;
         
         var(camera) = new(MCSkyboxCamera);
+        var(ctx) = new(MCGLContext);
         
         MCGLEngine_setClearScreenColor((MCColorRGBAf){0.05, 0.25, 0.35, 1.0});
         MCGLEngine_featureSwith(MCGLCullFace, MCTrue);
@@ -97,28 +97,23 @@ oninit(MCSkybox)
     }
 }
 
-static int viewMatrix_loc;
-static int projectionMatrix_loc;
-static int cubeSampler_loc;
-
 method(MCSkybox, void, bye, voida)
 {
     release(var(camera));
     MC3DNode_bye(0, sobj, 0);
 }
 
+static const char* attributes[1] = {"position"};
+static const char* uniforms[3] = {"boxViewMatrix", "boxProjectionMatrix", "cubeSampler"};
+static MCGLUniformType types[3] = {MCGLUniformMat4, MCGLUniformMat4, MCGLUniformScalar};
+
 method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, double widthHeightRatio)
 {
     //Shader
-    var(pid) = MCGLEngine_createShader(0);
-    MCGLEngine_tryUseShaderProgram(var(pid));
-    glUniform1i(cubeSampler_loc, 0);
-    glBindAttribLocation(var(pid), 0, "position");
-    MCGLEngine_prepareShaderName(var(pid), "MCSkyboxShader", "MCSkyboxShader");
+    //var(pid) = MCGLEngine_createShader(0);
+    //MCGLEngine_tryUseShaderProgram(var(pid));
     
-    viewMatrix_loc       = glGetUniformLocation(var(pid), "boxViewMatrix");
-    projectionMatrix_loc = glGetUniformLocation(var(pid), "boxProjectionMatrix");
-    cubeSampler_loc      = glGetUniformLocation(var(pid), "cubeSampler");
+    MCGLContext_initWithShaderName(0, var(ctx), "MCSkyboxShader", "MCSkyboxShader", attributes, 1, types, uniforms, 3);
     
     //Camera
     MCSkyboxCamera_initWithWidthHeightRatio(0, var(camera), widthHeightRatio);
@@ -190,8 +185,11 @@ method(MCSkybox, void, update, MCGLContext* ctx)
     ctx->boxProjectionMatrix = var(camera)->projectionMatrix(var(camera));
     
     if (ctx->boxCameraRatio != obj->camera->super.ratio) {
-        MCGLEngine_tryUseShaderProgram(var(pid));
-        glUniformMatrix4fv(projectionMatrix_loc, 1, 0, ctx->boxProjectionMatrix.m);
+        MCGLContext_activateShaderProgram(0, var(ctx), 0);
+        
+        MCGLUniformData data;
+        data.mat4 = ctx->boxProjectionMatrix;
+        MCGLContext_updateUniform(0, var(ctx), "boxProjectionMatrix", data);
         ctx->boxCameraRatio = obj->camera->super.ratio;
     }
 }
@@ -199,8 +197,10 @@ method(MCSkybox, void, update, MCGLContext* ctx)
 method(MCSkybox, void, draw, MCGLContext* ctx)
 {
     glDepthMask(GL_FALSE);
-    MCGLEngine_tryUseShaderProgram(var(pid));
-    glUniformMatrix4fv(viewMatrix_loc, 1, 0, ctx->boxViewMatrix.m);
+    MCGLContext_activateShaderProgram(0, var(ctx), 0);
+    MCGLUniformData data;
+    data.mat4 = ctx->boxViewMatrix;
+    MCGLContext_updateUniform(0, var(ctx), "boxViewMatrix", data);
     
     glBindVertexArray(obj->vaoid);
     MCGLEngine_activeTextureUnit(obj->texid);
