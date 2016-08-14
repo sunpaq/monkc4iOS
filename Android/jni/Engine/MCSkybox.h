@@ -23,6 +23,7 @@ class(MCSkybox, MC3DNode,
       //MCUInt pid;
       MCUInt vaoid;
       MCUInt vboid;
+      MCUInt eboid;
       MCUInt texid);
 
 method(MCSkybox, void, bye, voida);

@@ -189,9 +189,9 @@ utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, con
 
 utility(MCGLEngine, void, tryUseShaderProgram, GLuint Id)
 {
-    GLint cid ;
+    GLint cid = 0;
     glGetIntegerv(GL_CURRENT_PROGRAM, &cid);
-    if (Id != cid) {
+    if (Id != 0 && Id != (GLuint)cid && glIsProgram(Id) == GL_TRUE) {
         glUseProgram(Id);
     }
 }

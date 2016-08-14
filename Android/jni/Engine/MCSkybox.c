@@ -110,25 +110,26 @@ static MCGLUniformType types[3] = {MCGLUniformMat4, MCGLUniformMat4, MCGLUniform
 method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, double widthHeightRatio)
 {
     //Shader
-    //var(pid) = MCGLEngine_createShader(0);
-    //MCGLEngine_tryUseShaderProgram(var(pid));
-    
     MCGLContext_initWithShaderName(0, var(ctx), "MCSkyboxShader", "MCSkyboxShader", attributes, 1, types, uniforms, 3);
     
     //Camera
     MCSkyboxCamera_initWithWidthHeightRatio(0, var(camera), widthHeightRatio);
     
     //Mesh & Texture
-    MCUInt buffers[2];
+    MCUInt buffers[3];
     glGenVertexArrays(1, &var(vaoid));
-    glGenBuffers(2, buffers);
+    glGenBuffers(3, buffers);
     var(vboid) = buffers[0];
-    var(texid) = buffers[1];
+    var(eboid) = buffers[1];
+    var(texid) = buffers[2];
     //VAO
     glBindVertexArray(var(vaoid));
     //VBO
     glBindBuffer(GL_ARRAY_BUFFER, var(vboid));
     glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), skyboxVertices, GL_STATIC_DRAW);
+    //EBO
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, var(eboid));
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexs), indexs, GL_STATIC_DRAW);
     //VAttributes
     MCVertexAttribute attr = (MCVertexAttribute){MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE,
         sizeof(GLfloat) * 3, MCBUFFER_OFFSET(0)};
@@ -146,7 +147,6 @@ method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, dou
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
     //Unbind
     glBindVertexArray(0);
     
@@ -180,7 +180,6 @@ method(MCSkybox, void, resizeWithWidthHeight, unsigned width, unsigned height)
 
 method(MCSkybox, void, update, MCGLContext* ctx)
 {
-    //MCSkyboxCamera_move(0, var(camera), 1.0, 0.0);
     ctx->boxViewMatrix = var(camera)->viewMatrix(var(camera));
     ctx->boxProjectionMatrix = var(camera)->projectionMatrix(var(camera));
     
@@ -204,11 +203,10 @@ method(MCSkybox, void, draw, MCGLContext* ctx)
     MCGLContext_setUniforms(0, var(ctx), 0);
     
     glBindVertexArray(obj->vaoid);
-    MCGLEngine_activeTextureUnit(obj->texid);
+    MCGLEngine_activeTextureUnit(0);
     //MCGLEngine_bindCubeTexture(obj->texid);
     
-    //glDrawArrays(GL_TRIANGLES, 0, 36);
-    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, indexs);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, MCBUFFER_OFFSET(0));
     
     glBindVertexArray(0);
     glDepthMask(GL_TRUE);

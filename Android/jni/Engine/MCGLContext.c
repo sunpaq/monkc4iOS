@@ -113,6 +113,9 @@ method(MCGLContext, int, getUniformLocation, const char* name)
 function(int, setUniform, const char* name, int loc, MCGLUniform* uniform)
 {
     varscope(MCGLContext);
+    if (var(pid) == 0) {
+        return -1;
+    }
     if (name != mull) {
         loc = glGetUniformLocation(var(pid), name);
     }
@@ -175,6 +178,7 @@ method(MCGLContext, void,  setUniforms, voida)
         if (var(uniformsDirty)[i] == MCTrue) {
             MCGLUniform* f = &var(uniforms)[i];
             setUniform(0, obj, mull, f->location, f);
+            var(uniformsDirty)[i] = MCFalse;
         }
     }
     
