@@ -201,6 +201,7 @@ method(MCSkybox, void, draw, MCGLContext* ctx)
     MCGLUniformData data;
     data.mat4 = ctx->boxViewMatrix;
     MCGLContext_updateUniform(0, var(ctx), "boxViewMatrix", data);
+    MCGLContext_setUniforms(0, var(ctx), 0);
     
     glBindVertexArray(obj->vaoid);
     MCGLEngine_activeTextureUnit(obj->texid);

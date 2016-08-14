@@ -115,18 +115,8 @@ method(MCSkyboxCamera, void, move, double deltaFai, double deltaTht)
     }
 }
 
-static int loc_boxViewMatrix = -1;
-static int loc_boxProjectionMatrix = -1;
 method(MCSkyboxCamera, void, update, MCGLContext* ctx)
 {
-    //get and cache location
-    if (loc_boxViewMatrix == -1) {
-        loc_boxViewMatrix = MCGLContext_getUniformLocation(0, ctx, "boxViewMatrix");
-    }
-    if (loc_boxProjectionMatrix == -1) {
-        loc_boxProjectionMatrix = MCGLContext_getUniformLocation(0, ctx, "boxProjectionMatrix");
-    }
-    
     //change value
     MCGLContext_activateShaderProgram(0, ctx, 0);
     

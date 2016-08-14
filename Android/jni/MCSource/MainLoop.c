@@ -27,10 +27,10 @@ static BECubeTextureData* cubtex = mull;
 
 void onAppStart()
 {
-//    if (cubtex == mull) {
-//        const char* names[6] = {"right","left","top","bottom","back","front"};
-//        cubtex = BECubeTextureData_newWithFaces(names, "jpg");
-//    }
+    if (cubtex == mull) {
+        const char* names[6] = {"right","left","top","bottom","back","front"};
+        cubtex = BECubeTextureData_newWithFaces(names, "jpg");
+    }
 }
 
 void onRootViewLoad(void* rootview)
