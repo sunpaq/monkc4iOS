@@ -23,9 +23,11 @@ oninit(MCLight)
 method(MCLight, void, update, MCGLContext* ctx)
 {
     if (obj->dataChanged == MCTrue) {
-        int loc = MCGLContext_getUniformLocation(0, ctx, "diffuseLightPosition");
         MCGLContext_activateShaderProgram(0, ctx, 0);
-        glUniform3f(loc, obj->diffuseLightPosition.x, obj->diffuseLightPosition.y, obj->diffuseLightPosition.z);
+        
+        MCGLUniformData data;
+        data.vec3 = obj->diffuseLightPosition;
+        MCGLContext_updateUniform(0, ctx, "diffuseLightPosition", data);
         
         obj->dataChanged = MCFalse;
     }

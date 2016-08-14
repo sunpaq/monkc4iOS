@@ -19,40 +19,29 @@
 
 class(MCGLContext, MCObject,
       GLuint pid;
-      
-      MCMatrix4 modelMatrix;
-      MCMatrix4 viewMatrix;
-      MCMatrix4 projectionMatrix;
       double cameraRatio;
       
       MCMatrix4 boxViewMatrix;
       MCMatrix4 boxProjectionMatrix;
       double boxCameraRatio;
       
-      const char* vertexAttributeNames[MAX_VATTR_NUM];
-      const char* uniformNames[MAX_UNIFORM_NUM];
-      int         uniformLocations[MAX_UNIFORM_NUM];
+      MCGLUniform uniforms[MAX_UNIFORM_NUM];
+      MCBool uniformsDirty[MAX_UNIFORM_NUM];
+      MCUInt uniformCount;
 );
 
 //shader
 //please cache the location index when you first call the setters
 //then directly pass the location index and pass name mull
+method(MCGLContext, MCGLContext*, initWithShaderCode, const char* vcode, const char* fcode,
+       const char* attribs[], size_t acount, MCGLUniformType types[], const char* uniforms[], size_t ucount);
+method(MCGLContext, MCGLContext*, initWithShaderName, const char* vname, const char* fname,
+       const char* attribs[], size_t acount, MCGLUniformType types[], const char* uniforms[], size_t ucount);
+
 method(MCGLContext, void, activateShaderProgram, voida);
-
-method(MCGLContext, void, updateProjectionMatrix, MCMatrix4* mp);
-method(MCGLContext, void, updateModelMatrix, MCMatrix4* mm);
-method(MCGLContext, void, updateViewMatrix, MCMatrix4* mv);
-
 method(MCGLContext, int,  getUniformLocation, const char* name);
-method(MCGLContext, int,  setUniform, const char* name, int loc, MCGLUniform* uniform);
-
-//method(MCGLContext, int,  setUniformMatrix3,  const char* name, int loc, float m[]);
-//method(MCGLContext, int,  setUniformMatrix4,  const char* name, int loc, float m[]);
-//method(MCGLContext, int,  setUniformScalar,   const char* name, int loc, MCInt x);
-//method(MCGLContext, int,  setUniformVector1,  const char* name, int loc, double x);
-//method(MCGLContext, int,  setUniformVector2,  const char* name, int loc, MCVector2 vec2);
-//method(MCGLContext, int,  setUniformVector3,  const char* name, int loc, MCVector3 vec3);
-//method(MCGLContext, int,  setUniformVector4,  const char* name, int loc, MCVector4 vec4);
+method(MCGLContext, void, updateUniform, const char* name, MCGLUniformData udata);
+method(MCGLContext, void, setUniforms, voida);
 //for debug
 method(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params);
 

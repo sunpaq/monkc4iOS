@@ -129,11 +129,14 @@ method(MCSkyboxCamera, void, update, MCGLContext* ctx)
     
     //change value
     MCGLContext_activateShaderProgram(0, ctx, 0);
+    
     MCGLUniform uv = cvar(viewUniform);
     MCGLUniform up = cvar(projectionUniform);
 
-    MCGLContext_setUniform(0, ctx, mull, loc_boxViewMatrix, &uv);
-    MCGLContext_setUniform(0, ctx, mull, loc_boxViewMatrix, &up);
+    MCGLContext_updateUniform(0, ctx, "boxViewMatrix", uv.data);
+    MCGLContext_updateUniform(0, ctx, "boxProjectionMatrix", up.data);
+    
+    MCGLContext_setUniforms(0, ctx, 0);
 }
 
 method(MCSkyboxCamera, void, setAttitude, double fai, double tht)

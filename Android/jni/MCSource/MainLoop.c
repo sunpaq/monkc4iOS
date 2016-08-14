@@ -201,8 +201,6 @@ void onGestureSwip()
 void onGesturePan(double x, double y)
 {
     MCCamera* camera = director->lastScene->mainCamera;
-    MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
-    MCCamera* cam2 = &sbcam->super;
 
     if (director != mull && director->lastScene != mull && camera != mull) {
         double sign = camera->isReverseMovement == MCTrue? -1.0f : 1.0f;
@@ -211,7 +209,10 @@ void onGesturePan(double x, double y)
             MCCamera_fucus(0, camera, x*sign*factor, y*sign*factor);
         }else{
             MCCamera_move(0, camera, x*sign, y*sign);
-            MCCamera_move(0, cam2, x*sign / 5, y*sign / 5);
+            if (director->lastScene->isDrawSky(director->lastScene)) {
+                MCCamera* cam2 = &director->lastScene->skyboxRef->camera->super;
+                MCCamera_move(0, cam2, x*sign / 5, y*sign / 5);
+            }
         }
     }
 }

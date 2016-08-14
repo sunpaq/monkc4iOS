@@ -9,38 +9,84 @@
 #include "MCGLContext.h"
 #include "MC3DBase.h"
 #include "MCGLEngine.h"
+#include "BEAssetsManager.h"
+
+//uniform mat4  modelViewMatrix;
+//uniform mat4  modelMatrix;
+//uniform mat4  viewMatrix;
+//uniform mat4  projectionMatrix;
+//uniform vec3  viewPosition;
+//
+//uniform mat3  normalMatrix;
+//
+//uniform float ambientLightStrength;
+//uniform vec3  ambientLightColor;
+//
+//uniform vec3  diffuseLightPosition;
+//uniform vec3  diffuseLightColor;
+//
+//uniform int   specularLightPower;
+//uniform float specularLightStrength;
+//uniform vec3  specularLightPosition;
+//uniform vec3  specularLightColor;
 
 oninit(MCGLContext)
 {
     if (init(MCObject)) {
         var(pid) = glCreateProgram();
-        
-        memset(obj->vertexAttributeNames, (int)mull, sizeof(obj->vertexAttributeNames));
-        memset(obj->uniformNames, (int)mull, sizeof(obj->uniformNames));
-        
-        obj->vertexAttributeNames[0] = "position";
-        obj->vertexAttributeNames[1] = "normal";
-        obj->vertexAttributeNames[2] = "color";
-        obj->vertexAttributeNames[3] = "texcoord";
-        
-        obj->uniformNames[0] = "modelViewMatrix";
-        obj->uniformNames[1] = "modelMatrix";
-        obj->uniformNames[2] = "viewMatrix";
-        obj->uniformNames[3] = "projectionMatrix";
-        obj->uniformNames[4] = "normalMatrix";
-        obj->uniformNames[5] = "ambientLightStrength";
-        obj->uniformNames[6] = "ambientLightColor";
-        obj->uniformNames[7] = "diffuseLightColor";
-        obj->uniformNames[8] = "diffuseLightPosition";
-        obj->uniformNames[9] = "specularLightStrength";
-        obj->uniformNames[10] = "specularLightColor";
-        obj->uniformNames[11] = "specularLightPower";
-        obj->uniformNames[12] = "texsampler";
-        
+        var(uniformCount) = 0;
+        //memset(obj->vertexAttributeNames, (int)mull, sizeof(obj->vertexAttributeNames));
         return obj;
     }else{
         return mull;
     }
+}
+
+function(int, fillUniformLocation, MCGLUniform* uniform)
+{
+    varscope(MCGLContext);
+    if (uniform->location == MC3DErrUniformNotFound) {
+        uniform->location = glGetUniformLocation(var(pid), uniform->name);
+    }
+    return uniform->location;
+}
+
+method(MCGLContext, MCGLContext*, initWithShaderCode, const char* vcode, const char* fcode,
+       const char* attribs[], size_t acount, MCGLUniformType types[], const char* uniforms[], size_t ucount)
+{
+    MCGLEngine_tryUseShaderProgram(var(pid));
+    
+    //attribute
+    for (int i=0; i<acount; i++) {
+        //obj->vertexAttributeNames[i] = attribs[i];
+        glBindAttribLocation(obj->pid, i, attribs[i]);
+    }
+    
+    MCGLEngine_prepareShader(obj->pid, vcode, fcode);
+
+    //uniforms
+    for (int i=0; i<ucount; i++) {
+        MCGLUniform* f = &obj->uniforms[obj->uniformCount++];
+        MCGLUniformSetName(f, uniforms[i]);
+        f->type = types[i];
+        f->location = glGetUniformLocation(var(pid), uniforms[i]);
+        obj->uniformsDirty[i] = MCFalse;
+    }
+    
+    return obj;
+}
+
+method(MCGLContext, MCGLContext*, initWithShaderName, const char* vname, const char* fname,
+       const char* attribs[], size_t acount, MCGLUniformType types[], const char* uniforms[], size_t ucount)
+{
+    const char* vcode = MCFileCopyContent(vname, "vsh");
+    const char* fcode = MCFileCopyContent(fname, "fsh");
+    
+    MCGLContext_initWithShaderCode(0, obj, vcode, fcode, attribs, acount, types, uniforms, ucount);
+    
+    free((void*)vcode);
+    free((void*)fcode);
+    return obj;
 }
 
 method(MCGLContext, void, activateShaderProgram, voida)
@@ -48,51 +94,11 @@ method(MCGLContext, void, activateShaderProgram, voida)
     MCGLEngine_tryUseShaderProgram(var(pid));
 }
 
-method(MCGLContext, void, updateProjectionMatrix, MCMatrix4* mp)
-{
-    if(!MCMatrix4Equal(&var(projectionMatrix), mp)) {
-        MCMatrix4Copy(&var(projectionMatrix), mp);
-        
-        MCGLUniform uni;
-        uni.type = MCGLUniformMat4;
-        uni.data.mat4 = *mp;
-        
-        MCGLContext_setUniform(0, obj, "projectionMatrix", 0, &uni);
-    }
-}
-
-method(MCGLContext, void, updateModelMatrix, MCMatrix4* mm)
-{
-    if(!MCMatrix4Equal(&var(modelMatrix), mm)) {
-        MCMatrix4Copy(&var(modelMatrix), mm);
-        
-        MCGLUniform uni;
-        uni.type = MCGLUniformMat4;
-        uni.data.mat4 = *mm;
-        
-        MCGLContext_setUniform(0, obj, "modelMatrix", 0, &uni);
-    }
-}
-
-method(MCGLContext, void, updateViewMatrix, MCMatrix4* mv)
-{
-    if(!MCMatrix4Equal(&var(viewMatrix), mv)) {
-        MCMatrix4Copy(&var(viewMatrix), mv);
-        
-        MCGLUniform uni;
-        uni.type = MCGLUniformMat4;
-        uni.data.mat4 = *mv;
-        
-        MCGLContext_setUniform(0, obj, "viewMatrix", 0, &uni);
-    }
-}
-
 method(MCGLContext, int, getUniformLocation, const char* name)
 {
-    for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
-        const char* attrname = obj->uniformNames[i];
-        if (attrname != mull && (strcmp(name, attrname)==0)) {
-            return obj->uniformLocations[i];
+    for (MCUInt i=0; i<obj->uniformCount; i++) {
+        if (strcmp(name, obj->uniforms[i].name)==0) {
+            return fillUniformLocation(0, obj, &obj->uniforms[i]);
         }
     }
     return MC3DErrUniformNotFound;
@@ -104,8 +110,9 @@ method(MCGLContext, int, getUniformLocation, const char* name)
 //MCGLUniformVec4,
 //MCGLUniformMat3,
 //MCGLUniformMat4
-method(MCGLContext, int, setUniform, const char* name, int loc, MCGLUniform* uniform)
+function(int, setUniform, const char* name, int loc, MCGLUniform* uniform)
 {
+    varscope(MCGLContext);
     if (name != mull) {
         loc = glGetUniformLocation(var(pid), name);
     }
@@ -141,110 +148,37 @@ method(MCGLContext, int, setUniform, const char* name, int loc, MCGLUniform* uni
     return loc;
 }
 
-//method(MCGLContext, int, setUniformMatrix3, const char* name, int loc, float m[])
-//{
-//    if (name == mull) {
-//        glUniformMatrix3fv(loc, 1, 0, m);
-//        return loc;
-//        
-//    }else{
-//        int loc;
-//        if ((loc=MCGLContext_getUniformLocation(0, obj, name)) != MC3DErrUniformNotFound) {
-//            glUniformMatrix3fv(loc, 1, 0, m);
-//        }
-//        return loc;
-//    }
-//}
-//
-//method(MCGLContext, int, setUniformMatrix4, const char* name, int loc, float m[])
-//{
-//    if (name == mull) {
-//        glUniformMatrix4fv(loc, 1, 0, m);
-//        return loc;
-//        
-//    }else{
-//        int loc;
-//        if ((loc=MCGLContext_getUniformLocation(0, obj, name)) != MC3DErrUniformNotFound) {
-//            glUniformMatrix4fv(loc, 1, 0, m);
-//        }
-//        return loc;
-//    }
-//}
+method(MCGLContext, void, updateUniform, const char* name, MCGLUniformData udata)
+{
+    MCGLUniform* u = mull;
+    int f = -1;
+    for (int i=0; i<var(uniformCount); i++) {
+        u = &var(uniforms)[i];
+        if (strcmp(name, u->name) == 0) {
+            f = i;
+            break;
+        }
+    }
+    
+    if (u != mull && f != -1 && !MCGLUniformDataEqual(u->type, &u->data, &udata)) {
+        var(uniformsDirty)[f] = MCTrue;
+        var(uniforms)[f].data = udata;
+    }
+    else if (f != -1){
+        var(uniformsDirty)[f] = MCFalse;
+    }
+}
 
-//method(MCGLContext, int, setUniformScalar, const char* name, int loc, MCInt x)
-//{
-//    if (name == mull) {
-//        glUniform1i(loc, x);
-//        return loc;
-//        
-//    }else{
-//        int loc;
-//        if ((loc=MCGLContext_getUniformLocation(0, obj, name)) != MC3DErrUniformNotFound) {
-//            glUniform1i(loc, x);
-//        }
-//        return loc;
-//    }
-//}
-//
-//method(MCGLContext, int, setUniformVector1, const char* name, int loc, double x)
-//{
-//    if (name == mull) {
-//        glUniform1f(loc, x);
-//        return loc;
-//        
-//    }else{
-//        int loc;
-//        if ((loc=MCGLContext_getUniformLocation(0, obj, name)) != MC3DErrUniformNotFound) {
-//            glUniform1f(loc, x);
-//        }
-//        return loc;
-//    }
-//}
-//
-//method(MCGLContext, int, setUniformVector2, const char* name, int loc, MCVector2 vec2)
-//{
-//    if (name == mull) {
-//        glUniform2f(loc, vec2.x, vec2.y);
-//        return loc;
-//        
-//    }else{
-//        int loc;
-//        if ((loc=MCGLContext_getUniformLocation(0, obj, name)) != MC3DErrUniformNotFound) {
-//            glUniform2f(loc, vec2.x, vec2.y);
-//        }
-//        return loc;
-//    }
-//}
-//
-//method(MCGLContext, int, setUniformVector3, const char* name, int loc, MCVector3 vec3)
-//{
-//    if (name == mull) {
-//        glUniform3f(loc, vec3.x, vec3.y, vec3.z);
-//        return loc;
-//        
-//    }else{
-//        int loc;
-//        if ((loc=MCGLContext_getUniformLocation(0, obj, name)) != MC3DErrUniformNotFound) {
-//            glUniform3f(loc, vec3.x, vec3.y, vec3.z);
-//        }
-//        return loc;
-//    }
-//}
-//
-//method(MCGLContext, int, setUniformVector4, const char* name, int loc, MCVector4 vec4)
-//{
-//    if (name == mull) {
-//        glUniform4f(loc, vec4.x, vec4.y, vec4.z, vec4.w);
-//        return loc;
-//        
-//    }else{
-//        int loc;
-//        if ((loc=MCGLContext_getUniformLocation(0, obj, name)) != MC3DErrUniformNotFound) {
-//            glUniform4f(loc, vec4.x, vec4.y, vec4.z, vec4.w);
-//        }
-//        return loc;
-//    }
-//}
+method(MCGLContext, void,  setUniforms, voida)
+{
+    for (int i=0; i<var(uniformCount); i++) {
+        if (var(uniformsDirty)[i] == MCTrue) {
+            MCGLUniform* f = &var(uniforms)[i];
+            setUniform(0, obj, mull, f->location, f);
+        }
+    }
+    
+}
 
 method(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params)
 {
@@ -256,21 +190,17 @@ method(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params)
 onload(MCGLContext)
 {
     if (load(MCObject)) {
+        mixing(int, setUniform, const char* name, int loc, MCGLUniform* uniform);
+
         binding(MCGLContext, void, activateShaderProgram, voida);
-        binding(MCGLContext, void, updateProjectionMatrix, MCMatrix4* mp);
-        binding(MCGLContext, void, updateModelMatrix, MCMatrix4* mm);
-        binding(MCGLContext, void, updateViewMatrix, MCMatrix4* mv);
-        binding(MCGLContext, int,  getUniformLocation, const char* name);
-        binding(MCGLContext, int,  setUniform, const char* name, int loc, MCGLUniform* uniform);
         
-//        binding(MCGLContext, int,  setUniformMatrix3,  const char* name, int loc, float m[]);
-//        binding(MCGLContext, int,  setUniformMatrix4,  const char* name, int loc, float m[]);
-//        binding(MCGLContext, int,  setUniformScalar,   const char* name, int loc, MCInt x);
-//        binding(MCGLContext, int,  setUniformVector1,  const char* name, int loc, double x);
-//        binding(MCGLContext, int,  setUniformVector2,  const char* name, int loc, MCVector2 vec2);
-//        binding(MCGLContext, int,  setUniformVector3,  const char* name, int loc, MCVector3 vec3);
-//        binding(MCGLContext, int,  setUniformVector4,  const char* name, int loc, MCVector4 vec4);
+        binding(MCGLContext, MCGLContext*, initWithShaderCode, const char* vcode, const char* fcode,
+               const char* attribs[], size_t acount, MCGLUniformType types[], const char* uniforms[], size_t ucount);
+        binding(MCGLContext, MCGLContext*, initWithShaderName, const char* vname, const char* fname,
+                const char* attribs[], size_t acount, MCGLUniformType types[], const char* uniforms[], size_t ucount);
         
+        binding(MCGLContext, void, updateUniform, const char* name, MCGLUniformData udata);
+        binding(MCGLContext, void, setUniforms, voida);
         binding(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params);
         
         return cla;

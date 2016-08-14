@@ -98,29 +98,21 @@ method(MCCamera, void, reset, voida)
 }
 
 //override
-static int loc_modelViewMatrix = -1;
-static int loc_normalMatrix = -1;
-static int loc_projectionMatrix = -1;
 method(MCCamera, void, update, MCGLContext* ctx)
 {
-    //get and cache location index
-    if (loc_modelViewMatrix == -1) {
-        loc_modelViewMatrix = MCGLContext_getUniformLocation(0, ctx, "modelViewMatrix");
-    }
-    if (loc_normalMatrix == -1) {
-        loc_normalMatrix = MCGLContext_getUniformLocation(0, ctx, "normalMatrix");
-    }
-    if (loc_projectionMatrix) {
-        loc_projectionMatrix = MCGLContext_getUniformLocation(0, ctx, "projectionMatrix");
-    }
+    MCGLUniform f;
     
-    //change value
-    MCGLContext_activateShaderProgram(0, ctx, 0);
-    MCGLContext_setUniformMatrix4(0, ctx, mull, loc_modelViewMatrix, cvar(modelViewMatrix).m);
-    MCGLContext_setUniformMatrix3(0, ctx, mull, loc_normalMatrix, cvar(normal).m);
+    f.data.mat4 = cvar(modelViewMatrix);
+    MCGLContext_updateUniform(0, ctx, "modelViewMatrix", f.data);
+    
+    f.type = MCGLUniformMat3;
+    f.data.mat3 = cvar(normal);
+    MCGLContext_updateUniform(0, ctx, "normalMatrix", f.data);
+    
     if (ctx->cameraRatio != obj->ratio) {
-        MCGLContext_setUniformMatrix4(0, ctx, mull, loc_projectionMatrix, cvar(projectionMatrix).m);
-        ctx->cameraRatio = obj->ratio;
+        f.type = MCGLUniformMat4;
+        f.data.mat4 = cvar(projectionMatrix);
+        MCGLContext_updateUniform(0, ctx, "projectionMatrix", f.data);
     }
 }
 
