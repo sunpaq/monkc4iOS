@@ -62,7 +62,8 @@ typedef struct MC3DObjBufferStruct {
     size_t vcursor;
     size_t tcursor;
     size_t ncursor;
-    char name[1024];
+    char name[256];
+    char mtl[256];
 } MC3DObjBuffer;
 
 MCInline MC3DObjBuffer* MC3DObjBufferAlloc(size_t facecount, int vpf)
@@ -104,7 +105,10 @@ enum LexerState {
     LSVertexTexture,
     LSVertexNormal,
     LSFace,
-    LSGroup
+    LSGroup,
+    LSObjName,
+    LSMtlLib,
+    LSUseMtl
 };
 
 MC3DObjBuffer* MC3DObjBufferParse(const char* filename);

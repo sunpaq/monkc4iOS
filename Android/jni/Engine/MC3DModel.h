@@ -20,6 +20,9 @@
 #include "MCMath.h"
 
 class(MC3DModel, MC3DNode,
+      char name[256];
+      char mtl[256];
+
       MCColorRGBAf defaultColor;
       const char* defaultExtension;
       MCBool textureOnOff;

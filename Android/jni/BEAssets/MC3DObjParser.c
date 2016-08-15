@@ -141,8 +141,21 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 }
                 else if (strncmp(word, "g", 1) == 0) {
                     state = LSGroup;
+                    nextWord(&remain, word);
+                }
+                else if (strncmp(word, "o", 1) == 0) {
+                    state = LSObjName;
+                    nextWord(&remain, word);
+                }
+                else if (strncmp(word, "mtllib", 6) == 0) {
+                    state = LSMtlLib;
+                    nextWord(&remain, word);
                 }
                 else if (strncmp(word, "usemtl", 6) == 0) {
+                    state = LSUseMtl;
+                    nextWord(&remain, word);
+                }
+                else {
                     
                 }
                 
@@ -285,6 +298,30 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
             }
         }
     }
+    
+    //group
+    else if (state == LSGroup) {
+        
+    }
+    
+    //obj name
+    else if (state == LSObjName) {
+        strcpy(buff->name, word);
+        buff->name[strlen(word)] = '\0';
+    }
+    
+    //mtllib
+    else if (state == LSMtlLib) {
+        strcpy(buff->mtl, word);
+        buff->mtl[strlen(word)] = '\0';
+    }
+    
+    //usemtl
+    else if (state == LSUseMtl) {
+        //strcpy(buff->mtl, word);
+        //buff->mtl[strlen(word)] = '\0';
+    }
+    
     return buff->fcursor;
 }
 

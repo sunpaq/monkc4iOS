@@ -1,5 +1,74 @@
 #include "MCString.h"
 
+utility(MCString, size_t, reverse, const char* str, char (*buff)[])
+{
+    size_t count = strlen(str);
+    char* c = (char*)&str[count-1];
+    for (int i=0; i<count; i++) {
+        (*buff)[i] = *c;
+        c--;
+    }
+    (*buff)[count] = '\0';
+    
+    return count;
+}
+
+utility(MCString, const char*, baseFromPath, const char* path, char (*buff)[])
+{
+    char reversebuff[1024];
+    size_t count = MCString_reverse(path, &reversebuff);
+    
+    char* head = &reversebuff[count-1];
+    char* tail = &reversebuff[0];
+    while (*tail != '/') {
+        tail++;
+    }
+    
+    int i=0;
+    while (head != tail) {
+        (*buff)[i++] = *head;
+        head--;
+    }
+    (*buff)[i] = '\0';
+    
+    return &(*buff)[0];
+}
+
+utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[])
+{
+    char reversebuff[1024];
+    MCString_reverse(path, &reversebuff);
+    
+    char* head = &reversebuff[0];
+    char* tail = &reversebuff[0];
+    while (*head != '/') {
+        head++;
+    }
+    head--;
+    
+    int i=0;
+    while (head != tail) {
+        (*buff)[i++] = *head;
+        head--;
+    }
+    (*buff)[i] = *tail;
+    
+    return &(*buff)[0];
+}
+
+utility(MCString, const char*, concateWith, const char* sp, const char* path1, const char* path2, char (*buff)[])
+{
+    strcpy(*buff, path1);
+    strcat(*buff, sp);
+    strcat(*buff, path2);
+    return *buff;
+}
+
+utility(MCString, const char*, concatePath, const char* path1, const char* path2, char (*buff)[])
+{
+    return MCString_concateWith("/", path1, path2, buff);
+}
+
 static size_t block_size = 1024;
 oninit(MCString)
 {

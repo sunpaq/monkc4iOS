@@ -29,6 +29,12 @@ MCString* MCString_newWithCString(const char* cstr);
 MCString* MCString_newWithMCString(MCString* mcstr);
 MCString* MCString_newForHttp(char* cstr, int isHttps);
 
+utility(MCString, size_t, reverse, const char* str, char (*buff)[]);
+utility(MCString, const char*, baseFromPath, const char* path, char (*buff)[]);
+utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[]);
+utility(MCString, const char*, concateWith, const char* sp, const char* path1, const char* path2, char (*buff)[]);
+utility(MCString, const char*, concatePath, const char* path1, const char* path2, char (*buff)[]);
+
 #endif
 
 

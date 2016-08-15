@@ -69,6 +69,14 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         return mull;
     }else{
         debug_log("MC3DModel - successful parse file:%s\n", path);
+        char dir[1024];
+        char name[128];
+        char mtl[1024];
+        
+        MCString_baseFromPath(path, &dir);
+        MCString_filenameFromPath(path, &name);
+        char* mtlpath = MCString_concateWith("_FUCK_", dir, name, &mtl);
+
         mesh->vertexCount = (GLsizei)buff->fcursor*3;
         mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
         if (mesh->vertexDataSize != 0) {
@@ -89,6 +97,14 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         MCLinkedList_addItem(0, svar(meshes), (MCItem*)mesh);
         svar(material) = new(MCMatrial);
         svar(texture) = mull;
+        
+        //set name
+        strcpy(obj->name, buff->name);
+        obj->name[strlen(buff->name)] = '\0';
+        
+        //set mtl
+        strcpy(obj->mtl, buff->mtl);
+        obj->mtl[strlen(buff->mtl)] = '\0';
         
         MC3DObjBufferRelease(buff);
         debug_log("MC3DModel - model created: %s", path);
