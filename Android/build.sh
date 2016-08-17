@@ -4,14 +4,20 @@
 NDK_BUILD='ndk-build'
 SDK_BUILD='ant'
 
-#build the native library
-cd jni
-$NDK_BUILD clean
-$NDK_BUILD
-cd ..
+function clean {
+	cd jni
+	$NDK_BUILD clean
+	cd ..
+	$SDK_BUILD clean
+}
 
-#build the Android App project
-$SDK_BUILD clean
-$SDK_BUILD debug
+#clean
+if [[ $1 == 'clean' ]]; then
+	clean
+else
+	#build the native library
+	#build the Android App project
+	$NDK_BUILD -C jni && $SDK_BUILD debug
+fi
 
-echo 'DONE'
+echo 'STOP'
