@@ -11,13 +11,26 @@ function clean {
 	$SDK_BUILD clean
 }
 
+function build {
+	$NDK_BUILD -C jni && $SDK_BUILD debug
+}
+
+function install {
+	$SDK_BUILD debug install
+}
+
 #clean
 if [[ $1 == 'clean' ]]; then
 	clean
+elif [[ $1 == 'install' ]]; then
+	install
 else
-	#build the native library
-	#build the Android App project
-	$NDK_BUILD -C jni && $SDK_BUILD debug
+	clean
+	build
 fi
 
-echo 'STOP'
+echo '----------------------------'
+echo '[build]   ./build.sh'
+echo '[clean]   ./build.sh clean'
+echo '[install] ./build.sh install'
+echo '----------------------------'
