@@ -103,14 +103,23 @@ method(MCSkybox, void, bye, voida)
     MC3DNode_bye(0, sobj, 0);
 }
 
-static const char* attributes[1] = {"position"};
-static const char* uniforms[3] = {"boxViewMatrix", "boxProjectionMatrix", "cubeSampler"};
-static MCGLUniformType types[3] = {MCGLUniformMat4, MCGLUniformMat4, MCGLUniformScalar};
-
 method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, double widthHeightRatio)
 {
     //Shader
-    MCGLContext_initWithShaderName(0, var(ctx), "MCSkyboxShader", "MCSkyboxShader", attributes, 1, types, uniforms, 3);
+    MCGLContext_initWithShaderName(0, var(ctx), "MCSkyboxShader", "MCSkyboxShader",
+                                   (const char* []){
+                                       "position"
+                                   }, 1,
+                                   (MCGLUniformType []){
+                                       MCGLUniformMat4,
+                                       MCGLUniformMat4,
+                                       MCGLUniformScalar
+                                   },
+                                   (const char* []){
+                                       "boxViewMatrix",
+                                       "boxProjectionMatrix",
+                                       "cubeSampler"
+                                   }, 3);
     
     //Camera
     MCSkyboxCamera_initWithWidthHeightRatio(0, var(camera), widthHeightRatio);

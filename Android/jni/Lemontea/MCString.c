@@ -1,5 +1,140 @@
 #include "MCString.h"
 
+utility(MCString, size_t, replace, const char* str, const char* withstr, const char* instr, char (*buff)[])
+{
+    size_t count = strlen(str);
+    size_t wcount = strlen(withstr);
+    
+    int i=0, b=0, o=0;
+    while (instr[i] != '\0') {
+        while (instr[i+o] != '\0' && instr[i+o] == str[0+o]) {
+            o++;
+        }
+        if (o == (int)count) {
+            for (int k=0; k<wcount; k++) {
+                (*buff)[b++] = withstr[k];
+            }
+            i += o;
+        }
+        o = 0;
+        (*buff)[b++] = instr[i++];
+    }
+    (*buff)[b++] = '\0';
+    
+    return b;
+}
+
+utility(MCString, size_t, reverse, const char* str, char (*buff)[])
+{
+    size_t count = strlen(str);
+    char* c = (char*)&str[count-1];
+    for (int i=0; i<count; i++) {
+        (*buff)[i] = *c;
+        c--;
+    }
+    (*buff)[count] = '\0';
+    
+    return count;
+}
+
+utility(MCString, const char*, baseFromPath, const char* path, char (*buff)[])
+{
+    char reversebuff[1024];
+    size_t count = MCString_reverse(path, &reversebuff);
+    
+    char* head = &reversebuff[count-1];
+    char* tail = &reversebuff[0];
+    while (*tail != '/') {
+        tail++;
+    }
+    
+    int i=0;
+    while (head != tail) {
+        (*buff)[i++] = *head;
+        head--;
+    }
+    (*buff)[i] = '\0';
+    
+    return &(*buff)[0];
+}
+
+utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[])
+{
+    char reversebuff[1024];
+    MCString_reverse(path, &reversebuff);
+    
+    char* head = &reversebuff[0];
+    char* tail = &reversebuff[0];
+    while (*head != '/') {
+        head++;
+    }
+    head--;
+    
+    int i=0;
+    while (head != tail) {
+        (*buff)[i++] = *head;
+        head--;
+    }
+    (*buff)[i] = *tail;
+    
+    return &(*buff)[0];
+}
+
+utility(MCString, const char*, filenameTrimExtension, const char* name, char (*buff)[])
+{
+    int i=0;
+    while (*name != '.' && *name != '\0') {
+        (*buff)[i++] = *name;
+        name++;
+    }
+    (*buff)[i] = '\0';
+
+    if (*name == '\0') {
+        return name;
+    }else{
+        return &(*buff)[0];
+    }
+}
+
+utility(MCString, const char*, extensionFromFilename, const char* name, char (*buff)[])
+{
+    while (*name != '.' && *name != '\0') name++;
+    if (*name == '\0') {
+        return mull;
+    }else{
+        name++;//skip dot
+        int i=0;
+        while (*name != '\0') {
+            (*buff)[i++] = *name;
+            name++;
+        }
+        (*buff)[i] = '\0';
+        
+        return &(*buff)[0];
+    }
+}
+
+utility(MCString, const char*, concate, const char** strings, size_t count, char (*buff)[])
+{
+    strcpy(*buff, strings[0]);
+    for (int i=1; i<count; i++) {
+        strcat(*buff, strings[i]);
+    }
+    return *buff;
+}
+
+utility(MCString, const char*, concateWith, const char* sp, const char* path1, const char* path2, char (*buff)[])
+{
+    return MCString_concate((const char* []){
+        path1, sp, path2
+    }, 3, buff);
+}
+
+utility(MCString, const char*, concatePath, const char* path1, const char* path2, char (*buff)[])
+{
+    return MCString_concateWith("/", path1, path2, buff);
+}
+
 static size_t block_size = 1024;
 oninit(MCString)
 {

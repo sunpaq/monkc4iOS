@@ -26,7 +26,6 @@ oninit(MCGLRenderer)
         MCGLEngine_featureSwith(MCGLDepthTest, MCTrue);
         MCGLEngine_setClearScreenColor((MCColorRGBAf){0.05, 0.25, 0.35, 1.0});
         MCGLEngine_featureSwith(MCGLCullFace, MCTrue);
-        //MCGLEngine_featureSwith(MCGLMultiSample, MCTrue);
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(MCTrue);//CCW
 
@@ -44,83 +43,49 @@ method(MCGLRenderer, void, bye, voida)
     MCObject_bye(0, sobj, 0);
 }
 
-static const char* attri[4] = {
-    "position",
-    "normal",
-    "color",
-    "texcoord"
-};
-
-static const char* names[15] = {
-    "modelViewMatrix",
-    "modelMatrix",
-    "viewMatrix",
-    "projectionMatrix",
-    "viewPosition",
-    
-    "normalMatrix",
-    
-    "ambientLightStrength",
-    "ambientLightColor",
-    
-    "diffuseLightPosition",
-    "diffuseLightColor",
-    
-    "specularLightPower",
-    "specularLightStrength",
-    "specularLightPosition",
-    "specularLightColor",
-    
-    "texsampler"
-};
-
-//uniform mat4  modelViewMatrix;
-//uniform mat4  modelMatrix;
-//uniform mat4  viewMatrix;
-//uniform mat4  projectionMatrix;
-//uniform vec3  viewPosition;
-//
-//uniform mat3  normalMatrix;
-//
-//uniform float ambientLightStrength;
-//uniform vec3  ambientLightColor;
-//
-//uniform vec3  diffuseLightPosition;
-//uniform vec3  diffuseLightColor;
-//
-//uniform int   specularLightPower;
-//uniform float specularLightStrength;
-//uniform vec3  specularLightPosition;
-//uniform vec3  specularLightColor;
-//
-//uniform sampler2D texsampler;
-
-static MCGLUniformType types[15] = {
-    MCGLUniformMat4,
-    MCGLUniformMat4,
-    MCGLUniformMat4,
-    MCGLUniformMat4,
-    MCGLUniformVec3,
-    
-    MCGLUniformMat3,
-    
-    MCGLUniformVec1,
-    MCGLUniformVec3,
-    
-    MCGLUniformVec3,
-    MCGLUniformVec3,
-    
-    MCGLUniformScalar,
-    MCGLUniformVec1,
-    MCGLUniformVec3,
-    MCGLUniformVec3,
-    
-    MCGLUniformScalar
-};
-
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
-    MCGLContext_initWithShaderCode(0, obj->context, vcode, fcode, attri, 4, types, names, 15);
+    MCGLContext_initWithShaderCode(0, obj->context, vcode, fcode,
+        (const char* []){
+            "position",
+            "normal",
+            "color",
+            "texcoord"
+        }, 4,
+        (MCGLUniformType []){
+            MCGLUniformMat4,
+            MCGLUniformMat4,
+            MCGLUniformMat4,
+            MCGLUniformMat4,
+            MCGLUniformVec3,
+            MCGLUniformMat3,
+            MCGLUniformVec1,
+            MCGLUniformVec3,
+            MCGLUniformVec3,
+            MCGLUniformVec3,
+            MCGLUniformScalar,
+            MCGLUniformVec1,
+            MCGLUniformVec3,
+            MCGLUniformVec3,
+            MCGLUniformScalar
+        },
+        (const char* []){
+           "modelViewMatrix",
+           "modelMatrix",
+           "viewMatrix",
+           "projectionMatrix",
+           "viewPosition",
+           "normalMatrix",
+           "ambientLightStrength",
+           "ambientLightColor",
+           "diffuseLightPosition",
+           "diffuseLightColor",
+           "specularLightPower",
+           "specularLightStrength",
+           "specularLightPosition",
+           "specularLightColor",
+           "texsampler"
+        }, 15);
     return obj;
 }
 

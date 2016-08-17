@@ -20,10 +20,12 @@ include $(CLEAR_VARS)
 LOCAL_ARM_MODE  := arm
 LOCAL_MODULE    := lemontea
 LOCAL_SRC_FILES := $(LOCAL_PATH)/Lemontea/MCArray.c \
+                   $(LOCAL_PATH)/Lemontea/MCArrayLinkedList.c \
                    $(LOCAL_PATH)/Lemontea/MCBuffer.c \
                    $(LOCAL_PATH)/Lemontea/MCClock.c \
                    $(LOCAL_PATH)/Lemontea/MCContext.c \
                    $(LOCAL_PATH)/Lemontea/MCException.c \
+                   $(LOCAL_PATH)/Lemontea/MCGeometry.c \
                    $(LOCAL_PATH)/Lemontea/MCIO.c \
                    $(LOCAL_PATH)/Lemontea/MCLinkedList.c \
                    $(LOCAL_PATH)/Lemontea/MCMath.c \
@@ -83,7 +85,6 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/Engine/MC2DTex.c \
                    $(LOCAL_PATH)/Engine/MCSkybox.c \
                    $(LOCAL_PATH)/Engine/MCSkyboxCamera.c \
                    $(LOCAL_PATH)/Engine/MCTexture.c \
-                   $(LOCAL_PATH)/Engine/MCVertex.c \
                    $(LOCAL_PATH)/Engine/MCWorld.c                   
                    
 LOCAL_CFLAGS     += -std=c99
