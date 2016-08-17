@@ -7,8 +7,8 @@
 //
 
 #ifdef __APPLE__
-#include <OpenGLES/ES1/glext.h>
-#include <OpenGLES/ES2/glext.h>
+//#include <OpenGLES/ES1/glext.h>
+//#include <OpenGLES/ES2/glext.h>
 #include <OpenGLES/ES3/glext.h>
 #elif __ANDROID__
 #ifndef GL_GLEXT_PROTOTYPES
@@ -39,7 +39,6 @@ typedef enum {
     MCGLDepthTest = GL_DEPTH_TEST,
     MCGLBlend = GL_BLEND,
     MCGLCullFace = GL_CULL_FACE,
-    MCGLMultiSample = GL_MULTISAMPLE
 } MCGLFeature;
 
 typedef struct {

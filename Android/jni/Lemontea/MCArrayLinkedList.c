@@ -12,7 +12,7 @@
 MCArrayLinkedList* MCArrayLinkedListInit(MCArrayLinkedList* list, MCGeneric values[], const size_t count)
 {
     if (count > MCArrayLinkedListMax) {
-        error_log("MCArrayLinkedList item count can not over %ld\n", MCArrayLinkedListMax);
+        error_log("MCArrayLinkedList item count can not over %d\n", MCArrayLinkedListMax);
         exit(-1);
     }
     list->count = count;

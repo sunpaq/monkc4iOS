@@ -95,12 +95,13 @@
 	Logs with color tags
 	we use the same syntex with printf
  */
-#ifndef __ANDROID__
 static int LOG_LEVEL = MC_DEBUG;
 extern void MCLogTypeSet(MCLogType type)
 {
     LOG_LEVEL = type;
 }
+
+#ifndef __ANDROID__
 
 static const char* FCOLOR = FRED;
 static const char* BCOLOR = BBLACK;

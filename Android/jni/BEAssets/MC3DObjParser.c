@@ -76,11 +76,11 @@ size_t detectFaceCount(FILE* f)
 
 size_t detectFaceCountFromBuff(const char* buff)
 {
+    size_t tcount = 0;//triangle
+    
     if (buff != mull) {
-        const int linesize = 1024;
-        char linebuff[linesize];
-        size_t tcount = 0;//triangle
-        
+        char linebuff[1024];
+
         char* c = (char*) buff;
         while (*c != '\0' && *c != EOF) {
             //get a line
@@ -89,16 +89,14 @@ size_t detectFaceCountFromBuff(const char* buff)
                 linebuff[i++] = *c;
             }
             linebuff[i] = '\0';
-            c++;//skip newline
+            c++;
+            //newline skip by c++
             //process a line
             tcount = countFaces(linebuff, tcount);
-            //debug_log("detectFaceCountFromBuff - countFaces tcount=%d", tcount);
         }
-        debug_log("MC3DObjParser - object face count is %d\n", tcount);
-        return tcount;
-    }else{
-        return 0;
     }
+    
+    return tcount;
 }
 
 size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
@@ -338,7 +336,7 @@ MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
             error_log("MC3DObjParser - object face count is ZERO\n");
             return mull;
         }
-        MC3DObjBuffer* buff = allocMC3DObjBuffer(fc, 3);
+        MC3DObjBuffer* buff = MC3DObjBufferAlloc(fc, 3);
         if (buff == mull) {
             error_log("MC3DObjParser - allocMC3DObjBuffer failed. face count is %d\n", fc);
             return mull;

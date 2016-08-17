@@ -26,7 +26,6 @@ oninit(MCGLRenderer)
         MCGLEngine_featureSwith(MCGLDepthTest, MCTrue);
         MCGLEngine_setClearScreenColor((MCColorRGBAf){0.05, 0.25, 0.35, 1.0});
         MCGLEngine_featureSwith(MCGLCullFace, MCTrue);
-        //MCGLEngine_featureSwith(MCGLMultiSample, MCTrue);
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(MCTrue);//CCW
 
