@@ -76,6 +76,24 @@ static void testGeometry()
     
     printf("p1b=%d p2b=%d bool=%d A==B(%d)\n", p1b, p2b, testMCBool(5,5), MCVector3Equal(a, b));
     
+    MCVector3 data[] =
+        {
+            {-1.380090,0.574324,-1.020060},
+            {-1.365010,0.315159,-1.028980},
+            {-1.384510,0.307746,-1.027600},
+            {-1.384780,0.314364,-1.027590},
+            {-1.373570,0.528954,-1.027800},
+        };
+    
+    MCPolygon Poly = {};
+    MCPolygonInit(&Poly, data, 5);
+    
+    MCTriangle tresult[3];
+    size_t iresult[5];
+    size_t count = MCPolygonResolveConcave(&Poly, tresult, iresult);
+    
+    
+    
     
     exit(-1);
 }

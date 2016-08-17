@@ -69,6 +69,9 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         return mull;
     }else{
         debug_log("MC3DModel - successful parse file:%s\n", path);
+        char mtl[1024];
+        MCString_replace(".obj", ".mtl", path, &mtl);
+        
         mesh->vertexCount = (GLsizei)buff->fcursor*3;
         mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
         if (mesh->vertexDataSize != 0) {
@@ -89,6 +92,14 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         MCLinkedList_addItem(0, svar(meshes), (MCItem*)mesh);
         svar(material) = new(MCMatrial);
         svar(texture) = mull;
+        
+        //set name
+        strcpy(obj->name, buff->name);
+        obj->name[strlen(buff->name)] = '\0';
+        
+        //set mtl
+        strcpy(obj->mtl, buff->mtl);
+        obj->mtl[strlen(buff->mtl)] = '\0';
         
         MC3DObjBufferRelease(buff);
         debug_log("MC3DModel - model created: %s", path);
@@ -156,7 +167,8 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
     
     if (e.ni == 0) {
         //error_log("MC3DFileParser: empty normal data, set to 0!");
-        n = (MCVector3){1.0,1.0,1.0};
+        n = MCVector3Cross(MCVector3Sub(buff->vertexbuff[e.vi-1], buff->vertexbuff[e.vi]),
+                           MCVector3Sub(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1]));
     }else{
         n = buff->normalbuff[e.ni-1];
     }

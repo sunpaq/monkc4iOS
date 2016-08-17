@@ -18,10 +18,12 @@
 
 class(MCSkybox, MC3DNode,
       MCSkyboxCamera* camera;
+      MCGLContext* ctx;
       
-      MCUInt pid;
+      //MCUInt pid;
       MCUInt vaoid;
       MCUInt vboid;
+      MCUInt eboid;
       MCUInt texid);
 
 method(MCSkybox, void, bye, voida);

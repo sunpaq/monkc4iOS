@@ -73,14 +73,12 @@ utility(MCGLEngine, void, setFrontCounterClockWise, MCBool isCCW)
 
 utility(MCGLEngine, void, cullFace, MCGLFace face)
 {
-    glEnable(GL_CULL_FACE);
     glCullFace(face);
-    glDisable(GL_CULL_FACE);
 }
 
 utility(MCGLEngine, void, cullBackFace, voida)
 {
-    MCGLEngine_cullFace(GL_BACK);
+    MCGLEngine_cullFace(MCGLBack);
 }
 
 //Texture
@@ -189,14 +187,13 @@ utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, con
     return Id;
 }
 
-utility(MCGLEngine, GLuint, tryUseShaderProgram, GLuint Id)
+utility(MCGLEngine, void, tryUseShaderProgram, GLuint Id)
 {
-    static int idCache = -1;
-    if (Id != idCache) {
+    GLint cid = 0;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &cid);
+    if (Id != 0 && Id != (GLuint)cid && glIsProgram(Id) == GL_TRUE) {
         glUseProgram(Id);
-        idCache = Id;
     }
-    return idCache;
 }
 
 

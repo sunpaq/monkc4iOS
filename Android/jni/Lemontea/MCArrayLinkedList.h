@@ -16,6 +16,7 @@ typedef struct MCALItemStruct {
     struct MCALItemStruct* next;
     struct MCALItemStruct* prev;
     MCGeneric value;
+    MCGeneric userdata;
 } MCALItem;
 
 MCInline MCALItem MCALItemMake(MCGeneric val)

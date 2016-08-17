@@ -12,6 +12,9 @@
 //App lifecycle
 void onAppStart();
 
+//User Settings
+int getSkyboxOn();
+
 //GL callback
 void onRootViewLoad(void* rootview);
 void onReceiveMemoryWarning();

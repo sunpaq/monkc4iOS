@@ -26,15 +26,10 @@ oninit(MCGLRenderer)
         MCGLEngine_featureSwith(MCGLDepthTest, MCTrue);
         MCGLEngine_setClearScreenColor((MCColorRGBAf){0.05, 0.25, 0.35, 1.0});
         MCGLEngine_featureSwith(MCGLCullFace, MCTrue);
-        MCGLEngine_featureSwith(MCGLMultiSample, MCTrue);
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(MCTrue);//CCW
 
-        //obj->Id = MCGLEngine_createShader(0);
-    	obj->Id = glCreateProgram();
-
         obj->context = new(MCGLContext);
-        obj->context->pid = obj->Id;
 
         return obj;
     }else{
@@ -48,35 +43,49 @@ method(MCGLRenderer, void, bye, voida)
     MCObject_bye(0, sobj, 0);
 }
 
-function(void, beforeLinkProgram, voida)
-{
-    varscope(MCGLRenderer);
-    // Bind attribute locations.
-    // This needs to be done prior to linking.
-    for (int i=0; i<MAX_VATTR_NUM-1; i++) {
-        if (var(context)->vertexAttributeNames[i] != mull) {
-            glBindAttribLocation(var(Id), i, var(context)->vertexAttributeNames[i]);
-        }
-    }
-}
-
-function(void, afterLinkProgram, voida)
-{
-    varscope(MCGLRenderer);
-    // Get uniform locations.
-    for (int i=0; i<MAX_UNIFORM_NUM-1; i++) {
-        const char* name = var(context)->uniformNames[i];
-        if (name != mull) {
-            var(context)->uniformLocations[i] = glGetUniformLocation(var(Id), name);
-        }
-    }
-}
-
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
-    beforeLinkProgram(0, obj, 0);
-    MCGLEngine_prepareShader(obj->Id, vcode, fcode);
-    afterLinkProgram(0, obj, 0);
+    MCGLContext_initWithShaderCode(0, obj->context, vcode, fcode,
+        (const char* []){
+            "position",
+            "normal",
+            "color",
+            "texcoord"
+        }, 4,
+        (MCGLUniformType []){
+            MCGLUniformMat4,
+            MCGLUniformMat4,
+            MCGLUniformMat4,
+            MCGLUniformMat4,
+            MCGLUniformVec3,
+            MCGLUniformMat3,
+            MCGLUniformVec1,
+            MCGLUniformVec3,
+            MCGLUniformVec3,
+            MCGLUniformVec3,
+            MCGLUniformScalar,
+            MCGLUniformVec1,
+            MCGLUniformVec3,
+            MCGLUniformVec3,
+            MCGLUniformScalar
+        },
+        (const char* []){
+           "modelViewMatrix",
+           "modelMatrix",
+           "viewMatrix",
+           "projectionMatrix",
+           "viewPosition",
+           "normalMatrix",
+           "ambientLightStrength",
+           "ambientLightColor",
+           "diffuseLightPosition",
+           "diffuseLightColor",
+           "specularLightPower",
+           "specularLightStrength",
+           "specularLightPosition",
+           "specularLightColor",
+           "texsampler"
+        }, 15);
     return obj;
 }
 
@@ -105,7 +114,9 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
-    MCGLEngine_tryUseShaderProgram(obj->Id);
+    MCGLContext_activateShaderProgram(0, obj->context, 0);
+    //batch setup
+    MCGLContext_setUniforms(0, obj->context, 0);
     
     if (rootnode != mull) {
         fh(rootnode, draw, _draw, obj->context);

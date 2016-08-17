@@ -183,12 +183,13 @@ extern void MCLogTypeSet(MCLogType type);
 #define debug_logt(tag, ...)   __android_log_print(ANDROID_LOG_INFO,  tag, __VA_ARGS__)
 #define error_logt(tag, ...)   __android_log_print(ANDROID_LOG_ERROR, tag, __VA_ARGS__)
 #else
-void error_log(char* volatile fmt, ...);
-void debug_log(char* volatile fmt, ...);
-void runtime_log(char* volatile fmt, ...);
-void error_logt(char* volatile tag, char* volatile fmt, ...);
-void debug_logt(char* volatile tag, char* volatile fmt, ...);
-void runtime_logt(char* volatile tag, char* volatile fmt, ...);
+int printc(const char* fmt, ...);
+void error_log(const char* fmt, ...);
+void debug_log(const char* fmt, ...);
+void runtime_log(const char* fmt, ...);
+void error_logt(const char* tag, const char* fmt, ...);
+void debug_logt(const char* tag, const char* fmt, ...);
+void runtime_logt(const char* tag, const char* fmt, ...);
 #endif
 
 /* *

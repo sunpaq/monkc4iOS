@@ -10,6 +10,15 @@
 #include "MCGLEngine.h"
 #include "BEAssetsManager.h"
 
+compute(MCBool, isDrawSky)
+{
+    varscope(MC3DScene);
+    if (var(skyboxShow) && var(skyboxRef)!=mull) {
+        return MCTrue;
+    }
+    return MCFalse;
+}
+
 oninit(MC3DScene)
 {
     if (init(MCObject)) {
@@ -28,6 +37,7 @@ oninit(MC3DScene)
         var(sceneheight)= 0;
         
         var(cameraLock) = MCFalse;
+        var(isDrawSky) = isDrawSky;
         
         return obj;
     }else{
@@ -104,7 +114,7 @@ method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
 
 method(MC3DScene, void, moveSkyboxCamera, MCDouble deltaFai, MCDouble deltaTht)
 {
-    if (var(skyboxRef) != mull) {
+    if (cvar(isDrawSky)) {
         MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d, deltaTht.d);
     }
 }
@@ -113,7 +123,7 @@ method(MC3DScene, void, updateScene, voida)
 {
     MC3DScene_moveCameraOneStep(0, obj, (MCDouble)0.5, (MCDouble)0.0);
     
-    if(var(skyboxShow) == MCTrue) {
+    if(cvar(isDrawSky)) {
         MCSkybox_update(0, var(skyboxRef), var(renderer)->context);
     }
     
@@ -127,7 +137,7 @@ method(MC3DScene, int, drawScene, voida)
 {
     MCGLEngine_clearScreen(0);
     
-    if (var(skyboxShow) == MCTrue) {
+    if (cvar(isDrawSky)) {
         MCSkybox_draw(0, var(skyboxRef), var(renderer)->context);
     }
     

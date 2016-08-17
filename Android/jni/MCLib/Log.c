@@ -67,19 +67,59 @@
 #define LOG_FMT "%s%s"
 #endif
 
+//fonts color
+#define FBLACK      "\033[30;"
+#define FRED        "\033[31;"
+#define FGREEN      "\033[32;"
+#define FYELLOW     "\033[33;"
+#define FBLUE       "\033[34;"
+#define FPURPLE     "\033[35;"
+#define D_FGREEN    "\033[6;"
+#define FWHITE      "\033[7;"
+#define FCYAN       "\x1b[36m"
+
+//background color
+#define BBLACK      "40m"
+#define BRED        "41m"
+#define BGREEN      "42m"
+#define BYELLOW     "43m"
+#define BBLUE       "44m"
+#define BPURPLE     "45m"
+#define D_BGREEN    "46m"
+#define BWHITE      "47m"
+
+//end color
+#define NONE        "\033[0m"
+
 /*
 	Logs with color tags
 	we use the same syntex with printf
  */
-
 static int LOG_LEVEL = MC_DEBUG;
 extern void MCLogTypeSet(MCLogType type)
 {
     LOG_LEVEL = type;
 }
 
-//static char log_buf[1024];
-void error_log(char* volatile fmt, ...)
+#ifndef __ANDROID__
+
+static const char* FCOLOR = FRED;
+static const char* BCOLOR = BBLACK;
+
+int printc(const char* fmt, ...)
+{
+    int ret;
+    char log_buf[4096];
+    
+    va_list ap;
+    va_start(ap, fmt);
+        log_buf[vsprintf(log_buf, fmt, ap)]='\0';
+        ret = printf("%s%s%s%s", FCOLOR, BCOLOR, log_buf, NONE);
+    va_end(ap);
+    return ret;
+}
+
+void error_log(const char* fmt, ...)
 {
     va_list ap;
     char log_buf[4096];
@@ -93,7 +133,7 @@ void error_log(char* volatile fmt, ...)
     }
 }
 
-void debug_log(char* volatile fmt, ...)
+void debug_log(const char* fmt, ...)
 {
     va_list ap;
     char log_buf[4096];
@@ -108,7 +148,7 @@ void debug_log(char* volatile fmt, ...)
     }
 }
 
-void runtime_log(char* volatile fmt, ...)
+void runtime_log(const char* fmt, ...)
 {
     va_list ap;
     char log_buf[4096];
@@ -124,7 +164,7 @@ void runtime_log(char* volatile fmt, ...)
     }
 }
 
-void error_logt(char* volatile tag, char* volatile fmt, ...)
+void error_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
     char log_buf[4096];
@@ -139,7 +179,7 @@ void error_logt(char* volatile tag, char* volatile fmt, ...)
     }
 }
 
-void debug_logt(char* volatile tag, char* volatile fmt, ...)
+void debug_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
     char log_buf[4096];
@@ -155,7 +195,7 @@ void debug_logt(char* volatile tag, char* volatile fmt, ...)
     }
 }
 
-void runtime_logt(char* volatile tag, char* volatile fmt, ...)
+void runtime_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
     char log_buf[4096];
@@ -171,3 +211,4 @@ void runtime_logt(char* volatile tag, char* volatile fmt, ...)
         va_end(ap);
     }
 }
+#endif

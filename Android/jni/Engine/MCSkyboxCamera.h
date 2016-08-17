@@ -12,8 +12,12 @@
 #include "MCCamera.h"
 
 class(MCSkyboxCamera, MCCamera,
+      //matrix
       computing(MCMatrix4, viewMatrix);
       computing(MCMatrix4, projectionMatrix);
+      //uniforms
+      computing(MCGLUniform, viewUniform);
+      computing(MCGLUniform, projectionUniform);
 );
 
 //override

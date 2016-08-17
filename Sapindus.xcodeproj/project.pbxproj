@@ -25,8 +25,6 @@
 		FD00C4CF1CD10D5E00DCA45F /* SapindusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */; };
 		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
 		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
-		FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA31C394A220043E019 /* MCLightShader.fsh */; };
-		FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD43FEA51C394A390043E019 /* MCLightShader.vsh */; };
 		FD44CE211D326CF200784EDF /* BEAssetsManager.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CD9E1D326CF200784EDF /* BEAssetsManager.c */; };
 		FD44CE221D326CF200784EDF /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA21D326CF200784EDF /* image_DXT.c */; };
 		FD44CE231D326CF200784EDF /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA41D326CF200784EDF /* image_helper.c */; };
@@ -89,8 +87,6 @@
 		FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F61C91C9D600051C15 /* tex5.bmp */; };
 		FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F81C93B43D00051C15 /* tex7.bmp */; };
 		FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC2021C99AC0F00051C15 /* monkey2.obj */; };
-		FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */; };
-		FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */; };
 		FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD411B0E3D9D00D2492A /* Contents.json */; };
 		FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD421B0E3D9D00D2492A /* Icon-40.png */; };
 		FD5EFD5A1B0E3D9D00D2492A /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD431B0E3D9D00D2492A /* Icon-40@2x.png */; };
@@ -165,8 +161,6 @@
 		FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SapindusTests.m; sourceTree = "<group>"; };
 		FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.fsh; sourceTree = "<group>"; };
 		FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.vsh; sourceTree = "<group>"; };
-		FD43FEA31C394A220043E019 /* MCLightShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.fsh; sourceTree = "<group>"; };
-		FD43FEA51C394A390043E019 /* MCLightShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCLightShader.vsh; sourceTree = "<group>"; };
 		FD44CD9E1D326CF200784EDF /* BEAssetsManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BEAssetsManager.c; sourceTree = "<group>"; };
 		FD44CD9F1D326CF200784EDF /* BEAssetsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEAssetsManager.h; sourceTree = "<group>"; };
 		FD44CDA21D326CF200784EDF /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
@@ -295,8 +289,6 @@
 		FD4CC1F81C93B43D00051C15 /* tex7.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex7.bmp; sourceTree = "<group>"; };
 		FD4CC1FA1C93B55100051C15 /* tex8.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex8.bmp; sourceTree = "<group>"; };
 		FD4CC2021C99AC0F00051C15 /* monkey2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey2.obj; sourceTree = "<group>"; };
-		FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.fsh; sourceTree = "<group>"; };
-		FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCTextureShader.vsh; sourceTree = "<group>"; };
 		FD5EFD411B0E3D9D00D2492A /* Contents.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
 		FD5EFD421B0E3D9D00D2492A /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
 		FD5EFD431B0E3D9D00D2492A /* Icon-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40@2x.png"; sourceTree = "<group>"; };
@@ -609,10 +601,6 @@
 			children = (
 				FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */,
 				FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */,
-				FD50E2221C15DE00001CC314 /* MCTextureShader.fsh */,
-				FD50E2231C15DE00001CC314 /* MCTextureShader.vsh */,
-				FD43FEA31C394A220043E019 /* MCLightShader.fsh */,
-				FD43FEA51C394A390043E019 /* MCLightShader.vsh */,
 				FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */,
 				FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */,
 			);
@@ -800,10 +788,8 @@
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
 				FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */,
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
-				FD43FEA41C394A220043E019 /* MCLightShader.fsh in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
 				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
-				FD50E2241C15DE00001CC314 /* MCTextureShader.fsh in Resources */,
 				FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
 				FD5EFD651B0E3D9D00D2492A /* Icon-72@2x.png in Resources */,
@@ -811,7 +797,6 @@
 				FD8784861CCE5F8C0071DAB4 /* left.jpg in Resources */,
 				FD5EFD691B0E3D9D00D2492A /* Icon@2x.png in Resources */,
 				FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */,
-				FD50E2251C15DE00001CC314 /* MCTextureShader.vsh in Resources */,
 				FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
 				FD8784851CCE5F8C0071DAB4 /* front.jpg in Resources */,
@@ -842,7 +827,6 @@
 				FD4CC1F51C91C8C200051C15 /* tex5.png in Resources */,
 				FD0097DF1CB8D781000A85DE /* Avent.obj in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
-				FD43FEA61C394A390043E019 /* MCLightShader.vsh in Resources */,
 				FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */,
 				FD5EFD5F1B0E3D9D00D2492A /* Icon-76@2x.png in Resources */,
 				FD5EFD641B0E3D9D00D2492A /* Icon-72.png in Resources */,
