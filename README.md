@@ -1,21 +1,31 @@
-#Monk-C-Demo-for-iOS
+#BohdiEngine
 
-this is an 3D model renderer written use Monk-C
-it works on all the 64bit arm cpus (>= iPhone5s)
+	this is an 3D model renderer written use Monk-C
+	it works on all the 64bit arm cpus (>= iPhone5s)
+	and modern Android devices.
 
-under the hood it use OpenGL ES
-I am working on build a 3D engine use my Monk-C
+	under the hood it use OpenGL ES 3.0
 
-Code Structure:
+###Build for iOS:
 
- - MCLib : here is the monk-c runtime.
+	use the Xcode open *.xcodeproj
+	build and run it
 
- - MCSource : all the code written in monk-c
+###Build for Android:
 
- 	- UI : not used right now
+	cd to Android folder
+	./build
+	if you have a Android device pluged in ./build install to install apk
 
-    - Lemontea : the standard library of monk-c
+###Code Structure:
 
-    - Engine : the 3D engine.
-    
-    - Game : the example scene.
+	- BEAssets : BohdiEnging Assets Manager
+	- Engine   : the 3D engine
+	- Lemontea : the standard library of Monk-C
+	- MCDriver : platform specific codes
+	- MCLib    : here is the Monk-C runtime
+
+	- MCSource : user code
+
+
+
