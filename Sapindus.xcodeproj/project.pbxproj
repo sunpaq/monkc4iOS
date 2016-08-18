@@ -74,7 +74,6 @@
 		FD44CE581D326CF200784EDF /* monkc.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE0F1D326CF200784EDF /* monkc.c */; };
 		FD44CE591D326CF200784EDF /* ObjectManage.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE111D326CF200784EDF /* ObjectManage.c */; };
 		FD44CE5A1D326CF200784EDF /* gles3jni.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE131D326CF200784EDF /* gles3jni.c */; };
-		FD44CE5B1D326CF200784EDF /* JavaNativeBridge.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE151D326CF200784EDF /* JavaNativeBridge.c */; };
 		FD44CE5C1D326CF200784EDF /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE171D326CF200784EDF /* MainLoop.c */; };
 		FD44CE5D1D326CF200784EDF /* MCBird.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE181D326CF200784EDF /* MCBird.c */; };
 		FD44CE5E1D326CF200784EDF /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1A1D326CF200784EDF /* Testbed.c */; };
@@ -269,8 +268,6 @@
 		FD44CE111D326CF200784EDF /* ObjectManage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ObjectManage.c; sourceTree = "<group>"; };
 		FD44CE131D326CF200784EDF /* gles3jni.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gles3jni.c; sourceTree = "<group>"; };
 		FD44CE141D326CF200784EDF /* gles3jni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gles3jni.h; sourceTree = "<group>"; };
-		FD44CE151D326CF200784EDF /* JavaNativeBridge.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = JavaNativeBridge.c; sourceTree = "<group>"; };
-		FD44CE161D326CF200784EDF /* JavaNativeBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JavaNativeBridge.h; sourceTree = "<group>"; };
 		FD44CE171D326CF200784EDF /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
 		FD44CE181D326CF200784EDF /* MCBird.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCBird.c; sourceTree = "<group>"; };
 		FD44CE191D326CF200784EDF /* MCBird.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBird.h; sourceTree = "<group>"; };
@@ -559,8 +556,6 @@
 			children = (
 				FD44CE131D326CF200784EDF /* gles3jni.c */,
 				FD44CE141D326CF200784EDF /* gles3jni.h */,
-				FD44CE151D326CF200784EDF /* JavaNativeBridge.c */,
-				FD44CE161D326CF200784EDF /* JavaNativeBridge.h */,
 				FD44CE171D326CF200784EDF /* MainLoop.c */,
 				FD44CE181D326CF200784EDF /* MCBird.c */,
 				FD44CE191D326CF200784EDF /* MCBird.h */,
@@ -884,7 +879,6 @@
 				FD00C4C31CD10BAE00DCA45F /* DetailNavController.m in Sources */,
 				FD44CE2A1D326CF200784EDF /* MC3DScene.c in Sources */,
 				FD44CE351D326CF200784EDF /* MCPanel.c in Sources */,
-				FD44CE5B1D326CF200784EDF /* JavaNativeBridge.c in Sources */,
 				F8DCDAB71D52E09E00FD3FD2 /* MCArrayLinkedList.c in Sources */,
 				FD44CE2E1D326CF200784EDF /* MCGLContext.c in Sources */,
 				FD44CE3C1D326CF200784EDF /* MCBuffer.c in Sources */,

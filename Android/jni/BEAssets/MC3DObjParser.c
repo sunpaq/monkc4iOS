@@ -59,7 +59,7 @@ size_t countFaces(const char* linebuff, size_t tcount)
 size_t detectFaceCount(FILE* f)
 {
     if (f != mull) {
-        const int linesize = 1024;
+        const int linesize = LINE_MAX;
         char linebuff[linesize];
         size_t tcount = 0;//triangle
         
@@ -79,7 +79,7 @@ size_t detectFaceCountFromBuff(const char* buff)
     size_t tcount = 0;//triangle
     
     if (buff != mull) {
-        char linebuff[1024];
+        char linebuff[LINE_MAX];
 
         char* c = (char*) buff;
         while (*c != '\0' && *c != EOF) {
@@ -110,9 +110,9 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     static enum LexerState state = LSIdle;
     
     //template storage
-    float  fqueue[1024] = {}; int fq=0;//float
-    long   iqueue[1024] = {}; int iq=0;//integer
-    long   gqueue[4096] = {}; int gq=0;//igroup
+    float  fqueue[LINE_MAX] = {}; int fq=0;//float
+    long   iqueue[LINE_MAX] = {}; int iq=0;//integer
+    long   gqueue[LINE_MAX] = {}; int gq=0;//igroup
     
     //MCToken token;
     MCToken token;
@@ -236,8 +236,8 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
             }
             else if (gq > 9) {
                 int count = gq / 3;
-                MCVector3 vertexes[1024];
-                MCTriangle triangles[1024-2];
+                MCVector3 vertexes[LINE_MAX];
+                MCTriangle triangles[LINE_MAX-2];
                 
                 for (int i=0; i<count; i++) {
                     vertexes[i] = buff->vertexbuff[gqueue[i*3]];
@@ -257,7 +257,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                         };
                     }
                 }else{
-                    size_t viresult[1024];
+                    size_t viresult[LINE_MAX];
                     size_t tricount = MCPolygonResolveConcave(&Poly, triangles, viresult);
                     if (tricount == 0) {
                         //error_log("poly: %s\n", linebuff);
@@ -326,11 +326,9 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
 MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
 {
     epcount = 0;
-    
-#ifdef __ANDROID__
+
     const char* assetbuff = MCFileCopyContentWithPath(filename, "obj");
     if (assetbuff != mull) {
-        //debug_log("MC3DObjParser - MCFileCopyContent success [%s]\n", assetbuff);
         size_t fc = detectFaceCountFromBuff(assetbuff);
         if (fc <= 0) {
             error_log("MC3DObjParser - object face count is ZERO\n");
@@ -342,8 +340,7 @@ MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
             return mull;
         }
         
-        const int linesize = 1024;
-        char linebuff[linesize];
+        char linebuff[LINE_MAX];
         
         char* c = (char*) assetbuff;
         while (*c != '\0') {
@@ -363,33 +360,5 @@ MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
         error_log("MC3DObjParser - AAssetManager_open %s failed\n", filename);
         return mull;
     }
-#else
-    FILE* f = fopen(filename, "r");
-    if (f != NULL) {
-        size_t c = detectFaceCount(f);
-        if (c == 0) {
-            error_log("MC3DObjParser - object face count is ZERO\n");
-            return mull;
-        }
-        MC3DObjBuffer* buff = MC3DObjBufferAlloc(c, 3);
-        
-        const int linesize = 1024;
-        char linebuff[linesize];
-        
-        fseek(f, 0, SEEK_SET);
-        while (fgets(linebuff, linesize, f) != NULL) {
-            linebuff[linesize-1] = '\0';
-            //process a line
-            processObjLine(buff, linebuff);
-        }
-        
-        fclose(f);
-        return buff;//return face count
-        
-    }else{
-        error_log("MC3DObjParser - fopen %s failed\n", filename);
-        return mull;
-    }
-#endif
 }
 

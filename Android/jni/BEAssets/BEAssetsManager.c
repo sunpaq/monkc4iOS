@@ -101,10 +101,10 @@ utility(BECubeTextureData, BECubeTextureData*, newWithFacePaths, const char* fac
 utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6], const char* extension)
 {
     BECubeTextureData* data = new(BECubeTextureData);
-    char pathbuff[1024];
+    char pathbuff[PATH_MAX];
     for (int i=0; i<6; i++) {
         MCFileGetPath(faces[i], extension, pathbuff);
-        pathbuff[1023] = '\0';
+        pathbuff[PATH_MAX-1] = '\0';
         data->faces[i] = BE2DTextureData_newWithPath(pathbuff);
     }
     return data;
@@ -166,12 +166,12 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 			subpath = "";
 		}
 
-		char fullname[1024];
+		char fullname[PATH_MAX];
 		sprintf(fullname, "%s.%s", filename, extention);
 
 		AAssetDir* rootdir = AAssetManager_openDir(assetManager_, subpath);
 		const char* name;
-		char fullpath[1024];
+		char fullpath[PATH_MAX];
 		while ((name=AAssetDir_getNextFileName(rootdir)) != NULL) {
 			if (strcmp(fullname, name) == 0) {
 				sprintf(fullpath, "%s/%s", subpath, name);
@@ -243,7 +243,7 @@ const char* MCFileCopyContentWithPath(const char* filepath, const char* extentio
 
 const char* MCFileCopyContent(const char* filename, const char* extention)
 {
-    char fullpath[1024];
+    char fullpath[PATH_MAX];
     MCFileGetPath(filename, extention, fullpath);
     return MCFileCopyContentWithPath(fullpath, extention);
 }

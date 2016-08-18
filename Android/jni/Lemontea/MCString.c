@@ -39,7 +39,7 @@ utility(MCString, size_t, reverse, const char* str, char (*buff)[])
 
 utility(MCString, const char*, baseFromPath, const char* path, char (*buff)[])
 {
-    char reversebuff[1024];
+    char reversebuff[PATH_MAX];
     size_t count = MCString_reverse(path, &reversebuff);
     
     char* head = &reversebuff[count-1];
@@ -60,7 +60,7 @@ utility(MCString, const char*, baseFromPath, const char* path, char (*buff)[])
 
 utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[])
 {
-    char reversebuff[1024];
+    char reversebuff[PATH_MAX];
     MCString_reverse(path, &reversebuff);
     
     char* head = &reversebuff[0];

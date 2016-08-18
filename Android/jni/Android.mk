@@ -54,11 +54,11 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/BEAssets/external/SOIL/image_DXT.c \
                    $(LOCAL_PATH)/BEAssets/MC3DObjParser.c
 
 LOCAL_CFLAGS     += -std=c99
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/MCLib
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/Lemontea
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/BEAssets
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/BEAssets/external/SOIL
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/Engine
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/MCLib
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/Lemontea
 
 LOCAL_STATIC_LIBRARIES := monkc4android lemontea
 include $(BUILD_STATIC_LIBRARY)
@@ -104,7 +104,6 @@ include $(CLEAR_VARS)
 LOCAL_ARM_MODE  := arm
 LOCAL_MODULE    := gles3jni
 LOCAL_SRC_FILES := $(LOCAL_PATH)/MCSource/MCBird.c \
-                   $(LOCAL_PATH)/MCSource/JavaNativeBridge.c \
                    $(LOCAL_PATH)/MCDriver/MC3DAndroidDriver.c \
                    $(LOCAL_PATH)/MCSource/MainLoop.c \
                    $(LOCAL_PATH)/MCSource/gles3jni.c

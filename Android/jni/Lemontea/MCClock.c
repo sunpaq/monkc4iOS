@@ -3,8 +3,8 @@
 oninit(MCClock)
 {
     if (init(MCObject)) {
-        var(currentTimeBuff) = (char*)malloc(sizeof(char) * 1024);
-        var(currentGMTBuff) = (char*)malloc(sizeof(char) * 1024);
+        var(currentTimeBuff) = (char*)malloc(sizeof(char) * LINE_MAX);
+        var(currentGMTBuff) = (char*)malloc(sizeof(char) * LINE_MAX);
         return obj;
     }else{
         return mull;

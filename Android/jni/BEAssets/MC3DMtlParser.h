@@ -160,7 +160,7 @@ MCInline MC3DObjBuffer* parse3DMtlFile(const char* filename)
         size_t c = detectFaceCount(f);
         MC3DObjBuffer* buff = allocMC3DObjBuffer(c, 3);
         
-        const int linesize = 1024;
+        const int linesize = LINE_MAX;
         char linebuff[linesize];
         
         fseek(f, 0, SEEK_SET);
