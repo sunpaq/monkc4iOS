@@ -109,7 +109,7 @@ static const char* BCOLOR = BBLACK;
 int printc(const char* fmt, ...)
 {
     int ret;
-    char log_buf[4096];
+    char log_buf[LINE_MAX];
     
     va_list ap;
     va_start(ap, fmt);
@@ -122,7 +122,7 @@ int printc(const char* fmt, ...)
 void error_log(const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[4096];
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT){
         printf(LOG_FMT, LOG_COLOR_RED, "[Error] - ");
@@ -136,7 +136,7 @@ void error_log(const char* fmt, ...)
 void debug_log(const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[4096];
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY){
@@ -151,7 +151,7 @@ void debug_log(const char* fmt, ...)
 void runtime_log(const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[4096];
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY
@@ -167,7 +167,7 @@ void runtime_log(const char* fmt, ...)
 void error_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[4096];
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT){
         printf(LOG_FMT, LOG_COLOR_RED, "[Error] - ");
@@ -182,7 +182,7 @@ void error_logt(const char* tag, const char* fmt, ...)
 void debug_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[4096];
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY){
@@ -198,7 +198,7 @@ void debug_logt(const char* tag, const char* fmt, ...)
 void runtime_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[4096];
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY

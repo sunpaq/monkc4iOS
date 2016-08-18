@@ -242,8 +242,8 @@ method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
     //long size = MCStream_tellSize(0, obj, 0);
     
     char ichar;
-    char linebuff[100]; unsigned i = 0;
-    char* textbuff[2048]; unsigned lcount = 0;
+    char linebuff[LINE_MAX]; unsigned i = 0;
+    char* textbuff[LINE_MAX]; unsigned lcount = 0;
     
     while ((ichar=fgetc(obj->fileObject)) != EOF) {
         if (ichar != '\n') {
@@ -324,7 +324,7 @@ method(MCStream, char*, putCString, MCCharBuffer* sendBuffer)
 
 method(MCStream, MCString*, getMCString, voida)
 {
-    char buff[1024];
+    char buff[LINE_MAX];
     fgets(buff, sizeof(buff), obj->fileObject);
     return ff(new(MCString), initWithCString, &buff[0]);
 }

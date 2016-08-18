@@ -37,6 +37,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <limits.h>
 
 /* *
  * Configure strict mode:

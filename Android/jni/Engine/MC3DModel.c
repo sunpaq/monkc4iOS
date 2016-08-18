@@ -69,7 +69,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         return mull;
     }else{
         debug_log("MC3DModel - successful parse file:%s\n", path);
-        char mtl[1024];
+        char mtl[PATH_MAX];
         MCString_replace(".obj", ".mtl", path, &mtl);
         
         mesh->vertexCount = (GLsizei)buff->fcursor*3;
