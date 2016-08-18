@@ -166,12 +166,12 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 			subpath = "";
 		}
 
-		char fullname[MCPathMax];
+		char fullname[PATH_MAX];
 		sprintf(fullname, "%s.%s", filename, extention);
 
 		AAssetDir* rootdir = AAssetManager_openDir(assetManager_, subpath);
 		const char* name;
-		char fullpath[MCPathMax];
+		char fullpath[PATH_MAX];
 		while ((name=AAssetDir_getNextFileName(rootdir)) != NULL) {
 			if (strcmp(fullname, name) == 0) {
 				sprintf(fullpath, "%s/%s", subpath, name);

@@ -39,6 +39,13 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #include <string.h>
 #include <limits.h>
 
+#ifndef LINE_MAX
+#define LINE_MAX 2048
+#endif
+#ifndef PATH_MAX
+#define PATH_MAX 1024
+#endif
+
 /* *
  * Configure strict mode:
  * MC_STRICT_MODE=1/0

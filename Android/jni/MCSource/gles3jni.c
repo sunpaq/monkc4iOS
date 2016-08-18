@@ -45,11 +45,6 @@
 #include "MC3DiOS.h"
 #include "MCThread.h"
 
-int getSkyboxOn()
-{
-    return 0;
-}
-
 //--------------------
 
 JNIEXPORT void JNICALL

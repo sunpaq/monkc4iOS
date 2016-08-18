@@ -28,5 +28,10 @@ void MCGLStopLoading()
 	debug_log("stop loading\n");
 }
 
+int getSkyboxOn()
+{
+    return 0;
+}
+
 #endif
 
