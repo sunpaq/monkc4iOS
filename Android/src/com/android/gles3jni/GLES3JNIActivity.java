@@ -19,6 +19,7 @@ package com.android.gles3jni;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 
 import java.io.File;
@@ -27,6 +28,20 @@ public class GLES3JNIActivity extends Activity {
 
     GLES3JNIView mView = null;
 
+    // This snippet hides the system bars.
+    private void hideSystemUI() {
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+    	mView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+    
     @Override protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         mView = new GLES3JNIView(getApplication());
@@ -34,12 +49,21 @@ public class GLES3JNIActivity extends Activity {
     }
 
     @Override protected void onPause() {
+        //workaround for save GL context when pause/resume
+        mView.setVisibility(View.GONE);
         super.onPause();
-        mView.onPause();
     }
 
     @Override protected void onResume() {
         super.onResume();
-        mView.onResume();
+        hideSystemUI();
+    }
+
+    //workaround for save GL context when pause/resume
+    @Override public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && mView.getVisibility() == View.GONE) {
+            mView.setVisibility(View.VISIBLE);
+        }
     }
 }
