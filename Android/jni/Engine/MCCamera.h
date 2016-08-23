@@ -34,6 +34,7 @@ method(MCCamera, void, fucus, double deltaX, double deltaY);
 method(MCCamera, void, pull, double deltaR);
 method(MCCamera, void, reset, voida);
 method(MCCamera, void, update, MCGLContext* ctx);//override
+method(MCCamera, void, distanceScale, double scale);
 
 #define MCLensStandard50mm (0.050)
 #define MCLensWide24mm     (0.024)

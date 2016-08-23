@@ -218,13 +218,15 @@ void onGesturePan(double x, double y)
     }
 }
 
+static float pinch_scale = 1.0;
 void onGesturePinch(double scale)
 {
+    pinch_scale *= scale;
+    pinch_scale = MAX(0.1, MIN(pinch_scale, 100.0));
+
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != mull && director->lastScene != mull && camera != mull) {
-        double s = scale * -0.5;
-
-        MCCamera_pull(0, camera, s);
+        MCCamera_distanceScale(0, camera, 1.0/pinch_scale);
     }
 }
 

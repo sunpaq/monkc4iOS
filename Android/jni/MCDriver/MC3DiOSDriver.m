@@ -170,11 +170,7 @@ void MCGLStopLoading()
 - (void)onPinch:(id)sender
 {
     if (sender == self.pinch) {
-        if (self.pinch.velocity > 0) {
-            onGesturePinch(-self.pinch.scale);
-        }else{
-            onGesturePinch(self.pinch.scale);
-        }
+        onGesturePinch(self.pinch.scale);
     }
 }
 

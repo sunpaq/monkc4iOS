@@ -152,11 +152,12 @@ method(MCCamera, void, fucus, double deltaX, double deltaY)
 
 method(MCCamera, void, pull, double deltaR)
 {
-    if (var(isReverseMovement)) {
-        obj->R_value -= deltaR;
-    }else{
-        obj->R_value += deltaR;
-    }
+    obj->R_value += deltaR;
+}
+
+method(MCCamera, void, distanceScale, double scale)
+{
+    obj->R_percent = scale;
 }
 
 onload(MCCamera)
@@ -168,6 +169,7 @@ onload(MCCamera)
         binding(MCCamera, void, pull, double deltaR);
         binding(MCCamera, void, reset, MCBool updateOrNot);
         binding(MCCamera, void, update);
+        binding(MCCamera, void, distanceScale, double scale);
         
         return cla;
     }else{

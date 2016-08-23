@@ -25,6 +25,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -36,6 +37,9 @@ class GLES3JNIView extends GLSurfaceView {
     private static final String TAG = "GLES3JNI";
     private static final boolean DEBUG = true;
 
+    private ScaleGestureDetector mScaleDetector;
+    private float mScaleFactor = 1.f;
+    
     public GLES3JNIView(Context context) {
         super(context);
 
@@ -44,6 +48,16 @@ class GLES3JNIView extends GLSurfaceView {
         setEGLConfigChooser(8, 8, 8, 8, 24, 0);
         setEGLContextClientVersion(3);
         setRenderer(new Renderer(context));
+        
+        mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
+    }
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+    	mScaleDetector.onTouchEvent(e);
+    	GLES3JNILib.onGestureScale(mScaleFactor);
+	    invalidate();
+    	return true;
     }
     
     @Override
@@ -77,5 +91,13 @@ class GLES3JNIView extends GLSurfaceView {
             GLES3JNILib.setAssetManager(context.getApplicationContext().getAssets());
             GLES3JNILib.init();
         }
+    }
+    
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+	    @Override
+	    public boolean onScale(ScaleGestureDetector detector) {
+		    mScaleFactor = detector.getScaleFactor();		
+		    return true;
+	    }
     }
 }

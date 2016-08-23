@@ -75,4 +75,9 @@ Java_com_android_gles3jni_GLES3JNILib_setAssetManager(JNIEnv* env, jobject obj, 
 	MCFileSetAssetManager(AAssetManager_fromJava(env, man));
 }
 
+JNIEXPORT void JNICALL
+Java_com_android_gles3jni_GLES3JNILib_onGestureScale(JNIEnv* env, jobject obj, jfloat scale) {
+    onGesturePinch(scale);
+}
+
 #endif

@@ -5,6 +5,13 @@
 #ifndef MCMath_ 
 #define MCMath_
 
+#ifndef MAX
+#define MAX(A, B) ((A>B)?A:B)
+#endif
+#ifndef MIN
+#define MIN(A, B) ((A<B)?A:B)
+#endif
+
 MCInline MCBool MCSamefloat(float A, float B) {
     if (fabsf(A-B) < FLT_EPSILON) {
         return MCTrue;
