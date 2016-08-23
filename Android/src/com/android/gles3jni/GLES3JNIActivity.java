@@ -17,14 +17,10 @@
 package com.android.gles3jni;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.WindowManager;
-
-import java.io.File;
 
 public class GLES3JNIActivity extends Activity {
 
@@ -52,6 +48,10 @@ public class GLES3JNIActivity extends Activity {
         setContentView(mView);
     }
 
+    @Override protected void onNewIntent(Intent i) {
+    	super.onNewIntent(i);
+    }
+    
     @Override protected void onPause() {
         //workaround for save GL context when pause/resume
         mView.setVisibility(View.GONE);
@@ -75,6 +75,11 @@ public class GLES3JNIActivity extends Activity {
     public boolean onTouchEvent(MotionEvent e) {
     	mView.onTouchEvent(e);
 		return true;
+    }
+    
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }
 
