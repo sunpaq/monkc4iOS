@@ -262,7 +262,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                     if (tricount == 0) {
                         //error_log("poly: %s\n", linebuff);
                         MCPolygonDumpVertexData(&Poly);
-                        error_log("error poly %ld\n", epcount++);
+                        error_log("error poly %d\n", epcount++);
                     }else{
                         //debug_log("poly: %s\n", linebuff);
                     }

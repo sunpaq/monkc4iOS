@@ -7,7 +7,6 @@
 //
 
 #include <stdio.h>
-#include "MC3DBase.h"
 #include "MC3DiOSDriver.h"
 #include "MC3DScene.h"
 #include "MCGLRenderer.h"

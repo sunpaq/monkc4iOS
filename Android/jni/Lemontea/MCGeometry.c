@@ -13,7 +13,7 @@
 MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
 {
     if (count > MCPolygonMaxV) {
-        error_log("MCPolygon vertex count can not over %ld\n", MCPolygonMaxV);
+        error_log("MCPolygon vertex count can not over %d\n", MCPolygonMaxV);
         exit(-1);
     }
     
@@ -208,7 +208,7 @@ void MCPolygonDumpVertexData(MCPolygon* poly)
         printf("{%f,%f,%f},\n", poly->vertexData[i].x, poly->vertexData[i].y, poly->vertexData[i].z);
     }
     printf("}");
-    printf("total %ld vertexes\n", poly->count);
+    printf("total %zu vertexes\n", poly->count);
 }
 
 

@@ -547,4 +547,8 @@ static inline mc_class* MCObject_load(mc_class* const cla) {
     return cla;
 }
 
+//JNI helper macro
+#define jni(nspace, type, name, ...)  JNIEXPORT type JNICALL nspace##_##name(JNIEnv* env, jobject obj, __VA_ARGS__)
+//#define java(type, name, ...) jni(<nspace>, type, name, __VA_ARGS__)
+
 #endif

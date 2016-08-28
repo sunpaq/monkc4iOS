@@ -16,20 +16,15 @@
 
 #ifdef __ANDROID__
 
+#include <android/log.h>
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
+#include <math.h>
+#include <GLES3/gl3.h>
+
 #include <jni.h>
 #include <stdlib.h>
 #include <time.h>
-
-#include "gles3jni.h"
-
-//
-//  MainScene.c
-//  monkcGame
-//
-//  Created by SunYuLi on 5/15/15.
-//  Copyright (c) 2015 oreisoft. All rights reserved.
-//
-
 #include <stdio.h>
 #include "monkc.h"
 #include "MC3DBase.h"
@@ -45,10 +40,11 @@
 #include "MC3DiOS.h"
 #include "MCThread.h"
 
-//--------------------
+#define java(type, name, ...) jni(Java_com_android_gles3jni_GLES3JNILib, type, name, __VA_ARGS__)
 
-JNIEXPORT void JNICALL
-Java_com_android_gles3jni_GLES3JNILib_init(JNIEnv* env, jobject obj) {
+//--------------------
+java(void, init, voida)
+{
     const char* versionStr = (const char*)glGetString(GL_VERSION);
     if (strstr(versionStr, "OpenGL ES 3.")) {
     	onTearDownGL();
@@ -59,25 +55,30 @@ Java_com_android_gles3jni_GLES3JNILib_init(JNIEnv* env, jobject obj) {
     }
 }
 
-JNIEXPORT void JNICALL
-Java_com_android_gles3jni_GLES3JNILib_resize(JNIEnv* env, jobject obj, jint width, jint height) {
+java(void, resize, jint width, jint height)
+{
 	onResizeScreen(width, height);
 }
 
-JNIEXPORT void JNICALL
-Java_com_android_gles3jni_GLES3JNILib_step(JNIEnv* env, jobject obj) {
+java(void, step, voida)
+{
 	onUpdate(0,0,0);
 	onDraw();
 }
 
-JNIEXPORT void JNICALL
-Java_com_android_gles3jni_GLES3JNILib_setAssetManager(JNIEnv* env, jobject obj, jobject man) {
+java(void, setAssetManager, jobject man)
+{
 	MCFileSetAssetManager(AAssetManager_fromJava(env, man));
 }
 
-JNIEXPORT void JNICALL
-Java_com_android_gles3jni_GLES3JNILib_onGestureScale(JNIEnv* env, jobject obj, jfloat scale) {
+java(void, onGestureScale, jfloat scale)
+{
     onGesturePinch(scale);
+}
+
+java(void, onGestureScroll, jdouble x, jdouble y)
+{
+    onGesturePan(x, y);
 }
 
 #endif
