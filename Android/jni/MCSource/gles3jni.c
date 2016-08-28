@@ -16,16 +16,9 @@
 
 #ifdef __ANDROID__
 
-#include <android/log.h>
-#include <android/asset_manager.h>
-#include <android/asset_manager_jni.h>
-#include <math.h>
 #include <GLES3/gl3.h>
+#include "MCJNI.h"
 
-#include <jni.h>
-#include <stdlib.h>
-#include <time.h>
-#include <stdio.h>
 #include "monkc.h"
 #include "MC3DBase.h"
 #include "MC3DiOSDriver.h"
