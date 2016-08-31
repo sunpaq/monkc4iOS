@@ -23,6 +23,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -38,6 +39,7 @@ class GLES3JNIView extends GLSurfaceView {
     private static final boolean DEBUG = true;
 
     private ScaleGestureDetector mScaleDetector;
+    private GestureDetector mScrollDetector;
     private float mScaleFactor = 1.f;
     
     public GLES3JNIView(Context context) {
@@ -50,11 +52,13 @@ class GLES3JNIView extends GLSurfaceView {
         setRenderer(new Renderer(context));
         
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
+        mScrollDetector = new GestureDetector(context, new ScrollListener());
     }
     
     @Override
     public boolean onTouchEvent(MotionEvent e) {
     	mScaleDetector.onTouchEvent(e);
+    	mScrollDetector.onTouchEvent(e);
     	GLES3JNILib.onGestureScale(mScaleFactor);
 	    invalidate();
     	return true;
@@ -98,6 +102,14 @@ class GLES3JNIView extends GLSurfaceView {
 	    public boolean onScale(ScaleGestureDetector detector) {
 		    mScaleFactor = detector.getScaleFactor();		
 		    return true;
+	    }
+    }
+    
+    private class ScrollListener extends GestureDetector.SimpleOnGestureListener {
+	    @Override
+	    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+	    	GLES3JNILib.onGestureScroll(distanceX, distanceY);
+	    	return true;
 	    }
     }
 }

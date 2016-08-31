@@ -103,8 +103,7 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_ARM_MODE  := arm
 LOCAL_MODULE    := gles3jni
-LOCAL_SRC_FILES := $(LOCAL_PATH)/MCSource/MCBird.c \
-                   $(LOCAL_PATH)/MCDriver/MC3DAndroidDriver.c \
+LOCAL_SRC_FILES := $(LOCAL_PATH)/MCDriver/MC3DAndroidDriver.c \
                    $(LOCAL_PATH)/MCSource/MainLoop.c \
                    $(LOCAL_PATH)/MCSource/gles3jni.c
 

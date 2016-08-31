@@ -75,7 +75,6 @@
 		FD44CE591D326CF200784EDF /* ObjectManage.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE111D326CF200784EDF /* ObjectManage.c */; };
 		FD44CE5A1D326CF200784EDF /* gles3jni.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE131D326CF200784EDF /* gles3jni.c */; };
 		FD44CE5C1D326CF200784EDF /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE171D326CF200784EDF /* MainLoop.c */; };
-		FD44CE5D1D326CF200784EDF /* MCBird.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE181D326CF200784EDF /* MCBird.c */; };
 		FD44CE5E1D326CF200784EDF /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1A1D326CF200784EDF /* Testbed.c */; };
 		FD44CE5F1D326CF200784EDF /* MCNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1E1D326CF200784EDF /* MCNode.c */; };
 		FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1EC1C917F2D00051C15 /* tex2.bmp */; };
@@ -267,16 +266,14 @@
 		FD44CE101D326CF200784EDF /* monkc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = monkc.h; sourceTree = "<group>"; };
 		FD44CE111D326CF200784EDF /* ObjectManage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ObjectManage.c; sourceTree = "<group>"; };
 		FD44CE131D326CF200784EDF /* gles3jni.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gles3jni.c; sourceTree = "<group>"; };
-		FD44CE141D326CF200784EDF /* gles3jni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gles3jni.h; sourceTree = "<group>"; };
 		FD44CE171D326CF200784EDF /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
-		FD44CE181D326CF200784EDF /* MCBird.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCBird.c; sourceTree = "<group>"; };
-		FD44CE191D326CF200784EDF /* MCBird.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBird.h; sourceTree = "<group>"; };
 		FD44CE1A1D326CF200784EDF /* Testbed.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Testbed.c; sourceTree = "<group>"; };
 		FD44CE1B1D326CF200784EDF /* Testbed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Testbed.h; sourceTree = "<group>"; };
 		FD44CE1D1D326CF200784EDF /* MCAccessble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAccessble.h; sourceTree = "<group>"; };
 		FD44CE1E1D326CF200784EDF /* MCNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCNode.c; sourceTree = "<group>"; };
 		FD44CE1F1D326CF200784EDF /* MCNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNode.h; sourceTree = "<group>"; };
 		FD44CE201D326CF200784EDF /* MCTouchble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTouchble.h; sourceTree = "<group>"; };
+		FD4658E71D772BEF005165A8 /* MCJNI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCJNI.h; sourceTree = "<group>"; };
 		FD4CC1EC1C917F2D00051C15 /* tex2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex2.bmp; sourceTree = "<group>"; };
 		FD4CC1EE1C91B40800051C15 /* tex4.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex4.bmp; sourceTree = "<group>"; };
 		FD4CC1F01C91B40F00051C15 /* tex3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tex3.png; sourceTree = "<group>"; };
@@ -482,6 +479,7 @@
 				FD44CDE81D326CF200784EDF /* MCException.h */,
 				FD44CDE91D326CF200784EDF /* MCIO.c */,
 				FD44CDEA1D326CF200784EDF /* MCIO.h */,
+				FD4658E71D772BEF005165A8 /* MCJNI.h */,
 				FD44CDEB1D326CF200784EDF /* MCLexer.h */,
 				FD44CDEC1D326CF200784EDF /* MCLinkedList.c */,
 				FD44CDED1D326CF200784EDF /* MCLinkedList.h */,
@@ -555,10 +553,7 @@
 			isa = PBXGroup;
 			children = (
 				FD44CE131D326CF200784EDF /* gles3jni.c */,
-				FD44CE141D326CF200784EDF /* gles3jni.h */,
 				FD44CE171D326CF200784EDF /* MainLoop.c */,
-				FD44CE181D326CF200784EDF /* MCBird.c */,
-				FD44CE191D326CF200784EDF /* MCBird.h */,
 				FD44CE1A1D326CF200784EDF /* Testbed.c */,
 				FD44CE1B1D326CF200784EDF /* Testbed.h */,
 				FD44CE1C1D326CF200784EDF /* UI */,
@@ -884,7 +879,6 @@
 				FD44CE3C1D326CF200784EDF /* MCBuffer.c in Sources */,
 				FD00C4C41CD10BAE00DCA45F /* GameViewController.m in Sources */,
 				FD44CE5F1D326CF200784EDF /* MCNode.c in Sources */,
-				FD44CE5D1D326CF200784EDF /* MCBird.c in Sources */,
 				FD44CE451D326CF200784EDF /* MCString.c in Sources */,
 				FD44CE311D326CF200784EDF /* MCLight.c in Sources */,
 				FD00C4C01CD10BAE00DCA45F /* AppDelegate.m in Sources */,
