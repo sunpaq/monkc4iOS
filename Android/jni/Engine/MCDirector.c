@@ -11,7 +11,7 @@
 
 compute(MCCamera*, cameraHandler)
 {
-    varscope(MCDirector);
+    as(MCDirector);
     if (var(lastScene) != mull && var(lastScene)->mainCamera != mull) {
         return var(lastScene)->mainCamera;
     }
@@ -37,7 +37,7 @@ oninit(MCDirector)
 
 function(void, releaseScenes, MC3DScene* scene)
 {
-    varscope(MCDirector);
+    as(MCDirector);
     if (scene!= mull) {
         if (scene->prev != mull) {
             releaseScenes(0, obj, scene->prev);
@@ -55,7 +55,7 @@ method(MCDirector, void, bye, voida)
     release(var(skyboxThread));
     release(var(modelThread));
 
-    MCObject_bye(0, sobj, 0);
+    MCObject_bye(0, base, 0);
 }
 
 method(MCDirector, void, updateAll, voida)
@@ -109,7 +109,7 @@ method(MCDirector, void, resizeAllScene, int width, int height)
     MC3DScene* iter;
     for (iter=var(lastScene); iter!=mull; iter=iter->prev) {
         if (iter->skyboxRef != mull) {
-            iter->skyboxRef->camera->super.ratio = MCRatioMake(width, height);
+            baseof(iter->skyboxRef->camera)->ratio = MCRatioMake(width, height);
         }
         if (iter->mainCamera != mull) {
             iter->mainCamera->ratio = MCRatioMake(width, height);
@@ -121,7 +121,7 @@ method(MCDirector, void, resizeAllScene, int width, int height)
 
 method(MCDirector, void, cameraFocusOn, MCVector3 vertex)
 {
-    MCCamera* c = cvar(cameraHandler);
+    MCCamera* c = computed(obj, cameraHandler);
     if (c != mull) {
         c->lookat.x = vertex.x;
         c->lookat.y = vertex.y;

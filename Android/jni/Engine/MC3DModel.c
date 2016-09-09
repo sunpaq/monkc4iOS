@@ -15,10 +15,10 @@ function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, i
 
 compute(MC3DFrame, frame)
 {
-    varscope(MC3DModel);
+    as(MC3DModel);
     MC3DFrame allframe = (MC3DFrame){0,0,0,0,0,0};
     
-    MCLinkedListForEach(svar(meshes),
+    MCLinkedListForEach(base->meshes,
         MCMesh* m = (MCMesh*)item;
         if (m != mull) {
             MC3DFrame mf = m->frame;
@@ -33,19 +33,19 @@ compute(MC3DFrame, frame)
         }
     )
     
-    var(lastSavedFrame) = allframe;
+    obj->lastSavedFrame = allframe;
     return allframe;
 }
 
 oninit(MC3DModel)
 {
     if (init(MC3DNode)) {
-        var(defaultColor) = (MCColorRGBAf){0.9, 0.9, 0.9, 1.0};
-        var(defaultExtension) = "obj";
-        var(textureOnOff) = MCFalse;
+        obj->defaultColor = (MCColorRGBAf){0.9, 0.9, 0.9, 1.0};
+        obj->defaultExtension = "obj";
+        obj->textureOnOff = MCFalse;
         
-        var(frame) = frame;
-        var(lastSavedFrame) = (MC3DFrame){0,0,0,0,0,0};
+        obj->frame = frame;
+        obj->lastSavedFrame = (MC3DFrame){0,0,0,0,0,0};
         return obj;
     }else{
         return mull;
@@ -54,7 +54,7 @@ oninit(MC3DModel)
 
 method(MC3DModel, void, bye, voida)
 {
-    MC3DNode_bye(0, sobj, 0);
+    MC3DNode_bye(0, base, 0);
 }
 
 method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
@@ -89,9 +89,9 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         mesh->frame = buff->frame;
         //ff(mesh, dump, 0);
         
-        MCLinkedList_addItem(0, svar(meshes), (MCItem*)mesh);
-        svar(material) = new(MCMatrial);
-        svar(texture) = mull;
+        MCLinkedList_addItem(0, base->meshes, (MCItem*)mesh);
+        base->material = new(MCMatrial);
+        base->texture  = mull;
         
         //set name
         strcpy(obj->name, buff->name);
@@ -109,20 +109,20 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
 
 method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
 {
-    return MC3DModel_initWithFilePathColor(0, obj, path, var(defaultColor));
+    return MC3DModel_initWithFilePathColor(0, obj, path, obj->defaultColor);
 }
 
 method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color)
 {
     char path[PATH_MAX];
-    MCFileGetPath(name, var(defaultExtension), path);
+    MCFileGetPath(name, obj->defaultExtension, path);
     debug_log("MC3DModel - find path: %s", path);
     return MC3DModel_initWithFilePathColor(0, obj, path, color);
 }
 
 method(MC3DModel, MC3DModel*, initWithFileName, const char* name)
 {
-    return MC3DModel_initWithFileNameColor(0, obj, name, var(defaultColor));
+    return MC3DModel_initWithFileNameColor(0, obj, name, obj->defaultColor);
 }
 
 onload(MC3DModel)

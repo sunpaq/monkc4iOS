@@ -20,7 +20,7 @@ oninit(MCNode)
 
 function(void*, access, const char* varname)
 {
-    varscope(MCNode);
+    as(MCNode);
     if (SEQ(S(frame),    varname)) return addrof(obj->frame);
     if (SEQ(S(anchor),   varname)) return addrof(obj->anchor);
     if (SEQ(S(position), varname)) return addrof(obj->position);
@@ -32,7 +32,7 @@ function(void*, access, const char* varname)
 
 function(void, onTouchEvent, MCPoint point)
 {
-    varscope(MCNode);
+    as(MCNode);
     if(mc_rect_contains(addrof(obj->frame), point)) {
         var(color) = mc_color_mix(obj->color, mc_color(128,0,0));
     }

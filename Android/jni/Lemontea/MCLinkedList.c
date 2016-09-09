@@ -48,7 +48,7 @@ onload(MCItem)
 
 compute(unsigned, getCount)
 {
-    varscope(MCLinkedList);
+    as(MCLinkedList);
     if (var(countChanged) == MCTrue) {
         int i = 0;
         MCItem* iter = var(headItem);

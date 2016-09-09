@@ -40,7 +40,7 @@ oninit(MCGLRenderer)
 method(MCGLRenderer, void, bye, voida)
 {
     release(obj->context);
-    MCObject_bye(0, sobj, 0);
+    MCObject_bye(0, base, 0);
 }
 
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)

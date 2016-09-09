@@ -28,7 +28,7 @@ method(MCArray, void, bye, voida)
     if (obj->buff != mull) {
         free(obj->buff);
     }
-    MCObject_bye(0, sobj, 0);
+    MCObject_bye(0, base, 0);
 }
 
 method(MCArray, MCArray*, clear, voida)

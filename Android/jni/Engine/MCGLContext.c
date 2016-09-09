@@ -44,7 +44,7 @@ oninit(MCGLContext)
 
 function(int, fillUniformLocation, MCGLUniform* uniform)
 {
-    varscope(MCGLContext);
+    as(MCGLContext);
     if (uniform->location == MC3DErrUniformNotFound) {
         uniform->location = glGetUniformLocation(var(pid), uniform->name);
     }
@@ -112,7 +112,7 @@ method(MCGLContext, int, getUniformLocation, const char* name)
 //MCGLUniformMat4
 function(int, setUniform, const char* name, int loc, MCGLUniform* uniform)
 {
-    varscope(MCGLContext);
+    as(MCGLContext);
     if (var(pid) == 0) {
         return -1;
     }

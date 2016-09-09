@@ -37,31 +37,31 @@ oninit(MCCamera)
 
 compute(double, Radius)
 {
-    varscope(MCCamera);
+    as(MCCamera);
     return (obj->R_value * obj->R_percent);
 }
 
 compute(MCMatrix3, normal)
 {
-    varscope(MCCamera);
-    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(cvar(modelViewMatrix)), NULL);
+    as(MCCamera);
+    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(cpt(modelViewMatrix)), NULL);
     return nor;
 }
 
 compute(MCMatrix4, modelViewMatrix)
 {
-    varscope(MCCamera);
+    as(MCCamera);
     MCVector3 modelpos = var(lookat);
     MCVector3 eyelocal = MCVertexFromSpherical(obj->Radius(obj), var(tht), var(fai));
     MCVector3 eye = MCWorldCoorFromLocal(eyelocal, modelpos);
     
     MCVector3 up = (MCVector3){0.0, 1.0, 0.0};
     if (var(tht) > 0.0 && var(tht) < 90.0) {
-        MCVector3 Npole = MCVector3Make(0, cvar(Radius)/MCCosDegrees(var(tht)), 0);
+        MCVector3 Npole = MCVector3Make(0, cpt(Radius)/MCCosDegrees(var(tht)), 0);
         up = (MCVector3){Npole.x-eye.x, Npole.y-eye.y, Npole.z-eye.z};
     }
     else if (var(tht) > 90.0 && var(tht) < 180.0) {
-        MCVector3 Spole = MCVector3Make(0, -cvar(Radius)/MCCosDegrees(180.0-var(tht)), 0);
+        MCVector3 Spole = MCVector3Make(0, -cpt(Radius)/MCCosDegrees(180.0-var(tht)), 0);
         up = (MCVector3){eye.x-Spole.x, eye.y-Spole.y, eye.z-Spole.z};
     }
     return MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
@@ -71,7 +71,7 @@ compute(MCMatrix4, modelViewMatrix)
 
 compute(MCMatrix4, projectionMatrix)
 {
-    varscope(MCCamera);
+    as(MCCamera);
     return MCMatrix4MakePerspective(MCDegreesToRadians(obj->view_angle),
                                     var(ratio),
                                     var(focal_length),
@@ -80,8 +80,8 @@ compute(MCMatrix4, projectionMatrix)
 
 compute(MCVector3, currentPosition)
 {
-    varscope(MCCamera);
-    return MCWorldCoorFromLocal(MCVertexFromSpherical(cvar(Radius), var(tht), var(fai)), var(lookat));
+    as(MCCamera);
+    return MCWorldCoorFromLocal(MCVertexFromSpherical(cpt(Radius), var(tht), var(fai)), var(lookat));
 }
 
 method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height)
@@ -102,16 +102,16 @@ method(MCCamera, void, update, MCGLContext* ctx)
 {
     MCGLUniform f;
     
-    f.data.mat4 = cvar(modelViewMatrix);
+    f.data.mat4 = cpt(modelViewMatrix);
     MCGLContext_updateUniform(0, ctx, "modelViewMatrix", f.data);
     
     f.type = MCGLUniformMat3;
-    f.data.mat3 = cvar(normal);
+    f.data.mat3 = cpt(normal);
     MCGLContext_updateUniform(0, ctx, "normalMatrix", f.data);
     
     if (ctx->cameraRatio != obj->ratio) {
         f.type = MCGLUniformMat4;
-        f.data.mat4 = cvar(projectionMatrix);
+        f.data.mat4 = cpt(projectionMatrix);
         MCGLContext_updateUniform(0, ctx, "projectionMatrix", f.data);
     }
 }

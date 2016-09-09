@@ -133,7 +133,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         mainScene->mainCamera->tht = 60;
         mainScene->mainCamera->fai = 45;
 
-        mainScene->super.nextResponder = (MCObject*)director;
+        baseof(mainScene)->nextResponder = (MCObject*)director;
 
         ff(director, pushScene, mainScene);
         debug_log("onSetupGL main scene pushed into director");
@@ -167,7 +167,7 @@ void onUpdate(double roll, double yaw, double pitch)
     MCLogTypeSet(MC_SILENT);
     if (director != mull) {
 
-    	if (director->lastScene->isDrawSky(director->lastScene)) {
+    	if (computed(director->lastScene, isDrawSky)) {
             if (director->currentWidth < director->currentHeight) {
                 MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, roll*360, (pitch-1)*45);
             }else{
@@ -209,8 +209,8 @@ void onGesturePan(double x, double y)
             MCCamera_fucus(0, camera, x*sign*factor, y*sign*factor);
         }else{
             MCCamera_move(0, camera, x*sign, y*sign);
-            if (director->lastScene->isDrawSky(director->lastScene)) {
-                MCCamera* cam2 = &director->lastScene->skyboxRef->camera->super;
+            if (computed(director->lastScene, isDrawSky)) {
+                MCCamera* cam2 = baseof(director->lastScene->skyboxRef->camera);
                 MCCamera_move(0, cam2, x*sign / 5, y*sign / 5);
             }
         }
@@ -254,9 +254,9 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
     if (director != mull && director->lastScene != mull) {
         MCCamera* camera = director->lastScene->mainCamera;
         MCCamera* cam2 = mull;
-        if (director->lastScene->isDrawSky(director->lastScene)) {
+        if (computed(director->lastScene, isDrawSky)) {
             MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
-            cam2 = &sbcam->super;
+            cam2 = baseof(sbcam);
         }
 
         if (camera != mull) {
