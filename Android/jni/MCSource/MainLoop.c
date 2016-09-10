@@ -7,7 +7,6 @@
 //
 
 #include <stdio.h>
-#include "MC3DiOSDriver.h"
 #include "MC3DScene.h"
 #include "MCGLRenderer.h"
 #include "MCGLEngine.h"
@@ -17,6 +16,7 @@
 #include "MCSkybox.h"
 #include "MCDirector.h"
 #include "MC3DiOS.h"
+#include "MC3DiOSDriver.h"
 #include "Testbed.h"
 #include "MCThread.h"
 #include "MCException.h"
@@ -133,7 +133,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         mainScene->mainCamera->tht = 60;
         mainScene->mainCamera->fai = 45;
 
-        baseof(mainScene)->nextResponder = (MCObject*)director;
+        superof(mainScene)->nextResponder = (MCObject*)director;
 
         ff(director, pushScene, mainScene);
         debug_log("onSetupGL main scene pushed into director");
@@ -210,7 +210,7 @@ void onGesturePan(double x, double y)
         }else{
             MCCamera_move(0, camera, x*sign, y*sign);
             if (computed(director->lastScene, isDrawSky)) {
-                MCCamera* cam2 = baseof(director->lastScene->skyboxRef->camera);
+                MCCamera* cam2 = superof(director->lastScene->skyboxRef->camera);
                 MCCamera_move(0, cam2, x*sign / 5, y*sign / 5);
             }
         }
@@ -256,7 +256,7 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
         MCCamera* cam2 = mull;
         if (computed(director->lastScene, isDrawSky)) {
             MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
-            cam2 = baseof(sbcam);
+            cam2 = superof(sbcam);
         }
 
         if (camera != mull) {

@@ -17,16 +17,16 @@ compute(MCGLUniform, projectionUniform);
 oninit(MCSkyboxCamera)
 {
     if (init(MCCamera)) {
-        base->ratio = MCRatioHDTV16x9;
+        sobj->ratio = MCRatioHDTV16x9;
 
         //world coordinate
-        base->lookat = MCVector3Make(0,0,-1);
+        sobj->lookat = MCVector3Make(0,0,-1);
         
         //local spherical coordinate
-        base->R_value = 1.0;
-        base->R_percent = 1.0;
-        base->tht = 0.0;
-        base->fai = 90.0;
+        sobj->R_value = 1.0;
+        sobj->R_percent = 1.0;
+        sobj->tht = 0.0;
+        sobj->fai = 90.0;
         
         obj->viewMatrix        = boxViewMatrix;
         obj->projectionMatrix  = boxProjectionMatrix;
@@ -47,9 +47,9 @@ method(MCSkyboxCamera, void, bye, voida)
 compute(MCMatrix4, boxViewMatrix)
 {
     as(MCSkyboxCamera);
-    MCVector3 lookat = MCVector3Make(MCSinDegrees(base->fai), MCSinDegrees(base->tht), MCCosDegrees(base->tht));
-    MCVector3 up     = MCVector3Make(MCTanDegrees(base->fai) * MCSinDegrees(base->tht),
-                                     MCCosDegrees(base->tht), MCSinDegrees(base->tht));
+    MCVector3 lookat = MCVector3Make(MCSinDegrees(sobj->fai), MCSinDegrees(sobj->tht), MCCosDegrees(sobj->tht));
+    MCVector3 up     = MCVector3Make(MCTanDegrees(sobj->fai) * MCSinDegrees(sobj->tht),
+                                     MCCosDegrees(sobj->tht), MCSinDegrees(sobj->tht));
     MCVector3 eye = MCVector3Make(0, 0, 0);
 
     return MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
@@ -60,10 +60,10 @@ compute(MCMatrix4, boxViewMatrix)
 compute(MCMatrix4, boxProjectionMatrix)
 {
     as(MCSkyboxCamera);
-    return MCMatrix4MakePerspective(MCDegreesToRadians(base->view_angle),
-                                    base->ratio,
-                                    base->focal_length,
-                                    base->max_distance);
+    return MCMatrix4MakePerspective(MCDegreesToRadians(sobj->view_angle),
+                                    sobj->ratio,
+                                    sobj->focal_length,
+                                    sobj->max_distance);
 }
 
 compute(MCGLUniform, viewUniform)
@@ -88,29 +88,29 @@ compute(MCGLUniform, projectionUniform)
 method(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeightRatio, double ratio)
 {
     //setting camera
-    base->ratio = ratio;
+    sobj->ratio = ratio;
     return obj;
 }
 
 method(MCSkyboxCamera, void, move, double deltaFai, double deltaTht)
 {
-    if (base->isLockRotation == MCTrue) {
+    if (sobj->isLockRotation == MCTrue) {
         return;
     }
-    if (base->isReverseMovement) {
-        base->fai += deltaFai;   //Left
-        base->tht += deltaTht;   //Up
+    if (sobj->isReverseMovement) {
+        sobj->fai += deltaFai;   //Left
+        sobj->tht += deltaTht;   //Up
     }else{
-        base->fai -= deltaFai;   //Left
-        base->tht -= deltaTht;   //Up
+        sobj->fai -= deltaFai;   //Left
+        sobj->tht -= deltaTht;   //Up
     }
     
     //keep the tht -180 ~ 180
-    if (base->tht < -179.99) {
-        base->tht = -179.99;
+    if (sobj->tht < -179.99) {
+        sobj->tht = -179.99;
     }
-    if (base->tht > 179.99) {
-        base->tht = 179.99;
+    if (sobj->tht > 179.99) {
+        sobj->tht = 179.99;
     }
 }
 
@@ -130,8 +130,8 @@ method(MCSkyboxCamera, void, update, MCGLContext* ctx)
 
 method(MCSkyboxCamera, void, setAttitude, double fai, double tht)
 {
-    base->fai = fai;
-    base->tht = tht;
+    sobj->fai = fai;
+    sobj->tht = tht;
 }
 
 onload(MCSkyboxCamera)

@@ -55,7 +55,7 @@ method(MCDirector, void, bye, voida)
     release(var(skyboxThread));
     release(var(modelThread));
 
-    MCObject_bye(0, base, 0);
+    MCObject_bye(0, sobj, 0);
 }
 
 method(MCDirector, void, updateAll, voida)
@@ -109,7 +109,7 @@ method(MCDirector, void, resizeAllScene, int width, int height)
     MC3DScene* iter;
     for (iter=var(lastScene); iter!=mull; iter=iter->prev) {
         if (iter->skyboxRef != mull) {
-            baseof(iter->skyboxRef->camera)->ratio = MCRatioMake(width, height);
+            superof(iter->skyboxRef->camera)->ratio = MCRatioMake(width, height);
         }
         if (iter->mainCamera != mull) {
             iter->mainCamera->ratio = MCRatioMake(width, height);

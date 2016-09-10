@@ -5,11 +5,6 @@ include $(CLEAR_VARS)
 LOCAL_ARM_MODE  := arm
 LOCAL_MODULE    := monkc4android
 LOCAL_SRC_FILES := $(LOCAL_PATH)/MCLib/MCRuntimeAsm/MCRuntimeAsm_ARM32.S \
-                   $(LOCAL_PATH)/MCLib/HashTable.c \
-                   $(LOCAL_PATH)/MCLib/Lock.c \
-                   $(LOCAL_PATH)/MCLib/Log.c \
-                   $(LOCAL_PATH)/MCLib/Messaging.c \
-                   $(LOCAL_PATH)/MCLib/ObjectManage.c \
                    $(LOCAL_PATH)/MCLib/monkc.c
 LOCAL_CFLAGS    += -std=c99
 include $(BUILD_STATIC_LIBRARY)

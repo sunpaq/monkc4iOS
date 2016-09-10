@@ -335,7 +335,7 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 //dynamic class
 #define class(cls, supercls, ...)\
 typedef struct cls##Struct{\
-supercls Base;\
+supercls Super;\
 __VA_ARGS__;}cls;\
 cls* cls##_init(cls* const obj);\
 mc_class* cls##_load(mc_class* const cla);
@@ -370,10 +370,10 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define cpt(vname)                            obj->vname(obj)
 
 //variable
-#define baseof(obj)                           (&(obj->Base))
-#define base                                  (&(obj->Base))
+#define superof(obj)                          (&obj->Super)
+#define sobj                                  (&obj->Super)
 #define var(vname)                            (obj->vname)
-#define bar(vname)                            (obj->Base.vname)
+#define svar(vname)                           (obj->Super.vname)
 #define cast(type, obj) 				      ((type)obj)
 #define as(cls)                               cls* obj = (cls*)any
 

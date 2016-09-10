@@ -18,7 +18,7 @@ compute(MC3DFrame, frame)
     as(MC3DModel);
     MC3DFrame allframe = (MC3DFrame){0,0,0,0,0,0};
     
-    MCLinkedListForEach(base->meshes,
+    MCLinkedListForEach(sobj->meshes,
         MCMesh* m = (MCMesh*)item;
         if (m != mull) {
             MC3DFrame mf = m->Frame;
@@ -54,7 +54,7 @@ oninit(MC3DModel)
 
 method(MC3DModel, void, bye, voida)
 {
-    MC3DNode_bye(0, base, 0);
+    MC3DNode_bye(0, sobj, 0);
 }
 
 method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
@@ -89,9 +89,9 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         mesh->Frame = buff->Frame;
         //ff(mesh, dump, 0);
         
-        MCLinkedList_addItem(0, base->meshes, (MCItem*)mesh);
-        base->material = new(MCMatrial);
-        base->texture  = mull;
+        MCLinkedList_addItem(0, sobj->meshes, (MCItem*)mesh);
+        sobj->material = new(MCMatrial);
+        sobj->texture  = mull;
         
         //set name
         strcpy(obj->name, buff->name);
