@@ -6,24 +6,7 @@
 //  Copyright (c) 2015-2016 oreisoft. All rights reserved.
 //
 
-/* for iOS simulator <= iPhone5 */
 #if defined(__i386__)
-
-.text
-.globl __push_jump
-.p2align 4, 0x00
-__push_jump:
-	cmpl $0, 0(%esp)
-	je 0f					#; confirm return address not nil
-	jmp *0(%esp)
-0:
-	ret
-
-#;int mc_atomic_get_integer(volatile int* target);
-#;void* mc_atomic_get_pointer(volatile void** target);
-#;int mc_atomic_set_integer(volatile int* target, volatile int old, volatile int value);
-#;int mc_atomic_set_pointer(volatile void** target, volatile void* old, volatile void* value);
-
 .text
 .globl	_mc_atomic_get_integer
 .p2align 4, 0x00
@@ -38,7 +21,6 @@ _mc_atomic_get_integer:
 	popl %ebp
 	ret
 
-
 .text
 .globl	_mc_atomic_get_pointer
 .p2align 4, 0x00
@@ -52,7 +34,6 @@ _mc_atomic_get_pointer:
 	movl %ebp, %esp				
 	popl %ebp
 	ret
-
 
 .text
 .globl	_mc_atomic_set_integer
@@ -79,7 +60,6 @@ _mc_atomic_set_integer:
 	movl %ebp, %esp				
 	popl %ebp
 	ret
-
 
 .text
 .globl	_mc_atomic_set_pointer
@@ -108,29 +88,7 @@ _mc_atomic_set_pointer:
 	ret
 #endif
 
-/* for iOS simulator >= iPhone6 */
 #if defined(__x86_64__)
-#;void* _push_jump(id const obj, void* addr, ...);
-
-.text
-.globl __push_jump
-.p2align 4, 0x00
-__push_jump:
-	cmpq $0, %rdi		#; confirm return address not nil
-	je 0f
-	jmp *%rdi
-0:
-	ret
-
-#;define int_arg1 %rdi
-#;define int_arg2 %rsi
-#;define int_arg3 %rdx
-
-#;int mc_atomic_get_integer(volatile int* target);
-#;void* mc_atomic_get_pointer(volatile void** target);
-#;int mc_atomic_set_integer(volatile int* target, volatile int old, volatile int value);
-#;int mc_atomic_set_pointer(volatile void** target, volatile void* old, volatile void* value);
-
 .text
 .globl	_mc_atomic_get_integer
 .p2align 4, 0x00
@@ -144,7 +102,6 @@ _mc_atomic_get_integer:
 	popq %rbp
 	ret
 
-
 .text
 .globl	_mc_atomic_get_pointer
 .p2align 4, 0x00
@@ -157,7 +114,6 @@ _mc_atomic_get_pointer:
 	movq %rbp, %rsp				
 	popq %rbp
 	ret
-
 
 .text
 .globl	_mc_atomic_set_integer
@@ -182,7 +138,6 @@ _mc_atomic_set_integer:
 	movq %rbp, %rsp				
 	popq %rbp
 	ret
-
 
 .text
 .globl	_mc_atomic_set_pointer
@@ -209,39 +164,7 @@ _mc_atomic_set_pointer:
 	ret
 #endif
 
-/*
-infos about ARM 32 platform:
-
-stack-align: 	method(8byte) non-method(4byte)
-frame-pointer:  fp is r11 in ARM mode / r7 in thumb mode
-keep-fp:		-mapcs-frame will keep the fp not to be optimized out
-
-__armv7__
-*/
-
-#ifdef xxxxx
-.text
-.globl __push_jump
-.p2align 3 			
-__push_jump:
-	cmp r0, #0
-	beq 0f
-	bx r0
-0:
-	bx lr
-
-/*
-int mc_atomic_get_integer(volatile int* target);
-void* mc_atomic_get_pointer(volatile void** target);
-int mc_atomic_set_integer(volatile int* target, volatile int old, volatile int value);
-int mc_atomic_set_pointer(volatile void** target, volatile void* old, volatile void* value);
-
-a1 addr
-a2 oldval
-a3 newval
-return 0 success
-*/
-
+#if defined(__armv7__)
 .text
 .globl	_mc_atomic_get_integer
 .p2align 3, 0x00
@@ -275,53 +198,7 @@ _mc_atomic_set_pointer:
 	bx lr
 #endif
 
-/*
-infos about ARM 64 platform:
-
-stack-align: 	public (16byte) non-public (16byte)
-frame-pointer: 	fp is r11 in ARM mode / r7 in thumb mode
-keep-fp:		-mapcs-frame will keep the fp not to be optimized out
-
-r0 r1 r2 r3 r4 r5 r6 r7 r8 r9 r10 r11   r30
-w0 w1 w2 w3 w4 w5 w6 w7 w8 w9 w10 w11   w30 (32bit context)
-x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 x10 x11   x30 (64bit context)
-a1 a2 a3 a4 v1 v2 v3 v4 v5 v6 v7  v8    lr
-
-.p2align 4 : 16-byte aligned
-*/
-
-#ifdef __arm64__
-.text
-.globl __push_jump
-.p2align 4, 0x00
-__push_jump:
-	cmp x0, #0
-	beq 0f
-    ldr x2, [sp]
-    ldr x3, [sp, #8]
-    ldr x4, [sp, #16]
-    ldr x5, [sp, #24]
-    ldr x6, [sp, #32]
-    ldr x7, [sp, #40]
-	br x0
-0:
-	ret
-
-/*
-int mc_atomic_get_integer(volatile int* target);
-void* mc_atomic_get_pointer(volatile void** target);
-int mc_atomic_set_integer(volatile int* target, volatile int old, volatile int value);
-int mc_atomic_set_pointer(volatile void** target, volatile void* old, volatile void* value);
-
-a1 addr
-a2 oldval
-a3 newval
-return 0 success
-
-r0 r1 r2 r3 r4 r5 r6 r7 r8 r9 r10 r11
-a1 a2 a3 a4 v1 v2 v3 v4 v5 v6 v7  v8
-*/
-
+#if defined(__arm64__)
 .text
 .globl	_mc_atomic_get_integer
 .p2align 4, 0x00
@@ -353,4 +230,49 @@ _mc_atomic_set_pointer:
 	stxr w2, w4, [x0,#0]
 	mov x0, x4
 	blr lr
+#endif
+
+#if defined(__powerpc__) || defined(__ppc__) || defined(__PPC__)
+#if defined(__powerpc64__) || defined(__ppc64__) || defined(__PPC64__) || \
+defined(__64BIT__) || defined(_LP64) || defined(__LP64__)
+.text
+.globl	mc_atomic_get_integer
+.align 4
+mc_atomic_get_integer:
+	lwarx 5,0,3
+	mr 3, 5
+	blr
+
+.text
+.globl	mc_atomic_get_pointer
+.align 8
+mc_atomic_get_pointer:
+	ldarx 5,0,3
+	mr 3, 5
+	blr
+
+.text
+.globl	mc_atomic_set_integer
+.align 4
+mc_atomic_set_integer:
+	stwcx. 5,0,3
+	bne 0f
+	li 3, 0
+	blr
+0:
+	li 3, 1
+	blr
+
+.text
+.globl	mc_atomic_set_pointer
+.align 8
+mc_atomic_set_pointer:
+	stdcx. 5,0,3
+	bne 1f
+	li 3, 0
+1:
+	li 3, 1
+	blr
+
+#endif
 #endif
