@@ -21,7 +21,7 @@ compute(MC3DFrame, frame)
     MCLinkedListForEach(base->meshes,
         MCMesh* m = (MCMesh*)item;
         if (m != mull) {
-            MC3DFrame mf = m->frame;
+            MC3DFrame mf = m->Frame;
             //MAX
             MCMath_accumulateMaxd(&allframe.xmax, mf.xmax);
             MCMath_accumulateMaxd(&allframe.ymax, mf.ymax);
@@ -86,7 +86,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         }
         debug_log("MC3DModel - face data loaded: %s", path);
 
-        mesh->frame = buff->frame;
+        mesh->Frame = buff->Frame;
         //ff(mesh, dump, 0);
         
         MCLinkedList_addItem(0, base->meshes, (MCItem*)mesh);
@@ -143,13 +143,13 @@ onload(MC3DModel)
 function(void, calculateFrame, MC3DObjBuffer* buff, MCVector3 v)
 {
     //3D frame max
-    MCMath_accumulateMaxd(&buff->frame.xmax, v.x);
-    MCMath_accumulateMaxd(&buff->frame.ymax, v.y);
-    MCMath_accumulateMaxd(&buff->frame.zmax, v.z);
+    MCMath_accumulateMaxd(&buff->Frame.xmax, v.x);
+    MCMath_accumulateMaxd(&buff->Frame.ymax, v.y);
+    MCMath_accumulateMaxd(&buff->Frame.zmax, v.z);
     //3D frame min
-    MCMath_accumulateMind(&buff->frame.xmin, v.x);
-    MCMath_accumulateMind(&buff->frame.ymin, v.y);
-    MCMath_accumulateMind(&buff->frame.zmin, v.z);
+    MCMath_accumulateMind(&buff->Frame.xmin, v.x);
+    MCMath_accumulateMind(&buff->Frame.ymin, v.y);
+    MCMath_accumulateMind(&buff->Frame.zmin, v.z);
 }
 
 function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,

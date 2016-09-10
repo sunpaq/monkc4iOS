@@ -36,7 +36,7 @@ typedef union {
 class(MCMesh, MCItem,
       MCBool     isDataLoaded;
       
-      MC3DFrame  frame;
+      MC3DFrame  Frame;
       GLenum     useage;
       GLenum     mode;
       
