@@ -52,7 +52,7 @@ typedef union {
 
 typedef struct MC3DObjBufferStruct {
     struct MC3DObjBufferStruct *nextobj;
-    MC3DFrame  frame;
+    MC3DFrame  Frame;
     MC3DFace*  facebuff;
     MCVector3* vertexbuff;
     MCVector2* texcoorbuff;
@@ -70,7 +70,7 @@ MCInline MC3DObjBuffer* MC3DObjBufferAlloc(size_t facecount, int vpf)
 {
     MC3DObjBuffer* buff = (MC3DObjBuffer*)malloc(sizeof(MC3DObjBuffer));
     buff->nextobj = mull;
-    buff->frame = (MC3DFrame){};
+    buff->Frame = (MC3DFrame){};
     buff->facebuff    = (MC3DFace*) malloc(sizeof(MC3DFace)  * (facecount));
     buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
     buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount) * vpf);

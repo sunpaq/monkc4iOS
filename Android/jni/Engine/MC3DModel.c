@@ -15,13 +15,13 @@ function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, i
 
 compute(MC3DFrame, frame)
 {
-    varscope(MC3DModel);
+    as(MC3DModel);
     MC3DFrame allframe = (MC3DFrame){0,0,0,0,0,0};
     
-    MCLinkedListForEach(svar(meshes),
+    MCLinkedListForEach(sobj->meshes,
         MCMesh* m = (MCMesh*)item;
         if (m != mull) {
-            MC3DFrame mf = m->frame;
+            MC3DFrame mf = m->Frame;
             //MAX
             MCMath_accumulateMaxd(&allframe.xmax, mf.xmax);
             MCMath_accumulateMaxd(&allframe.ymax, mf.ymax);
@@ -33,19 +33,19 @@ compute(MC3DFrame, frame)
         }
     )
     
-    var(lastSavedFrame) = allframe;
+    obj->lastSavedFrame = allframe;
     return allframe;
 }
 
 oninit(MC3DModel)
 {
     if (init(MC3DNode)) {
-        var(defaultColor) = (MCColorRGBAf){0.9, 0.9, 0.9, 1.0};
-        var(defaultExtension) = "obj";
-        var(textureOnOff) = MCFalse;
+        obj->defaultColor = (MCColorRGBAf){0.9, 0.9, 0.9, 1.0};
+        obj->defaultExtension = "obj";
+        obj->textureOnOff = MCFalse;
         
-        var(frame) = frame;
-        var(lastSavedFrame) = (MC3DFrame){0,0,0,0,0,0};
+        obj->frame = frame;
+        obj->lastSavedFrame = (MC3DFrame){0,0,0,0,0,0};
         return obj;
     }else{
         return mull;
@@ -86,12 +86,12 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         }
         debug_log("MC3DModel - face data loaded: %s", path);
 
-        mesh->frame = buff->frame;
+        mesh->Frame = buff->Frame;
         //ff(mesh, dump, 0);
         
-        MCLinkedList_addItem(0, svar(meshes), (MCItem*)mesh);
-        svar(material) = new(MCMatrial);
-        svar(texture) = mull;
+        MCLinkedList_addItem(0, sobj->meshes, (MCItem*)mesh);
+        sobj->material = new(MCMatrial);
+        sobj->texture  = mull;
         
         //set name
         strcpy(obj->name, buff->name);
@@ -109,20 +109,20 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
 
 method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
 {
-    return MC3DModel_initWithFilePathColor(0, obj, path, var(defaultColor));
+    return MC3DModel_initWithFilePathColor(0, obj, path, obj->defaultColor);
 }
 
 method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color)
 {
     char path[PATH_MAX];
-    MCFileGetPath(name, var(defaultExtension), path);
+    MCFileGetPath(name, obj->defaultExtension, path);
     debug_log("MC3DModel - find path: %s", path);
     return MC3DModel_initWithFilePathColor(0, obj, path, color);
 }
 
 method(MC3DModel, MC3DModel*, initWithFileName, const char* name)
 {
-    return MC3DModel_initWithFileNameColor(0, obj, name, var(defaultColor));
+    return MC3DModel_initWithFileNameColor(0, obj, name, obj->defaultColor);
 }
 
 onload(MC3DModel)
@@ -143,13 +143,13 @@ onload(MC3DModel)
 function(void, calculateFrame, MC3DObjBuffer* buff, MCVector3 v)
 {
     //3D frame max
-    MCMath_accumulateMaxd(&buff->frame.xmax, v.x);
-    MCMath_accumulateMaxd(&buff->frame.ymax, v.y);
-    MCMath_accumulateMaxd(&buff->frame.zmax, v.z);
+    MCMath_accumulateMaxd(&buff->Frame.xmax, v.x);
+    MCMath_accumulateMaxd(&buff->Frame.ymax, v.y);
+    MCMath_accumulateMaxd(&buff->Frame.zmax, v.z);
     //3D frame min
-    MCMath_accumulateMind(&buff->frame.xmin, v.x);
-    MCMath_accumulateMind(&buff->frame.ymin, v.y);
-    MCMath_accumulateMind(&buff->frame.zmin, v.z);
+    MCMath_accumulateMind(&buff->Frame.xmin, v.x);
+    MCMath_accumulateMind(&buff->Frame.ymin, v.y);
+    MCMath_accumulateMind(&buff->Frame.zmin, v.z);
 }
 
 function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,

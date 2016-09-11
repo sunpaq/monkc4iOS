@@ -30,7 +30,7 @@ oninit(MCMatrial)
 
 method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
 {
-    if (var(dataChanged) == MCTrue) {
+    if (obj->dataChanged == MCTrue) {
         MCGLContext_activateShaderProgram(0, ctx, 0);
         
         MCGLUniform f;
@@ -52,7 +52,7 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
         f.data.scalar = obj->specularLightPower;
         MCGLContext_updateUniform(0, ctx, "specularLightPower", f.data);
 
-        var(dataChanged) = MCFalse;
+        obj->dataChanged = MCFalse;
     }
 }
 

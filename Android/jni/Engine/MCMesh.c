@@ -14,7 +14,7 @@ oninit(MCMesh)
     if (init(MCItem)) {
         var(isDataLoaded) = MCFalse;
         
-        var(frame) = (MC3DFrame){0,0,0,0,0,0};
+        var(Frame) = (MC3DFrame){0,0,0,0,0,0};
         var(useage) = GL_STATIC_DRAW;
         var(mode) = GL_TRIANGLES;
         

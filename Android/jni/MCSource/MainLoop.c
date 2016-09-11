@@ -7,8 +7,6 @@
 //
 
 #include <stdio.h>
-#include "MC3DBase.h"
-#include "MC3DiOSDriver.h"
 #include "MC3DScene.h"
 #include "MCGLRenderer.h"
 #include "MCGLEngine.h"
@@ -18,6 +16,7 @@
 #include "MCSkybox.h"
 #include "MCDirector.h"
 #include "MC3DiOS.h"
+#include "MC3DiOSDriver.h"
 #include "Testbed.h"
 #include "MCThread.h"
 #include "MCException.h"
@@ -134,7 +133,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         mainScene->mainCamera->tht = 60;
         mainScene->mainCamera->fai = 45;
 
-        mainScene->super.nextResponder = (MCObject*)director;
+        superof(mainScene)->nextResponder = (MCObject*)director;
 
         ff(director, pushScene, mainScene);
         debug_log("onSetupGL main scene pushed into director");
@@ -168,7 +167,7 @@ void onUpdate(double roll, double yaw, double pitch)
     MCLogTypeSet(MC_SILENT);
     if (director != mull) {
 
-    	if (director->lastScene->isDrawSky(director->lastScene)) {
+    	if (computed(director->lastScene, isDrawSky)) {
             if (director->currentWidth < director->currentHeight) {
                 MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, roll*360, (pitch-1)*45);
             }else{
@@ -210,21 +209,23 @@ void onGesturePan(double x, double y)
             MCCamera_fucus(0, camera, x*sign*factor, y*sign*factor);
         }else{
             MCCamera_move(0, camera, x*sign, y*sign);
-            if (director->lastScene->isDrawSky(director->lastScene)) {
-                MCCamera* cam2 = &director->lastScene->skyboxRef->camera->super;
+            if (computed(director->lastScene, isDrawSky)) {
+                MCCamera* cam2 = superof(director->lastScene->skyboxRef->camera);
                 MCCamera_move(0, cam2, x*sign / 5, y*sign / 5);
             }
         }
     }
 }
 
+static float pinch_scale = 1.0;
 void onGesturePinch(double scale)
 {
+    pinch_scale *= scale;
+    pinch_scale = MAX(0.1, MIN(pinch_scale, 100.0));
+
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != mull && director->lastScene != mull && camera != mull) {
-        double s = scale * -0.5;
-
-        MCCamera_pull(0, camera, s);
+        MCCamera_distanceScale(0, camera, 1.0/pinch_scale);
     }
 }
 
@@ -253,9 +254,9 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
     if (director != mull && director->lastScene != mull) {
         MCCamera* camera = director->lastScene->mainCamera;
         MCCamera* cam2 = mull;
-        if (director->lastScene->isDrawSky(director->lastScene)) {
+        if (computed(director->lastScene, isDrawSky)) {
             MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
-            cam2 = &sbcam->super;
+            cam2 = superof(sbcam);
         }
 
         if (camera != mull) {

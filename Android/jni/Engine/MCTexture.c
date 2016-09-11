@@ -21,14 +21,14 @@ oninit(MCTexture)
 
 function(unsigned char*, loadImageRawdata, const char* name)
 {
-    varscope(MCTexture);
+    as(MCTexture);
     var(rawdata) = BE2DTextureData_newWithPath(name);
     return obj->rawdata->raw;
 }
 
 function(void, rawdataToTexbuffer, GLenum textype)
 {
-    varscope(MCTexture);
+    as(MCTexture);
     glTexImage2D(textype, 0, GL_RGB, obj->width, obj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj->rawdata);
     glGenerateMipmap(textype);
 }
@@ -44,7 +44,7 @@ function(void, setupTexParameter, GLenum textype)
 
 function(void, freeRawdata, voida)
 {
-    varscope(MCTexture);
+    as(MCTexture);
     release(obj->rawdata);
 }
 

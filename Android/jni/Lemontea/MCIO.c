@@ -118,7 +118,7 @@ method(MCFile, MCFile*, initWithPathNameDefaultFlag, char* pathname)
 
 method(MCFile, size_t, readAllFromBegin, off_t offset)
 {
-    return MCFile_readFromBegin(0, obj, offset, var(attribute.st_size));
+    return MCFile_readFromBegin(0, obj, offset, obj->attribute.st_size);
 }
 
 method(MCFile, size_t, readFromBegin, off_t offset, size_t nbytes)
@@ -217,9 +217,9 @@ onload(MCFile)
 oninit(MCStream)
 {
     if (init(MCObject)) {
-        var(lineArray) = mull;
-        var(lineLengthArray) = mull;
-        var(lineCount) = 0;
+        obj->lineArray = mull;
+        obj->lineLengthArray = mull;
+        obj->lineCount = 0;
         return obj;
     }else{
         return mull;
@@ -234,8 +234,8 @@ method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
     //int setvbuf(FILE *restrict fp, char *restrict buf, int mode, size_t size);
     //[NULL _IOFBF/_IOLBF/_IONBF BUFSIZ]
     
-    var(fileObject) = fopen(path, type.fopenMode);
-    if (var(fileObject) == NULL) {
+    obj->fileObject = fopen(path, type.fopenMode);
+    if (obj->fileObject == NULL) {
         error_log("can not open file: %s\n", path);
         return mull;
     }
@@ -266,9 +266,9 @@ method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
         }
     }
     
-    var(lineCount) = lcount;
-    var(lineArray) = (char**)malloc(sizeof(char*) * lcount);
-    var(lineLengthArray) = (size_t*) malloc(sizeof(unsigned) * lcount);
+    obj->lineCount = lcount;
+    obj->lineArray = (char**)malloc(sizeof(char*) * lcount);
+    obj->lineLengthArray = (size_t*) malloc(sizeof(unsigned) * lcount);
 
     memcpy(obj->lineArray, &textbuff[0], sizeof(char*) * lcount);
     ff(obj, dump, mull);
@@ -370,9 +370,9 @@ method(MCStream, int, seekFromEnd, off_t offset)
 
 method(MCStream, long, tellSize, voida)
 {
-    fseek(var(fileObject), 0, SEEK_END);
-    long size = ftell(var(fileObject));
-    rewind(var(fileObject));
+    fseek(obj->fileObject, 0, SEEK_END);
+    long size = ftell(obj->fileObject);
+    rewind(obj->fileObject);
     return size;
 }
 

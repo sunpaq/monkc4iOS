@@ -66,16 +66,9 @@
 		FD44CE481D326CF200784EDF /* MC3DAndroidDriver.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDFB1D326CF200784EDF /* MC3DAndroidDriver.c */; };
 		FD44CE491D326CF200784EDF /* MC3DiOSDriver.m in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDFE1D326CF200784EDF /* MC3DiOSDriver.m */; };
 		FD44CE4A1D326CF200784EDF /* MC3DXWindow.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDFF1D326CF200784EDF /* MC3DXWindow.c */; };
-		FD44CE4B1D326CF200784EDF /* HashTable.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE011D326CF200784EDF /* HashTable.c */; };
-		FD44CE4C1D326CF200784EDF /* Lock.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE021D326CF200784EDF /* Lock.c */; };
-		FD44CE4D1D326CF200784EDF /* Log.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE031D326CF200784EDF /* Log.c */; };
-		FD44CE561D326CF200784EDF /* MCRuntimeAsmIOS.S in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE0D1D326CF200784EDF /* MCRuntimeAsmIOS.S */; };
-		FD44CE571D326CF200784EDF /* Messaging.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE0E1D326CF200784EDF /* Messaging.c */; };
 		FD44CE581D326CF200784EDF /* monkc.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE0F1D326CF200784EDF /* monkc.c */; };
-		FD44CE591D326CF200784EDF /* ObjectManage.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE111D326CF200784EDF /* ObjectManage.c */; };
 		FD44CE5A1D326CF200784EDF /* gles3jni.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE131D326CF200784EDF /* gles3jni.c */; };
 		FD44CE5C1D326CF200784EDF /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE171D326CF200784EDF /* MainLoop.c */; };
-		FD44CE5D1D326CF200784EDF /* MCBird.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE181D326CF200784EDF /* MCBird.c */; };
 		FD44CE5E1D326CF200784EDF /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1A1D326CF200784EDF /* Testbed.c */; };
 		FD44CE5F1D326CF200784EDF /* MCNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1E1D326CF200784EDF /* MCNode.c */; };
 		FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1EC1C917F2D00051C15 /* tex2.bmp */; };
@@ -107,6 +100,7 @@
 		FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */; };
 		FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */; };
 		FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD571B0E3D9D00D2492A /* mcicon.png */; };
+		FD673A8D1D8402660062100C /* MCTrampoline.S in Sources */ = {isa = PBXBuildFile; fileRef = FD673A8C1D8402660062100C /* MCTrampoline.S */; };
 		FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD7FF8EB1CCB5FC5008106E5 /* sph.obj */; };
 		FD7FF8F01CCB6043008106E5 /* bottle_cap2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */; };
 		FD8784831CCE5F8C0071DAB4 /* back.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD87847D1CCE5F8C0071DAB4 /* back.jpg */; };
@@ -250,33 +244,17 @@
 		FD44CDFD1D326CF200784EDF /* MC3DiOSDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DiOSDriver.h; sourceTree = "<group>"; };
 		FD44CDFE1D326CF200784EDF /* MC3DiOSDriver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MC3DiOSDriver.m; sourceTree = "<group>"; };
 		FD44CDFF1D326CF200784EDF /* MC3DXWindow.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DXWindow.c; sourceTree = "<group>"; };
-		FD44CE011D326CF200784EDF /* HashTable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = HashTable.c; sourceTree = "<group>"; };
-		FD44CE021D326CF200784EDF /* Lock.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Lock.c; sourceTree = "<group>"; };
-		FD44CE031D326CF200784EDF /* Log.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Log.c; sourceTree = "<group>"; };
-		FD44CE051D326CF200784EDF /* MCRuntimeAsm_ARM32.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = MCRuntimeAsm_ARM32.asm; sourceTree = "<group>"; };
-		FD44CE061D326CF200784EDF /* MCRuntimeAsm_ARM32.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MCRuntimeAsm_ARM32.S; sourceTree = "<group>"; };
-		FD44CE071D326CF200784EDF /* MCRuntimeAsm_ARM64.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = MCRuntimeAsm_ARM64.asm; sourceTree = "<group>"; };
-		FD44CE081D326CF200784EDF /* MCRuntimeAsm_IA32.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = MCRuntimeAsm_IA32.asm; sourceTree = "<group>"; };
-		FD44CE091D326CF200784EDF /* MCRuntimeAsm_IA32_darwin.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = MCRuntimeAsm_IA32_darwin.asm; sourceTree = "<group>"; };
-		FD44CE0A1D326CF200784EDF /* MCRuntimeAsm_PowerPC64.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MCRuntimeAsm_PowerPC64.S; sourceTree = "<group>"; };
-		FD44CE0B1D326CF200784EDF /* MCRuntimeAsm_X8664.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = MCRuntimeAsm_X8664.asm; sourceTree = "<group>"; };
-		FD44CE0C1D326CF200784EDF /* MCRuntimeAsm_X8664_darwin.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; path = MCRuntimeAsm_X8664_darwin.asm; sourceTree = "<group>"; };
-		FD44CE0D1D326CF200784EDF /* MCRuntimeAsmIOS.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = MCRuntimeAsmIOS.S; sourceTree = "<group>"; };
-		FD44CE0E1D326CF200784EDF /* Messaging.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Messaging.c; sourceTree = "<group>"; };
 		FD44CE0F1D326CF200784EDF /* monkc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = monkc.c; sourceTree = "<group>"; };
 		FD44CE101D326CF200784EDF /* monkc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = monkc.h; sourceTree = "<group>"; };
-		FD44CE111D326CF200784EDF /* ObjectManage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ObjectManage.c; sourceTree = "<group>"; };
 		FD44CE131D326CF200784EDF /* gles3jni.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gles3jni.c; sourceTree = "<group>"; };
-		FD44CE141D326CF200784EDF /* gles3jni.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gles3jni.h; sourceTree = "<group>"; };
 		FD44CE171D326CF200784EDF /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
-		FD44CE181D326CF200784EDF /* MCBird.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCBird.c; sourceTree = "<group>"; };
-		FD44CE191D326CF200784EDF /* MCBird.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBird.h; sourceTree = "<group>"; };
 		FD44CE1A1D326CF200784EDF /* Testbed.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Testbed.c; sourceTree = "<group>"; };
 		FD44CE1B1D326CF200784EDF /* Testbed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Testbed.h; sourceTree = "<group>"; };
 		FD44CE1D1D326CF200784EDF /* MCAccessble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAccessble.h; sourceTree = "<group>"; };
 		FD44CE1E1D326CF200784EDF /* MCNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCNode.c; sourceTree = "<group>"; };
 		FD44CE1F1D326CF200784EDF /* MCNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNode.h; sourceTree = "<group>"; };
 		FD44CE201D326CF200784EDF /* MCTouchble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTouchble.h; sourceTree = "<group>"; };
+		FD4658E71D772BEF005165A8 /* MCJNI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCJNI.h; sourceTree = "<group>"; };
 		FD4CC1EC1C917F2D00051C15 /* tex2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex2.bmp; sourceTree = "<group>"; };
 		FD4CC1EE1C91B40800051C15 /* tex4.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex4.bmp; sourceTree = "<group>"; };
 		FD4CC1F01C91B40F00051C15 /* tex3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tex3.png; sourceTree = "<group>"; };
@@ -307,6 +285,7 @@
 		FD5EFD531B0E3D9D00D2492A /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		FD5EFD571B0E3D9D00D2492A /* mcicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mcicon.png; sourceTree = "<group>"; };
+		FD673A8C1D8402660062100C /* MCTrampoline.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = MCTrampoline.S; path = ASM/MCTrampoline.S; sourceTree = "<group>"; };
 		FD7FF8EB1CCB5FC5008106E5 /* sph.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sph.obj; sourceTree = "<group>"; };
 		FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bottle_cap2.obj; sourceTree = "<group>"; };
 		FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = MCSkyboxShader.vsh; sourceTree = "<group>"; };
@@ -482,6 +461,7 @@
 				FD44CDE81D326CF200784EDF /* MCException.h */,
 				FD44CDE91D326CF200784EDF /* MCIO.c */,
 				FD44CDEA1D326CF200784EDF /* MCIO.h */,
+				FD4658E71D772BEF005165A8 /* MCJNI.h */,
 				FD44CDEB1D326CF200784EDF /* MCLexer.h */,
 				FD44CDEC1D326CF200784EDF /* MCLinkedList.c */,
 				FD44CDED1D326CF200784EDF /* MCLinkedList.h */,
@@ -522,43 +502,19 @@
 		FD44CE001D326CF200784EDF /* MCLib */ = {
 			isa = PBXGroup;
 			children = (
-				FD44CE011D326CF200784EDF /* HashTable.c */,
-				FD44CE021D326CF200784EDF /* Lock.c */,
-				FD44CE031D326CF200784EDF /* Log.c */,
-				FD44CE041D326CF200784EDF /* MCRuntimeAsm */,
-				FD44CE0E1D326CF200784EDF /* Messaging.c */,
+				FD673A8C1D8402660062100C /* MCTrampoline.S */,
 				FD44CE0F1D326CF200784EDF /* monkc.c */,
 				FD44CE101D326CF200784EDF /* monkc.h */,
-				FD44CE111D326CF200784EDF /* ObjectManage.c */,
 			);
 			name = MCLib;
 			path = Android/jni/MCLib;
-			sourceTree = "<group>";
-		};
-		FD44CE041D326CF200784EDF /* MCRuntimeAsm */ = {
-			isa = PBXGroup;
-			children = (
-				FD44CE051D326CF200784EDF /* MCRuntimeAsm_ARM32.asm */,
-				FD44CE061D326CF200784EDF /* MCRuntimeAsm_ARM32.S */,
-				FD44CE071D326CF200784EDF /* MCRuntimeAsm_ARM64.asm */,
-				FD44CE081D326CF200784EDF /* MCRuntimeAsm_IA32.asm */,
-				FD44CE091D326CF200784EDF /* MCRuntimeAsm_IA32_darwin.asm */,
-				FD44CE0A1D326CF200784EDF /* MCRuntimeAsm_PowerPC64.S */,
-				FD44CE0B1D326CF200784EDF /* MCRuntimeAsm_X8664.asm */,
-				FD44CE0C1D326CF200784EDF /* MCRuntimeAsm_X8664_darwin.asm */,
-				FD44CE0D1D326CF200784EDF /* MCRuntimeAsmIOS.S */,
-			);
-			path = MCRuntimeAsm;
 			sourceTree = "<group>";
 		};
 		FD44CE121D326CF200784EDF /* MCSource */ = {
 			isa = PBXGroup;
 			children = (
 				FD44CE131D326CF200784EDF /* gles3jni.c */,
-				FD44CE141D326CF200784EDF /* gles3jni.h */,
 				FD44CE171D326CF200784EDF /* MainLoop.c */,
-				FD44CE181D326CF200784EDF /* MCBird.c */,
-				FD44CE191D326CF200784EDF /* MCBird.h */,
 				FD44CE1A1D326CF200784EDF /* Testbed.c */,
 				FD44CE1B1D326CF200784EDF /* Testbed.h */,
 				FD44CE1C1D326CF200784EDF /* UI */,
@@ -704,8 +660,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FDFF06271B060BE1000064E3 /* Build configuration list for PBXNativeTarget "Sapindus" */;
 			buildPhases = (
-				FDFF05FE1B060BE1000064E3 /* Resources */,
 				FDFF05FC1B060BE1000064E3 /* Sources */,
+				FDFF05FE1B060BE1000064E3 /* Resources */,
 				FDFF05FD1B060BE1000064E3 /* Frameworks */,
 			);
 			buildRules = (
@@ -741,7 +697,7 @@
 		FDFF05F81B060BE1000064E3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = oreisoft;
 				TargetAttributes = {
 					FDFF05FF1B060BE1000064E3 = {
@@ -843,7 +799,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD44CE4C1D326CF200784EDF /* Lock.c in Sources */,
 				FD44CE231D326CF200784EDF /* image_helper.c in Sources */,
 				FD44CE461D326CF200784EDF /* MCThread.c in Sources */,
 				FD44CE211D326CF200784EDF /* BEAssetsManager.c in Sources */,
@@ -851,24 +806,20 @@
 				FD44CE431D326CF200784EDF /* MCProcess.c in Sources */,
 				FD44CE421D326CF200784EDF /* MCMath.c in Sources */,
 				FD44CE251D326CF200784EDF /* stb_image_aug.c in Sources */,
-				FD44CE591D326CF200784EDF /* ObjectManage.c in Sources */,
 				FD44CE241D326CF200784EDF /* SOIL.c in Sources */,
 				FD44CE281D326CF200784EDF /* MC3DModel.c in Sources */,
 				FD00C4C71CD10BAE00DCA45F /* ListViewController.m in Sources */,
 				FD44CE2D1D326CF200784EDF /* MCDirector.c in Sources */,
 				FD00C4C81CD10BAE00DCA45F /* main.m in Sources */,
 				FD44CE3E1D326CF200784EDF /* MCContext.c in Sources */,
-				FD44CE4D1D326CF200784EDF /* Log.c in Sources */,
 				FD44CE321D326CF200784EDF /* MCMatrial.c in Sources */,
 				FD00C4CA1CD10BAE00DCA45F /* SettingsListController.m in Sources */,
 				FD44CE301D326CF200784EDF /* MCGLRenderer.c in Sources */,
 				FD44CE261D326CF200784EDF /* MC3DObjParser.c in Sources */,
 				FD44CE221D326CF200784EDF /* image_DXT.c in Sources */,
 				FD44CE5C1D326CF200784EDF /* MainLoop.c in Sources */,
-				FD44CE4B1D326CF200784EDF /* HashTable.c in Sources */,
 				FD44CE401D326CF200784EDF /* MCIO.c in Sources */,
 				FD00C4CB1CD10BAE00DCA45F /* SplitViewController.m in Sources */,
-				FD44CE561D326CF200784EDF /* MCRuntimeAsmIOS.S in Sources */,
 				FD44CE331D326CF200784EDF /* MCMesh.c in Sources */,
 				FD44CE291D326CF200784EDF /* MC3DNode.c in Sources */,
 				FD44CE2C1D326CF200784EDF /* MCCube.c in Sources */,
@@ -884,7 +835,6 @@
 				FD44CE3C1D326CF200784EDF /* MCBuffer.c in Sources */,
 				FD00C4C41CD10BAE00DCA45F /* GameViewController.m in Sources */,
 				FD44CE5F1D326CF200784EDF /* MCNode.c in Sources */,
-				FD44CE5D1D326CF200784EDF /* MCBird.c in Sources */,
 				FD44CE451D326CF200784EDF /* MCString.c in Sources */,
 				FD44CE311D326CF200784EDF /* MCLight.c in Sources */,
 				FD00C4C01CD10BAE00DCA45F /* AppDelegate.m in Sources */,
@@ -895,8 +845,8 @@
 				FD00C4C91CD10BAE00DCA45F /* MasterNavController.m in Sources */,
 				FD44CE5E1D326CF200784EDF /* Testbed.c in Sources */,
 				FD44CE481D326CF200784EDF /* MC3DAndroidDriver.c in Sources */,
-				FD44CE571D326CF200784EDF /* Messaging.c in Sources */,
 				FD44CE471D326CF200784EDF /* MCUnitTest.c in Sources */,
+				FD673A8D1D8402660062100C /* MCTrampoline.S in Sources */,
 				F8DCDAB91D52E44000FD3FD2 /* MCGeometry.c in Sources */,
 				FD44CE361D326CF200784EDF /* MCSkybox.c in Sources */,
 				FD44CE3A1D326CF200784EDF /* MCWorld.c in Sources */,
@@ -960,8 +910,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: sun yuli (F4876BSQ5B)";
@@ -990,7 +942,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "i386 X86_64 arm64";
 			};
 			name = Debug;
 		};
@@ -1007,8 +959,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: sun yuli (F4876BSQ5B)";
@@ -1030,7 +984,7 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "i386 X86_64 arm64";
 			};
 			name = Release;
 		};
@@ -1046,7 +1000,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;
 				PRODUCT_NAME = Sapindus;
 				PROVISIONING_PROFILE = "";
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "i386 X86_64 arm64";
 			};
 			name = Debug;
 		};
@@ -1062,7 +1016,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;
 				PRODUCT_NAME = Sapindus;
 				PROVISIONING_PROFILE = "";
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "i386 X86_64 arm64";
 			};
 			name = Release;
 		};

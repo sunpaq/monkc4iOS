@@ -4,14 +4,9 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 LOCAL_ARM_MODE  := arm
 LOCAL_MODULE    := monkc4android
-LOCAL_SRC_FILES := $(LOCAL_PATH)/MCLib/MCRuntimeAsm/MCRuntimeAsm_ARM32.S \
-                   $(LOCAL_PATH)/MCLib/HashTable.c \
-                   $(LOCAL_PATH)/MCLib/Lock.c \
-                   $(LOCAL_PATH)/MCLib/Log.c \
-                   $(LOCAL_PATH)/MCLib/Messaging.c \
-                   $(LOCAL_PATH)/MCLib/ObjectManage.c \
+LOCAL_SRC_FILES := $(LOCAL_PATH)/MCLib/ASM/MCTrampoline.S \
                    $(LOCAL_PATH)/MCLib/monkc.c
-LOCAL_CFLAGS    += -std=c99
+LOCAL_CFLAGS    += -std=c99 -D__armv7__
 include $(BUILD_STATIC_LIBRARY)
 
 
@@ -103,8 +98,7 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_ARM_MODE  := arm
 LOCAL_MODULE    := gles3jni
-LOCAL_SRC_FILES := $(LOCAL_PATH)/MCSource/MCBird.c \
-                   $(LOCAL_PATH)/MCDriver/MC3DAndroidDriver.c \
+LOCAL_SRC_FILES := $(LOCAL_PATH)/MCDriver/MC3DAndroidDriver.c \
                    $(LOCAL_PATH)/MCSource/MainLoop.c \
                    $(LOCAL_PATH)/MCSource/gles3jni.c
 

@@ -335,7 +335,7 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 //dynamic class
 #define class(cls, supercls, ...)\
 typedef struct cls##Struct{\
-supercls super;\
+supercls Super;\
 __VA_ARGS__;}cls;\
 cls* cls##_init(cls* const obj);\
 mc_class* cls##_load(mc_class* const cla);
@@ -351,8 +351,8 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 //callbacks
 #define onload(cls)					mc_class* cls##_load(mc_class* const cla)
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
-#define load(super)                           super##_load(cla)
-#define init(super)                           super##_init((super*)obj)
+#define load(supercls)                        supercls##_load(cla)
+#define init(supercls)                        supercls##_init((supercls*)obj)
 #define preload(cls)                          _load_h(#cls, sizeof(cls), cls##_##load, hash(#cls));
 
 //method binding
@@ -361,19 +361,21 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define hinding(cls, type, met, hash, ...)	  _binding_h(cla, S(met), (MCFuncPtr)A_B(cls, met), hash)
 #define utility(cls, type, name, ...) 	      type cls##_##name(__VA_ARGS__)
 #define method(cls, type, name, ...) 	      type cls##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
-#define function(type, name, ...)             static type name(MCFuncPtr volatile address, void* volatile _obj, __VA_ARGS__)
+#define function(type, name, ...)             static type name(MCFuncPtr volatile address, void* volatile any, __VA_ARGS__)
 
 //property
 #define computing(type, name)                 type (*name)(void*)
-#define compute(type, name)                   static type name(void* _obj)
+#define compute(type, name)                   static type name(void* any)
+#define computed(obj, vname)                  obj->vname(obj)
+#define cpt(vname)                            obj->vname(obj)
 
 //variable
+#define superof(obj)                          (&obj->Super)
+#define sobj                                  (&obj->Super)
 #define var(vname)                            (obj->vname)
-#define svar(vname)                           (obj->super.vname)
-#define cvar(vname)                           obj->vname(obj)
+#define svar(vname)                           (obj->Super.vname)
 #define cast(type, obj) 				      ((type)obj)
-#define sobj                                  (&(obj->super))
-#define varscope(cls)                         cls* obj = (cls*)_obj
+#define as(cls)                               cls* obj = (cls*)any
 
 //for create object
 #define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)
@@ -384,7 +386,6 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define hnfo(cls, hash)                 mc_info_h(S(cls), sizeof(cls), cls##_load, hash)
 
 //for call method
-#define findsuper(obj, name)            ((name*)obj)//find super object
 #define response_to(obj, met) 			_response_to((mo)obj, S(met), 2)
 #define hesponse_to(obj, met, hash) 	_response_to_h((mo)obj, S(met), hash, 2)
 #define _ff(obj, met, ...)              _push_jump(_response_to((mo)obj, met, MC_STRICT_MODE), __VA_ARGS__)//call by string

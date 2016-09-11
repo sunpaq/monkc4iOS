@@ -25,8 +25,8 @@ method(MC2DTex, MC2DTex*, initWithFileName, const char* name)
 
 method(MC2DTex, void, drawTexture, MCGLContext* ctx)
 {
-    MCGLEngine_activeTextureUnit(sobj->textureUnit);
-    MCGLEngine_bind2DTexture(sobj->Id);
+    MCGLEngine_activeTextureUnit(svar(textureUnit));
+    MCGLEngine_bind2DTexture(svar(Id));
 }
 
 onload(MC2DTex)

@@ -184,7 +184,7 @@ method(MCSkybox, MCSkybox*, initWithDefaultFiles, voida)
 
 method(MCSkybox, void, resizeWithWidthHeight, unsigned width, unsigned height)
 {
-    var(camera)->super.ratio = MCRatioMake(width, height);
+    superof(var(camera))->ratio = MCRatioMake(width, height);
 }
 
 method(MCSkybox, void, update, MCGLContext* ctx)
@@ -192,13 +192,13 @@ method(MCSkybox, void, update, MCGLContext* ctx)
     ctx->boxViewMatrix = var(camera)->viewMatrix(var(camera));
     ctx->boxProjectionMatrix = var(camera)->projectionMatrix(var(camera));
     
-    if (ctx->boxCameraRatio != obj->camera->super.ratio) {
+    if (ctx->boxCameraRatio != superof(obj->camera)->ratio) {
         MCGLContext_activateShaderProgram(0, var(ctx), 0);
         
         MCGLUniformData data;
         data.mat4 = ctx->boxProjectionMatrix;
         MCGLContext_updateUniform(0, var(ctx), "boxProjectionMatrix", data);
-        ctx->boxCameraRatio = obj->camera->super.ratio;
+        ctx->boxCameraRatio = superof(var(camera))->ratio;
     }
 }
 

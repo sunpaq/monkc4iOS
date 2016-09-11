@@ -17,17 +17,17 @@
 package com.android.gles3jni;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-
-import java.io.File;
 
 public class GLES3JNIActivity extends Activity {
 
+	static final String TAG = "GLES3JNIActivity";
+	
     GLES3JNIView mView = null;
-
+    
     // This snippet hides the system bars.
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.
@@ -48,6 +48,10 @@ public class GLES3JNIActivity extends Activity {
         setContentView(mView);
     }
 
+    @Override protected void onNewIntent(Intent i) {
+    	super.onNewIntent(i);
+    }
+    
     @Override protected void onPause() {
         //workaround for save GL context when pause/resume
         mView.setVisibility(View.GONE);
@@ -66,4 +70,17 @@ public class GLES3JNIActivity extends Activity {
             mView.setVisibility(View.VISIBLE);
         }
     }
+    
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+    	mView.onTouchEvent(e);
+		return true;
+    }
+    
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }
+
+

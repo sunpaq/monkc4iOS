@@ -30,4 +30,8 @@ public class GLES3JNILib {
      public static native void resize(int width, int height);
      public static native void step();
      public static native void setAssetManager(AssetManager man);
+     
+     public static native void onGestureScale(float scale);
+     public static native void onGestureScroll(double x, double y);
+     
 }

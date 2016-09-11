@@ -27,9 +27,9 @@
 {
     [super viewDidLoad];
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
-
     if (!self.context) {
         NSLog(@"Failed to create ES context");
+        exit(-1);
     }
     
     GLKView *view = (GLKView *)self.view;

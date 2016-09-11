@@ -12,7 +12,7 @@
 
 compute(MCBool, isDrawSky)
 {
-    varscope(MC3DScene);
+    as(MC3DScene);
     if (var(skyboxShow) && var(skyboxRef)!=mull) {
         return MCTrue;
     }
@@ -114,7 +114,7 @@ method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
 
 method(MC3DScene, void, moveSkyboxCamera, MCDouble deltaFai, MCDouble deltaTht)
 {
-    if (cvar(isDrawSky)) {
+    if (cpt(isDrawSky)) {
         MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d, deltaTht.d);
     }
 }
@@ -123,7 +123,7 @@ method(MC3DScene, void, updateScene, voida)
 {
     MC3DScene_moveCameraOneStep(0, obj, (MCDouble)0.5, (MCDouble)0.0);
     
-    if(cvar(isDrawSky)) {
+    if(cpt(isDrawSky)) {
         MCSkybox_update(0, var(skyboxRef), var(renderer)->context);
     }
     
@@ -137,7 +137,7 @@ method(MC3DScene, int, drawScene, voida)
 {
     MCGLEngine_clearScreen(0);
     
-    if (cvar(isDrawSky)) {
+    if (cpt(isDrawSky)) {
         MCSkybox_draw(0, var(skyboxRef), var(renderer)->context);
     }
     
