@@ -110,22 +110,9 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/BEAssets/external/SOIL
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/Engine
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/MCDriver
 
-LOCAL_STATIC_LIBRARIES := android_native_app_glue monkc4android lemontea beassets beengine
+LOCAL_STATIC_LIBRARIES := monkc4android lemontea beassets beengine
 LOCAL_LDLIBS           := -llog -landroid -lEGL -lGLESv3
 
 include $(BUILD_SHARED_LIBRARY)
 
-#import module always in the end
-#$(call import-module,android/native_app_glue)
-
-# ----------------------------------------------------------------
-# Packaging .ap (and Java code if there was some)
-
-#include $(CLEAR_VARS)
-#LOCAL_MODULE_TAGS := samples
-#LOCAL_SRC_FILES := $(call all-java-files-under, src)
-#LOCAL_PACKAGE_NAME := NativeActivity
-#LOCAL_CERTIFICATE := shared
-#LOCAL_JNI_SHARED_LIBRARIES := libjnb
-#LOCAL_SDK_VERSION := current
-#include $(BUILD_PACKAGE)
+#android_native_app_glue
