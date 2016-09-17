@@ -86,7 +86,9 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         }
         debug_log("MC3DModel - face data loaded: %s", path);
 
-        mesh->Frame = buff->Frame;
+        for (int i=0; i<6; i++) {
+            mesh->Frame.m[i] = buff->Frame.m[i];
+        }
         //ff(mesh, dump, 0);
         
         MCLinkedList_addItem(0, sobj->meshes, (MCItem*)mesh);

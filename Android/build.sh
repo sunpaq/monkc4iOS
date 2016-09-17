@@ -3,20 +3,27 @@
 #you have to make sure the following tools
 NDK_BUILD='ndk-build'
 SDK_BUILD='ant'
+PKG='com.android.gles3jni'
 
 function clean {
 	cd jni
-	$NDK_BUILD clean
+	#$NDK_BUILD clean
+	./build.rb clean
 	cd ..
 	$SDK_BUILD clean
 }
 
 function build {
-	$NDK_BUILD -C jni && $SDK_BUILD debug
+	#$NDK_BUILD -C jni && $SDK_BUILD debug
+	cd jni
+	./build.rb build
+	cd ..
+	$SDK_BUILD debug
 }
 
 function install {
-	$SDK_BUILD debug install
+	$SDK_BUILD uninstall $PKG
+	$SDK_BUILD installd
 }
 
 #clean
