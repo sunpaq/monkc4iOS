@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 require "mcbuild"
 
-$NDKHOME = "/Users/sunyuli/Library/Android/android-ndk-r11c"
+$NDKHOME = "~/Library/Android/android-ndk-r11c"
 $TOOLCHAIN = "/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin"
 $CC = $NDKHOME + $TOOLCHAIN + "/arm-linux-androideabi-gcc"
 $AR = $NDKHOME + $TOOLCHAIN + "/arm-linux-androideabi-ar"
@@ -30,22 +30,8 @@ $app = MCBuild.new($LOCAL + "/MCSource").set_name('gles3jni')
 	.set_dependency([$monkc, $lemontea, $driver, $beassets, $engine])
 	.set_excludes(['MCNode', 'Testbed'])
 
-libs = [
-	$monkc,
-	$lemontea,
-	$driver,
-	$beassets,
-	$engine
-]
-
-blocks = [
-	$monkc,
-	$lemontea,
-	$driver,
-	$beassets,
-	$engine,
-	$app
-]
+libs = [$monkc, $lemontea, $driver, $beassets, $engine]
+blocks = [$monkc, $lemontea, $driver, $beassets, $engine, $app]
 
 MCBuild.waitArg('clean') do
 	blocks.each { |b|
@@ -55,12 +41,11 @@ end
 
 MCBuild.waitArg('build') do
 	blocks.each { |b|
-		b
-		.set_compiler($CC)
-		.set_archiver($AR)
-		.set_sysroot($SYSROOT)
-		.set_position_independent_code(true)
-		.set_flags("-D__armv7__ -D__ANDROID__ -llog -landroid -lEGL -lGLESv3")
+		b.set_compiler($CC)
+		 .set_archiver($AR)
+		 .set_sysroot($SYSROOT)
+		 .set_position_independent_code(true)
+		 .set_flags("-D__armv7__ -D__ANDROID__ -llog -landroid -lEGL -lGLESv3")
 	}
 
 	libs.each { |lib|
