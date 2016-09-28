@@ -87,6 +87,18 @@ MCFile* MCFile_newReadOnly(char* pathname);
 MCFile* MCFile_newWriteOnly(char* pathname, int isClear);
 MCFile* MCFile_newReadWrite(char* pathname, int isClear);
 
+//line will passed
+#define MCFileEachLine(file, ...)\
+char line[LINE_MAX];\
+char* c = (char*)file;\
+while (*c!='\0') {\
+    for (int i=0; *c!='\n'; c++) {\
+        line[i++] = *c;\
+        line[i] = '\0';\
+    } c++;\
+    __VA_ARGS__\
+}
+
 #endif
 
 /* MCStream */

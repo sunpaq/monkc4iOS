@@ -13,6 +13,56 @@
 #include "MC3DType.h"
 #include "MCLexer.h"
 
+//class(MCMatrial, MCObject,
+//      MCBool      dataChanged;
+//      double      ambientLightStrength;
+//      MCVector3   ambientLightColor;
+//      MCVector3   diffuseLightColor;
+//      double      specularLightStrength;
+//      MCVector3   specularLightColor;
+//      MCInt       specularLightPower;
+//      );
+
+typedef enum {
+    Normal,
+    Spectral,
+    XYZ
+} MC3DAmbientDataType;
+
+typedef struct {
+    //newmtl
+    char name[256];
+    
+    //color & illumination
+    MC3DAmbientDataType ambientDataType;
+    double ambient[3];//Ka
+    char   ambientSpectralFile[256];//Ka spectral
+    
+    double diffuseLight[3];//Kd
+    double specularLight[3];//Ks
+    //Tf
+    //illum
+    //d -halo
+    //Ns
+    //sharpness
+    //Ni
+    
+    //texture map
+    //map_Ka
+    //map_Kd
+    //map_Ks
+    //map_Ns
+    //map_d
+    //disp
+    //decal
+    //bump
+    
+    //reflection map
+    //refl -type
+    
+} MC3DMaterial;
+
+
 //return face count
 MCInline size_t processMtlLine(MC3DObjBuffer* buff, const char* linebuff)
 {

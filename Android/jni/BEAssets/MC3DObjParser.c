@@ -1,10 +1,11 @@
 #include "MC3DObjParser.h"
 #include "BEAssetsManager.h"
 #include "MCGeometry.h"
+#include "MCIO.h"
 
 static size_t epcount = 0;
 
-size_t countFaces(const char* linebuff, size_t tcount)
+size_t countFacesOfLinebuff(const char* linebuff, size_t tcount)
 {
     size_t fcount = 0;//polygon
     size_t icount = 0;//int
@@ -56,44 +57,14 @@ size_t countFaces(const char* linebuff, size_t tcount)
     }
 }
 
-size_t detectFaceCount(FILE* f)
-{
-    if (f != mull) {
-        const int linesize = LINE_MAX;
-        char linebuff[linesize];
-        size_t tcount = 0;//triangle
-        
-        fseek(f, 0, SEEK_SET);
-        while (fgets(linebuff, linesize, f) != NULL) {
-            linebuff[linesize-1] = '\0';
-            tcount = countFaces(linebuff, tcount);
-        }
-        return tcount;
-    }else{
-        return 0;
-    }
-}
-
-size_t detectFaceCountFromBuff(const char* buff)
+size_t countFacesOfFilebuff(const char* buff)
 {
     size_t tcount = 0;//triangle
     
     if (buff != mull) {
-        char linebuff[LINE_MAX];
-
-        char* c = (char*) buff;
-        while (*c != '\0' && *c != EOF) {
-            //get a line
-            int i;
-            for (i = 0; *c != '\n'; c++) {
-                linebuff[i++] = *c;
-            }
-            linebuff[i] = '\0';
-            c++;
-            //newline skip by c++
-            //process a line
-            tcount = countFaces(linebuff, tcount);
-        }
+        MCFileEachLine(buff,
+            tcount = countFacesOfLinebuff(line, tcount);
+        )
     }
     
     return tcount;
@@ -312,6 +283,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     else if (state == LSMtlLib) {
         strcpy(buff->mtl, word);
         buff->mtl[strlen(word)] = '\0';
+        
     }
     
     //usemtl
@@ -329,7 +301,7 @@ MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
 
     const char* assetbuff = MCFileCopyContentWithPath(filename, "obj");
     if (assetbuff != mull) {
-        size_t fc = detectFaceCountFromBuff(assetbuff);
+        size_t fc = countFacesOfFilebuff(assetbuff);
         if (fc <= 0) {
             error_log("MC3DObjParser - object face count is ZERO\n");
             return mull;
@@ -340,19 +312,9 @@ MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
             return mull;
         }
         
-        char linebuff[LINE_MAX];
-        
-        char* c = (char*) assetbuff;
-        while (*c != '\0') {
-            //get a line
-            for (int i = 0; *c != '\n'; c++) {
-                linebuff[i++] = *c;
-                linebuff[i] = '\0';
-            } c++;
-            //process a line
-            //debug_log("processObjLine - %s", linebuff);
-            processObjLine(buff, linebuff);
-        }
+        MCFileEachLine(assetbuff,
+            processObjLine(buff, line);
+        );
         
         free((void*)assetbuff);
         return buff;

@@ -174,7 +174,6 @@
 		FD44CDB21D326CF200784EDF /* MC3DBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DBase.h; sourceTree = "<group>"; };
 		FD44CDB31D326CF200784EDF /* MC3DModel.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DModel.c; sourceTree = "<group>"; };
 		FD44CDB41D326CF200784EDF /* MC3DModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DModel.h; sourceTree = "<group>"; };
-		FD44CDB51D326CF200784EDF /* MC3DMtlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DMtlParser.h; sourceTree = "<group>"; };
 		FD44CDB61D326CF200784EDF /* MC3DNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DNode.c; sourceTree = "<group>"; };
 		FD44CDB71D326CF200784EDF /* MC3DNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DNode.h; sourceTree = "<group>"; };
 		FD44CDB91D326CF200784EDF /* MC3DScene.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DScene.c; sourceTree = "<group>"; };
@@ -403,7 +402,6 @@
 				FD44CDB21D326CF200784EDF /* MC3DBase.h */,
 				FD44CDB31D326CF200784EDF /* MC3DModel.c */,
 				FD44CDB41D326CF200784EDF /* MC3DModel.h */,
-				FD44CDB51D326CF200784EDF /* MC3DMtlParser.h */,
 				FD44CDB61D326CF200784EDF /* MC3DNode.c */,
 				FD44CDB71D326CF200784EDF /* MC3DNode.h */,
 				FD44CDB91D326CF200784EDF /* MC3DScene.c */,
