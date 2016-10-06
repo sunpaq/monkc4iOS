@@ -42,6 +42,31 @@ utility(MCString, const char*, concate, const char** strings, size_t count, char
 utility(MCString, const char*, concateWith, const char* sp, const char* path1, const char* path2, char (*buff)[]);
 utility(MCString, const char*, concatePath, const char* path1, const char* path2, char (*buff)[]);
 
+MCInline char* MCStringFill(char* dest, const char* src) {
+    char* res = strcpy(dest, src);
+    dest[strlen(src)] = '\0';
+    return res;
+}
+
+MCInline MCBool MCStringEqualN(const char* A, const char* B, size_t n) {
+    if (strncmp(A, B, n) == 0) {
+        return MCTrue;
+    }else{
+        return MCFalse;
+    }
+}
+
+MCInline MCBool MCStringEqual(const char* A, const char* B) {
+    unsigned long lenA = strlen(A);
+    unsigned long lenB = strlen(B);
+    size_t n = (lenA < lenB) ? lenA : lenB;
+    if (strncmp(A, B, n) == 0) {
+        return MCTrue;
+    }else{
+        return MCFalse;
+    }
+}
+
 #endif
 
 

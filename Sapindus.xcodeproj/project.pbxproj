@@ -71,6 +71,8 @@
 		FD44CE5C1D326CF200784EDF /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE171D326CF200784EDF /* MainLoop.c */; };
 		FD44CE5E1D326CF200784EDF /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1A1D326CF200784EDF /* Testbed.c */; };
 		FD44CE5F1D326CF200784EDF /* MCNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1E1D326CF200784EDF /* MCNode.c */; };
+		FD4B12561DA3B03000ADCB38 /* MC3DMtlParser.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4B12551DA3B03000ADCB38 /* MC3DMtlParser.c */; };
+		FD4B125B1DA5024800ADCB38 /* beengine.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FD4B125A1DA5024800ADCB38 /* beengine.mtl */; };
 		FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1EC1C917F2D00051C15 /* tex2.bmp */; };
 		FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1EE1C91B40800051C15 /* tex4.bmp */; };
 		FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1F01C91B40F00051C15 /* tex3.png */; };
@@ -254,6 +256,8 @@
 		FD44CE1F1D326CF200784EDF /* MCNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNode.h; sourceTree = "<group>"; };
 		FD44CE201D326CF200784EDF /* MCTouchble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTouchble.h; sourceTree = "<group>"; };
 		FD4658E71D772BEF005165A8 /* MCJNI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCJNI.h; sourceTree = "<group>"; };
+		FD4B12551DA3B03000ADCB38 /* MC3DMtlParser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DMtlParser.c; sourceTree = "<group>"; };
+		FD4B125A1DA5024800ADCB38 /* beengine.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beengine.mtl; sourceTree = "<group>"; };
 		FD4CC1EC1C917F2D00051C15 /* tex2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex2.bmp; sourceTree = "<group>"; };
 		FD4CC1EE1C91B40800051C15 /* tex4.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex4.bmp; sourceTree = "<group>"; };
 		FD4CC1F01C91B40F00051C15 /* tex3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tex3.png; sourceTree = "<group>"; };
@@ -362,6 +366,7 @@
 				FD44CD9F1D326CF200784EDF /* BEAssetsManager.h */,
 				FD44CDA01D326CF200784EDF /* external */,
 				FD44CDAC1D326CF200784EDF /* MC3DMtlParser.h */,
+				FD4B12551DA3B03000ADCB38 /* MC3DMtlParser.c */,
 				FD44CDAD1D326CF200784EDF /* MC3DObjParser.c */,
 				FD44CDAE1D326CF200784EDF /* MC3DObjParser.h */,
 			);
@@ -535,6 +540,7 @@
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				FD4B125A1DA5024800ADCB38 /* beengine.mtl */,
 				FDD87E001CCC979A00D292D3 /* 2.obj */,
 				FD0097DE1CB8D781000A85DE /* Avent.obj */,
 				FD4CC2021C99AC0F00051C15 /* monkey2.obj */,
@@ -748,6 +754,7 @@
 				FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */,
 				FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
+				FD4B125B1DA5024800ADCB38 /* beengine.mtl in Resources */,
 				FD8784851CCE5F8C0071DAB4 /* front.jpg in Resources */,
 				FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */,
 				FD4CC1F31C91BD8300051C15 /* jongkhurun.png in Resources */,
@@ -836,6 +843,7 @@
 				FD44CE451D326CF200784EDF /* MCString.c in Sources */,
 				FD44CE311D326CF200784EDF /* MCLight.c in Sources */,
 				FD00C4C01CD10BAE00DCA45F /* AppDelegate.m in Sources */,
+				FD4B12561DA3B03000ADCB38 /* MC3DMtlParser.c in Sources */,
 				FD44CE411D326CF200784EDF /* MCLinkedList.c in Sources */,
 				FD44CE2B1D326CF200784EDF /* MCCamera.c in Sources */,
 				FD44CE441D326CF200784EDF /* MCSocket.c in Sources */,

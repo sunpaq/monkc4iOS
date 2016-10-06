@@ -10,7 +10,10 @@
 #define MC3DMtlParser_h
 
 #include <stdio.h>
-#include "MC3DType.h"
+#include "monkc.h"
+#include "MCMath.h"
+#include "MCGeometry.h"
+#include "MCString.h"
 #include "MCLexer.h"
 
 //class(MCMatrial, MCObject,
@@ -23,209 +26,221 @@
 //      MCInt       specularLightPower;
 //      );
 
+/* illum_0 -> illum_10
+0   Color on and Ambient off 
+1   Color on and Ambient on 
+2   Highlight on 
+3   Reflection on and Ray trace on 
+4   Transparency: Glass on 
+Reflection: Ray trace on 
+5   Reflection: Fresnel on and Ray trace on 
+6   Transparency: Refraction on 
+Reflection: Fresnel off and Ray trace on 
+7   Transparency: Refraction on 
+Reflection: Fresnel on and Ray trace on 
+8   Reflection on and Ray trace off 
+9   Transparency: Glass on 
+Reflection: Ray trace off 
+10  Casts shadows onto invisible surfaces
+*/
+
 typedef enum {
-    Normal,
-    Spectral,
-    XYZ
-} MC3DAmbientDataType;
+    Ambient = 0,
+    Diffuse,
+    Specular,
+    //transmission filter
+    TFilter
+} MTLightType;
+
+typedef enum {
+    RGB,         //Ka r g b
+    XYZ,         //Ka x y z (CIEXYZ color space)
+    SpectralFile //Ka spectral file.rfl factor
+} MTColorType;
+
+typedef enum {
+    SpecularExponent, //Ns
+    DissolveFactor,   //d
+    Disp,             //disp (surface roughness)
+    Decal,            //decal
+    Bump              //bump
+} MTScalarType;
 
 typedef struct {
-    //newmtl
-    char name[256];
-    
-    //color & illumination
-    MC3DAmbientDataType ambientDataType;
-    double ambient[3];//Ka
-    char   ambientSpectralFile[256];//Ka spectral
-    
-    double diffuseLight[3];//Kd
-    double specularLight[3];//Ks
-    //Tf
-    //illum
-    //d -halo
-    //Ns
-    //sharpness
-    //Ni
-    
-    //texture map
-    //map_Ka
-    //map_Kd
-    //map_Ks
-    //map_Ns
-    //map_d
-    //disp
-    //decal
-    //bump
-    
-    //reflection map
-    //refl -type
-    
-} MC3DMaterial;
+    MTColorType Ctype;
+    double factor;//default=1.0
+    union {
+        double rgbxyz[3];
+        char spectral[256];
+    } data;
+} MTLightColor;
 
-
-//return face count
-MCInline size_t processMtlLine(MC3DObjBuffer* buff, const char* linebuff)
-{
-    int c=0;
-    static enum LexerState state = LSIdle;
-    
-    //template storage
-    double fqueue[4] = {0.0, 0.0, 0.0, 0.0};          int fq=0;//float
-    int    iqueue[4] = {0, 0, 0, 0};                  int iq=0;//integer
-    int    gqueue[12]= {0,0,0, 0,0,0, 0,0,0, 0,0,0};  int gq=0;//igroup
-    
-    //MCToken token;
+//Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
+MCInline MTLightColor MTLightColorMake(char* linebuff) {
+    MTLightColor c;
     MCToken token;
-    
     char word[256];
     const char* remain = linebuff;
     while (*remain != '\n' && *remain != '\0') {
         token = tokenize(nextWord(&remain, word));
-        
         switch (token.type) {
             case MCTokenIdentifier:
-
-                //.mtl file syntax
-                else if (strncmp(word, "newmtl", 6) == 0) {
-                    
-                }
-                else if (strncmp(word, "map_Kd", 6) == 0) {
-                    
-                }
                 
                 break;
-            case MCTokenFloat:
-                fqueue[fq++] = token.value.Double;
-                break;
-            case MCTokenInteger:
-                iqueue[iq++] = token.value.Integer;
-                break;
-            case MCTokenDate:
-                c = getDate(word, &gqueue[gq]);
-                gq += c;
-                break;
-            case MCTokenComment:
-                return 0;
-            case MCTokenUnknown:
-                return 0;
+                
             default:
                 break;
         }
     }
-    
-    //save float value into buffer
-    if (state == LSVertex) {
-        for (int i=0; i<fq; i++)
-            buff->vertexbuff[buff->vcursor].m[i] = fqueue[i];
-        buff->vcursor++;
-    }
-    else if (state == LSVertexTexture) {
-        for (int i=0; i<fq; i++)
-            buff->texcoorbuff[buff->tcursor].m[i] = fqueue[i];
-        buff->tcursor++;
-    }
-    else if (state == LSVertexNormal) {
-        for (int i=0; i<fq; i++)
-            buff->normalbuff[buff->ncursor].m[i] = fqueue[i];
-        buff->ncursor++;
-    }
-    
-    //save integer value into buffer, index start from 1 not 0
-    else if (state == LSFace) {
-        if (iq != 0) {
-            buff->facetype = MC3DFaceVertexOnly;
-            if (iq == 3) {
-                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[0];
-                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
-                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[2];
-                buff->fcursor++;
-            }else if (iq == 4){
-                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[0];
-                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
-                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[2];
-                buff->fcursor++;
-                buff->facebuff[buff->fcursor].v1.vertexIndex = iqueue[2];
-                buff->facebuff[buff->fcursor].v2.vertexIndex = iqueue[1];
-                buff->facebuff[buff->fcursor].v3.vertexIndex = iqueue[3];
-                buff->fcursor++;
-            }
-        }
-        else if (gq != 0) {
-            buff->facetype = MC3DFaceAll;
-            if (gq == 3*3) {
-                //v1
-                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
-                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
-                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];
-                //v2
-                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[3];
-                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[4];
-                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[5];
-                //v3
-                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[6];
-                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[7];
-                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[8];
-                
-                buff->fcursor++;
-            }else if (gq == 4*3){
-                //v1
-                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
-                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
-                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];
-                //v2
-                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[3];
-                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[4];
-                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[5];
-                //v3
-                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[6];
-                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[7];
-                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[8];
-                
-                buff->fcursor++;
-                
-                //v1
-                buff->facebuff[buff->fcursor].v1.vertexIndex =   gqueue[0];
-                buff->facebuff[buff->fcursor].v1.texcoordIndex = gqueue[1];
-                buff->facebuff[buff->fcursor].v1.normalIndex =   gqueue[2];
-                //v3
-                buff->facebuff[buff->fcursor].v2.vertexIndex =   gqueue[6];
-                buff->facebuff[buff->fcursor].v2.texcoordIndex = gqueue[7];
-                buff->facebuff[buff->fcursor].v2.normalIndex =   gqueue[8];
-                //v4
-                buff->facebuff[buff->fcursor].v3.vertexIndex =   gqueue[9];
-                buff->facebuff[buff->fcursor].v3.texcoordIndex = gqueue[10];
-                buff->facebuff[buff->fcursor].v3.normalIndex =   gqueue[11];
-                
-                buff->fcursor++;
-            }
-        }
-    }
-    return buff->fcursor;
+    return c;
 }
 
-MCInline MC3DObjBuffer* parse3DMtlFile(const char* filename)
-{
-    FILE* f = fopen(filename, "r");
-    if (f != NULL) {
-        size_t c = detectFaceCount(f);
-        MC3DObjBuffer* buff = allocMC3DObjBuffer(c, 3);
-        
-        const int linesize = LINE_MAX;
-        char linebuff[linesize];
-        
-        fseek(f, 0, SEEK_SET);
-        while (fgets(linebuff, linesize, f) != NULL) {
-            linebuff[linesize-1] = '\0';
-            //process a line
-            processMtlLine(buff, linebuff);
+/* texture map options
+-blendu on | off 
+-blendv on | off 
+-cc on | off 
+-clamp on | off 
+-mm base gain 
+-o u v w 
+-s u v w 
+-t u v w 
+-texres value
+*/
+
+//map_Ka, map_Kd, map_Ks
+typedef struct {
+    MTLightType Ltype;
+    MTColorType Ctype;
+    char filename[256];
+    char options[256];
+} MTLightColorMap;
+
+/* scalar map options
+-blendu on | off 
+-blendv on | off 
+-clamp on | off 
+-imfchan r | g | b | m | l | z 
+-mm base gain 
+-o u v w 
+-s u v w 
+-t u v w 
+-texres value 
+*/
+
+//map_Ns, map_d, disp, decal, bump
+typedef struct {
+    MTScalarType type;
+    char filename[256];
+    char options[256];
+} MTScalarMap;
+
+/* reflection map options
+-blendu on | off 
+-blendv on | off 
+-cc on | off 
+-clamp on | off 
+-mm base gain 
+-o u v w 
+-s u v w 
+-t u v w 
+-texres value 
+*/
+
+//refl -type
+typedef struct {
+    char filename[256];
+    char options[256];
+} MTReflectionMap;
+
+typedef struct {
+    //newmtl
+    char name[256];
+    //light color
+    MTLightColor lightColors[4];
+    //illumination model 0->10
+    int illumModelNum;
+    //dissolve (d/d -halo)
+    double dissolveFactor;
+    double dissolveHaloFactor;
+    //specular exponent (Ns) 0->1000
+    int specularExponent;
+    //sharpness value 0->1000 default 60
+    int sharpnessValue;
+    //index of refraction (Ni) 0.001->10
+    int indexOfRefraction;    
+    //texture map
+    MTLightColorMap lightColorMaps[10];
+    MTScalarMap     scalarMaps[10];
+    MTReflectionMap reflectionMaps[10];
+
+} MC3DMaterial;
+
+MCInline MCVector3 MC3DMaterialLightColor(MC3DMaterial* mat, MTLightType type) {
+    double R = mat->lightColors[type].data.rgbxyz[0];
+    double G = mat->lightColors[type].data.rgbxyz[1];
+    double B = mat->lightColors[type].data.rgbxyz[2];
+    return MCVector3Make(R, G, B);
+}
+
+typedef struct MC3DMtlLibraryStruct {
+    struct MC3DMtlLibraryStruct *next;
+    MC3DMaterial materials[256];
+    //cursors
+    int materialCursor;
+    int lightColorMapCursor;
+    int scalarMapCursor;
+    int reflectionMapCursor;
+} MC3DMtlLibrary;
+
+MCInline MC3DMaterial* MC3DFindMaterial(MC3DMtlLibrary* lib, const char* name) {
+    for (int i=0; i<256; i++) {
+        MC3DMaterial* mtl = &lib->materials[i];
+        if (MCStringEqual(mtl->name, name)) {
+            return mtl;
         }
-        
-        fclose(f);
-        return buff;//return face count
-        
-    }else{
-        return mull;
+    }
+    return mull;
+}
+
+MCInline MC3DMtlLibrary* MC3DMtlLibraryAlloc() {
+    MC3DMtlLibrary* lib = (MC3DMtlLibrary*)malloc(sizeof(MC3DMtlLibrary));
+    lib->next = mull;
+    //cursors
+    lib->materialCursor = -1;
+    lib->lightColorMapCursor = -1;
+    lib->scalarMapCursor = -1;
+    lib->reflectionMapCursor = -1;
+    return lib;
+}
+
+MCInline void MC3DMtlLibraryResetCursor(MC3DMtlLibrary* lib) {
+    if (lib->materialCursor != -1) {
+        lib->materialCursor = 0;
+    }
+    if (lib->lightColorMapCursor != -1) {
+        lib->lightColorMapCursor = 0;
+    }
+    if (lib->scalarMapCursor != -1) {
+        lib->scalarMapCursor = 0;
+    }
+    if (lib->reflectionMapCursor != -1) {
+        lib->reflectionMapCursor = 0;
     }
 }
+
+MCInline MC3DMaterial* currentMaterial(MC3DMtlLibrary* lib) {
+    return &(lib->materials[lib->materialCursor]);
+}
+
+MCInline void MC3DMtlLibraryRelease(MC3DMtlLibrary* lib) {
+    if (lib->next != mull) {
+        MC3DMtlLibraryRelease(lib->next);
+    }
+    free(lib);
+}
+
+MC3DMtlLibrary* MC3DMtlLibraryNew(const char* filename);
+
+
 
 #endif /* MC3DMtlParser_h */

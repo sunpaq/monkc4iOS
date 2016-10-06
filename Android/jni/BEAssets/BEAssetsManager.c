@@ -156,7 +156,7 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 			subpath = "shaders";
 		} else if (strcmp(extention, "vsh") == 0) {
 			subpath = "shaders";
-		} else if (strcmp(extention, "obj") == 0) {
+		} else if (strcmp(extention, "obj") == 0 || strcmp(extention, "mtl") == 0) {
 			subpath = "raw";
 		} else if (strcmp(extention, "png") == 0) {
 			subpath = "textures";
@@ -186,14 +186,16 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
     CFStringRef fname = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
     CFStringRef  fext = CFStringCreateWithCString(NULL, extention, kCFStringEncodingUTF8);
     CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
-    CFStringRef  path = CFURLCopyPath(url);
-    
-    CFStringGetCString(path, buffer, PATH_MAX, kCFStringEncodingUTF8);
-    
+    if (url) {
+        CFStringRef  path = CFURLCopyPath(url);
+        CFStringGetCString(path, buffer, PATH_MAX, kCFStringEncodingUTF8);
+        CFRelease(path);
+        CFRelease(url);
+    } else {
+        error_log("BEAssetManager can not find path of %s\n", filename);
+    }
     CFRelease(fname);
     CFRelease(fext);
-    CFRelease(path);
-    CFRelease(url);
     
     pthread_mutex_unlock(&lock);
 #endif
@@ -216,28 +218,34 @@ const char* MCFileCopyContentWithPath(const char* filepath, const char* extentio
             error_log("MCFileCopyContentWithPath(%s) Android assetManager_ can not open\n", filepath);
         }
     }
-    error_log("MCFileCopyContent(%s) Android assetManager_ is mull", filepath);
+    error_log("MCFileCopyContent(%s) Android assetManager_ is mull\n", filepath);
     return mull;
 #else
     //char path[PATH_MAX];
     //MCFileGetPath(filename, extention, path);
     
     FILE* f = fopen(filepath, "r");
-    fseek(f, 0, SEEK_END);
-    long size = ftell(f);
-    fseek(f, 0, SEEK_SET);
-    char* const buffer = (char*)malloc(size * sizeof(char));
-    char* iter = buffer;
-    
-    if (f != NULL) {
-        char c;
-        while ((c = fgetc(f)) != EOF) {
-            *iter++ = c;
+    if (f) {
+        fseek(f, 0, SEEK_END);
+        long size = ftell(f);
+        fseek(f, 0, SEEK_SET);
+        char* const buffer = (char*)malloc(size * sizeof(char));
+        char* iter = buffer;
+        
+        if (f != NULL) {
+            char c;
+            while ((c = fgetc(f)) != EOF) {
+                *iter++ = c;
+            }
+            *iter = '\0';
         }
-        *iter = '\0';
+        
+        return buffer;
+    }else{
+        error_log("MCFileCopyContent(%s) fopen return mull\n", filepath);
+        return mull;
     }
-    
-    return buffer;
+
 #endif
 }
 

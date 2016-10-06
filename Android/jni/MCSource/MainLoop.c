@@ -146,6 +146,9 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         }
 
         onOpenFileAsync(filename);
+        
+        
+        
     } else {
 #ifdef __ANDROID__
         director->lastScene->mainCamera->R_value = 15;

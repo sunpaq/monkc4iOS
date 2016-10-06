@@ -1,4 +1,6 @@
-mtllib 2.mtl
+#mtllib 2.mtl
+mtllib beengine.mtl
+usemtl neon_green
 o 2.obj
 v -0.893619 9.407068 1.032914
 v -0.960844 9.507806 1.067504

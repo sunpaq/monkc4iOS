@@ -15,6 +15,7 @@
 #include "MCGeometry.h"
 #include "MCLexer.h"
 #include "BEAssetsManager.h"
+#include "MC3DMtlParser.h"
 
 typedef struct {
     long vi;
@@ -74,8 +75,22 @@ typedef struct MC3DObjBufferStruct {
     size_t tcursor;
     size_t ncursor;
     char name[256];
-    char mtl[256];
+    //materials
+    MC3DMtlLibrary* mtllib;
+    
 } MC3DObjBuffer;
+
+MCInline void MC3DObjBufferAddMtlLib(MC3DObjBuffer* buff, MC3DMtlLibrary* lib) {
+    if (buff->mtllib == mull) {
+        buff->mtllib = lib;
+        return;
+    }
+    MC3DMtlLibrary* iter = buff->mtllib;
+    while (iter->next != mull) {
+        iter = iter->next;
+    }
+    iter->next = lib;
+}
 
 MCInline MC3DObjBuffer* MC3DObjBufferAlloc(size_t facecount, int vpf)
 {
@@ -91,6 +106,7 @@ MCInline MC3DObjBuffer* MC3DObjBufferAlloc(size_t facecount, int vpf)
     buff->tcursor = 0;
     buff->ncursor = 0;
     buff->name[0] = '\0';
+    buff->mtllib = mull;
     return buff;
 }
 
@@ -106,22 +122,11 @@ MCInline void MC3DObjBufferRelease(MC3DObjBuffer* buff)
         free(buff->vertexbuff);
         free(buff->texcoorbuff);
         free(buff->normalbuff);
+        MC3DMtlLibraryRelease(buff->mtllib);
         free(buff);
     }
 }
 
-enum LexerState {
-    LSIdle,
-    LSVertex,
-    LSVertexTexture,
-    LSVertexNormal,
-    LSFace,
-    LSGroup,
-    LSObjName,
-    LSMtlLib,
-    LSUseMtl
-};
-
-MC3DObjBuffer* MC3DObjBufferParse(const char* filename);
+MC3DObjBuffer* MC3DObjBufferNew(const char* filename);
 
 #endif /* MC3DFileParser_h */

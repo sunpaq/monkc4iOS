@@ -63,7 +63,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
 
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
     debug_log("MC3DModel - mesh created: %s", path);
-    MC3DObjBuffer* buff = MC3DObjBufferParse(path);
+    MC3DObjBuffer* buff = MC3DObjBufferNew(path);
     if (buff == mull) {
         error_log("MC3DModel - can not parse file:%s\n", path);
         return mull;
@@ -96,12 +96,22 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         sobj->texture  = mull;
         
         //set name
-        strcpy(obj->name, buff->name);
-        obj->name[strlen(buff->name)] = '\0';
+        MCStringFill(obj->name, buff->name);
         
         //set mtl
-        strcpy(obj->mtl, buff->mtl);
-        obj->mtl[strlen(buff->mtl)] = '\0';
+        MC3DMaterial* neongreen = MC3DFindMaterial(buff->mtllib, "shiny_green");
+        MCVector3 ambient = MC3DMaterialLightColor(neongreen, Ambient);
+        if (ambient.x > 0 || ambient.y > 0 || ambient.z > 0 ) {
+            sobj->material->ambientLightColor = ambient;
+        }
+        MCVector3 diffuse = MC3DMaterialLightColor(neongreen, Diffuse);
+        if (diffuse.x > 0 || diffuse.y > 0 || diffuse.z > 0) {
+            sobj->material->diffuseLightColor = diffuse;
+        }
+        MCVector3 specular = MC3DMaterialLightColor(neongreen, Specular);
+        if (specular.x > 0 || specular.y > 0 || specular.z > 0) {
+            sobj->material->specularLightColor = specular;
+        }
         
         MC3DObjBufferRelease(buff);
         debug_log("MC3DModel - model created: %s", path);

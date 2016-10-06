@@ -12,6 +12,7 @@
 //parser
 typedef enum {
     MCTokenIdentifier,
+    MCTokenFilename,
     MCTokenFloat,
     MCTokenInteger,
     MCTokenDate,
@@ -93,6 +94,25 @@ MCInline MCBool isIdentifier(const char* w)
     //can be end with alphabet or underbar or number
     while (*w != MCBackSlash0) {
         if (MCCond_Alphabet(w) || MCCond_Digit(w) || *w == '_') {
+            w++; continue;
+        } else {
+            return MCFalse;
+        }
+    }
+    return MCTrue;
+}
+
+MCInline MCBool isFilename(const char* w)
+{
+    //must start with alphabet or underbar
+    if (MCCond_Alphabet(w) || *w == '_') {
+        w++;
+    }else{
+        return MCFalse;
+    }
+    //can be end with alphabet or underbar or number
+    while (*w != MCBackSlash0) {
+        if (MCCond_Alphabet(w) || MCCond_Digit(w) || *w == '_' || *w == '.') {
             w++; continue;
         } else {
             return MCFalse;
@@ -191,6 +211,10 @@ MCInline MCToken tokenize(const char* word)
         token.type = MCTokenIdentifier;
         MCCopyString(token.value.Word, word);
     }
+    else if (isFilename(word) == MCTrue) {
+        token.type = MCTokenFilename;
+        MCCopyString(token.value.Word, word);
+    }
     else if (isFloat(word) == MCTrue) {
         token.type = MCTokenFloat;
         token.value.Double = atof(word);
@@ -230,6 +254,23 @@ MCInline const char* nextWord(const char** target_p, char buff[])
     buff[i] = '\0';
     *target_p = str;//update remain
     return buff;
+}
+
+MCInline size_t nextFloats(const char** target_p, double buff[])
+{
+    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    char linebuff[LINE_MAX];
+    MCToken token;
+    size_t i = 0;
+    while (isNewLine(str) == MCFalse && (*str != '\0')) {
+        token = tokenize(nextWord(&str, linebuff));
+        if (token.type == MCTokenFloat) {
+            buff[i++] = token.value.Double;
+        }else{
+            return i;
+        }
+    }
+    return i;
 }
 
 #endif /* MCFileParser_h */

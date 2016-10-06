@@ -5,6 +5,16 @@
 
 static size_t epcount = 0;
 
+enum OBLexerState {
+    LSIdle,
+    LSVertex,
+    LSVertexTexture,
+    LSVertexNormal,
+    LSFace,
+    LSGroup,
+    LSObjName
+};
+
 size_t countFacesOfLinebuff(const char* linebuff, size_t tcount)
 {
     size_t fcount = 0;//polygon
@@ -18,7 +28,7 @@ size_t countFacesOfLinebuff(const char* linebuff, size_t tcount)
         token = tokenize(nextWord(&remain, word));
         switch (token.type) {
             case MCTokenIdentifier:
-                if (strncmp(word, "f", 1) == 0) {
+                if (MCStringEqualN(word, "f", 1)) {
                     fcount++;
                 }
                 break;
@@ -78,7 +88,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     }
     
     int c=0;
-    static enum LexerState state = LSIdle;
+    static enum OBLexerState state = LSIdle;
     
     //template storage
     float  fqueue[LINE_MAX] = {}; int fq=0;//float
@@ -96,33 +106,40 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
         switch (token.type) {
             case MCTokenIdentifier:
                 //don't change the order!
-                if (strncmp(word, "vt", 2) == 0) {
+                if (MCStringEqualN(word, "vt", 2)) {
                     state = LSVertexTexture;
                 }
-                else if (strncmp(word, "vn", 2) == 0) {
+                else if (MCStringEqualN(word, "vn", 2)) {
                     state = LSVertexNormal;
                 }
-                else if (strncmp(word, "v", 1) == 0) {
+                else if (MCStringEqualN(word, "v", 1)) {
                     state = LSVertex;
                 }
-                else if (strncmp(word, "f", 1) == 0) {
+                else if (MCStringEqualN(word, "f", 1)) {
                     state = LSFace;
                 }
-                else if (strncmp(word, "g", 1) == 0) {
+                else if (MCStringEqualN(word, "g", 1)) {
                     state = LSGroup;
                     nextWord(&remain, word);
                 }
-                else if (strncmp(word, "o", 1) == 0) {
+                else if (MCStringEqualN(word, "o", 1)) {
                     state = LSObjName;
                     nextWord(&remain, word);
                 }
-                else if (strncmp(word, "mtllib", 6) == 0) {
-                    state = LSMtlLib;
-                    nextWord(&remain, word);
+                else if (MCStringEqualN(word, "mtllib", 6)) {
+                    token = tokenize(nextWord(&remain, word));
+                    if (token.type == MCTokenFilename) {
+                        MC3DMtlLibrary* lib = MC3DMtlLibraryNew(token.value.Word);
+                        if (lib) {
+                            MC3DObjBufferAddMtlLib(buff, lib);
+                        }
+                    }
                 }
-                else if (strncmp(word, "usemtl", 6) == 0) {
-                    state = LSUseMtl;
-                    nextWord(&remain, word);
+                else if (MCStringEqualN(word, "usemtl", 6)) {
+                    token = tokenize(nextWord(&remain, word));
+                    if (token.type == MCTokenIdentifier) {
+                        
+                    }
                 }
                 else {
                     
@@ -275,31 +292,25 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     
     //obj name
     else if (state == LSObjName) {
-        strcpy(buff->name, word);
-        buff->name[strlen(word)] = '\0';
-    }
-    
-    //mtllib
-    else if (state == LSMtlLib) {
-        strcpy(buff->mtl, word);
-        buff->mtl[strlen(word)] = '\0';
-        
-    }
-    
-    //usemtl
-    else if (state == LSUseMtl) {
-        //strcpy(buff->mtl, word);
-        //buff->mtl[strlen(word)] = '\0';
+        MCStringFill(buff->name, word);
     }
     
     return buff->fcursor;
 }
 
-MC3DObjBuffer* MC3DObjBufferParse(const char* filename)
+MC3DObjBuffer* MC3DObjBufferNew(const char* filename)
 {
     epcount = 0;
+    
+    const char* assetbuff;
+    if (isFilename(filename)) {
+        char noext[256];
+        MCString_filenameTrimExtension(filename, &noext);
+        assetbuff = MCFileCopyContentWithPath(noext, "obj");
+    }else{
+        assetbuff = MCFileCopyContentWithPath(filename, "obj");
+    }
 
-    const char* assetbuff = MCFileCopyContentWithPath(filename, "obj");
     if (assetbuff != mull) {
         size_t fc = countFacesOfFilebuff(assetbuff);
         if (fc <= 0) {
