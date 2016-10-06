@@ -14,8 +14,10 @@
 #include "MC3DNode.h"
 
 class(MCLight, MC3DNode,
-      MCVector3   diffuseLightPosition;
-      MCBool dataChanged;
+      MCBool    dataChanged;
+      double    ambientLightStrength;
+      MCVector3 ambientLightColor;
+      MCVector3 diffuseLightPosition;
 );
 
 method(MCLight, void, update, MCGLContext* ctx);

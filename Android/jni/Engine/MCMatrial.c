@@ -34,12 +34,17 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
         MCGLContext_activateShaderProgram(0, ctx, 0);
         
         MCGLUniform f;
-        f.data.vec1 = obj->ambientLightStrength;
-        MCGLContext_updateUniform(0, ctx, "ambientLightStrength", f.data);
-        
-        f.data.vec3 = obj->ambientLightColor;
-        MCGLContext_updateUniform(0, ctx, "ambientLightColor", f.data);
-        
+        //if ambient color have value override them
+        if (!MCVector3Equal(obj->ambientLightColor, MCVector3Make(0, 0, 0))
+            && obj->ambientLightStrength != 0) {
+            
+            f.data.vec1 = obj->ambientLightStrength;
+            MCGLContext_updateUniform(0, ctx, "ambientLightStrength", f.data);
+            
+            f.data.vec3 = obj->ambientLightColor;
+            MCGLContext_updateUniform(0, ctx, "ambientLightColor", f.data);
+        }
+
         f.data.vec3 = obj->diffuseLightColor;
         MCGLContext_updateUniform(0, ctx, "diffuseLightColor", f.data);
         

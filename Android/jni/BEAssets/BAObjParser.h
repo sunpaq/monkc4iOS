@@ -62,22 +62,24 @@ typedef union {
     double m[6];
 } BACubeFrame;
 
-typedef struct BAObjStruct {
-    struct BAObjStruct *nextobj;
-    BACubeFrame  Frame;
-    BAFace*  facebuff;
-    MCVector3* vertexbuff;
-    MCVector2* texcoorbuff;
-    MCVector3* normalbuff;
+typedef struct {
+    BACubeFrame Frame;
     BAFaceType facetype;
     size_t fcursor;
     size_t vcursor;
     size_t tcursor;
     size_t ncursor;
     char name[256];
-    //materials
+} BAObjMeta;
+
+typedef struct BAObjStruct {
+    struct BAObjStruct *next;
+    BAFace*    facebuff;
+    MCVector3* vertexbuff;
+    MCVector2* texcoorbuff;
+    MCVector3* normalbuff;
     BAMtlLibrary* mtllib;
-    
+    BAObjMeta meta;
 } BAObj;
 
 MCInline void BAObjAddMtlLib(BAObj* buff, BAMtlLibrary* lib) {
@@ -95,26 +97,27 @@ MCInline void BAObjAddMtlLib(BAObj* buff, BAMtlLibrary* lib) {
 MCInline BAObj* BAObjAlloc(size_t facecount, int vpf)
 {
     BAObj* buff = (BAObj*)malloc(sizeof(BAObj));
-    buff->nextobj = mull;
-    buff->Frame = (BACubeFrame){};
+    buff->next = mull;
     buff->facebuff    = (BAFace*) malloc(sizeof(BAFace)  * (facecount));
     buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
     buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount) * vpf);
     buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
-    buff->fcursor = 0;
-    buff->vcursor = 0;
-    buff->tcursor = 0;
-    buff->ncursor = 0;
-    buff->name[0] = '\0';
     buff->mtllib = mull;
+
+    buff->meta.Frame = (BACubeFrame){};
+    buff->meta.fcursor = 0;
+    buff->meta.vcursor = 0;
+    buff->meta.tcursor = 0;
+    buff->meta.ncursor = 0;
+    buff->meta.name[0] = '\0';
     return buff;
 }
 
 MCInline void BAObjRelease(BAObj* buff)
 {
     //recursively
-    if (buff->nextobj != mull) {
-        BAObjRelease(buff->nextobj);
+    if (buff->next != mull) {
+        BAObjRelease(buff->next);
     }
     if (buff != mull) {
         //clean up self

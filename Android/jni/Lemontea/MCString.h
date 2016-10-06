@@ -57,10 +57,7 @@ MCInline MCBool MCStringEqualN(const char* A, const char* B, size_t n) {
 }
 
 MCInline MCBool MCStringEqual(const char* A, const char* B) {
-    unsigned long lenA = strlen(A);
-    unsigned long lenB = strlen(B);
-    size_t n = (lenA < lenB) ? lenA : lenB;
-    if (strncmp(A, B, n) == 0) {
+    if (strcmp(A, B) == 0) {
         return MCTrue;
     }else{
         return MCFalse;

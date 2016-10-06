@@ -12,6 +12,8 @@
 oninit(MCLight)
 {
     if (init(MC3DNode)) {
+        obj->ambientLightStrength = 0.15;
+        obj->ambientLightColor    = MCVector3Make(1.0, 1.0, 1.0);
         obj->diffuseLightPosition = MCVector3Make(1.0, 1.0, 1.0);
         obj->dataChanged = MCTrue;
         return obj;
@@ -26,6 +28,12 @@ method(MCLight, void, update, MCGLContext* ctx)
         MCGLContext_activateShaderProgram(0, ctx, 0);
         
         MCGLUniformData data;
+        data.vec1 = obj->ambientLightStrength;
+        MCGLContext_updateUniform(0, ctx, "ambientLightStrength", data);
+        
+        data.vec3 = obj->ambientLightColor;
+        MCGLContext_updateUniform(0, ctx, "ambientLightColor", data);
+        
         data.vec3 = obj->diffuseLightPosition;
         MCGLContext_updateUniform(0, ctx, "diffuseLightPosition", data);
         
