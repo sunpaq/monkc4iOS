@@ -16,66 +16,38 @@ enum OBLexerState {
 
 size_t countFacesOfLinebuff(const char* linebuff, size_t tcount)
 {
-    size_t fcount = 0;//polygon
-    size_t icount = 0;//int
-    size_t gcount = 0;//int group
-    MCToken token; char word[256];
     const char* remain = linebuff;
-    
-    //process line start
-    while (isNewLine(remain) == MCFalse && *remain != '\0') {
-        token = tokenize(nextWord(&remain, word));
-        switch (token.type) {
-            case MCTokenIdentifier:
-                if (MCStringEqualN(word, "f", 1)) {
-                    fcount++;
+    char word[256];
+    MCToken token = tokenize(nextWord(&remain, word));
+    if (token.type == MCTokenIdentifier) {
+        if (MCStringEqualN(word, "f", 1)) {
+            //peek next value
+            token = tokenize(peekNext(&remain, word));
+            if (token.type == MCTokenDate || token.type == MCTokenInteger) {
+                int vcount = 0;
+                while (isNewLine(remain) == MCFalse && *remain != '\0') {
+                    token = tokenize(nextWord(&remain, word));
+                    if (token.type == MCTokenDate || token.type == MCTokenInteger)
+                        vcount++;
                 }
-                break;
-            case MCTokenInteger:
-                icount++;
-                break;
-            case MCTokenDate:
-                gcount++;
-                break;
-            default:
-                break;
+                if (vcount == 3)
+                    tcount++;
+                if (vcount > 3)
+                    tcount += vcount-2;
+            }
         }
     }
-    //process line end
-    if (icount != 0 && gcount == 0) {//only vertex
-        if (icount < 3) {
-            //tcount = fcount;
-            return fcount;
-        }else{
-            //tcount += (icount - 1);
-            return tcount + (icount - 2);
-        }
-    }
-    else if (icount == 0 && gcount != 0) {//vertex tex normal
-        if (gcount < 3) {
-            //tcount = fcount;
-            return fcount;
-        }else{
-            //tcount += (gcount - 1);
-            return tcount + (gcount - 2);
-        }
-    }
-    else {
-        //tcount += 0;
-        return tcount;
-    }
+    return tcount;
 }
 
 size_t countFacesOfFilebuff(const char* buff)
 {
     size_t tcount = 0;//triangle
-    
     if (buff != mull) {
         MCFileEachLine(buff,
             tcount = countFacesOfLinebuff(line, tcount);
         )
     }
-    
     return tcount;
 }
 

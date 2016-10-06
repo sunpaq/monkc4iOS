@@ -71,7 +71,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     light->Ctype = RGB;
                     
                     //option next
-                    token = tokenize(nextWord(&remain, word));
+                    token = tokenize(peekNext(&remain, word));
                     if (token.type == MCTokenIdentifier) {
                         if (MCStringEqualN(token.value.Word, "xyz", 3)) {
                             light->Ctype = XYZ;
@@ -79,6 +79,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                         else if (MCStringEqualN(token.value.Word, "spectral", 8)) {
                             light->Ctype = SpectralFile;
                             //filename next
+                            skipNext(&remain);//skip
                             token = tokenize(nextWord(&remain, word));
                             if (token.type == MCTokenIdentifier) {
                                 MCStringFill(light->data.spectral, token.value.Word);
@@ -95,12 +96,12 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     //float value next
                     else if (token.type == MCTokenFloat) {
                         if (light->Ctype != SpectralFile) {
-                            light->data.rgbxyz[0] = token.value.Double;
                             double buff[10];
                             size_t n = nextFloats(&remain, buff);
-                            if (n >= 2) {
-                                light->data.rgbxyz[1] = buff[0];
-                                light->data.rgbxyz[2] = buff[1];
+                            if (n >= 3) {
+                                light->data.rgbxyz[0] = buff[0];
+                                light->data.rgbxyz[1] = buff[1];
+                                light->data.rgbxyz[2] = buff[2];
                             } else {
                                 error_log("MC3DMtlParser [%s] value count less than 3\n", linebuff);
                             }

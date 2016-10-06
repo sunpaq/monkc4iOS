@@ -243,8 +243,7 @@ MCInline const char* trimWhiteSpace(const char** target_p)
     return iter;
 }
 
-//return word
-MCInline const char* nextWord(const char** target_p, char buff[])
+MCInline const char* readNext(const char** target_p, char buff[], MCBool isUpdate)
 {
     const char* str = trimWhiteSpace(target_p);//skip whitespace
     int i = 0;
@@ -252,8 +251,28 @@ MCInline const char* nextWord(const char** target_p, char buff[])
         buff[i++] = *str++;
     }
     buff[i] = '\0';
-    *target_p = str;//update remain
+    if (isUpdate) {
+        *target_p = str;//update remain
+    }
     return buff;
+}
+
+//return word
+MCInline const char* nextWord(const char** target_p, char buff[])
+{
+    return readNext(target_p, buff, MCTrue);
+}
+
+MCInline const char* peekNext(const char** target_p, char buff[])
+{
+    return readNext(target_p, buff, MCFalse);
+}
+
+MCInline const char* skipNext(const char** target_p)
+{
+    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    *target_p = str++;//update remain
+    return str;
 }
 
 MCInline size_t nextFloats(const char** target_p, double buff[])
