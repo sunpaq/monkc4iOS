@@ -96,7 +96,7 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
                 else if (MCStringEqualN(word, "o", 1)) {
                     token = tokenize(nextWord(&remain, word));
                     if (token.type == MCTokenIdentifier) {
-                        MCStringFill(buff->meta.name, token.value.Word);
+                        MCStringFill(buff->Meta.name, token.value.Word);
                     }
                     continue;
                 }
@@ -112,8 +112,9 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
                 else if (MCStringEqualN(word, "usemtl", 6)) {
                     token = tokenize(nextWord(&remain, word));
                     if (token.type == MCTokenIdentifier) {
-                        
+                        MCStringFill(buff->usemtl, token.value.Word);
                     }
+                    continue;
                 }
                 else {
                     
@@ -142,30 +143,30 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
     //save float value into buffer
     if (state == LSVertex) {
         for (int i=0; i<fq; i++)
-            buff->vertexbuff[buff->meta.vcursor].v[i] = fqueue[i];
-        buff->meta.vcursor++;
+            buff->vertexbuff[buff->Meta.vcursor].v[i] = fqueue[i];
+        buff->Meta.vcursor++;
     }
     else if (state == LSVertexTexture) {
         for (int i=0; i<fq; i++)
-            buff->texcoorbuff[buff->meta.tcursor].v[i] = fqueue[i];
-        buff->meta.tcursor++;
+            buff->texcoorbuff[buff->Meta.tcursor].v[i] = fqueue[i];
+        buff->Meta.tcursor++;
     }
     else if (state == LSVertexNormal) {
         for (int i=0; i<fq; i++)
-            buff->normalbuff[buff->meta.ncursor].v[i] = fqueue[i];
-        buff->meta.ncursor++;
+            buff->normalbuff[buff->Meta.ncursor].v[i] = fqueue[i];
+        buff->Meta.ncursor++;
     }
     
     //save integer value into buffer, index start from 1 not 0
     else if (state == LSFace) {
         if (iq != 0) {
-            buff->meta.facetype = MC3DFaceVertexOnly;
+            buff->Meta.facetype = MC3DFaceVertexOnly;
             if (iq < 3) {
                 error_log("detect a face less than 3 vertex!");
                 exit(-1);
             }
             else if (iq == 3) {
-                buff->facebuff[buff->meta.fcursor++] = (BAFace) {
+                buff->facebuff[buff->Meta.fcursor++] = (BAFace) {
                     iqueue[0], 0, 0,
                     iqueue[1], 0, 0,
                     iqueue[2], 0, 0
@@ -174,7 +175,7 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
             else if (iq > 3) {
                 //convex polygon have N-2 triangles
                 for (int i=0; i<iq-2; i++) {
-                    buff->facebuff[buff->meta.fcursor++] = (BAFace) {
+                    buff->facebuff[buff->Meta.fcursor++] = (BAFace) {
                         iqueue[0  ], 0, 0,
                         iqueue[i+1], 0, 0,
                         iqueue[i+2], 0, 0
@@ -183,14 +184,14 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
             }
         }
         else if (gq != 0) {
-            buff->meta.facetype = MC3DFaceAll;
+            buff->Meta.facetype = MC3DFaceAll;
             if (gq < 9) {
                 error_log("detect a face less than 3 vertex!");
                 exit(-1);
             }
             else if (gq == 9) {
                 //face
-                buff->facebuff[buff->meta.fcursor++] = (BAFace) {
+                buff->facebuff[buff->Meta.fcursor++] = (BAFace) {
                     gqueue[0], gqueue[1], gqueue[2],
                     gqueue[3], gqueue[4], gqueue[5],
                     gqueue[6], gqueue[7], gqueue[8]
@@ -212,7 +213,7 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
                     //debug_log("CONVEX poly: %s\n", linebuff);
                     for (int i=0; i< gq-6; i=i+3) {
                         //face
-                        buff->facebuff[buff->meta.fcursor++] = (BAFace){
+                        buff->facebuff[buff->Meta.fcursor++] = (BAFace){
                             gqueue[0  ], gqueue[1  ], gqueue[2  ],
                             gqueue[i+3], gqueue[i+4], gqueue[i+5],
                             gqueue[i+6], gqueue[i+7], gqueue[i+8]
@@ -247,12 +248,12 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
                         long t3 = gqueue[vi3*3+1];
                         long n3 = gqueue[vi3*3+2];
                         
-                        buff->facebuff[buff->meta.fcursor] = (BAFace){
+                        buff->facebuff[buff->Meta.fcursor] = (BAFace){
                             v1, t1, n1,
                             v2, t2, n2,
                             v3, t3, n3
                         };
-                        buff->meta.fcursor++;
+                        buff->Meta.fcursor++;
                     }
                 }
             }
@@ -264,7 +265,7 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
         
     }
     
-    return buff->meta.fcursor;
+    return buff->Meta.fcursor;
 }
 
 BAObj* BAObjNew(const char* filename)

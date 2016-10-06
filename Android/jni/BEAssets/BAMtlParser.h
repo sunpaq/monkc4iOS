@@ -162,7 +162,6 @@ typedef struct {
     BALightColorMap lightColorMaps[10];
     BAScalarMap     scalarMaps[10];
     BAReflectionMap reflectionMaps[10];
-
 } BAMaterial;
 
 MCInline MCVector3 BAMaterialLightColor(BAMaterial* mat, BALightType type) {

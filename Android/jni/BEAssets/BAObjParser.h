@@ -74,12 +74,13 @@ typedef struct {
 
 typedef struct BAObjStruct {
     struct BAObjStruct *next;
+    BAObjMeta  Meta;
     BAFace*    facebuff;
     MCVector3* vertexbuff;
     MCVector2* texcoorbuff;
     MCVector3* normalbuff;
     BAMtlLibrary* mtllib;
-    BAObjMeta meta;
+    char usemtl[256];
 } BAObj;
 
 MCInline void BAObjAddMtlLib(BAObj* buff, BAMtlLibrary* lib) {
@@ -103,13 +104,14 @@ MCInline BAObj* BAObjAlloc(size_t facecount, int vpf)
     buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount) * vpf);
     buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
     buff->mtllib = mull;
+    buff->usemtl[0] = '\0';
 
-    buff->meta.Frame = (BACubeFrame){};
-    buff->meta.fcursor = 0;
-    buff->meta.vcursor = 0;
-    buff->meta.tcursor = 0;
-    buff->meta.ncursor = 0;
-    buff->meta.name[0] = '\0';
+    buff->Meta.Frame = (BACubeFrame){};
+    buff->Meta.fcursor = 0;
+    buff->Meta.vcursor = 0;
+    buff->Meta.tcursor = 0;
+    buff->Meta.ncursor = 0;
+    buff->Meta.name[0] = '\0';
     return buff;
 }
 

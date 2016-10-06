@@ -72,7 +72,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         char mtl[PATH_MAX];
         MCString_replace(".obj", ".mtl", path, &mtl);
         
-        mesh->vertexCount = (GLsizei)buff->meta.fcursor*3;
+        mesh->vertexCount = (GLsizei)buff->Meta.fcursor*3;
         mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
         if (mesh->vertexDataSize != 0) {
             mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
@@ -81,13 +81,13 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         }
         //mesh->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*mesh->vertexCount);
         
-        for (int i=0; i<buff->meta.fcursor; i++) {
+        for (int i=0; i<buff->Meta.fcursor; i++) {
             loadFaceData(0, mull, mesh, buff, buff->facebuff[i], i, color);
         }
         debug_log("MC3DModel - face data loaded: %s\n", path);
 
         for (int i=0; i<6; i++) {
-            mesh->Frame.m[i] = buff->meta.Frame.m[i];
+            mesh->Frame.m[i] = buff->Meta.Frame.m[i];
         }
         //ff(mesh, dump, 0);
         
@@ -96,17 +96,16 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         sobj->texture  = mull;
         
         //set name
-        MCStringFill(obj->name, buff->meta.name);
+        MCStringFill(obj->name, buff->Meta.name);
         
         //set mtl
-        //BAMaterial* bamtl = BAFindMaterial(buff->mtllib, "neon_green");
-        BAMaterial* bamtl = BAFindMaterial(buff->mtllib, "Body");
+        BAMaterial* bamtl = BAFindMaterial(buff->mtllib, buff->usemtl);
         if (bamtl) {
-            MCVector3 ambient = BAMaterialLightColor(bamtl, Ambient);
-            MCVector3 diffuse = BAMaterialLightColor(bamtl, Diffuse);
+            MCVector3 ambient  = BAMaterialLightColor(bamtl, Ambient);
+            MCVector3 diffuse  = BAMaterialLightColor(bamtl, Diffuse);
             MCVector3 specular = BAMaterialLightColor(bamtl, Specular);
-            sobj->material->ambientLightColor = ambient;
-            sobj->material->diffuseLightColor = diffuse;
+            sobj->material->ambientLightColor  = ambient;
+            sobj->material->diffuseLightColor  = diffuse;
             sobj->material->specularLightColor = specular;
         }
         
@@ -152,13 +151,13 @@ onload(MC3DModel)
 function(void, calculateFrame, BAObj* buff, MCVector3 v)
 {
     //3D frame max
-    MCMath_accumulateMaxd(&buff->meta.Frame.xmax, v.x);
-    MCMath_accumulateMaxd(&buff->meta.Frame.ymax, v.y);
-    MCMath_accumulateMaxd(&buff->meta.Frame.zmax, v.z);
+    MCMath_accumulateMaxd(&buff->Meta.Frame.xmax, v.x);
+    MCMath_accumulateMaxd(&buff->Meta.Frame.ymax, v.y);
+    MCMath_accumulateMaxd(&buff->Meta.Frame.zmax, v.z);
     //3D frame min
-    MCMath_accumulateMind(&buff->meta.Frame.xmin, v.x);
-    MCMath_accumulateMind(&buff->meta.Frame.ymin, v.y);
-    MCMath_accumulateMind(&buff->meta.Frame.zmin, v.z);
+    MCMath_accumulateMind(&buff->Meta.Frame.xmin, v.x);
+    MCMath_accumulateMind(&buff->Meta.Frame.ymin, v.y);
+    MCMath_accumulateMind(&buff->Meta.Frame.zmin, v.z);
 }
 
 function(void, loadFaceElement, MCMesh* mesh, BAObj* buff,
