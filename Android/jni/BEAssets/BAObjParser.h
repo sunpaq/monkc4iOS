@@ -15,24 +15,24 @@
 #include "MCGeometry.h"
 #include "MCLexer.h"
 #include "BEAssetsManager.h"
-#include "MC3DMtlParser.h"
+#include "BAMtlParser.h"
 
 typedef struct {
     long vi;
     long ti;
     long ni;
-} MC3DFaceElement;
+} BAFaceElement;
 
 typedef enum {
     MC3DFaceVertexOnly,
     MC3DFaceAll
-} MC3DFaceType;
+} BAFaceType;
 
 typedef union {
     struct {
-        MC3DFaceElement e1;
-        MC3DFaceElement e2;
-        MC3DFaceElement e3;
+        BAFaceElement e1;
+        BAFaceElement e2;
+        BAFaceElement e3;
     };
     struct {
         long v1;
@@ -48,7 +48,7 @@ typedef union {
         long n3;
     };
     long data[9];
-} MC3DFace;
+} BAFace;
 
 typedef union {
     struct {
@@ -60,44 +60,44 @@ typedef union {
         double zmin;
     };
     double m[6];
-} MC3DObjFrame;
+} BACubeFrame;
 
-typedef struct MC3DObjBufferStruct {
-    struct MC3DObjBufferStruct *nextobj;
-    MC3DObjFrame  Frame;
-    MC3DFace*  facebuff;
+typedef struct BAObjStruct {
+    struct BAObjStruct *nextobj;
+    BACubeFrame  Frame;
+    BAFace*  facebuff;
     MCVector3* vertexbuff;
     MCVector2* texcoorbuff;
     MCVector3* normalbuff;
-    MC3DFaceType facetype;
+    BAFaceType facetype;
     size_t fcursor;
     size_t vcursor;
     size_t tcursor;
     size_t ncursor;
     char name[256];
     //materials
-    MC3DMtlLibrary* mtllib;
+    BAMtlLibrary* mtllib;
     
-} MC3DObjBuffer;
+} BAObj;
 
-MCInline void MC3DObjBufferAddMtlLib(MC3DObjBuffer* buff, MC3DMtlLibrary* lib) {
+MCInline void BAObjAddMtlLib(BAObj* buff, BAMtlLibrary* lib) {
     if (buff->mtllib == mull) {
         buff->mtllib = lib;
         return;
     }
-    MC3DMtlLibrary* iter = buff->mtllib;
+    BAMtlLibrary* iter = buff->mtllib;
     while (iter->next != mull) {
         iter = iter->next;
     }
     iter->next = lib;
 }
 
-MCInline MC3DObjBuffer* MC3DObjBufferAlloc(size_t facecount, int vpf)
+MCInline BAObj* BAObjAlloc(size_t facecount, int vpf)
 {
-    MC3DObjBuffer* buff = (MC3DObjBuffer*)malloc(sizeof(MC3DObjBuffer));
+    BAObj* buff = (BAObj*)malloc(sizeof(BAObj));
     buff->nextobj = mull;
-    buff->Frame = (MC3DObjFrame){};
-    buff->facebuff    = (MC3DFace*) malloc(sizeof(MC3DFace)  * (facecount));
+    buff->Frame = (BACubeFrame){};
+    buff->facebuff    = (BAFace*) malloc(sizeof(BAFace)  * (facecount));
     buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
     buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount) * vpf);
     buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
@@ -110,11 +110,11 @@ MCInline MC3DObjBuffer* MC3DObjBufferAlloc(size_t facecount, int vpf)
     return buff;
 }
 
-MCInline void MC3DObjBufferRelease(MC3DObjBuffer* buff)
+MCInline void BAObjRelease(BAObj* buff)
 {
     //recursively
     if (buff->nextobj != mull) {
-        MC3DObjBufferRelease(buff->nextobj);
+        BAObjRelease(buff->nextobj);
     }
     if (buff != mull) {
         //clean up self
@@ -122,11 +122,11 @@ MCInline void MC3DObjBufferRelease(MC3DObjBuffer* buff)
         free(buff->vertexbuff);
         free(buff->texcoorbuff);
         free(buff->normalbuff);
-        MC3DMtlLibraryRelease(buff->mtllib);
+        BAMtlLibraryRelease(buff->mtllib);
         free(buff);
     }
 }
 
-MC3DObjBuffer* MC3DObjBufferNew(const char* filename);
+BAObj* BAObjNew(const char* filename);
 
 #endif /* MC3DFileParser_h */

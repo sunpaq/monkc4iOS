@@ -1,4 +1,4 @@
-#include "MC3DObjParser.h"
+#include "BAObjParser.h"
 #include "BEAssetsManager.h"
 #include "MCGeometry.h"
 #include "MCIO.h"
@@ -80,7 +80,7 @@ size_t countFacesOfFilebuff(const char* buff)
     return tcount;
 }
 
-size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
+size_t processObjLine(BAObj* buff, const char* linebuff)
 {
     if (buff == mull || linebuff == mull) {
         error_log("MC3DObjParser: Fatal error buff=(%d) linebuff=(%d)\n", buff==mull, linebuff==mull);
@@ -129,9 +129,9 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 else if (MCStringEqualN(word, "mtllib", 6)) {
                     token = tokenize(nextWord(&remain, word));
                     if (token.type == MCTokenFilename) {
-                        MC3DMtlLibrary* lib = MC3DMtlLibraryNew(token.value.Word);
+                        BAMtlLibrary* lib = BAMtlLibraryNew(token.value.Word);
                         if (lib) {
-                            MC3DObjBufferAddMtlLib(buff, lib);
+                            BAObjAddMtlLib(buff, lib);
                         }
                     }
                 }
@@ -191,7 +191,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                 exit(-1);
             }
             else if (iq == 3) {
-                buff->facebuff[buff->fcursor++] = (MC3DFace) {
+                buff->facebuff[buff->fcursor++] = (BAFace) {
                     iqueue[0], 0, 0,
                     iqueue[1], 0, 0,
                     iqueue[2], 0, 0
@@ -200,7 +200,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
             else if (iq > 3) {
                 //convex polygon have N-2 triangles
                 for (int i=0; i<iq-2; i++) {
-                    buff->facebuff[buff->fcursor++] = (MC3DFace) {
+                    buff->facebuff[buff->fcursor++] = (BAFace) {
                         iqueue[0  ], 0, 0,
                         iqueue[i+1], 0, 0,
                         iqueue[i+2], 0, 0
@@ -216,7 +216,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
             }
             else if (gq == 9) {
                 //face
-                buff->facebuff[buff->fcursor++] = (MC3DFace) {
+                buff->facebuff[buff->fcursor++] = (BAFace) {
                     gqueue[0], gqueue[1], gqueue[2],
                     gqueue[3], gqueue[4], gqueue[5],
                     gqueue[6], gqueue[7], gqueue[8]
@@ -238,7 +238,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                     //debug_log("CONVEX poly: %s\n", linebuff);
                     for (int i=0; i< gq-6; i=i+3) {
                         //face
-                        buff->facebuff[buff->fcursor++] = (MC3DFace){
+                        buff->facebuff[buff->fcursor++] = (BAFace){
                             gqueue[0  ], gqueue[1  ], gqueue[2  ],
                             gqueue[i+3], gqueue[i+4], gqueue[i+5],
                             gqueue[i+6], gqueue[i+7], gqueue[i+8]
@@ -273,7 +273,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
                         long t3 = gqueue[vi3*3+1];
                         long n3 = gqueue[vi3*3+2];
                         
-                        buff->facebuff[buff->fcursor] = (MC3DFace){
+                        buff->facebuff[buff->fcursor] = (BAFace){
                             v1, t1, n1,
                             v2, t2, n2,
                             v3, t3, n3
@@ -298,7 +298,7 @@ size_t processObjLine(MC3DObjBuffer* buff, const char* linebuff)
     return buff->fcursor;
 }
 
-MC3DObjBuffer* MC3DObjBufferNew(const char* filename)
+BAObj* BAObjNew(const char* filename)
 {
     epcount = 0;
     
@@ -317,9 +317,9 @@ MC3DObjBuffer* MC3DObjBufferNew(const char* filename)
             error_log("MC3DObjParser - object face count is ZERO\n");
             return mull;
         }
-        MC3DObjBuffer* buff = MC3DObjBufferAlloc(fc, 3);
+        BAObj* buff = BAObjAlloc(fc, 3);
         if (buff == mull) {
-            error_log("MC3DObjParser - allocMC3DObjBuffer failed. face count is %d\n", fc);
+            error_log("MC3DObjParser - allocBAObj failed. face count is %d\n", fc);
             return mull;
         }
         

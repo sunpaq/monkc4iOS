@@ -7,11 +7,11 @@
 //
 
 #include "MC3DModel.h"
-#include "MC3DObjParser.h"
+#include "BAObjParser.h"
 #include "MCMath.h"
 #include "MCLinkedList.h"
 
-function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int faceIndex, MCColorRGBAf color);
+function(void, loadFaceData, MCMesh* mesh, BAObj* buff, BAFace face, int faceIndex, MCColorRGBAf color);
 
 compute(MC3DFrame, frame)
 {
@@ -63,7 +63,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
 
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
     debug_log("MC3DModel - mesh created: %s", path);
-    MC3DObjBuffer* buff = MC3DObjBufferNew(path);
+    BAObj* buff = BAObjNew(path);
     if (buff == mull) {
         error_log("MC3DModel - can not parse file:%s\n", path);
         return mull;
@@ -99,21 +99,15 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         MCStringFill(obj->name, buff->name);
         
         //set mtl
-        MC3DMaterial* neongreen = MC3DFindMaterial(buff->mtllib, "shiny_green");
-        MCVector3 ambient = MC3DMaterialLightColor(neongreen, Ambient);
-        if (ambient.x > 0 || ambient.y > 0 || ambient.z > 0 ) {
-            sobj->material->ambientLightColor = ambient;
-        }
-        MCVector3 diffuse = MC3DMaterialLightColor(neongreen, Diffuse);
-        if (diffuse.x > 0 || diffuse.y > 0 || diffuse.z > 0) {
-            sobj->material->diffuseLightColor = diffuse;
-        }
-        MCVector3 specular = MC3DMaterialLightColor(neongreen, Specular);
-        if (specular.x > 0 || specular.y > 0 || specular.z > 0) {
-            sobj->material->specularLightColor = specular;
-        }
+        BAMaterial* neongreen = BAFindMaterial(buff->mtllib, "neon_green");
+        MCVector3 ambient = BAMaterialLightColor(neongreen, Ambient);
+        MCVector3 diffuse = BAMaterialLightColor(neongreen, Diffuse);
+        MCVector3 specular = BAMaterialLightColor(neongreen, Specular);
+        sobj->material->ambientLightColor = ambient;
+        sobj->material->diffuseLightColor = diffuse;
+        sobj->material->specularLightColor = specular;
         
-        MC3DObjBufferRelease(buff);
+        BAObjRelease(buff);
         debug_log("MC3DModel - model created: %s", path);
         return obj;
     }
@@ -152,7 +146,7 @@ onload(MC3DModel)
     }
 }
 
-function(void, calculateFrame, MC3DObjBuffer* buff, MCVector3 v)
+function(void, calculateFrame, BAObj* buff, MCVector3 v)
 {
     //3D frame max
     MCMath_accumulateMaxd(&buff->Frame.xmax, v.x);
@@ -164,8 +158,8 @@ function(void, calculateFrame, MC3DObjBuffer* buff, MCVector3 v)
     MCMath_accumulateMind(&buff->Frame.zmin, v.z);
 }
 
-function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
-        MC3DFaceElement e, int offset, MCColorRGBAf color)
+function(void, loadFaceElement, MCMesh* mesh, BAObj* buff,
+        BAFaceElement e, int offset, MCColorRGBAf color)
 {
     MCVector3 v, n;
     MCVector2 t;
@@ -204,7 +198,7 @@ function(void, loadFaceElement, MCMesh* mesh, MC3DObjBuffer* buff,
     //mesh->vertexIndexes[(offset==0)?(0):(offset/11)] = (GLuint)e.vi;
 }
 
-function(void, loadFaceData, MCMesh* mesh, MC3DObjBuffer* buff, MC3DFace face, int faceIndex, MCColorRGBAf color)
+function(void, loadFaceData, MCMesh* mesh, BAObj* buff, BAFace face, int faceIndex, MCColorRGBAf color)
 {
     int offset = faceIndex * 33;
     loadFaceElement(0, mull, mesh, buff, face.e1, offset+0, color);

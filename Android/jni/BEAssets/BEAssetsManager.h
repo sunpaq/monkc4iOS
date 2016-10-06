@@ -10,7 +10,7 @@
 #define BEAssetsManager_h
 
 #include "monkc.h"
-#include "MC3DObjParser.h"
+#include "BAObjParser.h"
 //#include "MC3DMtlParser.h"
 
 #ifdef __ANDROID__

@@ -30,7 +30,7 @@
 		FD44CE231D326CF200784EDF /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA41D326CF200784EDF /* image_helper.c */; };
 		FD44CE241D326CF200784EDF /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA61D326CF200784EDF /* SOIL.c */; };
 		FD44CE251D326CF200784EDF /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA81D326CF200784EDF /* stb_image_aug.c */; };
-		FD44CE261D326CF200784EDF /* MC3DObjParser.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDAD1D326CF200784EDF /* MC3DObjParser.c */; };
+		FD44CE261D326CF200784EDF /* BAObjParser.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDAD1D326CF200784EDF /* BAObjParser.c */; };
 		FD44CE271D326CF200784EDF /* MC2DTex.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDB01D326CF200784EDF /* MC2DTex.c */; };
 		FD44CE281D326CF200784EDF /* MC3DModel.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDB31D326CF200784EDF /* MC3DModel.c */; };
 		FD44CE291D326CF200784EDF /* MC3DNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDB61D326CF200784EDF /* MC3DNode.c */; };
@@ -71,7 +71,7 @@
 		FD44CE5C1D326CF200784EDF /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE171D326CF200784EDF /* MainLoop.c */; };
 		FD44CE5E1D326CF200784EDF /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1A1D326CF200784EDF /* Testbed.c */; };
 		FD44CE5F1D326CF200784EDF /* MCNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1E1D326CF200784EDF /* MCNode.c */; };
-		FD4B12561DA3B03000ADCB38 /* MC3DMtlParser.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4B12551DA3B03000ADCB38 /* MC3DMtlParser.c */; };
+		FD4B12561DA3B03000ADCB38 /* BAMtlParser.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4B12551DA3B03000ADCB38 /* BAMtlParser.c */; };
 		FD4B125B1DA5024800ADCB38 /* beengine.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FD4B125A1DA5024800ADCB38 /* beengine.mtl */; };
 		FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1EC1C917F2D00051C15 /* tex2.bmp */; };
 		FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1EE1C91B40800051C15 /* tex4.bmp */; };
@@ -168,9 +168,9 @@
 		FD44CDA91D326CF200784EDF /* stb_image_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image_aug.h; sourceTree = "<group>"; };
 		FD44CDAA1D326CF200784EDF /* stbi_DDS_aug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stbi_DDS_aug.h; sourceTree = "<group>"; };
 		FD44CDAB1D326CF200784EDF /* stbi_DDS_aug_c.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stbi_DDS_aug_c.h; sourceTree = "<group>"; };
-		FD44CDAC1D326CF200784EDF /* MC3DMtlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DMtlParser.h; sourceTree = "<group>"; };
-		FD44CDAD1D326CF200784EDF /* MC3DObjParser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DObjParser.c; sourceTree = "<group>"; };
-		FD44CDAE1D326CF200784EDF /* MC3DObjParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DObjParser.h; sourceTree = "<group>"; };
+		FD44CDAC1D326CF200784EDF /* BAMtlParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAMtlParser.h; sourceTree = "<group>"; };
+		FD44CDAD1D326CF200784EDF /* BAObjParser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BAObjParser.c; sourceTree = "<group>"; };
+		FD44CDAE1D326CF200784EDF /* BAObjParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAObjParser.h; sourceTree = "<group>"; };
 		FD44CDB01D326CF200784EDF /* MC2DTex.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC2DTex.c; sourceTree = "<group>"; };
 		FD44CDB11D326CF200784EDF /* MC2DTex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC2DTex.h; sourceTree = "<group>"; };
 		FD44CDB21D326CF200784EDF /* MC3DBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DBase.h; sourceTree = "<group>"; };
@@ -256,7 +256,7 @@
 		FD44CE1F1D326CF200784EDF /* MCNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNode.h; sourceTree = "<group>"; };
 		FD44CE201D326CF200784EDF /* MCTouchble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTouchble.h; sourceTree = "<group>"; };
 		FD4658E71D772BEF005165A8 /* MCJNI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCJNI.h; sourceTree = "<group>"; };
-		FD4B12551DA3B03000ADCB38 /* MC3DMtlParser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DMtlParser.c; sourceTree = "<group>"; };
+		FD4B12551DA3B03000ADCB38 /* BAMtlParser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BAMtlParser.c; sourceTree = "<group>"; };
 		FD4B125A1DA5024800ADCB38 /* beengine.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = beengine.mtl; sourceTree = "<group>"; };
 		FD4CC1EC1C917F2D00051C15 /* tex2.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex2.bmp; sourceTree = "<group>"; };
 		FD4CC1EE1C91B40800051C15 /* tex4.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = tex4.bmp; sourceTree = "<group>"; };
@@ -365,10 +365,10 @@
 				FD44CD9E1D326CF200784EDF /* BEAssetsManager.c */,
 				FD44CD9F1D326CF200784EDF /* BEAssetsManager.h */,
 				FD44CDA01D326CF200784EDF /* external */,
-				FD44CDAC1D326CF200784EDF /* MC3DMtlParser.h */,
-				FD4B12551DA3B03000ADCB38 /* MC3DMtlParser.c */,
-				FD44CDAD1D326CF200784EDF /* MC3DObjParser.c */,
-				FD44CDAE1D326CF200784EDF /* MC3DObjParser.h */,
+				FD44CDAC1D326CF200784EDF /* BAMtlParser.h */,
+				FD4B12551DA3B03000ADCB38 /* BAMtlParser.c */,
+				FD44CDAD1D326CF200784EDF /* BAObjParser.c */,
+				FD44CDAE1D326CF200784EDF /* BAObjParser.h */,
 			);
 			name = BEAssets;
 			path = Android/jni/BEAssets;
@@ -820,7 +820,7 @@
 				FD44CE321D326CF200784EDF /* MCMatrial.c in Sources */,
 				FD00C4CA1CD10BAE00DCA45F /* SettingsListController.m in Sources */,
 				FD44CE301D326CF200784EDF /* MCGLRenderer.c in Sources */,
-				FD44CE261D326CF200784EDF /* MC3DObjParser.c in Sources */,
+				FD44CE261D326CF200784EDF /* BAObjParser.c in Sources */,
 				FD44CE221D326CF200784EDF /* image_DXT.c in Sources */,
 				FD44CE5C1D326CF200784EDF /* MainLoop.c in Sources */,
 				FD44CE401D326CF200784EDF /* MCIO.c in Sources */,
@@ -843,7 +843,7 @@
 				FD44CE451D326CF200784EDF /* MCString.c in Sources */,
 				FD44CE311D326CF200784EDF /* MCLight.c in Sources */,
 				FD00C4C01CD10BAE00DCA45F /* AppDelegate.m in Sources */,
-				FD4B12561DA3B03000ADCB38 /* MC3DMtlParser.c in Sources */,
+				FD4B12561DA3B03000ADCB38 /* BAMtlParser.c in Sources */,
 				FD44CE411D326CF200784EDF /* MCLinkedList.c in Sources */,
 				FD44CE2B1D326CF200784EDF /* MCCamera.c in Sources */,
 				FD44CE441D326CF200784EDF /* MCSocket.c in Sources */,

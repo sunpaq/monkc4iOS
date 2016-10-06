@@ -16,16 +16,6 @@
 #include "MCString.h"
 #include "MCLexer.h"
 
-//class(MCMatrial, MCObject,
-//      MCBool      dataChanged;
-//      double      ambientLightStrength;
-//      MCVector3   ambientLightColor;
-//      MCVector3   diffuseLightColor;
-//      double      specularLightStrength;
-//      MCVector3   specularLightColor;
-//      MCInt       specularLightPower;
-//      );
-
 /* illum_0 -> illum_10
 0   Color on and Ambient off 
 1   Color on and Ambient on 
@@ -50,13 +40,13 @@ typedef enum {
     Specular,
     //transmission filter
     TFilter
-} MTLightType;
+} BALightType;
 
 typedef enum {
     RGB,         //Ka r g b
     XYZ,         //Ka x y z (CIEXYZ color space)
     SpectralFile //Ka spectral file.rfl factor
-} MTColorType;
+} BAColorType;
 
 typedef enum {
     SpecularExponent, //Ns
@@ -64,20 +54,20 @@ typedef enum {
     Disp,             //disp (surface roughness)
     Decal,            //decal
     Bump              //bump
-} MTScalarType;
+} BAScalarType;
 
 typedef struct {
-    MTColorType Ctype;
+    BAColorType Ctype;
     double factor;//default=1.0
     union {
         double rgbxyz[3];
         char spectral[256];
     } data;
-} MTLightColor;
+} BALightColor;
 
 //Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
-MCInline MTLightColor MTLightColorMake(char* linebuff) {
-    MTLightColor c;
+MCInline BALightColor BALightColorMake(char* linebuff) {
+    BALightColor c;
     MCToken token;
     char word[256];
     const char* remain = linebuff;
@@ -109,11 +99,11 @@ MCInline MTLightColor MTLightColorMake(char* linebuff) {
 
 //map_Ka, map_Kd, map_Ks
 typedef struct {
-    MTLightType Ltype;
-    MTColorType Ctype;
+    BALightType Ltype;
+    BAColorType Ctype;
     char filename[256];
     char options[256];
-} MTLightColorMap;
+} BALightColorMap;
 
 /* scalar map options
 -blendu on | off 
@@ -129,10 +119,10 @@ typedef struct {
 
 //map_Ns, map_d, disp, decal, bump
 typedef struct {
-    MTScalarType type;
+    BAScalarType type;
     char filename[256];
     char options[256];
-} MTScalarMap;
+} BAScalarMap;
 
 /* reflection map options
 -blendu on | off 
@@ -150,13 +140,13 @@ typedef struct {
 typedef struct {
     char filename[256];
     char options[256];
-} MTReflectionMap;
+} BAReflectionMap;
 
 typedef struct {
     //newmtl
     char name[256];
     //light color
-    MTLightColor lightColors[4];
+    BALightColor lightColors[4];
     //illumination model 0->10
     int illumModelNum;
     //dissolve (d/d -halo)
@@ -169,32 +159,32 @@ typedef struct {
     //index of refraction (Ni) 0.001->10
     int indexOfRefraction;    
     //texture map
-    MTLightColorMap lightColorMaps[10];
-    MTScalarMap     scalarMaps[10];
-    MTReflectionMap reflectionMaps[10];
+    BALightColorMap lightColorMaps[10];
+    BAScalarMap     scalarMaps[10];
+    BAReflectionMap reflectionMaps[10];
 
-} MC3DMaterial;
+} BAMaterial;
 
-MCInline MCVector3 MC3DMaterialLightColor(MC3DMaterial* mat, MTLightType type) {
+MCInline MCVector3 BAMaterialLightColor(BAMaterial* mat, BALightType type) {
     double R = mat->lightColors[type].data.rgbxyz[0];
     double G = mat->lightColors[type].data.rgbxyz[1];
     double B = mat->lightColors[type].data.rgbxyz[2];
     return MCVector3Make(R, G, B);
 }
 
-typedef struct MC3DMtlLibraryStruct {
-    struct MC3DMtlLibraryStruct *next;
-    MC3DMaterial materials[256];
+typedef struct BAMtlLibraryStruct {
+    struct BAMtlLibraryStruct *next;
+    BAMaterial materials[256];
     //cursors
     int materialCursor;
     int lightColorMapCursor;
     int scalarMapCursor;
     int reflectionMapCursor;
-} MC3DMtlLibrary;
+} BAMtlLibrary;
 
-MCInline MC3DMaterial* MC3DFindMaterial(MC3DMtlLibrary* lib, const char* name) {
+MCInline BAMaterial* BAFindMaterial(BAMtlLibrary* lib, const char* name) {
     for (int i=0; i<256; i++) {
-        MC3DMaterial* mtl = &lib->materials[i];
+        BAMaterial* mtl = &lib->materials[i];
         if (MCStringEqual(mtl->name, name)) {
             return mtl;
         }
@@ -202,8 +192,8 @@ MCInline MC3DMaterial* MC3DFindMaterial(MC3DMtlLibrary* lib, const char* name) {
     return mull;
 }
 
-MCInline MC3DMtlLibrary* MC3DMtlLibraryAlloc() {
-    MC3DMtlLibrary* lib = (MC3DMtlLibrary*)malloc(sizeof(MC3DMtlLibrary));
+MCInline BAMtlLibrary* BAMtlLibraryAlloc() {
+    BAMtlLibrary* lib = (BAMtlLibrary*)malloc(sizeof(BAMtlLibrary));
     lib->next = mull;
     //cursors
     lib->materialCursor = -1;
@@ -213,7 +203,7 @@ MCInline MC3DMtlLibrary* MC3DMtlLibraryAlloc() {
     return lib;
 }
 
-MCInline void MC3DMtlLibraryResetCursor(MC3DMtlLibrary* lib) {
+MCInline void BAMtlLibraryResetCursor(BAMtlLibrary* lib) {
     if (lib->materialCursor != -1) {
         lib->materialCursor = 0;
     }
@@ -228,18 +218,18 @@ MCInline void MC3DMtlLibraryResetCursor(MC3DMtlLibrary* lib) {
     }
 }
 
-MCInline MC3DMaterial* currentMaterial(MC3DMtlLibrary* lib) {
+MCInline BAMaterial* currentMaterial(BAMtlLibrary* lib) {
     return &(lib->materials[lib->materialCursor]);
 }
 
-MCInline void MC3DMtlLibraryRelease(MC3DMtlLibrary* lib) {
+MCInline void BAMtlLibraryRelease(BAMtlLibrary* lib) {
     if (lib->next != mull) {
-        MC3DMtlLibraryRelease(lib->next);
+        BAMtlLibraryRelease(lib->next);
     }
     free(lib);
 }
 
-MC3DMtlLibrary* MC3DMtlLibraryNew(const char* filename);
+BAMtlLibrary* BAMtlLibraryNew(const char* filename);
 
 
 

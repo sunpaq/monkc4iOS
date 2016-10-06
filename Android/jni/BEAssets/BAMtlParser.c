@@ -7,7 +7,7 @@
 //
 
 #include "BEAssetsManager.h"
-#include "MC3DMtlParser.h"
+#include "BAMtlParser.h"
 #include "MCIO.h"
 
 enum MTLexerState {
@@ -21,7 +21,7 @@ enum MTLexerState {
  Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
  */
 //return face count
-MCInline size_t processMtlLine(MC3DMtlLibrary* lib, const char* linebuff)
+MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
 {
     static enum MTLexerState state = LSIdle;
     
@@ -30,7 +30,7 @@ MCInline size_t processMtlLine(MC3DMtlLibrary* lib, const char* linebuff)
     int    iqueue[4] = {0, 0, 0, 0};                  int iq=0;//integer
     
     //pointers
-    MC3DMaterial* material;
+    BAMaterial* material;
     
     //MCToken token;
     MCToken token;
@@ -55,7 +55,7 @@ MCInline size_t processMtlLine(MC3DMtlLibrary* lib, const char* linebuff)
                 //LSLightColor
                 //Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
                 else if (MCStringEqualN(word, "K", 1) || MCStringEqualN(word, "Tf", 2)) {
-                    MTLightColor* light = mull;
+                    BALightColor* light = mull;
                     if (MCStringEqualN(word, "Tf", 2)) {
                         light = &currentMaterial(lib)->lightColors[TFilter];
                     }
@@ -160,7 +160,7 @@ MCInline size_t processMtlLine(MC3DMtlLibrary* lib, const char* linebuff)
     return 0;
 }
 
-MC3DMtlLibrary* MC3DMtlLibraryNew(const char* filename)
+BAMtlLibrary* BAMtlLibraryNew(const char* filename)
 {
     const char* assetbuff;
     if (isFilename(filename)) {
@@ -172,7 +172,7 @@ MC3DMtlLibrary* MC3DMtlLibraryNew(const char* filename)
     }
     
     if (assetbuff != mull) {
-        MC3DMtlLibrary* lib = MC3DMtlLibraryAlloc();
+        BAMtlLibrary* lib = BAMtlLibraryAlloc();
         if (lib == mull) {
             error_log("MC3DObjParser - MC3DMtlLibraryAlloc failed.\n");
             return mull;
@@ -181,7 +181,7 @@ MC3DMtlLibrary* MC3DMtlLibraryNew(const char* filename)
         MCFileEachLine(assetbuff,
             processMtlLine(lib, line);
         );
-        MC3DMtlLibraryResetCursor(lib);
+        BAMtlLibraryResetCursor(lib);
         
         free((void*)assetbuff);
         return lib;

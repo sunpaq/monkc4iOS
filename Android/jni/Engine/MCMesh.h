@@ -14,7 +14,7 @@
 #include "MCGLContext.h"
 #include "MCLinkedList.h"
 #include "MCMath.h"
-#include "MC3DObjParser.h"
+#include "BAObjParser.h"
 
 typedef union {
     struct {
