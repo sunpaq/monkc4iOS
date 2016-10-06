@@ -271,7 +271,10 @@ MCInline const char* peekNext(const char** target_p, char buff[])
 MCInline const char* skipNext(const char** target_p)
 {
     const char* str = trimWhiteSpace(target_p);//skip whitespace
-    *target_p = str++;//update remain
+    const char* iter = str;
+    while (*iter != ' ')
+        iter++;
+    *target_p = iter;//update remain
     return str;
 }
 
@@ -289,6 +292,45 @@ MCInline size_t nextFloats(const char** target_p, double buff[])
             return i;
         }
     }
+    //nextWord will update remain
+    return i;
+}
+
+MCInline size_t nextIntegers(const char** target_p, long buff[])
+{
+    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    char linebuff[LINE_MAX];
+    MCToken token;
+    size_t i = 0;
+    while (isNewLine(str) == MCFalse && (*str != '\0')) {
+        token = tokenize(nextWord(&str, linebuff));
+        if (token.type == MCTokenInteger) {
+            buff[i++] = token.value.Integer;
+        }else{
+            return i;
+        }
+    }
+    //nextWord will update remain
+    return i;
+}
+
+MCInline size_t nextDates(const char** target_p, long buff[])
+{
+    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    char linebuff[LINE_MAX];
+    MCToken token;
+    size_t i = 0;
+    while (isNewLine(str) == MCFalse && (*str != '\0')) {
+        token = tokenize(nextWord(&str, linebuff));
+        if (token.type == MCTokenDate) {
+            buff[i++] = token.value.Date[0];
+            buff[i++] = token.value.Date[1];
+            buff[i++] = token.value.Date[2];
+        }else{
+            return i;
+        }
+    }
+    //nextWord will update remain
     return i;
 }
 

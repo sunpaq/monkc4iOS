@@ -10,25 +10,12 @@
 #include "BAMtlParser.h"
 #include "MCIO.h"
 
-enum MTLexerState {
-    LSIdle,
-    LSMeta,
-    LSFloatValue,
-    LSIntegerValue
-};
-
 /*
  Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
  */
 //return face count
 MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
 {
-    static enum MTLexerState state = LSIdle;
-    
-    //template storage
-    double fqueue[4] = {0.0, 0.0, 0.0, 0.0};          int fq=0;//float
-    int    iqueue[4] = {0, 0, 0, 0};                  int iq=0;//integer
-    
     //pointers
     BAMaterial* material;
     
@@ -42,7 +29,6 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
         
         switch (token.type) {
             case MCTokenIdentifier:
-                state = LSMeta;
                 if (MCStringEqualN(word, "newmtl", 6)) {
                     token = tokenize(nextWord(&remain, word));
                     if (token.type == MCTokenIdentifier) {
@@ -133,14 +119,6 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     
                 }
                 break;
-            case MCTokenFloat:
-                state = LSFloatValue;
-                fqueue[fq++] = token.value.Double;
-                break;
-            case MCTokenInteger:
-                state = LSIntegerValue;
-                iqueue[iq++] = (int)token.value.Integer;
-                break;
             case MCTokenComment:
                 return 0;
             case MCTokenUnknown:
@@ -148,14 +126,6 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
             default:
                 break;
         }
-    }
-    
-    //save float value into buffer
-    if (state == LSMeta) {
-        
-    }
-    else {
-    
     }
 
     return 0;

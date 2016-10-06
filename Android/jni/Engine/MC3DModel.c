@@ -99,7 +99,12 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         MCStringFill(obj->name, buff->Meta.name);
         
         //set mtl
-        BAMaterial* bamtl = BAFindMaterial(buff->mtllib, buff->usemtl);
+        BAMaterial* bamtl = mull;
+        if (MCStringEqual(buff->Meta.name, "Aventador")) {
+            bamtl = BAFindMaterial(buff->mtllib, "Body");
+        }else{
+            bamtl = BAFindMaterial(buff->mtllib, buff->usemtl);
+        }
         if (bamtl) {
             MCVector3 ambient  = BAMaterialLightColor(bamtl, Ambient);
             MCVector3 diffuse  = BAMaterialLightColor(bamtl, Diffuse);

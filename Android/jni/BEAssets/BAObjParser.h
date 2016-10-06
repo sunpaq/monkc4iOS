@@ -64,7 +64,8 @@ typedef union {
 
 typedef struct {
     BACubeFrame Frame;
-    BAFaceType facetype;
+    //triangles count
+    size_t tcount;
     size_t fcursor;
     size_t vcursor;
     size_t tcursor;
@@ -75,10 +76,14 @@ typedef struct {
 typedef struct BAObjStruct {
     struct BAObjStruct *next;
     BAObjMeta  Meta;
-    BAFace*    facebuff;
+    //raw data
     MCVector3* vertexbuff;
     MCVector2* texcoorbuff;
     MCVector3* normalbuff;
+    //faces
+    BAFaceType  facetype;
+    BAFace*     facebuff;
+    //mtl
     BAMtlLibrary* mtllib;
     char usemtl[256];
 } BAObj;
@@ -98,15 +103,16 @@ MCInline void BAObjAddMtlLib(BAObj* buff, BAMtlLibrary* lib) {
 MCInline BAObj* BAObjAlloc(size_t facecount, int vpf)
 {
     BAObj* buff = (BAObj*)malloc(sizeof(BAObj));
-    buff->next = mull;
-    buff->facebuff    = (BAFace*) malloc(sizeof(BAFace)  * (facecount));
+    buff->next  = mull;
     buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
     buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount) * vpf);
     buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
+    buff->facebuff    = (BAFace*) malloc(sizeof(BAFace)  * (facecount));
     buff->mtllib = mull;
     buff->usemtl[0] = '\0';
 
     buff->Meta.Frame = (BACubeFrame){};
+    buff->Meta.tcount  = 0;
     buff->Meta.fcursor = 0;
     buff->Meta.vcursor = 0;
     buff->Meta.tcursor = 0;
