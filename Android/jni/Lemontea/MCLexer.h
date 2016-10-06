@@ -38,7 +38,7 @@ static const char MCBackSlash0 = '\0';
 #define MCCond_Digit(w)     (*w >= '0' && *w <= '9')
 #define MCCond_Alphabet(w)  (*w >= 'a' && *w <= 'z') || (*w >= 'A' && *w <= 'Z')
 
-MCInline size_t MCCopyString(char* const dest, const char* src)
+MCInline size_t MCLexerFill(char* const dest, const char* src)
 {
     size_t len = strlen(src);
     strncpy(dest, src, len);
@@ -209,11 +209,11 @@ MCInline MCToken tokenize(const char* word)
     
     if (isIdentifier(word) == MCTrue) {
         token.type = MCTokenIdentifier;
-        MCCopyString(token.value.Word, word);
+        MCLexerFill(token.value.Word, word);
     }
     else if (isFilename(word) == MCTrue) {
         token.type = MCTokenFilename;
-        MCCopyString(token.value.Word, word);
+        MCLexerFill(token.value.Word, word);
     }
     else if (isFloat(word) == MCTrue) {
         token.type = MCTokenFloat;

@@ -59,10 +59,10 @@ method(MC3DModel, void, bye, voida)
 
 method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
 {
-    debug_log("MC3DModel - initWithFilePathColor: %s", path);
+    debug_log("MC3DModel - initWithFilePathColor: %s\n", path);
 
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
-    debug_log("MC3DModel - mesh created: %s", path);
+    debug_log("MC3DModel - mesh created: %s\n", path);
     BAObj* buff = BAObjNew(path);
     if (buff == mull) {
         error_log("MC3DModel - can not parse file:%s\n", path);
@@ -84,7 +84,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         for (int i=0; i<buff->fcursor; i++) {
             loadFaceData(0, mull, mesh, buff, buff->facebuff[i], i, color);
         }
-        debug_log("MC3DModel - face data loaded: %s", path);
+        debug_log("MC3DModel - face data loaded: %s\n", path);
 
         for (int i=0; i<6; i++) {
             mesh->Frame.m[i] = buff->Frame.m[i];
@@ -108,7 +108,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         sobj->material->specularLightColor = specular;
         
         BAObjRelease(buff);
-        debug_log("MC3DModel - model created: %s", path);
+        debug_log("MC3DModel - model created: %s\n", path);
         return obj;
     }
 }
@@ -122,7 +122,7 @@ method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRG
 {
     char path[PATH_MAX];
     MCFileGetPath(name, obj->defaultExtension, path);
-    debug_log("MC3DModel - find path: %s", path);
+    debug_log("MC3DModel - find path: %s\n", path);
     return MC3DModel_initWithFilePathColor(0, obj, path, color);
 }
 
@@ -165,7 +165,7 @@ function(void, loadFaceElement, MCMesh* mesh, BAObj* buff,
     MCVector2 t;
 
     if (e.vi == 0) {
-        error_log("MC3DFileParser: invalide vertex data!");
+        error_log("MC3DFileParser: invalide vertex data!\n");
         exit(-1);
     }else{
         v = buff->vertexbuff[e.vi-1];
