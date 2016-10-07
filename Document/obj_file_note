@@ -2,8 +2,15 @@ Notice:
 
 1. Object files can be in ASCII format (.obj) or binary format (.mod)
 2. A right-hand coordinate system is used to specify the coordinate locations.
-3. v x y z   -> face & non-rational curve surface
-4. v x y z w -> rational curve surface (+homogeneous coordinate / weight) w default=1.0
+
+3. mtllib file1 file2 ... (same file may accour many times)
+
+4. v  x y z   -> face & non-rational curve surface
+5. v  x y z w -> rational curve surface (+homogeneous coordinate / weight) w default=1.0
+6. vp u v w   -> (weight) w default=1.0
+7. vn i j k   -> normal
+8. vt u v w   -> texture (depth of the texture) w default=0
+
 
 ---------------------------------KEYWORDS------------------------------------
 Vertex data

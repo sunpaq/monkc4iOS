@@ -11,39 +11,58 @@ size_t lineMeta(BAObjMeta* meta, const char* linebuff)
     char word[256];
     MCToken token = tokenize(nextWord(&remain, word));
     if (token.type == MCTokenIdentifier) {
-        if (MCStringEqualN(word, "f", 1)) {
+        if (MCStringEqualN(word, "v", 1)) {
+            meta->vertex_count++;
+        }
+        else if (MCStringEqualN(word, "t", 1)) {
+            meta->texcoord_count++;
+        }
+        else if (MCStringEqualN(word, "n", 1)) {
+            meta->normal_count++;
+        }
+        else if (MCStringEqualN(word, "f", 1)) {
             //peek next value
             token = tokenize(peekNext(&remain, word));
             if (token.type == MCTokenDate || token.type == MCTokenInteger) {
-                int vcount = 0;
+                int vc = 0;
                 while (isNewLine(remain) == MCFalse && *remain != '\0') {
                     token = tokenize(nextWord(&remain, word));
                     if (token.type == MCTokenDate) {
-                        vcount++;
+                        vc++;
                     }
                     else if (token.type == MCTokenInteger) {
-                        vcount++;
+                        vc++;
                     }
                 }
-                if (vcount == 3)
-                    meta->tcount++;
-                if (vcount > 3)
-                    meta->tcount += vcount-2;
+                if (vc == 3)
+                    meta->triangle_count++;
+                if (vc > 3)
+                    meta->triangle_count += vc-2;
             }
         }
+        else if (MCStringEqualN(word, "o", 1)) {
+            meta->object_count++;
+        }
+        else if (MCStringEqualN(word, "g", 1)) {
+            meta->group_count++;
+        }
+        else if (MCStringEqualN(word, "mtllib", 6)) {
+            meta->mtllib_count++;
+        }
     }
-    return meta->tcount;
+    return meta->triangle_count;
 }
 
 size_t processObjMeta(BAObjMeta* meta, const char* buff)
 {
-    size_t tcount = 0;//triangle
+    BAObjMetaInit(meta);
+    size_t triangle = 0;//triangle
     if (buff != mull) {
         MCFileEachLine(buff,
-            tcount = lineMeta(meta, line);
+            triangle = lineMeta(meta, line);
         )
     }
-    return tcount;
+    return triangle;
 }
 
 MCInline void saveObjFaceVOnly(BAObj* buff, size_t n, long intbuff[])
@@ -220,9 +239,7 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
                     token = tokenize(nextWord(&remain, word));
                     if (token.type == MCTokenFilename) {
                         BAMtlLibrary* lib = BAMtlLibraryNew(token.value.Word);
-                        if (lib) {
-                            BAObjAddMtlLib(buff, lib);
-                        }
+                        BAObjAddMtlLib(buff, lib);
                     }
                 }
                 else if (MCStringEqualN(word, "usemtl", 6)) {

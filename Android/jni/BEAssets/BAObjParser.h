@@ -65,13 +65,38 @@ typedef union {
 typedef struct {
     BACubeFrame Frame;
     //triangles count
-    size_t tcount;
+    size_t triangle_count;
+    size_t face_count;
+    size_t vertex_count;
+    size_t texcoord_count;
+    size_t normal_count;
+    size_t object_count;
+    size_t group_count;
+    size_t mtllib_count;
+    //cursor
     size_t fcursor;
     size_t vcursor;
     size_t tcursor;
     size_t ncursor;
     char name[256];
 } BAObjMeta;
+
+MCInline void BAObjMetaInit(BAObjMeta* meta) {
+    meta->Frame = (BACubeFrame){};
+    meta->triangle_count  = 0;
+    meta->vertex_count    = 0;
+    meta->texcoord_count  = 0;
+    meta->normal_count    = 0;
+    meta->object_count    = 0;
+    meta->group_count     = 0;
+    meta->mtllib_count    = 0;
+    
+    meta->fcursor = 0;
+    meta->vcursor = 0;
+    meta->tcursor = 0;
+    meta->ncursor = 0;
+    meta->name[0] = '\0';
+}
 
 typedef struct BAObjStruct {
     struct BAObjStruct *next;
@@ -84,7 +109,7 @@ typedef struct BAObjStruct {
     BAFaceType  facetype;
     BAFace*     facebuff;
     //mtl
-    BAMtlLibrary* mtllib;
+    BAMtlLibrary* mliblist;
     char usemtl[256];
 } BAObj;
 
@@ -93,8 +118,21 @@ typedef struct {
 } BAObjFile;
 
 MCInline void BAObjAddMtlLib(BAObj* buff, BAMtlLibrary* lib) {
-    if (buff->mtllib == mull) {
-        buff->mtllib = lib;
+    if (buff && lib) {
+        BAMtlLibrary* iter = buff->mliblist;
+        if (!iter) {
+            buff->mliblist = lib;
+            return;
+        }
+        while (iter->next) {
+            if (MCStringEqual(lib->name, iter->name)) {
+                //already added
+                return;
+            }
+            iter = iter->next;
+        }
+        //last one
+        iter->next = lib;
     }
 }
 
@@ -109,16 +147,10 @@ MCInline BAObj* BAObjAlloc(size_t facecount, int vpf)
         buff->facebuff    = (BAFace*)   malloc(sizeof(BAFace)    * (facecount));
         
         if (buff->vertexbuff && buff->texcoorbuff && buff->normalbuff && buff->facebuff) {
-            buff->mtllib = mull;
+            buff->mliblist = mull;
             buff->usemtl[0] = '\0';
             
-            buff->Meta.Frame = (BACubeFrame){};
-            buff->Meta.tcount  = 0;
-            buff->Meta.fcursor = 0;
-            buff->Meta.vcursor = 0;
-            buff->Meta.tcursor = 0;
-            buff->Meta.ncursor = 0;
-            buff->Meta.name[0] = '\0';
+            BAObjMetaInit(&buff->Meta);
             
             return buff;
         }
@@ -139,7 +171,7 @@ MCInline void BAObjRelease(BAObj* buff)
         free(buff->vertexbuff);
         free(buff->texcoorbuff);
         free(buff->normalbuff);
-        BAMtlLibraryRelease(buff->mtllib);
+        BAMtlLibraryRelease(&buff->mliblist);
         free(buff);
     }
 }
