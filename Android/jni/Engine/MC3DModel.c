@@ -64,7 +64,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
     debug_log("MC3DModel - mesh created: %s\n", path);
     BAObj* buff = BAObjNew(path);
-    if (buff == mull) {
+    if (!buff) {
         error_log("MC3DModel - can not parse file:%s\n", path);
         return mull;
     }else{

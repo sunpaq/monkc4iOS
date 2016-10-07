@@ -25,6 +25,7 @@
 		FD00C4CF1CD10D5E00DCA45F /* SapindusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */; };
 		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
 		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
+		FD2A6E861DA75F0C00293DE1 /* monkey2.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FD2A6E851DA75F0C00293DE1 /* monkey2.mtl */; };
 		FD44CE211D326CF200784EDF /* BEAssetsManager.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CD9E1D326CF200784EDF /* BEAssetsManager.c */; };
 		FD44CE221D326CF200784EDF /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA21D326CF200784EDF /* image_DXT.c */; };
 		FD44CE231D326CF200784EDF /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA41D326CF200784EDF /* image_helper.c */; };
@@ -157,6 +158,7 @@
 		FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SapindusTests.m; sourceTree = "<group>"; };
 		FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.fsh; sourceTree = "<group>"; };
 		FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.vsh; sourceTree = "<group>"; };
+		FD2A6E851DA75F0C00293DE1 /* monkey2.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey2.mtl; sourceTree = "<group>"; };
 		FD44CD9E1D326CF200784EDF /* BEAssetsManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BEAssetsManager.c; sourceTree = "<group>"; };
 		FD44CD9F1D326CF200784EDF /* BEAssetsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEAssetsManager.h; sourceTree = "<group>"; };
 		FD44CDA21D326CF200784EDF /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
@@ -542,6 +544,7 @@
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				FD2A6E851DA75F0C00293DE1 /* monkey2.mtl */,
 				FD62A9AF1DA62AB600B74299 /* Avent.mtl */,
 				FD4B125A1DA5024800ADCB38 /* beengine.mtl */,
 				FDD87E001CCC979A00D292D3 /* 2.obj */,
@@ -744,6 +747,7 @@
 				FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */,
 				FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */,
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
+				FD2A6E861DA75F0C00293DE1 /* monkey2.mtl in Resources */,
 				FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */,
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,

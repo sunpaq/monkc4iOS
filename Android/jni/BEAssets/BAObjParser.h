@@ -88,46 +88,52 @@ typedef struct BAObjStruct {
     char usemtl[256];
 } BAObj;
 
+typedef struct {
+    BAObj objs[256];
+} BAObjFile;
+
 MCInline void BAObjAddMtlLib(BAObj* buff, BAMtlLibrary* lib) {
     if (buff->mtllib == mull) {
         buff->mtllib = lib;
-        return;
     }
-    BAMtlLibrary* iter = buff->mtllib;
-    while (iter->next != mull) {
-        iter = iter->next;
-    }
-    iter->next = lib;
 }
 
 MCInline BAObj* BAObjAlloc(size_t facecount, int vpf)
 {
     BAObj* buff = (BAObj*)malloc(sizeof(BAObj));
-    buff->next  = mull;
-    buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
-    buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount) * vpf);
-    buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
-    buff->facebuff    = (BAFace*) malloc(sizeof(BAFace)  * (facecount));
-    buff->mtllib = mull;
-    buff->usemtl[0] = '\0';
-
-    buff->Meta.Frame = (BACubeFrame){};
-    buff->Meta.tcount  = 0;
-    buff->Meta.fcursor = 0;
-    buff->Meta.vcursor = 0;
-    buff->Meta.tcursor = 0;
-    buff->Meta.ncursor = 0;
-    buff->Meta.name[0] = '\0';
-    return buff;
+    if (buff) {
+        buff->next  = mull;
+        buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
+        buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (facecount) * vpf);
+        buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (facecount) * vpf);
+        buff->facebuff    = (BAFace*)   malloc(sizeof(BAFace)    * (facecount));
+        
+        if (buff->vertexbuff && buff->texcoorbuff && buff->normalbuff && buff->facebuff) {
+            buff->mtllib = mull;
+            buff->usemtl[0] = '\0';
+            
+            buff->Meta.Frame = (BACubeFrame){};
+            buff->Meta.tcount  = 0;
+            buff->Meta.fcursor = 0;
+            buff->Meta.vcursor = 0;
+            buff->Meta.tcursor = 0;
+            buff->Meta.ncursor = 0;
+            buff->Meta.name[0] = '\0';
+            
+            return buff;
+        }
+    }
+    error_log("BAObjParser - BAObjAlloc failed. face count is %d\n", facecount);
+    return mull;
 }
 
 MCInline void BAObjRelease(BAObj* buff)
 {
     //recursively
-    if (buff->next != mull) {
-        BAObjRelease(buff->next);
-    }
-    if (buff != mull) {
+    if (buff) {
+        if (buff->next) {
+            BAObjRelease(buff->next);
+        }
         //clean up self
         free(buff->facebuff);
         free(buff->vertexbuff);

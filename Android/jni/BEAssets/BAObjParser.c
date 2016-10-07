@@ -178,6 +178,9 @@ size_t processObjLine(BAObj* buff, const char* linebuff)
                         buff->normalbuff[buff->Meta.ncursor].v[i] = fbuff[i];
                     buff->Meta.ncursor++;
                 }
+                else if (MCStringEqualN(word, "vp", 2)) {
+                    //parameter
+                }
                 else if (MCStringEqualN(word, "v", 1)) {
                     double fbuff[LINE_MAX];
                     size_t n = nextFloats(&remain, fbuff);
@@ -261,7 +264,7 @@ BAObj* BAObjNew(const char* filename)
         assetbuff = MCFileCopyContentWithPath(filename, "obj");
     }
 
-    if (assetbuff != mull) {
+    if (assetbuff) {
         BAObjMeta Meta;
         size_t fc = processObjMeta(&Meta, assetbuff);
         if (fc <= 0) {
@@ -269,8 +272,7 @@ BAObj* BAObjNew(const char* filename)
             return mull;
         }
         BAObj* buff = BAObjAlloc(fc, 3);
-        if (buff == mull) {
-            error_log("MC3DObjParser - allocBAObj failed. face count is %d\n", fc);
+        if (!buff) {
             return mull;
         }
         

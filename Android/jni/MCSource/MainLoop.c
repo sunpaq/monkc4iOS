@@ -58,7 +58,7 @@ void onOpenFile(const char* filename)
 {
     //model
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
-    if (model != mull) {
+    if (model) {
         debug_log("Create MC3DModel success:%s\n", filename);
 
         MC3DFrame frame = model->frame(model);
@@ -100,6 +100,7 @@ void onOpenFileAsync(const char* filename)
 
 void onReceiveMemoryWarning()
 {
+    error_log("Receive Memory Warning\n");
     MC3DScene* mainScene = director->lastScene;
     if (mainScene != mull && mainScene->rootnode != mull) {
         ff(mainScene->rootnode, cleanUnvisibleChild, 0);
