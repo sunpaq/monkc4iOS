@@ -11,14 +11,14 @@ size_t lineMeta(BAObjMeta* meta, const char* linebuff)
     char word[256];
     MCToken token = tokenize(nextWord(&remain, word));
     if (token.type == MCTokenIdentifier) {
-        if (MCStringEqualN(word, "v", 1)) {
-            meta->vertex_count++;
-        }
-        else if (MCStringEqualN(word, "t", 1)) {
+        if (MCStringEqualN(word, "vt", 2)) {
             meta->texcoord_count++;
         }
-        else if (MCStringEqualN(word, "n", 1)) {
+        else if (MCStringEqualN(word, "vn", 2)) {
             meta->normal_count++;
+        }
+        else if (MCStringEqualN(word, "v", 1)) {
+            meta->vertex_count++;
         }
         else if (MCStringEqualN(word, "f", 1)) {
             //peek next value
