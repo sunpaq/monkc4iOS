@@ -8,10 +8,11 @@
 
 #include "MC3DModel.h"
 #include "BAObjParser.h"
+#include "BATrianglization.h"
 #include "MCMath.h"
 #include "MCLinkedList.h"
 
-function(void, loadFaceData, MCMesh* mesh, BAObj* buff, BAFace face, int faceIndex, MCColorRGBAf color);
+function(void, loadFaceData, MCMesh* mesh, BAObj* buff, BATriangle face, int faceIndex, MCColorRGBAf color);
 
 compute(MC3DFrame, frame)
 {
@@ -63,7 +64,11 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
 
     MCMesh* mesh = ff(new(MCMesh), initWithDefaultVertexAttributes, 0);
     debug_log("MC3DModel - mesh created: %s\n", path);
-    BAObj* buff = BAObjNew(path);
+    
+    BAObjMeta Meta;
+    BAObj* buff = BAObjNew(path, &Meta);
+    size_t size = getTrianglesBuffSize(buff->facebuff, Meta.face_count);
+
     if (!buff) {
         error_log("MC3DModel - can not parse file:%s\n", path);
         return mull;
@@ -72,22 +77,26 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         char mtl[PATH_MAX];
         MCString_replace(".obj", ".mtl", path, &mtl);
         
-        mesh->vertexCount = (GLsizei)buff->Meta.fcursor*3;
+        mesh->vertexCount = (GLsizei)size*3;
         mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
         if (mesh->vertexDataSize != 0) {
             mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
         }else{
             mesh->vertexDataPtr = mull;
         }
-        //mesh->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*mesh->vertexCount);
+        //mesh->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*mesh->vforertexCount);
         
-        for (int i=0; i<buff->Meta.fcursor; i++) {
-            loadFaceData(0, mull, mesh, buff, buff->facebuff[i], i, color);
+        BATriangle* triangles = (BATriangle*)malloc(sizeof(BATriangle) * size);
+        size_t tricount = trianglization(triangles, buff->facebuff, Meta.face_count, buff->vertexbuff);
+        for (int i=0; i<tricount; i++) {
+            loadFaceData(0, mull, mesh, buff, triangles[i], i, color);
         }
+        free(triangles);
+
         debug_log("MC3DModel - face data loaded: %s\n", path);
 
         for (int i=0; i<6; i++) {
-            mesh->Frame.m[i] = buff->Meta.Frame.m[i];
+            mesh->Frame.m[i] = buff->Frame.m[i];
         }
         //ff(mesh, dump, 0);
         
@@ -96,11 +105,11 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         sobj->texture  = mull;
         
         //set name
-        MCStringFill(obj->name, buff->Meta.name);
+        MCStringFill(obj->name, buff->name);
         
         //set mtl
         BAMaterial* bamtl = mull;
-        if (MCStringEqual(buff->Meta.name, "Aventador")) {
+        if (MCStringEqual(buff->name, "Aventador")) {
             bamtl = BAFindMaterial(buff->mliblist, "Body");
         }else{
             bamtl = BAFindMaterial(buff->mliblist, buff->usemtl);
@@ -153,16 +162,16 @@ onload(MC3DModel)
     }
 }
 
-function(void, calculateFrame, BAObj* buff, MCVector3 v)
+function(void, calculateFrame, BAObj* baobj, MCVector3 v)
 {
     //3D frame max
-    MCMath_accumulateMaxd(&buff->Meta.Frame.xmax, v.x);
-    MCMath_accumulateMaxd(&buff->Meta.Frame.ymax, v.y);
-    MCMath_accumulateMaxd(&buff->Meta.Frame.zmax, v.z);
+    MCMath_accumulateMaxd(&baobj->Frame.xmax, v.x);
+    MCMath_accumulateMaxd(&baobj->Frame.ymax, v.y);
+    MCMath_accumulateMaxd(&baobj->Frame.zmax, v.z);
     //3D frame min
-    MCMath_accumulateMind(&buff->Meta.Frame.xmin, v.x);
-    MCMath_accumulateMind(&buff->Meta.Frame.ymin, v.y);
-    MCMath_accumulateMind(&buff->Meta.Frame.zmin, v.z);
+    MCMath_accumulateMind(&baobj->Frame.xmin, v.x);
+    MCMath_accumulateMind(&baobj->Frame.ymin, v.y);
+    MCMath_accumulateMind(&baobj->Frame.zmin, v.z);
 }
 
 function(void, loadFaceElement, MCMesh* mesh, BAObj* buff,
@@ -205,7 +214,7 @@ function(void, loadFaceElement, MCMesh* mesh, BAObj* buff,
     //mesh->vertexIndexes[(offset==0)?(0):(offset/11)] = (GLuint)e.vi;
 }
 
-function(void, loadFaceData, MCMesh* mesh, BAObj* buff, BAFace face, int faceIndex, MCColorRGBAf color)
+function(void, loadFaceData, MCMesh* mesh, BAObj* buff, BATriangle face, int faceIndex, MCColorRGBAf color)
 {
     int offset = faceIndex * 33;
     loadFaceElement(0, mull, mesh, buff, face.e1, offset+0, color);

@@ -326,7 +326,13 @@ MCInline size_t nextDates(const char** target_p, long buff[])
             buff[i++] = token.value.Date[0];
             buff[i++] = token.value.Date[1];
             buff[i++] = token.value.Date[2];
-        }else{
+        }
+        else if (token.type == MCTokenInteger) {
+            buff[i++] = token.value.Integer;
+            buff[i++] = 0;
+            buff[i++] = 0;
+        }
+        else{
             return i;
         }
     }
