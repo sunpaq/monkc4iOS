@@ -32,9 +32,11 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
                     meta->face_count++;
                 }
                 else if (MCStringEqualN(word, "o", 1)) {
+                    meta->object_starts[meta->object_count] = meta->face_count;
                     meta->object_count++;
                 }
                 else if (MCStringEqualN(word, "g", 1)) {
+                    meta->group_starts[meta->group_count] = meta->face_count;
                     meta->group_count++;
                 }
                 else if (MCStringEqualN(word, "mtllib", 6)) {
@@ -93,8 +95,10 @@ void parseObj(BAObj* object, const char* file)
                         //peek next value
                         token = tokenize(peekNext(&remain, word));
                         if (token.type == MCTokenDate || token.type == MCTokenInteger) {
+                            long lbuff[LINE_MAX];
                             BAFace* f = &object->facebuff[fcursor];
-                            f->vcount = nextDates(&remain, f->data);
+                            f->vcount = nextDates(&remain, lbuff);
+                            BAFaceInit(f, lbuff, f->vcount);
                             fcursor++;
                         }
                     }

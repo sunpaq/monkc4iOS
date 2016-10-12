@@ -18,9 +18,26 @@
 #include "BAMtlParser.h"
 
 typedef struct {
-    long data[LINE_MAX];
+    long*  big;
+    long   small[18];
+    long*  data;
     size_t vcount;
 } BAFace;
+
+MCInline void BAFaceInit(BAFace* face, long* buff, size_t vcount)
+{
+    size_t size = sizeof(long) * vcount;
+    if (vcount <= 18) {
+        memcpy(face->small, buff, size);
+        face->data = face->small;
+        face->big = mull;
+    }else{
+        face->big = (long*)malloc(size);
+        memcpy(face->big, buff, size);
+        face->data = face->big;
+    }
+    face->vcount = vcount;
+}
 
 typedef union {
     struct {
@@ -42,6 +59,8 @@ typedef struct {
     
     size_t object_count;
     size_t group_count;
+    size_t object_starts[256];
+    size_t group_starts[1024];
     
     size_t mtllib_count;
 } BAObjMeta;
@@ -54,7 +73,8 @@ MCInline void BAObjMetaInit(BAObjMeta* meta) {
 
     meta->object_count    = 0;
     meta->group_count     = 0;
-    
+    //memset(meta->object_starts, 0, 256);
+    //memset(meta->group_starts, 0, 256);
     meta->mtllib_count    = 0;
 }
 
@@ -66,6 +86,7 @@ typedef struct BAObjStruct {
     MCVector3* normalbuff;
     //faces
     BAFace* facebuff;
+    size_t  facecount;
     //mtl
     BAMtlLibrary* mliblist;
     char usemtl[256];
@@ -100,6 +121,7 @@ MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
         buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (meta->texcoord_count));
         buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (meta->normal_count));
         buff->facebuff    = (BAFace*)malloc(sizeof(BAFace)       * (meta->face_count));
+        buff->facecount   = meta->face_count;
         
         if (buff->vertexbuff && buff->texcoorbuff && buff->normalbuff && buff->facebuff) {
             buff->mliblist = mull;
@@ -118,6 +140,12 @@ MCInline void BAObjRelease(BAObj* buff)
     //recursively
     if (buff) {
         //clean up self
+        for (int i=0; i<buff->facecount; i++) {
+            BAFace* f = &buff->facebuff[i];
+            if (f->big) {
+                free(f->big);
+            }
+        }
         free(buff->facebuff);
         free(buff->vertexbuff);
         free(buff->texcoorbuff);

@@ -68,6 +68,11 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
     BAObjMeta Meta;
     BAObj* buff = BAObjNew(path, &Meta);
     size_t size = getTrianglesBuffSize(buff->facebuff, Meta.face_count);
+    
+    for (int i=0; i<Meta.object_count; i++) {
+        size_t f = Meta.object_starts[i+1] - Meta.object_starts[i];
+        
+    }
 
     if (!buff) {
         error_log("MC3DModel - can not parse file:%s\n", path);

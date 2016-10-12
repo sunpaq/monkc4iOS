@@ -38,15 +38,17 @@ size_t trianglization(BATriangle* triangles, BAFace* faces, size_t facecounts, M
     size_t tricounts = 0;
     for (int i=0; i<facecounts; i++) {
         BAFace* face = &faces[i];
+        long* data = face->data;
+
         if (face->vcount < 9) {
             error_log("BAObjParser - v/n/t group less than 3\n");
             exit(-1);
         }
         else if (face->vcount == 9) {
             triangles[tricounts++] = (BATriangle) {
-                face->data[0], face->data[1], face->data[2],
-                face->data[3], face->data[4], face->data[5],
-                face->data[6], face->data[7], face->data[8]
+                data[0], data[1], data[2],
+                data[3], data[4], data[5],
+                data[6], data[7], data[8]
             };
         }
         else if (face->vcount > 9) {
@@ -55,7 +57,7 @@ size_t trianglization(BATriangle* triangles, BAFace* faces, size_t facecounts, M
             MCTriangle mctriangles[LINE_MAX-2];
             
             for (int i=0; i<count; i++) {
-                mcvertexes[i] = vertexbuff[face->data[i*3]];
+                mcvertexes[i] = vertexbuff[data[i*3]];
             }
             
             MCPolygon Poly = {};
@@ -66,9 +68,9 @@ size_t trianglization(BATriangle* triangles, BAFace* faces, size_t facecounts, M
                 for (int i=0; i< face->vcount-6; i=i+3) {
                     //face
                     triangles[tricounts] = (BATriangle){
-                        face->data[0  ], face->data[1  ], face->data[2  ],
-                        face->data[i+3], face->data[i+4], face->data[i+5],
-                        face->data[i+6], face->data[i+7], face->data[i+8]
+                        data[0  ], data[1  ], data[2  ],
+                        data[i+3], data[i+4], data[i+5],
+                        data[i+6], data[i+7], data[i+8]
                     };
                     tricounts++;
                 }
@@ -90,17 +92,17 @@ size_t trianglization(BATriangle* triangles, BAFace* faces, size_t facecounts, M
                     size_t vi2 = viresult[i*3+1];
                     size_t vi3 = viresult[i*3+2];
                     
-                    long v1 = face->data[vi1*3+0];
-                    long t1 = face->data[vi1*3+1];
-                    long n1 = face->data[vi1*3+2];
+                    long v1 = data[vi1*3+0];
+                    long t1 = data[vi1*3+1];
+                    long n1 = data[vi1*3+2];
                     
-                    long v2 = face->data[vi2*3+0];
-                    long t2 = face->data[vi2*3+1];
-                    long n2 = face->data[vi2*3+2];
+                    long v2 = data[vi2*3+0];
+                    long t2 = data[vi2*3+1];
+                    long n2 = data[vi2*3+2];
                     
-                    long v3 = face->data[vi3*3+0];
-                    long t3 = face->data[vi3*3+1];
-                    long n3 = face->data[vi3*3+2];
+                    long v3 = data[vi3*3+0];
+                    long t3 = data[vi3*3+1];
+                    long n3 = data[vi3*3+2];
                     
                     triangles[tricounts] = (BATriangle){
                         v1, t1, n1,
