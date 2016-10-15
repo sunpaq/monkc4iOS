@@ -155,6 +155,8 @@ BAMtlLibrary* BAMtlLibraryNew(const char* filename)
         BAMtlLibraryResetCursor(lib);
         
         free((void*)assetbuff);
+        
+        MCStringFill(lib->name, filename);
         return lib;
     }else{
         error_log("MC3DObjParser - AAssetManager_open %s failed\n", filename);

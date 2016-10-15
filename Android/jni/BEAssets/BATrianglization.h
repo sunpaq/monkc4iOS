@@ -40,7 +40,10 @@ typedef union {
     long data[9];
 } BATriangle;
 
-size_t getTrianglesBuffSize(BAFace* faces, size_t facecounts);
+size_t       getTrianglesBuffSize(BAFace* faces, size_t facecounts);
+BATriangle* createTrianglesBuffer(BAFace* faces, size_t facecounts);
+void       releaseTrianglesBuffer(BATriangle* buff);
+
 size_t trianglization(BATriangle* triangles, BAFace* faces, size_t facecounts, MCVector3* vertexbuff);
 
 #endif /* BATrianglization_h */

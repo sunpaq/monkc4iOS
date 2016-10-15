@@ -42,6 +42,10 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
                 else if (MCStringEqualN(word, "mtllib", 6)) {
                     meta->mtllib_count++;
                 }
+                else if (MCStringEqualN(word, "usemtl", 6)) {
+                    meta->usemtl_starts[meta->usemtl_count] = meta->face_count;
+                    meta->usemtl_count++;
+                }
             }
         }
     }
@@ -54,6 +58,8 @@ void parseObj(BAObj* object, const char* file)
         size_t tcursor = 0;
         size_t ncursor = 0;
         size_t fcursor = 0;
+        size_t mcursor = 0;
+        size_t ucursor = 0;
         
         char line[LINE_MAX]; char* c = (char*)file;
         while (*c!='\0') {
@@ -116,14 +122,21 @@ void parseObj(BAObj* object, const char* file)
                         token = tokenize(nextWord(&remain, word));
                         if (token.type == MCTokenFilename) {
                             BAMtlLibrary* lib = BAMtlLibraryNew(token.value.Word);
-                            BAObjAddMtlLib(object, lib);
+                            if (mcursor < object->mlibcount && lib) {
+                                object->mlibbuff[mcursor++] = *lib;
+                            }
                         }
                     }
                     else if (MCStringEqualN(word, "usemtl", 6)) {
                         token = tokenize(nextWord(&remain, word));
                         if (token.type == MCTokenIdentifier) {
-                            if (object->usemtl[0] == '\0') {
-                                MCStringFill(object->usemtl, token.value.Word);
+                            BAMaterial* mtl = mull;
+                            for (int i=0; i<object->mlibcount; i++) {
+                                mtl = BAFindMaterial(&object->mlibbuff[i], token.value.Word);
+                                if (mtl) {
+                                    object->usemtlbuff[ucursor++] = *mtl;
+                                    break;
+                                }
                             }
                         }
                         continue;

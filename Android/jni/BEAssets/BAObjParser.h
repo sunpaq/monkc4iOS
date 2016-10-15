@@ -26,11 +26,11 @@ typedef struct {
 
 MCInline void BAFaceInit(BAFace* face, long* buff, size_t vcount)
 {
+    face->big = mull;
     size_t size = sizeof(long) * vcount;
     if (vcount <= 18) {
         memcpy(face->small, buff, size);
         face->data = face->small;
-        face->big = mull;
     }else{
         face->big = (long*)malloc(size);
         memcpy(face->big, buff, size);
@@ -59,8 +59,11 @@ typedef struct {
     
     size_t object_count;
     size_t group_count;
+    size_t usemtl_count;
+    
     size_t object_starts[256];
     size_t group_starts[1024];
+    size_t usemtl_starts[1024];
     
     size_t mtllib_count;
 } BAObjMeta;
@@ -73,8 +76,12 @@ MCInline void BAObjMetaInit(BAObjMeta* meta) {
 
     meta->object_count    = 0;
     meta->group_count     = 0;
-    //memset(meta->object_starts, 0, 256);
-    //memset(meta->group_starts, 0, 256);
+    meta->usemtl_count    = 0;
+    
+    memset(meta->object_starts, 0, 256);
+    memset(meta->group_starts, 0, 1024);
+    memset(meta->usemtl_starts, 0, 1024);
+    
     meta->mtllib_count    = 0;
 }
 
@@ -88,29 +95,12 @@ typedef struct BAObjStruct {
     BAFace* facebuff;
     size_t  facecount;
     //mtl
-    BAMtlLibrary* mliblist;
-    char usemtl[256];
+    BAMtlLibrary* mlibbuff;
+    BAMaterial* usemtlbuff;
+    size_t mlibcount;
+    size_t usemtlcount;
     char name[256];
 } BAObj;
-
-MCInline void BAObjAddMtlLib(BAObj* buff, BAMtlLibrary* lib) {
-    if (buff && lib) {
-        BAMtlLibrary* iter = buff->mliblist;
-        if (!iter) {
-            buff->mliblist = lib;
-            return;
-        }
-        while (iter->next) {
-            if (MCStringEqual(lib->name, iter->name)) {
-                //already added
-                return;
-            }
-            iter = iter->next;
-        }
-        //last one
-        iter->next = lib;
-    }
-}
 
 MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
 {
@@ -122,12 +112,13 @@ MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
         buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (meta->normal_count));
         buff->facebuff    = (BAFace*)malloc(sizeof(BAFace)       * (meta->face_count));
         buff->facecount   = meta->face_count;
+        buff->mlibbuff    = (BAMtlLibrary*)malloc(sizeof(BAMtlLibrary) * meta->mtllib_count);
+        buff->usemtlbuff  = (BAMaterial*)malloc(sizeof(BAMaterial) * meta->usemtl_count);
+        buff->mlibcount   = meta->mtllib_count;
+        buff->usemtlcount = meta->usemtl_count;
         
         if (buff->vertexbuff && buff->texcoorbuff && buff->normalbuff && buff->facebuff) {
-            buff->mliblist = mull;
-            buff->usemtl[0] = '\0';
             buff->name[0] = '\0';
-
             return buff;
         }
     }
@@ -150,7 +141,8 @@ MCInline void BAObjRelease(BAObj* buff)
         free(buff->vertexbuff);
         free(buff->texcoorbuff);
         free(buff->normalbuff);
-        BAMtlLibraryRelease(&buff->mliblist);
+        free(buff->mlibbuff);
+        //BAMtlLibraryRelease(&buff->mliblist);
         free(buff);
     }
 }

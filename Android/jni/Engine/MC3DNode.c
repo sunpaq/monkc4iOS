@@ -77,9 +77,7 @@ method(MC3DNode, void, cleanUnvisibleChild, voida)
 
 method(MC3DNode, int, childCount, voida)
 {
-    size_t arraySize = sizeof(obj->children);
-    size_t nodeSize = sizeof(MC3DNode*);
-    return ((int)(arraySize / nodeSize));
+    return computed(obj->children, count);
 }
 
 method(MC3DNode, void, setAllVisible, MCBool visible)

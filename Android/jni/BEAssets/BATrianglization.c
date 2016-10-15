@@ -26,10 +26,22 @@ size_t getTrianglesBuffSize(BAFace* faces, size_t facecounts)
                 trisize += vertexCount - 2;
             }
         }else{
-            error_log("BATrianglization - face vertex count is 0\n");
+            //error_log("BATrianglization - face vertex count is 0\n");
         }
     }
     return trisize;
+}
+
+BATriangle* createTrianglesBuffer(BAFace* faces, size_t facecounts)
+{
+    size_t size = getTrianglesBuffSize(faces, facecounts);
+    BATriangle* triangles = (BATriangle*)malloc(sizeof(BATriangle) * size);
+    return triangles;
+}
+
+void releaseTrianglesBuffer(BATriangle* buff)
+{
+    free(buff);
 }
 
 //return face count;
@@ -39,17 +51,20 @@ size_t trianglization(BATriangle* triangles, BAFace* faces, size_t facecounts, M
     for (int i=0; i<facecounts; i++) {
         BAFace* face = &faces[i];
         long* data = face->data;
-
+        if (!data) {
+            continue;
+        }
         if (face->vcount < 9) {
             error_log("BAObjParser - v/n/t group less than 3\n");
-            exit(-1);
+            //exit(-1);
         }
         else if (face->vcount == 9) {
-            triangles[tricounts++] = (BATriangle) {
+            triangles[tricounts] = (BATriangle) {
                 data[0], data[1], data[2],
                 data[3], data[4], data[5],
                 data[6], data[7], data[8]
             };
+            tricounts++;
         }
         else if (face->vcount > 9) {
             int count = (int)(face->vcount / 3);

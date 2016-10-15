@@ -57,6 +57,7 @@ compute(unsigned, getCount)
             i++;
         }
         var(countChanged) = MCFalse;
+        var(countCache) = i;
         return i;
     }else{
         return var(countCache);
