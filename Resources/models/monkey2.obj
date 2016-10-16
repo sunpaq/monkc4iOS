@@ -1,7 +1,8 @@
 # Blender v2.76 (sub 0) OBJ File: 'monkey.blend'
 # www.blender.org
-mtllib monkey2.mtl
+mtllib beengine.mtl
 o Suzanne
+usemtl skin
 v 0.437500 0.164062 0.765625
 v -0.437500 0.164062 0.765625
 v 0.500000 0.093750 0.687500

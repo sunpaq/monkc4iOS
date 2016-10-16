@@ -75,7 +75,7 @@ typedef union {
 
 MCInline MCBool MCVector3PositiveNonZero(MCVector3 vec3)
 {
-    return (vec3.x > 0 && vec3.y > 0 && vec3.z > 0);
+    return (vec3.x > 0 || vec3.y > 0 || vec3.z > 0);
 }
 
 MCInline MCVector2 MCVector2From3(MCVector3 vec3)

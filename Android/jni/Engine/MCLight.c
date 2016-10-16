@@ -15,6 +15,8 @@ oninit(MCLight)
         obj->ambientLightStrength = 0.15;
         obj->ambientLightColor    = MCVector3Make(1.0, 1.0, 1.0);
         obj->diffuseLightPosition = MCVector3Make(1.0, 1.0, 1.0);
+        obj->specularLightPosition = MCVector3Make(1.0, 1.0, 1.0);
+
         obj->dataChanged = MCTrue;
         return obj;
     }else{
@@ -29,13 +31,16 @@ method(MCLight, void, update, MCGLContext* ctx)
         
         MCGLUniformData data;
         data.vec1 = obj->ambientLightStrength;
-        //MCGLContext_updateUniform(0, ctx, "ambientLightStrength", data);
+        MCGLContext_updateUniform(0, ctx, "ambientLightStrength", data);
         
         data.vec3 = obj->ambientLightColor;
-        //MCGLContext_updateUniform(0, ctx, "ambientLightColor", data);
+        MCGLContext_updateUniform(0, ctx, "ambientLightColor", data);
         
         data.vec3 = obj->diffuseLightPosition;
         MCGLContext_updateUniform(0, ctx, "diffuseLightPosition", data);
+        
+        data.vec3 = obj->specularLightPosition;
+        MCGLContext_updateUniform(0, ctx, "specularLightPosition", data);
         
         obj->dataChanged = MCFalse;
     }

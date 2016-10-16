@@ -18,6 +18,7 @@ class(MCLight, MC3DNode,
       double    ambientLightStrength;
       MCVector3 ambientLightColor;
       MCVector3 diffuseLightPosition;
+      MCVector3 specularLightPosition;
 );
 
 method(MCLight, void, update, MCGLContext* ctx);

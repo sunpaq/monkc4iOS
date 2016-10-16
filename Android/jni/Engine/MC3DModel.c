@@ -152,15 +152,18 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
         MCVector3 ambient  = BAMaterialLightColor(mtl, Ambient);
         MCVector3 diffuse  = BAMaterialLightColor(mtl, Diffuse);
         MCVector3 specular = BAMaterialLightColor(mtl, Specular);
-        if (MCVector3PositiveNonZero(ambient)) {
+        //if (MCVector3PositiveNonZero(ambient)) {
             node->material->ambientLightColor  = ambient;
-        }
-        if (MCVector3PositiveNonZero(diffuse)) {
+        //}
+        //if (MCVector3PositiveNonZero(diffuse)) {
             node->material->diffuseLightColor  = diffuse;
-        }
-        if (MCVector3PositiveNonZero(specular)) {
+        //}
+        //if (MCVector3PositiveNonZero(specular)) {
             node->material->specularLightColor = specular;
-        }
+        //}
+        
+        node->material->specularLightPower = mtl->specularExponent;
+        
         MCStringFill(node->material->tag, mtl->name);
         node->material->dataChanged = MCTrue;
     }

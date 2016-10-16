@@ -44,18 +44,18 @@ void main()
     vec3 diffuse = diffuseLightColor * diffuseStrength_NdotP;
     
     //Specular Light
-    /*
-    vec3 FragPos = vec3(modelMatrix * vec4(position, 1.0f));
-    vec3 lightDir = normalize(specularLightPosition - FragPos);
-    vec3 viewDir = normalize(viewPosition - FragPos);
+    
+    vec3 fragPos = vec3(modelMatrix * position);
+    vec3 lightDir = normalize(specularLightPosition - fragPos);
+    vec3 viewDir = normalize(viewPosition - fragPos);
 
     vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), specularLightPower);//32
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), float(specularLightPower));//32
     vec3 specular = specularLightStrength * spec * specularLightColor;
-    */
+    
     
     //Combined Light
-    combinedlight = vec4((ambient + diffuse), 1.0f);
+    combinedlight = vec4((ambient + diffuse + specular), 1.0f);
     
     //Vertex Color
     vertexcolor = color;
