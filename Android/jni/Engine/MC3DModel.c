@@ -32,6 +32,21 @@ compute(MC3DFrame, frame)
         }
     )
     
+    MCLinkedListForEach(sobj->children,
+        MC3DModel* m = (MC3DModel*)item;
+        if (m != mull) {
+            MC3DFrame mf = computed(m, frame);
+            //MAX
+            MCMath_accumulateMaxd(&allframe.xmax, mf.xmax);
+            MCMath_accumulateMaxd(&allframe.ymax, mf.ymax);
+            MCMath_accumulateMaxd(&allframe.zmax, mf.zmax);
+            //MIN
+            MCMath_accumulateMind(&allframe.xmin, mf.xmin);
+            MCMath_accumulateMind(&allframe.ymin, mf.ymin);
+            MCMath_accumulateMind(&allframe.zmin, mf.zmin);
+        }
+    )
+    
     obj->lastSavedFrame = allframe;
     return allframe;
 }
