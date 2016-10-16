@@ -44,5 +44,6 @@ method(MCGLContext, void, updateUniform, const char* name, MCGLUniformData udata
 method(MCGLContext, void, setUniforms, voida);
 //for debug
 method(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params);
+method(MCGLContext, void, printUniforms, voida);
 
 #endif /* MCGLContext_h */

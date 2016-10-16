@@ -146,6 +146,8 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
         if (MCVector3PositiveNonZero(specular)) {
             node->material->specularLightColor = specular;
         }
+        MCStringFill(node->material->tag, mtl->name);
+        node->material->dataChanged = MCTrue;
     }
 }
 
@@ -184,11 +186,13 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         //set mtl
         BAMaterial* mtl = &buff->usemtlbuff[i];
         if (mtl) {
-            //setMaterialForNode(0, mull, &model->Super, mtl);
+            setMaterialForNode(0, mull, &model->Super, mtl);
         }
         
         //add model to child list
-        MCLinkedList_addItem(0, obj->Super.children, (MCItem*)model);
+        //if (i!=0 && i!=1) {
+            MCLinkedList_addItem(0, obj->Super.children, (MCItem*)model);
+        //}
         
         fcursor += fc;
         

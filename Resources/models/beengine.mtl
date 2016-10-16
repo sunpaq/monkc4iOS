@@ -13,6 +13,16 @@ Ka 0.0000 1.0000 0.0000
 Kd 0.0000 1.0000 0.0000 
 illum 1
 
+newmtl flat_red
+Ka 1.0000 0.0000 0.0000 
+Kd 1.0000 0.0000 0.0000 
+illum 1
+
+newmtl flat_blue
+Ka 0.0000 0.0000 1.0000 
+Kd 0.0000 0.0000 1.0000 
+illum 1
+
 #3.This is a flat green, partially dissolved material. 
 
 newmtl diss_green 

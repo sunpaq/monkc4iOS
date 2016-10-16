@@ -91,10 +91,7 @@ method(MC3DNode, void, setAllVisible, MCBool visible)
 
 method(MC3DNode, void, update, MCGLContext* ctx)
 {
-    //material
-    if (obj->material != mull) {
-        MCMatrial_prepareMatrial(0, obj->material, ctx);
-    }
+
     //texture
 //    if (obj->texture != mull) {
 //        MCTexture_prepareTexture(0, obj->texture, ctx);
@@ -116,6 +113,15 @@ method(MC3DNode, void, update, MCGLContext* ctx)
 
 method(MC3DNode, void, draw, MCGLContext* ctx)
 {
+    //material
+    if (obj->material != mull) {
+        MCMatrial_prepareMatrial(0, obj->material, ctx);
+    }
+    
+    //batch setup
+    MCGLContext_activateShaderProgram(0, ctx, 0);
+    MCGLContext_setUniforms(0, ctx, 0);
+    
     //draw self meshes
     MCLinkedListForEach(var(meshes),
                         MCMesh* mesh = (MCMesh*)item;
@@ -134,6 +140,8 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
                         if (node != mull && node->visible != MCFalse) {
                             fh(node, draw, _draw, ctx);
                         })
+    
+    //ff(ctx, printUniforms, 0);
 }
 
 method(MC3DNode, void, hide, voida)

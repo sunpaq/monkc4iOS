@@ -114,21 +114,11 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
-    MCGLContext_activateShaderProgram(0, obj->context, 0);
-    //batch setup
-    MCGLContext_setUniforms(0, obj->context, 0);
-    
     if (rootnode != mull) {
         fh(rootnode, draw, _draw, obj->context);
     }
     
     //glFlush();
-    // GLfloat diffuse_color[3];
-    // GLfloat diffuse_pos[3];
-    // ff(obj->context, getUniformVector, "diffuseLightColor", diffuse_color);
-    // ff(obj->context, getUniformVector, "diffuseLightPosition", diffuse_pos);
-    // debug_log("diffuseLightColor    %f/%f/%f\n", diffuse_color[0], diffuse_color[1], diffuse_color[2]);
-    // debug_log("diffuseLightPosition %f/%f/%f\n", diffuse_pos[0], diffuse_pos[1], diffuse_pos[2]);
 }
 
 onload(MCGLRenderer)

@@ -184,11 +184,25 @@ method(MCGLContext, void,  setUniforms, voida)
     
 }
 
-method(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params)
+method(MCGLContext, int, getUniformVector,  const char* name, GLfloat* params)
 {
     int loc = (int)ff(obj, getUniformLocation, name);
     glGetUniformfv(var(pid), loc, params);
     return loc;
+}
+
+method(MCGLContext, void, printUniforms, voida)
+{
+    MCLogTypeSet(MC_DEBUG);
+    GLfloat ambient_color[3];
+    GLfloat diffuse_color[3];
+    GLfloat diffuse_pos[3];
+    ff(obj, getUniformVector, "ambientLightColor", ambient_color);
+    ff(obj, getUniformVector, "diffuseLightColor", diffuse_color);
+    ff(obj, getUniformVector, "diffuseLightPosition", diffuse_pos);
+    debug_log("ambientLightColor    %f/%f/%f\n", ambient_color[0], ambient_color[1], ambient_color[2]);
+    debug_log("diffuseLightColor    %f/%f/%f\n", diffuse_color[0], diffuse_color[1], diffuse_color[2]);
+    debug_log("diffuseLightPosition %f/%f/%f\n", diffuse_pos[0], diffuse_pos[1], diffuse_pos[2]);
 }
 
 onload(MCGLContext)
@@ -206,7 +220,9 @@ onload(MCGLContext)
         binding(MCGLContext, void, updateUniform, const char* name, MCGLUniformData udata);
         binding(MCGLContext, void, setUniforms, voida);
         binding(MCGLContext, int,  getUniformVector,  const char* name, GLfloat* params);
-        
+        binding(MCGLContext, int,  getUniformLocation, const char* name);
+        binding(MCGLContext, void, printUniforms, voida);
+
         return cla;
     }else{
         return mull;

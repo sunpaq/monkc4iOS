@@ -29,10 +29,10 @@ method(MCLight, void, update, MCGLContext* ctx)
         
         MCGLUniformData data;
         data.vec1 = obj->ambientLightStrength;
-        MCGLContext_updateUniform(0, ctx, "ambientLightStrength", data);
+        //MCGLContext_updateUniform(0, ctx, "ambientLightStrength", data);
         
         data.vec3 = obj->ambientLightColor;
-        MCGLContext_updateUniform(0, ctx, "ambientLightColor", data);
+        //MCGLContext_updateUniform(0, ctx, "ambientLightColor", data);
         
         data.vec3 = obj->diffuseLightPosition;
         MCGLContext_updateUniform(0, ctx, "diffuseLightPosition", data);

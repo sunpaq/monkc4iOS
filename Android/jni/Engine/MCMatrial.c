@@ -22,6 +22,7 @@ oninit(MCMatrial)
         obj->specularLightColor = MCVector3Make(1.0, 1.0, 1.0);
         obj->dataChanged = MCTrue;
         
+        obj->tag[0] = '\0';
         return obj;
     }else{
         return mull;
@@ -30,7 +31,7 @@ oninit(MCMatrial)
 
 method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
 {
-    if (obj->dataChanged == MCTrue) {
+    //if (obj->dataChanged == MCTrue) {
         MCGLContext_activateShaderProgram(0, ctx, 0);
         
         MCGLUniform f;
@@ -58,7 +59,7 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
         MCGLContext_updateUniform(0, ctx, "specularLightPower", f.data);
 
         obj->dataChanged = MCFalse;
-    }
+    //}
 }
 
 onload(MCMatrial)

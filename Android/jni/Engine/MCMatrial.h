@@ -21,6 +21,7 @@ class(MCMatrial, MCObject,
       double      specularLightStrength;
       MCVector3   specularLightColor;
       MCInt       specularLightPower;
+      char        tag[256];
 );
 
 method(MCMatrial, void, prepareMatrial, MCGLContext* ctx);
