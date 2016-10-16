@@ -41,7 +41,7 @@ void main()
     float diffuseStrength_NdotP = max(0.0, dot(eyeNormal, normalize(diffuseLightPosition)));
     
     //Diffuse Light
-    vec3 diffuse = diffuseLightColor * diffuseStrength_NdotP;
+    vec3 diffuse = diffuseStrength_NdotP * diffuseLightColor;
     
     //Specular Light
     
@@ -49,10 +49,11 @@ void main()
     vec3 lightDir = normalize(specularLightPosition - fragPos);
     vec3 viewDir = normalize(viewPosition - fragPos);
 
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), float(specularLightPower));//32
-    vec3 specular = specularLightStrength * spec * specularLightColor;
+    //vec3 reflectDir = reflect(-lightDir, normal);
+    //float dotProduct = dot(viewDir, reflectDir);
     
+    float spec = pow(1.0, float(specularLightPower));//32
+    vec3 specular = specularLightStrength * spec * specularLightColor;
     
     //Combined Light
     combinedlight = vec4((ambient + diffuse + specular), 1.0f);

@@ -135,7 +135,11 @@ void parseObj(BAObj* object, const char* file)
                             for (int i=0; i<object->mlibcount; i++) {
                                 mtl = BAFindMaterial(&object->mlibbuff[i], token.value.Word);
                                 if (mtl) {
-                                    object->usemtlbuff[ucursor++] = *mtl;
+                                    if (ucursor < object->usemtlcount) {
+                                        object->usemtlbuff[ucursor++] = (BAMaterial)(*mtl);
+                                    }else{
+                                        break;
+                                    }
                                 }
                             }
                         }

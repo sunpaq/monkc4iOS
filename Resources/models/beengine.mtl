@@ -23,13 +23,13 @@ illum 1
 newmtl hair
 Kd 0.3100 0.1100 0.0000
 Ks 0.1100 0.1100 0.1100
-Ns 16.0000
+Ns 16
 illum 1
 
 newmtl skin
 Kd 0.9700 0.7100 0.7000
 Ks 0.9700 0.7100 0.7000
-Ns 32.0000
+Ns 32
 illum 1
 
 newmtl cloth

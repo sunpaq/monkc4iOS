@@ -172,7 +172,6 @@ MCInline MCVector3 BAMaterialLightColor(BAMaterial* mat, BALightType type) {
 }
 
 typedef struct BAMtlLibraryStruct {
-    //struct BAMtlLibraryStruct* next;
     BAMaterial materials[256];
     //cursors
     int materialCursor;
@@ -185,7 +184,7 @@ typedef struct BAMtlLibraryStruct {
 MCInline BAMaterial* BAFindMaterial(BAMtlLibrary* lib, const char* name) {
     if (lib && name) {
         for (int i=0; i<256; i++) {
-            BAMaterial* mtl = &lib->materials[i];
+            BAMaterial* mtl = &(lib->materials[i]);
             if (MCStringEqual(mtl->name, name)) {
                 return mtl;
             }
@@ -224,19 +223,12 @@ MCInline void BAMtlLibraryResetCursor(BAMtlLibrary* lib) {
 }
 
 MCInline BAMaterial* currentMaterial(BAMtlLibrary* lib) {
-    return &(lib->materials[lib->materialCursor]);
+    if (lib->materialCursor != -1) {
+        return &(lib->materials[lib->materialCursor]);
+    }else{
+        return mull;
+    }
 }
-
-//MCInline void BAMtlLibraryRelease(BAMtlLibrary** lib) {
-//    if (lib && *lib) {
-//        if ((*lib)->next) {
-//            BAMtlLibraryRelease(&((*lib)->next));
-//        } else {
-//            free(*lib);
-//            lib = mull;
-//        }
-//    }
-//}
 
 BAMtlLibrary* BAMtlLibraryNew(const char* filename);
 

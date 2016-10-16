@@ -184,25 +184,48 @@ method(MCGLContext, void,  setUniforms, voida)
     
 }
 
-method(MCGLContext, int, getUniformVector,  const char* name, GLfloat* params)
+method(MCGLContext, int, getUniformVector, const char* name, GLfloat* params)
 {
     int loc = (int)ff(obj, getUniformLocation, name);
     glGetUniformfv(var(pid), loc, params);
     return loc;
 }
 
+//uniform float specularLightPower;
+//uniform float specularLightStrength;
+//uniform vec3  specularLightPosition;
+//uniform vec3  specularLightColor;
 method(MCGLContext, void, printUniforms, voida)
 {
     MCLogTypeSet(MC_DEBUG);
     GLfloat ambient_color[3];
+    
     GLfloat diffuse_color[3];
     GLfloat diffuse_pos[3];
+    
+    GLfloat specular_power[1];
+    GLfloat specular_strength[1];
+    GLfloat specular_pos[3];
+    GLfloat specular_color[3];
+
     ff(obj, getUniformVector, "ambientLightColor", ambient_color);
     ff(obj, getUniformVector, "diffuseLightColor", diffuse_color);
     ff(obj, getUniformVector, "diffuseLightPosition", diffuse_pos);
+    
+    ff(obj, getUniformVector, "specularLightPower", specular_power);
+    ff(obj, getUniformVector, "specularLightStrength", specular_strength);
+    ff(obj, getUniformVector, "specularLightPosition", specular_pos);
+    ff(obj, getUniformVector, "specularLightColor", specular_color);
+
     debug_log("ambientLightColor    %f/%f/%f\n", ambient_color[0], ambient_color[1], ambient_color[2]);
     debug_log("diffuseLightColor    %f/%f/%f\n", diffuse_color[0], diffuse_color[1], diffuse_color[2]);
     debug_log("diffuseLightPosition %f/%f/%f\n", diffuse_pos[0], diffuse_pos[1], diffuse_pos[2]);
+    
+    debug_log("specularLightPower    %f\n", specular_power[0]);
+    debug_log("specularLightStrength %f\n", specular_strength[0]);
+    debug_log("specularLightPosition %f/%f/%f\n", specular_pos[0], specular_pos[1], specular_pos[2]);
+    debug_log("specularLightColor    %f/%f/%f\n", specular_color[0], specular_color[1], specular_color[2]);
+
 }
 
 onload(MCGLContext)
