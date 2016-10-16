@@ -91,7 +91,10 @@ method(MC3DNode, void, setAllVisible, MCBool visible)
 
 method(MC3DNode, void, update, MCGLContext* ctx)
 {
-
+    MCGLUniform f;
+    f.data.mat4 = var(transform);
+    MCGLContext_updateUniform(0, ctx, "modelMatrix", f.data);
+    
     //texture
 //    if (obj->texture != mull) {
 //        MCTexture_prepareTexture(0, obj->texture, ctx);
@@ -141,7 +144,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
                             fh(node, draw, _draw, ctx);
                         })
     
-    ff(ctx, printUniforms, 0);
+    //ff(ctx, printUniforms, 0);
 }
 
 method(MC3DNode, void, hide, voida)

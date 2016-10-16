@@ -56,7 +56,6 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
             MCGLUniformMat4,
             MCGLUniformMat4,
             MCGLUniformMat4,
-            MCGLUniformMat4,
             MCGLUniformVec3,
             MCGLUniformMat3,
             MCGLUniformVec1,
@@ -70,7 +69,6 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
             MCGLUniformScalar
         },
         (const char* []){
-           "modelViewMatrix",
            "modelMatrix",
            "viewMatrix",
            "projectionMatrix",
@@ -85,7 +83,7 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
            "specularLightPosition",
            "specularLightColor",
            "texsampler"
-        }, 15);
+        }, 14);
     return obj;
 }
 

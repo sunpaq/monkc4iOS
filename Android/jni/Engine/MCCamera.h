@@ -20,7 +20,7 @@ class(MCCamera, MC3DNode,
     
     computing(double, Radius);
     computing(MCMatrix3, normal);
-    computing(MCMatrix4, modelViewMatrix);
+    computing(MCMatrix4, viewMatrix);
     computing(MCMatrix4, projectionMatrix);
     computing(MCVector3, currentPosition);
     

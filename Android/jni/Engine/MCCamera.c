@@ -2,7 +2,7 @@
 
 compute(double, Radius);
 compute(MCMatrix3, normal);
-compute(MCMatrix4, modelViewMatrix);
+compute(MCMatrix4, viewMatrix);
 compute(MCMatrix4, projectionMatrix);
 compute(MCVector3, currentPosition);
 
@@ -23,7 +23,8 @@ oninit(MCCamera)
         
         var(Radius) = Radius;
         var(normal) = normal;
-        var(modelViewMatrix) = modelViewMatrix;
+        //var(modelViewMatrix) = modelViewMatrix;
+        var(viewMatrix) = viewMatrix;
         var(projectionMatrix) = projectionMatrix;
         var(currentPosition) = currentPosition;
         
@@ -44,11 +45,11 @@ compute(double, Radius)
 compute(MCMatrix3, normal)
 {
     as(MCCamera);
-    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(cpt(modelViewMatrix)), NULL);
+    MCMatrix3 nor = MCMatrix3InvertAndTranspose((MCMatrix3)MCMatrix4GetMatrix3(cpt(viewMatrix)), NULL);
     return nor;
 }
 
-compute(MCMatrix4, modelViewMatrix)
+compute(MCMatrix4, viewMatrix)
 {
     as(MCCamera);
     MCVector3 modelpos = var(lookat);
@@ -102,8 +103,8 @@ method(MCCamera, void, update, MCGLContext* ctx)
 {
     MCGLUniform f;
     
-    f.data.mat4 = cpt(modelViewMatrix);
-    MCGLContext_updateUniform(0, ctx, "modelViewMatrix", f.data);
+    f.data.mat4 = cpt(viewMatrix);
+    MCGLContext_updateUniform(0, ctx, "viewMatrix", f.data);
     
     f.type = MCGLUniformMat3;
     f.data.mat3 = cpt(normal);

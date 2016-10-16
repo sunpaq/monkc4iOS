@@ -7,7 +7,6 @@ layout (location=2) in vec3 color;
 layout (location=3) in vec2 texcoord;
 
 //uniform variables from code
-uniform mat4  modelViewMatrix;
 uniform mat4  modelMatrix;
 uniform mat4  viewMatrix;
 uniform mat4  projectionMatrix;
@@ -44,15 +43,14 @@ void main()
     vec3 diffuse = diffuseStrength_NdotP * diffuseLightColor;
     
     //Specular Light
-    
     vec3 fragPos = vec3(modelMatrix * position);
     vec3 lightDir = normalize(specularLightPosition - fragPos);
     vec3 viewDir = normalize(viewPosition - fragPos);
 
-    //vec3 reflectDir = reflect(-lightDir, normal);
-    //float dotProduct = dot(viewDir, reflectDir);
+    vec3 reflectDir = reflect(-lightDir, normal);
+    float dotProduct = min(max(0.0001, dot(viewDir, reflectDir)), 1.0);
     
-    float spec = pow(1.0, float(specularLightPower));//32
+    float spec = pow(dotProduct, float(specularLightPower));//32
     vec3 specular = specularLightStrength * spec * specularLightColor;
     
     //Combined Light
@@ -65,5 +63,5 @@ void main()
     texturecoord = texcoord;
     
     //Position
-    gl_Position = projectionMatrix * modelViewMatrix * position;
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * position;
 }

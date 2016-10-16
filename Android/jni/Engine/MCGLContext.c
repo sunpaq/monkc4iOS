@@ -11,7 +11,6 @@
 #include "MCGLEngine.h"
 #include "BEAssetsManager.h"
 
-//uniform mat4  modelViewMatrix;
 //uniform mat4  modelMatrix;
 //uniform mat4  viewMatrix;
 //uniform mat4  projectionMatrix;
@@ -203,8 +202,8 @@ method(MCGLContext, void, printUniforms, voida)
     GLfloat diffuse_color[3];
     GLfloat diffuse_pos[3];
     
-    GLfloat specular_power[1];
-    GLfloat specular_strength[1];
+    GLint specular_power;
+    GLint specular_strength;
     GLfloat specular_pos[3];
     GLfloat specular_color[3];
 
@@ -212,8 +211,13 @@ method(MCGLContext, void, printUniforms, voida)
     ff(obj, getUniformVector, "diffuseLightColor", diffuse_color);
     ff(obj, getUniformVector, "diffuseLightPosition", diffuse_pos);
     
-    ff(obj, getUniformVector, "specularLightPower", specular_power);
-    ff(obj, getUniformVector, "specularLightStrength", specular_strength);
+    //ff(obj, getUniformVector, "specularLightPower", specular_power);
+    //ff(obj, getUniformVector, "specularLightStrength", specular_strength);
+    int loc_specularLightPower = (int)ff(obj, getUniformLocation, "specularLightPower");
+    int loc_specularLightStrength = (int)ff(obj, getUniformLocation, "specularLightStrength");
+    glGetUniformiv(var(pid), loc_specularLightPower, &specular_power);
+    glGetUniformiv(var(pid), loc_specularLightStrength, &specular_strength);
+    
     ff(obj, getUniformVector, "specularLightPosition", specular_pos);
     ff(obj, getUniformVector, "specularLightColor", specular_color);
 
@@ -221,8 +225,8 @@ method(MCGLContext, void, printUniforms, voida)
     debug_log("diffuseLightColor    %f/%f/%f\n", diffuse_color[0], diffuse_color[1], diffuse_color[2]);
     debug_log("diffuseLightPosition %f/%f/%f\n", diffuse_pos[0], diffuse_pos[1], diffuse_pos[2]);
     
-    debug_log("specularLightPower    %f\n", specular_power[0]);
-    debug_log("specularLightStrength %f\n", specular_strength[0]);
+    debug_log("specularLightPower    %d\n", specular_power);
+    debug_log("specularLightStrength %d\n", specular_strength);
     debug_log("specularLightPosition %f/%f/%f\n", specular_pos[0], specular_pos[1], specular_pos[2]);
     debug_log("specularLightColor    %f/%f/%f\n", specular_color[0], specular_color[1], specular_color[2]);
 
