@@ -124,6 +124,7 @@ void parseObj(BAObj* object, const char* file)
                             BAMtlLibrary* lib = BAMtlLibraryNew(token.value.Word);
                             if (mcursor < object->mlibcount && lib) {
                                 object->mlibbuff[mcursor++] = *lib;
+                                free(lib);
                             }
                         }
                     }
@@ -135,11 +136,9 @@ void parseObj(BAObj* object, const char* file)
                                 mtl = BAFindMaterial(&object->mlibbuff[i], token.value.Word);
                                 if (mtl) {
                                     object->usemtlbuff[ucursor++] = *mtl;
-                                    break;
                                 }
                             }
                         }
-                        continue;
                     }
                     else {
                         

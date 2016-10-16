@@ -24,7 +24,7 @@ oninit(MCMesh)
         var(vertexCount)   = 0;
 
         memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
-        debug_log("MCMesh - init finished\n");
+        //debug_log("MCMesh - init finished\n");
         return obj;
     }else{
         return mull;
@@ -39,7 +39,7 @@ method(MCMesh, void, bye, voida)
 
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
 {
-    debug_log("MCMesh - initWithDefaultVertexAttributes\n");
+    //debug_log("MCMesh - initWithDefaultVertexAttributes\n");
     obj->vertexAttribArray[0] = (MCVertexAttribute){
         MCVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(0)};
     obj->vertexAttribArray[1] = (MCVertexAttribute){

@@ -158,8 +158,6 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
     BAObjMeta Meta;
     BAObj* buff = BAObjNew(path, &Meta);
     
-    //BATriangle* triangles = createTrianglesBuffer(buff->facebuff, buff->facecount);
-    
     size_t fcursor = 0;
     for (size_t i=0; i<Meta.object_count; i++) {
         size_t fc = 0;
@@ -189,45 +187,14 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
             setMaterialForNode(0, mull, &model->Super, mtl);
         }
         
-        //add model to child list
-        //if (i!=0 && i!=1) {
-            MCLinkedList_addItem(0, obj->Super.children, (MCItem*)model);
-        //}
+        MCLinkedList_addItem(0, obj->Super.children, (MCItem*)model);
         
         fcursor += fc;
-        
-    }
-    
-    return obj;
-    
-    //size_t tricount = trianglization(triangles, buff->facebuff, buff->facecount, buff->vertexbuff);
-
-    /*
-    if (!buff) {
-        error_log("MC3DModel - can not parse file:%s\n", path);
-        return mull;
-    }else{
-        debug_log("MC3DModel - successful parse file:%s\n", path);
-        char mtl[PATH_MAX];
-        MCString_replace(".obj", ".mtl", path, &mtl);
-
-        MCMesh* mesh = createMeshWithBATriangles(0, mull, triangles, tricount, buff, color);
-        MCLinkedList_addItem(0, sobj->meshes, (MCItem*)mesh);
-        sobj->material = new(MCMatrial);
-        sobj->texture  = mull;
-        
-        //set name
-        MCStringFill(obj->name, buff->name);
-        
-        //set mtl
-        setMaterialForNode(0, mull, sobj, BAFindMaterial(buff->mlibbuff, buff->usemtl));
-        
         releaseTrianglesBuffer(triangles);
-        BAObjRelease(buff);
-        debug_log("MC3DModel - model created: %s\n", path);
-        return obj;
     }
-    */
+    
+    BAObjRelease(buff);
+    return obj;
 }
 
 method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)

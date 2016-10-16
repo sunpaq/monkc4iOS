@@ -142,6 +142,7 @@ MCInline void BAObjRelease(BAObj* buff)
         free(buff->texcoorbuff);
         free(buff->normalbuff);
         free(buff->mlibbuff);
+        free(buff->usemtlbuff);
         //BAMtlLibraryRelease(&buff->mliblist);
         free(buff);
     }
