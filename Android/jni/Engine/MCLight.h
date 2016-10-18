@@ -15,10 +15,11 @@
 
 class(MCLight, MC3DNode,
       MCBool    dataChanged;
-      double    ambientLightStrength;
-      MCVector3 ambientLightColor;
-      MCVector3 diffuseLightPosition;
-      MCVector3 specularLightPosition;
+      MCVector3 ambientLightStrength;
+      MCVector3 diffuseLightStrength;
+      MCVector3 specularLightStrength;
+      MCVector3 lightColor;
+      MCVector3 lightPosition;
 );
 
 method(MCLight, void, update, MCGLContext* ctx);

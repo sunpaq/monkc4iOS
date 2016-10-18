@@ -43,6 +43,26 @@ method(MCGLRenderer, void, bye, voida)
     MCObject_bye(0, sobj, 0);
 }
 
+//uniform mat4  view.view;
+//uniform mat4  view.projection;
+//uniform vec3  view.position;
+
+//uniform mat4  model.model;
+//uniform mat3  model.normal;
+
+//uniform vec3 light.ambient;
+//uniform vec3 light.diffuse;
+//uniform vec3 light.specular;
+//uniform vec3 light.color;
+//uniform vec3 light.position;
+
+//uniform vec3 material.ambient;
+//uniform vec3 material.diffuse;
+//uniform vec3 material.specular;
+//uniform int  material.shininess;
+
+//uniform sampler2D texsampler;
+
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
     MCGLContext_initWithShaderCode(0, obj->context, vcode, fcode,
@@ -55,35 +75,41 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
         (MCGLUniformType []){
             MCGLUniformMat4,
             MCGLUniformMat4,
+            MCGLUniformVec3,
+            
             MCGLUniformMat4,
             MCGLUniformVec3,
-            MCGLUniformMat3,
-            MCGLUniformVec1,
+            
             MCGLUniformVec3,
             MCGLUniformVec3,
             MCGLUniformVec3,
-            MCGLUniformVec1,
-            MCGLUniformVec1,
             MCGLUniformVec3,
             MCGLUniformVec3,
-            MCGLUniformScalar
+
+            MCGLUniformVec3,
+            MCGLUniformVec3,
+            MCGLUniformVec3,
+            MCGLUniformScalar,
+            
+            MCGLUniformScalar,
         },
         (const char* []){
-           "modelMatrix",
-           "viewMatrix",
-           "projectionMatrix",
-           "viewPosition",
-           "normalMatrix",
-           "ambientLightStrength",
-           "ambientLightColor",
-           "diffuseLightPosition",
-           "diffuseLightColor",
-           "specularLightPower",
-           "specularLightStrength",
-           "specularLightPosition",
-           "specularLightColor",
+           "view.view",
+           "view.projection",
+           "view.position",
+           "model.model",
+           "model.normal",
+           "light.ambient",
+           "light.diffuse",
+           "light.specular",
+           "light.color",
+           "light.position",
+           "material.ambient",
+           "material.diffuse",
+           "material.specular",
+           "material.shininess",
            "texsampler"
-        }, 14);
+        }, 15);
     return obj;
 }
 

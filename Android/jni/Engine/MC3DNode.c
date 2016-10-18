@@ -93,7 +93,7 @@ method(MC3DNode, void, update, MCGLContext* ctx)
 {
     MCGLUniform f;
     f.data.mat4 = var(transform);
-    MCGLContext_updateUniform(0, ctx, "modelMatrix", f.data);
+    MCGLContext_updateUniform(0, ctx, "model.model", f.data);
     
     //texture
 //    if (obj->texture != mull) {

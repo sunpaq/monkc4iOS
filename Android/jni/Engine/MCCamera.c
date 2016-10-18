@@ -103,18 +103,23 @@ method(MCCamera, void, update, MCGLContext* ctx)
 {
     MCGLUniform f;
     
+    f.type = MCGLUniformMat4;
     f.data.mat4 = cpt(viewMatrix);
-    MCGLContext_updateUniform(0, ctx, "viewMatrix", f.data);
+    MCGLContext_updateUniform(0, ctx, "view.view", f.data);
     
     f.type = MCGLUniformMat3;
     f.data.mat3 = cpt(normal);
-    MCGLContext_updateUniform(0, ctx, "normalMatrix", f.data);
+    MCGLContext_updateUniform(0, ctx, "model.normal", f.data);
     
     if (ctx->cameraRatio != obj->ratio) {
         f.type = MCGLUniformMat4;
         f.data.mat4 = cpt(projectionMatrix);
-        MCGLContext_updateUniform(0, ctx, "projectionMatrix", f.data);
+        MCGLContext_updateUniform(0, ctx, "view.projection", f.data);
     }
+    
+    f.type = MCGLUniformVec3;
+    f.data.vec3 = cpt(currentPosition);
+    MCGLContext_updateUniform(0, ctx, "view.position", f.data);
 }
 
 method(MCCamera, void, move, double deltaFai, double deltaTht)

@@ -1,67 +1,71 @@
 #version 300 es
 
+//uniform mat4  view.view;
+//uniform mat4  view.projection;
+//uniform vec3  view.position;
+
+//uniform mat4  model.model;
+//uniform mat3  model.normal;
+
+//uniform vec3 light.ambient;
+//uniform vec3 light.diffuse;
+//uniform vec3 light.specular;
+//uniform vec3 light.color;
+//uniform vec3 light.position;
+
+//uniform vec3 material.ambient;
+//uniform vec3 material.diffuse;
+//uniform vec3 material.specular;
+//uniform int  material.shininess;
+
+//uniform sampler2D texsampler;
+
 //vertex attributes
 layout (location=0) in vec4 position;
 layout (location=1) in vec3 normal;
 layout (location=2) in vec3 color;
 layout (location=3) in vec2 texcoord;
 
+struct View {
+    mat4 view;
+    mat4 projection;
+    vec3 position;
+};
+
+struct Model {
+    mat4 model;
+    mat3 normal;
+};
+
 //uniform variables from code
-uniform mat4  modelMatrix;
-uniform mat4  viewMatrix;
-uniform mat4  projectionMatrix;
-uniform vec3  viewPosition;
-
-uniform mat3  normalMatrix;
-
-uniform float ambientLightStrength;
-uniform vec3  ambientLightColor;
-
-uniform vec3  diffuseLightPosition;
-uniform vec3  diffuseLightColor;
-
-uniform int   specularLightPower;
-uniform float specularLightStrength;
-uniform vec3  specularLightPosition;
-uniform vec3  specularLightColor;
+uniform View  view;
+uniform Model model;
 
 //varying variables use to pass value between vertex & fragment shader
-out vec4 combinedlight;
 out vec3 vertexcolor;
 out vec2 texturecoord;
+out vec3 calculatedNormal;
+out vec3 modelPosition;
+out vec3 viewPosition;
 
 void main()
 {
-    //Ambient Light
-    vec3 ambient = ambientLightStrength * ambientLightColor;
-    
-    //Diffuse strength
-    vec3 eyeNormal = normalize(normalMatrix * normal);
-    float diffuseStrength_NdotP = max(0.0, dot(eyeNormal, normalize(diffuseLightPosition)));
-    
-    //Diffuse Light
-    vec3 diffuse = diffuseStrength_NdotP * diffuseLightColor;
-    
-    //Specular Light
-    vec3 fragPos = vec3(modelMatrix * position);
-    vec3 lightDir = normalize(specularLightPosition - fragPos);
-    vec3 viewDir = normalize(viewPosition - fragPos);
-
-    vec3 reflectDir = reflect(-lightDir, normal);
-    float dotProduct = min(max(0.0001, dot(viewDir, reflectDir)), 1.0);
-    
-    float spec = pow(dotProduct, float(specularLightPower));//32
-    vec3 specular = specularLightStrength * spec * specularLightColor;
-    
-    //Combined Light
-    combinedlight = vec4((ambient + diffuse + specular), 1.0f);
-    
     //Vertex Color
     vertexcolor = color;
     
     //Texture Coordinate
     texturecoord = texcoord;
     
+    //Normal fix the non-uniform scale issue
+    calculatedNormal = mat3(transpose(inverse(model.model))) * normal;
+    
+    //Eye normal
+    //eyeNormal = normalize(model.normal * normal);
+    
+    //Specular Light
+    modelPosition = vec3(model.model * position);
+    viewPosition  = view.position;
+    
     //Position
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * position;
+    gl_Position = view.projection * view.view * model.model * position;
 }
