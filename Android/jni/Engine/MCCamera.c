@@ -120,6 +120,9 @@ method(MCCamera, void, update, MCGLContext* ctx)
     f.type = MCGLUniformVec3;
     f.data.vec3 = cpt(currentPosition);
     MCGLContext_updateUniform(0, ctx, "view.position", f.data);
+    MCVector3 lightpos = MCVector3Add(cpt(currentPosition), (MCVector3){0, 0, 0});
+    f.data.vec3 = lightpos;
+    MCGLContext_updateUniform(0, ctx, "light.position", f.data);
 }
 
 method(MCCamera, void, move, double deltaFai, double deltaTht)
