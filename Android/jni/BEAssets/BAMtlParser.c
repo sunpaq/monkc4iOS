@@ -139,7 +139,7 @@ BAMtlLibrary* BAMtlLibraryNew(const char* filename)
         MCString_filenameTrimExtension(filename, &noext);
         assetbuff = MCFileCopyContent(noext, "mtl");
     }else{
-        assetbuff = MCFileCopyContent(filename, "mtl");
+        assetbuff = MCFileCopyContentWithPath(filename, "mtl");
     }
     
     if (assetbuff != mull) {
