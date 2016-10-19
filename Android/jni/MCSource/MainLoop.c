@@ -61,7 +61,7 @@ void onOpenFile(const char* filename)
     if (model) {
         debug_log("Create MC3DModel success:%s\n", filename);
 
-        MC3DFrame frame = model->frame(model);
+        MC3DFrame frame = model->lastSavedFrame;
         double mheight = frame.ymax - frame.ymin;
 
         //wait skybox loading
@@ -96,6 +96,8 @@ void onOpenFileAsync(const char* filename)
     
     ff(director->modelThread, initWithFPointerArgument, onOpenFileAndExitThread, filename);
     ff(director->modelThread, start, 0);
+    
+    //MCThread_joinThread(director->modelThread->tid);
 }
 
 void onReceiveMemoryWarning()
@@ -147,13 +149,14 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         }
 
         onOpenFileAsync(filename);
-        
+        //onOpenFile(filename);
         
         
     } else {
 #ifdef __ANDROID__
         director->lastScene->mainCamera->R_value = 15;
-    	onOpenFileAsync("Avent");
+    	//onOpenFileAsync("bottle_cap2");
+        onOpenFileAsync("2");
     	//ff(director->lastScene->rootnode, addChild, new(MCCube));
 #endif
     }
