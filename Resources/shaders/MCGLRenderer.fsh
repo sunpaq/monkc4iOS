@@ -21,6 +21,7 @@ struct Material {
     lowp vec3 ambient;
     lowp vec3 diffuse;
     lowp vec3 specular;
+    lowp float dissolve;
     int  shininess;
 };
 
@@ -65,5 +66,5 @@ void main()
 //    }
     
     //Color Output
-    FragColor = vec4((diffuse), 1.0f);
+    FragColor = vec4((ambient + diffuse + specular), material.dissolve);
 }

@@ -113,7 +113,12 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     //state = LSScalar;
                 }
                 else if (MCStringEqualN(word, "d", 1)) {
-                    //state = LSScalar;
+                    material = currentMaterial(lib);
+                    token = tokenize(nextWord(&remain, word));
+                    if (token.type == MCTokenFloat) {
+                        material->dissolveFactor = token.value.Double;
+                    }
+                    continue;
                 }
                 else {
                     

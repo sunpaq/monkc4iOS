@@ -153,6 +153,7 @@ function(void, setDefaultMaterialForNode, MC3DNode* node)
         node->material->diffuseLightColor  = MCVector3Make(1.0, 1.0, 1.0);
         node->material->specularLightColor = MCVector3Make(1.0, 1.0, 1.0);
         node->material->specularLightPower = 32;
+        node->material->dissolve           = 1.0f;
         
         MCStringFill(node->material->tag, "Default");
         node->material->dataChanged = MCTrue;
@@ -170,6 +171,7 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
         node->material->diffuseLightColor  = diffuse;
         node->material->specularLightColor = specular;
         node->material->specularLightPower = mtl->specularExponent;
+        node->material->dissolve           = mtl->dissolveFactor;
         
         MCStringFill(node->material->tag, mtl->name);
         node->material->dataChanged = MCTrue;
@@ -218,23 +220,22 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         exit(-1);
     }
     
-    if (Meta.object_count <= 1) {
-        initModel(0, obj, buff, 0, 0, Meta.face_count, color);
+    if (Meta.usemtl_count <= 1) {
+        initModel(0, obj, buff, 0, 0, Meta.usemtl_count, color);
         
     }else{
         size_t fcursor = 0;
-        for (size_t i=0; i<Meta.object_count; i++) {
-            size_t fc = 0;
-            if (i == Meta.object_count-1) {
-                fc = Meta.object_starts[Meta.object_count-1] - Meta.object_starts[i];
-            }else{
-                fc = Meta.object_starts[i+1] - Meta.object_starts[i];
-            }
-            
+        for (size_t i=0; i<Meta.usemtl_count; i++) {
+            size_t fc = 0, lastIdx = Meta.usemtl_count-1;
             MC3DModel* model = new(MC3DModel);
-            initModel(0, model, buff, fcursor, i, fc, color);
+            if (i == lastIdx) {
+                fc = Meta.face_count - Meta.usemtl_starts[lastIdx];
+                initModel(0, model, buff, fcursor, lastIdx, fc, color);
+            }else{
+                fc = Meta.usemtl_starts[i+1] - Meta.usemtl_starts[i];
+                initModel(0, model, buff, fcursor, i, fc, color);
+            }
             MCLinkedList_addItem(0, obj->Super.children, (MCItem*)model);
-            
             fcursor += fc;
         }
     }

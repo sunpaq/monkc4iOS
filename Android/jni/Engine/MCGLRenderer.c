@@ -89,6 +89,7 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
             MCGLUniformVec3,
             MCGLUniformVec3,
             MCGLUniformVec3,
+            MCGLUniformVec1,
             MCGLUniformScalar,
             
             MCGLUniformScalar,
@@ -107,9 +108,10 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
            "material.ambient",
            "material.diffuse",
            "material.specular",
+           "material.dissolve",
            "material.shininess",
            "texsampler"
-        }, 15);
+        }, 16);
     return obj;
 }
 
