@@ -101,6 +101,9 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     if (token.type == MCTokenInteger) {
                         material->specularExponent = (double)token.value.Integer;
                     }
+                    if (token.type == MCTokenFloat) {
+                        material->specularExponent = (double)token.value.Double;
+                    }
                     continue;
                 }
                 else if (MCStringEqualN(word, "decal", 5)) {
