@@ -153,7 +153,7 @@ typedef struct {
     double dissolveFactor;
     double dissolveHaloFactor;
     //specular exponent (Ns) 0->1000
-    int specularExponent;
+    double specularExponent;
     //sharpness value 0->1000 default 60
     int sharpnessValue;
     //index of refraction (Ni) 0.001->10

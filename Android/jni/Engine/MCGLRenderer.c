@@ -90,7 +90,7 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
             MCGLUniformVec3,
             MCGLUniformVec3,
             MCGLUniformVec1,
-            MCGLUniformScalar,
+            MCGLUniformVec1,
             
             MCGLUniformScalar,
         },
