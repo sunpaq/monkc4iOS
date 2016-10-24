@@ -152,7 +152,7 @@ function(void, setDefaultMaterialForNode, MC3DNode* node)
         node->material->ambientLightColor  = MCVector3Make(1.0, 1.0, 1.0);
         node->material->diffuseLightColor  = MCVector3Make(1.0, 1.0, 1.0);
         node->material->specularLightColor = MCVector3Make(1.0, 1.0, 1.0);
-        node->material->specularLightPower = 32;
+        node->material->specularLightPower = 32.0f;
         node->material->dissolve           = 1.0f;
         
         MCStringFill(node->material->tag, "Default");

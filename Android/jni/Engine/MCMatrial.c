@@ -15,7 +15,7 @@ oninit(MCMatrial)
         obj->ambientLightColor  = MCVector3Make(1.0, 1.0, 1.0);
         obj->diffuseLightColor  = MCVector3Make(1.0, 1.0, 1.0);
         obj->specularLightColor = MCVector3Make(1.0, 1.0, 1.0);
-        obj->specularLightPower = 32;
+        obj->specularLightPower = 32.0;
         obj->dissolve = 1.0;
         obj->dataChanged = MCTrue;
         
@@ -47,8 +47,8 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
         f.data.vec3 = obj->specularLightColor;
         MCGLContext_updateUniform(0, ctx, "material.specular", f.data);
         
-        f.data.scalar = obj->specularLightPower;
-        f.type = MCGLUniformScalar;
+        f.data.vec1 = obj->specularLightPower;
+        f.type = MCGLUniformVec1;
         MCGLContext_updateUniform(0, ctx, "material.shininess", f.data);
     
         f.data.vec1 = obj->dissolve;

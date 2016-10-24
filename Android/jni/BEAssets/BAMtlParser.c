@@ -99,7 +99,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     material = currentMaterial(lib);
                     token = tokenize(nextWord(&remain, word));
                     if (token.type == MCTokenInteger) {
-                        material->specularExponent = token.value.Integer;
+                        material->specularExponent = (double)token.value.Integer;
                     }
                     continue;
                 }

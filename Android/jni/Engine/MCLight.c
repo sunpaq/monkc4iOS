@@ -14,7 +14,7 @@ oninit(MCLight)
     if (init(MC3DNode)) {
         obj->ambientLightStrength  = MCVector3Make(0.2, 0.2, 0.2);
         obj->diffuseLightStrength  = MCVector3Make(1.0, 1.0, 1.0);
-        obj->specularLightStrength = MCVector3Make(0.2, 0.2, 0.2);
+        obj->specularLightStrength = MCVector3Make(0.5, 0.5, 0.5);
 
         obj->lightColor    = MCVector3Make(1.0, 1.0, 1.0);
         obj->lightPosition = MCVector3Make(1.0, 1.0, 1.0);

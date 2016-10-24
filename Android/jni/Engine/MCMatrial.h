@@ -18,7 +18,7 @@ class(MCMatrial, MCObject,
       MCVector3   ambientLightColor;
       MCVector3   diffuseLightColor;
       MCVector3   specularLightColor;
-      int         specularLightPower;
+      double      specularLightPower;
       double      dissolve;
       char        tag[256];
 );
