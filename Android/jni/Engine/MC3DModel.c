@@ -77,16 +77,16 @@ function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, 
     MCVector2 t;
     
     if (e.vi == 0) {
-        error_log("MC3DFileParser: invalide vertex data!\n");
-        exit(-1);
+        //error_log("MC3DFileParser: invalide vertex data!\n");
+        //exit(-1);
     }else{
         v = buff->vertexbuff[e.vi-1];
     }
     
     if (e.ni == 0) {
         //error_log("MC3DFileParser: empty normal data, set to 0!");
-        n = MCVector3Cross(MCVector3Sub(buff->vertexbuff[e.vi-1], buff->vertexbuff[e.vi]),
-                           MCVector3Sub(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1]));
+        n = MCVector3Cross(MCVector3Sub(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1]),
+                           MCVector3Sub(buff->vertexbuff[e.vi+1], buff->vertexbuff[e.vi+2]));
     }else{
         n = buff->normalbuff[e.ni-1];
     }

@@ -106,8 +106,8 @@ method(MCCamera, void, update, MCGLContext* ctx)
     data.mat4 = cpt(viewMatrix);
     MCGLContext_updateUniform(0, ctx, "view.view", data);
     
-    data.mat3 = cpt(normal);
-    MCGLContext_updateUniform(0, ctx, "model.normal", data);
+    //data.mat3 = cpt(normal);
+    //MCGLContext_updateUniform(0, ctx, "model.normal", data);
     
     if (ctx->cameraRatio != obj->ratio) {
         data.mat4 = cpt(projectionMatrix);

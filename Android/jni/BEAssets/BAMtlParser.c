@@ -83,7 +83,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     else if (token.type == MCTokenFloat || token.type == MCTokenInteger) {
                         if (light->Ctype != SpectralFile) {
                             double buff[3];
-                            size_t n = nextFloats(&remain, buff);
+                            size_t n = nextNumbersAsFloat(&remain, buff);
                             if (n >= 3) {
                                 light->data.rgbxyz[0] = buff[0];
                                 light->data.rgbxyz[1] = buff[1];
@@ -119,7 +119,10 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     material = currentMaterial(lib);
                     token = tokenize(nextWord(&remain, word));
                     if (token.type == MCTokenFloat) {
-                        material->dissolveFactor = token.value.Double;
+                        material->dissolveFactor = (double)token.value.Double;
+                    }
+                    if (token.type == MCTokenInteger) {
+                        material->dissolveFactor = (double)token.value.Integer;
                     }
                     continue;
                 }

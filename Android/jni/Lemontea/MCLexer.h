@@ -135,14 +135,17 @@ MCInline MCBool isInteger(const char* n)
 
 MCInline MCBool isFloat(const char* n)
 {
+    MCBool havedot = MCFalse;
     while (*n != MCBackSlash0) {
         if (MCCond_Digit(n) || *n == '-' || *n == '.' || *n == 'e' || *n == 'E') {
+            if (*n == '.')
+                havedot = MCTrue;
             n++; continue;
         } else {
             return MCFalse;
         }
     }
-    return MCTrue;
+    return havedot;
 }
 
 MCInline MCBool isDate(const char* s)
@@ -287,10 +290,7 @@ MCInline size_t nextFloats(const char** target_p, double buff[])
     while (isNewLine(str) == MCFalse && (*str != '\0')) {
         token = tokenize(nextWord(&str, linebuff));
         if (token.type == MCTokenFloat) {
-            buff[i++] = (double)token.value.Double;
-        }
-        else if (token.type == MCTokenInteger) {
-            buff[i++] = (double)token.value.Integer;
+            buff[i++] = token.value.Double;
         }
         else{
             return i;
@@ -311,6 +311,28 @@ MCInline size_t nextIntegers(const char** target_p, long buff[])
         if (token.type == MCTokenInteger) {
             buff[i++] = token.value.Integer;
         }else{
+            return i;
+        }
+    }
+    //nextWord will update remain
+    return i;
+}
+
+MCInline size_t nextNumbersAsFloat(const char** target_p, double buff[])
+{
+    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    char linebuff[LINE_MAX];
+    MCToken token;
+    size_t i = 0;
+    while (isNewLine(str) == MCFalse && (*str != '\0')) {
+        token = tokenize(nextWord(&str, linebuff));
+        if (token.type == MCTokenInteger) {
+            buff[i++] = (double)token.value.Integer;
+        }
+        else if (token.type == MCTokenFloat) {
+            buff[i++] = (double)token.value.Double;
+        }
+        else{
             return i;
         }
     }

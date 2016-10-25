@@ -47,6 +47,7 @@ void onOpenExternalFile(const char* filepath)
 
     ff(director->lastScene->rootnode, setAllVisible, MCFalse);
     ff(director->lastScene->rootnode, addChild, model);
+    ff(director->lastScene->rootnode, setAllVisible, MCTrue);
 }
 
 //static void asyncReadSkybox()
@@ -111,8 +112,8 @@ void onReceiveMemoryWarning()
 
 void onSetupGL(int windowWidth, int windowHeight, const char* filename)
 {
-    debug_log("onSetupGL called: width=%d height=%d filename=%s", windowWidth, windowHeight, filename);
-	MCLogTypeSet(MC_SILENT);
+    debug_log("onSetupGL called: width=%d height=%d filename=%s\n", windowWidth, windowHeight, filename);
+	//MCLogTypeSet(MC_SILENT);
 
     if (director == mull) {
     	debug_log("onSetupGL create director");
@@ -124,7 +125,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         //scene1
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader,
                                   director->currentWidth, director->currentHeight);
-        debug_log("onSetupGL main scene created current screen size: %dx%d", windowWidth, windowHeight);
+        debug_log("onSetupGL main scene created current screen size: %dx%d\n", windowWidth, windowHeight);
 
         if (cubtex != mull) {
             MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
@@ -139,7 +140,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         superof(mainScene)->nextResponder = (MCObject*)director;
 
         ff(director, pushScene, mainScene);
-        debug_log("onSetupGL main scene pushed into director");
+        debug_log("onSetupGL main scene pushed into director\n");
     }
 
     if (filename != mull) {
@@ -171,7 +172,7 @@ void onTearDownGL()
 void onUpdate(double roll, double yaw, double pitch)
 {
     //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
-    MCLogTypeSet(MC_SILENT);
+    //MCLogTypeSet(MC_SILENT);
     if (director != mull) {
 
     	if (computed(director->lastScene, isDrawSky)) {
