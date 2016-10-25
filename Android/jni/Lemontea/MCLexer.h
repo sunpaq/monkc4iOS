@@ -287,8 +287,12 @@ MCInline size_t nextFloats(const char** target_p, double buff[])
     while (isNewLine(str) == MCFalse && (*str != '\0')) {
         token = tokenize(nextWord(&str, linebuff));
         if (token.type == MCTokenFloat) {
-            buff[i++] = token.value.Double;
-        }else{
+            buff[i++] = (double)token.value.Double;
+        }
+        else if (token.type == MCTokenInteger) {
+            buff[i++] = (double)token.value.Integer;
+        }
+        else{
             return i;
         }
     }

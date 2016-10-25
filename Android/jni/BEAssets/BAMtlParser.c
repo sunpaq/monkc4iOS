@@ -80,9 +80,9 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                         }
                     }
                     //float value next
-                    else if (token.type == MCTokenFloat) {
+                    else if (token.type == MCTokenFloat || token.type == MCTokenInteger) {
                         if (light->Ctype != SpectralFile) {
-                            double buff[10];
+                            double buff[3];
                             size_t n = nextFloats(&remain, buff);
                             if (n >= 3) {
                                 light->data.rgbxyz[0] = buff[0];

@@ -101,28 +101,24 @@ method(MCCamera, void, reset, voida)
 //override
 method(MCCamera, void, update, MCGLContext* ctx)
 {
-    MCGLUniform f;
+    MCGLUniformData data;
     
-    f.type = MCGLUniformMat4;
-    f.data.mat4 = cpt(viewMatrix);
-    MCGLContext_updateUniform(0, ctx, "view.view", f.data);
+    data.mat4 = cpt(viewMatrix);
+    MCGLContext_updateUniform(0, ctx, "view.view", data);
     
-    f.type = MCGLUniformMat3;
-    f.data.mat3 = cpt(normal);
-    MCGLContext_updateUniform(0, ctx, "model.normal", f.data);
+    data.mat3 = cpt(normal);
+    MCGLContext_updateUniform(0, ctx, "model.normal", data);
     
     if (ctx->cameraRatio != obj->ratio) {
-        f.type = MCGLUniformMat4;
-        f.data.mat4 = cpt(projectionMatrix);
-        MCGLContext_updateUniform(0, ctx, "view.projection", f.data);
+        data.mat4 = cpt(projectionMatrix);
+        MCGLContext_updateUniform(0, ctx, "view.projection", data);
     }
     
-    f.type = MCGLUniformVec3;
-    f.data.vec3 = cpt(currentPosition);
-    MCGLContext_updateUniform(0, ctx, "view.position", f.data);
+    data.vec3 = cpt(currentPosition);
+    MCGLContext_updateUniform(0, ctx, "view.position", data);
     MCVector3 lightpos = MCVector3Add(cpt(currentPosition), (MCVector3){0, 0, 0});
-    f.data.vec3 = lightpos;
-    MCGLContext_updateUniform(0, ctx, "light.position", f.data);
+    data.vec3 = lightpos;
+    MCGLContext_updateUniform(0, ctx, "light.position", data);
 }
 
 method(MCCamera, void, move, double deltaFai, double deltaTht)

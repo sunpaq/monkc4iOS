@@ -59,7 +59,7 @@ void onOpenFile(const char* filename)
     //model
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
     if (model) {
-        debug_log("Create MC3DModel success:%s\n", filename);
+        debug_log("Create MC3DModel success:%s\n", model->name);
 
         MC3DFrame frame = model->lastSavedFrame;
         double mheight = frame.ymax - frame.ymin;
