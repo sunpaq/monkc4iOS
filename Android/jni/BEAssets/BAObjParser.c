@@ -182,7 +182,9 @@ BAObj* BAObjNew(const char* filename, BAObjMeta* meta)
             return mull;
         }
         
+        debug_log("MC3DObjParser - before parse\n");
         parseObj(buff, assetbuff);
+        debug_log("MC3DObjParser - after parse\n");
         
         free((void*)assetbuff);
         return buff;

@@ -205,15 +205,20 @@ const char* MCFileCopyContentWithPath(const char* filepath, const char* extentio
 {
 #ifdef __ANDROID__
     if (assetManager_ != mull) {
+        debug_log("MCFileCopyContentWithPath %s\n", filepath);
         AAsset* f = AAssetManager_open(assetManager_, filepath, AASSET_MODE_BUFFER);
         if (f) {
             const char* abuff = AAsset_getBuffer(f);
-                  off_t size = AAsset_getLength(f);
-            char* buff = (char*)malloc(size + 1);
-            memcpy(buff, abuff, size);
-            buff[size] = '\0';
-            AAsset_close(f);
-            return buff;
+            if (abuff) {
+                off_t size = AAsset_getLength(f);
+                char* buff = (char*)malloc((size + 1) * sizeof(char));
+                memcpy(buff, abuff, size);
+                buff[size] = '\0';
+                AAsset_close(f);
+                return buff;
+            }else{
+                error_log("MCFileCopyContentWithPath(%s) AAsset_getBuffer() failed\n", filepath);
+            }
         }else{
             error_log("MCFileCopyContentWithPath(%s) Android assetManager_ can not open\n", filepath);
         }

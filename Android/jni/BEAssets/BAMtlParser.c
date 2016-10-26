@@ -54,6 +54,10 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     else if (MCStringEqualN(word, "Ks", 2)) {
                         light = &currentMaterial(lib)->lightColors[Specular];
                     }
+                    if (!light) {
+                        error_log("BAMtlParser - currentMaterial() is mull\n");
+                        exit(-1);
+                    }
                     light->Ctype = RGB;
                     
                     //option next
@@ -161,6 +165,7 @@ BAMtlLibrary* BAMtlLibraryNew(const char* filename)
         }
         
         MCFileEachLine(assetbuff,
+            //debug_log("processMtlLine(%s)\n", line);
             processMtlLine(lib, line);
         );
         BAMtlLibraryResetCursor(lib);

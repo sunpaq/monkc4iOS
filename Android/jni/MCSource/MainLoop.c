@@ -64,12 +64,19 @@ void onOpenFile(const char* filename)
 
         MC3DFrame frame = model->lastSavedFrame;
         double mheight = frame.ymax - frame.ymin;
+        double mwidth  = frame.xmax - frame.xmin;
+        double mdepth  = frame.zmax - frame.zmin;
+        
+        double _max = (mheight > mwidth) ? mheight : mwidth;
+        double max = (mdepth > _max) ? mdepth : _max;
 
         //wait skybox loading
         //MCThread_joinThread(director->skyboxThread->tid);
 
         //assemble
         director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
+        director->lastScene->mainCamera->R_value = max * 2.0f;
+        
         ff(director->lastScene->rootnode, addChild, model);
 
     } else {
@@ -82,11 +89,13 @@ void onOpenFileAndExitThread(const char* filename)
 {
     try {
         onOpenFile(filename);
+        ff(director->lastScene->rootnode, setAllVisible, MCTrue);
     }catch(MC3DModel_ERROR) {
         error_log("MC3DModel_ERROR occur exit the process!");
     }finally{
         exit(-1);
     }
+    
     MCGLStopLoading();
     MCThread_exitWithStatus((void*)200);
 }
@@ -133,7 +142,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
             mainScene->skyboxShow = getSkyboxOn();
         }
 
-        mainScene->mainCamera->R_value = 30;
+        mainScene->mainCamera->R_value = 20;
         mainScene->mainCamera->tht = 60;
         mainScene->mainCamera->fai = 45;
 
@@ -157,6 +166,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
 #ifdef __ANDROID__
         director->lastScene->mainCamera->R_value = 15;
     	//onOpenFileAsync("bottle_cap2");
+        //onOpenFileAsync("2");
         onOpenFileAsync("2");
     	//ff(director->lastScene->rootnode, addChild, new(MCCube));
 #endif

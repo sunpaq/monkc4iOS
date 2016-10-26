@@ -83,6 +83,9 @@ utility(MCGLEngine, int, tickFPS, MCClock* clock)
 MCInline
 utility(MCGLEngine, int, compileShader, GLuint* shader, GLenum type, const GLchar *source)
 {
+    if (!source) {
+        return 0;
+    }
     GLint status;
     
     *shader = glCreateShader(type);

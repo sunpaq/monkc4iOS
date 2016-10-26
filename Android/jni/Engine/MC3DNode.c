@@ -95,6 +95,10 @@ method(MC3DNode, void, update, MCGLContext* ctx)
     f.data.mat4 = var(transform);
     MCGLContext_updateUniform(0, ctx, "model.model", f.data);
     
+    MCMatrix3 nor = MCMatrix3InvertAndTranspose(MCMatrix4GetMatrix3(var(transform)), NULL);
+    f.data.mat3 = nor;
+    MCGLContext_updateUniform(0, ctx, "model.normal", f.data);
+
     //texture
 //    if (obj->texture != mull) {
 //        MCTexture_prepareTexture(0, obj->texture, ctx);

@@ -76,24 +76,25 @@ function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, 
     MCVector3 v, n;
     MCVector2 t;
     
-    if (e.vi == 0) {
+    if (e.vi <= 0) {
         //error_log("MC3DFileParser: invalide vertex data!\n");
         //exit(-1);
     }else{
         v = buff->vertexbuff[e.vi-1];
     }
     
-    if (e.ni == 0) {
-        //error_log("MC3DFileParser: empty normal data, set to 0!");
-        n = MCVector3Cross(MCVector3Sub(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1]),
-                           MCVector3Sub(buff->vertexbuff[e.vi+1], buff->vertexbuff[e.vi+2]));
+    if (e.ni <= 0) {
+        n = (MCVector3){0.0,0.0,0.0};
+        //error_log("MC3DFileParser: empty normal data, set to 0!\n");
+//        n = MCVector3Cross(MCVector3Sub(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1]),
+//                           MCVector3Sub(buff->vertexbuff[e.vi+1], buff->vertexbuff[e.vi+2]));
     }else{
         n = buff->normalbuff[e.ni-1];
     }
     
-    if (e.ti == 0) {
+    if (e.ti <= 0) {
         //error_log("MC3DFileParser: empty texcoord data, set to 0!");
-        t = (MCVector2){0,0};
+        t = (MCVector2){0.0,0.0};
     }else{
         t = buff->texcoorbuff[e.ti-1];
     }
@@ -183,30 +184,32 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
 function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, size_t facecount, MCColorRGBAf color)
 {
     MC3DModel* model = (MC3DModel*)any;
-    
-    BAFace* faces = &buff->facebuff[fcursor];
-    BATriangle* triangles = createTrianglesBuffer(faces, facecount);
-    size_t tricount = trianglization(triangles, faces, facecount, buff->vertexbuff);
-    
-    MCMesh* mesh = createMeshWithBATriangles(0, mull, triangles, tricount, buff, color);
-    
-    model->Super.material = new(MCMatrial);
-    model->Super.texture  = mull;
-    MCLinkedList_addItem(0, model->Super.meshes, (MCItem*)mesh);
-    
-    //set name
-    MCStringFill(model->name, buff->name);
-    
-    //set mtl
-    BAMaterial* mtl = &buff->usemtlbuff[iusemtl];
-    if (mtl && buff->usemtlcount > 0) {
-        setMaterialForNode(0, mull, &model->Super, mtl);
+    if (model) {
+        BAFace* faces   = &buff->facebuff[fcursor];
+        BAMaterial* mtl = &buff->usemtlbuff[iusemtl];
+        
+        BATriangle* triangles = createTrianglesBuffer(faces, facecount);
+        size_t tricount = trianglization(triangles, faces, facecount, buff->vertexbuff);
+        MCMesh* mesh = createMeshWithBATriangles(0, mull, triangles, tricount, buff, color);
+        
+        model->Super.material = new(MCMatrial);
+        model->Super.texture  = mull;
+        MCLinkedList_addItem(0, model->Super.meshes, (MCItem*)mesh);
+        
+        //set mtl
+        if (mtl && buff->usemtlcount > 0) {
+            setMaterialForNode(0, mull, &model->Super, mtl);
+        }else{
+            setDefaultMaterialForNode(0, mull, &model->Super);
+        }
+        
+        //set name
+        MCStringFill(model->name, buff->name);
+        releaseTrianglesBuffer(triangles);
+        return model;
     }else{
-        setDefaultMaterialForNode(0, mull, &model->Super);
+        return mull;
     }
-
-    releaseTrianglesBuffer(triangles);
-    return model;
 }
 
 method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
@@ -219,9 +222,10 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
         error_log("MC3DModel initWithFilePathColor BAObjNew() failed exit\n");
         exit(-1);
     }
+    debug_log("MC3DModel - BAObjNew success: %s\n", path);
     
     if (Meta.usemtl_count <= 1) {
-        initModel(0, obj, buff, 0, 0, Meta.usemtl_count, color);
+        initModel(0, obj, buff, 0, 0, buff->facecount, color);
         
     }else{
         size_t fcursor = 0;
@@ -242,6 +246,8 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
     
     BAObjRelease(buff);
     cpt(frame);
+    
+    debug_log("MC3DModel - return obj: %s\n", path);
     return obj;
 }
 
