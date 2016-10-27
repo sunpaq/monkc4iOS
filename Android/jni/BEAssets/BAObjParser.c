@@ -58,8 +58,9 @@ void parseObj(BAObj* object, const char* file)
         size_t tcursor = 0;
         size_t ncursor = 0;
         size_t fcursor = 0;
-        size_t mcursor = 0;
+        //size_t mcursor = 0;
         size_t ucursor = 0;
+        BAMtlLibrary* current_mtllib = mull;
         
         char line[LINE_MAX]; char* c = (char*)file;
         while (*c!='\0') {
@@ -121,10 +122,12 @@ void parseObj(BAObj* object, const char* file)
                     else if (MCStringEqualN(word, "mtllib", 6)) {
                         token = tokenize(nextWord(&remain, word));
                         if (token.type == MCTokenFilename) {
-                            BAMtlLibrary* lib = BAMtlLibraryNew(token.value.Word);
-                            if (mcursor < object->mlibcount && lib) {
-                                object->mlibbuff[mcursor++] = *lib;
-                                free(lib);
+                            if (current_mtllib == mull) {
+                                current_mtllib = BAMtlLibraryNew(token.value.Word);
+                            }
+                            if (!MCStringEqual(current_mtllib->name, token.value.Word)) {
+                                free(current_mtllib);
+                                current_mtllib = BAMtlLibraryNew(token.value.Word);
                             }
                         }
                     }
@@ -132,14 +135,12 @@ void parseObj(BAObj* object, const char* file)
                         token = tokenize(nextWord(&remain, word));
                         if (token.type == MCTokenIdentifier) {
                             BAMaterial* mtl = mull;
-                            for (int i=0; i<object->mlibcount; i++) {
-                                mtl = BAFindMaterial(&object->mlibbuff[i], token.value.Word);
-                                if (mtl) {
-                                    if (ucursor < object->usemtlcount) {
-                                        object->usemtlbuff[ucursor++] = (BAMaterial)(*mtl);
-                                    }else{
-                                        break;
-                                    }
+                            mtl = BAFindMaterial(current_mtllib, token.value.Word);
+                            if (mtl) {
+                                if (ucursor < object->usemtlcount) {
+                                    object->usemtlbuff[ucursor++] = (BAMaterial)(*mtl);
+                                }else{
+                                    break;
                                 }
                             }
                         }
@@ -154,6 +155,10 @@ void parseObj(BAObj* object, const char* file)
                 default:
                     break;
             }
+        }
+        //clean up
+        if (current_mtllib) {
+            free(current_mtllib);
         }
     }
 }

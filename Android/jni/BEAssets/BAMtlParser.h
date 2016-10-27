@@ -65,26 +65,6 @@ typedef struct {
     } data;
 } BALightColor;
 
-//Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
-MCInline BALightColor BALightColorMake(char* linebuff) {
-    BALightColor c;
-    MCToken token;
-    char word[256];
-    const char* remain = linebuff;
-    while (*remain != '\n' && *remain != '\0') {
-        token = tokenize(nextWord(&remain, word));
-        switch (token.type) {
-            case MCTokenIdentifier:
-                
-                break;
-                
-            default:
-                break;
-        }
-    }
-    return c;
-}
-
 /* texture map options
 -blendu on | off 
 -blendv on | off 

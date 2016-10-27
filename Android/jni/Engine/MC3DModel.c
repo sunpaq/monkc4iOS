@@ -224,6 +224,8 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
     }
     debug_log("MC3DModel - BAObjNew success: %s\n", path);
     
+    //BAObjDumpInfo(buff);
+    
     if (Meta.usemtl_count <= 1) {
         initModel(0, obj, buff, 0, 0, buff->facecount, color);
         
@@ -234,11 +236,10 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRG
             MC3DModel* model = new(MC3DModel);
             if (i == lastIdx) {
                 fc = Meta.face_count - Meta.usemtl_starts[lastIdx];
-                initModel(0, model, buff, fcursor, lastIdx, fc, color);
             }else{
                 fc = Meta.usemtl_starts[i+1] - Meta.usemtl_starts[i];
-                initModel(0, model, buff, fcursor, i, fc, color);
             }
+            initModel(0, model, buff, fcursor, i, fc, color);
             MCLinkedList_addItem(0, obj->Super.children, (MCItem*)model);
             fcursor += fc;
         }

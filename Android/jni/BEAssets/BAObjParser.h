@@ -95,12 +95,24 @@ typedef struct BAObjStruct {
     BAFace* facebuff;
     size_t  facecount;
     //mtl
-    BAMtlLibrary* mlibbuff;
+    //BAMtlLibrary* mlibbuff;
     BAMaterial* usemtlbuff;
-    size_t mlibcount;
+    //size_t mlibcount;
     size_t usemtlcount;
     char name[256];
 } BAObj;
+
+MCInline void BAObjDumpInfo(BAObj* baobj)
+{
+//    for (int i=0; i<baobj->mlibcount; i++) {
+//        BAMtlLibrary* mlib = &baobj->mlibbuff[i];
+//        debug_log("BAMtlLibrary:%s\n", mlib->name);
+//    }
+    for (int i=0; i<baobj->usemtlcount; i++) {
+        BAMaterial* mtl = &baobj->usemtlbuff[i];
+        debug_log("BAMaterial:%s\n", mtl->name);
+    }
+}
 
 MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
 {
@@ -112,9 +124,9 @@ MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
         buff->normalbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (meta->normal_count));
         buff->facebuff    = (BAFace*)malloc(sizeof(BAFace)       * (meta->face_count));
         buff->facecount   = meta->face_count;
-        buff->mlibbuff    = (BAMtlLibrary*)malloc(sizeof(BAMtlLibrary) * meta->mtllib_count);
+        //buff->mlibbuff    = (BAMtlLibrary*)malloc(sizeof(BAMtlLibrary) * meta->mtllib_count);
         buff->usemtlbuff  = (BAMaterial*)malloc(sizeof(BAMaterial) * meta->usemtl_count);
-        buff->mlibcount   = meta->mtllib_count;
+        //buff->mlibcount   = meta->mtllib_count;
         buff->usemtlcount = meta->usemtl_count;
         
         if (buff->vertexbuff && buff->texcoorbuff && buff->normalbuff && buff->facebuff) {
@@ -141,7 +153,7 @@ MCInline void BAObjRelease(BAObj* buff)
         free(buff->vertexbuff);
         free(buff->texcoorbuff);
         free(buff->normalbuff);
-        free(buff->mlibbuff);
+        //free(buff->mlibbuff);
         free(buff->usemtlbuff);
         free(buff);
     }

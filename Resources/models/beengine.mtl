@@ -9,15 +9,15 @@ illum 0
 #2.This is a flat green material. 
 
 newmtl flat_green 
-Kd 1.0000 1.0000 0.0000
+Kd 0.0000 1.0000 0.0000
 illum 1
 
 newmtl flat_red
-Kd 0.9000 0.9000 0.5000
+Kd 1.0000 0.0000 0.0000
 illum 1
 
 newmtl flat_blue
-Kd 0.1000 0.1000 0.1000
+Kd 0.0000 0.0000 1.0000
 illum 1
 
 newmtl hair
