@@ -9,7 +9,7 @@ compute(MCVector3, currentPosition);
 oninit(MCCamera)
 {
     if (init(MC3DNode)) {
-        var(ratio) = MCRatioHDTV16x9;//MCRatioCameraFilm3x2;
+        var(ratio) = MCRatioOldTV4x3;//MCRatioCameraFilm3x2;
         var(focal_length) = MCLensStandard50mm;//MCLensWide24mm;
         var(view_angle) = MCLensStandard50mmViewAngle;
         var(max_distance) = 10000;//100 metres

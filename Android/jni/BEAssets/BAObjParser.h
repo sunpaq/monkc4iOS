@@ -104,10 +104,6 @@ typedef struct BAObjStruct {
 
 MCInline void BAObjDumpInfo(BAObj* baobj)
 {
-//    for (int i=0; i<baobj->mlibcount; i++) {
-//        BAMtlLibrary* mlib = &baobj->mlibbuff[i];
-//        debug_log("BAMtlLibrary:%s\n", mlib->name);
-//    }
     for (int i=0; i<baobj->usemtlcount; i++) {
         BAMaterial* mtl = &baobj->usemtlbuff[i];
         debug_log("BAMaterial:%s\n", mtl->name);

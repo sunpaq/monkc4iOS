@@ -32,12 +32,9 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
         MCGLContext_activateShaderProgram(0, ctx, 0);
         
         MCGLUniform f;
-        //if ambient color have value override them
-        if (!MCVector3Equal(obj->ambientLightColor, MCVector3Make(0, 0, 0))) {
-            f.type = MCGLUniformVec3;
-            f.data.vec3 = obj->ambientLightColor;
-            MCGLContext_updateUniform(0, ctx, "material.ambient", f.data);
-        }
+        f.type = MCGLUniformVec3;
+        f.data.vec3 = obj->ambientLightColor;
+        MCGLContext_updateUniform(0, ctx, "material.ambient", f.data);
 
         f.data.vec3 = obj->diffuseLightColor;
         f.type = MCGLUniformVec3;

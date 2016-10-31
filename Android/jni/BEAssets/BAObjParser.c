@@ -43,8 +43,12 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
                     meta->mtllib_count++;
                 }
                 else if (MCStringEqualN(word, "usemtl", 6)) {
-                    meta->usemtl_starts[meta->usemtl_count] = meta->face_count;
-                    meta->usemtl_count++;
+                    MCToken token = tokenize(nextWord(&remain, word));
+                    if (token.type == MCTokenIdentifier) {
+                        meta->usemtl_starts[meta->usemtl_count] = meta->face_count;
+                        meta->usemtl_count++;
+                        //debug_log("usemtl %s\n", token.value.Word);
+                    }
                 }
             }
         }
