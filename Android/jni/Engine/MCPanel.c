@@ -39,7 +39,7 @@ oninit(MCPanel)
         
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -48,6 +48,6 @@ onload(MCPanel)
     if (load(MC3DNode)) {
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

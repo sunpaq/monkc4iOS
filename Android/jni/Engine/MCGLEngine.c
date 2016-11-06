@@ -134,7 +134,7 @@ utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const c
     // Attach fragment shader to program.
     glAttachShader(Id, fragShader);
     
-//    if (context != mull) {
+//    if (context != null) {
 //        MCGLContext_beforeLinkProgram(0, context, Id);
 //    }
     
@@ -156,7 +156,7 @@ utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const c
         }
     }
     
-//    if (context != mull) {
+//    if (context != null) {
 //        MCGLContext_afterLinkProgram(0, context, Id);
 //    }
     

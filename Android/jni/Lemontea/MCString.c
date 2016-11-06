@@ -100,7 +100,7 @@ utility(MCString, const char*, extensionFromFilename, const char* name, char (*b
 {
     while (*name != '.' && *name != '\0') name++;
     if (*name == '\0') {
-        return mull;
+        return null;
     }else{
         name++;//skip dot
         int i=0;
@@ -143,7 +143,7 @@ oninit(MCString)
         obj->buff = malloc(block_size*sizeof(char));
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -285,6 +285,6 @@ onload(MCString)
         binding(MCString, double, getFloat, char** endptr);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

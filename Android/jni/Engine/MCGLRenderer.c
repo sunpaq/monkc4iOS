@@ -33,7 +33,7 @@ oninit(MCGLRenderer)
 
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -130,7 +130,7 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader,
 method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 {
     //update nodes
-    if (rootnode != mull) {
+    if (rootnode != null) {
         fh(rootnode, update, _update, obj->context);
     }
     
@@ -140,7 +140,7 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
-    if (rootnode != mull) {
+    if (rootnode != null) {
         fh(rootnode, draw, _draw, obj->context);
     }
     
@@ -158,7 +158,7 @@ onload(MCGLRenderer)
         binding(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

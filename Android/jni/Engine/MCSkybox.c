@@ -93,7 +93,7 @@ oninit(MCSkybox)
 //        MCGLEngine_setFrontCounterClockWise(MCTrue);//CCW
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -234,6 +234,6 @@ onload(MCSkybox)
         binding(MCSkybox, void, draw, MCGLContext* ctx);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

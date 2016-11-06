@@ -41,7 +41,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                 //LSLightColor
                 //Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
                 else if (MCStringEqualN(word, "K", 1) || MCStringEqualN(word, "Tf", 2)) {
-                    BALightColor* light = mull;
+                    BALightColor* light = null;
                     if (MCStringEqualN(word, "Tf", 2)) {
                         light = &currentMaterial(lib)->lightColors[TFilter];
                     }
@@ -55,7 +55,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                         light = &currentMaterial(lib)->lightColors[Specular];
                     }
                     if (!light) {
-                        error_log("BAMtlParser - currentMaterial() is mull\n");
+                        error_log("BAMtlParser - currentMaterial() is null\n");
                         exit(-1);
                     }
                     light->Ctype = RGB;
@@ -157,11 +157,11 @@ BAMtlLibrary* BAMtlLibraryNew(const char* filename)
         assetbuff = MCFileCopyContentWithPath(filename, "mtl");
     }
     
-    if (assetbuff != mull) {
+    if (assetbuff != null) {
         BAMtlLibrary* lib = BAMtlLibraryAlloc();
-        if (lib == mull) {
+        if (lib == null) {
             error_log("MC3DObjParser - MC3DMtlLibraryAlloc failed.\n");
-            return mull;
+            return null;
         }
         
         MCFileEachLine(assetbuff,
@@ -176,7 +176,7 @@ BAMtlLibrary* BAMtlLibraryNew(const char* filename)
         return lib;
     }else{
         error_log("MC3DObjParser - AAssetManager_open %s failed\n", filename);
-        return mull;
+        return null;
     }
 }
 

@@ -10,11 +10,11 @@ oninit(MCNode)
         var(anchor) = mc_point_zero;
         var(position) = mc_point_zero;
         var(color) = mc_color_white;
-        var(parent) = mull;
+        var(parent) = null;
         var(children) = new(MCArray);
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -25,7 +25,7 @@ function(void*, access, const char* varname)
     if (SEQ(S(anchor),   varname)) return addrof(obj->anchor);
     if (SEQ(S(position), varname)) return addrof(obj->position);
     if (SEQ(S(color),    varname)) return addrof(obj->color);
-    void* varp = mull;
+    void* varp = null;
     varp = ff(obj, access, varname);
     return varp;
 }
@@ -115,6 +115,6 @@ onload(MCNode)
         binding(MCNode, void, draw);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

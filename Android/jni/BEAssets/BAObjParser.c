@@ -64,7 +64,7 @@ void parseObj(BAObj* object, const char* file)
         size_t fcursor = 0;
         //size_t mcursor = 0;
         size_t ucursor = 0;
-        BAMtlLibrary* current_mtllib = mull;
+        BAMtlLibrary* current_mtllib = null;
         
         char line[LINE_MAX]; char* c = (char*)file;
         while (*c!='\0') {
@@ -109,6 +109,9 @@ void parseObj(BAObj* object, const char* file)
                             long lbuff[LINE_MAX];
                             BAFace* f = &object->facebuff[fcursor];
                             f->vcount = nextDates(&remain, lbuff);
+                            if (f->vcount < 9) {
+                                
+                            }
                             BAFaceInit(f, lbuff, f->vcount);
                             fcursor++;
                         }
@@ -126,7 +129,7 @@ void parseObj(BAObj* object, const char* file)
                     else if (MCStringEqualN(word, "mtllib", 6)) {
                         token = tokenize(nextWord(&remain, word));
                         if (token.type == MCTokenFilename) {
-                            if (current_mtllib == mull) {
+                            if (current_mtllib == null) {
                                 current_mtllib = BAMtlLibraryNew(token.value.Word);
                             }
                             if (!MCStringEqual(current_mtllib->name, token.value.Word)) {
@@ -138,7 +141,7 @@ void parseObj(BAObj* object, const char* file)
                     else if (MCStringEqualN(word, "usemtl", 6)) {
                         token = tokenize(nextWord(&remain, word));
                         if (token.type == MCTokenIdentifier) {
-                            BAMaterial* mtl = mull;
+                            BAMaterial* mtl = null;
                             mtl = BAFindMaterial(current_mtllib, token.value.Word);
                             if (mtl) {
                                 if (ucursor < object->usemtlcount) {
@@ -184,11 +187,11 @@ BAObj* BAObjNew(const char* filename, BAObjMeta* meta)
         parseObjMeta(meta, assetbuff);
         if (meta->face_count <= 0) {
             error_log("MC3DObjParser - object face count is ZERO\n");
-            return mull;
+            return null;
         }
         BAObj* buff = BAObjAlloc(meta);
         if (!buff) {
-            return mull;
+            return null;
         }
         
         debug_log("MC3DObjParser - before parse\n");
@@ -199,7 +202,7 @@ BAObj* BAObjNew(const char* filename, BAObjMeta* meta)
         return buff;
     }else{
         error_log("MC3DObjParser - AAssetManager_open %s failed\n", filename);
-        return mull;
+        return null;
     }
 }
 

@@ -9,6 +9,7 @@
 #include "Testbed.h"
 #include "MCLinkedList.h"
 #include "MCGeometry.h"
+#include "MCSort.h"
 
 //static void test(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGeneric arg3, MCLongLong arg4, MCPtr arg5, MCFuncPtr arg6)
 //static void testmethod(mc_message_arg(MCObject), ...)
@@ -47,7 +48,7 @@
 //    head = deleteCArrayLinkedListItem(array, &array[4]);
 //
 //    CArrayLinkedListItem* current = head;
-//    while (current != mull) {
+//    while (current != null) {
 //        printf("current item value: %ld\n", current->value);
 //        current = nextCArrayLinkedListItem(array, current);
 //    }
@@ -92,9 +93,19 @@ static void testGeometry()
     size_t iresult[5];
     size_t count = MCPolygonResolveConcave(&Poly, tresult, iresult);
     
-    
-    
-    
+    exit(-1);
+}
+
+static void testsort()
+{
+    MCLogTypeSet(MC_DEBUG);
+
+    int A[10] = {5,6,3,4,2,1,8,9,7,10};
+    MCSort* sort = ff(new(MCSort), initWithCopyArray, A, 10);
+    ff(sort, quickSortInt, 0);
+    ff(sort, printArray, 0);
+
+    debug_log("testsort finish\n");
     exit(-1);
 }
 
@@ -104,4 +115,5 @@ void starttest()
     //testparser();
     //testCArrayLinkedList();
     //testGeometry();
+    //testsort();
 }

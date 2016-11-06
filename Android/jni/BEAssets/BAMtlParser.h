@@ -170,7 +170,7 @@ MCInline BAMaterial* BAFindMaterial(BAMtlLibrary* lib, const char* name) {
             }
         }
     }
-    return mull;
+    return null;
 }
 
 MCInline BAMtlLibrary* BAMtlLibraryAlloc() {
@@ -184,7 +184,7 @@ MCInline BAMtlLibrary* BAMtlLibraryAlloc() {
         lib->name[0] = '\n';
         return lib;
     }
-    return mull;
+    return null;
 }
 
 MCInline void BAMtlLibraryResetCursor(BAMtlLibrary* lib) {
@@ -206,7 +206,7 @@ MCInline BAMaterial* currentMaterial(BAMtlLibrary* lib) {
     if (lib->materialCursor != -1) {
         return &(lib->materials[lib->materialCursor]);
     }else{
-        return mull;
+        return null;
     }
 }
 

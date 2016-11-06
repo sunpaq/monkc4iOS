@@ -13,11 +13,11 @@
 oninit(MCItem)
 {
     if (init(MCObject)) {
-        var(prevItem) = mull;
-        var(nextItem) = mull;
+        var(prevItem) = null;
+        var(nextItem) = null;
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -40,7 +40,7 @@ onload(MCItem)
         binding(MCItem, void, linkPrevItem, MCItem* prev);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -52,7 +52,7 @@ compute(unsigned, getCount)
     if (var(countChanged) == MCTrue) {
         int i = 0;
         MCItem* iter = var(headItem);
-        while (iter != mull) {
+        while (iter != null) {
             iter = iter->nextItem;
             i++;
         }
@@ -67,7 +67,7 @@ compute(unsigned, getCount)
 oninit(MCLinkedList)
 {
     if (init(MCObject)) {
-        var(headItem) = mull;
+        var(headItem) = null;
         var(tailItem) = var(headItem);
         
         var(countChanged) = MCTrue;
@@ -75,7 +75,7 @@ oninit(MCLinkedList)
         var(count) = getCount;
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -88,9 +88,9 @@ method(MCLinkedList, void, bye, voida)
 
 method(MCLinkedList, void, addItem, MCItem* item)
 {
-    if (item != mull) {
+    if (item != null) {
         var(countChanged) = MCTrue;
-        if (var(tailItem) == mull) {
+        if (var(tailItem) == null) {
             var(tailItem) = item;
             var(headItem) = item;
         }else{
@@ -102,16 +102,16 @@ method(MCLinkedList, void, addItem, MCItem* item)
 
 method(MCLinkedList, void, delItem, MCItem* item)
 {
-    if (item != mull) {
+    if (item != null) {
         var(countChanged) = MCTrue;
         if (item == var(headItem)) {
-            var(headItem) = mull;
-            var(tailItem) = mull;
+            var(headItem) = null;
+            var(tailItem) = null;
             release(item);
         }
         else if (item == var(tailItem)){
             MCItem* tail = var(tailItem)->prevItem;
-            tail->nextItem = mull;
+            tail->nextItem = null;
             release(var(tailItem));
             var(tailItem) = tail;
         }
@@ -126,7 +126,7 @@ method(MCLinkedList, void, delItem, MCItem* item)
 
 method(MCLinkedList, void, insertAfterItem, MCItem* anchor, MCItem* item)
 {
-    if (anchor != mull && item != mull) {
+    if (anchor != null && item != null) {
         var(countChanged) = MCTrue;
         MCItem* next = anchor->nextItem;
         MCItem_linkNextItem(0, anchor, item);
@@ -136,7 +136,7 @@ method(MCLinkedList, void, insertAfterItem, MCItem* anchor, MCItem* item)
 
 method(MCLinkedList, void, insertBeforeItem, MCItem* anchor, MCItem* item)
 {
-    if (anchor != mull && item != mull) {
+    if (anchor != null && item != null) {
         var(countChanged) = MCTrue;
         MCItem* prev = anchor->prevItem;
         MCItem_linkPrevItem(0, anchor, item);
@@ -154,7 +154,7 @@ method(MCLinkedList, MCLinkedList*, connectList, MCLinkedList* otherlist)
 method(MCLinkedList, void, forEach, mc_message callback, void* userdata)
 {
     MCItem* item = obj->headItem;
-    while (item != mull) {
+    while (item != null) {
         _push_jump(callback, item, userdata);
         item = item->nextItem;
     }
@@ -172,7 +172,7 @@ onload(MCLinkedList)
         binding(MCLinkedList, void, forEach, mc_message callback, void* userdata);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

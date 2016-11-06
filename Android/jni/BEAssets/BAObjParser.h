@@ -26,7 +26,7 @@ typedef struct {
 
 MCInline void BAFaceInit(BAFace* face, long* buff, size_t vcount)
 {
-    face->big = mull;
+    face->big = null;
     size_t size = sizeof(long) * vcount;
     if (vcount <= 18) {
         memcpy(face->small, buff, size);
@@ -131,7 +131,7 @@ MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
         }
     }
     error_log("BAObjParser - BAObjAlloc failed. face count is %d\n", meta->face_count);
-    return mull;
+    return null;
 }
 
 MCInline void BAObjRelease(BAObj* buff)

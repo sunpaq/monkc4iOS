@@ -16,7 +16,7 @@ void clean_exception_context()
 	int i;
 	for (i = 0; i < MAX_EXCEPTION_NUM; i++){
 		_exception_list[i] = 0;
-		_exception_store[i] = mull;
+		_exception_store[i] = null;
 	}
 	//init the system builtin exceptions here
 }
@@ -58,7 +58,7 @@ mo get_exception_data(char* key)
 	if (_exception_list[val] == 0)
 	{
 		error_log("there is no exception: %s. return nil\n", key);
-		return mull;
+		return null;
 	}
 	mo res = _exception_store[val];
 	return res;
@@ -70,7 +70,7 @@ void set_exception_data(char* key, mo e)
 	//e->ref_count = -1;//memery manage here
 
 	mo exp_obj = _exception_store[val];
-	if(exp_obj != mull){
+	if(exp_obj != null){
 		release(&exp_obj);
 
 	}//auto release the old one

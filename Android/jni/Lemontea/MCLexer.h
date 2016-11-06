@@ -46,6 +46,16 @@ MCInline size_t MCLexerFill(char* const dest, const char* src)
     return len;
 }
 
+//return remain string
+MCInline const char* trimWhiteSpace(const char** target_p)
+{
+    const char* iter = *target_p;
+    while (*iter == ' ')
+        iter++;
+    *target_p = iter;//update remain
+    return iter;
+}
+
 //Old Mac9 end of line sequence: \r
 //Unix OSX end of line sequence: \n
 //Windows  end of line sequence: \r\n
@@ -166,7 +176,7 @@ MCInline int getDate(const char* s, long* buff)
     const char* remain = s;
     char digit[512];
     int b = 0, i = 0;
-    while (isNewLine(s) == MCFalse && *remain != MCBackSlash0) {
+    while (isNewLine(s) == MCFalse && *remain != MCBackSlash0 && *remain != MCWhiteSpace) {
         //a int
         if (MCCond_Digit(remain)) {
             digit[i++] = *remain;
@@ -234,16 +244,6 @@ MCInline MCToken tokenize(const char* word)
         token.type = MCTokenComment;
     }
     return token;
-}
-
-//return remain string
-MCInline const char* trimWhiteSpace(const char** target_p)
-{
-    const char* iter = *target_p;
-    while (*iter == ' ')
-        iter++;
-    *target_p = iter;//update remain
-    return iter;
 }
 
 MCInline const char* readNext(const char** target_p, char buff[], MCBool isUpdate)
@@ -357,9 +357,6 @@ MCInline size_t nextDates(const char** target_p, long buff[])
             buff[i++] = token.value.Integer;
             buff[i++] = 0;
             buff[i++] = 0;
-        }
-        else{
-            return i;
         }
     }
     //nextWord will update remain

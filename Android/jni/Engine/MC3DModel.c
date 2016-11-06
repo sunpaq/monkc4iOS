@@ -19,7 +19,7 @@ compute(MC3DFrame, frame)
     
     MCLinkedListForEach(sobj->meshes,
         MCMesh* m = (MCMesh*)item;
-        if (m != mull) {
+        if (m != null) {
             MC3DFrame mf = m->Frame;
             //MAX
             MCMath_accumulateMaxd(&allframe.xmax, mf.xmax);
@@ -34,7 +34,7 @@ compute(MC3DFrame, frame)
     
     MCLinkedListForEach(sobj->children,
         MC3DModel* m = (MC3DModel*)item;
-        if (m != mull) {
+        if (m != null) {
             MC3DFrame mf = computed(m, frame);
             //MAX
             MCMath_accumulateMaxd(&allframe.xmax, mf.xmax);
@@ -62,7 +62,7 @@ oninit(MC3DModel)
         obj->lastSavedFrame = (MC3DFrame){0,0,0,0,0,0};
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -128,15 +128,15 @@ function(MCMesh*, createMeshWithBATriangles, BATriangle* triangles, size_t trico
     if (mesh->vertexDataSize != 0) {
         mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
     }else{
-        mesh->vertexDataPtr = mull;
+        mesh->vertexDataPtr = null;
     }
     //mesh->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*mesh->vforertexCount);
     
     for (size_t i=0; i<tricount; i++) {
         size_t offset = i * 33;
-        meshLoadFaceElement(0, mull, mesh, buff, triangles[i].e1, offset+0, color);
-        meshLoadFaceElement(0, mull, mesh, buff, triangles[i].e2, offset+11, color);
-        meshLoadFaceElement(0, mull, mesh, buff, triangles[i].e3, offset+22, color);
+        meshLoadFaceElement(0, null, mesh, buff, triangles[i].e1, offset+0, color);
+        meshLoadFaceElement(0, null, mesh, buff, triangles[i].e2, offset+11, color);
+        meshLoadFaceElement(0, null, mesh, buff, triangles[i].e3, offset+22, color);
     }
     
     //frame
@@ -177,7 +177,7 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
         MCStringFill(node->material->tag, mtl->name);
         node->material->dataChanged = MCTrue;
     }else{
-        setDefaultMaterialForNode(0, mull, node);
+        setDefaultMaterialForNode(0, null, node);
     }
 }
 
@@ -190,17 +190,17 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
         
         BATriangle* triangles = createTrianglesBuffer(faces, facecount);
         size_t tricount = trianglization(triangles, faces, facecount, buff->vertexbuff);
-        MCMesh* mesh = createMeshWithBATriangles(0, mull, triangles, tricount, buff, color);
+        MCMesh* mesh = createMeshWithBATriangles(0, null, triangles, tricount, buff, color);
         
         model->Super.material = new(MCMatrial);
-        model->Super.texture  = mull;
+        model->Super.texture  = null;
         MCLinkedList_addItem(0, model->Super.meshes, (MCItem*)mesh);
         
         //set mtl
         if (mtl && buff->usemtlcount > 0) {
-            setMaterialForNode(0, mull, &model->Super, mtl);
+            setMaterialForNode(0, null, &model->Super, mtl);
         }else{
-            setDefaultMaterialForNode(0, mull, &model->Super);
+            setDefaultMaterialForNode(0, null, &model->Super);
         }
         
         //set name
@@ -208,7 +208,7 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
         releaseTrianglesBuffer(triangles);
         return model;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -266,7 +266,7 @@ method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRG
         debug_log("MC3DModel - find path: %s\n", path);
         return MC3DModel_initWithFilePathColor(0, obj, path, color);
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -286,7 +286,7 @@ onload(MC3DModel)
 
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

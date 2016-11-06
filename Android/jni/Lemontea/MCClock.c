@@ -7,7 +7,7 @@ oninit(MCClock)
         var(currentGMTBuff) = (char*)malloc(sizeof(char) * LINE_MAX);
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -182,6 +182,6 @@ onload(MCClock)
         binding(MCClock, void, printCurrentGMTTime);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

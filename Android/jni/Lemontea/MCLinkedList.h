@@ -41,7 +41,7 @@ method(MCLinkedList, void, forEach, mc_message callback, void* userdata);
 
 #define MCLinkedListForEach(list, code) \
 {MCItem* item = list->headItem;         \
-while (item != mull) {                  \
+while (item != null) {                  \
     code                                \
     item = item->nextItem;              \
 }}

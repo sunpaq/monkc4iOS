@@ -74,7 +74,7 @@ oninit(MCCube)
         
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -83,7 +83,7 @@ onload(MCCube)
     if (load(MC3DNode)) {
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

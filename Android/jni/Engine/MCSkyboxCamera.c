@@ -35,7 +35,7 @@ oninit(MCSkyboxCamera)
         
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -145,7 +145,7 @@ onload(MCSkyboxCamera)
         
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

@@ -32,7 +32,7 @@ oninit(MCCamera)
         var(isLockRotation) = MCFalse;        
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -175,7 +175,7 @@ onload(MCCamera)
         
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

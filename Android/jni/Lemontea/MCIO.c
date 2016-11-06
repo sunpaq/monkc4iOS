@@ -92,21 +92,21 @@ oninit(MCFile)
     if (init(MCObject)) {
         obj->fd = 0;
         obj->pathname = "";
-        obj->buffer = mull;
+        obj->buffer = null;
         //obj->attribute;
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
 method(MCFile, MCFile*, initWithPathName, char* pathname, int oflag)
 {
 	if((obj->fd = open(pathname, oflag, 0774))==-1)
-		return mull;
+		return null;
 	obj->pathname = pathname;
 	if(fstat(obj->fd, &obj->attribute)<0)
-		return mull;
+		return null;
 	obj->buffer = malloc(obj->attribute.st_blksize*10);
 	return obj;
 }
@@ -208,7 +208,7 @@ onload(MCFile)
         binding(MCFile, int, checkPermissionUseRealIDOfProcess, int mode);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -217,12 +217,12 @@ onload(MCFile)
 oninit(MCStream)
 {
     if (init(MCObject)) {
-        obj->lineArray = mull;
-        obj->lineLengthArray = mull;
+        obj->lineArray = null;
+        obj->lineLengthArray = null;
         obj->lineCount = 0;
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -237,7 +237,7 @@ method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
     obj->fileObject = fopen(path, type.fopenMode);
     if (obj->fileObject == NULL) {
         error_log("can not open file: %s\n", path);
-        return mull;
+        return null;
     }
     //long size = MCStream_tellSize(0, obj, 0);
     
@@ -271,7 +271,7 @@ method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
     obj->lineLengthArray = (size_t*) malloc(sizeof(unsigned) * lcount);
 
     memcpy(obj->lineArray, &textbuff[0], sizeof(char*) * lcount);
-    ff(obj, dump, mull);
+    ff(obj, dump, null);
     
     return obj;
 }
@@ -414,7 +414,7 @@ onload(MCStream)
         
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -432,7 +432,7 @@ oninit(MCSelect)
         FD_ZERO(&obj->exceptionfd_result_set);
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -514,7 +514,7 @@ onload(MCSelect)
         binding(MCSelect, int, isFdReady, MCSelect_fd_type type, int fd);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

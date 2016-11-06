@@ -13,7 +13,7 @@
 compute(MCBool, isDrawSky)
 {
     as(MC3DScene);
-    if (var(skyboxShow) && var(skyboxRef)!=mull) {
+    if (var(skyboxShow) && var(skyboxRef)!=null) {
         return MCTrue;
     }
     return MCFalse;
@@ -23,7 +23,7 @@ oninit(MC3DScene)
 {
     if (init(MCObject)) {
         var(skyboxShow) = MCFalse;
-        var(skyboxRef)  = mull;
+        var(skyboxRef)  = null;
         
         var(renderer)   = new(MCGLRenderer);
         var(rootnode)   = new(MC3DNode);
@@ -31,8 +31,8 @@ oninit(MC3DScene)
         var(clock)      = new(MCClock);
         var(light)      = new(MCLight);
         
-        var(next) = mull;
-        var(prev) = mull;
+        var(next) = null;
+        var(prev) = null;
         var(scenewidth) = 0;
         var(sceneheight)= 0;
         
@@ -41,7 +41,7 @@ oninit(MC3DScene)
         
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -63,7 +63,7 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width,
     var(sceneheight) = height;
     MCCamera_initWithWidthHeight(0, var(mainCamera), width, height);
     MCGLRenderer_initWithShaderCodeString(0, var(renderer), vsource, fsource);
-    var(skyboxRef) = mull;
+    var(skyboxRef) = null;
     var(skyboxShow) = MCFalse;
     debug_log("MC3DScene - init end");
     return obj;
@@ -105,7 +105,7 @@ method(MC3DScene, MCCamera*, getCamera, voida)
 method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
 {
     if (var(cameraLock) == MCFalse) {
-//        if (var(skyboxRef) != mull) {
+//        if (var(skyboxRef) != null) {
 //            MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d / 5, deltaTht.d / 5);
 //        }
         MCCamera_move(0, var(mainCamera), deltaFai.d, deltaTht.d);
@@ -165,6 +165,6 @@ onload(MC3DScene)
 
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

@@ -32,7 +32,7 @@ class(MCGLContext, MCObject,
 
 //shader
 //please cache the location index when you first call the setters
-//then directly pass the location index and pass name mull
+//then directly pass the location index and pass name null
 method(MCGLContext, MCGLContext*, initWithShaderCode, const char* vcode, const char* fcode,
        const char* attribs[], size_t acount, MCGLUniformType types[], const char* uniforms[], size_t ucount);
 method(MCGLContext, MCGLContext*, initWithShaderName, const char* vname, const char* fname,

@@ -12,16 +12,16 @@
 compute(MCCamera*, cameraHandler)
 {
     as(MCDirector);
-    if (var(lastScene) != mull && var(lastScene)->mainCamera != mull) {
+    if (var(lastScene) != null && var(lastScene)->mainCamera != null) {
         return var(lastScene)->mainCamera;
     }
-    return mull;
+    return null;
 }
 
 oninit(MCDirector)
 {
     if (init(MCObject)) {
-        var(lastScene) = mull;
+        var(lastScene) = null;
         var(currentWidth) = 0;
         var(currentHeight) = 0;
         
@@ -31,15 +31,15 @@ oninit(MCDirector)
         var(modelThread) = new(MCThread);
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
 function(void, releaseScenes, MC3DScene* scene)
 {
     as(MCDirector);
-    if (scene!= mull) {
-        if (scene->prev != mull) {
+    if (scene!= null) {
+        if (scene->prev != null) {
             releaseScenes(0, obj, scene->prev);
         }else{
             release(scene);
@@ -49,7 +49,7 @@ function(void, releaseScenes, MC3DScene* scene)
 
 method(MCDirector, void, bye, voida)
 {
-    if (obj->lastScene != mull) {
+    if (obj->lastScene != null) {
         releaseScenes(0, obj, obj->lastScene);
     }
     release(var(skyboxThread));
@@ -60,7 +60,7 @@ method(MCDirector, void, bye, voida)
 
 method(MCDirector, void, updateAll, voida)
 {
-    if (var(lastScene) != mull) {
+    if (var(lastScene) != null) {
         MC3DScene_updateScene(0, var(lastScene), 0);
     }
 }
@@ -68,7 +68,7 @@ method(MCDirector, void, updateAll, voida)
 method(MCDirector, int, drawAll, voida)
 {
     int fps = -1;
-    if (var(lastScene) != mull) {
+    if (var(lastScene) != null) {
         fps = MC3DScene_drawScene(0, var(lastScene), 0);
     }
     return fps;
@@ -76,7 +76,7 @@ method(MCDirector, int, drawAll, voida)
 
 method(MCDirector, void, pushScene, MC3DScene* scene)
 {
-    if (var(lastScene) == mull) {
+    if (var(lastScene) == null) {
         var(lastScene) = scene;
     }else{
         scene->prev = var(lastScene);
@@ -90,11 +90,11 @@ method(MCDirector, void, popScene, voida)
 {
     ff(var(lastScene), lockCamera, MCTrue);
     //first scene
-    if (var(lastScene) != mull && var(lastScene)->prev != mull) {
+    if (var(lastScene) != null && var(lastScene)->prev != null) {
         var(lastScene) = var(lastScene)->prev;
     }
     //last scene
-    else if (var(lastScene) != mull && var(lastScene)->next != mull) {
+    else if (var(lastScene) != null && var(lastScene)->next != null) {
         var(lastScene) = var(lastScene)->next;
     }
     ff(var(lastScene), lockCamera, MCFalse);
@@ -107,11 +107,11 @@ method(MCDirector, void, resizeAllScene, int width, int height)
         return;
     }
     MC3DScene* iter;
-    for (iter=var(lastScene); iter!=mull; iter=iter->prev) {
-        if (iter->skyboxRef != mull) {
+    for (iter=var(lastScene); iter!=null; iter=iter->prev) {
+        if (iter->skyboxRef != null) {
             superof(iter->skyboxRef->camera)->ratio = MCRatioMake(width, height);
         }
-        if (iter->mainCamera != mull) {
+        if (iter->mainCamera != null) {
             iter->mainCamera->ratio = MCRatioMake(width, height);
         }
     }
@@ -122,7 +122,7 @@ method(MCDirector, void, resizeAllScene, int width, int height)
 method(MCDirector, void, cameraFocusOn, MCVector3 vertex)
 {
     MCCamera* c = computed(obj, cameraHandler);
-    if (c != mull) {
+    if (c != null) {
         c->lookat.x = vertex.x;
         c->lookat.y = vertex.y;
         c->lookat.z = vertex.z;
@@ -144,6 +144,6 @@ onload(MCDirector)
 
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

@@ -22,7 +22,7 @@ oninit(MCMatrial)
         obj->tag[0] = '\0';
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -62,6 +62,6 @@ onload(MCMatrial)
         binding(MCMatrial, void, prepareMatrial, MCGLContext* ctx);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

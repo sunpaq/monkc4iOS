@@ -7,10 +7,10 @@ oninit(MCArray)
         obj->count = 0;
         obj->size = 0;
         obj->indexLast = 0;
-        obj->buff = mull;
+        obj->buff = null;
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -25,7 +25,7 @@ method(MCArray, MCArray*, initWithSize, int size)
 
 method(MCArray, void, bye, voida)
 {
-    if (obj->buff != mull) {
+    if (obj->buff != null) {
         free(obj->buff);
     }
     MCObject_bye(0, sobj, 0);
@@ -62,7 +62,7 @@ static void delete_item(MCArray* obj, int index)
 {
 	if(index < 0) return;
 	if(index > obj->indexLast) return;
-	(*(obj->buff))[index] = mull;
+	(*(obj->buff))[index] = null;
 	if(index==obj->indexLast)
 		obj->indexLast--;
 	obj->count--;
@@ -160,6 +160,6 @@ onload(MCArray)
         binding(MCArray, void, visiteEachWithData, lamdafunc visitorFunction, void* data);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

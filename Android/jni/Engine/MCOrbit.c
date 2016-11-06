@@ -29,7 +29,7 @@ oninit(MCOrbit)
         
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -56,6 +56,6 @@ onload(MCOrbit)
         binding(MCOrbit, void, draw);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

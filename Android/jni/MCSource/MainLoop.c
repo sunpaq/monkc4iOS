@@ -21,12 +21,12 @@
 #include "MCThread.h"
 #include "MCException.h"
 
-static MCDirector* director = mull;
-static BECubeTextureData* cubtex = mull;
+static MCDirector* director = null;
+static BECubeTextureData* cubtex = null;
 
 void onAppStart()
 {
-    if (cubtex == mull) {
+    if (cubtex == null) {
         const char* names[6] = {"right","left","top","bottom","back","front"};
         cubtex = BECubeTextureData_newWithFaces(names, "jpg");
     }
@@ -114,7 +114,7 @@ void onReceiveMemoryWarning()
 {
     error_log("Receive Memory Warning\n");
     MC3DScene* mainScene = director->lastScene;
-    if (mainScene != mull && mainScene->rootnode != mull) {
+    if (mainScene != null && mainScene->rootnode != null) {
         ff(mainScene->rootnode, cleanUnvisibleChild, 0);
     }
 }
@@ -124,7 +124,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
     debug_log("onSetupGL called: width=%d height=%d filename=%s\n", windowWidth, windowHeight, filename);
 	//MCLogTypeSet(MC_SILENT);
 
-    if (director == mull) {
+    if (director == null) {
     	debug_log("onSetupGL create director");
         director = new(MCDirector);
         director->currentWidth = windowWidth;
@@ -136,7 +136,7 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
                                   director->currentWidth, director->currentHeight);
         debug_log("onSetupGL main scene created current screen size: %dx%d\n", windowWidth, windowHeight);
 
-        if (cubtex != mull) {
+        if (cubtex != null) {
             MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
             mainScene->skyboxRef = skybox;
             mainScene->skyboxShow = getSkyboxOn();
@@ -152,9 +152,9 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         debug_log("onSetupGL main scene pushed into director\n");
     }
 
-    if (filename != mull) {
-        if (director->lastScene->skyboxRef != mull) {
-            //ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, mull);
+    if (filename != null) {
+        if (director->lastScene->skyboxRef != null) {
+            //ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, null);
             //ff(director->skyboxThread, start, 0);
         }
 
@@ -176,14 +176,14 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
 void onTearDownGL()
 {
     release(director);
-    director = mull;
+    director = null;
 }
 
 void onUpdate(double roll, double yaw, double pitch)
 {
     //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
     //MCLogTypeSet(MC_SILENT);
-    if (director != mull) {
+    if (director != null) {
 
     	if (computed(director->lastScene, isDrawSky)) {
             if (director->currentWidth < director->currentHeight) {
@@ -200,7 +200,7 @@ void onUpdate(double roll, double yaw, double pitch)
 int onDraw()
 {
     int fps = -1;
-    if (director != mull) {
+    if (director != null) {
         fps = MCDirector_drawAll(0, director, 0);
     }
 
@@ -211,7 +211,7 @@ int onDraw()
 //gesture callback
 void onGestureSwip()
 {
-    if (director != mull && director->lastScene != mull) {
+    if (director != null && director->lastScene != null) {
         //MCDirector_popScene(0, director, 0);
     }
 }
@@ -220,7 +220,7 @@ void onGesturePan(double x, double y)
 {
     MCCamera* camera = director->lastScene->mainCamera;
 
-    if (director != mull && director->lastScene != mull && camera != mull) {
+    if (director != null && director->lastScene != null && camera != null) {
         double sign = camera->isReverseMovement == MCTrue? -1.0f : 1.0f;
         if (camera->isLockRotation == MCTrue) {
             double factor = 0.01;
@@ -242,14 +242,14 @@ void onGesturePinch(double scale)
     pinch_scale = MAX(0.1, MIN(pinch_scale, 100.0));
 
     MCCamera* camera = director->lastScene->mainCamera;
-    if (director != mull && director->lastScene != mull && camera != mull) {
+    if (director != null && director->lastScene != null && camera != null) {
         MCCamera_distanceScale(0, camera, 1.0/pinch_scale);
     }
 }
 
 void onResizeScreen(int windowWidth, int windowHeight)
 {
-    if (director != mull) {
+    if (director != null) {
         ff(director, resizeAllScene, windowWidth, windowHeight);
     }
 }
@@ -269,15 +269,15 @@ void onStartStopBtn(int startOrStop)
 //MC3DiOS_CameraAngelsDelta
 void cameraCommand(MC3DiOS_CameraCmd* cmd)
 {
-    if (director != mull && director->lastScene != mull) {
+    if (director != null && director->lastScene != null) {
         MCCamera* camera = director->lastScene->mainCamera;
-        MCCamera* cam2 = mull;
+        MCCamera* cam2 = null;
         if (computed(director->lastScene, isDrawSky)) {
             MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
             cam2 = superof(sbcam);
         }
 
-        if (camera != mull) {
+        if (camera != null) {
             switch (cmd->type) {
                 case MC3DiOS_CameraLookAt:
                     camera->lookat.x = cmd->lookatX;

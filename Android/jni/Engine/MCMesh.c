@@ -18,16 +18,16 @@ oninit(MCMesh)
         var(useage) = GL_STATIC_DRAW;
         var(mode) = GL_TRIANGLES;
         
-        var(vertexDataPtr) = mull;
+        var(vertexDataPtr) = null;
         var(vertexDataSize)= 0;
-        var(vertexIndexes) = mull;
+        var(vertexIndexes) = null;
         var(vertexCount)   = 0;
 
-        memset(var(vertexAttribArray), (int)mull, sizeof(var(vertexAttribArray)));
+        memset(var(vertexAttribArray), (int)null, sizeof(var(vertexAttribArray)));
         //debug_log("MCMesh - init finished\n");
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -81,7 +81,7 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
         glBindBuffer(GL_ARRAY_BUFFER, obj->VBO);
         glBufferData(GL_ARRAY_BUFFER, obj->vertexDataSize, obj->vertexDataPtr, obj->useage);
         //EBO
-        if (var(vertexIndexes) != mull) {
+        if (var(vertexIndexes) != null) {
             glGenBuffers(1, &obj->EBO);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->EBO);
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint)*obj->vertexCount, obj->vertexIndexes, obj->useage);
@@ -90,7 +90,7 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
         int i;
         for (i=0; i<MCVertexAttribIndexMax-1; i++) {
             MCVertexAttribute attr = obj->vertexAttribArray[i];
-            if (attr.vectorsize != (GLint)mull) {
+            if (attr.vectorsize != (GLint)null) {
                 MCVertexAttributeLoad(&obj->vertexAttribArray[i]);
             }
         }
@@ -103,7 +103,7 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArray(obj->VAO);
-    if (var(vertexIndexes) != mull) {
+    if (var(vertexIndexes) != null) {
         glDrawElements(var(mode), 100, GL_UNSIGNED_INT, (GLvoid*)0);
     }else{
         glDrawArrays(var(mode), 0, var(vertexCount));
@@ -122,7 +122,7 @@ onload(MCMesh)
         binding(MCMesh, void, drawMesh, voida);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

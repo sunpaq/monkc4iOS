@@ -65,7 +65,7 @@ MCALItem* MCALDeleteItem(MCArrayLinkedList* list, MCALItem* item)
         }
         else if (MCALItemIsHead(item) == MCTrue
                  && MCALItemIsTail(item) == MCTrue) {
-            list->head = mull;
+            list->head = null;
         }
         else {
             item->prev->next = item->next;
@@ -73,7 +73,7 @@ MCALItem* MCALDeleteItem(MCArrayLinkedList* list, MCALItem* item)
         }
     }
 
-    item->value.mcptr = mull;
+    item->value.mcptr = null;
     list->count--;
     return list->head;
 }

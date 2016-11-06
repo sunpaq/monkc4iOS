@@ -14,7 +14,7 @@ oninit(MC2DTex)
     if (init(MCTexture)) {
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -38,6 +38,6 @@ onload(MC2DTex)
         
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

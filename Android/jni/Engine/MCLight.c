@@ -22,7 +22,7 @@ oninit(MCLight)
         obj->dataChanged = MCTrue;
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -58,7 +58,7 @@ onload(MCLight)
         binding(MCLight, void, update, MCGLContext* ctx);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

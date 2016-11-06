@@ -23,6 +23,7 @@
 		FD00C4CB1CD10BAE00DCA45F /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4BC1CD10BAE00DCA45F /* SplitViewController.m */; };
 		FD00C4CC1CD10BAE00DCA45F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FD00C4BE1CD10BAE00DCA45F /* Info.plist */; };
 		FD00C4CF1CD10D5E00DCA45F /* SapindusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */; };
+		FD1701FD1DCDE6BA00712203 /* MCSort.c in Sources */ = {isa = PBXBuildFile; fileRef = FD1701FB1DCDE6BA00712203 /* MCSort.c */; };
 		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
 		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
 		FD2A6E861DA75F0C00293DE1 /* monkey2.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FD2A6E851DA75F0C00293DE1 /* monkey2.mtl */; };
@@ -117,6 +118,12 @@
 		FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */; };
 		FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
+		FDABFFC81DC79EA400E8F4F0 /* SCI.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */; };
+		FDABFFC91DC79EA400E8F4F0 /* SCI.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC71DC79EA400E8F4F0 /* SCI.obj */; };
+		FDABFFCC1DC7A62100E8F4F0 /* Ferrari2001.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCA1DC7A62100E8F4F0 /* Ferrari2001.mtl */; };
+		FDABFFCD1DC7A62100E8F4F0 /* Ferrari2001.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCB1DC7A62100E8F4F0 /* Ferrari2001.obj */; };
+		FDABFFD01DC7A77B00E8F4F0 /* IronMan.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCE1DC7A77B00E8F4F0 /* IronMan.mtl */; };
+		FDABFFD11DC7A77B00E8F4F0 /* IronMan.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCF1DC7A77B00E8F4F0 /* IronMan.obj */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
 /* End PBXBuildFile section */
 
@@ -157,6 +164,8 @@
 		FD00C4BC1CD10BAE00DCA45F /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
 		FD00C4BE1CD10BAE00DCA45F /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SapindusTests.m; sourceTree = "<group>"; };
+		FD1701FB1DCDE6BA00712203 /* MCSort.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSort.c; sourceTree = "<group>"; };
+		FD1701FC1DCDE6BA00712203 /* MCSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSort.h; sourceTree = "<group>"; };
 		FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.fsh; sourceTree = "<group>"; };
 		FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.vsh; sourceTree = "<group>"; };
 		FD2A6E851DA75F0C00293DE1 /* monkey2.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey2.mtl; sourceTree = "<group>"; };
@@ -307,6 +316,12 @@
 		FD8784811CCE5F8C0071DAB4 /* right.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = right.jpg; path = skybox/right.jpg; sourceTree = "<group>"; };
 		FD8784821CCE5F8C0071DAB4 /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = top.jpg; path = skybox/top.jpg; sourceTree = "<group>"; };
 		FDA3DCDD1C9056BC0044965D /* tex1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tex1.jpg; sourceTree = "<group>"; };
+		FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.mtl; sourceTree = "<group>"; };
+		FDABFFC71DC79EA400E8F4F0 /* SCI.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.obj; sourceTree = "<group>"; };
+		FDABFFCA1DC7A62100E8F4F0 /* Ferrari2001.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Ferrari2001.mtl; sourceTree = "<group>"; };
+		FDABFFCB1DC7A62100E8F4F0 /* Ferrari2001.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Ferrari2001.obj; sourceTree = "<group>"; };
+		FDABFFCE1DC7A77B00E8F4F0 /* IronMan.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IronMan.mtl; sourceTree = "<group>"; };
+		FDABFFCF1DC7A77B00E8F4F0 /* IronMan.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IronMan.obj; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* Sapindus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sapindus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -493,6 +508,8 @@
 				FD44CDF71D326CF200784EDF /* MCThread.h */,
 				FD44CDF81D326CF200784EDF /* MCUnitTest.c */,
 				FD44CDF91D326CF200784EDF /* MCUnitTest.h */,
+				FD1701FB1DCDE6BA00712203 /* MCSort.c */,
+				FD1701FC1DCDE6BA00712203 /* MCSort.h */,
 			);
 			name = Lemontea;
 			path = Android/jni/Lemontea;
@@ -549,6 +566,12 @@
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				FDABFFCE1DC7A77B00E8F4F0 /* IronMan.mtl */,
+				FDABFFCF1DC7A77B00E8F4F0 /* IronMan.obj */,
+				FDABFFCA1DC7A62100E8F4F0 /* Ferrari2001.mtl */,
+				FDABFFCB1DC7A62100E8F4F0 /* Ferrari2001.obj */,
+				FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */,
+				FDABFFC71DC79EA400E8F4F0 /* SCI.obj */,
 				FD2A6E851DA75F0C00293DE1 /* monkey2.mtl */,
 				FD62A9AF1DA62AB600B74299 /* Avent.mtl */,
 				FD4B125A1DA5024800ADCB38 /* beengine.mtl */,
@@ -750,6 +773,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */,
+				FDABFFCC1DC7A62100E8F4F0 /* Ferrari2001.mtl in Resources */,
 				FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */,
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
 				FD2A6E861DA75F0C00293DE1 /* monkey2.mtl in Resources */,
@@ -758,6 +782,7 @@
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
 				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
 				FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */,
+				FDABFFD01DC7A77B00E8F4F0 /* IronMan.mtl in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
 				FD5EFD651B0E3D9D00D2492A /* Icon-72@2x.png in Resources */,
 				FD00C4CC1CD10BAE00DCA45F /* Info.plist in Resources */,
@@ -786,6 +811,7 @@
 				FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */,
 				FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */,
 				FD8784831CCE5F8C0071DAB4 /* back.jpg in Resources */,
+				FDABFFD11DC7A77B00E8F4F0 /* IronMan.obj in Resources */,
 				FD5EFD5D1B0E3D9D00D2492A /* Icon-60@3x.png in Resources */,
 				FD5EFD631B0E3D9D00D2492A /* Icon-60.png in Resources */,
 				FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */,
@@ -794,7 +820,10 @@
 				FD00C4C51CD10BAE00DCA45F /* Images.xcassets in Resources */,
 				FD4CC1F51C91C8C200051C15 /* tex5.png in Resources */,
 				FD0097DF1CB8D781000A85DE /* Avent.obj in Resources */,
+				FDABFFC81DC79EA400E8F4F0 /* SCI.mtl in Resources */,
+				FDABFFC91DC79EA400E8F4F0 /* SCI.obj in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
+				FDABFFCD1DC7A62100E8F4F0 /* Ferrari2001.obj in Resources */,
 				FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */,
 				FD62A9B01DA62AB600B74299 /* Avent.mtl in Resources */,
 				FD5EFD5F1B0E3D9D00D2492A /* Icon-76@2x.png in Resources */,
@@ -830,6 +859,7 @@
 				FD44CE2D1D326CF200784EDF /* MCDirector.c in Sources */,
 				FD00C4C81CD10BAE00DCA45F /* main.m in Sources */,
 				FD44CE3E1D326CF200784EDF /* MCContext.c in Sources */,
+				FD1701FD1DCDE6BA00712203 /* MCSort.c in Sources */,
 				FD44CE321D326CF200784EDF /* MCMatrial.c in Sources */,
 				FD00C4CA1CD10BAE00DCA45F /* SettingsListController.m in Sources */,
 				FD44CE301D326CF200784EDF /* MCGLRenderer.c in Sources */,

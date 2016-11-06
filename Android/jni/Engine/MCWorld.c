@@ -14,7 +14,7 @@ oninit(MCWorld)
     if (init(MCObject)) {
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -35,7 +35,7 @@ onload(MCWorld)
         binding(MCWorld, MCWorld*, initWith, voida);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 

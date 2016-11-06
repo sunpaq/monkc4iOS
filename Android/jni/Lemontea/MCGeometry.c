@@ -144,10 +144,10 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
         
         //final triangle
         if (list->count == 3) {
-            if (triangleResult != mull) {
+            if (triangleResult != null) {
                 triangleResult[triangleCount++] = triangle;
             }
-            if (vindexResult != mull) {
+            if (vindexResult != null) {
                 vindexResult[vertexCount++] = idx1;
                 vindexResult[vertexCount++] = idx2;
                 vindexResult[vertexCount++] = idx3;
@@ -176,10 +176,10 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
         }
         
         if (success == MCTrue) {
-            if (triangleResult != mull) {
+            if (triangleResult != null) {
                 triangleResult[triangleCount++] = triangle;
             }
-            if (vindexResult != mull) {
+            if (vindexResult != null) {
                 vindexResult[vertexCount++] = idx1;
                 vindexResult[vertexCount++] = idx2;
                 vindexResult[vertexCount++] = idx3;

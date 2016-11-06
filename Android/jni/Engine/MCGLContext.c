@@ -34,10 +34,10 @@ oninit(MCGLContext)
     if (init(MCObject)) {
         var(pid) = glCreateProgram();
         var(uniformCount) = 0;
-        //memset(obj->vertexAttributeNames, (int)mull, sizeof(obj->vertexAttributeNames));
+        //memset(obj->vertexAttributeNames, (int)null, sizeof(obj->vertexAttributeNames));
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -115,7 +115,7 @@ function(int, setUniform, const char* name, int loc, MCGLUniform* uniform)
     if (var(pid) == 0) {
         return -1;
     }
-    if (name != mull) {
+    if (name != null) {
         loc = glGetUniformLocation(var(pid), name);
     }
     if (loc != MC3DErrUniformNotFound) {
@@ -152,7 +152,7 @@ function(int, setUniform, const char* name, int loc, MCGLUniform* uniform)
 
 method(MCGLContext, void, updateUniform, const char* name, MCGLUniformData udata)
 {
-    MCGLUniform* u = mull;
+    MCGLUniform* u = null;
     int f = -1;
     for (int i=0; i<var(uniformCount); i++) {
         u = &var(uniforms)[i];
@@ -162,7 +162,7 @@ method(MCGLContext, void, updateUniform, const char* name, MCGLUniformData udata
         }
     }
     
-    if (u != mull && f != -1 && !MCGLUniformDataEqual(u->type, &u->data, &udata)) {
+    if (u != null && f != -1 && !MCGLUniformDataEqual(u->type, &u->data, &udata)) {
         var(uniformsDirty)[f] = MCTrue;
         var(uniforms)[f].data = udata;
     }
@@ -176,7 +176,7 @@ method(MCGLContext, void,  setUniforms, voida)
     for (int i=0; i<var(uniformCount); i++) {
         if (var(uniformsDirty)[i] == MCTrue) {
             MCGLUniform* f = &var(uniforms)[i];
-            setUniform(0, obj, mull, f->location, f);
+            setUniform(0, obj, null, f->location, f);
             var(uniformsDirty)[i] = MCFalse;
         }
     }
@@ -252,6 +252,6 @@ onload(MCGLContext)
 
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

@@ -217,7 +217,7 @@ void runtime_logt(const char* tag, const char* fmt, ...)
 #endif
 
 //private data
-static mc_hashtable* mc_global_classtable = mull;
+static mc_hashtable* mc_global_classtable = null;
 
 void trylock_global_classtable()
 {
@@ -240,7 +240,7 @@ MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFunc
 
 MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
 {
-	if(aclass==mull){
+	if(aclass==null){
 		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
 		return 0;
 	}
@@ -252,13 +252,13 @@ MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFu
 
 static inline mc_class* findclass(const char* name, const MCHash hashval)
 {
-	mc_hashitem* item = mull;
+	mc_hashitem* item = null;
 	//create a class hashtable
-	if(mc_global_classtable == mull)
+	if(mc_global_classtable == null)
 		mc_global_classtable = new_table(MCHashTableLevel1);
 	item=get_item_byhash(mc_global_classtable, hashval, name);
-	if (item == mull)
-		return mull;
+	if (item == null)
+		return null;
 	else
 		runtime_log("findClass item key:%s, value:%p\n", item->key, item->value.mcptr);
 	return (mc_class*)(item->value.mcptr);
@@ -274,10 +274,10 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 	mc_class* aclass = findclass(name, hashval);
 	//try lock spin lock
 	trylock_global_classtable();
-	if(aclass == mull){
+	if(aclass == null){
 		//new a item
 		aclass = alloc_mc_class(objsize);
-        mc_hashitem* item = new_item(name, (MCGeneric){.mcptr=mull});//nil first
+        mc_hashitem* item = new_item(name, (MCGeneric){.mcptr=null});//nil first
 		package_by_item(item, aclass);
 		(*loader)(aclass);
 		//set item
@@ -295,7 +295,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 mo _new(mo const obj, MCIniterPointer initer)
 {
 	//block, isa, saved_isa is setted at _alloc()
-    obj->nextResponder = mull;
+    obj->nextResponder = null;
 	obj->ref_count = 1;
 	(*initer)(obj);
 	return obj;
@@ -305,8 +305,8 @@ static int ref_count_down(mo const this)
 {
 
 	for(;;){
-		if(this == mull){
-			error_log("recycle/release(mull) do nothing.\n");
+		if(this == null){
+			error_log("recycle/release(null) do nothing.\n");
 			return REFCOUNT_ERR;
 		}
 		if(this->ref_count == 0)
@@ -318,7 +318,7 @@ static int ref_count_down(mo const this)
 			debug_log("ref_count is REFCOUNT_NO_MM manage by runtime. do nothing\n");
 			return REFCOUNT_NO_MM;
 		}
-		if(this->isa == mull){
+		if(this->isa == null){
 			error_log("recycle/release(obj) obj have no class linked. do nothing.\n");
 			return REFCOUNT_ERR;
 		}
@@ -359,7 +359,7 @@ mo _retain(mo const this)
 {
 
 	for(;;){
-		if(this == mull){
+		if(this == null){
 			error_log("retain(nil) do nothing.\n");
 			return this;
 		}
@@ -367,7 +367,7 @@ mo _retain(mo const this)
 			debug_log("ref_count is REFCOUNT_NO_MM manage by runtime. do nothing\n");
 			return this;
 		}
-		if(this->isa == mull){
+		if(this->isa == null){
 			error_log("release(obj) obj have no class linked. do nothing.\n");
 			return this;
 		}
@@ -391,7 +391,7 @@ mo _retain(mo const this)
  */
 void mc_trylock(volatile int* lock_p)
 {
-    if(lock_p==mull){
+    if(lock_p==null){
         error_log("mc_trylock(int* lock_p) lock_p is nil\n");
         return;
     }
@@ -409,7 +409,7 @@ void mc_trylock(volatile int* lock_p)
 
 void mc_unlock(volatile int* lock_p)
 {
-    if(lock_p==mull){
+    if(lock_p==null){
         error_log("mc_unlock(int* lock_p) lock_p is nil\n");
         return;
     }
@@ -431,7 +431,7 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
     atable->table_item_count = 0;
     //set all the slot to nil
     for (int i = 0; i < get_tablesize(initlevel); i++)
-        atable->items[i] = mull;
+        atable->items[i] = null;
     return atable;
 }
 
@@ -465,8 +465,8 @@ mc_hashitem* new_item(const char* key, MCGeneric value)
 mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
 {
     mc_hashitem* aitem = (mc_hashitem*)malloc(sizeof(mc_hashitem));
-    if (aitem != mull) {
-        aitem->next = mull;
+    if (aitem != null) {
+        aitem->next = null;
         aitem->hash = hashval;
         aitem->index = 0;
         aitem->level = MCHashTableLevel1;
@@ -486,7 +486,7 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
 MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
                           MCBool isOverride, MCBool isFreeValue, const char* classname)
 {
-    if(table_p==mull || table_p==mull){
+    if(table_p==null || table_p==null){
         error_log("set_item(mc_hashtable** table_p) table_p or *table_p is nill return 0\n");
         return 0;
     }
@@ -495,7 +495,7 @@ MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
     MCHashTableIndex index = hashval % get_tablesize((*table_p)->level);
     
     mc_hashitem* olditem = (*table_p)->items[index];
-    if(olditem == mull){
+    if(olditem == null){
         item->level = (*table_p)->level;
         item->index = index;
         (*table_p)->items[index] = item;
@@ -508,7 +508,7 @@ MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
                 runtime_log("[%s]:set-item key[%s] already been setted, free temp item\n", classname, item->key);
                 if(isFreeValue == MCTrue)free(item->value.mcfuncptr);
                 free(item);
-                (*table_p)->items[index] = mull;
+                (*table_p)->items[index] = null;
                 return index;
             }else{
                 runtime_log("[%s]:reset-item key[%s] already been setted, replace old item\n", classname, item->key);
@@ -531,7 +531,7 @@ MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
             //solve the conflict
             if((*table_p)->level < MCHashTableLevelCount){//Max=5 Count=6
                 expand_table(table_p, (*table_p)->level+1);
-                set_item(table_p, item, isOverride, isFreeValue, mull);//recursive
+                set_item(table_p, item, isOverride, isFreeValue, null);//recursive
                 return index;
             }else{
                 //tmplevel = 5, table_p must have been expanded to level 4
@@ -549,9 +549,9 @@ MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
 
 mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key)
 {
-    if(table_p==mull){
+    if(table_p==null){
         error_log("get_item_bykey(table_p) table_p is nil return nil\n");
-        return mull;
+        return null;
     }
     //try get index
     return get_item_byhash(table_p, hash(key), key);
@@ -559,16 +559,16 @@ mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key)
 
 mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, const char* refkey)
 {
-    if(table_p==mull){
+    if(table_p==null){
         error_log("get_item_byhash(table_p) table_p is nil return nil\n");
-        return mull;
+        return null;
     }
     
     //level<MCHashTableLevelMax
     MCHashTableLevel level = MCHashTableLevel1;
-    mc_hashitem* res=mull;
+    mc_hashitem* res=null;
     for(level = MCHashTableLevel1; level<MCHashTableLevelMax; level++){
-        if((res=get_item_byindex(table_p, hashval % get_tablesize(level))) == mull) {
+        if((res=get_item_byindex(table_p, hashval % get_tablesize(level))) == null) {
             continue;
         }
         if(res->level != level) {
@@ -581,37 +581,37 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
         return res;
     }
     //level=MCHashTableLevelMax
-    if((res=get_item_byindex(table_p, hashval % get_tablesize(MCHashTableLevelMax))) == mull)
-        return mull;
+    if((res=get_item_byindex(table_p, hashval % get_tablesize(MCHashTableLevelMax))) == null)
+        return null;
     if(res->level != MCHashTableLevelMax)
-        return mull;
+        return null;
     if(res->hash != hashval)
-        return mull;
-    if(res->next == mull)
-        return mull;
+        return null;
+    if(res->next == null)
+        return null;
     //pass all the check. search conflicted item
-    for(; res!=mull; res=res->next)
+    for(; res!=null; res=res->next)
         if(mc_compare_key(res->key, refkey) == 0){
             runtime_log("key hit a item [%s/%d/%d]\n", 
                         res->key, res->index, MCHashTableLevelMax);
             return res;
         }
     //no matched item
-    return mull;
+    return null;
 }
 
 mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCHashTableIndex index)
 {
-    if(table_p==mull){
+    if(table_p==null){
         error_log("get_item_byindex(table_p) table_p is nil return nil\n");
-        return mull;
+        return null;
     }
     if(index > get_tablesize(table_p->level))
-        return mull;
-    if(table_p->items[index] != mull)
+        return null;
+    if(table_p->items[index] != null)
         return table_p->items[index];
     else
-        return mull;
+        return null;
 }
 
 
@@ -630,7 +630,7 @@ mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCHashTableInde
 void pushToTail(mc_blockpool* bpool, mc_block* ablock)
 {
     mc_trylock(&(bpool->lock));
-    deref(ablock).next = mull;
+    deref(ablock).next = null;
     if(MC_NO_NODE(bpool)){
         deref(bpool).tail = ablock;
         deref(ablock).next = ablock;
@@ -647,12 +647,12 @@ mc_block* getFromHead(mc_blockpool* bpool)
 {
     mc_block *target, *H, *HN;
     mc_trylock(&(bpool->lock));
-    target = mull;
+    target = null;
     if(MC_NO_NODE(bpool)){
-        target=mull;
+        target=null;
     }else if(MC_ONE_NODE(bpool)){
         target=bpool->tail;
-        deref(bpool).tail = mull;
+        deref(bpool).tail = null;
     }else{
         target=bpool->tail->next;
         H = bpool->tail->next;
@@ -666,8 +666,8 @@ mc_block* getFromHead(mc_blockpool* bpool)
 void empty(mc_blockpool* bpool)
 {
     mc_block* target;
-    while((target=getFromHead(bpool)) != mull){
-        fs((mo)(target->data), bye, mull);
+    while((target=getFromHead(bpool)) != null){
+        fs((mo)(target->data), bye, null);
         free(target->data);
         free(target);
     }
@@ -677,7 +677,7 @@ int count(mc_blockpool* bpool)
 {
     int i = 1;
     mc_block* H;
-    if(deref(bpool).tail==mull)
+    if(deref(bpool).tail==null)
         return 0;
     H = deref(bpool).tail->next;
     for(;H!=deref(bpool).tail ;H=H->next){
@@ -695,32 +695,32 @@ int cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result)
     mc_trylock(&(bpool->lock));
     if(MC_NO_NODE(bpool)){
         error_log("no node in used_pool but you request delete\n");
-        deref(result)=mull;
+        deref(result)=null;
         res=-1;//fail
     }else if(MC_ONE_NODE(bpool)){
-        deref(bpool).tail=mull;
-        deref(ablock).next=mull;
+        deref(bpool).tail=null;
+        deref(ablock).next=null;
         deref(result)=ablock;
     }else if(MC_TWO_NODE(bpool)){//do not swap data
-        if(deref(ablock).next==mull){
+        if(deref(ablock).next==null){
             error_log("block not in the pool, refuse to cut\n");
             res=-1;//fail
         }else{
             mc_block* H = deref(bpool).tail->next;
             mc_block* T = deref(bpool).tail;
             if(ablock==bpool->tail){//cut tail
-                deref(T).next=mull;
+                deref(T).next=null;
                 deref(result)=T;
                 deref(bpool).tail=H;
                 deref(H).next=H;
             }else{//cut head
-                deref(H).next=mull;
+                deref(H).next=null;
                 deref(result)=H;
                 deref(T).next=T;
             }
         }
     }else{
-        if(deref(ablock).next==mull){
+        if(deref(ablock).next==null){
             error_log("block not in the pool, refuse to cut\n");
             res=-1;//fail
         }else{
@@ -728,7 +728,7 @@ int cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result)
                 deref(bpool).tail = ablock;
             NN = ablock->next->next;
             //result
-            deref(deref(ablock).next).next = mull;
+            deref(deref(ablock).next).next = null;
             deref(result) = deref(ablock).next;
             //swap
             package_by_block(ablock, ablock->next->data);
@@ -759,11 +759,11 @@ void mc_clear(const char* classname, size_t size, MCLoaderPointer loader)
 void mc_clear_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
 {
     mc_class* aclass = _load_h(classname, size, loader, hashval);
-    if(aclass->used_pool.tail!=mull)
+    if(aclass->used_pool.tail!=null)
         empty(&aclass->used_pool);
     else
         runtime_log("class[%s] used_pool have no node. check free_pool\n", classname);
-    if(aclass->free_pool.tail!=mull)
+    if(aclass->free_pool.tail!=null)
         empty(&aclass->free_pool);
     else
         runtime_log("class[%s] free_pool also have no node. do not clear\n", classname);
@@ -780,10 +780,10 @@ mo mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash
 {
 #if defined(NO_RECYCLE) && NO_RECYCLE
     mc_class* aclass = _load_h(classname, size, loader, hashval);
-    mo aobject = mull;
+    mo aobject = null;
     //new a object package by a block
     aobject = (mo)malloc(size);
-    if (aobject != mull) {
+    if (aobject != null) {
         aobject->isa = aclass;
         aobject->saved_isa = aclass;
         runtime_log("----alloc[NEW:%s]: new alloc\n", classname);
@@ -797,15 +797,15 @@ mo mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash
     mc_class* aclass = _load_h(classname, size, loader, hashval);
     mc_blockpool* fp = &aclass->free_pool;
     mc_blockpool* up = &aclass->used_pool;
-    mc_block* ablock = mull;
-    mo aobject = mull;
-    if((ablock=getFromHead(fp)) == mull){
+    mc_block* ablock = null;
+    mo aobject = null;
+    if((ablock=getFromHead(fp)) == null){
         //new a object package by a block
         aobject = (mo)malloc(size);
         aobject->isa = aclass;
         aobject->saved_isa = aclass;
         //new a block
-        ablock = new_mc_block(mull);
+        ablock = new_mc_block(null);
         package_by_block(ablock, aobject);
         runtime_log("----alloc[NEW:%s]: new alloc a block[%p obj[%p]]\n",
                     classname, ablock, ablock->data);
@@ -823,8 +823,8 @@ mo mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash
 void mc_dealloc(MCObject* aobject, int is_recycle)
 {
 #if defined(NO_RECYCLE) && NO_RECYCLE
-    if(aobject==mull){
-        error_log("----dealloc(%s) obj is mull\n", nameof(aobject));
+    if(aobject==null){
+        error_log("----dealloc(%s) obj is null\n", nameof(aobject));
         return;
     }
     runtime_log("----dealloc[DEL:%s]: delete a obj[%p]\n", nameof(aobject), aobject);
@@ -835,20 +835,20 @@ void mc_dealloc(MCObject* aobject, int is_recycle)
     mc_blockpool* fp = &cls->free_pool;
     mc_blockpool* up = &cls->used_pool;
     
-    if(aobject==mull){
-        error_log("----dealloc(%s) obj is mull\n", nameof(aobject));
+    if(aobject==null){
+        error_log("----dealloc(%s) obj is null\n", nameof(aobject));
         return;
     }
-    if(blk==mull){
-        error_log("----dealloc(%s) obj->block is mull\n", nameof(aobject));
+    if(blk==null){
+        error_log("----dealloc(%s) obj->block is null\n", nameof(aobject));
         return;
     }
-    if(cls==mull){
-        error_log("----dealloc(%s) obj->isa is mull\n", nameof(aobject));
+    if(cls==null){
+        error_log("----dealloc(%s) obj->isa is null\n", nameof(aobject));
         return;
     }
-    if(fp==mull || up==mull){
-        error_log("----dealloc(%s) obj->isa->pool is mull\n", nameof(aobject));
+    if(fp==null || up==null){
+        error_log("----dealloc(%s) obj->isa->pool is null\n", nameof(aobject));
         return;
     }
     if(MC_NO_NODE(up)){
@@ -856,7 +856,7 @@ void mc_dealloc(MCObject* aobject, int is_recycle)
         return;
     }
     
-    mc_block* nb = mull;
+    mc_block* nb = null;
     //dealloc start
     if(!cut(up, blk, &nb))//success
     {
@@ -886,25 +886,25 @@ mc_message _self_response_to(const mo obj, const char* methodname)
 mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval)
 {
     //we will return a struct
-    mc_hashitem* res = mull;
-    mc_message tmpmsg = {mull, mull};
+    mc_hashitem* res = null;
+    mc_message tmpmsg = {null, null};
     
-    if(obj == mull){
+    if(obj == null){
         //no need to warning user
         return tmpmsg;
     }
-    if(obj->isa == mull){
-        error_log("_self_response_to(obj, '%s') obj->isa is mull. return {mull, mull}\n", methodname);
+    if(obj->isa == null){
+        error_log("_self_response_to(obj, '%s') obj->isa is null. return {null, null}\n", methodname);
         return tmpmsg;
     }
     
-    if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != mull){
+    if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != null){
         tmpmsg.object = obj;
         tmpmsg.address = res->value.mcfuncptr;
         //runtime_log("return a message[%s/%s]\n", nameof(obj), methodname);
         return tmpmsg;
     }else{
-        if (obj->nextResponder != mull) {
+        if (obj->nextResponder != null) {
             return _self_response_to_h(obj->nextResponder, methodname, hashval);
         }else{
             runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
@@ -929,35 +929,35 @@ mc_message _response_to_h(const mo obj, const char* methodname, MCHash hashval, 
 }
 /*
 	MCObject* obj_iterator = obj;
-	MCObject* obj_first_hit = mull;
-	mc_hashitem* met_first_hit = mull;
-	mc_hashitem* met_item = mull;
+	MCObject* obj_first_hit = null;
+	mc_hashitem* met_first_hit = null;
+	mc_hashitem* met_item = null;
 	int hit_count = 0;
 	int iter_count = 0;
 	//int max_iter = get_tablesize(5);
 	int max_iter = 10000;
  
-	mc_message tmpmsg = {mull, mull};
-	if(obj == mull || obj->isa == mull){
- error_log("_response_to(obj) obj is mull or obj->isa is mull. return {mull, mull}\n");
+	mc_message tmpmsg = {null, null};
+	if(obj == null || obj->isa == null){
+ error_log("_response_to(obj) obj is null or obj->isa is null. return {null, null}\n");
  return tmpmsg;
 	}
  
 	for(obj_iterator = obj;
- obj_iterator!= mull;
+ obj_iterator!= null;
  obj_iterator = obj_iterator->super){
  if(iter_count++ > max_iter){
  error_log("iter_count>max but class still can not response to method\n");
  break;
  }
- if((met_item=get_item_byhash(&(obj_iterator->isa->table), hashval, methodname)) != mull) {
+ if((met_item=get_item_byhash(&(obj_iterator->isa->table), hashval, methodname)) != null) {
  runtime_log("hit a method [%s/%d] to match [%s]\n",
  met_item->key, met_item->index, methodname);
  hit_count++;
  tmpmsg.object = obj_iterator;
  tmpmsg.address = met_item->value.mcfuncptr;
- if(obj_first_hit==mull)obj_first_hit = obj_iterator;
- if(met_first_hit==mull)met_first_hit = met_item;
+ if(obj_first_hit==null)obj_first_hit = obj_iterator;
+ if(met_first_hit==null)met_first_hit = met_item;
  //for the method key have conflicted with some super class in inherit tree
  if(hit_count>1){
  if(hit_count==2){

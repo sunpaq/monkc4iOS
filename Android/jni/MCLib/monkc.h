@@ -57,8 +57,8 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #define NO_RECYCLE 1
 #define NO_ATOMIC 1
 
-#ifndef mull
-#define mull ((void*)0)
+#ifndef null
+#define null ((void*)0)
 #endif
 #define voida void* voidarg
 #define S(value) #value
@@ -262,7 +262,7 @@ MCInline mc_block* new_mc_block(void* data)
 {
     mc_block* ablock = (mc_block*)malloc(sizeof(mc_block));
     deref(ablock).data = data;
-    deref(ablock).next = mull;
+    deref(ablock).next = null;
     return ablock;
 }
 
@@ -275,7 +275,7 @@ MCInline mc_blockpool* new_mc_blockpool()
 {
     mc_blockpool* bpool = (mc_blockpool*)malloc(sizeof(mc_blockpool));
     bpool->lock = 0;
-    bpool->tail = mull;
+    bpool->tail = null;
     return bpool;
 }
 //meta class, the struct is a node for inherit hierarchy
@@ -306,9 +306,9 @@ MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
     aclass->objsize = objsize;
     //init pool
     aclass->free_pool.lock = 0;
-    aclass->free_pool.tail = mull;
+    aclass->free_pool.tail = null;
     aclass->used_pool.lock = 0;
-    aclass->used_pool.tail = mull;
+    aclass->used_pool.tail = null;
     //init table
     aclass->table = (mc_hashtable*)malloc(sizeof(mc_hashtable) + sizeof(mc_hashitem)*get_tablesize(initlevel));
     aclass->table->lock = 0;
@@ -316,7 +316,7 @@ MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
     aclass->table->table_item_count = 0;
     //set all the slot to nil
     for (int i = 0; i < get_tablesize(initlevel); i++)
-        (aclass->table->items)[i] = mull;
+        (aclass->table->items)[i] = null;
     return aclass;
 }
 
@@ -423,17 +423,17 @@ extern void _init_class_list();
 extern void _clear_class_list();
 
 MCInline const char* mc_nameofc(const mc_class* aclass) {
-    if(aclass==mull)
+    if(aclass==null)
         return "unknown";
-    if(aclass->item==mull)
+    if(aclass->item==null)
         return "unknown";
-    if(aclass->item->key==mull)
+    if(aclass->item->key==null)
         return "unknown";
     return aclass->item->key;
 }
 
 MCInline const char* mc_nameof(const MCObject* aobject) {
-    if(aobject->isa==mull)
+    if(aobject->isa==null)
         return "unknown";
     return mc_nameofc(aobject->isa);
 }
@@ -523,7 +523,7 @@ void mc_clear_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCH
 mo mc_alloc_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
 void mc_dealloc(MCObject* aobject, MCInt is_recycle);
 
-#define MC_NO_NODE(bpool) (bpool->tail==mull)
+#define MC_NO_NODE(bpool) (bpool->tail==null)
 #define MC_ONE_NODE(bpool) (bpool->tail->next==bpool->tail)
 #define MC_TWO_NODE(bpool) (bpool->tail->next->next==bpool->tail)
 
@@ -537,9 +537,9 @@ MCInt cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result);
  Root Class MCObject
  */
 
-static inline MCObject* MCObject_init(MCObject* const obj) {obj->nextResponder=mull; return obj;}
+static inline MCObject* MCObject_init(MCObject* const obj) {obj->nextResponder=null; return obj;}
 static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), mo upperObj) {obj->nextResponder=upperObj;}
-static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->nextResponder=mull;}
+static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->nextResponder=null;}
 static inline void      MCObject_bye(mc_message_arg(MCObject), voida) {}
 static inline mc_class* MCObject_load(mc_class* const cla) {
     _binding(cla, "responseChainConnect", (MCFuncPtr)MCObject_responseChainConnect);

@@ -28,10 +28,10 @@ oninit(BE2DTextureData)
         obj->path = "";
         
         //output
-        obj->raw = mull;
+        obj->raw = null;
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -57,7 +57,7 @@ utility(BE2DTextureData, BE2DTextureData*, newWithPath, const char* path)
 
 method(BE2DTextureData, void, bye, voida)
 {
-    if (obj->raw != mull) {
+    if (obj->raw != null) {
         SOIL_free_image_data(obj->raw);
     }
     MCObject_bye(0, sobj, 0);
@@ -69,7 +69,7 @@ onload(BE2DTextureData)
         binding(BE2DTextureData, void, bye, voida);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -79,7 +79,7 @@ oninit(BECubeTextureData)
     if (init(MCObject)) {
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -88,11 +88,11 @@ utility(BECubeTextureData, BECubeTextureData*, newWithFacePaths, const char* fac
     BECubeTextureData* data = new(BECubeTextureData);
     for (int i=0; i<6; i++) {
         BE2DTextureData* aface = BE2DTextureData_newWithPath(facepaths[i]);
-        if (aface != mull) {
+        if (aface != null) {
             data->faces[i] = aface;
         }else{
-            error_log("BECubeTextureData image %s data is mull!\n", facepaths[i]);
-            return mull;
+            error_log("BECubeTextureData image %s data is null!\n", facepaths[i]);
+            return null;
         }
     }
     return data;
@@ -114,7 +114,7 @@ method(BECubeTextureData, void, bye, voida)
 {
     for (int i=0; i<6; i++) {
         BE2DTextureData* face = obj->faces[i];
-        if (face != mull) {
+        if (face != null) {
             release(face);
         }
     }
@@ -127,13 +127,13 @@ onload(BECubeTextureData)
         binding(BECubeTextureData, void, bye, voida);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
 
 #ifdef __ANDROID__
-static AAssetManager* assetManager_ = mull;
-static ANativeWindow* window_ = mull;
+static AAssetManager* assetManager_ = null;
+static ANativeWindow* window_ = null;
 
 //File
 void MCFileSetAssetManager(AAssetManager* assetManager)
@@ -150,7 +150,7 @@ AAssetManager* MCFileGetAssetManager()
 void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 {
 #ifdef __ANDROID__
-    if (assetManager_ != mull) {
+    if (assetManager_ != null) {
 		const char* subpath;
 		if (strcmp(extention, "fsh") == 0) {
 			subpath = "shaders";
@@ -204,7 +204,7 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 const char* MCFileCopyContentWithPath(const char* filepath, const char* extention)
 {
 #ifdef __ANDROID__
-    if (assetManager_ != mull) {
+    if (assetManager_ != null) {
         debug_log("MCFileCopyContentWithPath %s\n", filepath);
         AAsset* f = AAssetManager_open(assetManager_, filepath, AASSET_MODE_BUFFER);
         if (f) {
@@ -223,8 +223,8 @@ const char* MCFileCopyContentWithPath(const char* filepath, const char* extentio
             error_log("MCFileCopyContentWithPath(%s) Android assetManager_ can not open\n", filepath);
         }
     }
-    error_log("MCFileCopyContent(%s) Android assetManager_ is mull\n", filepath);
-    return mull;
+    error_log("MCFileCopyContent(%s) Android assetManager_ is null\n", filepath);
+    return null;
 #else
     //char path[PATH_MAX];
     //MCFileGetPath(filename, extention, path);
@@ -247,8 +247,8 @@ const char* MCFileCopyContentWithPath(const char* filepath, const char* extentio
         
         return buffer;
     }else{
-        error_log("MCFileCopyContent(%s) fopen return mull\n", filepath);
-        return mull;
+        error_log("MCFileCopyContent(%s) fopen return null\n", filepath);
+        return null;
     }
 
 #endif
@@ -266,10 +266,10 @@ void MCFileReleaseContent(void* buff)
 	free(buff);
 }
 
-// static AAsset* openingAsset = mull;
+// static AAsset* openingAsset = null;
 // FILE* MCFileOpenFile(const char* filename, const char* mode)
 // {
-// 	if(assetManager_ != mull){
+// 	if(assetManager_ != null){
 // 		openingAsset = AAssetManager_open(assetManager_, filename, AASSET_MODE_BUFFER);
 //         if (openingAsset) {
 //             off_t start, length;
@@ -279,15 +279,15 @@ void MCFileReleaseContent(void* buff)
 //                 return out;
 //             }else{
 //                 error_log("MCFileOpenFile(%s) file is compressed", filename);
-//                 return mull;
+//                 return null;
 //             }
 //         }else{
 //             error_log("MCFileOpenFile(%s) Android assetManager_ can not open", filename);
-//             return mull;
+//             return null;
 //         }
 // 	}
-// 	error_log("MCFileOpenFile(%s) Android assetManager_ is mull", filename);
-// 	return mull;
+// 	error_log("MCFileOpenFile(%s) Android assetManager_ is null", filename);
+// 	return null;
 // }
 
 // void MCFileCloseFile(FILE* f)
@@ -297,6 +297,6 @@ void MCFileReleaseContent(void* buff)
 // 	}
 // 	if(openingAsset) {
 // 		AAsset_close(openingAsset);
-// 		openingAsset = mull;
+// 		openingAsset = null;
 // 	}
 // }

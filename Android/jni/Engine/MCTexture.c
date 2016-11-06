@@ -15,7 +15,7 @@ oninit(MCTexture)
         obj->textureUnit = GL_TEXTURE1;
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -82,6 +82,6 @@ onload(MCTexture)
 
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }

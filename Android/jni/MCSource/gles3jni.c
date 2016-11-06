@@ -41,7 +41,7 @@ java(void, init, voida)
     const char* versionStr = (const char*)glGetString(GL_VERSION);
     if (strstr(versionStr, "OpenGL ES 3.")) {
     	onTearDownGL();
-    	onSetupGL(1080, 1766, mull);
+    	onSetupGL(1080, 1766, null);
     	error_log("[not a error] setup OpenGL ES 3");
     } else {
     	error_log("Unsupported OpenGL ES version");

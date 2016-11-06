@@ -29,8 +29,8 @@ oninit(MC3DNode)
         var(visible) = MCTrue;
         var(center) = MCVector3Make(0, 0, 0);
         var(transform) = MCMatrix4Identity();
-        var(material) = mull;
-        var(texture) = mull;
+        var(material) = null;
+        var(texture) = null;
         var(zorder) = -1;
         
         var(children) = new(MCLinkedList);
@@ -38,7 +38,7 @@ oninit(MC3DNode)
         
         return obj;
     }else{
-        return mull;
+        return null;
     }
 }
 
@@ -70,7 +70,7 @@ method(MC3DNode, void, cleanUnvisibleChild, voida)
 {
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
-                        if (node != mull && node->visible == MCFalse) {
+                        if (node != null && node->visible == MCFalse) {
                             MCLinkedList_delItem(0, var(children), (MCItem*)node);
                         })
 }
@@ -84,7 +84,7 @@ method(MC3DNode, void, setAllVisible, MCBool visible)
 {
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
-                        if (node != mull) {
+                        if (node != null) {
                             node->visible = visible;
                         })
 }
@@ -100,20 +100,20 @@ method(MC3DNode, void, update, MCGLContext* ctx)
     MCGLContext_updateUniform(0, ctx, "model.normal", f.data);
 
     //texture
-//    if (obj->texture != mull) {
+//    if (obj->texture != null) {
 //        MCTexture_prepareTexture(0, obj->texture, ctx);
 //    }
     //update self mesh
 //    for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
 //        MCMesh* mesh = obj->meshes[i];
-//        if (mesh != mull) {
+//        if (mesh != null) {
 //            MCMesh_prepareMesh(0, mesh, ctx);
 //        }
 //    }
     //update children
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
-                        if (node != mull && node->visible != MCFalse) {
+                        if (node != null && node->visible != MCFalse) {
                             fh(node, update, _update, ctx);
                         })
 }
@@ -121,7 +121,7 @@ method(MC3DNode, void, update, MCGLContext* ctx)
 method(MC3DNode, void, draw, MCGLContext* ctx)
 {
     //material
-    if (obj->material != mull) {
+    if (obj->material != null) {
         MCMatrial_prepareMatrial(0, obj->material, ctx);
     }
     
@@ -132,19 +132,19 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
     //draw self meshes
     MCLinkedListForEach(var(meshes),
                         MCMesh* mesh = (MCMesh*)item;
-                        if (mesh != mull) {
+                        if (mesh != null) {
                             MCMesh_prepareMesh(0, mesh, ctx);
                             MCMesh_drawMesh(0, mesh, ctx);
                         })
     //draw self texture
-    if (obj->texture != mull) {
+    if (obj->texture != null) {
         fh(obj->texture, drawTexture, _drawTexture, ctx);
     }
     
     //draw children
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
-                        if (node != mull && node->visible != MCFalse) {
+                        if (node != null && node->visible != MCFalse) {
                             fh(node, draw, _draw, ctx);
                         })
     
@@ -178,6 +178,6 @@ onload(MC3DNode)
         binding(MC3DNode, void, show, voida);
         return cla;
     }else{
-        return mull;
+        return null;
     }
 }
