@@ -28,8 +28,8 @@ oninit(MCCamera)
         var(projectionMatrix) = projectionMatrix;
         var(currentPosition) = currentPosition;
         
-        var(isReverseMovement) = MCTrue;
-        var(isLockRotation) = MCFalse;        
+        var(isReverseMovement) = true;
+        var(isLockRotation) = false;        
         return obj;
     }else{
         return null;
@@ -120,7 +120,7 @@ method(MCCamera, void, update, MCGLContext* ctx)
 
 method(MCCamera, void, move, double deltaFai, double deltaTht)
 {
-    if (var(isLockRotation) == MCTrue) {
+    if (var(isLockRotation) == true) {
         return;
     }
     if (var(isReverseMovement)) {

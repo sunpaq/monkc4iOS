@@ -19,7 +19,8 @@ typedef struct _BSTNode {
 } BSTNode;
 
 class(MCBST, MCObject,
-      BSTNode* root);
+      BSTNode* root;
+      size_t count);
 
 method(MCBST, void, bye, voida);
 method(MCBST, void, insertValue, MCGeneric newval);

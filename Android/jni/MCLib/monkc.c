@@ -282,7 +282,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 		(*loader)(aclass);
 		//set item
         //MCBool isOverride, MCBool isFreeValue
-		set_item(&mc_global_classtable, item, MCFalse, MCTrue, (char*)name);
+		set_item(&mc_global_classtable, item, false, true, (char*)name);
 		runtime_log("load a class[%s]\n", name);
 	}else{
 		runtime_log("find a class[%s]\n", name);
@@ -504,15 +504,15 @@ MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
     }else{
         //if the item have already been setted. we free the old one
         if(mc_compare_key(olditem->key, item->key) == 0){
-            if(isOverride == MCFalse){
+            if(isOverride == false){
                 runtime_log("[%s]:set-item key[%s] already been setted, free temp item\n", classname, item->key);
-                if(isFreeValue == MCTrue)free(item->value.mcfuncptr);
+                if(isFreeValue == true)free(item->value.mcfuncptr);
                 free(item);
                 (*table_p)->items[index] = null;
                 return index;
             }else{
                 runtime_log("[%s]:reset-item key[%s] already been setted, replace old item\n", classname, item->key);
-                if(isFreeValue == MCTrue)free(olditem->value.mcfuncptr);
+                if(isFreeValue == true)free(olditem->value.mcfuncptr);
                 item->level = (*table_p)->level;
                 item->index = index;
                 (*table_p)->items[index] = item;

@@ -69,7 +69,7 @@ method(MCGLContext, MCGLContext*, initWithShaderCode, const char* vcode, const c
         MCGLUniformSetName(f, uniforms[i]);
         f->type = types[i];
         f->location = glGetUniformLocation(var(pid), uniforms[i]);
-        obj->uniformsDirty[i] = MCFalse;
+        obj->uniformsDirty[i] = false;
     }
     
     return obj;
@@ -163,21 +163,21 @@ method(MCGLContext, void, updateUniform, const char* name, MCGLUniformData udata
     }
     
     if (u != null && f != -1 && !MCGLUniformDataEqual(u->type, &u->data, &udata)) {
-        var(uniformsDirty)[f] = MCTrue;
+        var(uniformsDirty)[f] = true;
         var(uniforms)[f].data = udata;
     }
     else if (f != -1){
-        var(uniformsDirty)[f] = MCFalse;
+        var(uniformsDirty)[f] = false;
     }
 }
 
 method(MCGLContext, void,  setUniforms, voida)
 {
     for (int i=0; i<var(uniformCount); i++) {
-        if (var(uniformsDirty)[i] == MCTrue) {
+        if (var(uniformsDirty)[i] == true) {
             MCGLUniform* f = &var(uniforms)[i];
             setUniform(0, obj, null, f->location, f);
-            var(uniformsDirty)[i] = MCFalse;
+            var(uniformsDirty)[i] = false;
         }
     }
     

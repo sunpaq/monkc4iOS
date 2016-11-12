@@ -40,7 +40,7 @@ MCArrayLinkedList* MCArrayLinkedListInit(MCArrayLinkedList* list, MCGeneric valu
 
 MCArrayLinkedList* MCArrayLinkedListInitCircle(MCArrayLinkedList* list, MCGeneric values[], const size_t count)
 {
-    list->isCircle = MCTrue;
+    list->isCircle = true;
     MCArrayLinkedListInit(list, values, count);
     
     return list;
@@ -57,14 +57,14 @@ MCALItem* MCALDeleteItem(MCArrayLinkedList* list, MCALItem* item)
         item->prev->next = item->next;
         item->next->prev = item->prev;
     }else{
-        if (MCALItemIsHead(item) == MCTrue) {
+        if (MCALItemIsHead(item) == true) {
             MCALSetHead(list, item->next);
         }
-        else if (MCALItemIsTail(item) == MCTrue) {
+        else if (MCALItemIsTail(item) == true) {
             MCALSetTail(list, item->prev);
         }
-        else if (MCALItemIsHead(item) == MCTrue
-                 && MCALItemIsTail(item) == MCTrue) {
+        else if (MCALItemIsHead(item) == true
+                 && MCALItemIsTail(item) == true) {
             list->head = null;
         }
         else {

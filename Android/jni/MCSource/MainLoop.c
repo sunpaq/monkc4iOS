@@ -45,9 +45,9 @@ void onOpenExternalFile(const char* filepath)
 {
     MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filepath, (MCColorRGBAf){1.0, 1.0, 1.0, 1.0});
 
-    ff(director->lastScene->rootnode, setAllVisible, MCFalse);
+    ff(director->lastScene->rootnode, setAllVisible, false);
     ff(director->lastScene->rootnode, addChild, model);
-    ff(director->lastScene->rootnode, setAllVisible, MCTrue);
+    ff(director->lastScene->rootnode, setAllVisible, true);
 }
 
 //static void asyncReadSkybox()
@@ -89,7 +89,7 @@ void onOpenFileAndExitThread(const char* filename)
 {
     try {
         onOpenFile(filename);
-        ff(director->lastScene->rootnode, setAllVisible, MCTrue);
+        ff(director->lastScene->rootnode, setAllVisible, true);
     }catch(MC3DModel_ERROR) {
         error_log("MC3DModel_ERROR occur exit the process!");
     }finally{
@@ -221,8 +221,8 @@ void onGesturePan(double x, double y)
     MCCamera* camera = director->lastScene->mainCamera;
 
     if (director != null && director->lastScene != null && camera != null) {
-        double sign = camera->isReverseMovement == MCTrue? -1.0f : 1.0f;
-        if (camera->isLockRotation == MCTrue) {
+        double sign = camera->isReverseMovement == true? -1.0f : 1.0f;
+        if (camera->isLockRotation == true) {
             double factor = 0.01;
             MCCamera_fucus(0, camera, x*sign*factor, y*sign*factor);
         }else{

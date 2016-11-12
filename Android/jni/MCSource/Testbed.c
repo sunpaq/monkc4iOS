@@ -103,17 +103,17 @@ static void testsort()
 
     int A[] = {5,6,3,4,2,1,8,9,7,10,11,32,90,64,23,22,14,19,38,24,55,17};
     size_t count = sizeof(A) / sizeof(int);
-    MCSort* sort = ff(new(MCSort), initWithCopyArray, A, count);
-    ff(sort, quickSortInt, 0);
+    MCSort* sort = ff(new(MCSort), initWithIntArray, A, count);
+    ff(sort, quickSort, 0);
     ff(sort, printArray, 0);
-
+    release(sort);
     
     MCBST* bstree = new(MCBST);
     for (int i=0; i<count; i++) {
         ff(bstree, insertValue, MCGenericI(A[i]));
     }
     ff(bstree, printTree, 0);
-    
+    release(bstree);
     
     debug_log("testsort finish\n");
     exit(-1);

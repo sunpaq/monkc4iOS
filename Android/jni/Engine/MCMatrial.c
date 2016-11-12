@@ -17,7 +17,7 @@ oninit(MCMatrial)
         obj->specularLightColor = MCVector3Make(1.0, 1.0, 1.0);
         obj->specularLightPower = 32.0;
         obj->dissolve = 1.0;
-        obj->dataChanged = MCTrue;
+        obj->dataChanged = true;
         
         obj->tag[0] = '\0';
         return obj;
@@ -28,7 +28,7 @@ oninit(MCMatrial)
 
 method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
 {
-    //if (obj->dataChanged == MCTrue) {
+    //if (obj->dataChanged == true) {
         MCGLContext_activateShaderProgram(0, ctx, 0);
         
         MCGLUniform f;
@@ -52,7 +52,7 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
         f.type = MCGLUniformVec1;
         MCGLContext_updateUniform(0, ctx, "material.dissolve", f.data);
 
-        obj->dataChanged = MCFalse;
+        obj->dataChanged = false;
     //}
 }
 

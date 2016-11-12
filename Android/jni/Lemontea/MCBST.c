@@ -20,6 +20,7 @@ oninit(MCBST)
 {
     if (init(MCObject)) {
         var(root) = null;
+        var(count) = 0;
         return obj;
     }else{
         return null;
@@ -46,38 +47,43 @@ method(MCBST, void, bye, voida)
 
 function(BSTNode*, insert, BSTNode* root, MCGeneric newval)
 {
-    if (!root)
+    as(MCBST);
+    if (!root) {
         root = BSTNodeCreate(newval);
+        obj->count++;
+    }
     if (MCGenericCompare(newval, root->value) < 0)
-        root->left = insert(0, null, root->left, newval);
+        root->left = insert(0, obj, root->left, newval);
     if (MCGenericCompare(newval, root->value) > 0)
-        root->right = insert(0, null, root->right, newval);
+        root->right = insert(0, obj, root->right, newval);
     return root;
 }
 
 function(void, traverse, BSTNode* root, void (*funcptr)(BSTNode* node))
 {
+    as(MCBST);
     if (!root) return;
     if (root->left)
-        traverse(0, null, root->left, funcptr);
+        traverse(0, obj, root->left, funcptr);
     (*funcptr)(root);
     if (root->right)
-        traverse(0, null, root->right, funcptr);
+        traverse(0, obj, root->right, funcptr);
 }
 
 method(MCBST, void, insertValue, MCGeneric newval)
 {
-    var(root) = insert(0, null, var(root), newval);
+    var(root) = insert(0, obj, var(root), newval);
 }
 
 method(MCBST, void, traverseTree, void (*funcptr)(BSTNode* node))
 {
-    traverse(0, null, var(root), funcptr);
+    traverse(0, obj, var(root), funcptr);
 }
 
 method(MCBST, void, printTree, voida)
 {
     traverse(0, null, var(root), printnode);
+    printf("total %ld nodes\n", obj->count);
 }
 
 onload(MCBST)

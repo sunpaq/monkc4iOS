@@ -25,6 +25,7 @@
 		FD00C4CF1CD10D5E00DCA45F /* SapindusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4CE1CD10D5E00DCA45F /* SapindusTests.m */; };
 		FD1701FD1DCDE6BA00712203 /* MCSort.c in Sources */ = {isa = PBXBuildFile; fileRef = FD1701FB1DCDE6BA00712203 /* MCSort.c */; };
 		FD1702001DD6DFAC00712203 /* MCBST.c in Sources */ = {isa = PBXBuildFile; fileRef = FD1701FE1DD6DFAC00712203 /* MCBST.c */; };
+		FD1702031DD7072600712203 /* MCSet.c in Sources */ = {isa = PBXBuildFile; fileRef = FD1702011DD7072600712203 /* MCSet.c */; };
 		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
 		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
 		FD2A6E861DA75F0C00293DE1 /* monkey2.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FD2A6E851DA75F0C00293DE1 /* monkey2.mtl */; };
@@ -169,6 +170,8 @@
 		FD1701FC1DCDE6BA00712203 /* MCSort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSort.h; sourceTree = "<group>"; };
 		FD1701FE1DD6DFAC00712203 /* MCBST.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCBST.c; sourceTree = "<group>"; };
 		FD1701FF1DD6DFAC00712203 /* MCBST.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBST.h; sourceTree = "<group>"; };
+		FD1702011DD7072600712203 /* MCSet.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSet.c; sourceTree = "<group>"; };
+		FD1702021DD7072600712203 /* MCSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSet.h; sourceTree = "<group>"; };
 		FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.fsh; sourceTree = "<group>"; };
 		FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCGLRenderer.vsh; sourceTree = "<group>"; };
 		FD2A6E851DA75F0C00293DE1 /* monkey2.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = monkey2.mtl; sourceTree = "<group>"; };
@@ -515,6 +518,8 @@
 				FD1701FC1DCDE6BA00712203 /* MCSort.h */,
 				FD1701FE1DD6DFAC00712203 /* MCBST.c */,
 				FD1701FF1DD6DFAC00712203 /* MCBST.h */,
+				FD1702011DD7072600712203 /* MCSet.c */,
+				FD1702021DD7072600712203 /* MCSet.h */,
 			);
 			name = Lemontea;
 			path = Android/jni/Lemontea;
@@ -887,6 +892,7 @@
 				F8DCDAB71D52E09E00FD3FD2 /* MCArrayLinkedList.c in Sources */,
 				FD44CE2E1D326CF200784EDF /* MCGLContext.c in Sources */,
 				FD44CE3C1D326CF200784EDF /* MCBuffer.c in Sources */,
+				FD1702031DD7072600712203 /* MCSet.c in Sources */,
 				FD00C4C41CD10BAE00DCA45F /* GameViewController.m in Sources */,
 				FD44CE5F1D326CF200784EDF /* MCNode.c in Sources */,
 				FD44CE451D326CF200784EDF /* MCString.c in Sources */,

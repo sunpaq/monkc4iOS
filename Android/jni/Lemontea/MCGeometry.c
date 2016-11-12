@@ -20,7 +20,7 @@ MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
     //init vertex data
     poly->count = count;
     poly->index = 0;
-    poly->isConvex = MCFalse;
+    poly->isConvex = false;
     
     MCGeneric generic[MCPolygonMaxV] = {};
     for (size_t i=0; i<count; i++) {
@@ -40,9 +40,9 @@ MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
     MCALItem* finish = middle->next;
     
     while (finish->next != start) {
-        start->userdata.mcbool = MCTrue;
-        middle->userdata.mcbool = MCTrue;
-        finish->userdata.mcbool = MCTrue;
+        start->userdata.mcbool = true;
+        middle->userdata.mcbool = true;
+        finish->userdata.mcbool = true;
         
         size_t idx1 = start->value.mcsizet;
         size_t idx2 = middle->value.mcsizet;
@@ -56,7 +56,7 @@ MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
         while (remain != start) {
             MCVector3 p = poly->vertexData[remain->value.mcsizet];
             if(MCTriangleContainsVertex(tri, p)){
-                remain->userdata.mcbool = MCFalse;
+                remain->userdata.mcbool = false;
             }
             
             remain = remain->next;
@@ -69,7 +69,7 @@ MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
     //init convex hull
     MCALItem* iter = poly->vertexIndexes.head;
     while (iter->next != poly->vertexIndexes.head) {
-        if (iter->userdata.mcbool == MCTrue) {
+        if (iter->userdata.mcbool == true) {
             poly->convexHull[poly->convexCount++] = iter->value.mcsizet;
         }else{
             poly->concaveSet[poly->concaveCount++] = iter->value.mcsizet;
@@ -84,10 +84,10 @@ MCPolygon* MCPolygonInit(MCPolygon* poly, MCVector3 vertexes[], size_t count)
     }
     
     if (poly->concaveCount == 0) {
-        poly->isConvex = MCTrue;
+        poly->isConvex = true;
         
     }else{
-        poly->isConvex = MCFalse;
+        poly->isConvex = false;
         
         size_t i0 = poly->convexHull[0];
         size_t i1 = poly->convexHull[1];
@@ -156,12 +156,12 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
             return triangleCount;
         }
         
-        MCBool success = MCTrue;
+        MCBool success = true;
         //test faceup
         MCVector3 up = MCTriangleCCWFaceUp(triangle);
         if (MCVector3Dot(up, poly->faceup) < 0) {
             debug_log("face up test failed: %d/%d/%d\n", idx1, idx2, idx3);
-            success = MCFalse;
+            success = false;
         }
         //test remain points in triangle
         for (int i=0; i<list->count; i++) {
@@ -171,11 +171,11 @@ size_t MCPolygonResolveConcave(MCPolygon* poly, MCTriangle* triangleResult, size
             MCVector3* p = &(poly->vertexData[i]);
             if(MCTriangleContainsVertex(triangle, *p)){
                 debug_log("vertex in triangle test failed: %d/%d/%d\n", idx1, idx2, idx3);
-                success = MCFalse;
+                success = false;
             }
         }
         
-        if (success == MCTrue) {
+        if (success == true) {
             if (triangleResult != null) {
                 triangleResult[triangleCount++] = triangle;
             }

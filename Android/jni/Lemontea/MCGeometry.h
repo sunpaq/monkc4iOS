@@ -70,9 +70,9 @@ MCInline double MCTriangleArea(MCTriangle tri)
 MCInline MCBool MCTriangleHaveVertex(MCTriangle tri, MCVector3 P)
 {
     if (MCVector3Equal(tri.a, P) || MCVector3Equal(tri.b, P) || MCVector3Equal(tri.c, P)) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 MCInline MCBool MCVertexOnLine(MCVector3 A, MCVector3 B, MCVector3 P)
@@ -86,9 +86,9 @@ MCInline MCBool MCVertexOnLine(MCVector3 A, MCVector3 B, MCVector3 P)
     float lapb = MCVector3Length(MCVector3Add(AP, PB));
 
     if (MCSamefloat(lab, lapb)) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 MCInline MCBool MCVertexesInSameSideOf(MCVector3 A, MCVector3 B, MCVector3 p1, MCVector3 p2)
@@ -101,9 +101,9 @@ MCInline MCBool MCVertexesInSameSideOf(MCVector3 A, MCVector3 B, MCVector3 p1, M
     MCVector3 cross2 = MCVector3Cross(AB, AP2);
     
     if (MCVector3Dot(cross1, cross2) >= 0) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 MCInline MCBool MCTriangleContainsVertex(MCTriangle tri, MCVector3 P)
@@ -113,15 +113,15 @@ MCInline MCBool MCTriangleContainsVertex(MCTriangle tri, MCVector3 P)
     MCVector3 C = tri.c;
     
     if (MCVertexOnLine(A, B, P) || MCVertexOnLine(B, C, P) || MCVertexOnLine(C, A, P)) {
-        return MCTrue;
+        return true;
     }
     
     if (MCVertexesInSameSideOf(A, B, C, P)
         && MCVertexesInSameSideOf(B, C, A, P)
         && MCVertexesInSameSideOf(C, A, B, P)) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 MCInline MCBool MCTriangle4ContainsVertex4(MCTriangle4 tri4, MCVector4 P4)

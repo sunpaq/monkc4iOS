@@ -33,9 +33,11 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 
 /* Monk-C use many C99 standard features, make sure your compiler and platform support C99 standard */
 
-#include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <stdio.h>
+
 #include <string.h>
 #include <limits.h>
 
@@ -58,7 +60,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #define NO_ATOMIC 1
 
 #ifndef null
-#define null ((void*)0)
+#define null NULL
 #endif
 #define voida void* voidarg
 #define S(value) #value
@@ -115,9 +117,8 @@ typedef void*        MCPtr;
 typedef const char*  MCStaticString;
 typedef void         (*MCFuncPtr)(void);
 
-typedef int MCBool;
-#define MCFalse 0
-#define MCTrue 1
+//true, false
+typedef _Bool MCBool;
 
 #define MCFuncPtr(value) ((MCFuncPtr)value)
 #define MCDouble(value)  ((MCDouble)value)
@@ -153,7 +154,9 @@ typedef union {
 #define MCGenericI(value)  (MCGeneric){.mcint=value}
 #define MCGenericU(value)  (MCGeneric){.mcunsigned=value}
 #define MCGenericL(value)  (MCGeneric){.mclong=value}
-#define MCGenericF(value)  (MCGeneric){.double=value}
+#define MCGenericLL(value) (MCGeneric){.mclonglong=value}
+#define MCGenericF(value)  (MCGeneric){.mcfloat=value}
+#define MCGenericD(value)  (MCGeneric){.mcdouble=value}
 #define MCGenericSz(value) (MCGeneric){.mcsizet=value}
 #define MCGenericH(value)  (MCGeneric){.mchash=value}
 #define MCGenericP(value)  (MCGeneric){.mcptr=value}

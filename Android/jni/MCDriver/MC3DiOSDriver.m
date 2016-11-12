@@ -41,7 +41,7 @@ void MCUIAddLabelButton(const char* bgname, const char* labelname, MCColor color
         }
         btn.center = CGPointMake(x, y);
         btn.tag = tag;
-        if (isContinuous == MCTrue) {
+        if (isContinuous == true) {
             [btn addTarget:_handler action:@selector(onButtonClicked:) forControlEvents:UIControlEventAllTouchEvents];
         }else{
             [btn addTarget:_handler action:@selector(onButtonClicked:) forControlEvents:UIControlEventTouchDown];

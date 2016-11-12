@@ -214,50 +214,50 @@ MCInline MCBool MCGLUniformDataEqual(MCGLUniformType type, MCGLUniformData* d1, 
     switch (type) {
         case MCGLUniformScalar:
             if (d1->scalar == d2->scalar) {
-                return MCTrue;
+                return true;
             }
             break;
         case MCGLUniformVec1:
             if (MCSamedouble(d1->vec1, d2->vec1)) {
-                return MCTrue;
+                return true;
             }
             break;
         case MCGLUniformVec2:
             if (MCVector2Equal(d1->vec2, d2->vec2)) {
-                return MCTrue;
+                return true;
             }
             break;
         case MCGLUniformVec3:
             if (MCVector3Equal(d1->vec3, d2->vec3)) {
-                return MCTrue;
+                return true;
             }
             break;
         case MCGLUniformVec4:
             if (MCVector4Equal(d1->vec4, d2->vec4)) {
-                return MCTrue;
+                return true;
             }
             break;
         case MCGLUniformMat3:
             if (MCMatrix3Equal(&d1->mat3, &d2->mat3)) {
-                return MCTrue;
+                return true;
             }
             break;
         case MCGLUniformMat4:
             if (MCMatrix4Equal(&d1->mat4, &d2->mat4)) {
-                return MCTrue;
+                return true;
             }
             break;
         default:
             break;
     }
-    return MCFalse;
+    return false;
 }
 
 MCInline MCBool MCGLUniformEqual(MCGLUniform* u1, MCGLUniform* u2) {
     if (u1->type == u2->type) {
         return MCGLUniformDataEqual(u1->type, &u1->data, &u2->data);
     }
-    return MCFalse;
+    return false;
 }
 
 #endif

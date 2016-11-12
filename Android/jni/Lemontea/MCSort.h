@@ -9,17 +9,18 @@
 #ifndef MCSort_h
 #define MCSort_h
 
-#include <stdio.h>
 #include "monkc.h"
 
 class(MCSort, MCObject,
-      int* array;
+      MCGeneric* array;
       size_t length);
 
 method(MCSort, void, bye, voida);
-method(MCSort, MCSort*, initWithCopyArray, int* array, size_t size);
-method(MCSort, void, insertionSortInt, voida);
-method(MCSort, void, quickSortInt, voida);
+method(MCSort, MCSort*, initWithIntArray, int* array, size_t length);
+method(MCSort, MCSort*, initWithLongArray, long* array, size_t length);
+method(MCSort, MCSort*, initWithDoubleArray, double* array, size_t length);
+method(MCSort, void, insertionSort, voida);
+method(MCSort, void, quickSort, voida);
 method(MCSort, void, printArray, voida);
 
 #endif /* MCSort_h */

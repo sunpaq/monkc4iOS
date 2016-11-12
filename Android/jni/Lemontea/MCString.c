@@ -255,12 +255,12 @@ method(MCString, MCBool, startWith, const char* str)
 {
     size_t len = strlen(str);
     if (len > obj->length) {
-        return MCFalse;
+        return false;
     }else{
         if (strncmp(obj->buff, str, len) == 0) {
-            return MCTrue;
+            return true;
         }else{
-            return MCFalse;
+            return false;
         }
     }
 }

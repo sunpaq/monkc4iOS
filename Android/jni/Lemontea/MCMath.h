@@ -14,23 +14,23 @@
 
 MCInline MCBool MCSamefloat(float A, float B) {
     if (fabsf(A-B) < FLT_EPSILON) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 MCInline MCBool MCSamedouble(double A, double B) {
     if (fabs(A-B) < DBL_EPSILON) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 MCInline MCBool MCSamelongdouble(long double A, long double B) {
     if (fabsl(A-B) < LDBL_EPSILON) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 utility(MCMath, void, bye, voida);
@@ -91,25 +91,25 @@ MCInline MCVector3 MCVector3From4(MCVector4 vec4)
 MCInline MCBool MCVector2Equal(MCVector2 v1, MCVector2 v2)
 {
     if (MCSamefloat(v1.x, v2.x) && MCSamefloat(v1.y, v2.y)) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 MCInline MCBool MCVector3Equal(MCVector3 v1, MCVector3 v2)
 {
     if (MCSamefloat(v1.x, v2.x) && MCSamefloat(v1.y, v2.y) && MCSamefloat(v1.z, v2.z)) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 MCInline MCBool MCVector4Equal(MCVector4 v1, MCVector4 v2)
 {
     if (MCSamefloat(v1.x, v2.x) && MCSamefloat(v1.y, v2.y) && MCSamefloat(v1.z, v2.z) && MCSamefloat(v1.w, v2.w)) {
-        return MCTrue;
+        return true;
     }
-    return MCFalse;
+    return false;
 }
 
 /*
@@ -225,18 +225,18 @@ MCInline MCBool MCMatrix3Equal(MCMatrix3* l, MCMatrix3* r)
 {
     for (int i=0; i<9; i++) {
         if(l->m[i] != r->m[i])
-            return MCFalse;
+            return false;
     }
-    return MCTrue;
+    return true;
 }
 
 MCInline MCBool MCMatrix4Equal(MCMatrix4* l, MCMatrix4* r)
 {
     for (int i=0; i<16; i++) {
         if(l->m[i] != r->m[i])
-            return MCFalse;
+            return false;
     }
-    return MCTrue;
+    return true;
 }
 
 MCInline void MCMatrix4Copy(MCMatrix4* target, MCMatrix4* source)

@@ -49,14 +49,14 @@ onload(MCItem)
 compute(unsigned, getCount)
 {
     as(MCLinkedList);
-    if (var(countChanged) == MCTrue) {
+    if (var(countChanged) == true) {
         int i = 0;
         MCItem* iter = var(headItem);
         while (iter != null) {
             iter = iter->nextItem;
             i++;
         }
-        var(countChanged) = MCFalse;
+        var(countChanged) = false;
         var(countCache) = i;
         return i;
     }else{
@@ -70,7 +70,7 @@ oninit(MCLinkedList)
         var(headItem) = null;
         var(tailItem) = var(headItem);
         
-        var(countChanged) = MCTrue;
+        var(countChanged) = true;
         var(countCache) = 0;
         var(count) = getCount;
         return obj;
@@ -89,7 +89,7 @@ method(MCLinkedList, void, bye, voida)
 method(MCLinkedList, void, addItem, MCItem* item)
 {
     if (item != null) {
-        var(countChanged) = MCTrue;
+        var(countChanged) = true;
         if (var(tailItem) == null) {
             var(tailItem) = item;
             var(headItem) = item;
@@ -103,7 +103,7 @@ method(MCLinkedList, void, addItem, MCItem* item)
 method(MCLinkedList, void, delItem, MCItem* item)
 {
     if (item != null) {
-        var(countChanged) = MCTrue;
+        var(countChanged) = true;
         if (item == var(headItem)) {
             var(headItem) = null;
             var(tailItem) = null;
@@ -127,7 +127,7 @@ method(MCLinkedList, void, delItem, MCItem* item)
 method(MCLinkedList, void, insertAfterItem, MCItem* anchor, MCItem* item)
 {
     if (anchor != null && item != null) {
-        var(countChanged) = MCTrue;
+        var(countChanged) = true;
         MCItem* next = anchor->nextItem;
         MCItem_linkNextItem(0, anchor, item);
         MCItem_linkNextItem(0, item, next);
@@ -137,7 +137,7 @@ method(MCLinkedList, void, insertAfterItem, MCItem* anchor, MCItem* item)
 method(MCLinkedList, void, insertBeforeItem, MCItem* anchor, MCItem* item)
 {
     if (anchor != null && item != null) {
-        var(countChanged) = MCTrue;
+        var(countChanged) = true;
         MCItem* prev = anchor->prevItem;
         MCItem_linkPrevItem(0, anchor, item);
         MCItem_linkPrevItem(0, item, prev);

@@ -56,7 +56,7 @@ oninit(MC3DModel)
     if (init(MC3DNode)) {
         obj->defaultColor = (MCColorRGBAf){0.9, 0.9, 0.9, 1.0};
         obj->defaultExtension = "obj";
-        obj->textureOnOff = MCFalse;
+        obj->textureOnOff = false;
         
         obj->frame = frame;
         obj->lastSavedFrame = (MC3DFrame){0,0,0,0,0,0};
@@ -157,7 +157,7 @@ function(void, setDefaultMaterialForNode, MC3DNode* node)
         node->material->dissolve           = 1.0f;
         
         MCStringFill(node->material->tag, "Default");
-        node->material->dataChanged = MCTrue;
+        node->material->dataChanged = true;
     }
 }
 
@@ -175,7 +175,7 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
         node->material->dissolve           = mtl->dissolveFactor;
         
         MCStringFill(node->material->tag, mtl->name);
-        node->material->dataChanged = MCTrue;
+        node->material->dataChanged = true;
     }else{
         setDefaultMaterialForNode(0, null, node);
     }

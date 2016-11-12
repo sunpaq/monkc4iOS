@@ -88,7 +88,7 @@ method(MCDirector, void, pushScene, MC3DScene* scene)
 
 method(MCDirector, void, popScene, voida)
 {
-    ff(var(lastScene), lockCamera, MCTrue);
+    ff(var(lastScene), lockCamera, true);
     //first scene
     if (var(lastScene) != null && var(lastScene)->prev != null) {
         var(lastScene) = var(lastScene)->prev;
@@ -97,7 +97,7 @@ method(MCDirector, void, popScene, voida)
     else if (var(lastScene) != null && var(lastScene)->next != null) {
         var(lastScene) = var(lastScene)->next;
     }
-    ff(var(lastScene), lockCamera, MCFalse);
+    ff(var(lastScene), lockCamera, false);
 }
 
 method(MCDirector, void, resizeAllScene, int width, int height)

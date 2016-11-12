@@ -19,7 +19,7 @@ oninit(MCLight)
         obj->lightColor    = MCVector3Make(1.0, 1.0, 1.0);
         obj->lightPosition = MCVector3Make(1.0, 1.0, 1.0);
 
-        obj->dataChanged = MCTrue;
+        obj->dataChanged = true;
         return obj;
     }else{
         return null;
@@ -28,7 +28,7 @@ oninit(MCLight)
 
 method(MCLight, void, update, MCGLContext* ctx)
 {
-    if (obj->dataChanged == MCTrue) {
+    if (obj->dataChanged == true) {
         MCGLContext_activateShaderProgram(0, ctx, 0);
         
         MCGLUniformData data;
@@ -48,7 +48,7 @@ method(MCLight, void, update, MCGLContext* ctx)
         data.vec3 = obj->lightPosition;
         MCGLContext_updateUniform(0, ctx, "light.position", data);
         
-        obj->dataChanged = MCFalse;
+        obj->dataChanged = false;
     }
 }
 

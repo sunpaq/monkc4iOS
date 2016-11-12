@@ -26,7 +26,7 @@ static void prehash()
 oninit(MC3DNode)
 {
     if (init(MCItem)) {
-        var(visible) = MCTrue;
+        var(visible) = true;
         var(center) = MCVector3Make(0, 0, 0);
         var(transform) = MCMatrix4Identity();
         var(material) = null;
@@ -56,7 +56,7 @@ method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
 
 method(MC3DNode, MC3DErrCode, removeChild, MC3DNode* child)
 {
-    child->visible = MCFalse;
+    child->visible = false;
     MCLinkedList_delItem(0, var(children), (MCItem*)child);
     return MC3DSuccess;
 }
@@ -70,7 +70,7 @@ method(MC3DNode, void, cleanUnvisibleChild, voida)
 {
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
-                        if (node != null && node->visible == MCFalse) {
+                        if (node != null && node->visible == false) {
                             MCLinkedList_delItem(0, var(children), (MCItem*)node);
                         })
 }
@@ -113,7 +113,7 @@ method(MC3DNode, void, update, MCGLContext* ctx)
     //update children
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
-                        if (node != null && node->visible != MCFalse) {
+                        if (node != null && node->visible != false) {
                             fh(node, update, _update, ctx);
                         })
 }
@@ -144,7 +144,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
     //draw children
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
-                        if (node != null && node->visible != MCFalse) {
+                        if (node != null && node->visible != false) {
                             fh(node, draw, _draw, ctx);
                         })
     
@@ -153,12 +153,12 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
 
 method(MC3DNode, void, hide, voida)
 {
-    var(visible) = MCFalse;
+    var(visible) = false;
 }
 
 method(MC3DNode, void, show, voida)
 {
-    var(visible) = MCTrue;
+    var(visible) = true;
 }
 
 onload(MC3DNode)

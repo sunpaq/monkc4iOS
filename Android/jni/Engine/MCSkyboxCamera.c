@@ -94,7 +94,7 @@ method(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeightRatio, double ratio)
 
 method(MCSkyboxCamera, void, move, double deltaFai, double deltaTht)
 {
-    if (sobj->isLockRotation == MCTrue) {
+    if (sobj->isLockRotation == true) {
         return;
     }
     if (sobj->isReverseMovement) {

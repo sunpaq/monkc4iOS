@@ -50,17 +50,17 @@ MCInline char* MCStringFill(char* dest, const char* src) {
 
 MCInline MCBool MCStringEqualN(const char* A, const char* B, size_t n) {
     if (strncmp(A, B, n) == 0) {
-        return MCTrue;
+        return true;
     }else{
-        return MCFalse;
+        return false;
     }
 }
 
 MCInline MCBool MCStringEqual(const char* A, const char* B) {
     if (strcmp(A, B) == 0) {
-        return MCTrue;
+        return true;
     }else{
-        return MCFalse;
+        return false;
     }
 }
 

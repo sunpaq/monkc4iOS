@@ -23,11 +23,11 @@ static void prehash()
 oninit(MCGLRenderer)
 {
     if(init(MCObject)){
-        MCGLEngine_featureSwith(MCGLDepthTest, MCTrue);
+        MCGLEngine_featureSwith(MCGLDepthTest, true);
         MCGLEngine_setClearScreenColor((MCColorRGBAf){0.05, 0.25, 0.35, 1.0});
-        MCGLEngine_featureSwith(MCGLCullFace, MCTrue);
+        MCGLEngine_featureSwith(MCGLCullFace, true);
         MCGLEngine_cullFace(MCGLBack);
-        MCGLEngine_setFrontCounterClockWise(MCTrue);//CCW
+        MCGLEngine_setFrontCounterClockWise(true);//CCW
 
         obj->context = new(MCGLContext);
 

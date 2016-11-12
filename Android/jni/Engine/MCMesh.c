@@ -12,7 +12,7 @@
 oninit(MCMesh)
 {
     if (init(MCItem)) {
-        var(isDataLoaded) = MCFalse;
+        var(isDataLoaded) = false;
         
         var(Frame) = (MC3DFrame){0,0,0,0,0,0};
         var(useage) = GL_STATIC_DRAW;
@@ -72,7 +72,7 @@ method(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data)
 
 method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 {
-    if (var(isDataLoaded) == MCFalse) {
+    if (var(isDataLoaded) == false) {
         glGenVertexArrays(1, &obj->VAO);
         glGenBuffers(1, &obj->VBO);
         //VAO
@@ -96,7 +96,7 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
         }
         //Unbind
         glBindVertexArray(0);
-        var(isDataLoaded) = MCTrue;
+        var(isDataLoaded) = true;
     }
 }
 
