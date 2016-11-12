@@ -10,6 +10,7 @@
 #include "MCLinkedList.h"
 #include "MCGeometry.h"
 #include "MCSort.h"
+#include "MCBST.h"
 
 //static void test(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGeneric arg3, MCLongLong arg4, MCPtr arg5, MCFuncPtr arg6)
 //static void testmethod(mc_message_arg(MCObject), ...)
@@ -100,11 +101,20 @@ static void testsort()
 {
     MCLogTypeSet(MC_DEBUG);
 
-    int A[10] = {5,6,3,4,2,1,8,9,7,10};
-    MCSort* sort = ff(new(MCSort), initWithCopyArray, A, 10);
+    int A[] = {5,6,3,4,2,1,8,9,7,10,11,32,90,64,23,22,14,19,38,24,55,17};
+    size_t count = sizeof(A) / sizeof(int);
+    MCSort* sort = ff(new(MCSort), initWithCopyArray, A, count);
     ff(sort, quickSortInt, 0);
     ff(sort, printArray, 0);
 
+    
+    MCBST* bstree = new(MCBST);
+    for (int i=0; i<count; i++) {
+        ff(bstree, insertValue, MCGenericI(A[i]));
+    }
+    ff(bstree, printTree, 0);
+    
+    
     debug_log("testsort finish\n");
     exit(-1);
 }
@@ -115,5 +125,5 @@ void starttest()
     //testparser();
     //testCArrayLinkedList();
     //testGeometry();
-    //testsort();
+    testsort();
 }

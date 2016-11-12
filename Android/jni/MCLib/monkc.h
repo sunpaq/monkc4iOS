@@ -162,7 +162,16 @@ typedef union {
 #define MCGenericSS(value) (MCGeneric){.mcstaticstr=value}
 #define MCGenericEmpty     (MCGeneric){0}
 
-
+MCInline int MCGenericCompare(MCGeneric A, MCGeneric B) {
+    if (A.mclonglong > B.mclonglong) {
+        return 1;
+    }
+    else if (A.mclonglong < B.mclonglong) {
+        return -1;
+    }
+    //A == B
+    return 0;
+}
 
 /*
  Log.h

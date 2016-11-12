@@ -63,9 +63,10 @@ function(void, quicksort, const size_t l, const size_t r)
         return;
     }
     
+    int pivot = obj->array[l];
     size_t cur=l;
     for (size_t idx=l+1; idx<=r; idx++) {
-        if (obj->array[idx] < obj->array[l])
+        if (obj->array[idx] < pivot)
             swap(0, obj, ++cur, idx);
     }
     
