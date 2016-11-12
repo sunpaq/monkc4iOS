@@ -260,8 +260,8 @@ static inline mc_class* findclass(const char* name, const MCHash hashval)
 	if (item == null)
 		return null;
 	else
-		runtime_log("findClass item key:%s, value:%p\n", item->key, item->value.mcptr);
-	return (mc_class*)(item->value.mcptr);
+		runtime_log("findClass item key:%s, value:%p\n", item->key, item->value.mcvoidptr);
+	return (mc_class*)(item->value.mcvoidptr);
 }
 
 mc_class* _load(const char* name, size_t objsize, MCLoaderPointer loader)
@@ -277,7 +277,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 	if(aclass == null){
 		//new a item
 		aclass = alloc_mc_class(objsize);
-        mc_hashitem* item = new_item(name, (MCGeneric){.mcptr=null});//nil first
+        mc_hashitem* item = new_item(name, (MCGeneric){.mcvoidptr=null});//nil first
 		package_by_item(item, aclass);
 		(*loader)(aclass);
 		//set item
@@ -292,7 +292,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 	return aclass;
 }
 
-mo _new(mo const obj, MCIniterPointer initer)
+MCObject* _new(MCObject* const obj, MCIniterPointer initer)
 {
 	//block, isa, saved_isa is setted at _alloc()
     obj->nextResponder = null;
@@ -301,7 +301,7 @@ mo _new(mo const obj, MCIniterPointer initer)
 	return obj;
 }
 
-static int ref_count_down(mo const this)
+static int ref_count_down(MCObject* const this)
 {
 
 	for(;;){
@@ -339,7 +339,7 @@ static int ref_count_down(mo const this)
 	return this->ref_count;
 }
 
-void _recycle(mo const this)
+void _recycle(MCObject* const this)
 {
 	if(ref_count_down(this) == 0){
         fs(this, bye, 0);                             //call the "bye" method on object
@@ -347,7 +347,7 @@ void _recycle(mo const this)
 	}
 }
 
-void _release(mo const this)
+void _release(MCObject* const this)
 {
     if(ref_count_down(this) == 0){
         fs(this, bye, 0);
@@ -355,7 +355,7 @@ void _release(mo const this)
 	}
 }
 
-mo _retain(mo const this)
+MCObject* _retain(MCObject* const this)
 {
 
 	for(;;){
@@ -667,7 +667,7 @@ void empty(mc_blockpool* bpool)
 {
     mc_block* target;
     while((target=getFromHead(bpool)) != null){
-        fs((mo)(target->data), bye, null);
+        fs((MCObject*)(target->data), bye, null);
         free(target->data);
         free(target);
     }
@@ -771,18 +771,18 @@ void mc_clear_h(const char* classname, size_t size, MCLoaderPointer loader, MCHa
 }
 
 //always return a object of size. packaged by a block.
-mo mc_alloc(const char* classname, size_t size, MCLoaderPointer loader)
+MCObject* mc_alloc(const char* classname, size_t size, MCLoaderPointer loader)
 {
     return mc_alloc_h(classname, size, loader, hash(classname));
 }
 
-mo mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
+MCObject* mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
 {
 #if defined(NO_RECYCLE) && NO_RECYCLE
     mc_class* aclass = _load_h(classname, size, loader, hashval);
-    mo aobject = null;
+    MCObject* aobject = null;
     //new a object package by a block
-    aobject = (mo)malloc(size);
+    aobject = (MCObject*)malloc(size);
     if (aobject != null) {
         aobject->isa = aclass;
         aobject->saved_isa = aclass;
@@ -878,12 +878,12 @@ void mc_dealloc(MCObject* aobject, int is_recycle)
 /*
  Messaging
  */
-mc_message _self_response_to(const mo obj, const char* methodname)
+mc_message _self_response_to(MCObject* obj, const char* methodname)
 {
     return _self_response_to_h(obj, methodname, hash(methodname));
 }
 
-mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval)
+mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
 {
     //we will return a struct
     mc_hashitem* res = null;
@@ -918,12 +918,12 @@ mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hash
     }
 }
 
-mc_message _response_to(const mo obj, const char* methodname, int strict)
+mc_message _response_to(MCObject* obj, const char* methodname, int strict)
 {
     return _response_to_h(obj, methodname, hash(methodname), strict);
 }
 
-mc_message _response_to_h(const mo obj, const char* methodname, MCHash hashval, int strict)
+mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval, int strict)
 {
     return _self_response_to_h(obj, methodname, hashval);
 }

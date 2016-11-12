@@ -115,6 +115,7 @@ method(MC3DNode, void, update, MCGLContext* ctx)
                         MC3DNode* node = (MC3DNode*)item;
                         if (node != null && node->visible != false) {
                             fh(node, update, _update, ctx);
+                            //ff(node, update, ctx);
                         })
 }
 
@@ -139,6 +140,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
     //draw self texture
     if (obj->texture != null) {
         fh(obj->texture, drawTexture, _drawTexture, ctx);
+        //ff(obj->texture, drawTexture, ctx);
     }
     
     //draw children
@@ -146,6 +148,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
                         MC3DNode* node = (MC3DNode*)item;
                         if (node != null && node->visible != false) {
                             fh(node, draw, _draw, ctx);
+                            //ff(node, draw, ctx);
                         })
     
     //ff(ctx, printUniforms, 0);

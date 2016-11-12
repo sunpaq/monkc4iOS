@@ -25,13 +25,13 @@ void assertNotMull(void* ptr) throws(MCAssertNotMullException)
 		throw(MCAssertNotnullException);
 }
 
-void assertSame(mo obj1, mo obj2) throws(MCAssertSameException)
+void assertSame(MCObject* obj1, MCObject* obj2) throws(MCAssertSameException)
 {
 	if (obj1!=obj2)
 		throw(MCAssertSameException);
 }
 
-void assertNotSame(mo obj1, mo obj2) throws(MCAssertNotSameException)
+void assertNotSame(MCObject* obj1, MCObject* obj2) throws(MCAssertNotSameException)
 {
 	if (obj1==obj2)
 		throw(MCAssertNotSameException);
@@ -111,7 +111,7 @@ static void runMethodByPointer(MCUnitTestCase* obj, mc_hashitem* amethod)
 	runtime_log("%s\n", "runMethodByPointer start");
 
 	try{
-		_push_jump(_response_to(cast(mo, obj), amethod->key, 0), null);
+		_push_jump(_response_to(cast(MCObject*, obj), amethod->key, 0), null);
 		//if exception generated, this line will never be reached
 	}
 	catch(MCAssertYESException){
@@ -159,7 +159,7 @@ method(MCUnitTestCase, void, runTests, voida)
 	{
 		//runtime_log("MCUnitTestCase runTests in for loop index:[%d]\n", i);
 		amethod = cast(MCObject*, obj)->isa->table->items[i];
-		if(amethod->value.mcptr!=null
+		if(amethod->value.mcvoidptr!=null
 		&& i!=bye_key
 		&& i!=setUp_key
 		&& i!=tearDown_key){

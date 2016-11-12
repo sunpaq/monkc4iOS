@@ -119,11 +119,18 @@ static void testsort()
     exit(-1);
 }
 
+static void testhash()
+{
+    printf("this_test(%d)\n", hash("this_test"));
+    exit(-1);
+}
+
 void starttest()
 {
     //testclass();
     //testparser();
     //testCArrayLinkedList();
     //testGeometry();
-    testsort();
+    //testsort();
+    //testhash();
 }

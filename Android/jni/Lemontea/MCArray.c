@@ -99,7 +99,7 @@ static void visitor(mc_message_arg(MCArray), void* eachitem, int index)
 
 method(MCArray, MCArray*, removeItem, void* item)
 {
-    MCArray_visiteEachBy(0, obj, make_msg((mo)obj, visitor));
+    MCArray_visiteEachBy(0, obj, make_msg((MCObject*)obj, visitor));
 	return obj;
 }
 

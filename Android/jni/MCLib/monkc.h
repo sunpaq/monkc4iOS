@@ -36,6 +36,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #include <stdarg.h>
 #include <stdio.h>
 
+#include <inttypes.h>
 #include <string.h>
 #include <limits.h>
 
@@ -69,7 +70,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #define S(value) #value
 #define SEQ(dest, src) (mc_compare_key(dest, src)==0)
 #define A_B(a, b) a##_##b
-#define nameof(obj) mc_nameof((mo)obj)
+#define nameof(obj) mc_nameof((MCObject*)obj)
 #define nameofc(cls) mc_nameofc(cls)
 #define deref(x) (*(x))
 #define addrof(x) (&(x))
@@ -113,11 +114,12 @@ typedef union {
     int   i;
 } MCFloat;
 
-typedef MCUInt       MCHash;
-typedef size_t       MCSizeT;
-typedef void*        MCPtr;
+typedef uint32_t     MCHash;
+#define MCHashMax    UINT32_MAX
+#define MCHashMask   0x7fffffff
 
-typedef const char*  MCStaticString;
+typedef size_t       MCSizeT;
+typedef void*        MCVoidPtr;
 typedef void         (*MCFuncPtr)(void);
 
 //true, false
@@ -131,7 +133,7 @@ typedef _Bool MCBool;
  Generic Type
  */
 
-struct mc_object_struct;
+struct _MCObject;
 typedef union {
     MCChar      mcchar;
     MCShort     mcshort;
@@ -147,26 +149,24 @@ typedef union {
     MCDouble    mcdouble;
     MCHash      mchash;
     MCSizeT     mcsizet;
-    MCPtr       mcptr;
+    MCVoidPtr   mcvoidptr;
     MCFuncPtr   mcfuncptr;
     MCBool      mcbool;
-    MCStaticString mcstaticstr;
-    struct mc_object_struct *mcobject;
+    struct _MCObject *mcobject;
 } MCGeneric;
 
-#define MCGenericI(value)  (MCGeneric){.mcint=value}
-#define MCGenericU(value)  (MCGeneric){.mcunsigned=value}
-#define MCGenericL(value)  (MCGeneric){.mclong=value}
-#define MCGenericLL(value) (MCGeneric){.mclonglong=value}
-#define MCGenericF(value)  (MCGeneric){.mcfloat=value}
-#define MCGenericD(value)  (MCGeneric){.mcdouble=value}
-#define MCGenericSz(value) (MCGeneric){.mcsizet=value}
-#define MCGenericH(value)  (MCGeneric){.mchash=value}
-#define MCGenericP(value)  (MCGeneric){.mcptr=value}
-#define MCGenericFp(value) (MCGeneric){.mcfuncptr=value}
-#define MCGenericB(value)  (MCGeneric){.mcbool=value}
-#define MCGenericSS(value) (MCGeneric){.mcstaticstr=value}
-#define MCGenericEmpty     (MCGeneric){0}
+#define MCGenericI(value)  ((MCGeneric){.mcint=value})
+#define MCGenericU(value)  ((MCGeneric){.mcunsigned=value})
+#define MCGenericL(value)  ((MCGeneric){.mclong=value})
+#define MCGenericLL(value) ((MCGeneric){.mclonglong=value})
+#define MCGenericF(value)  ((MCGeneric){.mcfloat=value})
+#define MCGenericD(value)  ((MCGeneric){.mcdouble=value})
+#define MCGenericSz(value) ((MCGeneric){.mcsizet=value})
+#define MCGenericH(value)  ((MCGeneric){.mchash=value})
+#define MCGenericP(value)  ((MCGeneric){.mcvoidptr=value})
+#define MCGenericFp(value) ((MCGeneric){.mcfuncptr=value})
+#define MCGenericB(value)  ((MCGeneric){.mcbool=value})
+#define MCGenericEmpty     ((MCGeneric){0})
 
 MCInline int MCGenericCompare(MCGeneric A, MCGeneric B) {
     if (A.mclonglong > B.mclonglong) {
@@ -303,16 +303,14 @@ typedef struct
     mc_hashtable* table; //the hashtable may expand so let it dynamic
 }mc_class;
 //for type cast, every object have the 3 var members
-typedef struct MCObjectStruct
+typedef struct _MCObject
 {
-    struct MCObjectStruct* nextResponder;
+    struct _MCObject* nextResponder;
     mc_block* block;
     mc_class* isa;
     mc_class* saved_isa;
     MCInt ref_count;
 } MCObject;
-typedef MCObject* mo;
-#define mo(obj) ((mo)obj)
 
 MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
 {
@@ -337,7 +335,7 @@ MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
 
 MCInline void package_by_item(mc_hashitem* aitem_p, mc_class* aclass_p)
 {
-    (aitem_p)->value.mcptr = aclass_p;
+    (aitem_p)->value.mcvoidptr = aclass_p;
     (aclass_p)->item = aitem_p;
 }
 
@@ -401,12 +399,12 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define hnfo(cls, hash)                 mc_info_h(S(cls), sizeof(cls), cls##_load, hash)
 
 //for call method
-#define response_to(obj, met) 			_response_to((mo)obj, S(met), 2)
-#define hesponse_to(obj, met, hash) 	_response_to_h((mo)obj, S(met), hash, 2)
-#define _ff(obj, met, ...)              _push_jump(_response_to((mo)obj, met, MC_STRICT_MODE), __VA_ARGS__)//call by string
-#define ff(obj, met, ...)				_push_jump(_response_to((mo)obj, S(met), MC_STRICT_MODE), __VA_ARGS__)//send message
-#define fh(obj, met, hash, ...)			_push_jump(_response_to_h((mo)obj, S(met), hash, MC_STRICT_MODE), __VA_ARGS__)
-#define fs(obj, met, ...)				_push_jump(_self_response_to((mo)obj, S(met)), __VA_ARGS__)
+#define response_to(obj, met) 			_response_to((MCObject*)obj, S(met), 2)
+#define hesponse_to(obj, met, hash) 	_response_to_h((MCObject*)obj, S(met), hash, 2)
+#define _ff(obj, met, ...)              _push_jump(_response_to((MCObject*)obj, met, MC_STRICT_MODE), __VA_ARGS__)//call by string
+#define ff(obj, met, ...)				_push_jump(_response_to((MCObject*)obj, S(met), MC_STRICT_MODE), __VA_ARGS__)//send message
+#define fh(obj, met, hash, ...)			_push_jump(_response_to_h((MCObject*)obj, S(met), hash, MC_STRICT_MODE), __VA_ARGS__)
+#define fs(obj, met, ...)				_push_jump(_self_response_to((MCObject*)obj, S(met)), __VA_ARGS__)
 
 //lock
 void trylock_global_classtable();
@@ -421,17 +419,17 @@ mc_class* _load(const char* name, MCSizeT objsize, MCLoaderPointer loader);
 mc_class* _load_h(const char* name, MCSizeT objsize, MCLoaderPointer loader, MCHash hashval);
 
 //object create
-mo _new(mo const obj, MCIniterPointer initer);
+MCObject* _new(MCObject* const obj, MCIniterPointer initer);
 
 //memory management
 #define REFCOUNT_NO_MM 	-1
 #define REFCOUNT_ERR 	-100
-void _recycle(mo const obj);
-void _release(mo const obj);
-mo _retain(mo const obj);
-#define recycle(obj) _recycle((mo)obj)
-#define release(obj) _release((mo)obj)
-#define retain(obj)  _retain((mo)obj)
+void _recycle(MCObject* const obj);
+void _release(MCObject* const obj);
+MCObject* _retain(MCObject* const obj);
+#define recycle(obj) _recycle((MCObject*)obj)
+#define release(obj) _release((MCObject*)obj)
+#define retain(obj)  _retain((MCObject*)obj)
 
 //tool for class
 extern void _init_class_list();
@@ -488,12 +486,11 @@ MCInline int mc_compare_key(const char* dest, const char* src) {
 //copy form << The C Programming language >>
 //BKDR Hash Function
 MCInline MCHash hash(const char *s) {
-    //runtime_log("hash(%s) --- ", s);
-    MCHash hashval;
+    register MCHash hashval;
     for(hashval = 0; *s != '\0'; s++)
         hashval = *s + 31 * hashval;
-    //runtime_log("hashval is: %d\n", hashval);
-    return hashval;
+    //avoid integer overflow
+    return (hashval & MCHashMask);
 }
 
 mc_hashitem* new_item(const char* key, MCGeneric value);
@@ -515,16 +512,16 @@ typedef struct {
     MCObject* volatile object;
 } mc_message;
 #define mc_message_arg(Class) void* volatile address, Class* volatile obj
-MCInline mc_message make_msg(void* obj, void* address) { return (mc_message){address, (mo)obj}; };
+MCInline mc_message make_msg(void* obj, void* addr) { return (mc_message){(MCFuncPtr)addr, (MCObject*)obj}; };
 
 //write by asm
 void* _push_jump(mc_message volatile msg, ...);
 
 //write by c
-mc_message _self_response_to(const mo obj, const char* methodname);
-mc_message _self_response_to_h(const mo obj, const char* methodname, MCHash hashval);
-mc_message _response_to(mo const obj, const char* methodname, MCInt strict);
-mc_message _response_to_h(mo const obj, const char* methodname, MCHash hashval, MCInt strict);
+mc_message _self_response_to(MCObject* obj, const char* methodname);
+mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash hashval);
+mc_message _response_to(MCObject* obj, const char* methodname, MCInt strict);
+mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval, MCInt strict);
 
 /*
  ObjectManage.h
@@ -532,10 +529,10 @@ mc_message _response_to_h(mo const obj, const char* methodname, MCHash hashval, 
 
 void mc_info(const char* classname, MCSizeT size, MCLoaderPointer loader);
 void mc_clear(const char* classname, MCSizeT size, MCLoaderPointer loader);
-mo mc_alloc(const char* classname, MCSizeT size, MCLoaderPointer loader);
+MCObject* mc_alloc(const char* classname, MCSizeT size, MCLoaderPointer loader);
 void mc_info_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
 void mc_clear_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
-mo mc_alloc_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
+MCObject* mc_alloc_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
 void mc_dealloc(MCObject* aobject, MCInt is_recycle);
 
 #define MC_NO_NODE(bpool) (bpool->tail==null)
@@ -553,7 +550,7 @@ MCInt cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result);
  */
 
 static inline MCObject* MCObject_init(MCObject* const obj) {obj->nextResponder=null; return obj;}
-static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), mo upperObj) {obj->nextResponder=upperObj;}
+static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), MCObject* upperObj) {obj->nextResponder=upperObj;}
 static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->nextResponder=null;}
 static inline void      MCObject_bye(mc_message_arg(MCObject), voida) {}
 static inline mc_class* MCObject_load(mc_class* const cla) {

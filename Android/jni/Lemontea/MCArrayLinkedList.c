@@ -73,7 +73,7 @@ MCALItem* MCALDeleteItem(MCArrayLinkedList* list, MCALItem* item)
         }
     }
 
-    item->value.mcptr = null;
+    item->value.mcvoidptr = null;
     list->count--;
     return list->head;
 }
