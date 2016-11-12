@@ -745,7 +745,7 @@
 		FDFF05F81B060BE1000064E3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = oreisoft;
 				TargetAttributes = {
 					FDFF05FF1B060BE1000064E3 = {
@@ -1063,7 +1063,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;
 				PRODUCT_NAME = Sapindus;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos10.0;
+				SDKROOT = iphoneos;
 				VALID_ARCHS = "i386 X86_64 arm64";
 			};
 			name = Debug;
@@ -1081,7 +1081,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;
 				PRODUCT_NAME = Sapindus;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos10.0;
+				SDKROOT = iphoneos;
 				VALID_ARCHS = "i386 X86_64 arm64";
 			};
 			name = Release;
