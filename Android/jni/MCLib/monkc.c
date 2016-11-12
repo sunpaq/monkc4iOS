@@ -468,8 +468,8 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
     if (aitem != null) {
         aitem->next = null;
         aitem->hash = hashval;
-        aitem->index = 0;
-        aitem->level = MCHashTableLevel1;
+        //aitem->index = 0;
+        //aitem->level = MCHashTableLevel1;
         //strcpy(aitem->key, key);
         //aitem->key[MAX_KEY_CHARS] = '\0';
         aitem->key = (char*)key;
@@ -492,14 +492,14 @@ MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
     }
     
     MCHash hashval = item->hash;
-    MCHashTableIndex index = hashval % get_tablesize((*table_p)->level);
+    MCHashTableIndex index = hashval & get_tablesize((*table_p)->level);
     
     mc_hashitem* olditem = (*table_p)->items[index];
     if(olditem == null){
-        item->level = (*table_p)->level;
-        item->index = index;
+        //item->level = (*table_p)->level;
+        //item->index = index;
         (*table_p)->items[index] = item;
-        runtime_log("[%s]:set-item[%d/%s]\n", classname, item->index, item->key);
+        runtime_log("[%s]:set-item[%d/%s]\n", classname, index, item->key);
         return index;
     }else{
         //if the item have already been setted. we free the old one
@@ -513,8 +513,8 @@ MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
             }else{
                 runtime_log("[%s]:reset-item key[%s] already been setted, replace old item\n", classname, item->key);
                 if(isFreeValue == true)free(olditem->value.mcfuncptr);
-                item->level = (*table_p)->level;
-                item->index = index;
+                //item->level = (*table_p)->level;
+                //item->index = index;
                 (*table_p)->items[index] = item;
                 return index;
             }
@@ -538,8 +538,8 @@ MCHashTableIndex set_item(mc_hashtable** const table_p, mc_hashitem* const item,
                 //there still a item, use link list.
                 error_log("[%s]:item key conflict can not be solved. link the new one[%s] behind the old[%s]\n",
                           classname, item->key, olditem->key);
-                item->level = MCHashTableLevelMax;
-                item->index = index;
+                //item->level = MCHashTableLevelMax;
+                //item->index = index;
                 olditem->next = item;
                 return index;
             }
@@ -568,10 +568,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     MCHashTableLevel level = MCHashTableLevel1;
     mc_hashitem* res=null;
     for(level = MCHashTableLevel1; level<MCHashTableLevelMax; level++){
-        if((res=get_item_byindex(table_p, hashval % get_tablesize(level))) == null) {
-            continue;
-        }
-        if(res->level != level) {
+        if((res=get_item_byindex(table_p, hashval & get_tablesize(level))) == null) {
             continue;
         }
         if(res->hash != hashval) {
@@ -581,9 +578,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
         return res;
     }
     //level=MCHashTableLevelMax
-    if((res=get_item_byindex(table_p, hashval % get_tablesize(MCHashTableLevelMax))) == null)
-        return null;
-    if(res->level != MCHashTableLevelMax)
+    if((res=get_item_byindex(table_p, hashval & get_tablesize(MCHashTableLevelMax))) == null)
         return null;
     if(res->hash != hashval)
         return null;
@@ -592,8 +587,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     //pass all the check. search conflicted item
     for(; res!=null; res=res->next)
         if(mc_compare_key(res->key, refkey) == 0){
-            runtime_log("key hit a item [%s/%d/%d]\n", 
-                        res->key, res->index, MCHashTableLevelMax);
+            runtime_log("key hit a item [%s]\n", res->key);
             return res;
         }
     //no matched item

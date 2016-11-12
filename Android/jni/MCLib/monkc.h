@@ -240,8 +240,6 @@ typedef struct mc_hashitem_struct
 {
     struct mc_hashitem_struct* next;
     MCHash hash;
-    MCHashTableIndex index;
-    MCHashTableLevel level;
     MCGeneric value;
     const char* key;
     //char key[MAX_KEY_CHARS+1];
@@ -255,7 +253,14 @@ typedef struct
     mc_hashitem* items[];
 }mc_hashtable;
 
-static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {3001, 9001, 17001, 33001, 123001};//100
+static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {
+    0x000001ff, //512+256+128...+1
+    0x000003ff, //1024...
+    0x000007ff, //2048...
+    0x00000fff, //4096...
+    0x00001fff  //8192...
+};
+
 MCInline MCHashTableSize get_tablesize(const MCHashTableLevel level)
 {
     if(level > MCHashTableLevelMax){

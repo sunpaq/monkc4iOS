@@ -1057,11 +1057,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Sapindus/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;
 				PRODUCT_NAME = Sapindus;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos10.0;
 				VALID_ARCHS = "i386 X86_64 arm64";
 			};
 			name = Debug;
@@ -1073,11 +1075,13 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Sapindus/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = sapindus;
 				PRODUCT_NAME = Sapindus;
 				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos10.0;
 				VALID_ARCHS = "i386 X86_64 arm64";
 			};
 			name = Release;
