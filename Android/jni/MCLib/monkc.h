@@ -31,8 +31,6 @@
 //version=20 means 2.0
 static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 
-/* Monk-C use many C99 standard features, make sure your compiler and platform support C99 standard */
-
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -40,6 +38,11 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 
 #include <string.h>
 #include <limits.h>
+
+/* Monk-C use many C99 standard features, make sure your compiler and platform support C99 standard */
+#if __STDC_VERSION__ < 199901L
+#error "your platform doesn't support C99"
+#endif
 
 #ifndef LINE_MAX
 #define LINE_MAX 2048
