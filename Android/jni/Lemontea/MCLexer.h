@@ -115,7 +115,7 @@ MCInline MCBool isIdentifier(const char* w)
 MCInline MCBool isFilename(const char* w)
 {
     //must start with alphabet or underbar
-    if (MCCond_Alphabet(w) || *w == '_') {
+    if (MCCond_Alphabet(w) || MCCond_Digit(w) || *w == '_') {
         w++;
     }else{
         return false;
