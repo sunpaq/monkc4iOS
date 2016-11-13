@@ -61,6 +61,7 @@ public class GLES3JNIActivity extends Activity {
     @Override protected void onResume() {
         super.onResume();
         hideSystemUI();
+        mView.onResume();
     }
 
     //workaround for save GL context when pause/resume

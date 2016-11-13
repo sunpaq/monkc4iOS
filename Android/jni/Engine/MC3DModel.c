@@ -262,7 +262,7 @@ method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRG
     if (obj) {
         MCStringFill(obj->name, name);
         char path[PATH_MAX];
-        MCFileGetPath(name, obj->defaultExtension, path);
+        MCFileGetPath(name, "obj", path);
         debug_log("MC3DModel - find path: %s\n", path);
         return MC3DModel_initWithFilePathColor(0, obj, path, color);
     }else{

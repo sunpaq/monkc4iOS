@@ -163,21 +163,27 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 		} else if (strcmp(extention, "jpg") == 0) {
 			subpath = "textures";
 		} else {
-			subpath = "";
+			subpath = "raw";
+            error_log("can not detect use raw folder\n");
 		}
 
 		char fullname[PATH_MAX];
 		sprintf(fullname, "%s.%s", filename, extention);
 
 		AAssetDir* rootdir = AAssetManager_openDir(assetManager_, subpath);
-		const char* name;
-		char fullpath[PATH_MAX];
-		while ((name=AAssetDir_getNextFileName(rootdir)) != NULL) {
-			if (strcmp(fullname, name) == 0) {
-				sprintf(fullpath, "%s/%s", subpath, name);
-				strcpy(buffer, fullpath);
-			}
-		}
+        if (rootdir) {
+            const char* name;
+            char fullpath[PATH_MAX];
+            while ((name=AAssetDir_getNextFileName(rootdir)) != NULL) {
+                if (strcmp(fullname, name) == 0) {
+                    sprintf(fullpath, "%s/%s", subpath, name);
+                    strcpy(buffer, fullpath);
+                }
+            }
+        }else{
+            error_log("can not find rootdir\n");
+            exit(-1);
+        }
 	}
 #else
     static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
@@ -265,38 +271,3 @@ void MCFileReleaseContent(void* buff)
 {
 	free(buff);
 }
-
-// static AAsset* openingAsset = null;
-// FILE* MCFileOpenFile(const char* filename, const char* mode)
-// {
-// 	if(assetManager_ != null){
-// 		openingAsset = AAssetManager_open(assetManager_, filename, AASSET_MODE_BUFFER);
-//         if (openingAsset) {
-//             off_t start, length;
-//             int fd = AAsset_openFileDescriptor(openingAsset, &start, &length);
-//             if (fd >= 0) {
-//                 FILE* out = fdopen(fd, mode);
-//                 return out;
-//             }else{
-//                 error_log("MCFileOpenFile(%s) file is compressed", filename);
-//                 return null;
-//             }
-//         }else{
-//             error_log("MCFileOpenFile(%s) Android assetManager_ can not open", filename);
-//             return null;
-//         }
-// 	}
-// 	error_log("MCFileOpenFile(%s) Android assetManager_ is null", filename);
-// 	return null;
-// }
-
-// void MCFileCloseFile(FILE* f)
-// {
-// 	if(f){
-// 		fclose(f);
-// 	}
-// 	if(openingAsset) {
-// 		AAsset_close(openingAsset);
-// 		openingAsset = null;
-// 	}
-// }

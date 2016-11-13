@@ -7,18 +7,22 @@ PKG='com.android.gles3jni'
 
 function clean {
 	cd jni
-	#$NDK_BUILD clean
-	./build.rb clean
+	$NDK_BUILD clean
 	cd ..
-	$SDK_BUILD clean
+
+	#cd jni
+	#./build.rb clean
+	#cd ..
+	#$SDK_BUILD clean
 }
 
 function build {
-	#$NDK_BUILD -C jni && $SDK_BUILD debug
-	cd jni
-	./build.rb build
-	cd ..
-	$SDK_BUILD debug
+	$NDK_BUILD -C jni && $SDK_BUILD debug
+	
+	#cd jni
+	#./build.rb build
+	#cd ..
+	#$SDK_BUILD debug
 }
 
 function install {

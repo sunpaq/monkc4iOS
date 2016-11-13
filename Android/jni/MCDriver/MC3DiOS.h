@@ -18,7 +18,8 @@ int getSkyboxOn();
 //GL callback
 void onRootViewLoad(void* rootview);
 void onReceiveMemoryWarning();
-void onSetupGL(int windowWidth, int windowHeight, const char* filename);
+void onSetupGL(int windowWidth, int windowHeight);
+void onOpenFile(const char* filename);
 void onTearDownGL();
 void onUpdate(double roll, double yaw, double pitch);
 int onDraw();

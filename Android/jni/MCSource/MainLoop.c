@@ -19,7 +19,7 @@
 #include "MC3DiOSDriver.h"
 #include "Testbed.h"
 #include "MCThread.h"
-#include "MCException.h"
+//#include "MCException.h"
 
 static MCDirector* director = null;
 static BECubeTextureData* cubtex = null;
@@ -55,7 +55,7 @@ void onOpenExternalFile(const char* filepath)
 //    ff(director->lastScene, loadSkybox, 0);
 //}
 
-void onOpenFile(const char* filename)
+void openFile(const char* filename)
 {
     //model
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
@@ -81,20 +81,24 @@ void onOpenFile(const char* filename)
 
     } else {
         error_log("Can not create MC3DModel:%s\n", filename);
-        throw(MC3DModel_ERROR);
+        exit(-1);
+        //throw(MC3DModel_ERROR);
     }
 }
 
 void onOpenFileAndExitThread(const char* filename)
 {
-    try {
-        onOpenFile(filename);
-        ff(director->lastScene->rootnode, setAllVisible, true);
-    }catch(MC3DModel_ERROR) {
-        error_log("MC3DModel_ERROR occur exit the process!");
-    }finally{
-        exit(-1);
-    }
+//    try {
+//        onOpenFile(filename);
+//        ff(director->lastScene->rootnode, setAllVisible, true);
+//    }catch(MC3DModel_ERROR) {
+//        error_log("MC3DModel_ERROR occur exit the process!");
+//    }finally{
+//        exit(-1);
+//    }
+    
+    openFile(filename);
+    ff(director->lastScene->rootnode, setAllVisible, true);
     
     MCGLStopLoading();
     MCThread_exitWithStatus((void*)200);
@@ -119,9 +123,26 @@ void onReceiveMemoryWarning()
     }
 }
 
-void onSetupGL(int windowWidth, int windowHeight, const char* filename)
+void onOpenFile(const char* filename)
 {
-    debug_log("onSetupGL called: width=%d height=%d filename=%s\n", windowWidth, windowHeight, filename);
+    if (filename != null) {
+        if (director->lastScene->skyboxRef != null) {
+            //ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, null);
+            //ff(director->skyboxThread, start, 0);
+        }
+        
+#ifdef __ANDROID__
+        openFile(filename);
+#else
+        onOpenFileAsync(filename);
+        //openFile(filename);
+#endif
+    }
+}
+
+void onSetupGL(int windowWidth, int windowHeight)
+{
+    debug_log("onSetupGL called: width=%d height=%d\n", windowWidth, windowHeight);
 	//MCLogTypeSet(MC_SILENT);
 
     if (director == null) {
@@ -149,27 +170,11 @@ void onSetupGL(int windowWidth, int windowHeight, const char* filename)
         superof(mainScene)->nextResponder = (MCObject*)director;
 
         ff(director, pushScene, mainScene);
+        
+        //kick off
+        MCDirector_updateAll(0, director, 0);
+        MCDirector_drawAll(0, director, 0);
         debug_log("onSetupGL main scene pushed into director\n");
-    }
-
-    if (filename != null) {
-        if (director->lastScene->skyboxRef != null) {
-            //ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, null);
-            //ff(director->skyboxThread, start, 0);
-        }
-
-        onOpenFileAsync(filename);
-        //onOpenFile(filename);
-        
-        
-    } else {
-#ifdef __ANDROID__
-        director->lastScene->mainCamera->R_value = 15;
-    	//onOpenFileAsync("bottle_cap2");
-        //onOpenFileAsync("2");
-        onOpenFileAsync("2");
-    	//ff(director->lastScene->rootnode, addChild, new(MCCube));
-#endif
     }
 }
 

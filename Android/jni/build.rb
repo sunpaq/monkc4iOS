@@ -45,7 +45,7 @@ MCBuild.waitArg('build') do
 		 .set_archiver($AR)
 		 .set_sysroot($SYSROOT)
 		 .set_position_independent_code(true)
-		 .set_flags("-D__armv7__ -D__ANDROID__ -llog -landroid -lEGL -lGLESv3")
+		 .set_flags("-D__armv7__ -D__ANDROID__ -std=c99 -llog -landroid -lm -lEGL -lGLESv3")
 	}
 
 	libs.each { |lib|

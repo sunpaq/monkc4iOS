@@ -72,6 +72,7 @@ class GLES3JNIView extends GLSurfaceView {
     @Override
 	public void onResume() {
         super.onResume();
+        GLES3JNILib.openFile();
     }
     
     private static class Renderer implements GLSurfaceView.Renderer {

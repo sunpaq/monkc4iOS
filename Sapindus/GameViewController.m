@@ -85,6 +85,12 @@
 	[self setupGL:(GLKView *)self.view];
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    const char* cfile = [self.filename cStringUsingEncoding:NSUTF8StringEncoding];
+    onOpenFile(cfile);
+}
+
 - (void)dealloc
 {    
     [self tearDownGL];
@@ -124,8 +130,7 @@
     double width = self.view.bounds.size.width;
     double height = self.view.bounds.size.height;
 	
-	const char* cfile = [self.filename cStringUsingEncoding:NSUTF8StringEncoding];
-    onSetupGL(width, height, cfile);
+    onSetupGL(width, height);
     
     //Core Motion
     [self startDeviceMotion];

@@ -46,7 +46,9 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/BEAssets/external/SOIL/image_DXT.c \
                    $(LOCAL_PATH)/BEAssets/external/SOIL/SOIL.c \
                    $(LOCAL_PATH)/BEAssets/external/SOIL/stb_image_aug.c \
                    $(LOCAL_PATH)/BEAssets/BEAssetsManager.c \
-                   $(LOCAL_PATH)/BEAssets/MC3DObjParser.c
+                   $(LOCAL_PATH)/BEAssets/BAObjParser.c \
+                   $(LOCAL_PATH)/BEAssets/BAMtlParser.c \
+                   $(LOCAL_PATH)/BEAssets/BATrianglization.c
 
 LOCAL_CFLAGS     += -std=c99
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/MCLib
