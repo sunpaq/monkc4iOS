@@ -149,6 +149,9 @@ AAssetManager* MCFileGetAssetManager()
 
 void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 {
+    char noext[1024];
+    MCString_filenameTrimExtension(filename, &noext);
+    
 #ifdef __ANDROID__
     if (assetManager_ != null) {
 		const char* subpath;
@@ -168,7 +171,7 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 		}
 
 		char fullname[PATH_MAX];
-		sprintf(fullname, "%s.%s", filename, extention);
+		sprintf(fullname, "%s.%s", noext, extention);
 
 		AAssetDir* rootdir = AAssetManager_openDir(assetManager_, subpath);
         if (rootdir) {
@@ -189,7 +192,7 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
     static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
     pthread_mutex_lock(&lock);
     
-    CFStringRef fname = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
+    CFStringRef fname = CFStringCreateWithCString(NULL, noext, kCFStringEncodingUTF8);
     CFStringRef  fext = CFStringCreateWithCString(NULL, extention, kCFStringEncodingUTF8);
     CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
     if (url) {
@@ -207,7 +210,7 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 #endif
 }
 
-const char* MCFileCopyContentWithPath(const char* filepath, const char* extention)
+const char* MCFileCopyContentWithPath(const char* filepath)
 {
 #ifdef __ANDROID__
     if (assetManager_ != null) {
@@ -260,12 +263,16 @@ const char* MCFileCopyContentWithPath(const char* filepath, const char* extentio
 #endif
 }
 
-const char* MCFileCopyContent(const char* filename, const char* extention)
-{
-    char fullpath[PATH_MAX];
-    MCFileGetPath(filename, extention, fullpath);
-    return MCFileCopyContentWithPath(fullpath, extention);
-}
+//const char* MCFileCopyContent(const char* filename)
+//{
+//    if (isFilename(filename)) {
+//        char fullpath[PATH_MAX];
+//        MCFileGetPath(filename, MCString_fi, fullpath);
+//        return MCFileCopyContentWithPath(fullpath);
+//    }else{
+//        return MCFileCopyContentWithPath(filename);
+//    }
+//}
 
 void MCFileReleaseContent(void* buff)
 {

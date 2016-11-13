@@ -50,7 +50,9 @@ method(MC3DNode, void, bye, voida)
 
 method(MC3DNode, MC3DErrCode, addChild, MC3DNode* child)
 {
+    child->visible = false;
     MCLinkedList_addItem(0, var(children), (MCItem*)child);
+    child->visible = true;
     return MC3DSuccess;
 }
 

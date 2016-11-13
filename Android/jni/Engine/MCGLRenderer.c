@@ -117,8 +117,12 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
 
 method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader)
 {
-    const char* vcode = MCFileCopyContent(vshader, "vsh");
-    const char* fcode = MCFileCopyContent(fshader, "fsh");
+    char path[LINE_MAX];
+    MCFileGetPath(vshader, "vsh", path);
+    const char* vcode = MCFileCopyContentWithPath(path);
+    
+    MCFileGetPath(fshader, "fsh", path);
+    const char* fcode = MCFileCopyContentWithPath(path);
     
     MCGLRenderer_initWithShaderCodeString(0, obj, vcode, fcode);
     
@@ -144,7 +148,7 @@ method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
         fh(rootnode, draw, _draw, obj->context);
     }
     
-    //glFlush();
+    glFlush();
 }
 
 onload(MCGLRenderer)

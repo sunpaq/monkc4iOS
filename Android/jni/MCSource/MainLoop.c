@@ -47,7 +47,6 @@ void onOpenExternalFile(const char* filepath)
 
     ff(director->lastScene->rootnode, setAllVisible, false);
     ff(director->lastScene->rootnode, addChild, model);
-    ff(director->lastScene->rootnode, setAllVisible, true);
 }
 
 //static void asyncReadSkybox()
@@ -86,7 +85,7 @@ void openFile(const char* filename)
     }
 }
 
-void onOpenFileAndExitThread(const char* filename)
+void openFileAndExitThread(const char* filename)
 {
 //    try {
 //        onOpenFile(filename);
@@ -104,11 +103,11 @@ void onOpenFileAndExitThread(const char* filename)
     MCThread_exitWithStatus((void*)200);
 }
 
-void onOpenFileAsync(const char* filename)
+void openFileAsync(const char* filename)
 {
     MCGLStartLoading();//call in UI thread
     
-    ff(director->modelThread, initWithFPointerArgument, onOpenFileAndExitThread, filename);
+    ff(director->modelThread, initWithFPointerArgument, openFileAndExitThread, filename);
     ff(director->modelThread, start, 0);
     
     //MCThread_joinThread(director->modelThread->tid);
@@ -132,11 +131,20 @@ void onOpenFile(const char* filename)
         }
         
 #ifdef __ANDROID__
-        openFile(filename);
-#else
-        onOpenFileAsync(filename);
         //openFile(filename);
+        
+        director->lastScene->mainCamera->lookat.y = 0.0f;
+        director->lastScene->mainCamera->R_value = 15.0f;
+        
+        ff(director->lastScene->rootnode, addChild, new(MCCube));
+        
+#else
+        //openFile(filename);
+        openFileAsync(filename);
+        //ff(director->lastScene->rootnode, addChild, new(MCCube));
 #endif
+        
+        //ff(director->lastScene->rootnode, setAllVisible, true);
     }
 }
 
@@ -174,6 +182,7 @@ void onSetupGL(int windowWidth, int windowHeight)
         //kick off
         MCDirector_updateAll(0, director, 0);
         MCDirector_drawAll(0, director, 0);
+        
         debug_log("onSetupGL main scene pushed into director\n");
     }
 }

@@ -60,8 +60,8 @@ AAssetManager* MCFileGetAssetManager();
 #endif
 
 void MCFileGetPath(const char* filename, const char* extention, char* buffer);
-const char* MCFileCopyContent(const char* filename, const char* extention);
-const char* MCFileCopyContentWithPath(const char* filepath, const char* extention);
+const char* MCFileCopyContent(const char* filename);
+const char* MCFileCopyContentWithPath(const char* filepath);
 void MCFileReleaseContent(void* buff);
 
 #endif /* BEAssetsManager_h */

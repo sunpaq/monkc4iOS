@@ -148,14 +148,10 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
 
 BAMtlLibrary* BAMtlLibraryNew(const char* filename)
 {
-    const char* assetbuff;
-    if (isFilename(filename)) {
-        char noext[256];
-        MCString_filenameTrimExtension(filename, &noext);
-        assetbuff = MCFileCopyContent(noext, "mtl");
-    }else{
-        assetbuff = MCFileCopyContentWithPath(filename, "mtl");
-    }
+    char path[LINE_MAX];
+    MCFileGetPath(filename, "mtl", path);
+    
+    const char* assetbuff = MCFileCopyContentWithPath(path);
     
     if (assetbuff != null) {
         BAMtlLibrary* lib = BAMtlLibraryAlloc();

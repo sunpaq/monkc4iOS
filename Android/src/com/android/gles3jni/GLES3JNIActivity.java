@@ -44,7 +44,7 @@ public class GLES3JNIActivity extends Activity {
     
     @Override protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        mView = new GLES3JNIView(getApplication());
+        mView = new GLES3JNIView(getApplicationContext());
         setContentView(mView);
     }
 

@@ -114,7 +114,7 @@ MCInline MCBool isIdentifier(const char* w)
 
 MCInline MCBool isFilename(const char* w)
 {
-    //must start with alphabet or underbar
+    //must start with alphabet or underbar or number
     if (MCCond_Alphabet(w) || MCCond_Digit(w) || *w == '_') {
         w++;
     }else{
@@ -219,16 +219,8 @@ MCInline int getDate(const char* s, long* buff)
 MCInline MCToken tokenize(const char* word)
 {
     MCToken token = (MCToken){MCTokenUnknown, 0};
-    
-    if (isIdentifier(word) == true) {
-        token.type = MCTokenIdentifier;
-        MCLexerFill(token.value.Word, word);
-    }
-    else if (isFilename(word) == true) {
-        token.type = MCTokenFilename;
-        MCLexerFill(token.value.Word, word);
-    }
-    else if (isFloat(word) == true) {
+    //don't change the order!
+    if (isFloat(word) == true) {
         token.type = MCTokenFloat;
         token.value.Double = atof(word);
     }
@@ -239,6 +231,14 @@ MCInline MCToken tokenize(const char* word)
     else if (isDate(word) == true) {
         token.type = MCTokenDate;
         getDate(word, token.value.Date);
+    }
+    else if (isIdentifier(word) == true) {
+        token.type = MCTokenIdentifier;
+        MCLexerFill(token.value.Word, word);
+    }
+    else if (isFilename(word) == true) {
+        token.type = MCTokenFilename;
+        MCLexerFill(token.value.Word, word);
     }
     else if (strncmp("#", word, 1) == 0) {
         token.type = MCTokenComment;

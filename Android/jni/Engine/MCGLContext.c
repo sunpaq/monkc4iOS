@@ -78,8 +78,12 @@ method(MCGLContext, MCGLContext*, initWithShaderCode, const char* vcode, const c
 method(MCGLContext, MCGLContext*, initWithShaderName, const char* vname, const char* fname,
        const char* attribs[], size_t acount, MCGLUniformType types[], const char* uniforms[], size_t ucount)
 {
-    const char* vcode = MCFileCopyContent(vname, "vsh");
-    const char* fcode = MCFileCopyContent(fname, "fsh");
+    char path[LINE_MAX];
+    MCFileGetPath(vname, "vsh", path);
+    const char* vcode = MCFileCopyContentWithPath(path);
+    
+    MCFileGetPath(vname, "fsh", path);
+    const char* fcode = MCFileCopyContentWithPath(path);
     
     MCGLContext_initWithShaderCode(0, obj, vcode, fcode, attribs, acount, types, uniforms, ucount);
     

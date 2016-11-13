@@ -38,7 +38,9 @@ void main()
     texcoord;
     
     //Normal fix the non-uniform scale issue
-    calculatedNormal = mat3(transpose(inverse(model.model))) * normal;
+    calculatedNormal = normalize(mat3(transpose(inverse(model.model))) * normal);
+    //calculatedNormal = normalize(model.normal * normal);
+    //calculatedNormal = normalize(normal);
     
     //Eye normal
     //eyeNormal = normalize(model.normal * normal);

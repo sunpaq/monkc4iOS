@@ -50,14 +50,14 @@ java(void, init, voida)
 
 java(void, openFile, voida)
 {
-    onOpenFile("2");
+    onOpenFile("Avent");
     error_log("[not a error] JNI openFile called");
 }
 
 java(void, resize, jint width, jint height)
 {
     onResizeScreen(width, height);
-    error_log("[not a error] JNI openFile called");
+    error_log("[not a error] JNI resize called");
 }
 
 java(void, step, voida)

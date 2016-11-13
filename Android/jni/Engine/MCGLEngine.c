@@ -175,8 +175,13 @@ utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const c
 
 utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, const char* fname)
 {
-    char* vcode = (char*)MCFileCopyContent(vname, "vsh");
-    char* fcode = (char*)MCFileCopyContent(fname, "fsh");
+    char path[LINE_MAX];
+    MCFileGetPath(vname, "vsh", path);
+    char* vcode = (char*)MCFileCopyContentWithPath(path);
+    
+    MCFileGetPath(fname, "fsh", path);
+    char* fcode = (char*)MCFileCopyContentWithPath(path);
+    
     MCGLEngine_prepareShader(Id, vcode, fcode);
     if (vcode) {
         free((void*)vcode);

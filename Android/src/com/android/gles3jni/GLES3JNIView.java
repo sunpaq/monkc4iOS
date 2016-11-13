@@ -42,9 +42,11 @@ class GLES3JNIView extends GLSurfaceView {
     private GestureDetector mScrollDetector;
     private float mScaleFactor = 1.f;
     
+    private Context sharedContext = null;
+
     public GLES3JNIView(Context context) {
         super(context);
-
+        sharedContext = context;
         // Pick an EGLConfig with RGBA8 color, 24-bit depth, no stencil,
         // supporting OpenGL ES 3.0 or later backwards-compatible versions.
         setEGLConfigChooser(8, 8, 8, 8, 24, 0);
@@ -72,7 +74,8 @@ class GLES3JNIView extends GLSurfaceView {
     @Override
 	public void onResume() {
         super.onResume();
-        GLES3JNILib.openFile();
+        //GLES3JNILib.setAssetManager(sharedContext.getApplicationContext().getAssets());
+        //GLES3JNILib.openFile();
     }
     
     private static class Renderer implements GLSurfaceView.Renderer {
@@ -84,12 +87,13 @@ class GLES3JNIView extends GLSurfaceView {
     	
         public void onDrawFrame(GL10 gl) {
             GLES3JNILib.step();
-            gl.glFlush();
+            //gl.glFlush();
         }
 
         public void onSurfaceChanged(GL10 gl, int width, int height) {
         	Log.v(TAG, "resize to " + width + "x" + height);
         	GLES3JNILib.resize(width, height);
+            GLES3JNILib.openFile();
         }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {

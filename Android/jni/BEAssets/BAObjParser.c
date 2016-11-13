@@ -175,13 +175,13 @@ BAObj* BAObjNew(const char* filename, BAObjMeta* meta)
     epcount = 0;
     
     const char* assetbuff;
-    if (isFilename(filename)) {
-        char noext[256];
-        MCString_filenameTrimExtension(filename, &noext);
-        assetbuff = MCFileCopyContent(noext, "obj");
-    }else{
-        assetbuff = MCFileCopyContentWithPath(filename, "obj");
-    }
+//    if (isFilename(filename)) {
+//        char noext[256];
+//        MCString_filenameTrimExtension(filename, &noext);
+//        assetbuff = MCFileCopyContent(noext, "obj");
+//    }else{
+        assetbuff = MCFileCopyContentWithPath(filename);
+//    }
 
     if (assetbuff) {
         parseObjMeta(meta, assetbuff);
