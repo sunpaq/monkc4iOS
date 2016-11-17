@@ -11,6 +11,7 @@
 #include "MCGeometry.h"
 #include "MCSort.h"
 #include "MCBST.h"
+#include "MCHeap.h"
 
 //static void test(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGeneric arg3, MCLongLong arg4, MCPtr arg5, MCFuncPtr arg6)
 //static void testmethod(mc_message_arg(MCObject), ...)
@@ -125,6 +126,20 @@ static void testhash()
     exit(-1);
 }
 
+static void testheap()
+{
+    int heapvals[] = {12,20,13,29,23,15,22,35,40,26,51,19,17};
+    int hcount = sizeof(heapvals)/sizeof(int);
+    MCHeap* hp = ff(new(MCHeap), initWithMaxcount, hcount);
+    for (int i=0; i<hcount; i++) {
+        ff(hp, insertValue, heapvals[i]);
+    }
+    
+    ff(hp, printAll, 0);
+    release(hp);
+    exit(-1);
+}
+
 void starttest()
 {
     //testclass();
@@ -133,4 +148,5 @@ void starttest()
     //testGeometry();
     //testsort();
     //testhash();
+    //testheap();
 }
