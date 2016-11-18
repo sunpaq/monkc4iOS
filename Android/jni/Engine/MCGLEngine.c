@@ -46,7 +46,7 @@ utility(MCGLEngine, void, clearStencilBuffer, voida)
     glClear(GL_STENCIL_BUFFER_BIT);
 }
 
-utility(MCGLEngine, void, setClearScreenColor, MCColorRGBAf color)
+utility(MCGLEngine, void, setClearScreenColor, MCColorf color)
 {
     glClearColor(color.R.f, color.G.f, color.B.f, color.A.f);
 }

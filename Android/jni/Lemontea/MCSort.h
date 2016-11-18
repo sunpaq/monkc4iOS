@@ -16,9 +16,7 @@ class(MCSort, MCObject,
       size_t length);
 
 method(MCSort, void, bye, voida);
-method(MCSort, MCSort*, initWithIntArray, int* array, size_t length);
-method(MCSort, MCSort*, initWithLongArray, long* array, size_t length);
-method(MCSort, MCSort*, initWithDoubleArray, double* array, size_t length);
+method(MCSort, MCSort*, initWithArray, MCGeneric* array, size_t length);
 method(MCSort, void, insertionSort, voida);
 method(MCSort, void, quickSort, voida);
 method(MCSort, void, printArray, voida);

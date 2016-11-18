@@ -43,7 +43,7 @@ void onRootViewLoad(void* rootview)
 
 void onOpenExternalFile(const char* filepath)
 {
-    MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filepath, (MCColorRGBAf){1.0, 1.0, 1.0, 1.0});
+    MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filepath, (MCColorf){1.0, 1.0, 1.0, 1.0});
 
     ff(director->lastScene->rootnode, setAllVisible, false);
     ff(director->lastScene->rootnode, addChild, model);
@@ -57,7 +57,7 @@ void onOpenExternalFile(const char* filepath)
 void openFile(const char* filename)
 {
     //model
-    MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorRGBAf){0.8, 0.8, 0.8, 1.0});
+    MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorf){0.8, 0.8, 0.8, 1.0});
     if (model) {
         debug_log("Create MC3DModel success:%s\n", model->name);
 

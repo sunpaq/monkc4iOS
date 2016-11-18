@@ -54,7 +54,7 @@ compute(MC3DFrame, frame)
 oninit(MC3DModel)
 {
     if (init(MC3DNode)) {
-        obj->defaultColor = (MCColorRGBAf){0.9, 0.9, 0.9, 1.0};
+        obj->defaultColor = (MCColorf){0.9, 0.9, 0.9, 1.0};
         obj->defaultExtension = "obj";
         obj->textureOnOff = false;
         
@@ -71,7 +71,7 @@ method(MC3DModel, void, bye, voida)
     MC3DNode_bye(0, sobj, 0);
 }
 
-function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, size_t offset, MCColorRGBAf color)
+function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, size_t offset, MCColorf color)
 {
     MCVector3 v, n;
     MCVector2 t;
@@ -119,7 +119,7 @@ function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, 
     //mesh->vertexIndexes[(offset==0)?(0):(offset/11)] = (GLuint)e.vi;
 }
 
-function(MCMesh*, createMeshWithBATriangles, BATriangle* triangles, size_t tricount, BAObj* buff, MCColorRGBAf color)
+function(MCMesh*, createMeshWithBATriangles, BATriangle* triangles, size_t tricount, BAObj* buff, MCColorf color)
 {
     MCMesh* mesh = MCMesh_initWithDefaultVertexAttributes(0, new(MCMesh), 0);
     
@@ -181,7 +181,7 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
     }
 }
 
-function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, size_t facecount, MCColorRGBAf color)
+function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, size_t facecount, MCColorf color)
 {
     MC3DModel* model = (MC3DModel*)any;
     if (model) {
@@ -212,7 +212,7 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
     }
 }
 
-method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color)
+method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorf color)
 {
     debug_log("MC3DModel - initWithFilePathColor: %s\n", path);
     
@@ -257,7 +257,7 @@ method(MC3DModel, MC3DModel*, initWithFilePath, const char* path)
     return MC3DModel_initWithFilePathColor(0, obj, path, obj->defaultColor);
 }
 
-method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color)
+method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorf color)
 {
     if (obj) {
         MCStringFill(obj->name, name);
@@ -281,8 +281,8 @@ onload(MC3DModel)
         binding(MC3DModel, void, bye, voida);
         binding(MC3DModel, MC3DModel*, initWithFilePath, const char* path);
         binding(MC3DModel, MC3DModel*, initWithFileName, const char* name);
-        binding(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
-        binding(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color);
+        binding(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorf color);
+        binding(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorf color);
 
         return cla;
     }else{

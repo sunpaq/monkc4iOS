@@ -24,7 +24,7 @@ oninit(MCGLRenderer)
 {
     if(init(MCObject)){
         MCGLEngine_featureSwith(MCGLDepthTest, true);
-        MCGLEngine_setClearScreenColor((MCColorRGBAf){0.05, 0.25, 0.35, 1.0});
+        MCGLEngine_setClearScreenColor((MCColorf){0.05, 0.25, 0.35, 1.0});
         MCGLEngine_featureSwith(MCGLCullFace, true);
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(true);//CCW

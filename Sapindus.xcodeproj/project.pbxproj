@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F896E7311DDEA0F5008212F1 /* MCGraph.c in Sources */ = {isa = PBXBuildFile; fileRef = F896E72F1DDEA0F5008212F1 /* MCGraph.c */; };
 		F8C4651A1DDD8523005581D0 /* MCHeap.c in Sources */ = {isa = PBXBuildFile; fileRef = F8C465181DDD8523005581D0 /* MCHeap.c */; };
 		F8DCDAB71D52E09E00FD3FD2 /* MCArrayLinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = F8DCDAB61D52E09E00FD3FD2 /* MCArrayLinkedList.c */; };
 		F8DCDAB91D52E44000FD3FD2 /* MCGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = F8DCDAB81D52E44000FD3FD2 /* MCGeometry.c */; };
@@ -142,6 +143,8 @@
 
 /* Begin PBXFileReference section */
 		F88C173F1D51E16A000D07BA /* MCArrayLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCArrayLinkedList.h; sourceTree = "<group>"; };
+		F896E72F1DDEA0F5008212F1 /* MCGraph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGraph.c; sourceTree = "<group>"; };
+		F896E7301DDEA0F5008212F1 /* MCGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGraph.h; sourceTree = "<group>"; };
 		F8C465181DDD8523005581D0 /* MCHeap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCHeap.c; sourceTree = "<group>"; };
 		F8C465191DDD8523005581D0 /* MCHeap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCHeap.h; sourceTree = "<group>"; };
 		F8DCDAB51D52CF8C00FD3FD2 /* MCGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCGeometry.h; sourceTree = "<group>"; };
@@ -525,6 +528,8 @@
 				FD1702021DD7072600712203 /* MCSet.h */,
 				F8C465181DDD8523005581D0 /* MCHeap.c */,
 				F8C465191DDD8523005581D0 /* MCHeap.h */,
+				F896E72F1DDEA0F5008212F1 /* MCGraph.c */,
+				F896E7301DDEA0F5008212F1 /* MCGraph.h */,
 			);
 			name = Lemontea;
 			path = Android/jni/Lemontea;
@@ -889,6 +894,7 @@
 				FD44CE2C1D326CF200784EDF /* MCCube.c in Sources */,
 				FD44CE4A1D326CF200784EDF /* MC3DXWindow.c in Sources */,
 				FD44CE2F1D326CF200784EDF /* MCGLEngine.c in Sources */,
+				F896E7311DDEA0F5008212F1 /* MCGraph.c in Sources */,
 				FD44CE3D1D326CF200784EDF /* MCClock.c in Sources */,
 				FD44CE3B1D326CF200784EDF /* MCArray.c in Sources */,
 				FD3111591DAC7C0700324C31 /* BATrianglization.c in Sources */,

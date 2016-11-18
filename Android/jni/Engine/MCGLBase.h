@@ -46,7 +46,7 @@ typedef struct {
     MCFloat G;
     MCFloat B;
     MCFloat A;
-} MCColorRGBAf;
+} MCColorf;
 
 typedef enum {
     MCGLFront = GL_FRONT,

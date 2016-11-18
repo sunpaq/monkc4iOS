@@ -30,35 +30,11 @@ method(MCSort, void, bye, voida)
     }
 }
 
-method(MCSort, MCSort*, initWithIntArray, int* array, size_t length)
+method(MCSort, MCSort*, initWithArray, MCGeneric* array, size_t length)
 {
     var(array) = (MCGeneric*)malloc(sizeof(int) * length);
     for (size_t i=0; i<length; i++) {
-        obj->array[i] = MCGenericI(array[i]);
-    }
-    var(length) = length;
-    //debug
-    //ff(obj, printArray, 0);
-    return obj;
-}
-
-method(MCSort, MCSort*, initWithLongArray, long* array, size_t length)
-{
-    var(array) = (MCGeneric*)malloc(sizeof(long) * length);
-    for (size_t i=0; i<length; i++) {
-        obj->array[i] = MCGenericL(array[i]);
-    }
-    var(length) = length;
-    //debug
-    //ff(obj, printArray, 0);
-    return obj;
-}
-
-method(MCSort, MCSort*, initWithDoubleArray, double* array, size_t length)
-{
-    var(array) = (MCGeneric*)malloc(sizeof(double) * length);
-    for (size_t i=0; i<length; i++) {
-        obj->array[i] = MCGenericD((MCDouble)array[i]);
+        obj->array[i] = array[i];
     }
     var(length) = length;
     //debug
@@ -108,7 +84,7 @@ method(MCSort, void, quickSort, voida)
 method(MCSort, void, printArray, voida)
 {
     for (size_t i=0; i<obj->length; i++) {
-        printf("element of array[%ld]=%d\n", i, obj->array[i].mcint);
+        printf("element of array[%ld]=%.2f\n", i, obj->array[i].mcfloat);
     }
 }
 
@@ -116,9 +92,7 @@ onload(MCSort)
 {
     if (load(MCObject)) {
         binding(MCSort, void, bye, voida);
-        binding(MCSort, MCSort*, initWithIntArray, int* array, size_t length);
-        binding(MCSort, MCSort*, initWithLongArray, long* array, size_t length);
-        binding(MCSort, MCSort*, initWithDoubleArray, double* array, size_t length);
+        binding(MCSort, MCSort*, initWithArray, MCGeneric* array, size_t length);
         binding(MCSort, void, insertionSort, voida);
         binding(MCSort, void, quickSort, voida);
         binding(MCSort, void, printArray, voida);

@@ -23,7 +23,7 @@ class(MC3DModel, MC3DNode,
       char name[256];
       //char mtl[256];
 
-      MCColorRGBAf defaultColor;
+      MCColorf defaultColor;
       const char* defaultExtension;
       MCBool textureOnOff;
       
@@ -34,7 +34,7 @@ class(MC3DModel, MC3DNode,
 method(MC3DModel, void, bye, voida);
 method(MC3DModel, MC3DModel*, initWithFilePath, const char* path);
 method(MC3DModel, MC3DModel*, initWithFileName, const char* name);
-method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorRGBAf color);
-method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorRGBAf color);
+method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorf color);
+method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorf color);
 
 #endif /* MC3DModel_h */

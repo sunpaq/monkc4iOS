@@ -22,7 +22,7 @@ static size_t parentIndex(size_t i) {
 
 static void swapNode(MCHeap* heap, size_t i, size_t j) {
     if (i <= heap->count && j <= heap->count) {
-        int temp = heap->values[i];
+        MCGeneric temp = heap->values[i];
         heap->values[i] = heap->values[j];
         heap->values[j] = temp;
     }
@@ -35,7 +35,7 @@ static void shiftup(MCHeap* heap, size_t index)
         if (i == 1)
             break;
         p = parentIndex(i);
-        if (heap->values[p] <= heap->values[i])
+        if (MCGenericCompare(heap->values[p], heap->values[i]) <= 0)
             break;
         swapNode(heap, p, i);
         i = p;
@@ -46,7 +46,7 @@ static void printNode(MCHeap* heap, size_t index)
 {
     int indent = (int)(heap->maxheight-(size_t)log2(index));
     if (index == 1) {
-        printf("%*s%d\n", (int)heap->maxheight, "", heap->values[1]);
+        printf("%*s%lf\n", (int)heap->maxheight, "", (float)heap->values[1].mcfloat);
     }
 
     size_t l = leftChildIndex(index);
@@ -56,8 +56,8 @@ static void printNode(MCHeap* heap, size_t index)
         if (indent < 0) {
             indent = 0;
         }
-        printf("%*s%d", indent, "", heap->values[l]);
-        printf("%*s%d", indent+1, "", heap->values[r]);
+        printf("%*s%lf", indent, "", (float)heap->values[l].mcfloat);
+        printf("%*s%lf", indent+1, "", (float)heap->values[r].mcfloat);
 
         size_t H = computed(heap, height) - 1;
         
@@ -115,13 +115,13 @@ method(MCHeap, void, bye, voida)
 method(MCHeap, MCHeap*, initWithMaxcount, size_t maxcount)
 {
     //index 0 is reserved
-    obj->values = (int*)malloc(sizeof(int) * maxcount);
+    obj->values = (MCGeneric*)malloc(sizeof(MCGeneric) * maxcount);
     obj->maxcount = maxcount;
     obj->maxheight = (size_t)log2(maxcount);
     return obj;
 }
 
-method(MCHeap, size_t, insertValue, int newval)
+method(MCHeap, size_t, insertValue, MCGeneric newval)
 {
     MCHeap* heap = obj;
     heap->values[++heap->count] = newval;
@@ -131,8 +131,12 @@ method(MCHeap, size_t, insertValue, int newval)
 
 method(MCHeap, void, printAll, voida)
 {
-    MCHeap* heap = obj;
-    printNode(heap, 1);
+    for (int i=1; i<obj->count; i++) {
+        printf("%.2f ", obj->values[i].mcfloat);
+    }
+    printf("\n");
+
+    //printNode(heap, 1);
 }
 
 onload(MCHeap)

@@ -106,26 +106,26 @@ method(MC3DScene, MCCamera*, getCamera, voida)
     return var(mainCamera);
 }
 
-method(MC3DScene, void, moveCameraOneStep, MCDouble deltaFai, MCDouble deltaTht)
+method(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
 {
     if (var(cameraLock) == false) {
 //        if (var(skyboxRef) != null) {
 //            MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d / 5, deltaTht.d / 5);
 //        }
-        MCCamera_move(0, var(mainCamera), deltaFai.d, deltaTht.d);
+        MCCamera_move(0, var(mainCamera), deltaFai.f, deltaTht.f);
     }
 }
 
-method(MC3DScene, void, moveSkyboxCamera, MCDouble deltaFai, MCDouble deltaTht)
+method(MC3DScene, void, moveSkyboxCamera, MCFloat deltaFai, MCFloat deltaTht)
 {
     if (cpt(isDrawSky)) {
-        MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d, deltaTht.d);
+        MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.f, deltaTht.f);
     }
 }
 
 method(MC3DScene, void, updateScene, voida)
 {
-    MC3DScene_moveCameraOneStep(0, obj, (MCDouble)0.5, (MCDouble)0.0);
+    MC3DScene_moveCameraOneStep(0, obj, (MCFloat)0.5, (MCFloat)0.0);
     
     if(cpt(isDrawSky)) {
         MCSkybox_update(0, var(skyboxRef), var(renderer)->context);

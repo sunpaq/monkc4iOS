@@ -98,25 +98,69 @@ static void testGeometry()
     exit(-1);
 }
 
+//typedef union {
+//    //unsigned
+//    MCULongLong mculonglong;
+//    MCULong     mculong;
+//    MCUInt      mcuint;
+//    //signed
+//    MCLongLong  mclonglong;
+//    MCLong      mclong;
+//    MCInt       mcint;
+//    //other_scalar
+//    MCBool      mcbool;
+//    MCHash      mchash;
+//    MCSizeT     mcsizet;
+//    //float
+//    MCFloat     mcfloat;
+//    //pointers
+//    MCVoidPtr   mcvoidptr;
+//    MCFuncPtr   mcfuncptr;
+//    struct _MCObject *mcobject;
+//} MCGeneric;
+
 static void testsort()
 {
     MCLogTypeSet(MC_DEBUG);
 
-    int A[] = {5,6,3,4,2,1,8,9,7,10,11,32,90,64,23,22,14,19,38,24,55,17};
-    size_t count = sizeof(A) / sizeof(int);
-    MCSort* sort = ff(new(MCSort), initWithIntArray, A, count);
+    debug_log("sizeof(MCULongLong)=%ld\n", sizeof(MCULongLong));
+    debug_log("sizeof(MCLongLong)=%ld\n", sizeof(MCLongLong));
+    debug_log("sizeof(MCFloat)=%ld\n", sizeof(MCFloat));
+    
+    MCGeneric A[] = {
+        MCGenericF(12.1),MCGenericF(20.0),MCGenericF(13.6),MCGenericF(29.7),
+        MCGenericF(23.4),MCGenericF(-15.4),MCGenericF(22.4),MCGenericF(35.2),
+        MCGenericF(40.4),MCGenericF(26.8),MCGenericF(-51.3),MCGenericF(19.0),
+        MCGenericF(17.3),111,234
+    };
+    
+    MCGeneric B[] = {5,6,-3,4,2,1,8,9,-7,10,11,32,90,64,-23,22,14,19,38,24,55,17};
+
+    size_t count = sizeof(B) / sizeof(MCGeneric);
+    MCSort* sort = ff(new(MCSort), initWithArray, B, count);
     ff(sort, quickSort, 0);
     ff(sort, printArray, 0);
     release(sort);
     
     MCBST* bstree = new(MCBST);
     for (int i=0; i<count; i++) {
-        ff(bstree, insertValue, MCGenericI(A[i]));
+        ff(bstree, insertValue, A[i]);
     }
     ff(bstree, printTree, 0);
     release(bstree);
-    
     debug_log("testsort finish\n");
+    
+    MCGeneric heapvals[] = {5,6,3,4,2,1,8,9,7,10,11,32,90,64,23,22,14,19,38,24,55,17};
+    
+    int hcount = sizeof(heapvals)/sizeof(MCGeneric);
+    MCHeap* hp = ff(new(MCHeap), initWithMaxcount, hcount);
+    for (int i=0; i<hcount; i++) {
+        ff(hp, insertValue, heapvals[i]);
+    }
+    
+    ff(hp, printAll, 0);
+    release(hp);
+    
     exit(-1);
 }
 
@@ -126,27 +170,12 @@ static void testhash()
     exit(-1);
 }
 
-static void testheap()
-{
-    int heapvals[] = {12,20,13,29,23,15,22,35,40,26,51,19,17};
-    int hcount = sizeof(heapvals)/sizeof(int);
-    MCHeap* hp = ff(new(MCHeap), initWithMaxcount, hcount);
-    for (int i=0; i<hcount; i++) {
-        ff(hp, insertValue, heapvals[i]);
-    }
-    
-    ff(hp, printAll, 0);
-    release(hp);
-    exit(-1);
-}
-
 void starttest()
 {
     //testclass();
     //testparser();
     //testCArrayLinkedList();
     //testGeometry();
-    //testsort();
     //testhash();
-    //testheap();
+    //testsort();
 }

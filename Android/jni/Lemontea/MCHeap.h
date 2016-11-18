@@ -18,7 +18,7 @@
 class(MCHeap, MCObject,
       computing(size_t, height);
       computing(size_t, width);
-      int* values;
+      MCGeneric* values;
       size_t count;
       size_t maxcount;
       size_t maxheight;
@@ -26,7 +26,7 @@ class(MCHeap, MCObject,
 
 method(MCHeap, void, bye, voida);
 method(MCHeap, MCHeap*, initWithMaxcount, size_t maxcount);
-method(MCHeap, size_t, insertValue, int newval);
+method(MCHeap, size_t, insertValue, MCGeneric newval);
 method(MCHeap, void, printAll, voida);
 
 #endif /* MCHeap_h */

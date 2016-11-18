@@ -104,14 +104,10 @@ typedef unsigned int       MCUInt;
 typedef unsigned long      MCULong;
 typedef unsigned long long MCULongLong;
 
+//float is 4bytes, double is 8bytes
 typedef union {
-    double    d;
-    long long ll;
-} MCDouble;
-
-typedef union {
-    float f;
-    int   i;
+    double   f;
+    uint64_t i;
 } MCFloat;
 
 typedef uint32_t     MCHash;
@@ -125,54 +121,40 @@ typedef void         (*MCFuncPtr)(void);
 //true, false
 typedef _Bool MCBool;
 
-#define MCFuncPtr(value) ((MCFuncPtr)value)
-#define MCDouble(value)  ((MCDouble)value)
-#define MCFloat(value)   ((MCFloat)value)
-
 /*
- Generic Type
+ Generic Type (using double for all floating point data)
  */
 
 struct _MCObject;
 typedef union {
-    MCChar      mcchar;
-    MCShort     mcshort;
-    MCInt       mcint;
-    MCLong      mclong;
-    MCLongLong  mclonglong;
-    MCUChar     mcuchar;
-    MCUShort    mcushort;
-    MCUInt      mcuint;
-    MCULong     mculong;
+    //float
+    double      mcfloat;
+    //unsigned
     MCULongLong mculonglong;
-    MCFloat     mcfloat;
-    MCDouble    mcdouble;
+    MCULong     mculong;
+    MCUInt      mcuint;
+    //signed
+    MCLongLong  mclonglong;
+    MCLong      mclong;
+    MCInt       mcint;
+    //other_scalar
+    MCBool      mcbool;
     MCHash      mchash;
     MCSizeT     mcsizet;
+    //pointers
     MCVoidPtr   mcvoidptr;
     MCFuncPtr   mcfuncptr;
-    MCBool      mcbool;
     struct _MCObject *mcobject;
 } MCGeneric;
 
-#define MCGenericI(value)  ((MCGeneric){.mcint=value})
-#define MCGenericU(value)  ((MCGeneric){.mcunsigned=value})
-#define MCGenericL(value)  ((MCGeneric){.mclong=value})
-#define MCGenericLL(value) ((MCGeneric){.mclonglong=value})
 #define MCGenericF(value)  ((MCGeneric){.mcfloat=value})
-#define MCGenericD(value)  ((MCGeneric){.mcdouble=value})
-#define MCGenericSz(value) ((MCGeneric){.mcsizet=value})
-#define MCGenericH(value)  ((MCGeneric){.mchash=value})
-#define MCGenericP(value)  ((MCGeneric){.mcvoidptr=value})
-#define MCGenericFp(value) ((MCGeneric){.mcfuncptr=value})
-#define MCGenericB(value)  ((MCGeneric){.mcbool=value})
 #define MCGenericEmpty     ((MCGeneric){0})
 
 MCInline int MCGenericCompare(MCGeneric A, MCGeneric B) {
-    if (A.mclonglong > B.mclonglong) {
+    if (A.mcfloat > B.mcfloat) {
         return 1;
     }
-    else if (A.mclonglong < B.mclonglong) {
+    else if (A.mcfloat < B.mcfloat) {
         return -1;
     }
     //A == B

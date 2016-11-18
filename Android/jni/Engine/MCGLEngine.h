@@ -38,7 +38,7 @@ utility(MCGLEngine, void, flushCommand, voida);
 utility(MCGLEngine, void, clearScreen, voida);
 utility(MCGLEngine, void, clearDepthBuffer, voida);
 utility(MCGLEngine, void, clearStencilBuffer, voida);
-utility(MCGLEngine, void, setClearScreenColor, MCColorRGBAf color);
+utility(MCGLEngine, void, setClearScreenColor, MCColorf color);
 utility(MCGLEngine, void, setPointSize, double pointsize);
 utility(MCGLEngine, void, setLineWidth, double linewidth);
 utility(MCGLEngine, void, setFrontCounterClockWise, MCBool isCCW);
