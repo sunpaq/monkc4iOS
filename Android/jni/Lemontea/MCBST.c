@@ -35,8 +35,8 @@ static void freenode(BSTNode* node) {
 
 static void printnode(BSTNode* node) {
     if (node) {
-        printf("node.value=%d [left=%p right=%p]\n",
-               node->value.mcint, node->left, node->right);
+        printf("node.value=%.2f [left=%p right=%p]\n",
+               node->value.mcfloat, node->left, node->right);
     }
 }
 

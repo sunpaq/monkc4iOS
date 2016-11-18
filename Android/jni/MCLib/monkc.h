@@ -104,7 +104,7 @@ typedef unsigned int       MCUInt;
 typedef unsigned long      MCULong;
 typedef unsigned long long MCULongLong;
 
-//float is 4bytes, double is 8bytes
+//using double for all floating point data (float is 4bytes, double is 8bytes)
 typedef union {
     double   f;
     uint64_t i;
@@ -122,33 +122,29 @@ typedef void         (*MCFuncPtr)(void);
 typedef _Bool MCBool;
 
 /*
- Generic Type (using double for all floating point data)
+ Generic Type
  */
 
 struct _MCObject;
 typedef union {
-    //float
-    double      mcfloat;
-    //unsigned
-    MCULongLong mculonglong;
-    MCULong     mculong;
-    MCUInt      mcuint;
-    //signed
-    MCLongLong  mclonglong;
-    MCLong      mclong;
-    MCInt       mcint;
-    //other_scalar
-    MCBool      mcbool;
-    MCHash      mchash;
+    //float and integers use 8bytes (64bits)
+    double      mcfloat;//default
     MCSizeT     mcsizet;
-    //pointers
+    MCULongLong mculonglong;
+    MCLongLong  mclonglong;
+    MCULong     mculong;
+    MCLong      mclong;
+    //pointers use 8bytes
+    struct _MCObject *mcobject;
     MCVoidPtr   mcvoidptr;
     MCFuncPtr   mcfuncptr;
-    struct _MCObject *mcobject;
+    //integers use 4bytes
+    MCUInt      mcuint;
+    MCInt       mcint;
+    MCHash      mchash;
+    //bool use 1byte
+    MCBool      mcbool;
 } MCGeneric;
-
-#define MCGenericF(value)  ((MCGeneric){.mcfloat=value})
-#define MCGenericEmpty     ((MCGeneric){0})
 
 MCInline int MCGenericCompare(MCGeneric A, MCGeneric B) {
     if (A.mcfloat > B.mcfloat) {
