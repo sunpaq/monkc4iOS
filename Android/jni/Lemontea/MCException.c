@@ -27,7 +27,7 @@ static inline unsigned _ehash(char *s)
 	unsigned hashval;
 	for(hashval = 0; *s != '\0'; s++)
 		hashval = *s + 31 * hashval;
-	return (hashval % MAX_EXCEPTION_NUM);
+	return (hashval & MAX_EXCEPTION_NUM);
 }
 
 static unsigned _define_exception(char* s)

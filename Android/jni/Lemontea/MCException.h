@@ -23,7 +23,8 @@ unsigned __get_exception_code(char* key);
 #define catch(etype)  else if(exception_type==__ECODE(etype))
 #define finally       if(exception_type!=__MCNoneException)
 
-#define MAX_EXCEPTION_NUM 500
+//512+256+...1
+#define MAX_EXCEPTION_NUM 0x000001ff
 
 MCObject* get_exception_data(char* key);
 void      set_exception_data(char* key, MCObject* e);
