@@ -23,5 +23,6 @@ class(MCLight, MC3DNode,
 );
 
 method(MCLight, void, update, MCGLContext* ctx);
+method(MCLight, void, printDebugInfo, voida);
 
 #endif /* MCLight_h */

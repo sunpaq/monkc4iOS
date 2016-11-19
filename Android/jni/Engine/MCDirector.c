@@ -119,6 +119,16 @@ method(MCDirector, void, resizeAllScene, int width, int height)
     var(currentHeight) = height;
 }
 
+method(MCDirector, void, addModel, MC3DModel* model)
+{
+    if(model && obj->lastScene && obj->lastScene->rootnode) {
+        MC3DNode_addChild(0, obj->lastScene->rootnode, (MC3DNode*)model);
+    }else{
+        error_log("MCDirector add model(%p) failed [lastScene=%p rootnode=%p]\n",
+                  model, obj->lastScene, obj->lastScene->rootnode);
+    }
+}
+
 method(MCDirector, void, cameraFocusOn, MCVector3 vertex)
 {
     MCCamera* c = computed(obj, cameraHandler);
@@ -126,6 +136,18 @@ method(MCDirector, void, cameraFocusOn, MCVector3 vertex)
         c->lookat.x = vertex.x;
         c->lookat.y = vertex.y;
         c->lookat.z = vertex.z;
+    }
+}
+
+method(MCDirector, void, printDebugInfo, voida)
+{
+    debug_log("MCDirector currentWidth=%d currentHeight=%d\n", obj->currentWidth, obj->currentHeight);
+    MCCamera* cam = cpt(cameraHandler);
+    if (cam) {
+        ff(cam, printDebugInfo, 0);
+    }
+    if (obj->lastScene) {
+        ff(obj->lastScene, printDebugInfo, 0);
     }
 }
 
@@ -140,7 +162,9 @@ onload(MCDirector)
         binding(MCDirector, void, pushScene, MC3DScene* scene);
         binding(MCDirector, void, popScene, voida);
         binding(MCDirector, void, resizeAllScene, int width, int height);
+        binding(MCDirector, void, addModel, MC3DModel* model);
         binding(MCDirector, void, cameraFocusOn, MCVector3 vertex);
+        binding(MCDirector, void, printDebugInfo, voida);
 
         return cla;
     }else{

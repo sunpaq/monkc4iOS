@@ -912,15 +912,27 @@ mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash has
     }
 }
 
-mc_message _response_to(MCObject* obj, const char* methodname, int strict)
+MCBool _response_test(MCObject* obj, const char* methodname)
 {
-    return _response_to_h(obj, methodname, hash(methodname), strict);
+    if (get_item_byhash(obj->isa->table, hash(methodname), methodname) != null) {
+        return true;
+    }else{
+        if (obj->nextResponder)
+            return _response_test(obj->nextResponder, methodname);
+    }
+    return false;
 }
 
-mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval, int strict)
+mc_message _response_to(MCObject* obj, const char* methodname)
+{
+    return _response_to_h(obj, methodname, hash(methodname));
+}
+
+mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
 {
     return _self_response_to_h(obj, methodname, hashval);
 }
+
 /*
 	MCObject* obj_iterator = obj;
 	MCObject* obj_first_hit = null;

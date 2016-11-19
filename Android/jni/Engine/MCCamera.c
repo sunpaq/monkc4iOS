@@ -36,6 +36,12 @@ oninit(MCCamera)
     }
 }
 
+method(MCCamera, void, printDebugInfo, voida)
+{
+    debug_log("MCCamera: lookat=%.2f/%.2f/%.2f R_value=%.2f R_percent=%.3f\n",
+              obj->lookat.x, obj->lookat.y, obj->lookat.z, obj->R_value, obj->R_percent);
+}
+
 compute(double, Radius)
 {
     as(MCCamera);
@@ -118,17 +124,17 @@ method(MCCamera, void, update, MCGLContext* ctx)
     MCGLContext_updateUniform(0, ctx, "light.position", data);
 }
 
-method(MCCamera, void, move, double deltaFai, double deltaTht)
+method(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht)
 {
     if (var(isLockRotation) == true) {
         return;
     }
     if (var(isReverseMovement)) {
-        obj->fai += deltaFai;   //Left
-        obj->tht += deltaTht;   //Up
+        obj->fai += deltaFai.f;   //Left
+        obj->tht += deltaTht.f;   //Up
     }else{
-        obj->fai -= deltaFai;   //Left
-        obj->tht -= deltaTht;   //Up
+        obj->fai -= deltaFai.f;   //Left
+        obj->tht -= deltaTht.f;   //Up
     }
     
     //keep the tht -180 ~ 180
@@ -140,39 +146,40 @@ method(MCCamera, void, move, double deltaFai, double deltaTht)
     }
 }
 
-method(MCCamera, void, fucus, double deltaX, double deltaY)
+method(MCCamera, void, fucus, MCFloat deltaX, MCFloat deltaY)
 {
     if (var(isReverseMovement)) {
-        obj->lookat.x += deltaX;
-        obj->lookat.y += deltaY;
+        obj->lookat.x += deltaX.f;
+        obj->lookat.y += deltaY.f;
         
     }else{
-        obj->lookat.x -= deltaX;
-        obj->lookat.y -= deltaY;
+        obj->lookat.x -= deltaX.f;
+        obj->lookat.y -= deltaY.f;
     }
 }
 
-method(MCCamera, void, pull, double deltaR)
+method(MCCamera, void, pull, MCFloat deltaR)
 {
-    obj->R_value += deltaR;
+    obj->R_value += deltaR.f;
 }
 
-method(MCCamera, void, distanceScale, double scale)
+method(MCCamera, void, distanceScale, MCFloat scale)
 {
-    obj->R_percent = scale;
+    obj->R_percent = scale.f;
 }
 
 onload(MCCamera)
 {
     if (load(MC3DNode)) {
         binding(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
-        binding(MCCamera, void, move, double deltaFai, double deltaTht);
-        binding(MCCamera, void, fucus, double deltaX, double deltaY);
-        binding(MCCamera, void, pull, double deltaR);
+        binding(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht);
+        binding(MCCamera, void, fucus, MCFloat deltaX, MCFloat deltaY);
+        binding(MCCamera, void, pull, MCFloat deltaR);
         binding(MCCamera, void, reset, MCBool updateOrNot);
         binding(MCCamera, void, update);
-        binding(MCCamera, void, distanceScale, double scale);
-        
+        binding(MCCamera, void, distanceScale, MCFloat scale);
+        binding(MCCamera, void, printDebugInfo, voida);
+
         return cla;
     }else{
         return null;

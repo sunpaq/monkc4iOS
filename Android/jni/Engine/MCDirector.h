@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "monkc.h"
 #include "MC3DScene.h"
+#include "MC3DModel.h"
 #include "MCThread.h"
 
 class(MCDirector, MCObject,
@@ -37,7 +38,10 @@ method(MCDirector, void, pushScene, MC3DScene* scene);
 method(MCDirector, void, popScene, voida);
 method(MCDirector, void, resizeAllScene, int width, int height);
 
+method(MCDirector, void, addModel, MC3DModel* model);
+
 method(MCDirector, void, cameraFocusOn, MCVector3 vertex);
+method(MCDirector, void, printDebugInfo, voida);
 
 //iOS callbacks
 //void onRootViewLoad(void* rootview);

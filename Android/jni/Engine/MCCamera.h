@@ -29,12 +29,13 @@ class(MCCamera, MC3DNode,
 );
 
 method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
-method(MCCamera, void, move, double deltaFai, double deltaTht);
-method(MCCamera, void, fucus, double deltaX, double deltaY);
-method(MCCamera, void, pull, double deltaR);
+method(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht);
+method(MCCamera, void, fucus, MCFloat deltaX, MCFloat deltaY);
+method(MCCamera, void, pull, MCFloat deltaR);
 method(MCCamera, void, reset, voida);
 method(MCCamera, void, update, MCGLContext* ctx);//override
-method(MCCamera, void, distanceScale, double scale);
+method(MCCamera, void, distanceScale, MCFloat scale);
+method(MCCamera, void, printDebugInfo, voida);
 
 #define MCLensStandard50mm (0.050)
 #define MCLensWide24mm     (0.024)
