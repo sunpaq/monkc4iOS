@@ -171,7 +171,7 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 		}
 
 		char fullname[PATH_MAX];
-		sprintf(fullname, "%s.%s", noext, extention);
+		sprintf(fullname, "%s.%s", filename, extention);
 
 		AAssetDir* rootdir = AAssetManager_openDir(assetManager_, subpath);
         if (rootdir) {
