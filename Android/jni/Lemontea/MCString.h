@@ -35,7 +35,7 @@ utility(MCString, size_t, reverse, const char* str, char (*buff)[]);
 utility(MCString, const char*, baseFromPath, const char* path, char (*buff)[]);
 utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[]);
 
-utility(MCString, const char*, filenameTrimExtension, const char* name, char (*buff)[]);
+utility(MCString, const char*, filenameTrimExtension, const char* name, char* buff);
 utility(MCString, const char*, extensionFromFilename, const char* name, char (*buff)[]);
 
 utility(MCString, const char*, concate, const char** strings, size_t count, char (*buff)[]);

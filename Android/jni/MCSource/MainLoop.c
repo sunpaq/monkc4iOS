@@ -85,7 +85,7 @@ void openFile(const char* filename)
     }
 }
 
-void openFileAndExitThread(const char* filename)
+void openFileAndExitThread(void* arg)
 {
 //    try {
 //        onOpenFile(filename);
@@ -96,9 +96,12 @@ void openFileAndExitThread(const char* filename)
 //        exit(-1);
 //    }
     
-    openFile(filename);
+    MCString* filename = (MCString*)arg;
+    
+    openFile(filename->buff);
     ff(director->lastScene->rootnode, setAllVisible, true);
     
+    release(filename);
     MCGLStopLoading();
     MCThread_exitWithStatus((void*)200);
 }
@@ -107,7 +110,8 @@ void openFileAsync(const char* filename)
 {
     MCGLStartLoading();//call in UI thread
     
-    ff(director->modelThread, initWithFPointerArgument, openFileAndExitThread, filename);
+    MCString* str = MCString_newWithCString(filename);
+    ff(director->modelThread, initWithFPointerArgument, openFileAndExitThread, (void*)str);
     ff(director->modelThread, start, 0);
     
     //MCThread_joinThread(director->modelThread->tid);
@@ -154,11 +158,11 @@ void onSetupGL(int windowWidth, int windowHeight)
 	//MCLogTypeSet(MC_SILENT);
 
     if (director == null) {
-    	debug_log("onSetupGL create director");
+    	debug_log("onSetupGL create director\n");
         director = new(MCDirector);
         director->currentWidth = windowWidth;
         director->currentHeight = windowHeight;
-        debug_log("onSetupGL director created");
+        debug_log("onSetupGL director created\n");
 
         //scene1
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader,

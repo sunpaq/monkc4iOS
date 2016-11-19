@@ -149,8 +149,8 @@ AAssetManager* MCFileGetAssetManager()
 
 void MCFileGetPath(const char* filename, const char* extention, char* buffer)
 {
-    char noext[1024];
-    MCString_filenameTrimExtension(filename, &noext);
+    char buff[PATH_MAX];
+    filename = MCString_filenameTrimExtension(filename, buff);
     
 #ifdef __ANDROID__
     if (assetManager_ != null) {
@@ -192,7 +192,7 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
     static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
     pthread_mutex_lock(&lock);
     
-    CFStringRef fname = CFStringCreateWithCString(NULL, noext, kCFStringEncodingUTF8);
+    CFStringRef fname = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
     CFStringRef  fext = CFStringCreateWithCString(NULL, extention, kCFStringEncodingUTF8);
     CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
     if (url) {
@@ -201,7 +201,8 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
         CFRelease(path);
         CFRelease(url);
     } else {
-        error_log("BEAssetManager can not find path of %s\n", filename);
+        error_log("BEAssetManager can not find path of (%s).(%s)\n", filename, extention);
+        exit(-1);
     }
     CFRelease(fname);
     CFRelease(fext);

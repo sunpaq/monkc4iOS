@@ -80,20 +80,15 @@ utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[
     return &(*buff)[0];
 }
 
-utility(MCString, const char*, filenameTrimExtension, const char* name, char (*buff)[])
+utility(MCString, const char*, filenameTrimExtension, const char* name, char* buff)
 {
     int i=0;
     while (*name != '.' && *name != '\0') {
-        (*buff)[i++] = *name;
+        buff[i++] = *name;
         name++;
     }
-    (*buff)[i] = '\0';
-
-    if (*name == '\0') {
-        return name;
-    }else{
-        return &(*buff)[0];
-    }
+    buff[i] = '\0';
+    return buff;
 }
 
 utility(MCString, const char*, extensionFromFilename, const char* name, char (*buff)[])
@@ -135,12 +130,13 @@ utility(MCString, const char*, concatePath, const char* path1, const char* path2
     return MCString_concateWith("/", path1, path2, buff);
 }
 
-static size_t block_size = 1024;
+#define MCStringBlock LINE_MAX
+
 oninit(MCString)
 {
     if (init(MCObject)) {
         //nothing to init
-        obj->buff = malloc(block_size*sizeof(char));
+        obj->buff = malloc(MCStringBlock * sizeof(char));
         return obj;
     }else{
         return null;
@@ -149,14 +145,14 @@ oninit(MCString)
 
 method(MCString, void, bye, voida)
 {
-    debug_log("MCString bye");    
+    //debug_log("MCString bye");
     free(obj->buff);
 }
 
 method(MCString, MCString*, initWithCString, const char* str)
 {
     size_t len = strlen(str);
-    if (len >= block_size) {
+    if (len >= MCStringBlock) {
         free(obj->buff);
         obj->buff = malloc(len*sizeof(char));
     }
@@ -169,23 +165,22 @@ method(MCString, MCString*, initWithCString, const char* str)
 
 MCString* MCString_newWithCString(const char* cstr)
 {
-	return ff(new(MCString), initWithCString, cstr);
+    return MCString_initWithCString(0, new(MCString), cstr);
 }
 
 MCString* MCString_newWithMCString(MCString* mcstr)
 {
-	return ff(new(MCString), initWithCString, mcstr->buff);
+    return MCString_initWithCString(0, new(MCString), mcstr->buff);
 }
 
 MCString* MCString_newForHttp(char* cstr, int isHttps)
 {
 	MCString* res;
 	if (isHttps)
-		res = ff(new(MCString), initWithCString, "https://");
+        res = MCString_newWithCString("https://");
 	else
-		res = ff(new(MCString), initWithCString, "http://");
-
-	ff(res, add, cstr);
+		res = MCString_newWithCString("http://");
+    MCString_add(0, res, cstr);
 	return res;
 }
 
@@ -209,13 +204,13 @@ static void get_chars_until_enter(char resultString[])
 
 method(MCString, void, add, char* str)
 {
-    if (block_size-obj->size < strlen(str)+1) {
-        char* newbuff = malloc(sizeof(char) * (obj->size + block_size));
+    if (MCStringBlock-obj->size < strlen(str)+1) {
+        char* newbuff = malloc(sizeof(char) * (obj->size + MCStringBlock));
         strncpy(newbuff, obj->buff, obj->size-1);
         newbuff[obj->size-1]='\0';
         free(obj->buff);
         obj->buff = newbuff;
-        obj->size = obj->size + block_size;
+        obj->size = obj->size + MCStringBlock;
     }
     strncat(obj->buff, str, strlen(str));
 }

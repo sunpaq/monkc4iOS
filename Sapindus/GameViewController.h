@@ -20,7 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *rotatePan;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
-@property NSString* filename;
+@property (strong, atomic) NSString* filename;
 
 @end
 

@@ -65,7 +65,7 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width,
     MCGLRenderer_initWithShaderCodeString(0, var(renderer), vsource, fsource);
     var(skyboxRef) = null;
     var(skyboxShow) = false;
-    debug_log("MC3DScene - init end");
+    debug_log("MC3DScene - init end\n");
     return obj;
 }
 
@@ -91,7 +91,7 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, uns
 
 method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height)
 {
-    debug_log("MC3DScene initWithWidthHeightDefaultShader %dx%d %s", width, height, "MCGLRenderer");
+    debug_log("MC3DScene initWithWidthHeightDefaultShader %dx%d %s\n", width, height, "MCGLRenderer");
 	return MC3DScene_initWithWidthHeightVNameFName(0, obj, width, height, "MCGLRenderer", "MCGLRenderer");
 }
 

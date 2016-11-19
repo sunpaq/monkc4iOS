@@ -133,14 +133,18 @@
     onSetupGL(width, height);
     
     //Core Motion
-    [self startDeviceMotion];
+    if([[NSUserDefaults standardUserDefaults] valueForKey:@"SkyboxOn"]) {
+        [self startDeviceMotion];
+    }
 }
 
 - (void)tearDownGL
 {
     //Core Motion
-    [self stopDeviceMotion];
-    
+    if([self.motionManager isDeviceMotionActive]) {
+        [self stopDeviceMotion];
+    }
+
     [EAGLContext setCurrentContext:self.context];
     
     //clean monkc
