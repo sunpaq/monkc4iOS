@@ -25,3 +25,8 @@ xcuserdata
 *.xccheckout
 *.moved-aside
 *.xcuserstate
+*.out
+*.so
+*.a
+*.o
+*.o.d
