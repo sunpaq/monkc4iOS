@@ -27,10 +27,10 @@
 struct _MCGraphEdge;
 
 typedef struct _MCGraphVertex {
-    int index;
-    int*   neighborsIndex;
+    struct _MCGraphVertex* next;
+    struct _MCGraphVertex* neighbors;
     size_t neighborsCount;
-    MCGeneric value;
+    int index;
 } MCGraphVertex;
 
 typedef struct _MCGraphEdge {
@@ -39,19 +39,6 @@ typedef struct _MCGraphEdge {
     MCGraphVertex B;
 } MCGraphEdge;
 
-MCInline MCGraphVertex* MCGraphVertexInit(MCGraphVertex* vertex, int index, size_t neighborsCount, MCGeneric value) {
-    vertex->index = index;
-    vertex->value = value;
-    vertex->neighborsIndex = (int*)malloc(sizeof(int) * neighborsCount);
-    return vertex;
-}
-
-MCInline void MCGraphVertexRelease(MCGraphVertex* vertex) {
-    if (vertex->neighborsIndex) {
-        free(vertex->neighborsIndex);
-    }
-}
-
 class(MCGraph, MCObject,
       size_t vertexCount;
       size_t edgeCount;
@@ -59,7 +46,6 @@ class(MCGraph, MCObject,
       MCGraphEdge*   edgeSet);
 
 method(MCGraph, void, bye, voida);
-method(MCGraph, MCGraph*, initWithCounts, size_t vcount, size_t ecount);
 method(MCGraph, MCBool, isAdjacent, MCGraphVertex x, MCGraphVertex y);
 method(MCGraph, MCArray*, copyNeighborsOf, MCGraphVertex x);
 method(MCGraph, MCGraph*, addVertex, MCGraphVertex x);

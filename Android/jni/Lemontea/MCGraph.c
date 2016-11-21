@@ -47,26 +47,14 @@ method(MCGraph, void, bye, voida)
     }
 }
 
-method(MCGraph, MCGraph*, initWithCounts, size_t vcount, size_t ecount)
-{
-    var(vertexCount) = vcount;
-    var(edgeCount) = ecount;
-    
-    var(vertexSet) = (MCGraphVertex*)malloc(sizeof(MCGraphVertex) * vcount);
-    var(edgeSet)   = (MCGraphEdge*)malloc(sizeof(MCGraphEdge) * ecount);
-    
-    for (int i=0; i<var(vertexCount); i++) {
-        MCGraphVertexInit(&var(vertexSet)[i], i, vcount, MCGenericSz(vcount)) ;
-    }
-    
-    return obj;
-}
-
 method(MCGraph, MCBool, isAdjacent, MCGraphVertex x, MCGraphVertex y)
 {
-    for (size_t i=0; i<x.neighborsCount; i++) {
-        if(x.neighborsIndex[i] == y.index)
+    MCGraphVertex* iter = x.neighbors;
+    while (iter) {
+        if (iter->index == y.index) {
             return true;
+        }
+        iter = iter->next;
     }
     return false;
 }
@@ -74,15 +62,18 @@ method(MCGraph, MCBool, isAdjacent, MCGraphVertex x, MCGraphVertex y)
 method(MCGraph, MCArray*, copyNeighborsOf, MCGraphVertex x)
 {
     MCArray* array = new(MCArray);
-    for (int i=0; i<x.neighborsCount; i++) {
-        MCArray_addItem(0, array, MCGenericI(x.neighborsIndex[i]));
+    MCGraphVertex* iter = x.neighbors;
+    while (iter) {
+        MCArray_addItem(0, array, MCGenericI(iter->index));
+        iter = iter->next;
     }
     return array;
 }
 
 method(MCGraph, MCGraph*, addVertex, MCGraphVertex x)
 {
-    
+    MCGraphVertex* v = (MCGraphVertex*)malloc(sizeof(MCGraphVertex));
+    v->index = x.index;
     return obj;
 }
 
@@ -105,7 +96,6 @@ onload(MCGraph)
 {
     if (load(MCObject)) {
         binding(MCGraph, void, bye, voida);
-        binding(MCGraph, MCGraph*, initWithCounts, size_t vcount, size_t ecount);
         binding(MCGraph, MCBool, isAdjacent, MCGraphVertex x, MCGraphVertex y);
         binding(MCGraph, MCArray*, copyNeighborsOf, MCGraphVertex x);
         binding(MCGraph, MCGraph*, addVertex, MCGraphVertex x);
