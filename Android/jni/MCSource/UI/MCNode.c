@@ -60,7 +60,7 @@ method(MCNode, MCNode*, addChild, MCNode* child)
 {
     retain(child);
     child->parent = obj;
-    MCArray_addItem(0, var(children), child);
+    MCArray_addItem(0, var(children), MCGenericO(cast(MCObject*, child)));
     return child;
 }
 
@@ -94,7 +94,7 @@ method(MCNode, void, draw, voida)
     int i;
     for(i=0; i<var(children)->count; i++)
     {
-        MCNode* child = MCArray_getItemByIndex(0, var(children), i);
+        MCNode* child = (MCNode*)MCArray_getItemByIndex(0, var(children), i)->mcobject;
         if(child)
             MCNode_draw(0, child, 0);
     }
