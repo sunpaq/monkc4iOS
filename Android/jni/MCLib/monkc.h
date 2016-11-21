@@ -149,6 +149,23 @@ typedef union {
     MCBool      mcbool;
 } MCGeneric;
 
+MCInline MCGeneric MCGenericF(double value)            { return (MCGeneric){.mcfloat=value}; }
+MCInline MCGeneric MCGenericSz(MCSizeT value)          { return (MCGeneric){.mcsizet=value}; }
+MCInline MCGeneric MCGenericUll(MCULongLong value)     { return (MCGeneric){.mculonglong=value}; }
+MCInline MCGeneric MCGenericLl(MCLongLong value)       { return (MCGeneric){.mclonglong=value}; }
+MCInline MCGeneric MCGenericUl(MCULong value)          { return (MCGeneric){.mculong=value}; }
+MCInline MCGeneric MCGenericL(MCLong value)            { return (MCGeneric){.mclong=value}; }
+
+MCInline MCGeneric MCGenericO(struct _MCObject* value) { return (MCGeneric){.mcobject=value}; }
+MCInline MCGeneric MCGenericVp(MCVoidPtr value)        { return (MCGeneric){.mcvoidptr=value}; }
+MCInline MCGeneric MCGenericFp(MCVoidPtr value)        { return (MCGeneric){.mcfuncptr=value}; }
+
+MCInline MCGeneric MCGenericUi(MCUInt value)           { return (MCGeneric){.mcuint=value}; }
+MCInline MCGeneric MCGenericI(MCInt value)             { return (MCGeneric){.mcint=value}; }
+MCInline MCGeneric MCGenericH(MCHash value)            { return (MCGeneric){.mchash=value}; }
+
+MCInline MCGeneric MCGenericB(MCBool value)            { return (MCGeneric){.mcbool=value}; }
+
 MCInline int MCGenericCompare(MCGeneric A, MCGeneric B) {
     if (A.mcfloat > B.mcfloat) {
         return 1;
