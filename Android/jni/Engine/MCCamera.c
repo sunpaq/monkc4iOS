@@ -13,7 +13,7 @@ oninit(MCCamera)
         var(focal_length) = MCLensStandard50mm;//MCLensWide24mm;
         var(view_angle) = MCLensStandard50mmViewAngle;
         var(max_distance) = 10000;//100 metres
-        var(lookat) = MCVector3Make(0,8,0);
+        var(lookat) = MCVector3Make(0,0,0);
         
         //local spherical coordinate
         var(R_value) = 100;

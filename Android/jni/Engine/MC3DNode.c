@@ -100,18 +100,7 @@ method(MC3DNode, void, update, MCGLContext* ctx)
     MCMatrix3 nor = MCMatrix3InvertAndTranspose(MCMatrix4GetMatrix3(var(transform)), NULL);
     f.data.mat3 = nor;
     MCGLContext_updateUniform(0, ctx, "model.normal", f.data);
-
-    //texture
-//    if (obj->texture != null) {
-//        MCTexture_prepareTexture(0, obj->texture, ctx);
-//    }
-    //update self mesh
-//    for (int i=0; i<MC3DNodeMaxMeshNum-1; i++) {
-//        MCMesh* mesh = obj->meshes[i];
-//        if (mesh != null) {
-//            MCMesh_prepareMesh(0, mesh, ctx);
-//        }
-//    }
+    
     //update children
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
@@ -125,6 +114,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
 {
     //material
     if (obj->material != null) {
+        obj->material->dataChanged = true;
         MCMatrial_prepareMatrial(0, obj->material, ctx);
     }
     
@@ -153,7 +143,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
                             //ff(node, draw, ctx);
                         })
     
-    //ff(ctx, printUniforms, 0);
+    ff(ctx, printUniforms, 0);
 }
 
 method(MC3DNode, void, hide, voida)

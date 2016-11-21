@@ -136,14 +136,13 @@ void onOpenFile(const char* filename)
 #ifdef __ANDROID__
         //openFile(filename);
         
-        //director->lastScene->mainCamera->lookat.y = 0.0f;
-        //director->lastScene->mainCamera->R_value = 15.0f;
-        
         ff(director->lastScene->rootnode, addChild, new(MCCube));
         debug_log("Android opening a MCCube\n");
 #else
         //openFile(filename);
         openFileAsync(filename);
+        //ff(director->lastScene->rootnode, addChild, new(MCCube));
+
 #endif
         ff(director, printDebugInfo, 0);
     }
@@ -165,11 +164,11 @@ void onSetupGL(int windowWidth, int windowHeight)
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader,
                                   director->currentWidth, director->currentHeight);
         debug_log("onSetupGL main scene created current screen size: %dx%d\n", windowWidth, windowHeight);
-
-        if (cubtex != null) {
+        
+        mainScene->skyboxShow = getSkyboxOn();
+        if (cubtex != null && mainScene->skyboxShow) {
             MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
             mainScene->skyboxRef = skybox;
-            mainScene->skyboxShow = getSkyboxOn();
         }
 
         mainScene->mainCamera->R_value = 20;

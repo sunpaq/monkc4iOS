@@ -140,7 +140,7 @@ utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const c
     
     // Link program.
     if (MCGLEngine_linkProgram(Id) == 0) {
-        printf("Failed to link program: %d", Id);
+        error_log("Failed to link program: %d", Id);
         
         if (vertShader) {
             glDeleteShader(vertShader);

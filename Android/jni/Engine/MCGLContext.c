@@ -11,30 +11,11 @@
 #include "MCGLEngine.h"
 #include "BEAssetsManager.h"
 
-//uniform mat4  modelMatrix;
-//uniform mat4  viewMatrix;
-//uniform mat4  projectionMatrix;
-//uniform vec3  viewPosition;
-//
-//uniform mat3  normalMatrix;
-//
-//uniform float ambientLightStrength;
-//uniform vec3  ambientLightColor;
-//
-//uniform vec3  diffuseLightPosition;
-//uniform vec3  diffuseLightColor;
-//
-//uniform int   specularLightPower;
-//uniform float specularLightStrength;
-//uniform vec3  specularLightPosition;
-//uniform vec3  specularLightColor;
-
 oninit(MCGLContext)
 {
     if (init(MCObject)) {
         var(pid) = glCreateProgram();
         var(uniformCount) = 0;
-        //memset(obj->vertexAttributeNames, (int)null, sizeof(obj->vertexAttributeNames));
         return obj;
     }else{
         return null;
@@ -57,7 +38,6 @@ method(MCGLContext, MCGLContext*, initWithShaderCode, const char* vcode, const c
     
     //attribute
     for (int i=0; i<acount; i++) {
-        //obj->vertexAttributeNames[i] = attribs[i];
         glBindAttribLocation(obj->pid, i, attribs[i]);
     }
     
@@ -194,10 +174,6 @@ method(MCGLContext, int, getUniformVector, const char* name, GLfloat* params)
     return loc;
 }
 
-//uniform float specularLightPower;
-//uniform float specularLightStrength;
-//uniform vec3  specularLightPosition;
-//uniform vec3  specularLightColor;
 method(MCGLContext, void, printUniforms, voida)
 {
     MCLogTypeSet(MC_DEBUG);
