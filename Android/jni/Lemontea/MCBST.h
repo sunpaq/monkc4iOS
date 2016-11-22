@@ -9,13 +9,22 @@
 #ifndef MCBST_h
 #define MCBST_h
 
-//BST: Binary Search Tree
+/*
+ BST: Binary Search Tree
+ 
+ AVL:
+ for all the nodes
+ when balanceFactor = {-1 | 0 | 1}
+ tree is balanced
+ */
+
 #include "monkc.h"
 
 typedef struct _BSTNode {
-    MCGeneric value;
     struct _BSTNode* left;
     struct _BSTNode* right;
+    int balanceFactor;
+    MCGeneric value;
 } BSTNode;
 
 class(MCBST, MCObject,
