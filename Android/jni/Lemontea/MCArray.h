@@ -18,5 +18,6 @@ method(MCArray, MCArray*, removeItem, MCGeneric* item);
 method(MCArray, MCArray*, removeItemByIndex, size_t index);
 method(MCArray, MCArray*, clear, voida);
 method(MCArray, MCGeneric*, getItemByIndex, size_t index);
+method(MCArray, void, printAll, const char* delimiter);
 
 #endif /* MCARRAY_H_ */

@@ -150,6 +150,11 @@ static void testsort()
     }
     
     ff(hp, printAll, 0);
+    
+    MCArray* ha = MCHeap_copySortAscend(0, hp, 0);
+    ff(ha, printAll, "/");
+    
+    
     release(hp);
     
     exit(-1);

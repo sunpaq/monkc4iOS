@@ -14,7 +14,9 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
+#include "MCArray.h"
 
+//min heap
 class(MCHeap, MCObject,
       computing(size_t, height);
       computing(size_t, width);
@@ -25,8 +27,10 @@ class(MCHeap, MCObject,
 );
 
 method(MCHeap, void, bye, voida);
+method(MCHeap, MCHeap*, initWithCopy, MCHeap* ref);
 method(MCHeap, MCHeap*, initWithMaxcount, size_t maxcount);
 method(MCHeap, size_t, insertValue, MCGeneric newval);
+method(MCHeap, MCArray*, copySortAscend, voida);
 method(MCHeap, void, printAll, voida);
 
 #endif /* MCHeap_h */

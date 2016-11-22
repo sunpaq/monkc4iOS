@@ -70,18 +70,6 @@ method(MCGraph, MCArray*, copyNeighborsOf, MCGraphVertex x)
     return array;
 }
 
-method(MCGraph, MCGraph*, addVertex, MCGraphVertex x)
-{
-    MCGraphVertex* v = (MCGraphVertex*)malloc(sizeof(MCGraphVertex));
-    v->index = x.index;
-    return obj;
-}
-
-method(MCGraph, MCGraph*, removeVertex, MCGraphVertex x)
-{
-    return obj;
-}
-
 method(MCGraph, MCGraph*, addEdge, MCGraphEdge e)
 {
     return obj;
@@ -98,8 +86,6 @@ onload(MCGraph)
         binding(MCGraph, void, bye, voida);
         binding(MCGraph, MCBool, isAdjacent, MCGraphVertex x, MCGraphVertex y);
         binding(MCGraph, MCArray*, copyNeighborsOf, MCGraphVertex x);
-        binding(MCGraph, MCGraph*, addVertex, MCGraphVertex x);
-        binding(MCGraph, MCGraph*, removeVertex, MCGraphVertex x);
         binding(MCGraph, MCGraph*, addEdge, MCGraphEdge e);
         binding(MCGraph, MCGraph*, removeEdge, MCGraphEdge e);
         return cla;

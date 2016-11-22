@@ -42,38 +42,64 @@ static void shiftup(MCHeap* heap, size_t index)
     }
 }
 
-static void printNode(MCHeap* heap, size_t index)
+static void shiftdown(MCHeap* heap, size_t index)
 {
-    int indent = (int)(heap->maxheight-(size_t)log2(index));
-    if (index == 1) {
-        printf("%*s%lf\n", (int)heap->maxheight, "", (float)heap->values[1].mcfloat);
-    }
-
-    size_t l = leftChildIndex(index);
-    size_t r = rightChildIndex(index);
-    
-    if (l <= heap->count && r <= heap->count) {
-        if (indent < 0) {
-            indent = 0;
+    size_t i = index, l, r;
+    while (1) {
+        l = leftChildIndex(i);
+        r = rightChildIndex(i);
+        if (MCGenericCompare(heap->values[i], heap->values[l]) > 0) {
+            swapNode(heap, i, l);
+            i = l;
         }
-        printf("%*s%lf", indent, "", (float)heap->values[l].mcfloat);
-        printf("%*s%lf", indent+1, "", (float)heap->values[r].mcfloat);
-
-        size_t H = computed(heap, height) - 1;
-        
-        if (r == exp2(H) - 1) {
-            //edge
-            printf("\n");
+        else if (MCGenericCompare(heap->values[i], heap->values[r]) > 0) {
+            swapNode(heap, i, r);
+            i = r;
+        }else{
+            break;
         }
-        
-        printNode(heap, l);
-        printNode(heap, r);
     }
-    
-
-    
-    //printf("%*s%d %d\n", indent, "", heap->values[L], heap->values[R]);
 }
+
+static MCGeneric deleteRoot(MCHeap* heap)
+{
+    MCGeneric root = heap->values[1];
+    heap->values[1] = heap->values[heap->count];
+    heap->count--;
+    shiftdown(heap, 1);
+    return root;
+}
+
+//static void printNode(MCHeap* heap, size_t index)
+//{
+//    int indent = (int)(heap->maxheight-(size_t)log2(index));
+//    if (index == 1) {
+//        printf("%*s%lf\n", (int)heap->maxheight, "", (float)heap->values[1].mcfloat);
+//    }
+//
+//    size_t l = leftChildIndex(index);
+//    size_t r = rightChildIndex(index);
+//    
+//    if (l <= heap->count && r <= heap->count) {
+//        if (indent < 0) {
+//            indent = 0;
+//        }
+//        printf("%*s%lf", indent, "", (float)heap->values[l].mcfloat);
+//        printf("%*s%lf", indent+1, "", (float)heap->values[r].mcfloat);
+//
+//        size_t H = computed(heap, height) - 1;
+//        
+//        if (r == exp2(H) - 1) {
+//            //edge
+//            printf("\n");
+//        }
+//        
+//        printNode(heap, l);
+//        printNode(heap, r);
+//    }
+//    
+//    //printf("%*s%d %d\n", indent, "", heap->values[L], heap->values[R]);
+//}
 
 compute(size_t, height)
 {
@@ -97,6 +123,7 @@ oninit(MCHeap)
 {
     if (init(MCObject)) {
         var(count) = 0;
+        var(values) = null;
         var(height) = height;
         var(width) = width;
         return obj;
@@ -110,6 +137,14 @@ method(MCHeap, void, bye, voida)
     if (obj->values) {
         free(obj->values);
     }
+}
+
+method(MCHeap, MCHeap*, initWithCopy, MCHeap* ref)
+{
+    MCHeap_initWithMaxcount(0, obj, ref->maxcount);
+    memcpy(obj->values, ref->values, sizeof(MCGeneric) * ref->maxcount);
+    obj->count = ref->count;
+    return obj;
 }
 
 method(MCHeap, MCHeap*, initWithMaxcount, size_t maxcount)
@@ -129,6 +164,17 @@ method(MCHeap, size_t, insertValue, MCGeneric newval)
     return 0;
 }
 
+method(MCHeap, MCArray*, copySortAscend, voida)
+{
+    MCHeap* hcopy = MCHeap_initWithCopy(0, new(MCHeap), obj);
+    MCArray* array = MCArray_initWithMaxCount(0, new(MCArray), obj->maxcount);
+    while (hcopy->count > 0) {
+        MCArray_addItem(0, array, deleteRoot(hcopy));
+    }
+    release(hcopy);
+    return array;
+}
+
 method(MCHeap, void, printAll, voida)
 {
     for (int i=1; i<obj->count; i++) {
@@ -143,8 +189,10 @@ onload(MCHeap)
 {
     if (load(MCObject)) {
         binding(MCHeap, void, bye, voida);
+        binding(MCHeap, MCHeap*, initWithCopy, MCHeap* ref);
         binding(MCHeap, MCHeap*, initWithMaxcount, size_t maxcount);
         binding(MCHeap, size_t, insertValue, int newval);
+        binding(MCHeap, MCArray*, copySortAscend, voida);
         binding(MCHeap, void, printAll, voida);
         return cla;
     } else {

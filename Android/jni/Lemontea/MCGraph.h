@@ -48,8 +48,6 @@ class(MCGraph, MCObject,
 method(MCGraph, void, bye, voida);
 method(MCGraph, MCBool, isAdjacent, MCGraphVertex x, MCGraphVertex y);
 method(MCGraph, MCArray*, copyNeighborsOf, MCGraphVertex x);
-method(MCGraph, MCGraph*, addVertex, MCGraphVertex x);
-method(MCGraph, MCGraph*, removeVertex, MCGraphVertex x);
 method(MCGraph, MCGraph*, addEdge, MCGraphEdge e);
 method(MCGraph, MCGraph*, removeEdge, MCGraphEdge e);
 

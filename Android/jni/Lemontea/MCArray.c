@@ -112,6 +112,14 @@ method(MCArray, MCGeneric*, getItemByIndex, size_t index)
 	return &obj->buff[index];
 }
 
+method(MCArray, void, printAll, const char* delimiter)
+{
+    for (int i=0; i<obj->count; i++) {
+        printf("%.2f%s", obj->buff[i].mcfloat, delimiter);
+    }
+    printf("\n");
+}
+
 onload(MCArray)
 {
     if (load(MCObject)) {
@@ -124,6 +132,7 @@ onload(MCArray)
         binding(MCArray, MCArray*, removeItemByIndex, size_t index);
         binding(MCArray, MCArray*, clear, voida);
         binding(MCArray, MCGeneric*, getItemByIndex, size_t index);
+        binding(MCArray, void, printAll, const char* delimiter);
         return cla;
     }else{
         return null;
