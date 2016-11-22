@@ -4,3 +4,7 @@ _build/
 .classpath
 .project
 .settings
+.o
+.so
+.a
+.out

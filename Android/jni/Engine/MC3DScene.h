@@ -52,5 +52,6 @@ method(MC3DScene, void, lockCamera, MCBool lock);
 method(MC3DScene, MCCamera*, getCamera, voida);
 method(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht);
 method(MC3DScene, void, moveSkyboxCamera, MCFloat deltaFai, MCFloat deltaTht);
+method(MC3DScene, void, printDebugInfo, voida);
 
 #endif /* MC3DScene_h */

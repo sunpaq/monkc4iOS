@@ -110,6 +110,9 @@ typedef union {
     uint64_t i;
 } MCFloat;
 
+MCInline MCFloat MCFloatF(double value)   { return (MCFloat){.f=value}; }
+MCInline MCFloat MCFloatI(uint64_t value) { return (MCFloat){.i=value}; }
+
 typedef uint32_t     MCHash;
 #define MCHashMax    UINT32_MAX
 #define MCHashMask   0x7fffffff
@@ -399,11 +402,12 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define hnfo(cls, hash)                 mc_info_h(S(cls), sizeof(cls), cls##_load, hash)
 
 //for call method
-#define response_to(obj, met) 			_response_to((MCObject*)obj, S(met), 2)
-#define hesponse_to(obj, met, hash) 	_response_to_h((MCObject*)obj, S(met), hash, 2)
-#define _ff(obj, met, ...)              _push_jump(_response_to((MCObject*)obj, met, MC_STRICT_MODE), __VA_ARGS__)//call by string
-#define ff(obj, met, ...)				_push_jump(_response_to((MCObject*)obj, S(met), MC_STRICT_MODE), __VA_ARGS__)//send message
-#define fh(obj, met, hash, ...)			_push_jump(_response_to_h((MCObject*)obj, S(met), hash, MC_STRICT_MODE), __VA_ARGS__)
+#define response_test(obj, met) 	    _response_test((MCObject*)obj, S(met))
+#define response_to(obj, met) 			_response_to((MCObject*)obj, S(met))
+#define hesponse_to(obj, met, hash) 	_response_to_h((MCObject*)obj, S(met), hash)
+#define _ff(obj, met, ...)              _push_jump(_response_to((MCObject*)obj, met), __VA_ARGS__)//call by string
+#define ff(obj, met, ...)				_push_jump(_response_to((MCObject*)obj, S(met)), __VA_ARGS__)//send message
+#define fh(obj, met, hash, ...)			_push_jump(_response_to_h((MCObject*)obj, S(met), hash), __VA_ARGS__)
 #define fs(obj, met, ...)				_push_jump(_self_response_to((MCObject*)obj, S(met)), __VA_ARGS__)
 
 //lock
@@ -518,10 +522,11 @@ MCInline mc_message make_msg(void* obj, void* addr) { return (mc_message){(MCFun
 void* _push_jump(mc_message volatile msg, ...);
 
 //write by c
+MCBool _response_test(MCObject* obj, const char* methodname);
 mc_message _self_response_to(MCObject* obj, const char* methodname);
 mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash hashval);
-mc_message _response_to(MCObject* obj, const char* methodname, MCInt strict);
-mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval, MCInt strict);
+mc_message _response_to(MCObject* obj, const char* methodname);
+mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval);
 
 /*
  ObjectManage.h

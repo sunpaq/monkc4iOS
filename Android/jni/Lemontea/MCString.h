@@ -23,7 +23,7 @@ method(MCString, char, getOneChar, voida);
 method(MCString, void, print, voida);
 method(MCString, void, bye, voida);
 method(MCString, MCBool, startWith, const char* str);
-method(MCString, double, getFloat, char** endptr);
+method(MCString, double, toDoubleValue, char** endptr);
 
 MCString* MCString_newWithCString(const char* cstr);
 MCString* MCString_newWithMCString(MCString* mcstr);

@@ -45,6 +45,12 @@ oninit(MC3DScene)
     }
 }
 
+method(MC3DScene, void, printDebugInfo, voida)
+{
+    debug_log("MC3DScene: skyboxShow=%d\n", obj->skyboxShow);
+    ff(obj->light, printDebugInfo, 0);
+}
+
 method(MC3DScene, void, bye, voida)
 {
     release(var(renderer));
@@ -112,7 +118,7 @@ method(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
 //        if (var(skyboxRef) != null) {
 //            MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.d / 5, deltaTht.d / 5);
 //        }
-        MCCamera_move(0, var(mainCamera), deltaFai.f, deltaTht.f);
+        MCCamera_move(0, var(mainCamera), deltaFai, deltaTht);
     }
 }
 
@@ -166,6 +172,7 @@ onload(MC3DScene)
         binding(MC3DScene, MCCamera*, getCamera, voida);
         binding(MC3DScene, void, moveCameraOneStep, double deltaFai, double deltaTht);
         binding(MC3DScene, void, moveSkyboxCamera, MCDouble deltaFai, MCDouble deltaTht);
+        binding(MC3DScene, void, printDebugInfo, voida);
 
         return cla;
     }else{

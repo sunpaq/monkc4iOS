@@ -44,9 +44,8 @@ void onRootViewLoad(void* rootview)
 void onOpenExternalFile(const char* filepath)
 {
     MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filepath, (MCColorf){1.0, 1.0, 1.0, 1.0});
-
     ff(director->lastScene->rootnode, setAllVisible, false);
-    ff(director->lastScene->rootnode, addChild, model);
+    ff(director, addModel, model);
 }
 
 //static void asyncReadSkybox()
@@ -73,10 +72,10 @@ void openFile(const char* filename)
         //MCThread_joinThread(director->skyboxThread->tid);
 
         //assemble
-        director->lastScene->mainCamera->lookat.y = mheight / 2.0f;
-        director->lastScene->mainCamera->R_value = max * 2.0f;
+        computed(director, cameraHandler)->lookat.y = mheight / 2.0f;
+        computed(director, cameraHandler)->R_value = max * 2.0f;
         
-        ff(director->lastScene->rootnode, addChild, model);
+        ff(director, addModel, model);
 
     } else {
         error_log("Can not create MC3DModel:%s\n", filename);
@@ -137,18 +136,15 @@ void onOpenFile(const char* filename)
 #ifdef __ANDROID__
         //openFile(filename);
         
-        director->lastScene->mainCamera->lookat.y = 0.0f;
-        director->lastScene->mainCamera->R_value = 15.0f;
-        
         ff(director->lastScene->rootnode, addChild, new(MCCube));
-        
+        debug_log("Android opening a MCCube\n");
 #else
         //openFile(filename);
         openFileAsync(filename);
         //ff(director->lastScene->rootnode, addChild, new(MCCube));
+
 #endif
-        
-        //ff(director->lastScene->rootnode, setAllVisible, true);
+        ff(director, printDebugInfo, 0);
     }
 }
 
@@ -168,11 +164,11 @@ void onSetupGL(int windowWidth, int windowHeight)
         MC3DScene* mainScene = ff(new(MC3DScene), initWithWidthHeightDefaultShader,
                                   director->currentWidth, director->currentHeight);
         debug_log("onSetupGL main scene created current screen size: %dx%d\n", windowWidth, windowHeight);
-
-        if (cubtex != null) {
+        
+        mainScene->skyboxShow = getSkyboxOn();
+        if (cubtex != null && mainScene->skyboxShow) {
             MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
             mainScene->skyboxRef = skybox;
-            mainScene->skyboxShow = getSkyboxOn();
         }
 
         mainScene->mainCamera->R_value = 20;
@@ -242,12 +238,12 @@ void onGesturePan(double x, double y)
         double sign = camera->isReverseMovement == true? -1.0f : 1.0f;
         if (camera->isLockRotation == true) {
             double factor = 0.01;
-            MCCamera_fucus(0, camera, x*sign*factor, y*sign*factor);
+            MCCamera_fucus(0, camera, MCFloatF(x*sign*factor), MCFloatF(y*sign*factor));
         }else{
-            MCCamera_move(0, camera, x*sign, y*sign);
+            MCCamera_move(0, camera, MCFloatF(x*sign), MCFloatF(y*sign));
             if (computed(director->lastScene, isDrawSky)) {
                 MCCamera* cam2 = superof(director->lastScene->skyboxRef->camera);
-                MCCamera_move(0, cam2, x*sign / 5, y*sign / 5);
+                MCCamera_move(0, cam2, MCFloatF(x*sign / 5), MCFloatF(y*sign / 5));
             }
         }
     }
@@ -261,7 +257,7 @@ void onGesturePinch(double scale)
 
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != null && director->lastScene != null && camera != null) {
-        MCCamera_distanceScale(0, camera, 1.0/pinch_scale);
+        MCCamera_distanceScale(0, camera, MCFloatF(1.0/pinch_scale));
     }
 }
 
@@ -288,7 +284,7 @@ void onStartStopBtn(int startOrStop)
 void cameraCommand(MC3DiOS_CameraCmd* cmd)
 {
     if (director != null && director->lastScene != null) {
-        MCCamera* camera = director->lastScene->mainCamera;
+        MCCamera* camera = computed(director, cameraHandler);
         MCCamera* cam2 = null;
         if (computed(director->lastScene, isDrawSky)) {
             MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;

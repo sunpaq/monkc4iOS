@@ -28,7 +28,7 @@ oninit(MCMatrial)
 
 method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
 {
-    //if (obj->dataChanged == true) {
+    if (obj->dataChanged == true) {
         MCGLContext_activateShaderProgram(0, ctx, 0);
         
         MCGLUniform f;
@@ -53,7 +53,7 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
         MCGLContext_updateUniform(0, ctx, "material.dissolve", f.data);
 
         obj->dataChanged = false;
-    //}
+    }
 }
 
 onload(MCMatrial)
