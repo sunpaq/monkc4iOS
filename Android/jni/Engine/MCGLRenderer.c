@@ -135,7 +135,7 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 {
     //update nodes
     if (rootnode != null) {
-        fh(rootnode, update, _update, obj->context);
+        ffhash(rootnode, update, _update, obj->context);
     }
     
     //update model view projection matrix
@@ -145,7 +145,7 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
     if (rootnode != null) {
-        fh(rootnode, draw, _draw, obj->context);
+        ffhash(rootnode, draw, _draw, obj->context);
     }
     
     glFlush();

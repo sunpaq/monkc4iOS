@@ -395,20 +395,19 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 
 //for create object
 #define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)
-#define hew(cls, hash)					(cls*)_new(mc_alloc_h(S(cls), sizeof(cls), cls##_load, hash), cls##_setsuper, cls##_init)
+#define new_hash(cls, hash)				(cls*)_new(mc_alloc_h(S(cls), sizeof(cls), cls##_load, hash), cls##_setsuper, cls##_init)
 #define clear(cls)  					mc_clear(S(cls), sizeof(cls), cls##_load)
-#define hlear(cls, hash)  				mc_clear_h(S(cls), sizeof(cls), cls##_load, hash)
+#define clear_hash(cls, hash)  			mc_clear_h(S(cls), sizeof(cls), cls##_load, hash)
 #define info(cls)                  		mc_info(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load)
-#define hnfo(cls, hash)                 mc_info_h(S(cls), sizeof(cls), cls##_load, hash)
+#define info_hash(cls, hash)            mc_info_h(S(cls), sizeof(cls), cls##_load, hash)
 
 //for call method
-#define response_test(obj, met) 	    _response_test((MCObject*)obj, S(met))
-#define response_to(obj, met) 			_response_to((MCObject*)obj, S(met))
-#define hesponse_to(obj, met, hash) 	_response_to_h((MCObject*)obj, S(met), hash)
-#define _ff(obj, met, ...)              _push_jump(_response_to((MCObject*)obj, met), __VA_ARGS__)//call by string
-#define ff(obj, met, ...)				_push_jump(_response_to((MCObject*)obj, S(met)), __VA_ARGS__)//send message
-#define fh(obj, met, hash, ...)			_push_jump(_response_to_h((MCObject*)obj, S(met), hash), __VA_ARGS__)
-#define fs(obj, met, ...)				_push_jump(_self_response_to((MCObject*)obj, S(met)), __VA_ARGS__)
+#define response_test(obj, met) 	     _response_test((MCObject*)obj, S(met))
+#define response_to(obj, met) 			 _response_to((MCObject*)obj, S(met))
+#define response_to_hash(obj, met, hash) _response_to_h((MCObject*)obj, S(met), hash)
+#define ff(obj, met, ...)				 _push_jump(_response_to((MCObject*)obj, S(met)), __VA_ARGS__)//send message
+#define ffkey(obj, met, ...)             _push_jump(_response_to((MCObject*)obj, met), __VA_ARGS__)//call by string
+#define ffhash(obj, met, hash, ...)	     _push_jump(_response_to_h((MCObject*)obj, S(met), hash), __VA_ARGS__)
 
 //lock
 void trylock_global_classtable();

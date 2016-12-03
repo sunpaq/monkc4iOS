@@ -342,7 +342,7 @@ static int ref_count_down(MCObject* const this)
 void _recycle(MCObject* const this)
 {
 	if(ref_count_down(this) == 0){
-        fs(this, bye, 0);                             //call the "bye" method on object
+        ff(this, bye, 0);                        //call the "bye" method on object
         mc_dealloc(this, 1);                          //free memory
 	}
 }
@@ -350,7 +350,7 @@ void _recycle(MCObject* const this)
 void _release(MCObject* const this)
 {
     if(ref_count_down(this) == 0){
-        fs(this, bye, 0);
+        ff(this, bye, 0);
         mc_dealloc(this, 0);
 	}
 }
@@ -661,7 +661,7 @@ void empty(mc_blockpool* bpool)
 {
     mc_block* target;
     while((target=getFromHead(bpool)) != null){
-        fs((MCObject*)(target->data), bye, null);
+        ff((MCObject*)(target->data), bye, null);
         free(target->data);
         free(target);
     }
