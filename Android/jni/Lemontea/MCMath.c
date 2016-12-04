@@ -98,5 +98,10 @@ utility(MCMath, MCBool, isPowerOfTwo, unsigned a)
     return (MCBitsSetBitNum(a) == 1);
 }
 
+utility(MCMath, unsigned, chebyshevDiatance, MCVector2i A, MCVector2i B)
+{
+    return MAX(abs(B.x - A.x), abs(B.y - A.y));
+}
+
 
 

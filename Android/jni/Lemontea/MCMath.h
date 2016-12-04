@@ -38,19 +38,6 @@ MCInline MCBool MCSamelongdouble(long double A, long double B) {
     return false;
 }
 
-utility(MCMath, void, bye, voida);
-utility(MCMath, int, addInteger2, int a, int b);
-
-utility(MCMath, void, sortInt, int* sorted, size_t count);
-utility(MCMath, void, sortLong, long* sorted, size_t count);
-utility(MCMath, void, sortSizet, size_t* sorted, size_t count);
-
-utility(MCMath, int, accumulateMaxi, int* result, int value);
-utility(MCMath, int, accumulateMini, int* result, int value);
-
-utility(MCMath, double, accumulateMaxd, double* result, double value);
-utility(MCMath, double, accumulateMind, double* result, double value);
-
 typedef union {
     struct {
         float x;
@@ -58,6 +45,14 @@ typedef union {
     };
     float v[2];
 } MCVector2;
+
+typedef union {
+    struct {
+        int x;
+        int y;
+    };
+    int v[2];
+} MCVector2i;
 
 typedef union {
     struct {
@@ -282,5 +277,21 @@ MCInline MCMatrix4 MCMatrix4Multiply(MCMatrix4 l, MCMatrix4 r)
 utility(MCMath, MCBool, isPrime, int a);
 //Power of two
 utility(MCMath, MCBool, isPowerOfTwo, unsigned a);
+
+utility(MCMath, void, bye, voida);
+utility(MCMath, int, addInteger2, int a, int b);
+
+utility(MCMath, void, sortInt, int* sorted, size_t count);
+utility(MCMath, void, sortLong, long* sorted, size_t count);
+utility(MCMath, void, sortSizet, size_t* sorted, size_t count);
+
+utility(MCMath, int, accumulateMaxi, int* result, int value);
+utility(MCMath, int, accumulateMini, int* result, int value);
+
+utility(MCMath, double, accumulateMaxd, double* result, double value);
+utility(MCMath, double, accumulateMind, double* result, double value);
+
+//Chebyshev distance
+utility(MCMath, unsigned, chebyshevDiatance, MCVector2i A, MCVector2i B);
 
 #endif
