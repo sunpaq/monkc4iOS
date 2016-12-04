@@ -121,6 +121,7 @@
 		FD8784881CCE5F8C0071DAB4 /* top.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD8784821CCE5F8C0071DAB4 /* top.jpg */; };
 		FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */; };
 		FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */; };
+		FD91F74C1DF39E7700E28829 /* MCBits.c in Sources */ = {isa = PBXBuildFile; fileRef = FD91F74A1DF39E7700E28829 /* MCBits.c */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
 		FDABFFC81DC79EA400E8F4F0 /* SCI.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */; };
 		FDABFFC91DC79EA400E8F4F0 /* SCI.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC71DC79EA400E8F4F0 /* SCI.obj */; };
@@ -327,6 +328,8 @@
 		FD8784801CCE5F8C0071DAB4 /* left.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = left.jpg; path = skybox/left.jpg; sourceTree = "<group>"; };
 		FD8784811CCE5F8C0071DAB4 /* right.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = right.jpg; path = skybox/right.jpg; sourceTree = "<group>"; };
 		FD8784821CCE5F8C0071DAB4 /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = top.jpg; path = skybox/top.jpg; sourceTree = "<group>"; };
+		FD91F74A1DF39E7700E28829 /* MCBits.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCBits.c; sourceTree = "<group>"; };
+		FD91F74B1DF39E7700E28829 /* MCBits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBits.h; sourceTree = "<group>"; };
 		FDA3DCDD1C9056BC0044965D /* tex1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tex1.jpg; sourceTree = "<group>"; };
 		FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.mtl; sourceTree = "<group>"; };
 		FDABFFC71DC79EA400E8F4F0 /* SCI.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.obj; sourceTree = "<group>"; };
@@ -530,6 +533,8 @@
 				F8C465191DDD8523005581D0 /* MCHeap.h */,
 				F896E72F1DDEA0F5008212F1 /* MCGraph.c */,
 				F896E7301DDEA0F5008212F1 /* MCGraph.h */,
+				FD91F74A1DF39E7700E28829 /* MCBits.c */,
+				FD91F74B1DF39E7700E28829 /* MCBits.h */,
 			);
 			name = Lemontea;
 			path = Android/jni/Lemontea;
@@ -928,6 +933,7 @@
 				FD44CE5A1D326CF200784EDF /* gles3jni.c in Sources */,
 				FD44CE491D326CF200784EDF /* MC3DiOSDriver.m in Sources */,
 				FD44CE341D326CF200784EDF /* MCOrbit.c in Sources */,
+				FD91F74C1DF39E7700E28829 /* MCBits.c in Sources */,
 				FD44CE271D326CF200784EDF /* MC2DTex.c in Sources */,
 				FD44CE3F1D326CF200784EDF /* MCException.c in Sources */,
 			);

@@ -8,6 +8,39 @@
 
 #include "MCLinkedList.h"
 
+/*
+ Floyd Cycle Detection (Tortoise and Hare)
+ Ot(Nl+Nc) -> fast only go max one loop
+ Os(1)
+ */
+
+static int detectCycle(MCItem* A, MCItem** start) {
+    MCItem *slow = A, *fast = A;
+    int slowstep = 0, iscycle = 0;
+    while(slow && fast && fast->nextItem) {
+        slow = slow->nextItem;
+        fast = fast->nextItem->nextItem;
+        slowstep++;
+        if(slow == fast) {
+            iscycle = 1;
+            break;
+        }
+    }
+    if(iscycle == 0) {
+        start = NULL;
+        return 0;
+    }
+    
+    slow = A;
+    while(slow!=fast) {
+        slow = slow->nextItem;
+        fast = fast->nextItem;
+    }
+    
+    *start = slow;
+    return slowstep;
+}
+
 //MCItem
 
 oninit(MCItem)
@@ -64,6 +97,17 @@ compute(unsigned, getCount)
     }
 }
 
+compute(MCItem*, cycleStart)
+{
+    as(MCLinkedList);
+    MCItem* start;
+    detectCycle(obj->headItem, &start);
+    if (start) {
+        return start;
+    }
+    return null;
+}
+
 oninit(MCLinkedList)
 {
     if (init(MCObject)) {
@@ -73,6 +117,7 @@ oninit(MCLinkedList)
         var(countChanged) = true;
         var(countCache) = 0;
         var(count) = getCount;
+        var(cycle) = cycleStart;
         return obj;
     }else{
         return null;

@@ -17,6 +17,7 @@ oninit(MCSet)
     if (init(MCObject)) {
         var(values) = null;
         var(maxcount) = 0;
+        var(count) = 0;
         return obj;
     } else {
         return null;
@@ -39,6 +40,9 @@ method(MCSet, MCSet*, initWithMaxCount, size_t maxcount)
 
 method(MCSet, MCSet*, insertValue, MCGeneric value)
 {
+    if (obj->count < obj->maxcount) {
+        obj->values[obj->count++] = value;
+    }
     return obj;
 }
 
