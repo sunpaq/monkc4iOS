@@ -12,6 +12,7 @@
 #include "MCSort.h"
 #include "MCBST.h"
 #include "MCHeap.h"
+#include "MCMath.h"
 
 //static void test(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGeneric arg3, MCLongLong arg4, MCPtr arg5, MCFuncPtr arg6)
 //static void testmethod(mc_message_arg(MCObject), ...)
@@ -166,6 +167,14 @@ static void testhash()
     exit(-1);
 }
 
+static void testmath()
+{
+    MCBool b = MCMath_isPowerOfTwo(10);
+    MCBool p = MCMath_isPrime(13);
+    double r = MClognX(2, 1024);
+    printf("b=%d p=%d r=%f\n", b, p, r);
+}
+
 void starttest()
 {
     //testBasics();
@@ -175,4 +184,6 @@ void starttest()
     //testGeometry();
     //testhash();
     //testsort();
+    //testmath();
+    
 }

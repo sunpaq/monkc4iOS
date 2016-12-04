@@ -12,6 +12,11 @@
 #define MIN(A, B) ((A<B)?A:B)
 #endif
 
+MCInline double MClognX(double n, double X) {
+    //change of base formula
+    return (log10(X) / log10(n));
+}
+
 MCInline MCBool MCSamefloat(float A, float B) {
     if (fabsf(A-B) < FLT_EPSILON) {
         return true;
@@ -272,5 +277,10 @@ MCInline MCMatrix4 MCMatrix4Multiply(MCMatrix4 l, MCMatrix4 r)
     
     return m;
 }
+
+//Prime
+utility(MCMath, MCBool, isPrime, int a);
+//Power of two
+utility(MCMath, MCBool, isPowerOfTwo, unsigned a);
 
 #endif
