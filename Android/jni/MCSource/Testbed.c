@@ -182,19 +182,22 @@ static void testtree()
     const char* key1 = "monkc_enpower_c";
     const char* key2 = "monkc is great";
     const char* key3 = "C++ is easy to use";
+    const char* key4 = "google is evil";
     
     ff(trie, insertValueByKey, MCGenericF(3.1415926), key1);
     ff(trie, insertValueByKey, MCGenericB(true), key2);
     ff(trie, insertValueByKey, MCGenericB(false), key3);
-
+    MCGeneric B  = (MCGeneric)ff(trie, hasKey, key4);
+    
     MCGeneric v1 = (MCGeneric)ff(trie, valueOfKey, key1);
     MCGeneric v2 = (MCGeneric)ff(trie, valueOfKey, key2);
     MCGeneric v3 = (MCGeneric)ff(trie, valueOfKey, key3);
 
-    printf("TrieTreeKV:\n [%s]=%.4f\n [%s]=%s\n [%s]=%s\n",
+    printf("TrieTreeKV:\n [%s]=%.4f\n [%s]=%s\n [%s]=%s\n has key: %s? -> %s\n",
            key1, v1.mcfloat,
            key2, printb(v2.mcbool),
-           key3, printb(v3.mcbool));
+           key3, printb(v3.mcbool),
+           key4, printb(B.mcbool));
     
     release(trie);
     exit(0);

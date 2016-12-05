@@ -25,6 +25,7 @@
  */
 
 #include "monkc.h"
+#include "MCArray.h"
 
 typedef struct _BSTNode {
     struct _BSTNode* left;
@@ -63,6 +64,8 @@ class(MCTrie, MCObject,
 method(MCTrie, void, bye, voida);
 method(MCTrie, void, insertValueByKey, MCGeneric newval, const char* word);
 method(MCTrie, MCGeneric, valueOfKey, const char* word);
+method(MCTrie, MCArray*, keysWithPrefix, const char* prefix);
+method(MCTrie, MCBool, hasKey, const char* word);
 method(MCTrie, void, printTree, voida);
 
 #endif /* MCTree_h */
