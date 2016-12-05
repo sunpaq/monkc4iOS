@@ -58,7 +58,7 @@ method(MCArray, void, bye, voida)
     if (obj->buff != null) {
         free(obj->buff);
     }
-    MCObject_bye(0, sobj, 0);
+    superbye(MCObject);
 }
 
 method(MCArray, MCArray*, clear, voida)

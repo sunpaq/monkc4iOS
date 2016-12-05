@@ -59,7 +59,7 @@ method(MC3DScene, void, bye, voida)
     release(var(clock));
     release(var(light));
     
-    MCObject_bye(0, sobj, 0);
+    superbye(MCObject);
 }
 
 method(MC3DScene, MC3DScene*, initWithWidthHeightVSourceFSource, unsigned width, unsigned height,

@@ -369,7 +369,8 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
 #define load(supercls)                        supercls##_load(cla)
 #define init(supercls)                        supercls##_init((supercls*)obj)
-#define preload(cls)                          _load_h(#cls, sizeof(cls), cls##_##load, hash(#cls));
+#define preload(cls)                          _load_h(#cls, sizeof(cls), cls##_##load, hash(#cls))
+#define superbye(cls)                         cls##_bye(0, &obj->Super, 0)
 
 //method binding
 #define mixing(type, met, ...)                _binding(cla, S(met), (MCFuncPtr)met)

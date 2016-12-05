@@ -10,9 +10,9 @@
 #include "MCLinkedList.h"
 #include "MCGeometry.h"
 #include "MCSort.h"
-#include "MCBST.h"
 #include "MCHeap.h"
 #include "MCMath.h"
+#include "MCTree.h"
 
 //static void test(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGeneric arg3, MCLongLong arg4, MCPtr arg5, MCFuncPtr arg6)
 //static void testmethod(mc_message_arg(MCObject), ...)

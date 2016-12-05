@@ -60,7 +60,7 @@ method(BE2DTextureData, void, bye, voida)
     if (obj->raw != null) {
         SOIL_free_image_data(obj->raw);
     }
-    MCObject_bye(0, sobj, 0);
+    superbye(MCObject);
 }
 
 onload(BE2DTextureData)
@@ -118,7 +118,7 @@ method(BECubeTextureData, void, bye, voida)
             release(face);
         }
     }
-    MCObject_bye(0, sobj, 0);
+    superbye(MCObject);
 }
 
 onload(BECubeTextureData)

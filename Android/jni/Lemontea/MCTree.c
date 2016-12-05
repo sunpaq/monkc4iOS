@@ -1,12 +1,12 @@
 //
-//  MCBST.c
+//  MCTree.c
 //  Sapindus
 //
-//  Created by Sun YuLi on 2016/11/12.
-//  Copyright © 2016年 oreisoft. All rights reserved.
+//  Created by YuliSun on 05/12/2016.
+//  Copyright © 2016 oreisoft. All rights reserved.
 //
 
-#include "MCBST.h"
+#include "MCTree.h"
 
 BSTNode* BSTNodeCreate(MCGeneric value) {
     BSTNode* node = (BSTNode*)malloc(sizeof(BSTNode));
@@ -98,3 +98,75 @@ onload(MCBST)
         return null;
     }
 }
+
+/*
+ Trie Tree (Digital, Radix, Prefix - Tree)
+ */
+
+function(TrieNode*, createNode, char byte);
+
+
+oninit(MCTrie)
+{
+    if (init(MCObject)) {
+        var(root)  = createNode(0, 0, ' ');
+        var(count) = 0;
+        return obj;
+    } else {
+        return null;
+    }
+}
+
+function(TrieNode*, createNode, char byte)
+{
+    TrieNode* node = (TrieNode*)malloc(sizeof(TrieNode));
+    node->byte = byte;
+    for (int i=0; i<MCTrieWidth; i++)
+        node->childs[i] = null;
+    return node;
+}
+
+function(void, releaseNode, TrieNode* node)
+{
+    if (node) {
+        for (int i=0; i<MCTrieWidth; i++)
+            if (node->childs[i])
+                releaseNode(0, 0, node->childs[i]);
+        free(node);
+    }
+}
+
+method(MCTrie, void, bye, voida)
+{
+    releaseNode(0, 0, obj->root);
+    superbye(MCObject);
+}
+
+method(MCTrie, void, insertWord, const char* word)
+{
+    
+}
+
+method(MCTrie, void, traverseTree, void (*funcptr)(TrieNode* node))
+{
+
+}
+
+method(MCTrie, void, printTree, voida)
+{
+
+}
+
+onload(MCTrie)
+{
+    if (load(MCObject)) {
+        binding(MCTrie, void, bye, voida);
+        binding(MCTrie, void, insertWord, const char* word);
+        binding(MCTrie, void, traverseTree, void (*funcptr)(TrieNode* node));
+        binding(MCTrie, void, printTree, voida);
+        return cla;
+    } else {
+        return null;
+    }
+}
+

@@ -40,7 +40,7 @@ oninit(MCGLRenderer)
 method(MCGLRenderer, void, bye, voida)
 {
     release(obj->context);
-    MCObject_bye(0, sobj, 0);
+    superbye(MCObject);
 }
 
 //uniform mat4  view.view;

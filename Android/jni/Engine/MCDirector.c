@@ -55,7 +55,7 @@ method(MCDirector, void, bye, voida)
     release(var(skyboxThread));
     release(var(modelThread));
 
-    MCObject_bye(0, sobj, 0);
+    superbye(MCObject);
 }
 
 method(MCDirector, void, updateAll, voida)
