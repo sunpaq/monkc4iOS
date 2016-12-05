@@ -46,10 +46,13 @@ method(MCBST, void, printTree, voida);
  Trie Tree (Digital, Radix, Prefix - Tree)
  */
 
+//char in C is 1byte = 2^8 (256)
 #define MCTrieWidth 256
 
 typedef struct _TrieNode {
     struct _TrieNode* childs[MCTrieWidth];
+    MCGeneric value;
+    MCBool isLeaf;
     char byte;
 } TrieNode;
 
@@ -58,8 +61,8 @@ class(MCTrie, MCObject,
       size_t count);
 
 method(MCTrie, void, bye, voida);
-method(MCTrie, void, insertWord, const char* word);
-method(MCTrie, void, traverseTree, void (*funcptr)(TrieNode* node));
+method(MCTrie, void, insertValueByKey, MCGeneric newval, const char* word);
+method(MCTrie, MCGeneric, valueOfKey, const char* word);
 method(MCTrie, void, printTree, voida);
 
 #endif /* MCTree_h */

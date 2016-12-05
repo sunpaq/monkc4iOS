@@ -122,6 +122,7 @@ typedef void*        MCVoidPtr;
 typedef void         (*MCFuncPtr)(void);
 
 //true, false
+#define printb(B)    (B?"true":"false")
 typedef _Bool MCBool;
 
 /*

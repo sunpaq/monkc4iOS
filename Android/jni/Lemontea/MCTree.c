@@ -104,7 +104,7 @@ onload(MCBST)
  */
 
 function(TrieNode*, createNode, char byte);
-
+function(void, releaseNode, TrieNode* node);
 
 oninit(MCTrie)
 {
@@ -117,9 +117,16 @@ oninit(MCTrie)
     }
 }
 
+method(MCTrie, void, bye, voida)
+{
+    releaseNode(0, 0, obj->root);
+    superbye(MCObject);
+}
+
 function(TrieNode*, createNode, char byte)
 {
     TrieNode* node = (TrieNode*)malloc(sizeof(TrieNode));
+    node->isLeaf = false;
     node->byte = byte;
     for (int i=0; i<MCTrieWidth; i++)
         node->childs[i] = null;
@@ -136,33 +143,75 @@ function(void, releaseNode, TrieNode* node)
     }
 }
 
-method(MCTrie, void, bye, voida)
+//return current node
+function(TrieNode*, insertNodeIntoParent, TrieNode* parent, TrieNode* node)
 {
-    releaseNode(0, 0, obj->root);
-    superbye(MCObject);
+    if (parent && node) {
+        TrieNode* current = parent->childs[node->byte];
+        if (current == null) {
+            parent->childs[node->byte] = node;
+            return node;
+        } else {
+            return current;
+        }
+    }
+    return null;
 }
 
-method(MCTrie, void, insertWord, const char* word)
+//return Leaf node
+function(TrieNode*, insertWordIntoParent, TrieNode* parent, const char* word)
 {
-    
+    if (parent && word) {
+        size_t len = strlen(word);
+        TrieNode *node=null, *p=parent;
+        for (size_t i=0; i<len; i++) {
+            char c = *word;
+            node = createNode(0, 0, c);
+            //update parent
+            p = insertNodeIntoParent(0, 0, p, node);
+            word++;
+        }
+        //last node is leaf
+        node->isLeaf = true;
+        return node;
+    }
+    return null;
 }
 
-method(MCTrie, void, traverseTree, void (*funcptr)(TrieNode* node))
+method(MCTrie, void, insertValueByKey, MCGeneric newval, const char* word)
 {
+    TrieNode* leaf = insertWordIntoParent(0, 0, obj->root, word);
+    leaf->value = newval;
+}
 
+method(MCTrie, MCGeneric, valueOfKey, const char* word)
+{
+    size_t len = strlen(word);
+    TrieNode *node=null, *p=obj->root;
+    for (size_t i=0; i<len; i++) {
+        char c = *word;
+        node = p->childs[c];
+        p = node;
+        word++;
+    }
+    //last leaf node have value
+    if (node->isLeaf) {
+        return node->value;
+    }
+    return MCGenericVp(null);
 }
 
 method(MCTrie, void, printTree, voida)
 {
-
+    
 }
 
 onload(MCTrie)
 {
     if (load(MCObject)) {
         binding(MCTrie, void, bye, voida);
-        binding(MCTrie, void, insertWord, const char* word);
-        binding(MCTrie, void, traverseTree, void (*funcptr)(TrieNode* node));
+        binding(MCTrie, void, insertValueByKey, MCGeneric newval, const char* word);
+        binding(MCTrie, MCGeneric, valueOfKey, const char* word);
         binding(MCTrie, void, printTree, voida);
         return cla;
     } else {
