@@ -1,4 +1,5 @@
 #include "MCString.h"
+#include "MCMath.h"
 
 utility(MCString, size_t, replace, const char* str, const char* withstr, const char* instr, char (*buff)[])
 {
@@ -130,6 +131,72 @@ utility(MCString, const char*, concatePath, const char* path1, const char* path2
     return MCString_concateWith("/", path1, path2, buff);
 }
 
+utility(MCString, const char*, compressToCharCount, const char* source, char* buff)
+{
+    //assume buff is large enough
+    if (source && buff) {
+        //first char
+        int cur = 0;
+        buff[cur++] = *source;
+        char last   = *source;
+        
+        char digits[LINE_MAX];
+        size_t count = 1;
+        
+        for (int i=1; i<strlen(source); i++) {
+            if(source[i] != last) {
+                if (count > 1) {
+                    sprintf(digits, "%ld", count);
+                    for (int d=0; d<strlen(digits); d++)
+                        buff[cur++] = digits[d];
+                    count = 0;
+                }
+                buff[cur++] = source[i];
+                last = source[i];
+            } else {
+                if (count > LINE_MAX)
+                    count = LINE_MAX;
+                else
+                    count++;
+            }
+        }
+        //end char
+        buff[cur] = '\0';
+    }
+    return buff;
+}
+
+utility(MCString, const char*, extractFromCharCount, const char* source, char* buff)
+{
+    if (source && buff) {
+        int cur = 0; int count=0; char last = '\0';
+        char digits[LINE_MAX];
+
+        for (int i=0; i<strlen(source); i++) {
+            char c = source[i];
+            if (c >= '0' && c <= '9') {
+                digits[count++] = c;
+                continue;
+            } else {
+                if (count > LINE_MAX)
+                    count = LINE_MAX;
+                digits[count] = '\0';
+                if (count > 0) {
+                    int number = atoi(digits);
+                    for(int d=0; d<number; d++)
+                        buff[cur++] = last;
+                    count=0;
+                }
+                buff[cur++] = c;
+                last = c;
+            }
+        }
+        //end char
+        buff[cur] = '\0';
+    }
+    return buff;
+}
+
 #define MCStringBlock LINE_MAX
 
 oninit(MCString)
@@ -215,9 +282,12 @@ method(MCString, void, add, char* str)
     strncat(obj->buff, str, strlen(str));
 }
 
-method(MCString, void, print, voida)
+method(MCString, void, print, MCBool withNewline)
 {
-	printf("%s", obj->buff);
+    if (withNewline)
+        printf("%s\n", obj->buff);
+    else
+        printf("%s", obj->buff);
 }
 
 method(MCString, const char*, toCString, char const buff[])
@@ -265,12 +335,26 @@ method(MCString, double, toDoubleValue, char** endptr)
     return strtod(obj->buff, endptr);
 }
 
+method(MCString, MCString*, copyCompressedString, voida)
+{
+    MCString* string = new(MCString);
+    MCString_compressToCharCount(obj->buff, string->buff);
+    return string;
+}
+
+method(MCString, MCString*, copyExtractedString, voida)
+{
+    MCString* string = new(MCString);
+    MCString_extractFromCharCount(obj->buff, string->buff);
+    return string;
+}
+
 onload(MCString)
 {
     if (load(MCObject)) {
         binding(MCString, MCString*, initWithCString, char* str);
         binding(MCString, void, add, char* str);
-        binding(MCString, void, print);
+        binding(MCString, void, print, MCBool withNewline);
         binding(MCString, char*, toCString, char const buff[]);
         binding(MCString, int, equalTo, MCString* stringToComp);
         binding(MCString, char, getOneChar);
@@ -278,6 +362,8 @@ onload(MCString)
         binding(MCString, void, bye);
         binding(MCString, MCBool, startWith, const char* str);
         binding(MCString, double, toDoubleValue, char** endptr);
+        binding(MCString, MCString*, copyCompressedString, voida);
+        binding(MCString, MCString*, copyExtractedString, voida);
         return cla;
     }else{
         return null;

@@ -12,7 +12,7 @@ class(MCString, MCObject,
 )
 
 //length not include '\0'
-//real size, include '\0'
+//real size, include '\0' include empty space in buffer
 
 method(MCString, MCString*, initWithCString, const char* str);
 method(MCString, void, add, char* str);
@@ -20,10 +20,12 @@ method(MCString, const char*, toCString, char const buff[]);
 method(MCString, int, equalTo, MCString* stringToComp);
 method(MCString, void, getCharsUntilEnter, char resultString[]);
 method(MCString, char, getOneChar, voida);
-method(MCString, void, print, voida);
+method(MCString, void, print, MCBool withNewline);
 method(MCString, void, bye, voida);
 method(MCString, MCBool, startWith, const char* str);
 method(MCString, double, toDoubleValue, char** endptr);
+method(MCString, MCString*, copyCompressedString, voida);
+method(MCString, MCString*, copyExtractedString, voida);
 
 MCString* MCString_newWithCString(const char* cstr);
 MCString* MCString_newWithMCString(MCString* mcstr);
@@ -41,6 +43,9 @@ utility(MCString, const char*, extensionFromFilename, const char* name, char (*b
 utility(MCString, const char*, concate, const char** strings, size_t count, char (*buff)[]);
 utility(MCString, const char*, concateWith, const char* sp, const char* path1, const char* path2, char (*buff)[]);
 utility(MCString, const char*, concatePath, const char* path1, const char* path2, char (*buff)[]);
+
+utility(MCString, const char*, compressToCharCount, const char* source, char* buff);
+utility(MCString, const char*, extractFromCharCount, const char* source, char* buff);
 
 MCInline char* MCStringFill(char* dest, const char* src) {
     char* res = strcpy(dest, src);

@@ -9,6 +9,7 @@
 #include "Testbed.h"
 #include "MCLinkedList.h"
 #include "MCGeometry.h"
+#include "MCString.h"
 #include "MCSort.h"
 #include "MCHeap.h"
 #include "MCMath.h"
@@ -83,6 +84,8 @@ static void testBasics()
     debug_log("sizeof(MCHash)=%ld\n", sizeof(MCHash));
     debug_log("sizeof(MCBool)=%ld\n", sizeof(MCBool));
     debug_log("------------------\n");
+    
+    exit(0);
 }
 
 static void testGeometry()
@@ -203,6 +206,21 @@ static void testtree()
     exit(0);
 }
 
+static void teststring()
+{
+    MCString* str = MCString_newWithCString("Goooooooooogle is gooooooooood");
+    MCString* cs  = ff(str, copyCompressedString, 0);
+    ff(cs, print, 1);
+    
+    MCString* es  = ff(cs, copyExtractedString, 0);
+    ff(es, print, 0);
+    
+    release(es);
+    release(cs);
+    release(str);
+    exit(0);
+}
+
 void starttest()
 {
     //testBasics();
@@ -214,4 +232,5 @@ void starttest()
     //testsort();
     //testmath();
     //testtree();
+    //teststring();
 }
