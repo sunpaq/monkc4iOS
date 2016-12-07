@@ -125,7 +125,7 @@ method(MC3DScene, void, moveCameraOneStep, MCFloat deltaFai, MCFloat deltaTht)
 method(MC3DScene, void, moveSkyboxCamera, MCFloat deltaFai, MCFloat deltaTht)
 {
     if (cpt(isDrawSky)) {
-        MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai.f, deltaTht.f);
+        MCSkyboxCamera_move(0, var(skyboxRef)->camera, deltaFai, deltaTht);
     }
 }
 

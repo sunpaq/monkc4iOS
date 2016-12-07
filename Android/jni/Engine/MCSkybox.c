@@ -122,7 +122,7 @@ method(MCSkybox, MCSkybox*, initWithCubeTexture, BECubeTextureData* cubetex, dou
                                    }, 3);
     
     //Camera
-    MCSkyboxCamera_initWithWidthHeightRatio(0, var(camera), widthHeightRatio);
+    MCSkyboxCamera_initWithWidthHeightRatio(0, var(camera), (MCFloat)widthHeightRatio);
     
     //Mesh & Texture
     MCUInt buffers[3];

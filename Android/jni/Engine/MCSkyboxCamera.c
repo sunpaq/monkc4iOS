@@ -85,24 +85,24 @@ compute(MCGLUniform, projectionUniform)
 }
 
 //override
-method(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeightRatio, double ratio)
+method(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeightRatio, MCFloat ratio)
 {
     //setting camera
-    sobj->ratio = ratio;
+    sobj->ratio = ratio.f;
     return obj;
 }
 
-method(MCSkyboxCamera, void, move, double deltaFai, double deltaTht)
+method(MCSkyboxCamera, void, move, MCFloat deltaFai, MCFloat deltaTht)
 {
     if (sobj->isLockRotation == true) {
         return;
     }
     if (sobj->isReverseMovement) {
-        sobj->fai += deltaFai;   //Left
-        sobj->tht += deltaTht;   //Up
+        sobj->fai += deltaFai.f;   //Left
+        sobj->tht += deltaTht.f;   //Up
     }else{
-        sobj->fai -= deltaFai;   //Left
-        sobj->tht -= deltaTht;   //Up
+        sobj->fai -= deltaFai.f;   //Left
+        sobj->tht -= deltaTht.f;   //Up
     }
     
     //keep the tht -180 ~ 180
@@ -128,10 +128,10 @@ method(MCSkyboxCamera, void, update, MCGLContext* ctx)
     MCGLContext_setUniforms(0, ctx, 0);
 }
 
-method(MCSkyboxCamera, void, setAttitude, double fai, double tht)
+method(MCSkyboxCamera, void, setAttitude, MCFloat fai, MCFloat tht)
 {
-    sobj->fai = fai;
-    sobj->tht = tht;
+    sobj->fai = fai.f;
+    sobj->tht = tht.f;
 }
 
 onload(MCSkyboxCamera)

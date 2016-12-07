@@ -201,9 +201,11 @@ void onUpdate(double roll, double yaw, double pitch)
 
     	if (computed(director->lastScene, isDrawSky)) {
             if (director->currentWidth < director->currentHeight) {
-                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, roll*360, (pitch-1)*45);
+                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera,
+                                           MCFloatF(roll*360), MCFloatF((pitch-1)*45));
             }else{
-                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera, pitch*360, (roll-1)*45);
+                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera,
+                                           MCFloatF(pitch*360), MCFloatF((roll-1)*45));
             }
     	}
 

@@ -22,9 +22,9 @@ class(MCSkyboxCamera, MCCamera,
 
 //override
 method(MCSkyboxCamera, void, bye, voida);
-method(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeightRatio, double ratio);
-method(MCSkyboxCamera, void, move, double deltaFai, double deltaTht);
+method(MCSkyboxCamera, MCSkyboxCamera*, initWithWidthHeightRatio, MCFloat ratio);
+method(MCSkyboxCamera, void, move, MCFloat deltaFai, MCFloat deltaTht);
 method(MCSkyboxCamera, void, update, MCGLContext* ctx);
-method(MCSkyboxCamera, void, setAttitude, double fai, double tht);
+method(MCSkyboxCamera, void, setAttitude, MCFloat fai, MCFloat tht);
 
 #endif /* MCSkyboxCamera_h */
