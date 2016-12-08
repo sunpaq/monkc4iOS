@@ -81,17 +81,29 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #define MCInline static inline
 
 /**
- * the types can not be used in Monk-C method arguments:
- * (Limitation of C variable arguments method)
+ * Limitations of Monk-C method()/function() parameters
  *
- * char/signed  char/unsigned  char              (use int)
- * short/signed short/unsigned short             (use int)
- * short int/signed short int/unsigned short int (use int)
- * float                                         (use double)
+ * 1. Limitation of C variable arguments function:
  *
- * any int type should larger than int
- * any float type should larger than double
+ * any int type should >= int
+ * any float type should wrap use MCFloat
+ *
+ * char/signed  char/unsigned  char              (use int/unsigned/MCInt/MCUInt)
+ * short/signed short/unsigned short             (use int/unsigned/MCInt/MCUInt)
+ * short int/signed short int/unsigned short int (use int/unsigned/MCInt/MCUInt)
+ * float                                         (must use MCFloat)
+ *
+ * 2. Limitation of iOS ARM64 ABI
+ *
+ * we only use 8 cpu registers to pass parameters
+ * first 2 are fixed into message.address and message.object
+ * user can define max 6 parameters in a method()
+ *
+ * if you need to pass more than 6 parameters 
+ * please design a structure/object wrap them and pass the pointer in
+ * normal C functions NOT subject to these limitations
  * */
+
 typedef signed int       MCChar;
 typedef signed int       MCShort;
 typedef signed int       MCInt;
