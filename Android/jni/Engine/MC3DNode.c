@@ -143,7 +143,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
                             //ff(node, draw, ctx);
                         })
     
-    ff(ctx, printUniforms, 0);
+    //ff(ctx, printUniforms, 0);
 }
 
 method(MC3DNode, void, hide, voida)

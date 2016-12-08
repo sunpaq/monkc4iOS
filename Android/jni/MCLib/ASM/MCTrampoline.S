@@ -129,12 +129,14 @@ _push_jump:
 #endif
 	cmp x0, #0
 	beq 0f
+#if defined(__MACH__)
     ldr x2, [sp]
     ldr x3, [sp, #8]
     ldr x4, [sp, #16]
     ldr x5, [sp, #24]
     ldr x6, [sp, #32]
     ldr x7, [sp, #40]
+#endif
 	br x0
 0:
 	ret
