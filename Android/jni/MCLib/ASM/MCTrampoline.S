@@ -130,16 +130,15 @@ _push_jump:
 	cmp x0, #0
 	beq 0f
 #if defined(__MACH__)
-    ldr x2, [sp]
-    ldr x3, [sp, #8]
-    ldr x4, [sp, #16]
-    ldr x5, [sp, #24]
-    ldr x6, [sp, #32]
-    ldr x7, [sp, #40]
+    ldp x2, x3, [sp]
+    ldp x4, x5, [sp, #16]
+    ldp x6, x7, [sp, #32]
+    br x0
+#else
+    br x0
 #endif
-	br x0
 0:
-	ret
+    ret
 #endif
 
 #if defined(__armv7s__) || defined(__armv7__) || defined(__armv6__)

@@ -15,15 +15,52 @@
 #include "MCMath.h"
 #include "MCTree.h"
 
-//static void test(mc_message_arg(MCObject), MCChar arg1, MCInt arg2, MCGeneric arg3, MCLongLong arg4, MCPtr arg5, MCFuncPtr arg6)
-//static void testmethod(mc_message_arg(MCObject), ...)
-//{
-//    char c = arg1;
-//    double f = arg3.mcdouble.d;
-//    
-//    
-//}
-//
+//static void variadic(mc_message_arg(MCObject), ...)
+static void general(mc_message_arg(MCObject), MCChar reg2, MCInt reg3, MCGeneric reg4, MCLongLong reg5, MCVoidPtr reg6, MCFuncPtr reg7,
+                    MCFloat stack0, MCFloat stack1, MCFloat stack2, MCFloat stack3, MCFloat stack4, MCFloat stack5)
+{
+    printf("regs[%p,%p,%d,%d,%d,%lld,%p,%p] stack[%f,%f,%f,%f,%f,%f]\n",
+           address, obj,
+           reg2, reg3, reg4.mcuint, reg5, reg6, reg7,
+           stack0.f, stack1.f, stack2.f, stack3.f, stack4.f, stack5.f);
+}
+
+static void general2(mc_message_arg(MCObject), MCChar reg2, MCInt reg3, MCGeneric reg4, MCLongLong reg5, MCVoidPtr reg6, MCFuncPtr reg7,
+                    MCFloat stack0, MCFloat stack1, MCFloat stack2, MCFloat stack3, MCFloat stack4, MCFloat stack5)
+{
+    printf("regs[%p,%p,%d,%d,%d,%lld,%p,%p] stack[%f,%f,%f,%f,%f,%f]\n",
+           address, obj,
+           reg2, reg3, reg4.mcuint, reg5, reg6, reg7,
+           stack0.f, stack1.f, stack2.f, stack3.f, stack4.f, stack5.f);
+}
+
+static void testTrampoline()
+{
+    _push_jump(make_msg(null, general), 2, 3, 4, 5 ,6 ,7,
+               MCFloatF(1.1),
+               MCFloatF(1.2),
+               MCFloatF(1.3),
+               MCFloatF(1.4),
+               MCFloatF(1.5),
+               MCFloatF(1.6));
+    
+    
+    //printf("first call finished\n");
+    
+    
+    _push_jump(make_msg(null, general2), 12, 13, 14, 15 ,16 ,17,
+               MCFloatF(1.1),
+               MCFloatF(1.2),
+               MCFloatF(1.3),
+               MCFloatF(1.4),
+               MCFloatF(1.5),
+               MCFloatF(1.6));
+    
+    printf("second call finished\n");
+    
+    exit(0);
+}
+
 //static void testclass()
 //{
 //    
@@ -224,6 +261,7 @@ static void teststring()
 void starttest()
 {
     //testBasics();
+    //testTrampoline();
     //testclass();
     //testparser();
     //testCArrayLinkedList();

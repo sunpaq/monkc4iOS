@@ -514,13 +514,13 @@ mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCHashTableInde
  */
 typedef struct {
     MCFuncPtr address;
-    MCObject* volatile object;
+    MCObject* object;
 } mc_message;
-#define mc_message_arg(Class) void* volatile address, Class* volatile obj
+#define mc_message_arg(Class) register void* address, register Class* obj
 MCInline mc_message make_msg(void* obj, void* addr) { return (mc_message){(MCFuncPtr)addr, (MCObject*)obj}; };
 
 //write by asm
-void* _push_jump(mc_message volatile msg, ...);
+void* _push_jump(register mc_message msg, ...);
 
 //write by c
 MCBool _response_test(MCObject* obj, const char* methodname);
