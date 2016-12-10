@@ -110,7 +110,6 @@
 		FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */; };
 		FD5EFD6D1B0E3D9D00D2492A /* mcicon.png in Resources */ = {isa = PBXBuildFile; fileRef = FD5EFD571B0E3D9D00D2492A /* mcicon.png */; };
 		FD62A9B01DA62AB600B74299 /* Avent.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FD62A9AF1DA62AB600B74299 /* Avent.mtl */; };
-		FD673A8D1D8402660062100C /* MCTrampoline.S in Sources */ = {isa = PBXBuildFile; fileRef = FD673A8C1D8402660062100C /* MCTrampoline.S */; };
 		FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD7FF8EB1CCB5FC5008106E5 /* sph.obj */; };
 		FD7FF8F01CCB6043008106E5 /* bottle_cap2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */; };
 		FD8784831CCE5F8C0071DAB4 /* back.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD87847D1CCE5F8C0071DAB4 /* back.jpg */; };
@@ -317,7 +316,6 @@
 		FD5EFD541B0E3D9D00D2492A /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		FD5EFD571B0E3D9D00D2492A /* mcicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mcicon.png; sourceTree = "<group>"; };
 		FD62A9AF1DA62AB600B74299 /* Avent.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Avent.mtl; sourceTree = "<group>"; };
-		FD673A8C1D8402660062100C /* MCTrampoline.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = MCTrampoline.S; path = ASM/MCTrampoline.S; sourceTree = "<group>"; };
 		FD7FF8EB1CCB5FC5008106E5 /* sph.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sph.obj; sourceTree = "<group>"; };
 		FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bottle_cap2.obj; sourceTree = "<group>"; };
 		FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = MCSkyboxShader.vsh; sourceTree = "<group>"; };
@@ -556,7 +554,6 @@
 		FD44CE001D326CF200784EDF /* MCLib */ = {
 			isa = PBXGroup;
 			children = (
-				FD673A8C1D8402660062100C /* MCTrampoline.S */,
 				FD44CE0F1D326CF200784EDF /* monkc.c */,
 				FD44CE101D326CF200784EDF /* monkc.h */,
 			);
@@ -925,7 +922,6 @@
 				FD44CE5E1D326CF200784EDF /* Testbed.c in Sources */,
 				FD44CE481D326CF200784EDF /* MC3DAndroidDriver.c in Sources */,
 				FD44CE471D326CF200784EDF /* MCUnitTest.c in Sources */,
-				FD673A8D1D8402660062100C /* MCTrampoline.S in Sources */,
 				F8DCDAB91D52E44000FD3FD2 /* MCGeometry.c in Sources */,
 				FD44CE361D326CF200784EDF /* MCSkybox.c in Sources */,
 				FD44CE3A1D326CF200784EDF /* MCWorld.c in Sources */,

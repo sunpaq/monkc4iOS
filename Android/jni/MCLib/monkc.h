@@ -171,7 +171,7 @@ MCInline MCGeneric MCGenericL(MCLong value)            { return (MCGeneric){.mcl
 
 MCInline MCGeneric MCGenericO(struct _MCObject* value) { return (MCGeneric){.mcobject=value}; }
 MCInline MCGeneric MCGenericVp(MCVoidPtr value)        { return (MCGeneric){.mcvoidptr=value}; }
-MCInline MCGeneric MCGenericFp(MCVoidPtr value)        { return (MCGeneric){.mcfuncptr=value}; }
+MCInline MCGeneric MCGenericFp(MCFuncPtr value)        { return (MCGeneric){.mcfuncptr=value}; }
 
 MCInline MCGeneric MCGenericUi(MCUInt value)           { return (MCGeneric){.mcuint=value}; }
 MCInline MCGeneric MCGenericI(MCInt value)             { return (MCGeneric){.mcint=value}; }
