@@ -34,9 +34,10 @@ void onAppStart()
 
 void onRootViewLoad(void* rootview)
 {
-#ifdef __APPLE__
     //put the test code into Testbed.c
     starttest();
+
+#ifdef __APPLE__
     MCUIRegisterRootUIView(rootview);
 #endif
 }
@@ -132,18 +133,8 @@ void onOpenFile(const char* filename)
             //ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, null);
             //ff(director->skyboxThread, start, 0);
         }
-        
-#ifdef __ANDROID__
-        //openFile(filename);
-        
-        ff(director->lastScene->rootnode, addChild, new(MCCube));
-        debug_log("Android opening a MCCube\n");
-#else
-        //openFile(filename);
-        openFileAsync(filename);
-        //ff(director->lastScene->rootnode, addChild, new(MCCube));
 
-#endif
+        openFileAsync(filename);
         ff(director, printDebugInfo, 0);
     }
 }

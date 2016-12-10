@@ -28,7 +28,7 @@ $engine = MCBuild.new($LOCAL + "/Engine").set_name('engine')
 
 $app = MCBuild.new($LOCAL + "/MCSource").set_name('gles3jni')
 	.set_dependency([$monkc, $lemontea, $driver, $beassets, $engine])
-	.set_excludes(['MCNode', 'Testbed'])
+	.set_excludes(['MCNode'])
 
 libs = [$monkc, $lemontea, $driver, $beassets, $engine]
 blocks = [$monkc, $lemontea, $driver, $beassets, $engine, $app]

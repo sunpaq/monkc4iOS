@@ -285,9 +285,9 @@ method(MCString, void, add, char* str)
 method(MCString, void, print, MCBool withNewline)
 {
     if (withNewline)
-        printf("%s\n", obj->buff);
+        debug_log("%s\n", obj->buff);
     else
-        printf("%s", obj->buff);
+        debug_log("%s", obj->buff);
 }
 
 method(MCString, const char*, toCString, char const buff[])

@@ -19,18 +19,18 @@
 static void general(mc_message_arg(MCObject), MCChar reg2, MCInt reg3, MCGeneric reg4, MCLongLong reg5, MCVoidPtr reg6, MCFuncPtr reg7,
                     MCFloat stack0, MCFloat stack1, MCFloat stack2, MCFloat stack3, MCFloat stack4, MCFloat stack5)
 {
-    printf("regs[%p,%p,%d,%d,%d,%lld,%p,%p] stack[%f,%f,%f,%f,%f,%f]\n",
+    debug_log("regs[%p,%p,%d,%d,%d,%lld,%p,%p] stack[%f,%f,%f,%f,%f,%f]\n",
            address, obj,
            reg2, reg3, reg4.mcuint, reg5, reg6, reg7,
            stack0.f, stack1.f, stack2.f, stack3.f, stack4.f, stack5.f);
 }
 
-static void general2(mc_message_arg(MCObject), MCChar reg2, MCInt reg3, MCGeneric reg4, MCLongLong reg5, MCVoidPtr reg6, MCFuncPtr reg7,
+static void general2(mc_message_arg(MCObject), MCInt reg2, MCInt reg3, MCInt reg4, MCInt reg5, MCInt reg6, MCInt reg7,
                     MCFloat stack0, MCFloat stack1, MCFloat stack2, MCFloat stack3, MCFloat stack4, MCFloat stack5)
 {
-    printf("regs[%p,%p,%d,%d,%d,%lld,%p,%p] stack[%f,%f,%f,%f,%f,%f]\n",
+    debug_log("regs[%p,%p,%d,%d,%d,%lld,%p,%p] stack[%f,%f,%f,%f,%f,%f]\n",
            address, obj,
-           reg2, reg3, reg4.mcuint, reg5, reg6, reg7,
+           reg2, reg3, reg4, reg5, reg6, reg7,
            stack0.f, stack1.f, stack2.f, stack3.f, stack4.f, stack5.f);
 }
 
@@ -56,9 +56,9 @@ static void testTrampoline()
                MCFloatF(1.5),
                MCFloatF(1.6));
     
-    printf("second call finished\n");
+    debug_log("second call finished\n");
     
-    exit(0);
+    //exit(0);
 }
 
 //static void testclass()
@@ -233,14 +233,14 @@ static void testtree()
     MCGeneric v2 = (MCGeneric)ff(trie, valueOfKey, key2);
     MCGeneric v3 = (MCGeneric)ff(trie, valueOfKey, key3);
 
-    printf("TrieTreeKV:\n [%s]=%.4f\n [%s]=%s\n [%s]=%s\n has key: %s? -> %s\n",
+    debug_log("TrieTreeKV:\n [%s]=%.4f\n [%s]=%s\n [%s]=%s\n has key: %s? -> %s\n",
            key1, v1.mcfloat,
            key2, printb(v2.mcbool),
            key3, printb(v3.mcbool),
            key4, printb(B.mcbool));
     
     release(trie);
-    exit(0);
+    //exit(0);
 }
 
 static void teststring()
@@ -255,13 +255,13 @@ static void teststring()
     release(es);
     release(cs);
     release(str);
-    exit(0);
+    //exit(0);
 }
 
 void starttest()
 {
     //testBasics();
-    //testTrampoline();
+    testTrampoline();
     //testclass();
     //testparser();
     //testCArrayLinkedList();
@@ -270,5 +270,5 @@ void starttest()
     //testsort();
     //testmath();
     //testtree();
-    //teststring();
+    teststring();
 }

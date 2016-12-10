@@ -41,6 +41,7 @@ java(void, init, voida)
     const char* versionStr = (const char*)glGetString(GL_VERSION);
     if (strstr(versionStr, "OpenGL ES 3.")) {
     	onTearDownGL();
+        onRootViewLoad(null);
     	onSetupGL(1080, 1766);
     	error_log("[not a error] setup OpenGL ES 3");
     } else {
@@ -50,7 +51,7 @@ java(void, init, voida)
 
 java(void, openFile, voida)
 {
-    onOpenFile("Avent");
+    onOpenFile("IronMan");
     error_log("[not a error] JNI openFile called");
 }
 
