@@ -177,39 +177,82 @@ method(MCGLContext, int, getUniformVector, const char* name, GLfloat* params)
 method(MCGLContext, void, printUniforms, voida)
 {
     MCLogTypeSet(MC_DEBUG);
-    GLfloat ambient_color[3];
     
-    GLfloat diffuse_color[3];
-    GLfloat diffuse_pos[3];
+    GLfloat view_view[16];
+    GLfloat view_projection[16];
+    GLfloat view_position[3];
     
-    GLint specular_power;
-    GLint specular_strength;
-    GLfloat specular_pos[3];
-    GLfloat specular_color[3];
-
-    ff(obj, getUniformVector, "ambientLightColor", ambient_color);
-    ff(obj, getUniformVector, "diffuseLightColor", diffuse_color);
-    ff(obj, getUniformVector, "diffuseLightPosition", diffuse_pos);
+    GLfloat model_model[16];
+    GLfloat model_normal[9];
     
-    //ff(obj, getUniformVector, "specularLightPower", specular_power);
-    //ff(obj, getUniformVector, "specularLightStrength", specular_strength);
-    int loc_specularLightPower = (int)ff(obj, getUniformLocation, "specularLightPower");
-    int loc_specularLightStrength = (int)ff(obj, getUniformLocation, "specularLightStrength");
-    glGetUniformiv(var(pid), loc_specularLightPower, &specular_power);
-    glGetUniformiv(var(pid), loc_specularLightStrength, &specular_strength);
+    GLfloat light_ambient[3];
+    GLfloat light_diffuse[3];
+    GLfloat light_specular[3];
+    GLfloat light_color[3];
+    GLfloat light_position[3];
     
-    ff(obj, getUniformVector, "specularLightPosition", specular_pos);
-    ff(obj, getUniformVector, "specularLightColor", specular_color);
-
-    debug_log("ambientLightColor    %f/%f/%f\n", ambient_color[0], ambient_color[1], ambient_color[2]);
-    debug_log("diffuseLightColor    %f/%f/%f\n", diffuse_color[0], diffuse_color[1], diffuse_color[2]);
-    debug_log("diffuseLightPosition %f/%f/%f\n", diffuse_pos[0], diffuse_pos[1], diffuse_pos[2]);
+    GLfloat material_ambient[3];
+    GLfloat material_diffuse[3];
+    GLfloat material_specular[3];
+    GLfloat material_dissolve;
+    GLfloat material_shininess;
     
-    debug_log("specularLightPower    %d\n", specular_power);
-    debug_log("specularLightStrength %d\n", specular_strength);
-    debug_log("specularLightPosition %f/%f/%f\n", specular_pos[0], specular_pos[1], specular_pos[2]);
-    debug_log("specularLightColor    %f/%f/%f\n", specular_color[0], specular_color[1], specular_color[2]);
-
+    ff(obj, getUniformVector, "view.view", view_view);
+    ff(obj, getUniformVector, "view.projection", view_projection);
+    ff(obj, getUniformVector, "view.position", view_position);
+    
+    ff(obj, getUniformVector, "model.model", model_model);
+    ff(obj, getUniformVector, "model.normal", model_normal);
+    
+    ff(obj, getUniformVector, "light.ambient", light_ambient);
+    ff(obj, getUniformVector, "light.diffuse", light_diffuse);
+    ff(obj, getUniformVector, "light.specular", light_specular);
+    ff(obj, getUniformVector, "light.color", light_color);
+    ff(obj, getUniformVector, "light.position", light_position);
+    
+    ff(obj, getUniformVector, "material.ambient", material_ambient);
+    ff(obj, getUniformVector, "material.diffuse", material_diffuse);
+    ff(obj, getUniformVector, "material.specular", material_specular);
+    ff(obj, getUniformVector, "material.dissolve", &material_dissolve);
+    ff(obj, getUniformVector, "material.shininess", &material_shininess);
+    
+    debug_log("-------- Start Dump Shader Infos --------\n");
+    //mat4
+    debug_log("view.view\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n",
+              view_view[0],  view_view[1],  view_view[2],  view_view[3],
+              view_view[4],  view_view[5],  view_view[6],  view_view[7],
+              view_view[8],  view_view[9],  view_view[10], view_view[11],
+              view_view[12], view_view[13], view_view[14], view_view[15]);
+    //mat4
+    debug_log("view.projection\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n",
+              view_projection[0],  view_projection[1],  view_projection[2],  view_projection[3],
+              view_projection[4],  view_projection[5],  view_projection[6],  view_projection[7],
+              view_projection[8],  view_projection[9],  view_projection[10], view_projection[11],
+              view_projection[12], view_projection[13], view_projection[14], view_projection[15]);
+    debug_log("view.position %f/%f/%f\n", view_position[0], view_position[1], view_position[2]);
+    //mat4
+    debug_log("model.model\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n",
+              model_model[0],  model_model[1],  model_model[2],  model_model[3],
+              model_model[4],  model_model[5],  model_model[6],  model_model[7],
+              model_model[8],  model_model[9],  model_model[10], model_model[11],
+              model_model[12], model_model[13], model_model[14], model_model[15]);
+    //mat3
+    debug_log("model.normal\n[%f/%f/%f]\n[%f/%f/%f]\n[%f/%f/%f]\n",
+              model_normal[0], model_normal[1], model_normal[2],
+              model_normal[3], model_normal[4], model_normal[5],
+              model_normal[6], model_normal[7], model_normal[8]);
+    
+    debug_log("light.ambient  %f/%f/%f\n", light_ambient[0], light_ambient[1], light_ambient[2]);
+    debug_log("light.diffuse  %f/%f/%f\n", light_diffuse[0], light_diffuse[1], light_diffuse[2]);
+    debug_log("light.specular  %f/%f/%f\n", light_specular[0], light_specular[1], light_specular[2]);
+    debug_log("light.color  %f/%f/%f\n", light_color[0], light_color[1], light_color[2]);
+    debug_log("light.position  %f/%f/%f\n", light_position[0], light_position[1], light_position[2]);
+    
+    debug_log("material.ambient  %f/%f/%f\n", material_ambient[0], material_ambient[1], material_ambient[2]);
+    debug_log("material.diffuse  %f/%f/%f\n", material_diffuse[0], material_diffuse[1], material_diffuse[2]);
+    debug_log("material.specular  %f/%f/%f\n", material_specular[0], material_specular[1], material_specular[2]);
+    debug_log("material.dissolve  %f\n", material_dissolve);
+    debug_log("material.shininess  %f\n", material_shininess);
 }
 
 onload(MCGLContext)
