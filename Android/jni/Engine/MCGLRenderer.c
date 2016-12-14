@@ -59,6 +59,7 @@ method(MCGLRenderer, void, bye, voida)
 //uniform vec3 material.ambient;
 //uniform vec3 material.diffuse;
 //uniform vec3 material.specular;
+//uniform int  material.dissolve;
 //uniform int  material.shininess;
 
 //uniform sampler2D texsampler;
@@ -78,7 +79,7 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
             MCGLUniformVec3,
             
             MCGLUniformMat4,
-            MCGLUniformVec3,
+            MCGLUniformMat3,
             
             MCGLUniformVec3,
             MCGLUniformVec3,
