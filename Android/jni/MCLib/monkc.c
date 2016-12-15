@@ -1101,7 +1101,7 @@ asm("0:");
 asm("ret");
 #endif
 
-#if defined(__arm64__)
+#if defined(__arm64__) || defined(__aarch64__)
 asm(".text");
 #if defined(__MACH__)
 asm(".globl __push_jump");
@@ -1126,7 +1126,8 @@ asm("0:");
 asm("ret");
 #endif
 
-#if defined(__armv7s__) || defined(__armv7__) || defined(__armv6__)
+#if defined(__armv7s__) || defined(__armv7__) || defined(__armv6__) || \
+(defined(__arm__) && !defined(__aarch64__))
 asm(".text");
 #if defined(__MACH__)
 asm(".globl __push_jump");
