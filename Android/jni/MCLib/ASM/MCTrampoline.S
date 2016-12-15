@@ -61,7 +61,8 @@
     cmpi BF, L, RA, SI --> ConditionField, (32bit=0), reg, immidiate
  
  machine architecher macros:
- 
+ use "<compiler> -E -dM - < /dev/null" to show compiler predefined macros
+
  Apple: __APPLE__ && __MACH__
  Mac OSX: TARGET_OS_MAC == 1
  iOS sim: TARGET_IPHONE_SIMULATOR == 1
@@ -116,7 +117,7 @@ _push_jump:
     ret
 #endif
 
-#if defined(__arm64__)
+#if defined(__arm64__) || defined(__aarch64__)
 .text
 #if defined(__MACH__)
 .globl __push_jump
@@ -141,7 +142,8 @@ _push_jump:
     ret
 #endif
 
-#if defined(__armv7s__) || defined(__armv7__) || defined(__armv6__)
+#if defined(__armv7s__) || defined(__armv7__) || defined(__armv6__) || \
+(defined(__arm__) && !defined(__aarch64__))
 .text
 #if defined(__MACH__)
 .globl __push_jump
