@@ -8,6 +8,7 @@
 
 #include "MCLight.h"
 #include "MCGLEngine.h"
+#include "MCGLRenderer.h"
 
 oninit(MCLight)
 {
@@ -41,19 +42,19 @@ method(MCLight, void, update, MCGLContext* ctx)
         MCGLUniformData data;
         
         data.vec3 = obj->ambientLightStrength;
-        MCGLContext_updateUniform(0, ctx, "light_ambient", data);
+        MCGLContext_updateUniform(0, ctx, light_ambient, data);
         
         data.vec3 = obj->diffuseLightStrength;
-        MCGLContext_updateUniform(0, ctx, "light_diffuse", data);
+        MCGLContext_updateUniform(0, ctx, light_diffuse, data);
         
         data.vec3 = obj->specularLightStrength;
-        MCGLContext_updateUniform(0, ctx, "light_specular", data);
+        MCGLContext_updateUniform(0, ctx, light_specular, data);
         
         data.vec3 = obj->lightColor;
-        MCGLContext_updateUniform(0, ctx, "light_color", data);
+        MCGLContext_updateUniform(0, ctx, light_color, data);
         
         data.vec3 = obj->lightPosition;
-        MCGLContext_updateUniform(0, ctx, "light_position", data);
+        MCGLContext_updateUniform(0, ctx, light_position, data);
         
         obj->dataChanged = false;
     }

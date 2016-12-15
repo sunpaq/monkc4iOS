@@ -8,6 +8,7 @@
 
 #include "MCMatrial.h"
 #include "MC3DBase.h"
+#include "MCGLRenderer.h"
 
 oninit(MCMatrial)
 {
@@ -34,23 +35,23 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
         MCGLUniform f;
         f.type = MCGLUniformVec3;
         f.data.vec3 = obj->ambientLightColor;
-        MCGLContext_updateUniform(0, ctx, "material_ambient", f.data);
+        MCGLContext_updateUniform(0, ctx, material_ambient, f.data);
 
         f.data.vec3 = obj->diffuseLightColor;
         f.type = MCGLUniformVec3;
-        MCGLContext_updateUniform(0, ctx, "material_diffuse", f.data);
+        MCGLContext_updateUniform(0, ctx, material_diffuse, f.data);
     
         f.type = MCGLUniformVec3;
         f.data.vec3 = obj->specularLightColor;
-        MCGLContext_updateUniform(0, ctx, "material_specular", f.data);
+        MCGLContext_updateUniform(0, ctx, material_specular, f.data);
         
         f.data.vec1 = obj->specularLightPower;
         f.type = MCGLUniformVec1;
-        MCGLContext_updateUniform(0, ctx, "material_shininess", f.data);
+        MCGLContext_updateUniform(0, ctx, material_shininess, f.data);
     
         f.data.vec1 = obj->dissolve;
         f.type = MCGLUniformVec1;
-        MCGLContext_updateUniform(0, ctx, "material_dissolve", f.data);
+        MCGLContext_updateUniform(0, ctx, material_dissolve, f.data);
 
         obj->dataChanged = false;
     }

@@ -43,27 +43,6 @@ method(MCGLRenderer, void, bye, voida)
     superbye(MCObject);
 }
 
-//uniform mat4  view.view;
-//uniform mat4  view.projection;
-//uniform vec3  view.position;
-
-//uniform mat4  model.model;
-//uniform mat3  model.normal;
-
-//uniform vec3 light.ambient;
-//uniform vec3 light.diffuse;
-//uniform vec3 light.specular;
-//uniform vec3 light.color;
-//uniform vec3 light.position;
-
-//uniform vec3 material.ambient;
-//uniform vec3 material.diffuse;
-//uniform vec3 material.specular;
-//uniform int  material.dissolve;
-//uniform int  material.shininess;
-
-//uniform sampler2D texsampler;
-
 method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode, const char* fcode)
 {
     MCGLContext_initWithShaderCode(0, obj->context, vcode, fcode,
@@ -96,26 +75,26 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
             MCGLUniformScalar,
         },
         (const char* []){
-            "view_view",
-            "view_projection",
-            "view_position",
+            view_view,
+            view_projection,
+            view_position,
             
-            "model_model",
-            "model_normal",
+            model_model,
+            model_normal,
             
-            "light_ambient",
-            "light_diffuse",
-            "light_specular",
-            "light_color",
-            "light_position",
+            light_ambient,
+            light_diffuse,
+            light_specular,
+            light_color,
+            light_position,
             
-            "material_ambient",
-            "material_diffuse",
-            "material_specular",
-            "material_dissolve",
-            "material_shininess",
+            material_ambient,
+            material_diffuse,
+            material_specular,
+            material_dissolve,
+            material_shininess,
             
-            "texsampler"
+            texsampler
         }, 16);
     return obj;
 }

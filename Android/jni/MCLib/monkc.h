@@ -79,6 +79,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 //inline function need to be have "inline" and "non-inline" version both implement
 //static inline not require "non-inline" version
 #define MCInline static inline
+#define MCGlobalKey static const char*
 
 /**
  * Limitations of Monk-C method()/function() parameters

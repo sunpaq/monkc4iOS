@@ -10,6 +10,7 @@
 #include "MC3DBase.h"
 #include "MCGLEngine.h"
 #include "BEAssetsManager.h"
+#include "MCGLRenderer.h"
 
 oninit(MCGLContext)
 {
@@ -178,81 +179,50 @@ method(MCGLContext, void, printUniforms, voida)
 {
     MCLogTypeSet(MC_DEBUG);
     
-    GLfloat view_view[16];
-    GLfloat view_projection[16];
-    GLfloat view_position[3];
-    
-    GLfloat model_model[16];
-    GLfloat model_normal[9];
-    
-    GLfloat light_ambient[3];
-    GLfloat light_diffuse[3];
-    GLfloat light_specular[3];
-    GLfloat light_color[3];
-    GLfloat light_position[3];
-    
-    GLfloat material_ambient[3];
-    GLfloat material_diffuse[3];
-    GLfloat material_specular[3];
-    GLfloat material_dissolve;
-    GLfloat material_shininess;
-    
-    ff(obj, getUniformVector, "view.view", view_view);
-    ff(obj, getUniformVector, "view.projection", view_projection);
-    ff(obj, getUniformVector, "view.position", view_position);
-    
-    ff(obj, getUniformVector, "model.model", model_model);
-    ff(obj, getUniformVector, "model.normal", model_normal);
-    
-    ff(obj, getUniformVector, "light.ambient", light_ambient);
-    ff(obj, getUniformVector, "light.diffuse", light_diffuse);
-    ff(obj, getUniformVector, "light.specular", light_specular);
-    ff(obj, getUniformVector, "light.color", light_color);
-    ff(obj, getUniformVector, "light.position", light_position);
-    
-    ff(obj, getUniformVector, "material.ambient", material_ambient);
-    ff(obj, getUniformVector, "material.diffuse", material_diffuse);
-    ff(obj, getUniformVector, "material.specular", material_specular);
-    ff(obj, getUniformVector, "material.dissolve", &material_dissolve);
-    ff(obj, getUniformVector, "material.shininess", &material_shininess);
-    
-    debug_log("-------- Start Dump Shader Infos --------\n");
-    //mat4
-    debug_log("view.view\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n",
-              view_view[0],  view_view[1],  view_view[2],  view_view[3],
-              view_view[4],  view_view[5],  view_view[6],  view_view[7],
-              view_view[8],  view_view[9],  view_view[10], view_view[11],
-              view_view[12], view_view[13], view_view[14], view_view[15]);
-    //mat4
-    debug_log("view.projection\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n",
-              view_projection[0],  view_projection[1],  view_projection[2],  view_projection[3],
-              view_projection[4],  view_projection[5],  view_projection[6],  view_projection[7],
-              view_projection[8],  view_projection[9],  view_projection[10], view_projection[11],
-              view_projection[12], view_projection[13], view_projection[14], view_projection[15]);
-    debug_log("view.position %f/%f/%f\n", view_position[0], view_position[1], view_position[2]);
-    //mat4
-    debug_log("model.model\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n[%f/%f/%f/%f]\n",
-              model_model[0],  model_model[1],  model_model[2],  model_model[3],
-              model_model[4],  model_model[5],  model_model[6],  model_model[7],
-              model_model[8],  model_model[9],  model_model[10], model_model[11],
-              model_model[12], model_model[13], model_model[14], model_model[15]);
-    //mat3
-    debug_log("model.normal\n[%f/%f/%f]\n[%f/%f/%f]\n[%f/%f/%f]\n",
-              model_normal[0], model_normal[1], model_normal[2],
-              model_normal[3], model_normal[4], model_normal[5],
-              model_normal[6], model_normal[7], model_normal[8]);
-    
-    debug_log("light.ambient  %f/%f/%f\n", light_ambient[0], light_ambient[1], light_ambient[2]);
-    debug_log("light.diffuse  %f/%f/%f\n", light_diffuse[0], light_diffuse[1], light_diffuse[2]);
-    debug_log("light.specular  %f/%f/%f\n", light_specular[0], light_specular[1], light_specular[2]);
-    debug_log("light.color  %f/%f/%f\n", light_color[0], light_color[1], light_color[2]);
-    debug_log("light.position  %f/%f/%f\n", light_position[0], light_position[1], light_position[2]);
-    
-    debug_log("material.ambient  %f/%f/%f\n", material_ambient[0], material_ambient[1], material_ambient[2]);
-    debug_log("material.diffuse  %f/%f/%f\n", material_diffuse[0], material_diffuse[1], material_diffuse[2]);
-    debug_log("material.specular  %f/%f/%f\n", material_specular[0], material_specular[1], material_specular[2]);
-    debug_log("material.dissolve  %f\n", material_dissolve);
-    debug_log("material.shininess  %f\n", material_shininess);
+    GLfloat buff[16];
+    for (int i=0; i<var(uniformCount); i++) {
+        MCGLUniform* f = &var(uniforms)[i];
+        if (f) {
+            ff(obj, getUniformVector, f->name, buff);
+            if (f->type == MCGLUniformMat4) {
+                //mat4
+                debug_log("mat4:%s\n [%f/%f/%f/%f]\n [%f/%f/%f/%f]\n [%f/%f/%f/%f]\n [%f/%f/%f/%f]\n",
+                          f->name,
+                          buff[0],  buff[1],  buff[2],  buff[3],
+                          buff[4],  buff[5],  buff[6],  buff[7],
+                          buff[8],  buff[9],  buff[10], buff[11],
+                          buff[12], buff[13], buff[14], buff[15]);
+            }
+            if (f->type == MCGLUniformMat3) {
+                //mat3
+                debug_log("mat3:%s\n [%f/%f/%f]\n [%f/%f/%f]\n [%f/%f/%f]\n",
+                          f->name,
+                          buff[0], buff[1], buff[2],
+                          buff[3], buff[4], buff[5],
+                          buff[6], buff[7], buff[8]);
+            }
+            if (f->type == MCGLUniformVec4) {
+                //vec4
+                debug_log("vec4:%s [%f/%f/%f/%f]\n", f->name, buff[0], buff[1], buff[2], buff[3]);
+            }
+            if (f->type == MCGLUniformVec3) {
+                //vec3
+                debug_log("vec3:%s [%f/%f/%f]\n", f->name, buff[0], buff[1], buff[2]);
+            }
+            if (f->type == MCGLUniformVec2) {
+                //vec2
+                debug_log("vec2:%s [%f/%f/%f]\n", f->name, buff[0], buff[1]);
+            }
+            if (f->type == MCGLUniformVec1) {
+                //vec1
+                debug_log("vec1:%s [%f]\n", f->name, buff[0]);
+            }
+            if (f->type == MCGLUniformScalar) {
+                //scalar
+                debug_log("scalar:%s [%d]\n", f->name, buff[0]);
+            }
+        }
+    }
 }
 
 onload(MCGLContext)

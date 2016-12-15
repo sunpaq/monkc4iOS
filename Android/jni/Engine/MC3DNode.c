@@ -9,6 +9,7 @@
 #include "MC3DNode.h"
 #include "MCGLEngine.h"
 #include "MCLinkedList.h"
+#include "MCGLRenderer.h"
 
 //prehash
 static MCHash _update;
@@ -95,11 +96,11 @@ method(MC3DNode, void, update, MCGLContext* ctx)
 {
     MCGLUniform f;
     f.data.mat4 = var(transform);
-    MCGLContext_updateUniform(0, ctx, "model_model", f.data);
+    MCGLContext_updateUniform(0, ctx, model_model, f.data);
     
     MCMatrix3 nor = MCMatrix3InvertAndTranspose(MCMatrix4GetMatrix3(var(transform)), NULL);
     f.data.mat3 = nor;
-    MCGLContext_updateUniform(0, ctx, "model_normal", f.data);
+    MCGLContext_updateUniform(0, ctx, model_normal, f.data);
     
     //update children
     MCLinkedListForEach(var(children),
