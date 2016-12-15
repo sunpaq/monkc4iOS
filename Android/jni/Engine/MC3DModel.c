@@ -150,10 +150,10 @@ function(MCMesh*, createMeshWithBATriangles, BATriangle* triangles, size_t trico
 function(void, setDefaultMaterialForNode, MC3DNode* node)
 {
     if (node) {
-        node->material->ambientLightColor  = MCVector3Make(1.0, 1.0, 1.0);
-        node->material->diffuseLightColor  = MCVector3Make(1.0, 1.0, 1.0);
-        node->material->specularLightColor = MCVector3Make(1.0, 1.0, 1.0);
-        node->material->specularLightPower = 32.0f;
+        node->material->ambientLightColor  = MCVector3Make(0.5, 0.5, 0.5);
+        node->material->diffuseLightColor  = MCVector3Make(0.5, 0.5, 0.5);
+        node->material->specularLightColor = MCVector3Make(0.5, 0.5, 0.5);
+        node->material->specularLightPower = 16.0f;
         node->material->dissolve           = 1.0f;
         
         MCStringFill(node->material->tag, "Default");
