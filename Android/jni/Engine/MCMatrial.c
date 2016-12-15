@@ -34,23 +34,23 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
         MCGLUniform f;
         f.type = MCGLUniformVec3;
         f.data.vec3 = obj->ambientLightColor;
-        MCGLContext_updateUniform(0, ctx, "material.ambient", f.data);
+        MCGLContext_updateUniform(0, ctx, "material_ambient", f.data);
 
         f.data.vec3 = obj->diffuseLightColor;
         f.type = MCGLUniformVec3;
-        MCGLContext_updateUniform(0, ctx, "material.diffuse", f.data);
+        MCGLContext_updateUniform(0, ctx, "material_diffuse", f.data);
     
         f.type = MCGLUniformVec3;
         f.data.vec3 = obj->specularLightColor;
-        MCGLContext_updateUniform(0, ctx, "material.specular", f.data);
+        MCGLContext_updateUniform(0, ctx, "material_specular", f.data);
         
         f.data.vec1 = obj->specularLightPower;
         f.type = MCGLUniformVec1;
-        MCGLContext_updateUniform(0, ctx, "material.shininess", f.data);
+        MCGLContext_updateUniform(0, ctx, "material_shininess", f.data);
     
         f.data.vec1 = obj->dissolve;
         f.type = MCGLUniformVec1;
-        MCGLContext_updateUniform(0, ctx, "material.dissolve", f.data);
+        MCGLContext_updateUniform(0, ctx, "material_dissolve", f.data);
 
         obj->dataChanged = false;
     }
