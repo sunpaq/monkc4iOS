@@ -51,7 +51,7 @@ java(void, init, voida)
 
 java(void, openFile, voida)
 {
-    onOpenFile("IronMan");
+    onOpenFile("Avent");
     error_log("[not a error] JNI openFile called");
 }
 

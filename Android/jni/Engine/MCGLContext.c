@@ -219,7 +219,9 @@ method(MCGLContext, void, printUniforms, voida)
             }
             if (f->type == MCGLUniformScalar) {
                 //scalar
-                debug_log("scalar:%s [%d]\n", f->name, buff[0]);
+                int value;
+                ff(obj, getUniformVector, f->name, &value);
+                debug_log("scalar:%s [%d]\n", f->name, value);
             }
         }
     }

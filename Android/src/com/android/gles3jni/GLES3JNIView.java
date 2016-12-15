@@ -87,7 +87,7 @@ class GLES3JNIView extends GLSurfaceView {
     	
         public void onDrawFrame(GL10 gl) {
             GLES3JNILib.step();
-            //gl.glFlush();
+            gl.glFlush();
         }
 
         public void onSurfaceChanged(GL10 gl, int width, int height) {

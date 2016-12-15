@@ -1062,6 +1062,8 @@ mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
  and keep the code runable on old device
  */
 
+#ifndef __ANDROID__
+
 #ifndef asm
 #define asm __asm__
 #endif
@@ -1161,4 +1163,6 @@ asm("bctr");
 asm("0:");
 asm("blr");
 #endif
+#endif
+
 #endif

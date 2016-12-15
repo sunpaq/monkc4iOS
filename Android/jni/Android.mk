@@ -6,7 +6,7 @@ LOCAL_ARM_MODE  := arm
 LOCAL_MODULE    := monkc4android
 LOCAL_SRC_FILES := $(LOCAL_PATH)/MCLib/ASM/MCTrampoline.S \
                    $(LOCAL_PATH)/MCLib/monkc.c
-LOCAL_CFLAGS    += -std=c99 -D__armv7__
+LOCAL_CFLAGS    += -std=c99
 include $(BUILD_STATIC_LIBRARY)
 
 
@@ -28,8 +28,13 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/Lemontea/MCArray.c \
                    $(LOCAL_PATH)/Lemontea/MCSocket.c \
                    $(LOCAL_PATH)/Lemontea/MCString.c \
                    $(LOCAL_PATH)/Lemontea/MCThread.c \
-                   $(LOCAL_PATH)/Lemontea/MCUnitTest.c
-                   
+                   $(LOCAL_PATH)/Lemontea/MCUnitTest.c \
+                   $(LOCAL_PATH)/Lemontea/MCSort.c \
+                   $(LOCAL_PATH)/Lemontea/MCSet.c \
+                   $(LOCAL_PATH)/Lemontea/MCHeap.c \
+                   $(LOCAL_PATH)/Lemontea/MCGraph.c \
+                   $(LOCAL_PATH)/Lemontea/MCBits.c \
+                   $(LOCAL_PATH)/Lemontea/MCTree.c
 
 LOCAL_CFLAGS     += -std=c99
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/MCLib
@@ -102,7 +107,8 @@ LOCAL_ARM_MODE  := arm
 LOCAL_MODULE    := gles3jni
 LOCAL_SRC_FILES := $(LOCAL_PATH)/MCDriver/MC3DAndroidDriver.c \
                    $(LOCAL_PATH)/MCSource/MainLoop.c \
-                   $(LOCAL_PATH)/MCSource/gles3jni.c
+                   $(LOCAL_PATH)/MCSource/gles3jni.c \
+                   $(LOCAL_PATH)/MCSource/Testbed.c
 
 LOCAL_CFLAGS    += -std=c99
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/MCLib

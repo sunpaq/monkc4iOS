@@ -35,7 +35,7 @@ void onAppStart()
 void onRootViewLoad(void* rootview)
 {
     //put the test code into Testbed.c
-    starttest();
+    //starttest();
 
 #ifdef __APPLE__
     MCUIRegisterRootUIView(rootview);
@@ -134,7 +134,11 @@ void onOpenFile(const char* filename)
             //ff(director->skyboxThread, start, 0);
         }
 
+#ifdef __ANDROID__
+        openFile(filename);
+#else
         openFileAsync(filename);
+#endif
         ff(director, printDebugInfo, 0);
     }
 }

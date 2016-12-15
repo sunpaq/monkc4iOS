@@ -6,20 +6,13 @@ layout (location=1) in vec3 normal;
 layout (location=2) in vec3 color;
 layout (location=3) in vec2 texcoord;
 
-struct View {
-    mat4 view;
-    mat4 projection;
-    vec3 position;
-};
+//Android GLSL doesn't support struct
+uniform mat4 view_view;
+uniform mat4 view_projection;
+uniform vec3 view_position;
 
-struct Model {
-    mat4 model;
-    mat3 normal;
-};
-
-//uniform variables from code
-uniform View  view;
-uniform Model model;
+uniform mat4 model_model;
+uniform mat3 model_normal;
 
 //varying variables use to pass value between vertex & fragment shader
 out vec3 vertexcolor;
@@ -38,7 +31,7 @@ void main()
     texcoord;
     
     //Normal fix the non-uniform scale issue
-    calculatedNormal = normalize(mat3(transpose(inverse(model.model))) * normal);
+    calculatedNormal = normalize(mat3(transpose(inverse(model_model))) * normal);
     //calculatedNormal = normalize(model.normal * normal);
     //calculatedNormal = normalize(normal);
     
@@ -46,9 +39,9 @@ void main()
     //eyeNormal = normalize(model.normal * normal);
     
     //Specular Light
-    modelPosition = vec3(model.model * position);
-    viewPosition  = view.position;
+    modelPosition = vec3(model_model * position);
+    viewPosition  = view_position;
     
     //Position
-    gl_Position = view.projection * view.view * model.model * position;
+    gl_Position = view_projection * view_view * model_model * position;
 }
