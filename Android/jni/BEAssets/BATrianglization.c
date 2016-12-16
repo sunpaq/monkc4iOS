@@ -54,9 +54,24 @@ size_t trianglization(BATriangle* triangles, BAFace* faces, size_t facecounts, M
         if (!data) {
             continue;
         }
-        if (face->vcount < 9) {
-            error_log("BAObjParser - v/n/t group less than 3\n");
-            //exit(-1);
+        if (face->vcount < 3) {
+            continue;
+        }
+        else if (face->vcount == 3) {
+            triangles[tricounts] = (BATriangle) {
+                data[0], 0, 0,
+                data[1], 0, 0,
+                data[2], 0, 0
+            };
+            tricounts++;
+        }
+        else if (face->vcount == 6) {
+            triangles[tricounts] = (BATriangle) {
+                data[0], data[1], 0,
+                data[2], data[3], 0,
+                data[4], data[5], 0
+            };
+            tricounts++;
         }
         else if (face->vcount == 9) {
             triangles[tricounts] = (BATriangle) {
