@@ -10,11 +10,15 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
     BAObjMetaInit(meta);
     if (meta && buff) {
         char line[LINE_MAX]; char* c = (char*)buff;
-        while (*c!='\0') {
-            for (int i=0; *c!='\n'; c++) {
+        while (*c!=NUL) {
+            //skip '\n' when '\r\n'
+            if (*c==MCNewLineN || *c==MCNewLineR) {
+                c++; continue;
+            }
+            for (int i=0; !isNewLine(c); c++) {
                 line[i++] = *c;
-                line[i] = '\0';
-            } c++;
+                line[i] = NUL;
+            }
             //process line
             const char* remain = line; char word[256];
             MCToken token = tokenize(nextWord(&remain, word));
@@ -67,11 +71,15 @@ void parseObj(BAObj* object, const char* file)
         BAMtlLibrary* current_mtllib = null;
         
         char line[LINE_MAX]; char* c = (char*)file;
-        while (*c!='\0') {
-            for (int i=0; *c!='\n'; c++) {
+        while (*c != NUL) {
+            //skip '\n' when '\r\n'
+            if (*c==MCNewLineN || *c==MCNewLineR) {
+                c++; continue;
+            }
+            for (int i=0; !isNewLine(c); c++) {
                 line[i++] = *c;
-                line[i] = '\0';
-            } c++;
+                line[i] = NUL;
+            }
             //process line
             char word[256]; const char* remain = line;
             MCToken token = tokenize(nextWord(&remain, word));
@@ -129,12 +137,11 @@ void parseObj(BAObj* object, const char* file)
                     else if (MCStringEqualN(word, "mtllib", 6)) {
                         token = tokenize(nextWord(&remain, word));
                         if (token.type == MCTokenFilename) {
-                            if (current_mtllib == null) {
-                                current_mtllib = BAMtlLibraryNew(token.value.Word);
-                            }
-                            if (!MCStringEqual(current_mtllib->name, token.value.Word)) {
-                                free(current_mtllib);
-                                current_mtllib = BAMtlLibraryNew(token.value.Word);
+                            if ((current_mtllib=BAMtlLibraryNew(token.value.Word)) != null) {
+                                if (!MCStringEqual(current_mtllib->name, token.value.Word)) {
+                                    free(current_mtllib);
+                                    current_mtllib = BAMtlLibraryNew(token.value.Word);
+                                }
                             }
                         }
                     }

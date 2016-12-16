@@ -104,7 +104,7 @@ utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6
     char pathbuff[PATH_MAX];
     for (int i=0; i<6; i++) {
         MCFileGetPath(faces[i], extension, pathbuff);
-        pathbuff[PATH_MAX-1] = '\0';
+        pathbuff[PATH_MAX-1] = NUL;
         data->faces[i] = BE2DTextureData_newWithPath(pathbuff);
     }
     return data;
@@ -147,7 +147,7 @@ AAssetManager* MCFileGetAssetManager()
 }
 #endif
 
-void MCFileGetPath(const char* filename, const char* extention, char* buffer)
+int MCFileGetPath(const char* filename, const char* extention, char* buffer)
 {
     char buff[PATH_MAX];
     filename = MCString_filenameTrimExtension(filename, buff);
@@ -185,9 +185,10 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
             }
         }else{
             error_log("can not find rootdir\n");
-            exit(-1);
+            return -1;
         }
 	}
+    return 0;
 #else
     static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
     pthread_mutex_lock(&lock);
@@ -200,14 +201,17 @@ void MCFileGetPath(const char* filename, const char* extention, char* buffer)
         CFStringGetCString(path, buffer, PATH_MAX, kCFStringEncodingUTF8);
         CFRelease(path);
         CFRelease(url);
+        CFRelease(fname);
+        CFRelease(fext);
     } else {
         error_log("BEAssetManager can not find path of (%s).(%s)\n", filename, extention);
-        exit(-1);
+        CFRelease(fname);
+        CFRelease(fext);
+        return -1;
     }
-    CFRelease(fname);
-    CFRelease(fext);
     
     pthread_mutex_unlock(&lock);
+    return 0;
 #endif
 }
 
@@ -223,7 +227,7 @@ const char* MCFileCopyContentWithPath(const char* filepath)
                 off_t size = AAsset_getLength(f);
                 char* buff = (char*)malloc((size + 1) * sizeof(char));
                 memcpy(buff, abuff, size);
-                buff[size] = '\0';
+                buff[size] = NUL;
                 AAsset_close(f);
                 return buff;
             }else{
@@ -252,7 +256,7 @@ const char* MCFileCopyContentWithPath(const char* filepath)
             while ((c = fgetc(f)) != EOF) {
                 *iter++ = c;
             }
-            *iter = '\0';
+            *iter = NUL;
         }
         
         return buffer;

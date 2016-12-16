@@ -20,7 +20,7 @@ oninit(MCMatrial)
         obj->dissolve = 1.0;
         obj->dataChanged = true;
         
-        obj->tag[0] = '\0';
+        obj->tag[0] = NUL;
         return obj;
     }else{
         return null;

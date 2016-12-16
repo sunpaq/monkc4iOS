@@ -126,7 +126,7 @@ MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
         buff->usemtlcount = meta->usemtl_count;
         
         if (buff->vertexbuff && buff->texcoorbuff && buff->normalbuff && buff->facebuff) {
-            buff->name[0] = '\0';
+            buff->name[0] = NUL;
             return buff;
         }
     }

@@ -88,17 +88,19 @@ MCFile* MCFile_newWriteOnly(char* pathname, int isClear);
 MCFile* MCFile_newReadWrite(char* pathname, int isClear);
 
 //line will passed
-#define MCFileEachLine(file, ...)\
+#define MCStreamEachLine(stream, ...)\
 char line[LINE_MAX];\
-char* c = (char*)file;\
-while (*c!='\0') {\
-    for (int i=0; *c!='\n'; c++) {\
+char* c = (char*)stream;\
+while (*c!=NUL) {\
+    if(*c == MCNewLineN) {\
+        c++; continue;\
+    }\
+    for (int i=0; !isNewLine(c); c++) {\
         line[i++] = *c;\
-        line[i] = '\0';\
-    } c++;\
+        line[i] = NUL;\
+    }\
     __VA_ARGS__\
 }
-
 #endif
 
 /* MCStream */
@@ -137,10 +139,8 @@ static inline MCStreamType MakeMCStreamType(const unsigned btype, const char* fo
 #define MCStream_
 
 class(MCStream, MCObject,
-	FILE*        fileObject;
-    size_t*      lineLengthArray;
-    size_t       lineCount;
-    char**       lineArray;
+	FILE* fileObject;
+    char* buffer;
 );
 
 method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path);

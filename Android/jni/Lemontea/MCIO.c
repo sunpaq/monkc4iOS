@@ -1,4 +1,5 @@
 #include "MCIO.h"
+#include "MCLexer.h"
 
 #pragma mark - MCFile unbuffered IO
 
@@ -217,9 +218,7 @@ onload(MCFile)
 oninit(MCStream)
 {
     if (init(MCObject)) {
-        obj->lineArray = null;
-        obj->lineLengthArray = null;
-        obj->lineCount = 0;
+        obj->buffer = null;
         return obj;
     }else{
         return null;
@@ -235,43 +234,22 @@ method(MCStream, MCStream*, initWithPath, MCStreamType type, const char* path)
     //[NULL _IOFBF/_IOLBF/_IONBF BUFSIZ]
     
     obj->fileObject = fopen(path, type.fopenMode);
-    if (obj->fileObject == NULL) {
-        error_log("can not open file: %s\n", path);
-        return null;
-    }
-    //long size = MCStream_tellSize(0, obj, 0);
-    
-    char ichar;
-    char linebuff[LINE_MAX]; unsigned i = 0;
-    char* textbuff[LINE_MAX]; unsigned lcount = 0;
-    
-    while ((ichar=fgetc(obj->fileObject)) != EOF) {
-        if (ichar != '\n') {
-            if (ichar == ' ' || ichar == '\t' || ichar== '\r' || ichar == '\x0b') {
-                linebuff[i++] = ' ';
-            }else if (ichar == '\xff'){
-                //skip this char
-            }else{
-                linebuff[i++] = ichar;
-            }
-
-        }else{
-            linebuff[i] = '\n';
-            linebuff[i+1] = '\0';
-            MCCharBuffer* line = NewMCCharBuffer(sizeof(char) * i+1);
-            CopyToCharBuffer(line, linebuff);
-            line->data[i+1] = '\0';
-            textbuff[lcount++] = (line->data);
-            i = 0;
+    if (obj->fileObject) {
+        //file size
+        fseek(obj->fileObject, 0, SEEK_END);
+        long size = ftell(obj->fileObject);
+        fseek(obj->fileObject, 0, SEEK_SET);
+        
+        obj->buffer = (char*)malloc(size * sizeof(char));
+        char* iter = obj->buffer;
+        
+        char c;
+        while ((c = fgetc(obj->fileObject)) != EOF) {
+            *iter++ = c;
         }
+        *iter = NUL;
+        fseek(obj->fileObject, 0, SEEK_SET);
     }
-    
-    obj->lineCount = lcount;
-    obj->lineArray = (char**)malloc(sizeof(char*) * lcount);
-    obj->lineLengthArray = (size_t*) malloc(sizeof(unsigned) * lcount);
-
-    memcpy(obj->lineArray, &textbuff[0], sizeof(char*) * lcount);
-    ff(obj, dump, null);
     
     return obj;
 }
@@ -283,11 +261,14 @@ method(MCStream, MCStream*, initWithPathDefaultType, const char* path)
 
 method(MCStream, void, bye, voida)
 {
-    //0=OK/EOF=ERROR
+    if (obj->buffer) {
+        free(obj->buffer);
+    }
+    //0=OK/NUL=ERROR
     if(fclose(obj->fileObject))
-        error_log("close file error");
+        error_log("MCStream close file error\n");
     //other clean up works
-    
+    superbye(MCObject);
 }
 
 method(MCStream, int, getFileDescriptor, voida)
@@ -378,10 +359,7 @@ method(MCStream, long, tellSize, voida)
 
 method(MCStream, void, dump, voida)
 {
-    int i;
-    for (i=0; i<obj->lineCount; i++) {
-        printf("%s", (obj->lineArray)[i]);
-    }
+    printf("%s", obj->buffer);
 }
 
 onload(MCStream)

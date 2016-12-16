@@ -181,7 +181,7 @@ MCInline BAMtlLibrary* BAMtlLibraryAlloc() {
         lib->lightColorMapCursor = -1;
         lib->scalarMapCursor = -1;
         lib->reflectionMapCursor = -1;
-        lib->name[0] = '\n';
+        lib->name[0] = NUL;
         return lib;
     }
     return null;

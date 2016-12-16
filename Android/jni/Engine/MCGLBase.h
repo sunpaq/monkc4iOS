@@ -207,7 +207,7 @@ typedef struct {
 
 MCInline void MCGLUniformSetName(MCGLUniform* f, const char* name) {
     strcpy(f->name, name);
-    f->name[strlen(name)] = '\0';
+    f->name[strlen(name)] = NUL;
 }
 
 MCInline MCBool MCGLUniformDataEqual(MCGLUniformType type, MCGLUniformData* d1, MCGLUniformData* d2) {

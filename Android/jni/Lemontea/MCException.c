@@ -25,7 +25,7 @@ void clean_exception_context()
 static inline unsigned _ehash(char *s)
 {
 	unsigned hashval;
-	for(hashval = 0; *s != '\0'; s++)
+	for(hashval = 0; *s != NUL; s++)
 		hashval = *s + 31 * hashval;
 	return (hashval & MAX_EXCEPTION_NUM);
 }

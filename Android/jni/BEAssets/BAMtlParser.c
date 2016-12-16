@@ -24,7 +24,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
     
     char word[256];
     const char* remain = linebuff;
-    while (*remain != '\n' && *remain != '\0') {
+    while (!isNewLine(remain) && *remain != NUL) {
         token = tokenize(nextWord(&remain, word));
         
         switch (token.type) {
@@ -56,7 +56,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     }
                     if (!light) {
                         error_log("BAMtlParser - currentMaterial() is null\n");
-                        exit(-1);
+                        return 0;
                     }
                     light->Ctype = RGB;
                     
@@ -149,7 +149,9 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
 BAMtlLibrary* BAMtlLibraryNew(const char* filename)
 {
     char path[LINE_MAX];
-    MCFileGetPath(filename, "mtl", path);
+    if(MCFileGetPath(filename, "mtl", path)) {
+        return null;
+    }
     
     const char* assetbuff = MCFileCopyContentWithPath(path);
     
@@ -160,7 +162,7 @@ BAMtlLibrary* BAMtlLibraryNew(const char* filename)
             return null;
         }
         
-        MCFileEachLine(assetbuff,
+        MCStreamEachLine(assetbuff,
             //debug_log("processMtlLine(%s)\n", line);
             processMtlLine(lib, line);
         );

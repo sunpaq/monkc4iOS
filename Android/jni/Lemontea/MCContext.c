@@ -1,4 +1,5 @@
 #include "MCContext.h"
+#include "MCLexer.h"
 
 oninit(MCContext)
 {
@@ -25,21 +26,24 @@ struct privateData
 
 static char get_one_char()
 {
-	char cf = getchar();
-	while(getchar()!='\n');//clear the buff
-	return cf;
+    char* cf = NUL;
+    while(!isNewLine(cf)) {
+        *cf = getchar();
+    };//clear the buff
+	return *cf;
 }
 
 static void get_chars_until_enter(char resultString[])
 {
-	char tc;
+	char tc = NUL;
 	int i=0;
-	while((tc=getchar())!='\n'){
+	while(!isNewLine(&tc)){
+        tc = getchar();
 		resultString[i]=tc;
 		i++;
 		putchar(tc);
 	}
-	resultString[i]='\0';
+	resultString[i] = NUL;
 	putchar(tc);
 }
 

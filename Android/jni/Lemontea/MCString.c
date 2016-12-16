@@ -7,8 +7,8 @@ utility(MCString, size_t, replace, const char* str, const char* withstr, const c
     size_t wcount = strlen(withstr);
     
     int i=0, b=0, o=0;
-    while (instr[i] != '\0') {
-        while (instr[i+o] != '\0' && instr[i+o] == str[0+o]) {
+    while (instr[i] != NUL) {
+        while (instr[i+o] != NUL && instr[i+o] == str[0+o]) {
             o++;
         }
         if (o == (int)count) {
@@ -20,7 +20,7 @@ utility(MCString, size_t, replace, const char* str, const char* withstr, const c
         o = 0;
         (*buff)[b++] = instr[i++];
     }
-    (*buff)[b++] = '\0';
+    (*buff)[b++] = NUL;
     
     return b;
 }
@@ -33,7 +33,7 @@ utility(MCString, size_t, reverse, const char* str, char (*buff)[])
         (*buff)[i] = *c;
         c--;
     }
-    (*buff)[count] = '\0';
+    (*buff)[count] = NUL;
     
     return count;
 }
@@ -54,7 +54,7 @@ utility(MCString, const char*, baseFromPath, const char* path, char (*buff)[])
         (*buff)[i++] = *head;
         head--;
     }
-    (*buff)[i] = '\0';
+    (*buff)[i] = NUL;
     
     return &(*buff)[0];
 }
@@ -84,27 +84,27 @@ utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[
 utility(MCString, const char*, filenameTrimExtension, const char* name, char* buff)
 {
     int i=0;
-    while (*name != '.' && *name != '\0') {
+    while (*name != '.' && *name != NUL) {
         buff[i++] = *name;
         name++;
     }
-    buff[i] = '\0';
+    buff[i] = NUL;
     return buff;
 }
 
 utility(MCString, const char*, extensionFromFilename, const char* name, char (*buff)[])
 {
-    while (*name != '.' && *name != '\0') name++;
-    if (*name == '\0') {
+    while (*name != '.' && *name != NUL) name++;
+    if (*name == NUL) {
         return null;
     }else{
         name++;//skip dot
         int i=0;
-        while (*name != '\0') {
+        while (*name != NUL) {
             (*buff)[i++] = *name;
             name++;
         }
-        (*buff)[i] = '\0';
+        (*buff)[i] = NUL;
         
         return &(*buff)[0];
     }
@@ -161,7 +161,7 @@ utility(MCString, const char*, compressToCharCount, const char* source, char* bu
             }
         }
         //end char
-        buff[cur] = '\0';
+        buff[cur] = NUL;
     }
     return buff;
 }
@@ -169,7 +169,7 @@ utility(MCString, const char*, compressToCharCount, const char* source, char* bu
 utility(MCString, const char*, extractFromCharCount, const char* source, char* buff)
 {
     if (source && buff) {
-        int cur = 0; int count=0; char last = '\0';
+        int cur = 0; int count=0; char last = NUL;
         char digits[LINE_MAX];
 
         for (int i=0; i<strlen(source); i++) {
@@ -180,7 +180,7 @@ utility(MCString, const char*, extractFromCharCount, const char* source, char* b
             } else {
                 if (count > LINE_MAX)
                     count = LINE_MAX;
-                digits[count] = '\0';
+                digits[count] = NUL;
                 if (count > 0) {
                     int number = atoi(digits);
                     for(int d=0; d<number; d++)
@@ -192,7 +192,7 @@ utility(MCString, const char*, extractFromCharCount, const char* source, char* b
             }
         }
         //end char
-        buff[cur] = '\0';
+        buff[cur] = NUL;
     }
     return buff;
 }
@@ -253,20 +253,22 @@ MCString* MCString_newForHttp(char* cstr, int isHttps)
 
 static char get_one_char()
 {
-	char cf = getchar();
-	while(getchar()!='\n');//clear the buff
+    char cf = NUL;
+    while(!isNewLine(&cf)) {
+        cf = getchar();
+    }//clear the buff
 	return cf;
 }
 
 static void get_chars_until_enter(char resultString[])
 {
-	char tc;
+	char tc = NUL;
 	int i=0;
-	while((tc=getchar())!='\n'){
+	while(!isNewLine(&tc)){
 		resultString[i]=tc;
 		i++;
 	}
-	resultString[i]='\0';
+	resultString[i]=NUL;
 }
 
 method(MCString, void, add, char* str)
@@ -274,7 +276,7 @@ method(MCString, void, add, char* str)
     if (MCStringBlock-obj->size < strlen(str)+1) {
         char* newbuff = malloc(sizeof(char) * (obj->size + MCStringBlock));
         strncpy(newbuff, obj->buff, obj->size-1);
-        newbuff[obj->size-1]='\0';
+        newbuff[obj->size-1]=NUL;
         free(obj->buff);
         obj->buff = newbuff;
         obj->size = obj->size + MCStringBlock;

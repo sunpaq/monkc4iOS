@@ -32,8 +32,9 @@ typedef struct {
     MCTokenValue value;
 } MCToken;
 
-static const char MCWhiteSpace = ' ';
-static const char MCBackSlash0 = '\0';
+static const char  MCWhiteSpace = ' ';
+static const char  MCNewLineN = '\n';
+static const char  MCNewLineR = '\r';
 
 #define MCCond_Digit(w)     (*w >= '0' && *w <= '9')
 #define MCCond_Alphabet(w)  (*w >= 'a' && *w <= 'z') || (*w >= 'A' && *w <= 'Z')
@@ -42,7 +43,7 @@ MCInline size_t MCLexerFill(char* const dest, const char* src)
 {
     size_t len = strlen(src);
     strncpy(dest, src, len);
-    dest[len] = MCBackSlash0;
+    dest[len] = NUL;
     return len;
 }
 
@@ -50,7 +51,16 @@ MCInline size_t MCLexerFill(char* const dest, const char* src)
 MCInline const char* trimWhiteSpace(const char** target_p)
 {
     const char* iter = *target_p;
-    while (*iter == ' ')
+    while (*iter == MCWhiteSpace)
+        iter++;
+    *target_p = iter;//update remain
+    return iter;
+}
+
+MCInline const char* trimWhiteSpaceNewline(const char** target_p)
+{
+    const char* iter = *target_p;
+    while (*iter == MCWhiteSpace || *iter == MCNewLineN || *iter == MCNewLineR)
         iter++;
     *target_p = iter;//update remain
     return iter;
@@ -61,9 +71,9 @@ MCInline const char* trimWhiteSpace(const char** target_p)
 //Windows  end of line sequence: \r\n
 MCInline MCBool isNewLine(const char* s)
 {
-    if (*s == '\n') {
+    if (*s == MCNewLineN) {
         return true;
-    } else if (*s == '\r') { //Windows NewLine
+    } else if (*s == MCNewLineR) { //Windows NewLine
         return true;
     }
     return false;
@@ -71,7 +81,7 @@ MCInline MCBool isNewLine(const char* s)
 
 MCInline MCBool isDigit(const char* w)
 {
-    while (*w != MCBackSlash0) {
+    while (*w != NUL) {
         if (MCCond_Digit(w)) {
             w++; continue;
         } else {
@@ -83,7 +93,7 @@ MCInline MCBool isDigit(const char* w)
 
 MCInline MCBool isAlphabet(const char* w)
 {
-    while (*w != MCBackSlash0) {
+    while (*w != NUL) {
         if (MCCond_Alphabet(w)) {
             w++; continue;
         } else {
@@ -102,7 +112,7 @@ MCInline MCBool isIdentifier(const char* w)
         return false;
     }
     //can be end with alphabet or underbar or number
-    while (*w != MCBackSlash0) {
+    while (*w != NUL) {
         if (MCCond_Alphabet(w) || MCCond_Digit(w) || *w == '_') {
             w++; continue;
         } else {
@@ -121,8 +131,8 @@ MCInline MCBool isFilename(const char* w)
         return false;
     }
     //can be end with alphabet or underbar or number
-    while (*w != MCBackSlash0) {
-        if (MCCond_Alphabet(w) || MCCond_Digit(w) || *w == '_' || *w == '.') {
+    while (*w != NUL) {
+        if (MCCond_Alphabet(w) || MCCond_Digit(w) || *w == '_' || *w == '.' || *w == MCWhiteSpace) {
             w++; continue;
         } else {
             return false;
@@ -133,7 +143,7 @@ MCInline MCBool isFilename(const char* w)
 
 MCInline MCBool isInteger(const char* n)
 {
-    while (*n != MCBackSlash0) {
+    while (*n != NUL) {
         if (MCCond_Digit(n) || *n == '-') {
             n++; continue;
         } else {
@@ -146,7 +156,7 @@ MCInline MCBool isInteger(const char* n)
 MCInline MCBool isFloat(const char* n)
 {
     MCBool havedot = false;
-    while (*n != MCBackSlash0) {
+    while (*n != NUL) {
         if (MCCond_Digit(n) || *n == '-' || *n == '.' || *n == 'e' || *n == 'E') {
             if (*n == '.')
                 havedot = true;
@@ -160,7 +170,7 @@ MCInline MCBool isFloat(const char* n)
 
 MCInline MCBool isDate(const char* s)
 {
-    while (isNewLine(s) == false && *s != MCBackSlash0) {
+    while (!isNewLine(s) && *s != NUL) {
         if (MCCond_Digit(s) || *s == '/') {
             s++; continue;
         } else {
@@ -176,7 +186,7 @@ MCInline int getDate(const char* s, long* buff)
     const char* remain = s;
     char digit[512];
     int b = 0, i = 0;
-    while (isNewLine(s) == false && *remain != MCBackSlash0 && *remain != MCWhiteSpace) {
+    while (isNewLine(s) == false && *remain != NUL && *remain != MCWhiteSpace) {
         //a int
         if (MCCond_Digit(remain)) {
             digit[i++] = *remain;
@@ -187,7 +197,7 @@ MCInline int getDate(const char* s, long* buff)
                 buff[b++] = 0;
             }else{
                 //have digit
-                digit[i] = MCBackSlash0;
+                digit[i] = NUL;
                 buff[b++] = atoi(digit);
                 i = 0;
             }
@@ -201,7 +211,7 @@ MCInline int getDate(const char* s, long* buff)
         buff[b++] = 0;
     }else{
         //have digit
-        digit[i] = MCBackSlash0;
+        digit[i] = NUL;
         buff[b++] = atoi(digit);
         i = 0;
     }
@@ -248,12 +258,12 @@ MCInline MCToken tokenize(const char* word)
 
 MCInline const char* readNext(const char** target_p, char buff[], MCBool isUpdate)
 {
-    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    const char* str = trimWhiteSpaceNewline(target_p);//skip whitespace
     int i = 0;
-    while ( (*str != ' ') && isNewLine(str) == false && (*str != '\0') ) {
+    while ( (*str != MCWhiteSpace) && !isNewLine(str) && (*str != NUL) ) {
         buff[i++] = *str++;
     }
-    buff[i] = '\0';
+    buff[i] = NUL;
     if (isUpdate) {
         *target_p = str;//update remain
     }
@@ -273,9 +283,9 @@ MCInline const char* peekNext(const char** target_p, char buff[])
 
 MCInline const char* skipNext(const char** target_p)
 {
-    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    const char* str = trimWhiteSpaceNewline(target_p);//skip whitespace
     const char* iter = str;
-    while (*iter != ' ')
+    while (*iter != MCWhiteSpace)
         iter++;
     *target_p = iter;//update remain
     return str;
@@ -283,11 +293,11 @@ MCInline const char* skipNext(const char** target_p)
 
 MCInline size_t nextFloats(const char** target_p, double buff[])
 {
-    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    const char* str = trimWhiteSpaceNewline(target_p);//skip whitespace
     char linebuff[LINE_MAX];
     MCToken token;
     size_t i = 0;
-    while (isNewLine(str) == false && (*str != '\0')) {
+    while (isNewLine(str) == false && (*str != NUL)) {
         token = tokenize(nextWord(&str, linebuff));
         if (token.type == MCTokenFloat) {
             buff[i++] = token.value.Double;
@@ -302,11 +312,11 @@ MCInline size_t nextFloats(const char** target_p, double buff[])
 
 MCInline size_t nextIntegers(const char** target_p, long buff[])
 {
-    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    const char* str = trimWhiteSpaceNewline(target_p);//skip whitespace
     char linebuff[LINE_MAX];
     MCToken token;
     size_t i = 0;
-    while (isNewLine(str) == false && (*str != '\0')) {
+    while (isNewLine(str) == false && (*str != NUL)) {
         token = tokenize(nextWord(&str, linebuff));
         if (token.type == MCTokenInteger) {
             buff[i++] = token.value.Integer;
@@ -320,11 +330,11 @@ MCInline size_t nextIntegers(const char** target_p, long buff[])
 
 MCInline size_t nextNumbersAsFloat(const char** target_p, double buff[])
 {
-    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    const char* str = trimWhiteSpaceNewline(target_p);//skip whitespace
     char linebuff[LINE_MAX];
     MCToken token;
     size_t i = 0;
-    while (isNewLine(str) == false && (*str != '\0')) {
+    while (isNewLine(str) == false && (*str != NUL)) {
         token = tokenize(nextWord(&str, linebuff));
         if (token.type == MCTokenInteger) {
             buff[i++] = (double)token.value.Integer;
@@ -342,11 +352,11 @@ MCInline size_t nextNumbersAsFloat(const char** target_p, double buff[])
 
 MCInline size_t nextDates(const char** target_p, long buff[])
 {
-    const char* str = trimWhiteSpace(target_p);//skip whitespace
+    const char* str = trimWhiteSpaceNewline(target_p);//skip whitespace
     char linebuff[LINE_MAX];
     MCToken token;
     size_t i = 0;
-    while (isNewLine(str) == false && (*str != '\0')) {
+    while (isNewLine(str) == false && (*str != NUL)) {
         token = tokenize(nextWord(&str, linebuff));
         if (token.type == MCTokenDate) {
             buff[i++] = token.value.Date[0];

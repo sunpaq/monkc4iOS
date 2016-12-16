@@ -66,6 +66,10 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #ifndef null
 #define null NULL
 #endif
+#ifndef NUL
+#define NUL '\0'
+#endif
+
 #define voida void* voidarg
 #define S(value) #value
 #define SEQ(dest, src) (mc_compare_key(dest, src)==0)
@@ -485,9 +489,9 @@ void mc_unlock(volatile MCInt* lock_p);
 
 MCInline int mc_compare_key(const char* dest, const char* src) {
     if (dest && src) {
-        if (dest[0]!='\0' && src[0]!='\0') {
+        if (dest[0]!=NUL && src[0]!=NUL) {
             return strcmp(dest, src);
-        }else if (dest[0]=='\0' && src[0]=='\0') {
+        }else if (dest[0]==NUL && src[0]==NUL) {
             return 0;
         }else{
             return 1;
@@ -505,7 +509,7 @@ MCInline int mc_compare_key(const char* dest, const char* src) {
 //BKDR Hash Function
 MCInline MCHash hash(const char *s) {
     register MCHash hashval;
-    for(hashval = 0; *s != '\0'; s++)
+    for(hashval = 0; *s != NUL; s++)
         hashval = *s + 31 * hashval;
     //avoid integer overflow
     return (hashval & MCHashMask);

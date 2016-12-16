@@ -1,5 +1,6 @@
 #include <string.h>
 #include "MCContext.h"
+#include "MCLexer.h"
 
 #ifndef MCString_
 #define MCString_
@@ -11,8 +12,8 @@ class(MCString, MCObject,
 	char* buff;
 )
 
-//length not include '\0'
-//real size, include '\0' include empty space in buffer
+//length not include NUL
+//real size, include NUL include empty space in buffer
 
 method(MCString, MCString*, initWithCString, const char* str);
 method(MCString, void, add, char* str);
@@ -49,7 +50,7 @@ utility(MCString, const char*, extractFromCharCount, const char* source, char* b
 
 MCInline char* MCStringFill(char* dest, const char* src) {
     char* res = strcpy(dest, src);
-    dest[strlen(src)] = '\0';
+    dest[strlen(src)] = NUL;
     return res;
 }
 

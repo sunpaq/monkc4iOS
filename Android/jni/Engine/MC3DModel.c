@@ -163,7 +163,7 @@ function(void, setDefaultMaterialForNode, MC3DNode* node)
 
 function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
 {
-    if (mtl && mtl->name[0] != '\0') {
+    if (mtl && mtl->name[0] != NUL) {
         MCVector3 ambient  = BAMaterialLightColor(mtl, Ambient);
         MCVector3 diffuse  = BAMaterialLightColor(mtl, Diffuse);
         MCVector3 specular = BAMaterialLightColor(mtl, Specular);

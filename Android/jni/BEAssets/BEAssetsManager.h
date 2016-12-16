@@ -59,7 +59,8 @@ void MCFileSetAssetManager(AAssetManager* assetManager);
 AAssetManager* MCFileGetAssetManager();
 #endif
 
-void MCFileGetPath(const char* filename, const char* extention, char* buffer);
+//return 0 if success
+int MCFileGetPath(const char* filename, const char* extention, char* buffer);
 const char* MCFileCopyContent(const char* filename);
 const char* MCFileCopyContentWithPath(const char* filepath);
 void MCFileReleaseContent(void* buff);
