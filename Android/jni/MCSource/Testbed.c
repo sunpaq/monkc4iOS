@@ -212,7 +212,12 @@ static void testmath()
     MCBool b = MCMath_isPowerOfTwo(10);
     MCBool p = MCMath_isPrime(13);
     double r = MClognX(2, 1024);
-    printf("b=%d p=%d r=%f\n", b, p, r);
+    
+    unsigned Pkn = MCMath_KpermutationsOfN(3, 8);
+    unsigned Ckn = MCMath_KcombinationsOfN(3, 8);
+    
+    printf("b=%d p=%d r=%f Pkn=%d Ckn=%d\n", b, p, r, Pkn, Ckn);
+    exit(0);
 }
 
 static void testtree()
@@ -261,14 +266,14 @@ static void teststring()
 void starttest()
 {
     //testBasics();
-    testTrampoline();
+    //testTrampoline();
     //testclass();
     //testparser();
     //testCArrayLinkedList();
     //testGeometry();
     //testhash();
     //testsort();
-    //testmath();
+    testmath();
     //testtree();
-    teststring();
+    //teststring();
 }

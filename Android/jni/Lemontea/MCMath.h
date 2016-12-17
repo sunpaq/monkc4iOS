@@ -293,5 +293,13 @@ utility(MCMath, double, accumulateMind, double* result, double value);
 
 //Chebyshev distance
 utility(MCMath, unsigned, chebyshevDiatance, MCVector2i A, MCVector2i B);
+//Factorial
+utility(MCMath, unsigned, factorialOf, unsigned N);
+//Permutation
+utility(MCMath, unsigned, KpermutationsOfN, unsigned K, unsigned N);
+//Combination
+utility(MCMath, unsigned, KcombinationsOfN, unsigned K, unsigned N);
+
+
 
 #endif
