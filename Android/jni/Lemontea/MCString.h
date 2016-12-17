@@ -48,6 +48,8 @@ utility(MCString, const char*, concatePath, const char* path1, const char* path2
 utility(MCString, const char*, compressToCharCount, const char* source, char* buff);
 utility(MCString, const char*, extractFromCharCount, const char* source, char* buff);
 
+utility(MCString, void, printPermutationOf, char str[]);
+
 MCInline char* MCStringFill(char* dest, const char* src) {
     char* res = strcpy(dest, src);
     dest[strlen(src)] = NUL;

@@ -197,6 +197,36 @@ utility(MCString, const char*, extractFromCharCount, const char* source, char* b
     return buff;
 }
 
+static void swap(char* a, char* b)
+{
+    if (a != b) {
+        char temp = *a;
+        *a = *b;
+        *b = temp;
+    }
+}
+
+static void permutationOf(char str[], int index)
+{
+    if (index == strlen(str)) {
+        printf("%s\n", str);
+        return;
+    }
+    for (int i=index; i<strlen(str); i++) {
+        swap(&str[index], &str[i]);
+        permutationOf(str, index+1);
+        swap(&str[index], &str[i]);
+    }
+}
+
+utility(MCString, void, printPermutationOf, char str[])
+{
+    char buff[LINE_MAX];
+    strcpy(buff, str);
+    buff[strlen(str)] = NUL;
+    permutationOf(buff, 0);
+}
+
 #define MCStringBlock LINE_MAX
 
 oninit(MCString)

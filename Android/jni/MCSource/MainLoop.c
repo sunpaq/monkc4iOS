@@ -35,7 +35,7 @@ void onAppStart()
 void onRootViewLoad(void* rootview)
 {
     //put the test code into Testbed.c
-    //starttest();
+    starttest();
 
 #ifdef __APPLE__
     MCUIRegisterRootUIView(rootview);

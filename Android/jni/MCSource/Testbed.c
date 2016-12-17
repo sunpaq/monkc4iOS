@@ -250,6 +250,8 @@ static void testtree()
 
 static void teststring()
 {
+    MCString_printPermutationOf("abcdefg");
+    
     MCString* str = MCString_newWithCString("Goooooooooogle is gooooooooood");
     MCString* cs  = ff(str, copyCompressedString, 0);
     ff(cs, print, 1);
@@ -260,7 +262,7 @@ static void teststring()
     release(es);
     release(cs);
     release(str);
-    //exit(0);
+    exit(0);
 }
 
 void starttest()
@@ -273,7 +275,7 @@ void starttest()
     //testGeometry();
     //testhash();
     //testsort();
-    testmath();
+    //testmath();
     //testtree();
     //teststring();
 }
