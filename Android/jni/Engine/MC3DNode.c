@@ -85,11 +85,13 @@ method(MC3DNode, int, childCount, voida)
 
 method(MC3DNode, void, setAllVisible, MCBool visible)
 {
-    MCLinkedListForEach(var(children),
-                        MC3DNode* node = (MC3DNode*)item;
-                        if (node != null) {
-                            node->visible = visible;
-                        })
+    if (var(children)) {
+        MCLinkedListForEach(var(children),
+                            MC3DNode* node = (MC3DNode*)item;
+                            if (node != null) {
+                                node->visible = visible;
+                            })
+    }
 }
 
 method(MC3DNode, void, update, MCGLContext* ctx)

@@ -34,7 +34,7 @@ static unsigned _define_exception(char* s)
 {
 	unsigned val = _ehash(s);
 	if(_exception_list[val] == 1){
-		error_log("your exception name:%s is conflicted please change another name\n", s);
+		error_log("your exception name:%s is collisioned please change another name\n", s);
 		exit(-1);
 	}
 	_exception_list[val] = 1;

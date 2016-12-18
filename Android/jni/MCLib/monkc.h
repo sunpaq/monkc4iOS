@@ -234,7 +234,7 @@ void runtime_logt(const char* tag, const char* fmt, ...);
 /* *
  * Configure hash table size:
  * have 5 levels of size
- * and it can auto expand to next level when some key conflicted
+ * and it can auto expand to next level when some key collisioned
  *
  * Example of memory usage:
  * max memory useage for one class  table is: 4Byte x 10000 = 40KB
@@ -265,16 +265,23 @@ typedef struct
 {
     MCInt lock;
     MCHashTableLevel level;
-    MCHashTableSize table_item_count;
     mc_hashitem* items[];
 }mc_hashtable;
 
+/*
+ method table is initially set min one
+ class  table is initially set max one
+ 
+ only the max size table use chain to slove collision
+ other tables will expand(rehash) until they reach the max
+ */
+
 static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {
-    0x000001ff, //512+256+128...+1
-    0x000003ff, //1024...
-    0x000007ff, //2048...
-    0x00000fff, //4096...
-    0x00001fff  //8192...
+    311,
+    1301,
+    3101,
+    13001,
+    31001
 };
 
 MCInline MCHashTableSize get_tablesize(const MCHashTableLevel level)
@@ -347,7 +354,7 @@ MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
     aclass->table = (mc_hashtable*)malloc(sizeof(mc_hashtable) + sizeof(mc_hashitem)*get_tablesize(initlevel));
     aclass->table->lock = 0;
     aclass->table->level = initlevel;
-    aclass->table->table_item_count = 0;
+    //aclass->table->table_item_count = 0;
     //set all the slot to nil
     for (int i = 0; i < get_tablesize(initlevel); i++)
         (aclass->table->items)[i] = null;
@@ -515,16 +522,18 @@ MCInline MCHash hash(const char *s) {
     return (hashval & MCHashMask);
 }
 
+MCInline MCHash doubleHash(MCHash nkey, unsigned i, MCUInt slots) {
+    return ((nkey % slots) + i*(1+(nkey % (slots-1)))) % slots;
+}
+
 mc_hashitem* new_item(const char* key, MCGeneric value);
 mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval);
 mc_hashtable* new_table(const MCHashTableLevel initlevel);
 
-MCHashTableIndex set_item(mc_hashtable** const table_p,
-                mc_hashitem* const item,
-                MCBool isOverride, MCBool isFreeValue, const char* classname);
-mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key);
-mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, const char* refkey);
-mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCHashTableIndex index);
+MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAllowOverride, const char* refkey);
+mc_hashitem* get_item_bykey(mc_hashtable* table_p, const char* key);
+mc_hashitem* get_item_byhash(mc_hashtable* table_p, const MCHash hashval, const char* refkey);
+mc_hashitem* get_item_byindex(mc_hashtable* table_p, const MCHashTableIndex index);
 
 /*
  Messaging.h
