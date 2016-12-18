@@ -427,6 +427,8 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
     //init
     atable->lock = 0;
     atable->level = initlevel;
+    //set cache list nil
+    atable->cachelist = null;
     //set all the slot to nil
     for (int i = 0; i < get_tablesize(initlevel); i++)
         atable->items[i] = null;
@@ -439,6 +441,8 @@ static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel t
     mc_hashtable* newtable = new_table(tolevel);
     mc_hashtable* oldtable = (*table_p);
     MCHashTableSize osize = get_tablesize(oldtable->level);
+    
+    newtable->cachelist = oldtable->cachelist;
     
     mc_hashitem* item;
     for (MCHashTableSize i=0; i<osize; i++) {
@@ -467,8 +471,9 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
         aitem->hash = hashval;
         //strcpy(aitem->key, key);
         //aitem->key[MAX_KEY_CHARS] = NUL;
-        aitem->key = (char*)key;
         aitem->value = value;
+        aitem->key = (char*)malloc(strlen(key));
+        strncpy(aitem->key, key, strlen(key));
         return aitem;
     }else{
         error_log("Monk-C HashTable new_item failed, key=%s\n", key);
@@ -543,29 +548,97 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     }
 }
 
-mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, const char* refkey)
+static inline mc_hashitem* cacheSearch(const mc_hashtable* table, MCHash hashval, const char* refkey)
 {
-    if(table_p==null){
+    if (table->cachelist) {
+        if (table->cachelist->hash == hashval) {
+            return table->cachelist;
+        }
+    }
+    return null;
+//    if (table->cachelist == null) {
+//        return null;
+//    }
+//    if (table->level == MCHashTableLevelMax) {
+//        //have to compare the key
+//        mc_hashitem* iter = table->cachelist;
+//        while (iter) {
+//            if (iter->hash == hashval) {
+//                if (strcmp(refkey, iter->key) == 0) {
+//                    return iter;
+//                }
+//            }
+//            iter = iter->next;
+//        }
+//    } else {
+//        mc_hashitem* iter = table->cachelist;
+//        while (iter) {
+//            if (iter->hash == hashval) {
+//                return iter;
+//            }
+//            iter = iter->next;
+//        }
+//    }
+//    return null;
+}
+
+static inline void cacheInsert(mc_hashtable* table, mc_hashitem* item)
+{
+    table->cachelist = item;
+
+//    if (table->cachelist == null) {
+//        table->cachelist = item;
+//    } else {
+//        if(cacheSearch(table, item->hash, item->key) == null) {
+//            mc_hashitem* newitem = new_item_h(item->key, item->value, item->hash);
+//            newitem->next = table->cachelist;
+//            table->cachelist = newitem;
+//        }
+//    }
+    
+    runtime_log("cache %s\n", item->key);
+}
+
+//static inline void printCache(const mc_hashtable* table)
+//{
+//    mc_hashitem* iter = table->cachelist;
+//    while (iter) {
+//        printf("%s\n", iter->key);
+//        iter = iter->next;
+//    }
+//}
+
+mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const char* refkey)
+{
+    if(table==null){
         error_log("get_item_byhash(table_p) table_p is nil return nil\n");
         return null;
     }
+
+    //cache search
+    mc_hashitem* res = null;
+    //printCache(table);
+    if ((res=cacheSearch(table, hashval, refkey))) {
+        return res;
+    }
+    
     //level<MCHashTableLevelMax
     MCHashTableIndex index;
     MCHashTableSize tsize;
     
-    mc_hashitem* res=null;
-    for(MCHashTableLevel level = table_p->level; level<MCHashTableLevelMax; level++){
+    for(MCHashTableLevel level = table->level; level<MCHashTableLevelMax; level++){
         tsize = get_tablesize(level);
         //first probe
         MCHash fsaved;
         index = firstHashIndex(hashval, tsize, &fsaved);
-        if((res=get_item_byindex(table_p, index)) == null) {
+        if((res=get_item_byindex(table, index)) == null) {
             //second probe
             index = secondHashIndex(hashval, tsize, fsaved);
-            if ((res=get_item_byindex(table_p, index)) == null)
+            if ((res=get_item_byindex(table, index)) == null)
                 continue;
         }
         //pass all the check
+        cacheInsert(table, res);
         return res;
     }
     
@@ -574,14 +647,15 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     //first probe
     MCHash fsaved;
     index = firstHashIndex(hashval, tsize, &fsaved);
-    if((res=get_item_byindex(table_p, index)) == null) {
+    if((res=get_item_byindex(table, index)) == null) {
         //second probe
         index = secondHashIndex(hashval, tsize, fsaved);
-        if((res=get_item_byindex(table_p, index)) == null)
+        if((res=get_item_byindex(table, index)) == null)
             return null;//not found
     }
     //found and no chain
     if (res->next == null) {
+        cacheInsert(table, res);
         return res;
     }
     //found but have chain
@@ -589,6 +663,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
         for(; res!=null; res=res->next) {
             if(mc_compare_key(res->key, refkey) == 0){
                 runtime_log("key hit a item [%s] in chain\n", res->key);
+                cacheInsert(table, res);
                 return res;
             }
         }

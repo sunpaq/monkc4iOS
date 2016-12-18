@@ -257,13 +257,14 @@ typedef struct mc_hashitem_struct
     struct mc_hashitem_struct* next;
     MCHash hash;
     MCGeneric value;
-    const char* key;
+    char* key;
     //char key[MAX_KEY_CHARS+1];
 }mc_hashitem;
 
 typedef struct
 {
     MCInt lock;
+    mc_hashitem* cachelist;
     MCHashTableLevel level;
     mc_hashitem* items[];
 }mc_hashtable;
@@ -538,7 +539,7 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval);
 mc_hashtable* new_table(const MCHashTableLevel initlevel);
 
 MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAllowOverride, const char* refkey);
-mc_hashitem* get_item_byhash(mc_hashtable* table_p, const MCHash hashval, const char* refkey);
+mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const char* refkey);
 
 MCInline mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key)
 {
