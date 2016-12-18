@@ -495,8 +495,11 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     }
     
     MCHash hashval = item->hash;
+    MCHashTableSize tsize = get_tablesize((*table_p)->level);
+
     //first probe
-    MCHashTableIndex index = doubleHash(hashval, 0, get_tablesize((*table_p)->level));
+    MCHash fsaved;
+    MCHashTableIndex index = firstHashIndex(hashval, tsize, &fsaved);
     mc_hashitem* olditem = (*table_p)->items[index];
     
     if(olditem == null){
@@ -510,7 +513,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
             return index;
         }
         //second probe
-        index = doubleHash(hashval, 1, get_tablesize((*table_p)->level));
+        index = secondHashIndex(hashval, tsize, fsaved);
         mc_hashitem* olditem = (*table_p)->items[index];
 
         if (olditem == null) {
@@ -540,16 +543,6 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     }
 }
 
-mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key)
-{
-    if(table_p==null){
-        error_log("get_item_bykey(table_p) table_p is nil return nil\n");
-        return null;
-    }
-    //try get index
-    return get_item_byhash(table_p, hash(key), key);
-}
-
 mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, const char* refkey)
 {
     if(table_p==null){
@@ -564,10 +557,11 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     for(MCHashTableLevel level = table_p->level; level<MCHashTableLevelMax; level++){
         tsize = get_tablesize(level);
         //first probe
-        index = doubleHash(hashval, 0, tsize);
+        MCHash fsaved;
+        index = firstHashIndex(hashval, tsize, &fsaved);
         if((res=get_item_byindex(table_p, index)) == null) {
             //second probe
-            index = doubleHash(hashval, 1, tsize);
+            index = secondHashIndex(hashval, tsize, fsaved);
             if ((res=get_item_byindex(table_p, index)) == null)
                 continue;
         }
@@ -578,10 +572,11 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     //level=MCHashTableLevelMax
     tsize = get_tablesize(MCHashTableLevelMax);
     //first probe
-    index = doubleHash(hashval, 0, tsize);
+    MCHash fsaved;
+    index = firstHashIndex(hashval, tsize, &fsaved);
     if((res=get_item_byindex(table_p, index)) == null) {
         //second probe
-        index = doubleHash(hashval, 1, tsize);
+        index = secondHashIndex(hashval, tsize, fsaved);
         if((res=get_item_byindex(table_p, index)) == null)
             return null;//not found
     }
@@ -601,21 +596,6 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     //for all the other cases
     return null;
 }
-
-mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCHashTableIndex index)
-{
-    if(table_p==null){
-        error_log("get_item_byindex(table_p) table_p is nil return nil\n");
-        return null;
-    }
-    if(index > get_tablesize(table_p->level))
-        return null;
-    if(table_p->items[index] != null)
-        return table_p->items[index];
-    else
-        return null;
-}
-
 
 /*
  ObjectManage
