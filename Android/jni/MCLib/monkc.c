@@ -473,6 +473,7 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
         aitem->prev = null;
         aitem->hash = hashval;
         aitem->value = value;
+        aitem->hitcount = 0;
         aitem->key = key;
         return aitem;
     }else{
@@ -481,7 +482,7 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
     }
 }
 
-static mc_hashitem* cacheSearch(const mc_hashtable* table, MCHash hashval, const char* refkey);
+static mc_hashitem* cacheSearch(mc_hashtable* table, MCHash hashval, const char* refkey);
 
 static void override_samekeyitem(mc_hashtable* table, mc_hashitem* item, mc_hashitem* newitem, const char* refkey)
 {
@@ -556,7 +557,41 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     }
 }
 
-static mc_hashitem* cacheSearch(const mc_hashtable* table, MCHash hashval, const char* refkey)
+static MCHashTableCache itemConnect(MCHashTableCache cache, mc_hashitem* A, mc_hashitem* B)
+{
+    if (cache.count < MCHashTableCacheMax && A && B) {
+        A->next = B;
+        B->prev = A;
+        if (B == cache.head)
+            cache.head = A;
+        if (A == cache.tail)
+            cache.tail = B;
+    }
+    return cache;
+}
+
+//return new head
+static MCHashTableCache itemDelete(MCHashTableCache cache, mc_hashitem* A)
+{
+    if (cache.count < MCHashTableCacheMax && A) {
+        cache = itemConnect(cache, A->prev, A->next);
+        A->prev = null;
+        A->next = null;
+    }
+    return cache;
+}
+
+static MCHashTableCache itemInsert(MCHashTableCache cache, mc_hashitem* item, mc_hashitem* before)
+{
+    if (cache.count < MCHashTableCacheMax && item && before) {
+        cache = itemConnect(cache, before->prev, item);
+        cache = itemConnect(cache, item, before);
+    }
+    return cache;
+}
+
+//locality of reference / principle of locality
+static mc_hashitem* cacheSearch(mc_hashtable* table, MCHash hashval, const char* refkey)
 {
     if (table->cache.head == null || table->cache.count > MCHashTableCacheMax)
         return null;
@@ -567,19 +602,37 @@ static mc_hashitem* cacheSearch(const mc_hashtable* table, MCHash hashval, const
         while (iter && (count++) < MCHashTableCacheMax) {
             if (iter->hash == hashval) {
                 if (iter->key && strcmp(refkey, iter->key) == 0) {
-                    runtime_log("table[%p] hit cache %s\n", table, iter->key);
+                    //hit
+                    runtime_log("table[%p] hit cache <%s>\n", table, iter->key);
+                    //hit more than twice, move to first
+                    if (iter != table->cache.head && iter->hitcount > 2) {
+                        table->cache = itemDelete(table->cache, iter);
+                        table->cache = itemInsert(table->cache, iter, table->cache.head);
+                        runtime_log("table[%p] move to first <%s>\n", table, iter->key);
+                    }
+                    iter->hitcount++;
                     return iter;
                 }
             }
+            iter->hitcount = 0;
             iter = iter->next;
         }
     } else {
         mc_hashitem* iter = table->cache.head;
         while (iter && (count++) < MCHashTableCacheMax) {
             if (iter->hash == hashval) {
-                runtime_log("table[%p] hit cache %s\n", table, iter->key);
+                //hit
+                runtime_log("table[%p] hit cache <%s>\n", table, iter->key);
+                //hit more than twice, move to first
+                if (iter != table->cache.head && iter->hitcount > 2) {
+                    table->cache = itemDelete(table->cache, iter);
+                    table->cache = itemInsert(table->cache, iter, table->cache.head);
+                    runtime_log("table[%p] move to first <%s>\n", table, iter->key);
+                }
+                iter->hitcount++;
                 return iter;
             }
+            iter->hitcount = 0;
             iter = iter->next;
         }
     }
@@ -600,23 +653,21 @@ static mc_hashitem* cacheInsert(mc_hashtable* table, mc_hashitem* item)
         mc_hashitem* newitem = null;
         if (table->cache.count < MCHashTableCacheMax) {
             newitem = new_item_h(item->key, item->value, item->hash);
+            table->cache.count++;
+
         } else {
             //cut and reuse the tail item
-            table->cache.tail->prev->next = null;
-            table->cache.tail->next = null;
             newitem = table->cache.tail;
+            table->cache = itemDelete(table->cache, table->cache.tail);
         }
         //allocate or reuse successful
         if (newitem) {
-            newitem->next = table->cache.head;
-            table->cache.head->prev = newitem;
-            table->cache.head = newitem;
-            table->cache.count++;
+            table->cache = itemInsert(table->cache, newitem, table->cache.head);
             runtime_log("table[%p] reuse tail\n");
         }
     }
     
-    runtime_log("table[%p] cache %s\n", table, item->key);
+    runtime_log("table[%p] cache <%s>\n", table, item->key);
     return table->cache.head;
 }
 
@@ -626,7 +677,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
         error_log("get_item_byhash(table_p) table_p is nil return nil\n");
         return null;
     }
-
+    
     //cache search
     mc_hashitem* res = null;
     if ((res=cacheSearch(table, hashval, refkey))) {
