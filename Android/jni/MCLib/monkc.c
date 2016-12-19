@@ -428,7 +428,9 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
     atable->lock = 0;
     atable->level = initlevel;
     //set cache list nil
-    atable->cachelist = null;
+    atable->cache.head = null;
+    atable->cache.tail = null;
+    atable->cache.count = 0;
     //set all the slot to nil
     for (int i = 0; i < get_tablesize(initlevel); i++)
         atable->items[i] = null;
@@ -442,7 +444,7 @@ static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel t
     mc_hashtable* oldtable = (*table_p);
     MCHashTableSize osize = get_tablesize(oldtable->level);
     
-    newtable->cachelist = oldtable->cachelist;
+    newtable->cache = oldtable->cache;
     
     mc_hashitem* item;
     for (MCHashTableSize i=0; i<osize; i++) {
@@ -468,12 +470,10 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
     mc_hashitem* aitem = (mc_hashitem*)malloc(sizeof(mc_hashitem));
     if (aitem != null) {
         aitem->next = null;
+        aitem->prev = null;
         aitem->hash = hashval;
-        //strcpy(aitem->key, key);
-        //aitem->key[MAX_KEY_CHARS] = NUL;
         aitem->value = value;
-        aitem->key = (char*)malloc(strlen(key));
-        strncpy(aitem->key, key, strlen(key));
+        aitem->key = key;
         return aitem;
     }else{
         error_log("Monk-C HashTable new_item failed, key=%s\n", key);
@@ -481,9 +481,16 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
     }
 }
 
-static void override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, const char* refkey)
+static mc_hashitem* cacheSearch(const mc_hashtable* table, MCHash hashval, const char* refkey);
+
+static void override_samekeyitem(mc_hashtable* table, mc_hashitem* item, mc_hashitem* newitem, const char* refkey)
 {
     if (strcmp(item->key, newitem->key) == 0) {
+        mc_hashitem* cache = cacheSearch(table, item->hash, refkey);
+        //override the cache too!
+        if (cache) {
+            cache->value = newitem->value;
+        }
         //only replace value!
         item->value = newitem->value;
         //free the new item!
@@ -514,7 +521,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     }else{
         //method override
         if (isAllowOverride) {
-            override_samekeyitem(olditem, item, refkey);
+            override_samekeyitem(*table_p, olditem, item, refkey);
             return index;
         }
         //second probe
@@ -528,7 +535,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
         } else {
             //method override
             if (isAllowOverride) {
-                override_samekeyitem(olditem, item, refkey);
+                override_samekeyitem(*table_p, olditem, item, refkey);
                 return index;
             }
             //solve the collision by expand table
@@ -542,71 +549,77 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
                 error_log("[%s]:item key collision can not be solved. link the new one[%s] behind the old[%s]\n",
                           refkey, item->key, olditem->key);
                 olditem->next = item;
+                item->prev = olditem;
                 return index;
             }
         }
     }
 }
 
-static inline mc_hashitem* cacheSearch(const mc_hashtable* table, MCHash hashval, const char* refkey)
+static mc_hashitem* cacheSearch(const mc_hashtable* table, MCHash hashval, const char* refkey)
 {
-    if (table->cachelist) {
-        if (table->cachelist->hash == hashval) {
-            return table->cachelist;
+    if (table->cache.head == null) {
+        return null;
+    }
+    int count = 0;
+    if (table->level == MCHashTableLevelMax) {
+        //have to compare the key
+        mc_hashitem* iter = table->cache.head;
+        while (iter && (count++) < 32) {
+            if (iter->hash == hashval) {
+                if (iter->key && strcmp(refkey, iter->key) == 0) {
+                    runtime_log("table[%p] hit cache %s\n", table, iter->key);
+                    return iter;
+                }
+            }
+            iter = iter->next;
+        }
+    } else {
+        mc_hashitem* iter = table->cache.head;
+        while (iter && (count++) < 32) {
+            if (iter->hash == hashval) {
+                runtime_log("table[%p] hit cache %s\n", table, iter->key);
+                return iter;
+            }
+            iter = iter->next;
         }
     }
     return null;
-//    if (table->cachelist == null) {
-//        return null;
-//    }
-//    if (table->level == MCHashTableLevelMax) {
-//        //have to compare the key
-//        mc_hashitem* iter = table->cachelist;
-//        while (iter) {
-//            if (iter->hash == hashval) {
-//                if (strcmp(refkey, iter->key) == 0) {
-//                    return iter;
-//                }
-//            }
-//            iter = iter->next;
-//        }
-//    } else {
-//        mc_hashitem* iter = table->cachelist;
-//        while (iter) {
-//            if (iter->hash == hashval) {
-//                return iter;
-//            }
-//            iter = iter->next;
-//        }
-//    }
-//    return null;
 }
 
-static inline void cacheInsert(mc_hashtable* table, mc_hashitem* item)
+//return head
+static mc_hashitem* cacheInsert(mc_hashtable* table, mc_hashitem* item)
 {
-    table->cachelist = item;
+    if (table->cache.head == null) {
+        table->cache.head = item;
+        table->cache.tail = item;
+    } else {
+        //only insert once
+        if(cacheSearch(table, item->hash, item->key))
+            return table->cache.head;
 
-//    if (table->cachelist == null) {
-//        table->cachelist = item;
-//    } else {
-//        if(cacheSearch(table, item->hash, item->key) == null) {
-//            mc_hashitem* newitem = new_item_h(item->key, item->value, item->hash);
-//            newitem->next = table->cachelist;
-//            table->cachelist = newitem;
-//        }
-//    }
+        mc_hashitem* newitem = null;
+        if (table->cache.count < 32) {
+            newitem = new_item_h(item->key, item->value, item->hash);
+        } else {
+            //cut and reuse the tail item
+            table->cache.tail->prev->next = null;
+            table->cache.tail->next = null;
+            newitem = table->cache.tail;
+        }
+        //allocate or reuse successful
+        if (newitem) {
+            newitem->next = table->cache.head;
+            table->cache.head->prev = newitem;
+            table->cache.head = newitem;
+            table->cache.count++;
+            runtime_log("table[%p] reuse tail\n");
+        }
+    }
     
-    runtime_log("cache %s\n", item->key);
+    runtime_log("table[%p] cache %s\n", table, item->key);
+    return table->cache.head;
 }
-
-//static inline void printCache(const mc_hashtable* table)
-//{
-//    mc_hashitem* iter = table->cachelist;
-//    while (iter) {
-//        printf("%s\n", iter->key);
-//        iter = iter->next;
-//    }
-//}
 
 mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const char* refkey)
 {
@@ -617,7 +630,6 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
 
     //cache search
     mc_hashitem* res = null;
-    //printCache(table);
     if ((res=cacheSearch(table, hashval, refkey))) {
         return res;
     }
@@ -638,7 +650,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
                 continue;
         }
         //pass all the check
-        cacheInsert(table, res);
+        table->cache.head = cacheInsert(table, res);
         return res;
     }
     
@@ -655,7 +667,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
     }
     //found and no chain
     if (res->next == null) {
-        cacheInsert(table, res);
+        table->cache.head = cacheInsert(table, res);
         return res;
     }
     //found but have chain
@@ -663,7 +675,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
         for(; res!=null; res=res->next) {
             if(mc_compare_key(res->key, refkey) == 0){
                 runtime_log("key hit a item [%s] in chain\n", res->key);
-                cacheInsert(table, res);
+                table->cache.head = cacheInsert(table, res);
                 return res;
             }
         }

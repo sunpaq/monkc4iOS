@@ -84,6 +84,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 //static inline not require "non-inline" version
 #define MCInline static inline
 #define MCGlobalKey static const char*
+#define ALIGN(x) __attribute__((packed, aligned(x)))
 
 /**
  * Limitations of Monk-C method()/function() parameters
@@ -252,22 +253,30 @@ typedef enum  {
 typedef MCUInt MCHashTableSize;
 typedef MCUInt MCHashTableIndex;
 #define MAX_KEY_CHARS 100
-typedef struct mc_hashitem_struct
-{
+typedef struct mc_hashitem_struct {
     struct mc_hashitem_struct* next;
+    struct mc_hashitem_struct* prev;
     MCHash hash;
     MCGeneric value;
-    char* key;
-    //char key[MAX_KEY_CHARS+1];
-}mc_hashitem;
+    const char* key;
+    MCUInt padding;
+} ALIGN(4) mc_hashitem;
 
-typedef struct
-{
-    MCInt lock;
-    mc_hashitem* cachelist;
+typedef struct {
+    mc_hashitem* head;
+    mc_hashitem* tail;
+    MCUInt count;
+    MCUInt padding;
+} ALIGN(4) MCHashTableCache;
+
+typedef struct {
+    MCHashTableCache cache;
     MCHashTableLevel level;
+    MCInt lock;
+    MCUInt count;
+    MCUInt padding;
     mc_hashitem* items[];
-}mc_hashtable;
+} ALIGN(4) mc_hashtable;
 
 /*
  method table is initially set min one
@@ -297,13 +306,11 @@ MCInline MCHashTableSize get_tablesize(const MCHashTableLevel level)
 MCInline void mc_hashtable_add_item(mc_hashtable* table, MCHashTableIndex index, mc_hashitem* item) { table->items[index] = item; }
 MCInline mc_hashitem* mc_hashtable_get_item(mc_hashtable* table, MCHashTableIndex index) { return table->items[index]; }
 
-
-
-typedef struct mc_block_struct
-{
+typedef struct mc_block_struct {
 	struct mc_block_struct* next;
 	void* data;
-}mc_block;
+} ALIGN(4) mc_block;
+
 MCInline mc_block* new_mc_block(void* data)
 {
     mc_block* ablock = (mc_block*)malloc(sizeof(mc_block));
@@ -312,11 +319,11 @@ MCInline mc_block* new_mc_block(void* data)
     return ablock;
 }
 
-typedef struct
-{
+typedef struct {
 	MCInt lock;
 	mc_block* tail;
-}mc_blockpool;
+} ALIGN(4) mc_blockpool;
+
 MCInline mc_blockpool* new_mc_blockpool()
 {
     mc_blockpool* bpool = (mc_blockpool*)malloc(sizeof(mc_blockpool));
@@ -325,23 +332,21 @@ MCInline mc_blockpool* new_mc_blockpool()
     return bpool;
 }
 //meta class, the struct is a node for inherit hierarchy
-typedef struct
-{
+typedef struct {
     MCSizeT       objsize;
     mc_hashitem*  item;
     mc_blockpool  free_pool;
     mc_blockpool  used_pool;
     mc_hashtable* table; //the hashtable may expand so let it dynamic
-}mc_class;
+} ALIGN(4) mc_class;
 //for type cast, every object have the 3 var members
-typedef struct _MCObject
-{
+typedef struct _MCObject {
     struct _MCObject* nextResponder;
     mc_block* block;
     mc_class* isa;
     mc_class* saved_isa;
     MCInt ref_count;
-} MCObject;
+} ALIGN(4) MCObject;
 
 MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
 {
@@ -380,7 +385,7 @@ MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 #define class(cls, supercls, ...)\
 typedef struct cls##Struct{\
 supercls Super;\
-__VA_ARGS__;}cls;\
+__VA_ARGS__;} cls;\
 cls* cls##_init(cls* const obj);\
 mc_class* cls##_load(mc_class* const cla);
 
@@ -571,7 +576,7 @@ MCInline mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCHash
 typedef struct {
     MCFuncPtr address;
     MCObject* object;
-} mc_message;
+} ALIGN(4) mc_message;
 #define mc_message_arg(Class) register void* address, register Class* obj
 MCInline mc_message make_msg(void* obj, void* addr) { return (mc_message){(MCFuncPtr)addr, (MCObject*)obj}; };
 
