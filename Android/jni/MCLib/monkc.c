@@ -568,7 +568,7 @@ static void itemConnect(mc_hashitem* A, mc_hashitem* B)
 }
 
 //return new head
-static void itemDelete(MCHashCircleCache cache, mc_hashitem* A)
+static MCHashCircleCache itemDelete(MCHashCircleCache cache, mc_hashitem* A)
 {
     if (cache.count < MCHashTableCacheMax && A) {
         itemConnect(A->prev, A->next);
@@ -579,10 +579,11 @@ static void itemDelete(MCHashCircleCache cache, mc_hashitem* A)
         if (cache.count > 0)
             cache.count--;
     }
+    return cache;
 }
 
 //insert into head
-static void itemInsert(MCHashCircleCache cache, mc_hashitem* A)
+static MCHashCircleCache itemInsert(MCHashCircleCache cache, mc_hashitem* A)
 {
     if (cache.count < MCHashTableCacheMax && A) {
         mc_hashitem* newitem = null;
@@ -592,16 +593,26 @@ static void itemInsert(MCHashCircleCache cache, mc_hashitem* A)
         } else {
             //cut and reuse the tail item
             newitem = cache.last->prev;
-            itemDelete(cache, cache.last->prev);
+            cache = itemDelete(cache, cache.last->prev);
         }
         
         //circle
-        itemConnect(cache.last->prev, newitem);
-        itemConnect(newitem, cache.last);
+        if (cache.last == null) {
+            cache.last = newitem;
+        }
+        else if (cache.count == 1) {
+            itemConnect(newitem, cache.last);
+            itemConnect(cache.last, newitem);
+        }
+        else {
+            itemConnect(cache.last->prev, newitem);
+            itemConnect(newitem, cache.last);
+        }
         cache.last = newitem;
         if (cache.count < MCHashTableCacheMax)
             cache.count++;
     }
+    return cache;
 }
 
 //locality of reference / principle of locality
@@ -619,7 +630,7 @@ static mc_hashitem* cacheSearch(mc_hashtable* table, MCHash hashval, const char*
                 if (iter->key && strcmp(refkey, iter->key) == 0) {
                     //hit
                     table->cache.last = iter;
-                    runtime_log("table[%p] hit cache <%s>\n", table, iter->key);
+                    error_log("table[%p] hit cache <%s>\n", table, iter->key);
                     return iter;
                 }
             }
@@ -632,7 +643,7 @@ static mc_hashitem* cacheSearch(mc_hashtable* table, MCHash hashval, const char*
             if (iter->hash == hashval) {
                 //hit
                 table->cache.last = iter;
-                runtime_log("table[%p] hit cache <%s>\n", table, iter->key);
+                error_log("table[%p] hit cache <%s>\n", table, iter->key);
                 return iter;
             }
             iter = iter->next;
@@ -642,26 +653,21 @@ static mc_hashitem* cacheSearch(mc_hashtable* table, MCHash hashval, const char*
 }
 
 //return head
-static void cacheInsert(mc_hashtable* table, mc_hashitem* item)
+static MCHashCircleCache cacheInsert(mc_hashtable* table, mc_hashitem* item)
 {
     if (!table->useCache)
-        return;
+        return table->cache;
     
-    if (table->cache.last == null) {
-        table->cache.last = item;
-        table->cache.count = 1;
-        
-    } else {
-        //only insert once
-        if(cacheSearch(table, item->hash, item->key))
-            return;
+    //only insert once
+    if(cacheSearch(table, item->hash, item->key))
+        return table->cache;
 
-        //allocate or reuse successful
-        itemInsert(table->cache, item);
-        runtime_log("table[%p] reuse tail\n");
-    }
+    //allocate or reuse successful
+    table->cache = itemInsert(table->cache, item);
     
+    runtime_log("table[%p] reuse tail\n");
     runtime_log("table[%p] cache <%s>\n", table, item->key);
+    return table->cache;
 }
 
 mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const char* refkey)
@@ -670,7 +676,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
         error_log("get_item_byhash(table_p) table_p is nil return nil\n");
         return null;
     }
-    
+    MCLogTypeSet(MC_VERBOSE);
     //cache search
     mc_hashitem* res = null;
     if ((res=cacheSearch(table, hashval, refkey))) {
@@ -693,7 +699,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
                 continue;
         }
         //pass all the check
-        cacheInsert(table, res);
+        table->cache = cacheInsert(table, res);
         return res;
     }
     
@@ -710,7 +716,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
     }
     //found and no chain
     if (res->next == null) {
-        cacheInsert(table, res);
+        table->cache = cacheInsert(table, res);
         return res;
     }
     //found but have chain
@@ -718,7 +724,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
         for(; res!=null; res=res->next) {
             if(mc_compare_key(res->key, refkey) == 0){
                 runtime_log("key hit a item [%s] in chain\n", res->key);
-                cacheInsert(table, res);
+                table->cache = cacheInsert(table, res);
                 return res;
             }
         }
