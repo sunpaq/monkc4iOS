@@ -428,6 +428,9 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
     atable->lock = 0;
     atable->level = initlevel;
     //set cache list nil
+    atable->useCache = false;
+    if (initlevel > MCHashTableLevel1)
+        atable->useCache = true;
     atable->cache.head = null;
     atable->cache.tail = null;
     atable->cache.count = 0;
@@ -444,7 +447,9 @@ static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel t
     mc_hashtable* oldtable = (*table_p);
     MCHashTableSize osize = get_tablesize(oldtable->level);
     
-    newtable->cache = oldtable->cache;
+    if (newtable->useCache && oldtable->useCache) {
+        newtable->cache = oldtable->cache;
+    }
     
     mc_hashitem* item;
     for (MCHashTableSize i=0; i<osize; i++) {
@@ -473,7 +478,7 @@ mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
         aitem->prev = null;
         aitem->hash = hashval;
         aitem->value = value;
-        aitem->hitcount = 0;
+        aitem->hitcost = 0;
         aitem->key = key;
         return aitem;
     }else{
@@ -489,7 +494,7 @@ static void override_samekeyitem(mc_hashtable* table, mc_hashitem* item, mc_hash
     if (strcmp(item->key, newitem->key) == 0) {
         mc_hashitem* cache = cacheSearch(table, item->hash, refkey);
         //override the cache too!
-        if (cache) {
+        if (table->useCache && cache) {
             cache->value = newitem->value;
         }
         //only replace value!
@@ -593,8 +598,9 @@ static MCHashTableCache itemInsert(MCHashTableCache cache, mc_hashitem* item, mc
 //locality of reference / principle of locality
 static mc_hashitem* cacheSearch(mc_hashtable* table, MCHash hashval, const char* refkey)
 {
-    if (table->cache.head == null || table->cache.count > MCHashTableCacheMax)
+    if (!table->useCache || table->cache.head == null || table->cache.count > MCHashTableCacheMax)
         return null;
+    
     int count = 0;
     if (table->level == MCHashTableLevelMax) {
         //have to compare the key
@@ -605,16 +611,16 @@ static mc_hashitem* cacheSearch(mc_hashtable* table, MCHash hashval, const char*
                     //hit
                     runtime_log("table[%p] hit cache <%s>\n", table, iter->key);
                     //hit more than twice, move to first
-                    if (iter != table->cache.head && iter->hitcount > 2) {
+                    if (iter != table->cache.head && iter->hitcost > 10) {
                         table->cache = itemDelete(table->cache, iter);
                         table->cache = itemInsert(table->cache, iter, table->cache.head);
                         runtime_log("table[%p] move to first <%s>\n", table, iter->key);
+                        iter->hitcost = 0;
                     }
-                    iter->hitcount++;
                     return iter;
                 }
             }
-            iter->hitcount = 0;
+            iter->hitcost++;
             iter = iter->next;
         }
     } else {
@@ -624,15 +630,15 @@ static mc_hashitem* cacheSearch(mc_hashtable* table, MCHash hashval, const char*
                 //hit
                 runtime_log("table[%p] hit cache <%s>\n", table, iter->key);
                 //hit more than twice, move to first
-                if (iter != table->cache.head && iter->hitcount > 2) {
+                if (iter != table->cache.head && iter->hitcost > 10) {
                     table->cache = itemDelete(table->cache, iter);
                     table->cache = itemInsert(table->cache, iter, table->cache.head);
                     runtime_log("table[%p] move to first <%s>\n", table, iter->key);
+                    iter->hitcost = 0;
                 }
-                iter->hitcount++;
                 return iter;
             }
-            iter->hitcount = 0;
+            iter->hitcost++;
             iter = iter->next;
         }
     }
@@ -642,6 +648,9 @@ static mc_hashitem* cacheSearch(mc_hashtable* table, MCHash hashval, const char*
 //return head
 static mc_hashitem* cacheInsert(mc_hashtable* table, mc_hashitem* item)
 {
+    if (!table->useCache)
+        return table->cache.head;
+    
     if (table->cache.head == null) {
         table->cache.head = item;
         table->cache.tail = item;

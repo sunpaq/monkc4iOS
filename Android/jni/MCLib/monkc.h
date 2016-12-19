@@ -259,7 +259,7 @@ typedef struct mc_hashitem_struct {
     MCHash hash;
     MCGeneric value;
     const char* key;
-    MCUInt hitcount;
+    MCUInt hitcost;
 } ALIGN(4) mc_hashitem;
 
 typedef struct {
@@ -274,7 +274,7 @@ typedef struct {
     MCHashTableCache cache;
     MCHashTableLevel level;
     MCInt lock;
-    MCUInt count;
+    MCBool useCache;
     MCUInt padding;
     mc_hashitem* items[];
 } ALIGN(4) mc_hashtable;
