@@ -263,15 +263,13 @@ typedef struct mc_hashitem_struct {
 } ALIGN(4) mc_hashitem;
 
 typedef struct {
-    mc_hashitem* head;
-    mc_hashitem* tail;
+    mc_hashitem* last;
     MCUInt count;
-    MCUInt padding;
-} ALIGN(4) MCHashTableCache;
-#define MCHashTableCacheMax 128
+} ALIGN(4) MCHashCircleCache;
+#define MCHashTableCacheMax 32
 
 typedef struct {
-    MCHashTableCache cache;
+    MCHashCircleCache cache;
     MCHashTableLevel level;
     MCInt lock;
     MCBool useCache;
