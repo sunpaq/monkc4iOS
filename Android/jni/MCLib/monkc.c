@@ -565,6 +565,9 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
             if ((res=get_item_byindex(table_p, index)) == null)
                 continue;
         }
+        //compare key
+        if (res->key != refkey)
+            continue;
         //pass all the check
         return res;
     }
@@ -582,12 +585,14 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     }
     //found and no chain
     if (res->next == null) {
+        if (res->key != refkey)
+            return null;
         return res;
     }
     //found but have chain
     else {
         for(; res!=null; res=res->next) {
-            if(mc_compare_key(res->key, refkey) == 0){
+            if(res->key == refkey){
                 runtime_log("key hit a item [%s] in chain\n", res->key);
                 return res;
             }
