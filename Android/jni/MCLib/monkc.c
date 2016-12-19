@@ -568,7 +568,7 @@ static void itemConnect(mc_hashitem* A, mc_hashitem* B)
 }
 
 //return new head
-static MCHashCircleCache itemDelete(MCHashCircleCache cache, mc_hashitem* A)
+static void itemDelete(MCHashCircleCache cache, mc_hashitem* A)
 {
     if (cache.count < MCHashTableCacheMax && A) {
         itemConnect(A->prev, A->next);
@@ -579,15 +579,26 @@ static MCHashCircleCache itemDelete(MCHashCircleCache cache, mc_hashitem* A)
         if (cache.count > 0)
             cache.count--;
     }
-    return cache;
 }
 
-static void itemInsert(MCHashCircleCache cache, mc_hashitem* item, mc_hashitem* before)
+//insert into head
+static void itemInsert(MCHashCircleCache cache, mc_hashitem* A)
 {
-    if (cache.count < MCHashTableCacheMax && item && before) {
-        itemConnect(before->prev, item);
-        itemConnect(item, before);
-        cache.last = item;
+    if (cache.count < MCHashTableCacheMax && A) {
+        mc_hashitem* newitem = null;
+        if (cache.count < MCHashTableCacheMax) {
+            newitem = new_item_h(A->key, A->value, A->hash);
+            
+        } else {
+            //cut and reuse the tail item
+            newitem = cache.last->prev;
+            itemDelete(cache, cache.last->prev);
+        }
+        
+        //circle
+        itemConnect(cache.last->prev, newitem);
+        itemConnect(newitem, cache.last);
+        cache.last = newitem;
         if (cache.count < MCHashTableCacheMax)
             cache.count++;
     }
@@ -639,26 +650,15 @@ static void cacheInsert(mc_hashtable* table, mc_hashitem* item)
     if (table->cache.last == null) {
         table->cache.last = item;
         table->cache.count = 1;
+        
     } else {
         //only insert once
         if(cacheSearch(table, item->hash, item->key))
             return;
 
-        mc_hashitem* newitem = null;
-        if (table->cache.count < MCHashTableCacheMax) {
-            newitem = new_item_h(item->key, item->value, item->hash);
-            table->cache.count++;
-
-        } else {
-            //cut and reuse the tail item
-            newitem = table->cache.last->prev;
-            table->cache = itemDelete(table->cache, table->cache.last->prev);
-        }
         //allocate or reuse successful
-        if (newitem) {
-            itemInsert(table->cache, newitem, table->cache.last);
-            runtime_log("table[%p] reuse tail\n");
-        }
+        itemInsert(table->cache, item);
+        runtime_log("table[%p] reuse tail\n");
     }
     
     runtime_log("table[%p] cache <%s>\n", table, item->key);
