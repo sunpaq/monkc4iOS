@@ -268,6 +268,7 @@ typedef struct {
     MCUInt count;
     MCUInt padding;
 } ALIGN(4) MCHashTableCache;
+#define MCHashTableCacheMax 32
 
 typedef struct {
     MCHashTableCache cache;
