@@ -218,16 +218,10 @@ void runtime_logt(const char* tag, const char* fmt, ...)
 
 //private data
 static mc_hashtable* mc_global_classtable = null;
+static mc_hashtable* mc_global_symboltable = null;
 
-void trylock_global_classtable()
-{
-	mc_trylock(&(mc_global_classtable->lock));
-}
-
-void unlock_global_classtable()
-{
-	mc_unlock(&(mc_global_classtable->lock));
-}
+void trylock_table(mc_hashtable* table) { mc_trylock(&(table->lock)); }
+void unlock_table(mc_hashtable* table) { mc_unlock(&(table->lock)); }
 
 /*
 for method binding
@@ -235,20 +229,37 @@ for method binding
 
 MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value)
 {
-	return _binding_h(aclass, methodname, value, hash(methodname));
+    if(aclass==null){
+        error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
+        return 0;
+    }
+    
+    //create a symbol table
+    if (mc_global_symboltable == null)
+        mc_global_symboltable = new_table(MCHashTableLevelMax);
+    
+    //prehash and save the symbol
+    
+    MCHash hashval = hash(methodname);
+    mc_hashitem* item = new_item_h(methodname, MCGenericH(hashval), hashval);
+    set_item(&mc_global_symboltable, item, false, methodname);
+    
+    //bind the method
+    item = new_item_h(methodname, MCGenericFp(value), hashval);
+    return set_item(&(aclass->table), item, true, methodname);
 }
 
-MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
-{
-	if(aclass==null){
-		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
-		return 0;
-	}
-	MCHashTableIndex res = set_item(&(aclass->table),
-		new_item_h(methodname, MCGenericFp(value), hashval),
-		true, nameofc(aclass));//will override
-	return res;
-}
+//MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
+//{
+//	if(aclass==null){
+//		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
+//		return 0;
+//	}
+//	MCHashTableIndex res = set_item(&(aclass->table),
+//		new_item_h(methodname, MCGenericFp(value), hashval),
+//		true, nameofc(aclass));//will override
+//	return res;
+//}
 
 static inline mc_class* findclass(const char* name, const MCHash hashval)
 {
@@ -273,7 +284,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 {
 	mc_class* aclass = findclass(name, hashval);
 	//try lock spin lock
-	trylock_global_classtable();
+	trylock_table(mc_global_classtable);
 	if(aclass == null){
 		//new a item
 		aclass = alloc_mc_class(objsize);
@@ -288,7 +299,7 @@ mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHa
 		runtime_log("find a class[%s]\n", name);
 	}
 	//unlock
-	unlock_global_classtable();
+	unlock_table(mc_global_classtable);
 	return aclass;
 }
 
