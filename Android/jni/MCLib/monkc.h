@@ -263,6 +263,7 @@ typedef struct mc_hashitem_struct
 
 typedef struct
 {
+    mc_hashitem* cache;
     MCInt lock;
     MCHashTableLevel level;
     mc_hashitem* items[];
@@ -434,8 +435,10 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define response_to(obj, met) 			 _response_to((MCObject*)obj, S(met))
 #define response_to_hash(obj, met, hash) _response_to_h((MCObject*)obj, S(met), hash)
 #define ff(obj, met, ...)				 _push_jump(_response_to((MCObject*)obj, S(met)), __VA_ARGS__)//send message
-#define ffkey(obj, met, ...)             _push_jump(_response_to((MCObject*)obj, met), __VA_ARGS__)//call by string
-#define ffhash(obj, met, hash, ...)	     _push_jump(_response_to_h((MCObject*)obj, S(met), hash), __VA_ARGS__)
+#define ffindex(obj, idx, ...)		     _push_jump(_response_to_i((MCObject*)obj, idx), __VA_ARGS__)//send index
+
+//#define ffkey(obj, met, ...)           _push_jump(_response_to((MCObject*)obj, met), __VA_ARGS__)//call by string
+//#define ffhash(obj, met, hash, ...)	 _push_jump(_response_to_h((MCObject*)obj, S(met), hash), __VA_ARGS__)
 
 //lock
 void trylock_global_classtable();
@@ -516,12 +519,17 @@ MCInline int mc_compare_key(const char* dest, const char* src) {
 
 //copy form << The C Programming language >>
 //BKDR Hash Function
-MCInline MCHash hash(const char *s) {
+MCInline MCHash __hash(const char *s) {
     register MCHash hashval;
     for(hashval = 0; *s != NUL; s++)
         hashval = *s + 31 * hashval;
     //avoid integer overflow
     return (hashval & MCHashMask);
+}
+
+MCInline MCHash hash(const char *s) {
+    //avoid integer overflow
+    return ((MCHash)s & MCHashMask);
 }
 
 MCInline MCHashTableIndex firstHashIndex(MCHash nkey, MCHashTableSize slots, MCHash* savedFirst) {
@@ -539,6 +547,8 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel);
 
 MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAllowOverride, const char* refkey);
 mc_hashitem* get_item_byhash(mc_hashtable* table_p, const MCHash hashval, const char* refkey);
+
+
 
 MCInline mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key)
 {
@@ -583,6 +593,7 @@ mc_message _self_response_to(MCObject* obj, const char* methodname);
 mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash hashval);
 mc_message _response_to(MCObject* obj, const char* methodname);
 mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval);
+mc_message _response_to_i(MCObject* obj, MCHashTableIndex index);
 
 /*
  ObjectManage.h

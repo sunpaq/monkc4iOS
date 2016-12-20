@@ -252,11 +252,17 @@ MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFu
 
 static inline mc_class* findclass(const char* name, const MCHash hashval)
 {
-	mc_hashitem* item = null;
 	//create a class hashtable
 	if(mc_global_classtable == null)
 		mc_global_classtable = new_table(MCHashTableLevelMax);
-	item=get_item_byhash(mc_global_classtable, hashval, name);
+    
+    //cache
+    mc_hashitem* cache = mc_global_classtable->cache;
+    if (cache && cache->key == name) {
+        return (mc_class*)(cache->value.mcvoidptr);
+    }
+    
+	mc_hashitem* item=get_item_byhash(mc_global_classtable, hashval, name);
 	if (item == null)
 		return null;
 	else
@@ -423,7 +429,7 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
 {
     //alloc
     mc_hashtable* atable = (mc_hashtable*)malloc(sizeof(mc_hashtable)
-                                                 +get_tablesize(initlevel)*sizeof(mc_hashitem*));
+        +get_tablesize(initlevel)*sizeof(mc_hashitem*));
     //init
     atable->lock = 0;
     atable->level = initlevel;
@@ -504,6 +510,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     
     if(olditem == null){
         (*table_p)->items[index] = item;
+        (*table_p)->cache = item;
         runtime_log("[%s]:set-item[%d/%s]\n", refkey, index, item->key);
         return index;
     }else{
@@ -518,6 +525,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
 
         if (olditem == null) {
             (*table_p)->items[index] = item;
+            (*table_p)->cache = item;
             runtime_log("[%s]:set-item[%d/%s]\n", refkey, index, item->key);
             return index;
         } else {
@@ -537,6 +545,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
                 error_log("[%s]:item key collision can not be solved. link the new one[%s] behind the old[%s]\n",
                           refkey, item->key, olditem->key);
                 olditem->next = item;
+                (*table_p)->cache = item;
                 return index;
             }
         }
@@ -549,6 +558,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
         error_log("get_item_byhash(table_p) table_p is nil return nil\n");
         return null;
     }
+    
     //level<MCHashTableLevelMax
     MCHashTableIndex index;
     MCHashTableSize tsize;
@@ -872,19 +882,21 @@ mc_message _self_response_to(MCObject* obj, const char* methodname)
 
 mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
 {
+    if(obj == null || obj->isa == null){
+        //no need to warning user
+        return (mc_message){null, null};
+    }
+    
     //we will return a struct
-    mc_hashitem* res = null;
     mc_message tmpmsg = {null, null};
     
-    if(obj == null){
-        //no need to warning user
-        return tmpmsg;
+    //cache
+    mc_hashitem* cache = obj->isa->table->cache;
+    if (cache && cache->key == methodname) {
+        return (mc_message){cache->value.mcfuncptr, obj};
     }
-    if(obj->isa == null){
-        error_log("_self_response_to(obj, '%s') obj->isa is null. return {null, null}\n", methodname);
-        return tmpmsg;
-    }
-    
+
+    mc_hashitem* res = null;
     if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != null){
         tmpmsg.object = obj;
         tmpmsg.address = res->value.mcfuncptr;
@@ -924,6 +936,17 @@ mc_message _response_to(MCObject* obj, const char* methodname)
 mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
 {
     return _self_response_to_h(obj, methodname, hashval);
+}
+
+mc_message _response_to_i(MCObject* obj, MCHashTableIndex index)
+{
+    mc_message msg = {null, null};
+    mc_hashitem* item = obj->isa->table->items[index];
+    if (item) {
+        msg.object = obj;
+        msg.address = item->value.mcfuncptr;
+    }
+    return msg;
 }
 
 /*
