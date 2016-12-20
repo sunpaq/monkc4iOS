@@ -108,7 +108,7 @@ method(MC3DNode, void, update, MCGLContext* ctx)
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
                         if (node != null && node->visible != false) {
-                            ffhash(node, update, _update, ctx);
+                            ff(node, update, ctx);
                             //ff(node, update, ctx);
                         })
 }
@@ -134,7 +134,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
                         })
     //draw self texture
     if (obj->texture != null) {
-        ffhash(obj->texture, drawTexture, _drawTexture, ctx);
+        ff(obj->texture, drawTexture, ctx);
         //ff(obj->texture, drawTexture, ctx);
     }
     
@@ -142,7 +142,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
                         if (node != null && node->visible != false) {
-                            ffhash(node, draw, _draw, ctx);
+                            ff(node, draw, ctx);
                             //ff(node, draw, ctx);
                         })
     

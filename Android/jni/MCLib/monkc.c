@@ -223,6 +223,19 @@ static mc_hashtable* mc_global_symboltable = null;
 void trylock_table(mc_hashtable* table) { mc_trylock(&(table->lock)); }
 void unlock_table(mc_hashtable* table) { mc_unlock(&(table->lock)); }
 
+static MCBool create_global_tables()
+{
+    if (!mc_global_symboltable) {
+        //create a symbol table
+        mc_global_symboltable = new_table(MCHashTableLevel1, "mc_global_symboltable");
+    }
+    if (!mc_global_classtable) {
+        //create a class table
+        mc_global_classtable = new_table(MCHashTableLevel1, "mc_global_classtable");
+    }
+    return (mc_global_symboltable && mc_global_classtable);
+}
+
 /*
 for method binding
 */
@@ -234,19 +247,8 @@ MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFunc
         return 0;
     }
     
-    //create a symbol table
-    if (mc_global_symboltable == null)
-        mc_global_symboltable = new_table(MCHashTableLevelMax);
-    
-    //prehash and save the symbol
-    
-    MCHash hashval = hash(methodname);
-    mc_hashitem* item = new_item_h(methodname, MCGenericH(hashval), hashval);
-    set_item(&mc_global_symboltable, item, false, methodname);
-    
     //bind the method
-    item = new_item_h(methodname, MCGenericFp(value), hashval);
-    return set_item(&(aclass->table), item, true, methodname);
+    return set_item(aclass->table, MCGenericFp(value), methodname, true);
 }
 
 //MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
@@ -261,13 +263,14 @@ MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFunc
 //	return res;
 //}
 
-static inline mc_class* findclass(const char* name, const MCHash hashval)
+static inline mc_class* findclass(const char* name)
 {
-	mc_hashitem* item = null;
-	//create a class hashtable
-	if(mc_global_classtable == null)
-		mc_global_classtable = new_table(MCHashTableLevelMax);
-	item=get_item_byhash(mc_global_classtable, hashval, name);
+    if (!create_global_tables()) {
+        error_log("Monk-C create global tables failed!\n");
+        exit(-1);
+    }
+    
+    mc_hashitem* item = get_item(mc_global_classtable, name);
 	if (item == null)
 		return null;
 	else
@@ -277,23 +280,17 @@ static inline mc_class* findclass(const char* name, const MCHash hashval)
 
 mc_class* _load(const char* name, size_t objsize, MCLoaderPointer loader)
 {
-	return _load_h(name, objsize, loader, hash(name));
-}
-
-mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHash hashval)
-{
-	mc_class* aclass = findclass(name, hashval);
+	mc_class* aclass = findclass(name);
 	//try lock spin lock
 	trylock_table(mc_global_classtable);
 	if(aclass == null){
 		//new a item
-		aclass = alloc_mc_class(objsize);
-        mc_hashitem* item = new_item(name, (MCGeneric){.mcvoidptr=null});//nil first
-		package_by_item(item, aclass);
+		aclass = alloc_mc_class(objsize, name);
+        aclass->name = name;
 		(*loader)(aclass);
 		//set item
-        //MCBool isOverride, MCBool isFreeValue
-		set_item(&mc_global_classtable, item, false, name);
+        const char* key = name;
+		set_item(mc_global_classtable, MCGenericVp(aclass), key, false);
 		runtime_log("load a class[%s]\n", name);
 	}else{
 		runtime_log("find a class[%s]\n", name);
@@ -430,12 +427,13 @@ void mc_unlock(volatile int* lock_p)
 /*
  HashTable
  */
-mc_hashtable* new_table(const MCHashTableLevel initlevel)
+mc_hashtable* new_table(MCHashTableLevel initlevel, const char* name)
 {
     //alloc
     mc_hashtable* atable = (mc_hashtable*)malloc(sizeof(mc_hashtable)
-                                                 +get_tablesize(initlevel)*sizeof(mc_hashitem*));
+        +get_tablesize(initlevel)*sizeof(mc_hashitem*));
     //init
+    atable->name = name;
     atable->lock = 0;
     atable->level = initlevel;
     //set all the slot to nil
@@ -444,11 +442,10 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
     return atable;
 }
 
-static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel tolevel)
+static inline mc_hashtable* expand_table(mc_hashtable* oldtable, MCHashTableLevel tolevel)
 {
     //realloc
-    mc_hashtable* newtable = new_table(tolevel);
-    mc_hashtable* oldtable = (*table_p);
+    mc_hashtable* newtable = new_table(tolevel, oldtable->name);
     MCHashTableSize osize = get_tablesize(oldtable->level);
     
     mc_hashitem* item;
@@ -456,29 +453,22 @@ static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel t
         item = oldtable->items[i];
         if(item) {
             //will override
-            set_item(&newtable, new_item_h(item->key, MCGenericFp(item->value.mcfuncptr), item->hash), true, item->key);
+            set_item(newtable, MCGenericFp(item->value.mcfuncptr), item->key, true);
         }
     }
     
     debug_log("expand table: %d->%d\n", oldtable->level, newtable->level);
-    free(*table_p);
-    (*table_p) = newtable;
+    free(oldtable);
+    return newtable;
 }
 
-mc_hashitem* new_item(const char* key, MCGeneric value)
-{
-    return new_item_h(key, value, hash(key));
-}
-
-mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
+mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hash)
 {
     mc_hashitem* aitem = (mc_hashitem*)malloc(sizeof(mc_hashitem));
     if (aitem != null) {
         aitem->next = null;
-        aitem->hash = hashval;
-        //strcpy(aitem->key, key);
-        //aitem->key[MAX_KEY_CHARS] = NUL;
-        aitem->key = (char*)key;
+        aitem->hash = hash;
+        aitem->key = key;
         aitem->value = value;
         return aitem;
     }else{
@@ -498,55 +488,74 @@ static void override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, const 
     }
 }
 
-MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAllowOverride, const char* refkey)
+MCHashTableIndex set_symbol(MCGeneric value, const char* key, MCHash hashkey);
+MCHash hashWithCache(const char *key)
 {
-    if(table_p==null || *table_p==null){
-        error_log("set_item(mc_hashtable** table_p) table_p or *table_p is nill return 0\n");
+    if (!key) {
+        return 0;
+    }
+
+    //prehash and save the symbol
+    MCHash hashval;
+    mc_hashitem* sitem = get_item(mc_global_symboltable, key);
+    if (sitem) {
+        hashval = sitem->value.mchash;
+    } else {
+        hashval = hash(key);
+        set_symbol(MCGenericH(hashval), key, hashval);
+    }
+    return hashval;
+}
+
+MCHashTableIndex set_symbol(MCGeneric value, const char* key, MCHash hashkey)
+{
+    if (!key || !mc_global_symboltable) {
+        error_log("%s set_item(%s) key is null return 0\n", "mc_global_symboltable", key?key:"null");
         return 0;
     }
     
-    MCHash hashval = item->hash;
-    MCHashTableSize tsize = get_tablesize((*table_p)->level);
-
+    mc_hashtable* table = mc_global_symboltable;
+    MCHashTableSize tsize = get_tablesize(table->level);
+    //new item
+    mc_hashitem* item = new_item(key, value, hashkey);
+    
     //first probe
     MCHash fsaved;
-    MCHashTableIndex index = firstHashIndex(hashval, tsize, &fsaved);
-    mc_hashitem* olditem = (*table_p)->items[index];
+    MCHashTableIndex index = firstHashIndex(hashkey, tsize, &fsaved);
+    mc_hashitem* olditem = table->items[index];
     
     if(olditem == null){
-        (*table_p)->items[index] = item;
-        runtime_log("[%s]:set-item[%d/%s]\n", refkey, index, item->key);
+        table->items[index] = item;
+        runtime_log("[%s]:set-item[%d/%s]\n", key, index, item->key);
         return index;
     }else{
-        //method override
-        if (isAllowOverride) {
-            override_samekeyitem(olditem, item, refkey);
+        //already have
+        if (MCGenericCompare(olditem->value, item->value) == 0) {
             return index;
         }
         //second probe
-        index = secondHashIndex(hashval, tsize, fsaved);
-        mc_hashitem* olditem = (*table_p)->items[index];
+        index = secondHashIndex(hashkey, tsize, fsaved);
+        mc_hashitem* olditem = table->items[index];
 
         if (olditem == null) {
-            (*table_p)->items[index] = item;
-            runtime_log("[%s]:set-item[%d/%s]\n", refkey, index, item->key);
+            table->items[index] = item;
+            runtime_log("[%s]:set-item[%d/%s]\n", key, index, item->key);
             return index;
         } else {
-            //method override
-            if (isAllowOverride) {
-                override_samekeyitem(olditem, item, refkey);
+            //already have
+            if (MCGenericCompare(olditem->value, item->value) == 0) {
                 return index;
             }
             //solve the collision by expand table
-            if((*table_p)->level < MCHashTableLevelCount){//Max=5 Count=6
-                expand_table(table_p, (*table_p)->level+1);
-                set_item(table_p, item, isAllowOverride, null);//recursive
+            if(table->level < MCHashTableLevelCount){//Max=5 Count=6
+                table = expand_table(table, table->level+1);
+                set_symbol(value, key, hashkey);//recursive
                 return index;
             }else{
                 //tmplevel = 5, table_p must have been expanded to level 4
                 //there still a item, use link list.
                 error_log("[%s]:item key collision can not be solved. link the new one[%s] behind the old[%s]\n",
-                          refkey, item->key, olditem->key);
+                          key, item->key, olditem->key);
                 olditem->next = item;
                 return index;
             }
@@ -554,30 +563,103 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     }
 }
 
-mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, const char* refkey)
+MCHashTableIndex set_item(mc_hashtable* table, MCGeneric value, const char* key, MCBool isAllowOverride)
 {
-    if(table_p==null){
-        error_log("get_item_byhash(table_p) table_p is nil return nil\n");
+    if (!key || !table) {
+        error_log("%s set_item(%s) key is null return 0\n", table?table->name:"null", key?key:"null");
+        return 0;
+    }
+    
+    MCHash hashkey = ((MCHash)key & MCHashMask);
+
+    //MCHash hashkey = hashWithCache(key);
+    MCHashTableSize tsize = get_tablesize(table->level);
+    //new item
+    mc_hashitem* item = new_item(key, value, hashkey);
+    
+    //first probe
+    MCHash fsaved;
+    MCHashTableIndex index = firstHashIndex(hashkey, tsize, &fsaved);
+    mc_hashitem* olditem = table->items[index];
+    
+    if(olditem == null){
+        table->items[index] = item;
+        runtime_log("[%s]:set-item[%d/%s]\n", key, index, item->key);
+        return index;
+    }else{
+        //method override
+        if (isAllowOverride) {
+            override_samekeyitem(olditem, item, key);
+            return index;
+        }
+        //already have
+        else {
+            if (MCGenericCompare(olditem->value, item->value) == 0) {
+                return index;
+            }
+        }
+        //second probe
+        index = secondHashIndex(hashkey, tsize, fsaved);
+        mc_hashitem* olditem = table->items[index];
+        
+        if (olditem == null) {
+            table->items[index] = item;
+            runtime_log("[%s]:set-item[%d/%s]\n", key, index, item->key);
+            return index;
+        } else {
+            //method override
+            if (isAllowOverride) {
+                override_samekeyitem(olditem, item, key);
+                return index;
+            }
+            //already have
+            else {
+                if (MCGenericCompare(olditem->value, item->value) == 0) {
+                    return index;
+                }
+            }
+            //solve the collision by expand table
+            if(table->level < MCHashTableLevelCount){//Max=5 Count=6
+                table = expand_table(table, table->level+1);
+                set_item(table, value, key, isAllowOverride);//recursive
+                return index;
+            }else{
+                //tmplevel = 5, table_p must have been expanded to level 4
+                //there still a item, use link list.
+                error_log("[%s]:item key collision can not be solved. link the new one[%s] behind the old[%s]\n",
+                          key, item->key, olditem->key);
+                olditem->next = item;
+                return index;
+            }
+        }
+    }
+}
+
+mc_hashitem* get_item(mc_hashtable* table, const char* key)
+{
+    if(table==null){
+        error_log("get_item(%s) table is null\n", key);
         return null;
     }
     //level<MCHashTableLevelMax
     MCHashTableIndex index;
     MCHashTableSize tsize;
+    MCHash hashkey = ((MCHash)key & MCHashMask);
     
     mc_hashitem* res=null;
-    for(MCHashTableLevel level = table_p->level; level<MCHashTableLevelMax; level++){
+    for(MCHashTableLevel level = table->level; level<MCHashTableLevelMax; level++){
         tsize = get_tablesize(level);
         //first probe
         MCHash fsaved;
-        index = firstHashIndex(hashval, tsize, &fsaved);
-        if((res=get_item_byindex(table_p, index)) == null) {
+        index = firstHashIndex(hashkey, tsize, &fsaved);
+        if((res=table->items[index]) == null) {
             //second probe
-            index = secondHashIndex(hashval, tsize, fsaved);
-            if ((res=get_item_byindex(table_p, index)) == null)
+            index = secondHashIndex(hashkey, tsize, fsaved);
+            if ((res=table->items[index]) == null)
                 continue;
         }
         //compare key
-        if (res->key != refkey)
+        if (res->key != key)
             continue;
         //pass all the check
         return res;
@@ -587,23 +669,23 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     tsize = get_tablesize(MCHashTableLevelMax);
     //first probe
     MCHash fsaved;
-    index = firstHashIndex(hashval, tsize, &fsaved);
-    if((res=get_item_byindex(table_p, index)) == null) {
+    index = firstHashIndex(cast(MCHash, key), tsize, &fsaved);
+    if ((res=table->items[index]) == null){
         //second probe
-        index = secondHashIndex(hashval, tsize, fsaved);
-        if((res=get_item_byindex(table_p, index)) == null)
+        index = secondHashIndex(cast(MCHash, key), tsize, fsaved);
+        if ((res=table->items[index]) == null)
             return null;//not found
     }
     //found and no chain
     if (res->next == null) {
-        if (res->key != refkey)
+        if (res->key != key)
             return null;
         return res;
     }
     //found but have chain
     else {
         for(; res!=null; res=res->next) {
-            if(res->key == refkey){
+            if(res->key == key){
                 runtime_log("key hit a item [%s] in chain\n", res->key);
                 return res;
             }
@@ -744,7 +826,7 @@ void mc_info(const char* classname, size_t size, MCLoaderPointer loader)
 
 void mc_info_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
 {
-    mc_class* aclass = _load_h(classname, size, loader, hashval);
+    mc_class* aclass = _load(classname, size, loader);
     debug_log("----info[%s] used:%d/free:%d\n",
               classname, count(&aclass->used_pool), count(&aclass->free_pool));
 }
@@ -756,7 +838,7 @@ void mc_clear(const char* classname, size_t size, MCLoaderPointer loader)
 
 void mc_clear_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
 {
-    mc_class* aclass = _load_h(classname, size, loader, hashval);
+    mc_class* aclass = _load(classname, size, loader);
     if(aclass->used_pool.tail!=null)
         empty(&aclass->used_pool);
     else
@@ -771,13 +853,7 @@ void mc_clear_h(const char* classname, size_t size, MCLoaderPointer loader, MCHa
 //always return a object of size. packaged by a block.
 MCObject* mc_alloc(const char* classname, size_t size, MCLoaderPointer loader)
 {
-    return mc_alloc_h(classname, size, loader, hash(classname));
-}
-
-MCObject* mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
-{
-#if defined(NO_RECYCLE) && NO_RECYCLE
-    mc_class* aclass = _load_h(classname, size, loader, hashval);
+    mc_class* aclass = _load(classname, size, loader);
     MCObject* aobject = null;
     //new a object package by a block
     aobject = (MCObject*)malloc(size);
@@ -790,32 +866,6 @@ MCObject* mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader,
         error_log("----alloc[NEW:%s]: new alloc FAILED\n", classname);
         exit(-1);
     }
-    
-#else
-    mc_class* aclass = _load_h(classname, size, loader, hashval);
-    mc_blockpool* fp = &aclass->free_pool;
-    mc_blockpool* up = &aclass->used_pool;
-    mc_block* ablock = null;
-    mo aobject = null;
-    if((ablock=getFromHead(fp)) == null){
-        //new a object package by a block
-        aobject = (mo)malloc(size);
-        aobject->isa = aclass;
-        aobject->saved_isa = aclass;
-        //new a block
-        ablock = new_mc_block(null);
-        package_by_block(ablock, aobject);
-        runtime_log("----alloc[NEW:%s]: new alloc a block[%p obj[%p]]\n",
-                    classname, ablock, ablock->data);
-    }else{
-        aobject = (mo)(ablock->data);
-        runtime_log("----alloc[REUSE:%s]: find a block[%p obj[%p]]\n",
-                    classname, ablock, ablock->data);
-    }
-    pushToTail(up, ablock);
-    
-    return aobject;
-#endif
 }
 
 void mc_dealloc(MCObject* aobject, int is_recycle)
@@ -878,11 +928,6 @@ void mc_dealloc(MCObject* aobject, int is_recycle)
  */
 mc_message _self_response_to(MCObject* obj, const char* methodname)
 {
-    return _self_response_to_h(obj, methodname, hash(methodname));
-}
-
-mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
-{
     //we will return a struct
     mc_hashitem* res = null;
     mc_message tmpmsg = {null, null};
@@ -896,14 +941,14 @@ mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash has
         return tmpmsg;
     }
     
-    if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != null){
+    if((res=get_item(obj->isa->table, methodname)) != null){
         tmpmsg.object = obj;
         tmpmsg.address = res->value.mcfuncptr;
         //runtime_log("return a message[%s/%s]\n", nameof(obj), methodname);
         return tmpmsg;
     }else{
         if (obj->nextResponder != null) {
-            return _self_response_to_h(obj->nextResponder, methodname, hashval);
+            return _self_response_to(obj->nextResponder, methodname);
         }else{
             runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
             if (MC_STRICT_MODE == 1) {
@@ -918,7 +963,7 @@ mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash has
 
 MCBool _response_test(MCObject* obj, const char* methodname)
 {
-    if (get_item_byhash(obj->isa->table, hash(methodname), methodname) != null) {
+    if (get_item(obj->isa->table, methodname) != null) {
         return true;
     }else{
         if (obj->nextResponder)
@@ -929,13 +974,13 @@ MCBool _response_test(MCObject* obj, const char* methodname)
 
 mc_message _response_to(MCObject* obj, const char* methodname)
 {
-    return _response_to_h(obj, methodname, hash(methodname));
+    return _self_response_to(obj, methodname);
 }
 
-mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
-{
-    return _self_response_to_h(obj, methodname, hashval);
-}
+//mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
+//{
+//    return _self_response_to_h(obj, methodname, hashval);
+//}
 
 /*
 	MCObject* obj_iterator = obj;
