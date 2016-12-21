@@ -120,8 +120,6 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
     //update nodes
     if (rootnode != null) {
         ff(rootnode, update, obj->context);
-        //feed GPU
-        MCGLEngine_flushCommandAsync(0);
     }
 }
 
@@ -130,7 +128,8 @@ method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
     if (rootnode != null) {
         ff(rootnode, draw, obj->context);
         //make FPS stable motion more smooth
-        MCGLEngine_flushCommandBlock(0);
+        //MCGLEngine_flushCommandBlock(0);
+        MCGLEngine_flushCommandAsync(0);
     }
 }
 

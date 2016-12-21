@@ -37,14 +37,20 @@
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     view.drawableStencilFormat = GLKViewDrawableStencilFormat8;
-    view.drawableMultisample = GLKViewDrawableMultisampleNone;
-    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"MAAOn"]) {
+        view.drawableMultisample = GLKViewDrawableMultisample4X;
+        self.naviItem.prompt = @"Multisampling Anti-Alias On";
+    }
+    else {
+        view.drawableMultisample = GLKViewDrawableMultisampleNone;
+        self.naviItem.prompt = nil;
+    }
+
     //split view
     if (self.splitViewController != nil) {
         self.splitViewController.delegate = self;
     }
 	
-    self.naviItem.prompt = nil;
     self.naviItem.title = self.filename;
 }
 
