@@ -11,4 +11,5 @@
 @interface SettingsListController : UITableViewController
 @property (nonatomic) NSMutableArray* listData;
 @property UISwitch* skyboxSwitch;
+@property UISwitch* maaSwitch;
 @end

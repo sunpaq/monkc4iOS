@@ -34,7 +34,8 @@ typedef struct {
 //Global
 utility(MCGLEngine, MCBool, isFeatureOn, MCGLFeature feature);
 utility(MCGLEngine, void, featureSwith, MCGLFeature feature, MCBool onOrOff);
-utility(MCGLEngine, void, flushCommand, voida);
+utility(MCGLEngine, void, flushCommandAsync, voida);
+utility(MCGLEngine, void, flushCommandBlock, voida);
 utility(MCGLEngine, void, clearScreen, voida);
 utility(MCGLEngine, void, clearDepthBuffer, voida);
 utility(MCGLEngine, void, clearStencilBuffer, voida);

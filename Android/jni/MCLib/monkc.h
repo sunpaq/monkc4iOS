@@ -263,6 +263,7 @@ typedef struct mc_hashitem_struct
 
 typedef struct
 {
+    mc_hashitem* cache;
     MCInt lock;
     MCHashTableLevel level;
     mc_hashitem* items[];
@@ -396,13 +397,12 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
 #define load(supercls)                        supercls##_load(cla)
 #define init(supercls)                        supercls##_init((supercls*)obj)
-#define preload(cls)                          _load_h(#cls, sizeof(cls), cls##_##load, hash(#cls))
+#define preload(cls)                          _load(#cls, sizeof(cls), cls##_##load)
 #define superbye(cls)                         cls##_bye(0, &obj->Super, 0)
 
 //method binding
 #define mixing(type, met, ...)                _binding(cla, S(met), (MCFuncPtr)met)
 #define binding(cls, type, met, ...)  		  _binding(cla, S(met), (MCFuncPtr)A_B(cls, met))
-#define hinding(cls, type, met, hash, ...)	  _binding_h(cla, S(met), (MCFuncPtr)A_B(cls, met), hash)
 #define utility(cls, type, name, ...) 	      type cls##_##name(__VA_ARGS__)
 #define method(cls, type, name, ...) 	      type cls##_##name(MCFuncPtr volatile address, cls* volatile obj, __VA_ARGS__)
 #define function(type, name, ...)             static type name(MCFuncPtr volatile address, void* volatile any, __VA_ARGS__)
@@ -423,19 +423,14 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 
 //for create object
 #define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)
-#define new_hash(cls, hash)				(cls*)_new(mc_alloc_h(S(cls), sizeof(cls), cls##_load, hash), cls##_setsuper, cls##_init)
 #define clear(cls)  					mc_clear(S(cls), sizeof(cls), cls##_load)
-#define clear_hash(cls, hash)  			mc_clear_h(S(cls), sizeof(cls), cls##_load, hash)
 #define info(cls)                  		mc_info(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load)
-#define info_hash(cls, hash)            mc_info_h(S(cls), sizeof(cls), cls##_load, hash)
 
 //for call method
 #define response_test(obj, met) 	     _response_test((MCObject*)obj, S(met))
 #define response_to(obj, met) 			 _response_to((MCObject*)obj, S(met))
-#define response_to_hash(obj, met, hash) _response_to_h((MCObject*)obj, S(met), hash)
 #define ff(obj, met, ...)				 _push_jump(_response_to((MCObject*)obj, S(met)), __VA_ARGS__)//send message
-#define ffkey(obj, met, ...)             _push_jump(_response_to((MCObject*)obj, met), __VA_ARGS__)//call by string
-#define ffhash(obj, met, hash, ...)	     _push_jump(_response_to_h((MCObject*)obj, S(met), hash), __VA_ARGS__)
+#define ffindex(obj, idx, ...)		     _push_jump(_response_to_i((MCObject*)obj, idx), __VA_ARGS__)//send index
 
 //lock
 void trylock_global_classtable();
@@ -443,11 +438,9 @@ void unlock_global_classtable();
 
 //binding method api
 MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value);
-MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval);
 
 //class load
 mc_class* _load(const char* name, MCSizeT objsize, MCLoaderPointer loader);
-mc_class* _load_h(const char* name, MCSizeT objsize, MCLoaderPointer loader, MCHash hashval);
 
 //object create
 MCObject* _new(MCObject* const obj, MCIniterPointer initer);
@@ -516,7 +509,7 @@ MCInline int mc_compare_key(const char* dest, const char* src) {
 
 //copy form << The C Programming language >>
 //BKDR Hash Function
-MCInline MCHash hash(const char *s) {
+MCInline MCHash hash_content(const char *s) {
     register MCHash hashval;
     for(hashval = 0; *s != NUL; s++)
         hashval = *s + 31 * hashval;
@@ -524,21 +517,26 @@ MCInline MCHash hash(const char *s) {
     return (hashval & MCHashMask);
 }
 
-MCInline MCHashTableIndex firstHashIndex(MCHash nkey, MCHashTableSize slots, MCHash* savedFirst) {
-    *savedFirst = nkey % slots;
-    return (*savedFirst) % slots;
+MCInline MCHash hash(const char *s) {
+    //avoid integer overflow
+    return ((MCHash)s & MCHashMask);
+}
+
+MCInline MCHashTableIndex firstHashIndex(MCHash nkey, MCHashTableSize slots) {
+    return nkey % slots;
 }
 
 MCInline MCHashTableIndex secondHashIndex(MCHash nkey, MCHashTableSize slots, MCHash savedFirst) {
     return (savedFirst + (1+(nkey % (slots-1)))) % slots;
 }
 
-mc_hashitem* new_item(const char* key, MCGeneric value);
-mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval);
+mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval);
 mc_hashtable* new_table(const MCHashTableLevel initlevel);
 
 MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAllowOverride, const char* refkey);
 mc_hashitem* get_item_byhash(mc_hashtable* table_p, const MCHash hashval, const char* refkey);
+
+
 
 MCInline mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key)
 {
@@ -579,10 +577,8 @@ void* _push_jump(register mc_message msg, ...);
 
 //write by c
 MCBool _response_test(MCObject* obj, const char* methodname);
-mc_message _self_response_to(MCObject* obj, const char* methodname);
-mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash hashval);
 mc_message _response_to(MCObject* obj, const char* methodname);
-mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval);
+mc_message _response_to_i(MCObject* obj, MCHashTableIndex index);
 
 /*
  ObjectManage.h
@@ -591,9 +587,6 @@ mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
 void mc_info(const char* classname, MCSizeT size, MCLoaderPointer loader);
 void mc_clear(const char* classname, MCSizeT size, MCLoaderPointer loader);
 MCObject* mc_alloc(const char* classname, MCSizeT size, MCLoaderPointer loader);
-void mc_info_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
-void mc_clear_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
-MCObject* mc_alloc_h(const char* classname, MCSizeT size, MCLoaderPointer loader, MCHash hashval);
 void mc_dealloc(MCObject* aobject, MCInt is_recycle);
 
 #define MC_NO_NODE(bpool) (bpool->tail==null)

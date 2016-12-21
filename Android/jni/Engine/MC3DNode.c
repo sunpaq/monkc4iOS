@@ -11,19 +11,6 @@
 #include "MCLinkedList.h"
 #include "MCGLRenderer.h"
 
-//prehash
-static MCHash _update;
-static MCHash _draw;
-static MCHash _drawTexture;
-
-//call this in onload
-static void prehash()
-{
-    _update = hash("update");
-    _draw   = hash("draw");
-    _drawTexture = hash("drawTexture");
-}
-
 oninit(MC3DNode)
 {
     if (init(MCItem)) {
@@ -108,7 +95,7 @@ method(MC3DNode, void, update, MCGLContext* ctx)
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
                         if (node != null && node->visible != false) {
-                            ffhash(node, update, _update, ctx);
+                            ff(node, update, ctx);
                             //ff(node, update, ctx);
                         })
 }
@@ -134,16 +121,14 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
                         })
     //draw self texture
     if (obj->texture != null) {
-        ffhash(obj->texture, drawTexture, _drawTexture, ctx);
-        //ff(obj->texture, drawTexture, ctx);
+        ff(obj->texture, drawTexture, ctx);
     }
     
     //draw children
     MCLinkedListForEach(var(children),
                         MC3DNode* node = (MC3DNode*)item;
                         if (node != null && node->visible != false) {
-                            ffhash(node, draw, _draw, ctx);
-                            //ff(node, draw, ctx);
+                            ff(node, draw, ctx);
                         })
     
     //ff(ctx, printUniforms, 0);
@@ -162,7 +147,6 @@ method(MC3DNode, void, show, voida)
 onload(MC3DNode)
 {
     if (load(MCItem)) {
-        prehash();
         binding(MC3DNode, void, bye, voida);
         binding(MC3DNode, void, addChild, MC3DNode* child);
         binding(MC3DNode, void, removeChild, MC3DNode* child);

@@ -14,11 +14,18 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
+        //Skybox
         self.skyboxSwitch = [UISwitch new];
         self.skyboxSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"SkyboxOn"];
         [self.skyboxSwitch addTarget:self
                               action:@selector(onSkyboxSwitchValueChanged:)
                     forControlEvents:UIControlEventValueChanged];
+        //MAA
+        self.maaSwitch = [UISwitch new];
+        self.maaSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"MAAOn"];
+        [self.maaSwitch addTarget:self
+                           action:@selector(onMAASwitchValueChanged:)
+                 forControlEvents:UIControlEventValueChanged];
     }
     return self;
 }
@@ -36,7 +43,8 @@
                      @"3rd Party Demo Contents License",
                      @"Skybox On",
                      @"Rotation Direction",
-                     @"Show FPS", nil];
+                     @"Show FPS",
+                     @"Enable MAA (multisampling anti-alias)", nil];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -53,6 +61,9 @@
         if (indexPath.row == 3) {
             cell.accessoryView = self.skyboxSwitch;
         }
+        if (indexPath.row == 6) {
+            cell.accessoryView = self.maaSwitch;
+        }
     }
     return cell;
 }
@@ -64,6 +75,17 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"SkyboxOn"];
     }else{
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"SkyboxOn"];
+    }
+}
+
+- (void) onMAASwitchValueChanged:(id)sender
+{
+    UISwitch* sw = (UISwitch*)sender;
+    if (sw.isOn) {
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MAAOn"];
+    }else{
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"MAAOn"];
     }
 }
 
