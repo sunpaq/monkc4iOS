@@ -25,9 +25,14 @@ utility(MCGLEngine, void, featureSwith, MCGLFeature feature, MCBool onOrOff)
     }
 }
 
-utility(MCGLEngine, void, flushCommand, voida)
+utility(MCGLEngine, void, flushCommandAsync, voida)
 {
     glFlush();
+}
+
+utility(MCGLEngine, void, flushCommandBlock, voida)
+{
+    glFinish();
 }
 
 utility(MCGLEngine, void, clearScreen, voida)

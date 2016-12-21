@@ -235,22 +235,17 @@ for method binding
 
 MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value)
 {
-	return _binding_h(aclass, methodname, value, hash(methodname));
-}
-
-MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFuncPtr value, MCHash hashval)
-{
 	if(aclass==null){
 		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
 		return 0;
 	}
 	MCHashTableIndex res = set_item(&(aclass->table),
-		new_item_h(methodname, MCGenericFp(value), hashval),
+		new_item(methodname, MCGenericFp(value), hash(methodname)),
 		true, nameofc(aclass));//will override
 	return res;
 }
 
-static inline mc_class* findclass(const char* name, const MCHash hashval)
+static inline mc_class* findclass(const char* name)
 {
 	//create a class hashtable
 	if(mc_global_classtable == null)
@@ -262,7 +257,7 @@ static inline mc_class* findclass(const char* name, const MCHash hashval)
         return (mc_class*)(cache->value.mcvoidptr);
     }
     
-	mc_hashitem* item=get_item_byhash(mc_global_classtable, hashval, name);
+	mc_hashitem* item=get_item_byhash(mc_global_classtable, hash(name), name);
 	if (item == null)
 		return null;
 	else
@@ -272,18 +267,13 @@ static inline mc_class* findclass(const char* name, const MCHash hashval)
 
 mc_class* _load(const char* name, size_t objsize, MCLoaderPointer loader)
 {
-	return _load_h(name, objsize, loader, hash(name));
-}
-
-mc_class* _load_h(const char* name, size_t objsize, MCLoaderPointer loader, MCHash hashval)
-{
-	mc_class* aclass = findclass(name, hashval);
+	mc_class* aclass = findclass(name);
 	//try lock spin lock
 	trylock_global_classtable();
 	if(aclass == null){
 		//new a item
 		aclass = alloc_mc_class(objsize);
-        mc_hashitem* item = new_item(name, (MCGeneric){.mcvoidptr=null});//nil first
+        mc_hashitem* item = new_item(name, (MCGeneric){.mcvoidptr=null}, hash(name));//nil first
 		package_by_item(item, aclass);
 		(*loader)(aclass);
 		//set item
@@ -451,7 +441,7 @@ static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel t
         item = oldtable->items[i];
         if(item) {
             //will override
-            set_item(&newtable, new_item_h(item->key, MCGenericFp(item->value.mcfuncptr), item->hash), true, item->key);
+            set_item(&newtable, new_item(item->key, MCGenericFp(item->value.mcfuncptr), item->hash), true, item->key);
         }
     }
     
@@ -460,12 +450,7 @@ static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel t
     (*table_p) = newtable;
 }
 
-mc_hashitem* new_item(const char* key, MCGeneric value)
-{
-    return new_item_h(key, value, hash(key));
-}
-
-mc_hashitem* new_item_h(const char* key, MCGeneric value, const MCHash hashval)
+mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval)
 {
     mc_hashitem* aitem = (mc_hashitem*)malloc(sizeof(mc_hashitem));
     if (aitem != null) {
@@ -504,8 +489,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     MCHashTableSize tsize = get_tablesize((*table_p)->level);
 
     //first probe
-    MCHash fsaved;
-    MCHashTableIndex index = firstHashIndex(hashval, tsize, &fsaved);
+    MCHashTableIndex index = firstHashIndex(hashval, tsize);
     mc_hashitem* olditem = (*table_p)->items[index];
     
     if(olditem == null){
@@ -520,7 +504,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
             return index;
         }
         //second probe
-        index = secondHashIndex(hashval, tsize, fsaved);
+        index = secondHashIndex(hashval, tsize, index);
         mc_hashitem* olditem = (*table_p)->items[index];
 
         if (olditem == null) {
@@ -567,11 +551,10 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     for(MCHashTableLevel level = table_p->level; level<MCHashTableLevelMax; level++){
         tsize = get_tablesize(level);
         //first probe
-        MCHash fsaved;
-        index = firstHashIndex(hashval, tsize, &fsaved);
+        index = firstHashIndex(hashval, tsize);
         if((res=get_item_byindex(table_p, index)) == null) {
             //second probe
-            index = secondHashIndex(hashval, tsize, fsaved);
+            index = secondHashIndex(hashval, tsize, index);
             if ((res=get_item_byindex(table_p, index)) == null)
                 continue;
         }
@@ -585,11 +568,10 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     //level=MCHashTableLevelMax
     tsize = get_tablesize(MCHashTableLevelMax);
     //first probe
-    MCHash fsaved;
-    index = firstHashIndex(hashval, tsize, &fsaved);
+    index = firstHashIndex(hashval, tsize);
     if((res=get_item_byindex(table_p, index)) == null) {
         //second probe
-        index = secondHashIndex(hashval, tsize, fsaved);
+        index = secondHashIndex(hashval, tsize, index);
         if((res=get_item_byindex(table_p, index)) == null)
             return null;//not found
     }
@@ -738,24 +720,14 @@ int cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result)
 
 void mc_info(const char* classname, size_t size, MCLoaderPointer loader)
 {
-    mc_info_h(classname, size, loader, hash(classname));
-}
-
-void mc_info_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
-{
-    mc_class* aclass = _load_h(classname, size, loader, hashval);
+    mc_class* aclass = _load(classname, size, loader);
     debug_log("----info[%s] used:%d/free:%d\n",
               classname, count(&aclass->used_pool), count(&aclass->free_pool));
 }
 
 void mc_clear(const char* classname, size_t size, MCLoaderPointer loader)
 {
-    mc_clear_h(classname, size, loader, hash(classname));
-}
-
-void mc_clear_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
-{
-    mc_class* aclass = _load_h(classname, size, loader, hashval);
+    mc_class* aclass = _load(classname, size, loader);
     if(aclass->used_pool.tail!=null)
         empty(&aclass->used_pool);
     else
@@ -770,13 +742,8 @@ void mc_clear_h(const char* classname, size_t size, MCLoaderPointer loader, MCHa
 //always return a object of size. packaged by a block.
 MCObject* mc_alloc(const char* classname, size_t size, MCLoaderPointer loader)
 {
-    return mc_alloc_h(classname, size, loader, hash(classname));
-}
-
-MCObject* mc_alloc_h(const char* classname, size_t size, MCLoaderPointer loader, MCHash hashval)
-{
 #if defined(NO_RECYCLE) && NO_RECYCLE
-    mc_class* aclass = _load_h(classname, size, loader, hashval);
+    mc_class* aclass = _load(classname, size, loader);
     MCObject* aobject = null;
     //new a object package by a block
     aobject = (MCObject*)malloc(size);
@@ -875,12 +842,7 @@ void mc_dealloc(MCObject* aobject, int is_recycle)
 /*
  Messaging
  */
-mc_message _self_response_to(MCObject* obj, const char* methodname)
-{
-    return _self_response_to_h(obj, methodname, hash(methodname));
-}
-
-mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
+mc_message _response_to(MCObject* obj, const char* methodname)
 {
     if(obj == null || obj->isa == null){
         //no need to warning user
@@ -895,6 +857,9 @@ mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash has
     if (cache && cache->key == methodname) {
         return (mc_message){cache->value.mcfuncptr, obj};
     }
+    
+    //fast hash
+    MCHash hashval = hash(methodname);
 
     mc_hashitem* res = null;
     if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != null){
@@ -904,7 +869,7 @@ mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash has
         return tmpmsg;
     }else{
         if (obj->nextResponder != null) {
-            return _self_response_to_h(obj->nextResponder, methodname, hashval);
+            return _response_to(obj->nextResponder, methodname);
         }else{
             runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
             if (MC_STRICT_MODE == 1) {
@@ -928,16 +893,6 @@ MCBool _response_test(MCObject* obj, const char* methodname)
     return false;
 }
 
-mc_message _response_to(MCObject* obj, const char* methodname)
-{
-    return _response_to_h(obj, methodname, hash(methodname));
-}
-
-mc_message _response_to_h(MCObject* obj, const char* methodname, MCHash hashval)
-{
-    return _self_response_to_h(obj, methodname, hashval);
-}
-
 mc_message _response_to_i(MCObject* obj, MCHashTableIndex index)
 {
     mc_message msg = {null, null};
@@ -948,77 +903,6 @@ mc_message _response_to_i(MCObject* obj, MCHashTableIndex index)
     }
     return msg;
 }
-
-/*
-	MCObject* obj_iterator = obj;
-	MCObject* obj_first_hit = null;
-	mc_hashitem* met_first_hit = null;
-	mc_hashitem* met_item = null;
-	int hit_count = 0;
-	int iter_count = 0;
-	//int max_iter = get_tablesize(5);
-	int max_iter = 10000;
- 
-	mc_message tmpmsg = {null, null};
-	if(obj == null || obj->isa == null){
- error_log("_response_to(obj) obj is null or obj->isa is null. return {null, null}\n");
- return tmpmsg;
-	}
- 
-	for(obj_iterator = obj;
- obj_iterator!= null;
- obj_iterator = obj_iterator->super){
- if(iter_count++ > max_iter){
- error_log("iter_count>max but class still can not response to method\n");
- break;
- }
- if((met_item=get_item_byhash(&(obj_iterator->isa->table), hashval, methodname)) != null) {
- runtime_log("hit a method [%s/%d] to match [%s]\n",
- met_item->key, met_item->index, methodname);
- hit_count++;
- tmpmsg.object = obj_iterator;
- tmpmsg.address = met_item->value.mcfuncptr;
- if(obj_first_hit==null)obj_first_hit = obj_iterator;
- if(met_first_hit==null)met_first_hit = met_item;
- //for the method key have collisioned with some super class in inherit tree
- if(hit_count>1){
- if(hit_count==2){
- //to support the "overide" feature of oop
- if(mc_compare_key(met_first_hit->key, methodname) == 0){
- tmpmsg.object = obj_first_hit;
- tmpmsg.address = met_first_hit->value.mcfuncptr;
- runtime_log("[first hit]return a message[%s/%s(%p/%p)]\n",
- tmpmsg.object->isa->item->key,
- methodname,
- tmpmsg.object,
- tmpmsg.address);
- return tmpmsg;}
- }
- if(mc_compare_key(met_item->key, methodname) == 0){
- tmpmsg.object = obj_iterator;
- runtime_log("[string equal]return a message[%s/%s]\n", tmpmsg.object->isa->item->key, methodname);
- return tmpmsg;}
- }
- }
-	}
-	if(hit_count==1)
- runtime_log("return a message[%s/%s]\n", nameof(tmpmsg.object), methodname);
-	else if(hit_count==0)
- {
- if (strict!=2) error_log("class[%s] can not response to method[%s]\n", nameof(obj), methodname);
- if (strict==1) exit(1);
- }
-	else
- {
- if (strict!=2) error_log("hit_count>1 but class still can not response to method\n");
- if (strict==1) exit(1);
- }
-	return tmpmsg;
- }
- */
-
-
-
 
 /*
  MCTrampoline.S
