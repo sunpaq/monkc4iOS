@@ -71,7 +71,7 @@ void parseObj(BAObj* object, const char* file)
         BAMtlLibrary* current_mtllib = null;
         
         char line[LINE_MAX]; char* c = (char*)file;
-        while (*c != NUL) {
+        while (*c != NUL && *c != EOF) {
             //skip '\n' when '\r\n'
             if (*c==MCNewLineN || *c==MCNewLineR) {
                 c++; continue;
@@ -81,6 +81,7 @@ void parseObj(BAObj* object, const char* file)
                 line[i] = NUL;
             }
             //process line
+            //debug_log("process line: %s\n", line);
             char word[256]; const char* remain = line;
             MCToken token = tokenize(nextWord(&remain, word));
             switch (token.type) {
@@ -125,7 +126,8 @@ void parseObj(BAObj* object, const char* file)
                         }
                     }
                     else if (MCStringEqualN(word, "g", 1)) {
-                        //nextWord(&remain, word);
+                        nextWord(&remain, word);
+                        continue;
                     }
                     else if (MCStringEqualN(word, "o", 1)) {
                         token = tokenize(nextWord(&remain, word));
@@ -142,6 +144,9 @@ void parseObj(BAObj* object, const char* file)
                                     free(current_mtllib);
                                     current_mtllib = BAMtlLibraryNew(token.value.Word);
                                 }
+                            } else {
+                                error_log("can not create mtl library: %s\n", word);
+                                current_mtllib = null;
                             }
                         }
                     }

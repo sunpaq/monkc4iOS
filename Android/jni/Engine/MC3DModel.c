@@ -77,19 +77,24 @@ function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, 
     MCVector2 t;
     
     if (e.vi <= 0) {
-        //error_log("MC3DFileParser: invalide vertex data!\n");
+        error_log("MC3DFileParser: invalide vertex data!\n");
         //exit(-1);
     }else{
         v = buff->vertexbuff[e.vi-1];
     }
     
     if (e.ni <= 0) {
-        n = (MCVector3){0.0,0.0,0.0};
-        //error_log("MC3DFileParser: empty normal data, set to 0!\n");
-//        n = MCVector3Cross(MCVector3Sub(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1]),
-//                           MCVector3Sub(buff->vertexbuff[e.vi+1], buff->vertexbuff[e.vi+2]));
+        n = MCNormalOfTriangle(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1], buff->vertexbuff[e.vi+2]);
+
+        if (e.vi > 0 && e.vi < buff->normal_count) {
+
+            buff->normalbuff[e.vi-1].x = buff->normalbuff[e.vi-1].x + n.x;
+            buff->normalbuff[e.vi-1].y = buff->normalbuff[e.vi-1].y + n.y;
+            buff->normalbuff[e.vi-1].z = buff->normalbuff[e.vi-1].z + n.z;
+            buff->normalbuff[e.vi-1].w = buff->normalbuff[e.vi-1].w + 1;
+        }
     }else{
-        n = buff->normalbuff[e.ni-1];
+        n = MCVector3From4(buff->normalbuff[e.ni-1]);
     }
     
     if (e.ti <= 0) {
@@ -115,8 +120,28 @@ function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, 
         //t.x, t.y
         0,0
     });
-    
-    //mesh->vertexIndexes[(offset==0)?(0):(offset/11)] = (GLuint)e.vi;
+}
+
+typedef struct _Normal{
+    struct _Normal* next;
+    MCVector3 n;
+} Normal;
+
+Normal* createNormal(MCVector3 n)
+{
+    size_t size = sizeof(Normal);
+    Normal* normal = (Normal*)malloc(size);
+    normal->next = null;
+    normal->n = n;
+    return normal;
+}
+
+Normal** createNormalBuff(size_t vertexCount)
+{
+    size_t size = sizeof(Normal*) * vertexCount;
+    Normal** buff = (Normal**)malloc(size);
+    memset(buff, 0, size);
+    return buff;
 }
 
 function(MCMesh*, createMeshWithBATriangles, BATriangle* triangles, size_t tricount, BAObj* buff, MCColorf color)
@@ -131,12 +156,32 @@ function(MCMesh*, createMeshWithBATriangles, BATriangle* triangles, size_t trico
         mesh->vertexDataPtr = null;
     }
     //mesh->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*mesh->vforertexCount);
-    
+        
     for (size_t i=0; i<tricount; i++) {
         size_t offset = i * 33;
         meshLoadFaceElement(0, null, mesh, buff, triangles[i].e1, offset+0, color);
         meshLoadFaceElement(0, null, mesh, buff, triangles[i].e2, offset+11, color);
         meshLoadFaceElement(0, null, mesh, buff, triangles[i].e3, offset+22, color);
+    }
+    
+    //calculate normal
+    for (size_t i=0; i<mesh->vertexCount; i++) {
+        if (i > buff->normal_count) {
+            break;
+        }
+        
+        if (buff->normalbuff[i].w >= 2) {
+//            buff->normalbuff[i].x /= buff->normalbuff[i].w;
+//            buff->normalbuff[i].y /= buff->normalbuff[i].w;
+//            buff->normalbuff[i].z /= buff->normalbuff[i].w;
+            
+            MCVector4 acc = buff->normalbuff[i];
+            MCVector3 nor = MCVector3Normalize(MCVector3From4(acc));
+            
+            mesh->vertexDataPtr[i*11+3] = nor.x;
+            mesh->vertexDataPtr[i*11+4] = nor.y;
+            mesh->vertexDataPtr[i*11+5] = nor.z;
+        }
     }
     
     //frame

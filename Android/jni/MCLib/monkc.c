@@ -440,8 +440,8 @@ static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel t
     for (MCHashTableSize i=0; i<osize; i++) {
         item = oldtable->items[i];
         if(item) {
-            //will override
-            set_item(&newtable, new_item(item->key, MCGenericFp(item->value.mcfuncptr), item->hash), true, item->key);
+            //rehash
+            set_item(&newtable, item, true, item->key);
         }
     }
     
@@ -494,7 +494,6 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     
     if(olditem == null){
         (*table_p)->items[index] = item;
-        (*table_p)->cache = item;
         runtime_log("[%s]:set-item[%d/%s]\n", refkey, index, item->key);
         return index;
     }else{
@@ -509,7 +508,6 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
 
         if (olditem == null) {
             (*table_p)->items[index] = item;
-            (*table_p)->cache = item;
             runtime_log("[%s]:set-item[%d/%s]\n", refkey, index, item->key);
             return index;
         } else {
@@ -529,7 +527,6 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
                 error_log("[%s]:item key collision can not be solved. link the new one[%s] behind the old[%s]\n",
                           refkey, item->key, olditem->key);
                 olditem->next = item;
-                (*table_p)->cache = item;
                 return index;
             }
         }
@@ -548,50 +545,32 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     MCHashTableSize tsize;
     
     mc_hashitem* res=null;
-    for(MCHashTableLevel level = table_p->level; level<MCHashTableLevelMax; level++){
-        tsize = get_tablesize(level);
-        //first probe
-        index = firstHashIndex(hashval, tsize);
-        if((res=get_item_byindex(table_p, index)) == null) {
-            //second probe
-            index = secondHashIndex(hashval, tsize, index);
-            if ((res=get_item_byindex(table_p, index)) == null)
-                continue;
-        }
-        //compare key
-        if (res->key != refkey)
-            continue;
-        //pass all the check
-        return res;
-    }
-    
-    //level=MCHashTableLevelMax
-    tsize = get_tablesize(MCHashTableLevelMax);
+    tsize = get_tablesize(table_p->level);
     //first probe
     index = firstHashIndex(hashval, tsize);
     if((res=get_item_byindex(table_p, index)) == null) {
         //second probe
         index = secondHashIndex(hashval, tsize, index);
-        if((res=get_item_byindex(table_p, index)) == null)
-            return null;//not found
-    }
-    //found and no chain
-    if (res->next == null) {
-        if (res->key != refkey)
+        if ((res=get_item_byindex(table_p, index)) == null)
             return null;
-        return res;
     }
+    //compare key
+    if (res->key != refkey)
+        return null;
     //found but have chain
-    else {
+    if (res->next) {
         for(; res!=null; res=res->next) {
             if(res->key == refkey){
                 runtime_log("key hit a item [%s] in chain\n", res->key);
+                table_p->cache = res;
                 return res;
             }
         }
     }
-    //for all the other cases
-    return null;
+
+    //pass all the check
+    table_p->cache = res;
+    return res;
 }
 
 /*
@@ -718,11 +697,12 @@ int cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result)
     return res;
 }
 
-void mc_info(const char* classname, size_t size, MCLoaderPointer loader)
+void mc_info(const char* classname)
 {
-    mc_class* aclass = _load(classname, size, loader);
-    debug_log("----info[%s] used:%d/free:%d\n",
-              classname, count(&aclass->used_pool), count(&aclass->free_pool));
+    mc_class* aclass = findclass(classname);
+    if (aclass) {
+        MCObject_printDebugInfo(0, 0, aclass);
+    }
 }
 
 void mc_clear(const char* classname, size_t size, MCLoaderPointer loader)
@@ -853,10 +833,11 @@ mc_message _response_to(MCObject* obj, const char* methodname)
     mc_message tmpmsg = {null, null};
     
     //cache
-    mc_hashitem* cache = obj->isa->table->cache;
-    if (cache && cache->key == methodname) {
-        return (mc_message){cache->value.mcfuncptr, obj};
-    }
+//    mc_hashitem* cache = obj->isa->table->cache;
+//    if (cache && cache->key && methodname == cache->key) {
+//        debug_log("hit cache: %s\n", cache->key);
+//        return (mc_message){cache->value.mcfuncptr, obj};
+//    }
     
     //fast hash
     MCHash hashval = hash(methodname);
@@ -874,6 +855,7 @@ mc_message _response_to(MCObject* obj, const char* methodname)
             runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
             if (MC_STRICT_MODE == 1) {
                 printf("Monk-C: %s can not response %s\n", nameof(obj), methodname);
+                info(MCCamera);
                 exit(-1);
             }else{
                 return tmpmsg;
