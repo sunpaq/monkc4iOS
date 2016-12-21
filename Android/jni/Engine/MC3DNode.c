@@ -162,18 +162,22 @@ method(MC3DNode, void, show, voida)
 onload(MC3DNode)
 {
     if (load(MCItem)) {
+<<<<<<< Updated upstream
         prehash();
         binding(MC3DNode, void, bye, voida);
+=======
+        binding(MC3DNode, void, update, voida);
+        binding(MC3DNode, void, draw, voida);
+        binding(MC3DNode, void, hide, voida);
+        binding(MC3DNode, void, show, voida);
+        binding(MC3DNode, void, setAllVisible, MCBool visible);
+>>>>>>> Stashed changes
         binding(MC3DNode, void, addChild, MC3DNode* child);
         binding(MC3DNode, void, removeChild, MC3DNode* child);
         binding(MC3DNode, void, copyChildrenFrom, MC3DNode* node);
         binding(MC3DNode, void, cleanUnvisibleChild, voida);
         binding(MC3DNode, int, childCount, voida);
-        binding(MC3DNode, void, setAllVisible, MCBool visible);
-        binding(MC3DNode, void, update, voida);
-        binding(MC3DNode, void, draw, voida);
-        binding(MC3DNode, void, hide, voida);
-        binding(MC3DNode, void, show, voida);
+        binding(MC3DNode, void, bye, voida);
         return cla;
     }else{
         return null;

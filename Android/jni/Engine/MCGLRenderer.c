@@ -129,7 +129,14 @@ method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode)
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
 {
     if (rootnode != null) {
+<<<<<<< Updated upstream
         ffhash(rootnode, draw, _draw, obj->context);
+=======
+        ff(rootnode, draw, obj->context);
+        //make FPS stable motion more smooth
+        //MCGLEngine_flushCommandBlock(0);
+        //MCGLEngine_flushCommandAsync(0);
+>>>>>>> Stashed changes
     }
     
     glFlush();

@@ -250,13 +250,30 @@ MCHashTableIndex _binding_h(mc_class* const aclass, const char* methodname, MCFu
 	return res;
 }
 
+<<<<<<< Updated upstream
 static inline mc_class* findclass(const char* name, const MCHash hashval)
+=======
+static mc_hashitem* probe_cache(mc_hashtable* table, const char* key);
+
+static inline mc_class* findclass(const char* name)
+>>>>>>> Stashed changes
 {
 	mc_hashitem* item = null;
 	//create a class hashtable
 	if(mc_global_classtable == null)
 		mc_global_classtable = new_table(MCHashTableLevelMax);
+<<<<<<< Updated upstream
 	item=get_item_byhash(mc_global_classtable, hashval, name);
+=======
+    
+    //cache
+    mc_hashitem* cache = probe_cache(mc_global_classtable, name);
+    if (cache && cache->key && cache->key == name) {
+        return (mc_class*)(cache->value.mcvoidptr);
+    }
+    
+	mc_hashitem* item=get_item_byhash(mc_global_classtable, hash(name), name);
+>>>>>>> Stashed changes
 	if (item == null)
 		return null;
 	else
@@ -419,6 +436,45 @@ void mc_unlock(volatile int* lock_p)
 /*
  HashTable
  */
+
+static mc_hashitem* probe_cache(mc_hashtable* table, const char* key)
+{
+    unsigned index = (unsigned)table->cacheindex;
+    //current
+    mc_hashitem* item = table->cache[index];
+    if (item && item->key && key == item->key) {
+        table->cacheindex = index;
+        return item;
+    }
+    //next
+    item = table->cache[index+1];
+    if (item && item->key && key == item->key) {
+        table->cacheindex = index;
+        return item;
+    }
+    //loop
+    index = (unsigned)table->cacheindex-1;
+    while (index != table->cacheindex) {
+        item=table->cache[index--];
+        if (item && item->key && key == item->key) {
+            table->cacheindex = index;
+            return item;
+        }
+    }
+    
+    return null;
+}
+
+static void insert_cache(mc_hashtable* table, const char* key, mc_hashitem* item)
+{
+    mc_hashitem* cache = table->cache[table->cacheindex];
+    if (cache && cache->key && key == cache->key) {
+        return;
+    } else {
+        table->cache[table->cacheindex++] = item;
+    }
+}
+
 mc_hashtable* new_table(const MCHashTableLevel initlevel)
 {
     //alloc
@@ -427,11 +483,20 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
     //init
     atable->lock = 0;
     atable->level = initlevel;
+<<<<<<< Updated upstream
     //set cache list nil
     atable->useCache = true;
     atable->cache.last = null;
     atable->cache.count = 0;
     //set all the slot to nil
+=======
+    //set all cache slot to null
+    atable->cacheindex = 0;
+    for (int i=0; i<=256; i++) {
+        atable->cache[i] = null;
+    }
+    //set all the slot to null
+>>>>>>> Stashed changes
     for (int i = 0; i < get_tablesize(initlevel); i++)
         atable->items[i] = null;
     return atable;
@@ -552,7 +617,10 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
                 error_log("[%s]:item key collision can not be solved. link the new one[%s] behind the old[%s]\n",
                           refkey, item->key, olditem->key);
                 olditem->next = item;
+<<<<<<< Updated upstream
                 item->prev = olditem;
+=======
+>>>>>>> Stashed changes
                 return index;
             }
         }
@@ -699,7 +767,11 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
                 continue;
         }
         //pass all the check
+<<<<<<< Updated upstream
         table->cache = cacheInsert(table, res);
+=======
+        insert_cache(table_p, refkey, res);
+>>>>>>> Stashed changes
         return res;
     }
     
@@ -716,7 +788,13 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
     }
     //found and no chain
     if (res->next == null) {
+<<<<<<< Updated upstream
         table->cache = cacheInsert(table, res);
+=======
+        if (res->key != refkey)
+            return null;
+        insert_cache(table_p, refkey, res);
+>>>>>>> Stashed changes
         return res;
     }
     //found but have chain
@@ -724,7 +802,11 @@ mc_hashitem* get_item_byhash(mc_hashtable* table, const MCHash hashval, const ch
         for(; res!=null; res=res->next) {
             if(mc_compare_key(res->key, refkey) == 0){
                 runtime_log("key hit a item [%s] in chain\n", res->key);
+<<<<<<< Updated upstream
                 table->cache = cacheInsert(table, res);
+=======
+                insert_cache(table_p, refkey, res);
+>>>>>>> Stashed changes
                 return res;
             }
         }
@@ -1007,6 +1089,7 @@ mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash has
     mc_hashitem* res = null;
     mc_message tmpmsg = {null, null};
     
+<<<<<<< Updated upstream
     if(obj == null){
         //no need to warning user
         return tmpmsg;
@@ -1014,6 +1097,13 @@ mc_message _self_response_to_h(MCObject* obj, const char* methodname, MCHash has
     if(obj->isa == null){
         error_log("_self_response_to(obj, '%s') obj->isa is null. return {null, null}\n", methodname);
         return tmpmsg;
+=======
+    //cache
+    mc_hashitem* cache = probe_cache(obj->isa->table, methodname);
+    if (cache) {
+        debug_log("%s hit cache %s\n", obj->isa->item->key, methodname);
+        return (mc_message){cache->value.mcfuncptr, obj};
+>>>>>>> Stashed changes
     }
     
     if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != null){

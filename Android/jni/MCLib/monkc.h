@@ -262,6 +262,7 @@ typedef struct mc_hashitem_struct {
     MCUInt hitcost;
 } ALIGN(4) mc_hashitem;
 
+<<<<<<< Updated upstream
 typedef struct {
     mc_hashitem* last;
     MCUInt count;
@@ -270,6 +271,13 @@ typedef struct {
 
 typedef struct {
     MCHashCircleCache cache;
+=======
+typedef struct
+{
+    mc_hashitem* cache[257];//0-256
+    uint8_t cacheindex;
+    MCInt lock;
+>>>>>>> Stashed changes
     MCHashTableLevel level;
     MCInt lock;
     MCBool useCache;
