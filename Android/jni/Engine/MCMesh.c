@@ -35,6 +35,9 @@ method(MCMesh, void, bye, voida)
 {
     glDeleteBuffers(1, &obj->VBO);
     glDeleteVertexArrays(1, &obj->VAO);
+    if (obj->vertexDataPtr) {
+        free(obj->vertexDataPtr);
+    }
 }
 
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
@@ -52,15 +55,33 @@ method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
     return obj;
 }
 
-method(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data)
+method(MCMesh, void, allocVertexBuffer, GLsizei vertexCount)
+{
+    obj->vertexCount = vertexCount ;
+    obj->vertexDataSize = obj->vertexCount * 11 * sizeof(GLfloat);
+    if (obj->vertexDataSize != 0) {
+        obj->vertexDataPtr = (GLfloat*)malloc(obj->vertexDataSize);
+        memset(obj->vertexDataPtr, 0, obj->vertexDataSize);
+    }else{
+        obj->vertexDataPtr = null;
+    }
+}
+
+method(MCMesh, void, setVertex, GLuint offset, MCBool doesAccumulateNormal, MCMeshVertexData* data)
 {
     obj->vertexDataPtr[offset+0] = data->x;
     obj->vertexDataPtr[offset+1] = data->y;
     obj->vertexDataPtr[offset+2] = data->z;
     
-    obj->vertexDataPtr[offset+3] = data->nx;
-    obj->vertexDataPtr[offset+4] = data->ny;
-    obj->vertexDataPtr[offset+5] = data->nz;
+    if (doesAccumulateNormal) {
+        obj->vertexDataPtr[offset+3] += data->nx;
+        obj->vertexDataPtr[offset+4] += data->ny;
+        obj->vertexDataPtr[offset+5] += data->nz;
+    } else {
+        obj->vertexDataPtr[offset+3] = data->nx;
+        obj->vertexDataPtr[offset+4] = data->ny;
+        obj->vertexDataPtr[offset+5] = data->nz;
+    }
     
     obj->vertexDataPtr[offset+6] = data->r;
     obj->vertexDataPtr[offset+7] = data->g;
@@ -117,7 +138,8 @@ onload(MCMesh)
     if (load(MCItem)) {
         binding(MCMesh, void, bye, voida);
         binding(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
-        binding(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data);
+        binding(MCMesh, void, allocVertexBuffer, GLsizei vertexCount);
+        binding(MCMesh, void, setVertex, GLuint offset, MCBool doesAccumulateNormal, MCMeshVertexData* data);
         binding(MCMesh, void, prepareMesh, voida);
         binding(MCMesh, void, drawMesh, voida);
         return cla;

@@ -54,7 +54,8 @@ class(MCMesh, MCItem,
 
 method(MCMesh, void, bye, voida);
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
-method(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data);
+method(MCMesh, void, allocVertexBuffer, GLsizei vertexCount);
+method(MCMesh, void, setVertex, GLuint offset, MCBool doesAccumulateNormal, MCMeshVertexData* data);
 method(MCMesh, void, prepareMesh, MCGLContext* ctx);
 method(MCMesh, void, drawMesh, MCGLContext* ctx);
 method(MCMesh, void, dump, voida);

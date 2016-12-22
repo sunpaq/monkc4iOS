@@ -71,55 +71,51 @@ method(MC3DModel, void, bye, voida)
     MC3DNode_bye(0, sobj, 0);
 }
 
-function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, size_t offset, MCColorf color)
+function(MCBool, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, size_t offset, MCColorf color)
 {
     MCVector3 v, n;
     MCVector2 t;
-    
+    MCBool calculatedNormal = false;
+
     if (e.vi <= 0) {
         error_log("MC3DFileParser: invalide vertex data!\n");
         //exit(-1);
     }else{
         v = buff->vertexbuff[e.vi-1];
-    }
-    
-    if (e.ni <= 0) {
-        n = MCNormalOfTriangle(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1], buff->vertexbuff[e.vi+2]);
-
-        if (e.vi > 0 && e.vi < buff->normal_count) {
-
-            buff->normalbuff[e.vi-1].x = buff->normalbuff[e.vi-1].x + n.x;
-            buff->normalbuff[e.vi-1].y = buff->normalbuff[e.vi-1].y + n.y;
-            buff->normalbuff[e.vi-1].z = buff->normalbuff[e.vi-1].z + n.z;
-            buff->normalbuff[e.vi-1].w = buff->normalbuff[e.vi-1].w + 1;
+        
+        if (e.ni <= 0) {
+            n = MCNormalOfTriangle(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1], buff->vertexbuff[e.vi+2]);
+            calculatedNormal = true;
+        }else{
+            n = MCVector3From4(buff->normalbuff[e.ni-1]);
         }
-    }else{
-        n = MCVector3From4(buff->normalbuff[e.ni-1]);
+        
+        if (e.ti <= 0) {
+            //error_log("MC3DFileParser: empty texcoord data, set to 0!");
+            t = (MCVector2){0.0,0.0};
+        }else{
+            t = buff->texcoorbuff[e.ti-1];
+        }
+        
+        //3D frame max
+        MCMath_accumulateMaxd(&buff->Frame.xmax, v.x);
+        MCMath_accumulateMaxd(&buff->Frame.ymax, v.y);
+        MCMath_accumulateMaxd(&buff->Frame.zmax, v.z);
+        //3D frame min
+        MCMath_accumulateMind(&buff->Frame.xmin, v.x);
+        MCMath_accumulateMind(&buff->Frame.ymin, v.y);
+        MCMath_accumulateMind(&buff->Frame.zmin, v.z);
+        
+        MCMesh_setVertex(0, mesh, (GLuint)offset, calculatedNormal, &(MCMeshVertexData){
+            v.x, v.y, v.z,
+            n.x, n.y, n.z,
+            color.R.f, color.G.f, color.B.f,
+            //t.x, t.y
+            0,0
+        });
     }
     
-    if (e.ti <= 0) {
-        //error_log("MC3DFileParser: empty texcoord data, set to 0!");
-        t = (MCVector2){0.0,0.0};
-    }else{
-        t = buff->texcoorbuff[e.ti-1];
-    }
-    
-    //3D frame max
-    MCMath_accumulateMaxd(&buff->Frame.xmax, v.x);
-    MCMath_accumulateMaxd(&buff->Frame.ymax, v.y);
-    MCMath_accumulateMaxd(&buff->Frame.zmax, v.z);
-    //3D frame min
-    MCMath_accumulateMind(&buff->Frame.xmin, v.x);
-    MCMath_accumulateMind(&buff->Frame.ymin, v.y);
-    MCMath_accumulateMind(&buff->Frame.zmin, v.z);
-    
-    MCMesh_setVertex(0, mesh, (GLuint)offset, &(MCMeshVertexData){
-        v.x, v.y, v.z,
-        n.x, n.y, n.z,
-        color.R.f, color.G.f, color.B.f,
-        //t.x, t.y
-        0,0
-    });
+    return calculatedNormal;
 }
 
 typedef struct _Normal{
@@ -147,36 +143,29 @@ Normal** createNormalBuff(size_t vertexCount)
 function(MCMesh*, createMeshWithBATriangles, BATriangle* triangles, size_t tricount, BAObj* buff, MCColorf color)
 {
     MCMesh* mesh = MCMesh_initWithDefaultVertexAttributes(0, new(MCMesh), 0);
+    MCMesh_allocVertexBuffer(0, mesh, (GLsizei)tricount * 3);
     
-    mesh->vertexCount = (GLsizei)tricount * 3;
-    mesh->vertexDataSize = mesh->vertexCount * 11 * sizeof(GLfloat);
-    if (mesh->vertexDataSize != 0) {
-        mesh->vertexDataPtr = (GLfloat*)malloc(mesh->vertexDataSize);
-    }else{
-        mesh->vertexDataPtr = null;
-    }
     //mesh->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*mesh->vforertexCount);
-        
+    
+    MCBool calculatedNormal = false;
     for (size_t i=0; i<tricount; i++) {
         size_t offset = i * 33;
         meshLoadFaceElement(0, null, mesh, buff, triangles[i].e1, offset+0, color);
-        meshLoadFaceElement(0, null, mesh, buff, triangles[i].e2, offset+11, color);
+        calculatedNormal = meshLoadFaceElement(0, null, mesh, buff, triangles[i].e2, offset+11, color);
         meshLoadFaceElement(0, null, mesh, buff, triangles[i].e3, offset+22, color);
     }
     
-    //calculate normal
-    for (size_t i=0; i<mesh->vertexCount; i++) {
-        if (i > buff->normal_count) {
-            break;
-        }
-        
-        if (buff->normalbuff[i].w >= 2) {
-//            buff->normalbuff[i].x /= buff->normalbuff[i].w;
-//            buff->normalbuff[i].y /= buff->normalbuff[i].w;
-//            buff->normalbuff[i].z /= buff->normalbuff[i].w;
+    //normalize normal vectors
+    if (calculatedNormal) {
+        for (size_t i=0; i<mesh->vertexCount; i++) {
+            if (i > buff->normal_count)
+                break;
             
-            MCVector4 acc = buff->normalbuff[i];
-            MCVector3 nor = MCVector3Normalize(MCVector3From4(acc));
+            float x = mesh->vertexDataPtr[i*11+3];
+            float y = mesh->vertexDataPtr[i*11+4];
+            float z = mesh->vertexDataPtr[i*11+5];
+            
+            MCVector3 nor = MCVector3Normalize(MCVector3Make(x, y, z));
             
             mesh->vertexDataPtr[i*11+3] = nor.x;
             mesh->vertexDataPtr[i*11+4] = nor.y;

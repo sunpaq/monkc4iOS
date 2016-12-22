@@ -222,7 +222,7 @@ MCInline MCVector3 MCVector3Cross(MCVector3 v1, MCVector3 v2) {
 }
 
 MCInline MCVector3 MCNormalOfTriangle(MCVector3 v1, MCVector3 v2, MCVector3 v3) {
-    return MCVector3Normalize(MCVector3Cross(MCVector3Sub(v1, v2), MCVector3Sub(v2, v3)));
+    return MCVector3Cross(MCVector3Sub(v2, v1), MCVector3Sub(v3, v1));
 }
 
 MCInline MCBool MCMatrix3Equal(MCMatrix3* l, MCMatrix3* r)
