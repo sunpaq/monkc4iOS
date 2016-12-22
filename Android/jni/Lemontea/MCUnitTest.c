@@ -136,7 +136,7 @@ static void runMethodByPointer(MCUnitTestCase* obj, mc_hashitem* amethod)
 		error_log("MCAssertEqualsException\n");
 	}
 	finally{
-		error_log("testcase: %s at method: [%s]\n", cast(MCObject*, obj)->isa->item->key, amethod->key);
+		error_log("testcase: %s at method: [%s]\n", cast(MCObject*, obj)->isa->name, amethod->key);
 	}
 
 	ff(obj, tearDown, null);

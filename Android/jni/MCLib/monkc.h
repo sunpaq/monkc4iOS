@@ -322,11 +322,15 @@ MCInline mc_blockpool* new_mc_blockpool()
     bpool->tail = null;
     return bpool;
 }
+
+struct _MCObject;
 //meta class, the struct is a node for inherit hierarchy
 typedef struct _mc_class {
+    MCSizeT objsize;
     struct _mc_class* (*loader)(struct _mc_class*);
-    MCSizeT       objsize;
-    mc_hashitem*  item;
+    struct _MCObject* (*initer)(struct _MCObject*);
+    const char* name;
+
     mc_blockpool  free_pool;
     mc_blockpool  used_pool;
     mc_hashtable* table; //the hashtable may expand so let it dynamic
@@ -341,32 +345,30 @@ typedef struct _MCObject
     MCInt ref_count;
 } MCObject;
 
-MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
-{
-    MCHashTableLevel initlevel = MCHashTableLevel1;
-    mc_class* aclass = (mc_class*)malloc(sizeof(mc_class));
-    aclass->objsize = objsize;
-    //init pool
-    aclass->free_pool.lock = 0;
-    aclass->free_pool.tail = null;
-    aclass->used_pool.lock = 0;
-    aclass->used_pool.tail = null;
-    //init table
-    aclass->table = (mc_hashtable*)malloc(sizeof(mc_hashtable) + sizeof(mc_hashitem)*get_tablesize(initlevel));
-    aclass->table->lock = 0;
-    aclass->table->level = initlevel;
-    //aclass->table->table_item_count = 0;
-    //set all the slot to nil
-    for (int i = 0; i < get_tablesize(initlevel); i++)
-        (aclass->table->items)[i] = null;
-    return aclass;
-}
+//mc_hashtable* new_table(const MCHashTableLevel);
+//MCInline mc_class* alloc_mc_class(const MCSizeT objsize)
+//{
+//    mc_class* aclass = (mc_class*)malloc(sizeof(mc_class));
+//    aclass->objsize = objsize;
+//    //init pool
+//    aclass->free_pool.lock = 0;
+//    aclass->free_pool.tail = null;
+//    aclass->used_pool.lock = 0;
+//    aclass->used_pool.tail = null;
+//    //init table
+//    aclass->table = new_table(MCHashTableLevel1);
+//    if (aclass->table) {
+//        return aclass;
+//    }
+//    error_log("alloc_mc_class error!");
+//    return null;
+//}
 
-MCInline void package_by_item(mc_hashitem* aitem_p, mc_class* aclass_p)
-{
-    (aitem_p)->value.mcvoidptr = aclass_p;
-    (aclass_p)->item = aitem_p;
-}
+//MCInline void package_by_item(mc_hashitem* aitem_p, mc_class* aclass_p)
+//{
+//    (aitem_p)->value.mcvoidptr = aclass_p;
+//    (aclass_p)->item = aitem_p;
+//}
 
 MCInline void package_by_block(mc_block* ablock, MCObject* aobject)
 {
@@ -395,7 +397,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define oninit(cls)						 cls* cls##_init(cls* const obj)
 #define load(supercls)                        supercls##_load(cla)
 #define init(supercls)                        supercls##_init((supercls*)obj)
-#define preload(cls)                          _load(#cls, sizeof(cls), cls##_##load)
+#define preload(cls)                          _load(#cls, sizeof(cls), cls##_##load, cls##_##init)
 #define superbye(cls)                         cls##_bye(0, &obj->Super, 0)
 
 //method binding
@@ -420,9 +422,9 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 #define as(cls)                               cls* obj = (cls*)any
 
 //for create object
-#define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)
-#define clear(cls)  					mc_clear(S(cls), sizeof(cls), cls##_load)
-#define info(cls)                  		mc_info(S(cls))
+#define new(cls)						(cls*)_new(#cls, sizeof(cls), (MCLoaderPointer)cls##_##load, (MCIniterPointer)cls##_##init)
+#define clear(cls)  					mc_clear(#cls, sizeof(cls), cls##_##load)
+#define info(cls)                  		mc_info(#cls)
 
 //for call method
 #define response_test(obj, met) 	     _response_test((MCObject*)obj, S(met))
@@ -438,10 +440,10 @@ void unlock_global_classtable();
 MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value);
 
 //class load
-mc_class* _load(const char* name, MCSizeT objsize, MCLoaderPointer loader);
+mc_class* _load(const char* classname, MCSizeT objsize, MCLoaderPointer loader, MCIniterPointer initer);
 
 //object create
-MCObject* _new(MCObject* const obj, MCIniterPointer initer);
+MCObject* _new(const char* classname, MCSizeT objsize, MCLoaderPointer loader, MCIniterPointer initer);
 
 //memory management
 #define REFCOUNT_NO_MM 	-1
@@ -460,11 +462,9 @@ extern void _clear_class_list();
 MCInline const char* mc_nameofc(const mc_class* aclass) {
     if(aclass==null)
         return "unknown";
-    if(aclass->item==null)
+    if(aclass->name==null)
         return "unknown";
-    if(aclass->item->key==null)
-        return "unknown";
-    return aclass->item->key;
+    return aclass->name;
 }
 
 MCInline const char* mc_nameof(const MCObject* aobject) {
@@ -521,7 +521,7 @@ MCInline MCHash hash(const char *s) {
 }
 
 MCInline MCHashTableIndex firstHashIndex(MCHash nkey, MCHashTableSize slots) {
-    return nkey % slots;
+    return (nkey % slots) % slots;
 }
 
 MCInline MCHashTableIndex secondHashIndex(MCHash nkey, MCHashTableSize slots, MCHash savedFirst) {
@@ -586,7 +586,7 @@ static inline void      MCObject_printDebugInfo(mc_message_arg(MCObject), mc_cla
     for (int i=0; i<size; i++) {
         mc_hashitem* item = mcclass->table->items[i];
         if (item && item->key) {
-            debug_log("[%s] -binding- [%s/%d/(%d)]\n", mcclass->item->key, item->key, item->hash, i);
+            debug_log("[%s] -binding- [%s/%d/(%d)]\n", mcclass->name, item->key, item->hash, i);
         }
     }
 }

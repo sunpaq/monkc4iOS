@@ -240,7 +240,7 @@ MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFunc
 		return 0;
 	}
     mc_hashitem* item = new_item(methodname, MCGenericFp(value), hash(methodname));
-	return set_item(&(aclass->table), item, true, nameofc(aclass));//will override
+	return set_item(aclass->table, item, true, nameofc(aclass));//will override
 }
 
 static inline mc_class* findclass(const char* name)
@@ -254,43 +254,60 @@ static inline mc_class* findclass(const char* name)
         debug_log("findClass item [%s/%d/%p]\n", item->key, item->hash, item->value.mcvoidptr);
         return (mc_class*)(item->value.mcvoidptr);
     }
-    debug_log("findClass(%s) failed\n", name);
     return null;
 }
 
-mc_class* _load(const char* name, size_t objsize, MCLoaderPointer loader)
+mc_class* _load(const char* classname, MCSizeT objsize, MCLoaderPointer loader, MCIniterPointer initer)
 {
-	mc_class* aclass = findclass(name);
+	mc_class* aclass = findclass(classname);
 	//try lock spin lock
 	trylock_global_classtable();
 	if(aclass == null){
 		//new a item
-		aclass = alloc_mc_class(objsize);
-        aclass->loader = loader;
-        mc_hashitem* item = new_item(name, (MCGeneric){.mcvoidptr=null}, hash(name));//nil first
-		package_by_item(item, aclass);
+        mc_class* aclass = (mc_class*)malloc(sizeof(mc_class));
+        aclass->name    = classname;
+        aclass->objsize = objsize;
+        aclass->loader  = loader;
+        //init pool
+        aclass->free_pool.lock = 0;
+        aclass->free_pool.tail = null;
+        aclass->used_pool.lock = 0;
+        aclass->used_pool.tail = null;
+        //init table
+        aclass->table = new_table(MCHashTableLevel1);
+        //add to class table
+        mc_hashitem* item = new_item(classname, MCGenericVp(aclass), hash(classname));
+        set_item(mc_global_classtable, item, false, classname);
+        //binding methods
 		(*loader)(aclass);
 		//set item
-        //MCBool isOverride, MCBool isFreeValue
-		set_item(&mc_global_classtable, item, false, name);
-		runtime_log("load a class[%s]\n", name);
+		runtime_log("load a class[%s]\n", classname);
 	}else{
-		runtime_log("find a class[%s]\n", name);
+		runtime_log("find a class[%s]\n", classname);
 	}
 	//unlock
 	unlock_global_classtable();
 	return aclass;
 }
 
-MCObject* _new(MCObject* const obj, MCIniterPointer initer)
+//object create
+MCObject* _new(const char* classname, MCSizeT objsize, MCLoaderPointer loader, MCIniterPointer initer)
 {
-	//block, isa, saved_isa is setted at _alloc()
-    obj->nextResponder = null;
-	obj->ref_count = 1;
-	(*initer)(obj);
-    obj->nextResponder = null;
-    obj->ref_count = 1;
-	return obj;
+    mc_class* aclass = findclass(classname);
+    if (!aclass) {
+        aclass = _load(classname, objsize, loader, initer);
+    }
+    MCObject* obj = (MCObject*)malloc(objsize);
+    if (obj) {
+        obj->saved_isa = aclass;
+        obj->isa = aclass;
+        obj->nextResponder = null;
+        obj->ref_count = 1;
+        
+        runtime_log("----alloc[NEW:%s]: new alloc\n", classname);
+        return obj;
+    }
+    return null;
 }
 
 static int ref_count_down(MCObject* const this)
@@ -428,8 +445,9 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
     return null;
 }
 
-static inline mc_hashtable* expand_table(mc_hashtable* oldtable, MCHashTableLevel tolevel)
+static inline void expand_table(mc_hashtable** table, MCHashTableLevel tolevel)
 {
+    mc_hashtable* oldtable = *table;
     mc_hashtable* newtable = new_table(tolevel);
     if (newtable) {
         for (int i=0; i<get_tablesize(oldtable->level); i++) {
@@ -437,11 +455,11 @@ static inline mc_hashtable* expand_table(mc_hashtable* oldtable, MCHashTableLeve
             newtable->items[i] = oldtable->items[i];
         }
         debug_log("expand table: %d->%d\n", oldtable->level, newtable->level);
-        free(oldtable);
-        return newtable;
+        (*table) = newtable;
+        free(*table);
+        return;
     }
     error_log("expand table failed!");
-    return null;
 }
 
 mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval)
@@ -460,28 +478,22 @@ mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval)
     return null;
 }
 
-static MCBool override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, const char* classname)
-{
-    if (strcmp(item->key, newitem->key) == 0) {
-        item->hash  = newitem->hash;
-        item->key   = newitem->key;
-        item->next  = newitem->next;
-        item->value = newitem->value;
-        item->key   = newitem->key;
-        item->hash  = newitem->hash;
-        //free the new item!
-        free(newitem);
-        debug_log("[%s]:override-item [%s/%d]\n", classname, item->key, item->hash);
-        return true;
-    }
-    return false;
-}
-
 MCHashTableIndex set_item(mc_hashtable* table, mc_hashitem* item, MCBool isAllowOverride, const char* classname)
 {
-    if(table==null){
+    if (!table) {
         error_log("set_item table is null\n");
         return 0;
+    }
+    if (table->level > MCHashTableLevelMax) {
+        error_log("set_item table malformed\n");
+        exit(-1);
+    }
+    if (!item) {
+        error_log("set_item item is null\n");
+        return 0;
+    }
+    if (!item->key) {
+        error_log("set_item key is null");
     }
     
     MCHash hashval = item->hash;
@@ -493,13 +505,24 @@ MCHashTableIndex set_item(mc_hashtable* table, mc_hashitem* item, MCBool isAllow
     
     if(olditem == null){
         table->items[index] = item;
-        debug_log("[%s]:set-item(%d) [%s/%d]\n", classname, index, item->key, item->hash);
+        //debug_log("[%s]:set-item(%d) [%s/%ld]\n", classname, index, item->key, item->hash);
         return index;
     }else{
+        //clean up
+        if (olditem->key==null) {
+            table->items[index] = null;
+        }
+        
+        
         //method override
-        if (isAllowOverride && override_samekeyitem(olditem, item, classname))
-            return index;
-
+        if (isAllowOverride) {
+            if (strcmp(olditem->key, item->key) == 0) {
+                table->items[index] = item;
+                debug_log("[%s]:override-item [%s/%d]\n", classname, item->key, item->hash);
+                free(olditem);
+                return index;
+            }
+        }
         //second probe
         index = secondHashIndex(hashval, tsize, index);
         olditem = table->items[index];
@@ -509,13 +532,22 @@ MCHashTableIndex set_item(mc_hashtable* table, mc_hashitem* item, MCBool isAllow
             debug_log("[%s]:set-item(%d) [%s/%d]\n", classname, index, item->key, item->hash);
             return index;
         } else {
+            //clean up
+            if (olditem->key==null) {
+                table->items[index] = null;
+            }
             //method override
-            if (isAllowOverride && override_samekeyitem(olditem, item, classname))
-                return index;
-
+            if (isAllowOverride) {
+                if (strcmp(olditem->key, item->key) == 0) {
+                    table->items[index] = item;
+                    debug_log("[%s]:override-item [%s/%d]\n", classname, item->key, item->hash);
+                    free(olditem);
+                    return index;
+                }
+            }
             //solve the collision by expand table
             if(table->level < MCHashTableLevelMax){//Max=5 Count=6
-                table = expand_table(table, table->level+1);
+                expand_table(&table, table->level+1);
                 return set_item(table, item, isAllowOverride, classname);//recursive
             }else{
                 //tmplevel = 5, table_p must have been expanded to level 4
@@ -535,12 +567,7 @@ mc_hashitem* get_item_byhashkey(mc_hashtable* const table_p, const MCHash hashva
         error_log("get_item_byhash(table_p) table_p is nil return nil\n");
         return null;
     }
-    
-    if (key == "MC3DScene") {
-        
-    }
-    
-    
+
     MCHashTableIndex index;
     MCHashTableSize tsize;
     
@@ -700,64 +727,64 @@ void mc_info(const char* classname)
     }
 }
 
-void mc_clear(const char* classname, size_t size, MCLoaderPointer loader)
-{
-    mc_class* aclass = _load(classname, size, loader);
-    if(aclass->used_pool.tail!=null)
-        empty(&aclass->used_pool);
-    else
-        runtime_log("class[%s] used_pool have no node. check free_pool\n", classname);
-    if(aclass->free_pool.tail!=null)
-        empty(&aclass->free_pool);
-    else
-        runtime_log("class[%s] free_pool also have no node. do not clear\n", classname);
-    runtime_log("empty [%s] finish\n", classname);
-}
+//void mc_clear(const char* classname, size_t size, MCLoaderPointer loader)
+//{
+//    mc_class* aclass = _load(classname, size, loader);
+//    if(aclass->used_pool.tail!=null)
+//        empty(&aclass->used_pool);
+//    else
+//        runtime_log("class[%s] used_pool have no node. check free_pool\n", classname);
+//    if(aclass->free_pool.tail!=null)
+//        empty(&aclass->free_pool);
+//    else
+//        runtime_log("class[%s] free_pool also have no node. do not clear\n", classname);
+//    runtime_log("empty [%s] finish\n", classname);
+//}
 
 //always return a object of size. packaged by a block.
-MCObject* mc_alloc(const char* classname, size_t size, MCLoaderPointer loader)
-{
-#if defined(NO_RECYCLE) && NO_RECYCLE
-    mc_class* aclass = _load(classname, size, loader);
-    MCObject* aobject = null;
-    //new a object package by a block
-    aobject = (MCObject*)malloc(size);
-    if (aobject != null) {
-        aobject->isa = aclass;
-        aobject->saved_isa = aclass;
-        runtime_log("----alloc[NEW:%s]: new alloc\n", classname);
-        return aobject;
-    }else{
-        error_log("----alloc[NEW:%s]: new alloc FAILED\n", classname);
-        exit(-1);
-    }
-    
-#else
-    mc_class* aclass = _load_h(classname, size, loader, hashval);
-    mc_blockpool* fp = &aclass->free_pool;
-    mc_blockpool* up = &aclass->used_pool;
-    mc_block* ablock = null;
-    mo aobject = null;
-    if((ablock=getFromHead(fp)) == null){
-        //new a object package by a block
-        aobject = (mo)malloc(size);
-        aobject->isa = aclass;
-        aobject->saved_isa = aclass;
-        //new a block
-        ablock = new_mc_block(null);
-        package_by_block(ablock, aobject);
-        runtime_log("----alloc[NEW:%s]: new alloc a block[%p obj[%p]]\n",
-                    classname, ablock, ablock->data);
-    }else{
-        aobject = (mo)(ablock->data);
-        runtime_log("----alloc[REUSE:%s]: find a block[%p obj[%p]]\n",
-                    classname, ablock, ablock->data);
-    }
-    pushToTail(up, ablock);
-    
-    return aobject;
-#endif
-}
+//MCObject* mc_alloc(const char* classname, size_t size, MCLoaderPointer loader)
+//{
+//#if defined(NO_RECYCLE) && NO_RECYCLE
+//    mc_class* aclass = _load(classname, size, loader);
+//    MCObject* aobject = null;
+//    //new a object package by a block
+//    aobject = (MCObject*)malloc(size);
+//    if (aobject != null) {
+//        aobject->isa = aclass;
+//        aobject->saved_isa = aclass;
+//        runtime_log("----alloc[NEW:%s]: new alloc\n", classname);
+//        return aobject;
+//    }else{
+//        error_log("----alloc[NEW:%s]: new alloc FAILED\n", classname);
+//        exit(-1);
+//    }
+//    
+//#else
+//    mc_class* aclass = _load_h(classname, size, loader, hashval);
+//    mc_blockpool* fp = &aclass->free_pool;
+//    mc_blockpool* up = &aclass->used_pool;
+//    mc_block* ablock = null;
+//    mo aobject = null;
+//    if((ablock=getFromHead(fp)) == null){
+//        //new a object package by a block
+//        aobject = (mo)malloc(size);
+//        aobject->isa = aclass;
+//        aobject->saved_isa = aclass;
+//        //new a block
+//        ablock = new_mc_block(null);
+//        package_by_block(ablock, aobject);
+//        runtime_log("----alloc[NEW:%s]: new alloc a block[%p obj[%p]]\n",
+//                    classname, ablock, ablock->data);
+//    }else{
+//        aobject = (mo)(ablock->data);
+//        runtime_log("----alloc[REUSE:%s]: find a block[%p obj[%p]]\n",
+//                    classname, ablock, ablock->data);
+//    }
+//    pushToTail(up, ablock);
+//    
+//    return aobject;
+//#endif
+//}
 
 void mc_dealloc(MCObject* aobject, int is_recycle)
 {
