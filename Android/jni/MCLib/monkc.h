@@ -297,8 +297,6 @@ MCInline MCHashTableSize get_tablesize(const MCHashTableLevel level)
 MCInline void mc_hashtable_add_item(mc_hashtable* table, MCHashTableIndex index, mc_hashitem* item) { table->items[index] = item; }
 MCInline mc_hashitem* mc_hashtable_get_item(mc_hashtable* table, MCHashTableIndex index) { return table->items[index]; }
 
-
-
 typedef struct mc_block_struct
 {
 	struct mc_block_struct* next;
@@ -325,14 +323,14 @@ MCInline mc_blockpool* new_mc_blockpool()
     return bpool;
 }
 //meta class, the struct is a node for inherit hierarchy
-typedef struct
-{
+typedef struct _mc_class {
+    struct _mc_class* (*loader)(struct _mc_class*);
     MCSizeT       objsize;
     mc_hashitem*  item;
     mc_blockpool  free_pool;
     mc_blockpool  used_pool;
     mc_hashtable* table; //the hashtable may expand so let it dynamic
-}mc_class;
+} mc_class;
 //for type cast, every object have the 3 var members
 typedef struct _MCObject
 {
@@ -533,34 +531,8 @@ MCInline MCHashTableIndex secondHashIndex(MCHash nkey, MCHashTableSize slots, MC
 mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval);
 mc_hashtable* new_table(const MCHashTableLevel initlevel);
 
-MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAllowOverride, const char* refkey);
-mc_hashitem* get_item_byhash(mc_hashtable* table_p, const MCHash hashval, const char* refkey);
-
-
-
-MCInline mc_hashitem* get_item_bykey(mc_hashtable* const table_p, const char* key)
-{
-    if(table_p==null){
-        error_log("get_item_bykey(table_p) table_p is nil return nil\n");
-        return null;
-    }
-    //try get index
-    return get_item_byhash(table_p, hash(key), key);
-}
-
-MCInline mc_hashitem* get_item_byindex(mc_hashtable* const table_p, const MCHashTableIndex index)
-{
-    if(table_p==null){
-        error_log("get_item_byindex(table_p) table_p is nil return nil\n");
-        return null;
-    }
-    if(index > get_tablesize(table_p->level))
-        return null;
-    if(table_p->items[index] != null)
-        return table_p->items[index];
-    else
-        return null;
-}
+MCHashTableIndex set_item(mc_hashtable* table, mc_hashitem* item, MCBool isAllowOverride, const char* classname);
+mc_hashitem* get_item_byhashkey(mc_hashtable* table_p, const MCHash hashval, const char* key);
 
 /*
  Messaging.h
@@ -614,7 +586,7 @@ static inline void      MCObject_printDebugInfo(mc_message_arg(MCObject), mc_cla
     for (int i=0; i<size; i++) {
         mc_hashitem* item = mcclass->table->items[i];
         if (item && item->key) {
-            debug_log("%s - %s\n", mcclass->item->key, item->key);
+            debug_log("[%s] -binding- [%s/%d/(%d)]\n", mcclass->item->key, item->key, item->hash, i);
         }
     }
 }
