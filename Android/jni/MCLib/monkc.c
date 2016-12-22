@@ -467,10 +467,11 @@ static MCBool override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, cons
         item->key   = newitem->key;
         item->next  = newitem->next;
         item->value = newitem->value;
+        item->key   = newitem->key;
+        item->hash  = newitem->hash;
         //free the new item!
         free(newitem);
         debug_log("[%s]:override-item [%s/%d]\n", classname, item->key, item->hash);
-
         return true;
     }
     return false;
@@ -498,6 +499,7 @@ MCHashTableIndex set_item(mc_hashtable* table, mc_hashitem* item, MCBool isAllow
         //method override
         if (isAllowOverride && override_samekeyitem(olditem, item, classname))
             return index;
+
         //second probe
         index = secondHashIndex(hashval, tsize, index);
         olditem = table->items[index];
@@ -510,6 +512,7 @@ MCHashTableIndex set_item(mc_hashtable* table, mc_hashitem* item, MCBool isAllow
             //method override
             if (isAllowOverride && override_samekeyitem(olditem, item, classname))
                 return index;
+
             //solve the collision by expand table
             if(table->level < MCHashTableLevelMax){//Max=5 Count=6
                 table = expand_table(table, table->level+1);
