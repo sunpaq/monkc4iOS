@@ -27,6 +27,7 @@ typedef struct {
 MCInline void BAFaceInit(BAFace* face, long* buff, size_t vcount)
 {
     face->big = null;
+    memset(&face->small[0], 0, sizeof(face->small));
     size_t size = sizeof(long) * vcount;
     if (vcount <= 18) {
         memcpy(face->small, buff, size);

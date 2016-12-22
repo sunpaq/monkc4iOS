@@ -36,6 +36,7 @@ BATriangle* createTrianglesBuffer(BAFace* faces, size_t facecounts)
 {
     size_t size = getTrianglesBuffSize(faces, facecounts);
     BATriangle* triangles = (BATriangle*)malloc(sizeof(BATriangle) * size);
+    memset(triangles, 0, sizeof(BATriangle) * size);
     return triangles;
 }
 
