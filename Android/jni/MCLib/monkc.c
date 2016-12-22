@@ -467,15 +467,19 @@ mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval)
     }
 }
 
-static void override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, const char* refkey)
+static MCBool override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, const char* refkey)
 {
     if (strcmp(item->key, newitem->key) == 0) {
         //only replace value!
         item->value = newitem->value;
+        item->key   = newitem->key;
+        item->hash  = newitem->hash;
         //free the new item!
         free(newitem);
         runtime_log("[%s]:override-item[%d/%s]\n", refkey, index, item->key);
+        return true;
     }
+    return false;
 }
 
 MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAllowOverride, const char* refkey)
@@ -498,10 +502,9 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
         return index;
     }else{
         //method override
-        if (isAllowOverride) {
-            override_samekeyitem(olditem, item, refkey);
+        if (isAllowOverride && override_samekeyitem(olditem, item, refkey))
             return index;
-        }
+        
         //second probe
         index = secondHashIndex(hashval, tsize, index);
         mc_hashitem* olditem = (*table_p)->items[index];
@@ -512,10 +515,9 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
             return index;
         } else {
             //method override
-            if (isAllowOverride) {
-                override_samekeyitem(olditem, item, refkey);
+            if (isAllowOverride && override_samekeyitem(olditem, item, refkey))
                 return index;
-            }
+            
             //solve the collision by expand table
             if((*table_p)->level < MCHashTableLevelCount){//Max=5 Count=6
                 expand_table(table_p, (*table_p)->level+1);
