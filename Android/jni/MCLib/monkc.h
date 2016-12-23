@@ -424,7 +424,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 //for create object
 #define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)
 #define clear(cls)  					mc_clear(S(cls), sizeof(cls), cls##_load)
-#define info(cls)                  		mc_info(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load)
+#define info(cls)                  		mc_info(S(cls))
 
 //for call method
 #define response_test(obj, met) 	     _response_test((MCObject*)obj, S(met))
@@ -584,7 +584,7 @@ mc_message _response_to_i(MCObject* obj, MCHashTableIndex index);
  ObjectManage.h
  */
 
-void mc_info(const char* classname, MCSizeT size, MCLoaderPointer loader);
+void mc_info(const char* classname);
 void mc_clear(const char* classname, MCSizeT size, MCLoaderPointer loader);
 MCObject* mc_alloc(const char* classname, MCSizeT size, MCLoaderPointer loader);
 void mc_dealloc(MCObject* aobject, MCInt is_recycle);
@@ -606,10 +606,23 @@ MCInt cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result);
 static inline MCObject* MCObject_init(MCObject* const obj) {obj->nextResponder=null; return obj;}
 static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), MCObject* upperObj) {obj->nextResponder=upperObj;}
 static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->nextResponder=null;}
+static inline void      MCObject_printDebugInfo(mc_message_arg(MCObject), mc_class* cobj) {
+    mc_class* mcclass = cobj;
+    if (!mcclass)
+        mcclass = obj->isa;
+    MCHashTableSize size = get_tablesize(mcclass->table->level);
+    for (int i=0; i<size; i++) {
+        mc_hashitem* item = mcclass->table->items[i];
+        if (item && item->key) {
+            debug_log("%s - %s\n", mcclass->item->key, item->key);
+        }
+    }
+}
 static inline void      MCObject_bye(mc_message_arg(MCObject), voida) {}
 static inline mc_class* MCObject_load(mc_class* const cla) {
     _binding(cla, "responseChainConnect", (MCFuncPtr)MCObject_responseChainConnect);
     _binding(cla, "responseChainDisconnect", (MCFuncPtr)MCObject_responseChainDisconnect);
+    _binding(cla, "printDebugInfo", (MCFuncPtr)MCObject_printDebugInfo);
     _binding(cla, "bye", (MCFuncPtr)MCObject_bye);
     return cla;
 }

@@ -135,11 +135,10 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                 }
                 break;
             case MCTokenComment:
-                return 0;
             case MCTokenUnknown:
-                return 0;
             default:
-                break;
+                nextWord(&remain, word);
+                continue;
         }
     }
 
@@ -162,10 +161,18 @@ BAMtlLibrary* BAMtlLibraryNew(const char* filename)
             return null;
         }
         
-        MCStreamEachLine(assetbuff,
-            //debug_log("processMtlLine(%s)\n", line);
+        char line[LINE_MAX];
+        char* c = (char*)assetbuff;
+        while (*c!=NUL) {
+            if(*c == MCNewLineN || *c == MCNewLineR) {
+                c++; continue;
+            }
+            for (int i=0; !isNewLine(c); c++) {
+                line[i++] = *c;
+                line[i] = NUL;
+            }
             processMtlLine(lib, line);
-        );
+        }
         BAMtlLibraryResetCursor(lib);
         
         free((void*)assetbuff);

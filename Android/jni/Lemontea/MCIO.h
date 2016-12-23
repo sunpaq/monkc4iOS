@@ -92,7 +92,7 @@ MCFile* MCFile_newReadWrite(char* pathname, int isClear);
 char line[LINE_MAX];\
 char* c = (char*)stream;\
 while (*c!=NUL) {\
-    if(*c == MCNewLineN) {\
+    if(*c == MCNewLineN || *c == MCNewLineR) {\
         c++; continue;\
     }\
     for (int i=0; !isNewLine(c); c++) {\

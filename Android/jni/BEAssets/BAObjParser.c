@@ -71,7 +71,7 @@ void parseObj(BAObj* object, const char* file)
         BAMtlLibrary* current_mtllib = null;
         
         char line[LINE_MAX]; char* c = (char*)file;
-        while (*c != NUL) {
+        while (*c != NUL && *c != EOF) {
             //skip '\n' when '\r\n'
             if (*c==MCNewLineN || *c==MCNewLineR) {
                 c++; continue;
@@ -81,6 +81,7 @@ void parseObj(BAObj* object, const char* file)
                 line[i] = NUL;
             }
             //process line
+            //debug_log("process line: %s\n", line);
             char word[256]; const char* remain = line;
             MCToken token = tokenize(nextWord(&remain, word));
             switch (token.type) {
@@ -90,14 +91,14 @@ void parseObj(BAObj* object, const char* file)
                         double fbuff[LINE_MAX];
                         size_t n = nextFloats(&remain, fbuff);
                         for (int i=0; i<n; i++)
-                            object->texcoorbuff[tcursor].v[i] = fbuff[i];
+                            object->texcoorbuff[tcursor].v[i] = (float)fbuff[i];
                         tcursor++;
                     }
                     else if (MCStringEqualN(word, "vn", 2)) {
                         double fbuff[LINE_MAX];
                         size_t n = nextFloats(&remain, fbuff);
                         for (int i=0; i<n; i++)
-                            object->normalbuff[ncursor].v[i] = fbuff[i];
+                            object->normalbuff[ncursor].v[i] = (float)fbuff[i];
                         ncursor++;
                     }
                     else if (MCStringEqualN(word, "vp", 2)) {
@@ -125,7 +126,8 @@ void parseObj(BAObj* object, const char* file)
                         }
                     }
                     else if (MCStringEqualN(word, "g", 1)) {
-                        //nextWord(&remain, word);
+                        nextWord(&remain, word);
+                        continue;
                     }
                     else if (MCStringEqualN(word, "o", 1)) {
                         token = tokenize(nextWord(&remain, word));
@@ -142,6 +144,9 @@ void parseObj(BAObj* object, const char* file)
                                     free(current_mtllib);
                                     current_mtllib = BAMtlLibraryNew(token.value.Word);
                                 }
+                            } else {
+                                error_log("can not create mtl library: %s\n", word);
+                                current_mtllib = null;
                             }
                         }
                     }
@@ -192,10 +197,14 @@ BAObj* BAObjNew(const char* filename, BAObjMeta* meta)
 
     if (assetbuff) {
         parseObjMeta(meta, assetbuff);
-        if (meta->face_count <= 0) {
+        if (meta->face_count <= 0 || meta->vertex_count <= 0) {
             error_log("MC3DObjParser - object face count is ZERO\n");
             return null;
         }
+        if (meta->normal_count == 0 || meta->normal_count < meta->vertex_count) {
+            error_log("MC3DObjParser modle need calculate normal\n");
+        }
+        
         BAObj* buff = BAObjAlloc(meta);
         if (!buff) {
             return null;
