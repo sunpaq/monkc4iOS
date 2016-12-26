@@ -110,6 +110,15 @@ MCInline void BAObjDumpInfo(BAObj* baobj)
         BAMaterial* mtl = &baobj->usemtlbuff[i];
         debug_log("BAMaterial:%s\n", mtl->name);
     }
+    BAFace* faces = &baobj->facebuff[0];
+    for (int i=0; i<baobj->facecount; i++) {
+        BAFace* f = &faces[i];
+        printf("BAFace: ");
+        for (int j=0; j<f->vcount; j++) {
+            printf("%ld,", f->data[i]);
+        }
+        printf("\n");
+    }
 }
 
 MCInline BAObj* BAObjAlloc(BAObjMeta* meta)

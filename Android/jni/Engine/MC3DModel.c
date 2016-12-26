@@ -78,8 +78,6 @@ function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, 
 
     if (e.vi <= 0) {
         error_log("MC3DFileParser: invalide vertex data!\n");
-        //return calculatedNormal;
-        //v = (MCVector3){0.0, 0.0, 0.0};
     }else{
         v = buff->vertexbuff[e.vi-1];
     }
@@ -215,7 +213,7 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorf 
     }
     debug_log("MC3DModel - BAObjNew success: %s\n", path);
     
-    //BAObjDumpInfo(buff);
+    BAObjDumpInfo(buff);
     
     if (Meta.usemtl_count <= 1) {
         initModel(0, obj, buff, 0, 0, buff->facecount, color);
