@@ -523,11 +523,15 @@ MCInline MCHash hash(const char *s) {
 }
 
 MCInline MCHashTableIndex firstHashIndex(MCHash nkey, MCHashTableSize slots) {
-    return nkey % slots;
+    //return nkey % slots;
+    return (nkey - slots * (nkey / slots));
 }
 
-MCInline MCHashTableIndex secondHashIndex(MCHash nkey, MCHashTableSize slots, MCHash savedFirst) {
-    return (savedFirst + (1+(nkey % (slots-1)))) % slots;
+MCInline MCHashTableIndex secondHashIndex(MCHash nkey, MCHashTableSize slots, MCHash first) {
+    //return (savedFirst + (1+(nkey % (slots-1)))) % slots;
+    MCHashTableSize slots_1 = slots - 1;
+    MCHash temp = first + 1 + nkey - slots_1 * (nkey / slots_1);
+    return (temp - slots * (temp / slots));
 }
 
 mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval);
