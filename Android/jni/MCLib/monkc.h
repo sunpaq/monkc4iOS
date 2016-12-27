@@ -278,7 +278,7 @@ typedef struct
  */
 
 static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {
-    311,
+    901,
     1301,
     3101,
     13001,
@@ -424,7 +424,7 @@ typedef MCObject* (*MCSetsuperPointer)(MCObject*);
 //for create object
 #define new(cls)						(cls*)_new(mc_alloc(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load), (MCIniterPointer)cls##_init)
 #define clear(cls)  					mc_clear(S(cls), sizeof(cls), cls##_load)
-#define info(cls)                  		mc_info(S(cls), sizeof(cls), (MCLoaderPointer)cls##_load)
+#define info(cls)                  		mc_info(S(cls))
 
 //for call method
 #define response_test(obj, met) 	     _response_test((MCObject*)obj, S(met))
@@ -519,15 +519,20 @@ MCInline MCHash hash_content(const char *s) {
 
 MCInline MCHash hash(const char *s) {
     //avoid integer overflow
-    return ((MCHash)s & MCHashMask);
+    //return ((MCHash)s & MCHashMask);
+    return ((MCHash)s);
 }
 
 MCInline MCHashTableIndex firstHashIndex(MCHash nkey, MCHashTableSize slots) {
     return nkey % slots;
+    //return (nkey - slots * (nkey / slots));
 }
 
-MCInline MCHashTableIndex secondHashIndex(MCHash nkey, MCHashTableSize slots, MCHash savedFirst) {
-    return (savedFirst + (1+(nkey % (slots-1)))) % slots;
+MCInline MCHashTableIndex secondHashIndex(MCHash nkey, MCHashTableSize slots, MCHash first) {
+    return (first + (1+(nkey % (slots-1)))) % slots;
+    //MCHashTableSize slots_1 = slots - 1;
+    //MCHash temp = first + 1 + nkey - slots_1 * (nkey / slots_1);
+    //return (temp - slots * (temp / slots));
 }
 
 mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval);
@@ -584,7 +589,7 @@ mc_message _response_to_i(MCObject* obj, MCHashTableIndex index);
  ObjectManage.h
  */
 
-void mc_info(const char* classname, MCSizeT size, MCLoaderPointer loader);
+void mc_info(const char* classname);
 void mc_clear(const char* classname, MCSizeT size, MCLoaderPointer loader);
 MCObject* mc_alloc(const char* classname, MCSizeT size, MCLoaderPointer loader);
 void mc_dealloc(MCObject* aobject, MCInt is_recycle);
@@ -606,10 +611,23 @@ MCInt cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result);
 static inline MCObject* MCObject_init(MCObject* const obj) {obj->nextResponder=null; return obj;}
 static inline void      MCObject_responseChainConnect(mc_message_arg(MCObject), MCObject* upperObj) {obj->nextResponder=upperObj;}
 static inline void      MCObject_responseChainDisconnect(mc_message_arg(MCObject), voida) {obj->nextResponder=null;}
+static inline void      MCObject_printDebugInfo(mc_message_arg(MCObject), mc_class* cobj) {
+    mc_class* mcclass = cobj;
+    if (!mcclass)
+        mcclass = obj->isa;
+    MCHashTableSize size = get_tablesize(mcclass->table->level);
+    for (int i=0; i<size; i++) {
+        mc_hashitem* item = mcclass->table->items[i];
+        if (item && item->key) {
+            debug_log("%s - %d/%s\n", mcclass->item->key, item->hash, item->key);
+        }
+    }
+}
 static inline void      MCObject_bye(mc_message_arg(MCObject), voida) {}
 static inline mc_class* MCObject_load(mc_class* const cla) {
     _binding(cla, "responseChainConnect", (MCFuncPtr)MCObject_responseChainConnect);
     _binding(cla, "responseChainDisconnect", (MCFuncPtr)MCObject_responseChainDisconnect);
+    _binding(cla, "printDebugInfo", (MCFuncPtr)MCObject_printDebugInfo);
     _binding(cla, "bye", (MCFuncPtr)MCObject_bye);
     return cla;
 }

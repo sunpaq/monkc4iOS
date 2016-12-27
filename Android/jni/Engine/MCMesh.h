@@ -35,6 +35,7 @@ typedef union {
 
 class(MCMesh, MCItem,
       MCBool     isDataLoaded;
+      MCBool     calculatedNormal;
       
       MC3DFrame  Frame;
       GLenum     useage;
@@ -53,8 +54,8 @@ class(MCMesh, MCItem,
 );
 
 method(MCMesh, void, bye, voida);
-method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
-method(MCMesh, void, setVertex, GLuint offset, MCBool accumulateNormal, MCMeshVertexData* data);
+method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, GLsizei vertexCount);
+method(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data);
 method(MCMesh, void, normalizeNormals, voida);
 method(MCMesh, void, prepareMesh, MCGLContext* ctx);
 method(MCMesh, void, drawMesh, MCGLContext* ctx);

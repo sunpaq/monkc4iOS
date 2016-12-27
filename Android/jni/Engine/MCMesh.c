@@ -13,6 +13,7 @@ oninit(MCMesh)
 {
     if (init(MCItem)) {
         var(isDataLoaded) = false;
+        var(calculatedNormal) = false;
         
         var(Frame) = (MC3DFrame){0,0,0,0,0,0};
         var(useage) = GL_STATIC_DRAW;
@@ -35,9 +36,12 @@ method(MCMesh, void, bye, voida)
 {
     glDeleteBuffers(1, &obj->VBO);
     glDeleteVertexArrays(1, &obj->VAO);
+    if (obj->vertexDataPtr) {
+        free(obj->vertexDataPtr);
+    }
 }
 
-method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
+method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, GLsizei vertexCount)
 {
     //debug_log("MCMesh - initWithDefaultVertexAttributes\n");
     obj->vertexAttribArray[0] = (MCVertexAttribute){
@@ -49,16 +53,38 @@ method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida)
     obj->vertexAttribArray[3] = (MCVertexAttribute){
         MCVertexAttribTexCoord0,2, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(36)};
     
+    //alloc vertex buffer
+    obj->vertexCount = vertexCount;
+    obj->vertexDataSize = obj->vertexCount * 11 * sizeof(GLfloat);
+    if (obj->vertexDataSize != 0) {
+        obj->vertexDataPtr = (GLfloat*)malloc(obj->vertexDataSize);
+    }else{
+        obj->vertexDataPtr = null;
+    }
+    //obj->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*obj->vforertexCount);
+    
     return obj;
 }
 
-method(MCMesh, void, setVertex, GLuint offset, MCBool accumulateNormal, MCMeshVertexData* data)
+method(MCMesh, void, allocVertexBuffer, GLsizei vertexCount)
+{
+    obj->vertexCount = vertexCount ;
+    obj->vertexDataSize = obj->vertexCount * 11 * sizeof(GLfloat);
+    if (obj->vertexDataSize != 0) {
+        obj->vertexDataPtr = (GLfloat*)malloc(obj->vertexDataSize);
+        memset(obj->vertexDataPtr, 0, obj->vertexDataSize);
+    }else{
+        obj->vertexDataPtr = null;
+    }
+}
+
+method(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data)
 {
     obj->vertexDataPtr[offset+0] = data->x;
     obj->vertexDataPtr[offset+1] = data->y;
     obj->vertexDataPtr[offset+2] = data->z;
     
-    if (accumulateNormal) {
+    if (obj->calculatedNormal) {
         obj->vertexDataPtr[offset+3] += data->nx;
         obj->vertexDataPtr[offset+4] += data->ny;
         obj->vertexDataPtr[offset+5] += data->nz;
@@ -78,6 +104,9 @@ method(MCMesh, void, setVertex, GLuint offset, MCBool accumulateNormal, MCMeshVe
 
 method(MCMesh, void, normalizeNormals, voida)
 {
+    if (!obj->calculatedNormal) {
+        return;
+    }
     for (int i=0; i<obj->vertexCount; i++) {
         size_t offset = i * 11;
         GLfloat x = obj->vertexDataPtr[offset+3];
@@ -137,8 +166,8 @@ onload(MCMesh)
 {
     if (load(MCItem)) {
         binding(MCMesh, void, bye, voida);
-        binding(MCMesh, MCMesh*, initWithDefaultVertexAttributes, voida);
-        binding(MCMesh, void, setVertex, GLuint offset, MCBool accumulateNormal, MCMeshVertexData* data);
+        binding(MCMesh, MCMesh*, initWithDefaultVertexAttributes, GLsizei vertexCount);
+        binding(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data);
         binding(MCMesh, void, normalizeNormals, voida);
         binding(MCMesh, void, prepareMesh, voida);
         binding(MCMesh, void, drawMesh, voida);

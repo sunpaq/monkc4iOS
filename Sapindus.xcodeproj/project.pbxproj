@@ -128,6 +128,8 @@
 		FDABFFCD1DC7A62100E8F4F0 /* Ferrari2001.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCB1DC7A62100E8F4F0 /* Ferrari2001.obj */; };
 		FDABFFD01DC7A77B00E8F4F0 /* IronMan.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCE1DC7A77B00E8F4F0 /* IronMan.mtl */; };
 		FDABFFD11DC7A77B00E8F4F0 /* IronMan.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCF1DC7A77B00E8F4F0 /* IronMan.obj */; };
+		FDC988F31E0A9DB200970BAE /* arakkoa_warrior.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDC988F11E0A9DB200970BAE /* arakkoa_warrior.mtl */; };
+		FDC988F41E0A9DB200970BAE /* arakkoa_warrior.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDC988F21E0A9DB200970BAE /* arakkoa_warrior.obj */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
 /* End PBXBuildFile section */
 
@@ -336,6 +338,8 @@
 		FDABFFCE1DC7A77B00E8F4F0 /* IronMan.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IronMan.mtl; sourceTree = "<group>"; };
 		FDABFFCF1DC7A77B00E8F4F0 /* IronMan.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IronMan.obj; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
+		FDC988F11E0A9DB200970BAE /* arakkoa_warrior.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arakkoa_warrior.mtl; sourceTree = "<group>"; };
+		FDC988F21E0A9DB200970BAE /* arakkoa_warrior.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arakkoa_warrior.obj; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* Sapindus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sapindus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF061D1B060BE1000064E3 /* Sapindus.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Sapindus.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -588,6 +592,8 @@
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				FDC988F11E0A9DB200970BAE /* arakkoa_warrior.mtl */,
+				FDC988F21E0A9DB200970BAE /* arakkoa_warrior.obj */,
 				FDABFFCE1DC7A77B00E8F4F0 /* IronMan.mtl */,
 				FDABFFCF1DC7A77B00E8F4F0 /* IronMan.obj */,
 				FDABFFCA1DC7A62100E8F4F0 /* Ferrari2001.mtl */,
@@ -803,8 +809,10 @@
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
 				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
+				FDC988F31E0A9DB200970BAE /* arakkoa_warrior.mtl in Resources */,
 				FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */,
 				FDABFFD01DC7A77B00E8F4F0 /* IronMan.mtl in Resources */,
+				FDC988F41E0A9DB200970BAE /* arakkoa_warrior.obj in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
 				FD5EFD651B0E3D9D00D2492A /* Icon-72@2x.png in Resources */,
 				FD00C4CC1CD10BAE00DCA45F /* Info.plist in Resources */,

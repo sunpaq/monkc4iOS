@@ -249,13 +249,13 @@ static inline mc_class* findclass(const char* name)
 {
 	//create a class hashtable
 	if(mc_global_classtable == null)
-		mc_global_classtable = new_table(MCHashTableLevelMax);
+		mc_global_classtable = new_table(MCHashTableLevel1);
     
     //cache
-    mc_hashitem* cache = mc_global_classtable->cache;
-    if (cache && cache->key == name) {
-        return (mc_class*)(cache->value.mcvoidptr);
-    }
+//    mc_hashitem* cache = mc_global_classtable->cache;
+//    if (cache && cache->key == name) {
+//        return (mc_class*)(cache->value.mcvoidptr);
+//    }
     
 	mc_hashitem* item=get_item_byhash(mc_global_classtable, hash(name), name);
 	if (item == null)
@@ -429,7 +429,7 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
     return atable;
 }
 
-static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel tolevel)
+static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel tolevel, const char* classname)
 {
     //realloc
     mc_hashtable* newtable = new_table(tolevel);
@@ -440,12 +440,12 @@ static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel t
     for (MCHashTableSize i=0; i<osize; i++) {
         item = oldtable->items[i];
         if(item) {
-            //will override
-            set_item(&newtable, new_item(item->key, MCGenericFp(item->value.mcfuncptr), item->hash), true, item->key);
+            //rehash
+            set_item(&newtable, item, true, item->key);
         }
     }
     
-    debug_log("expand table: %d->%d\n", oldtable->level, newtable->level);
+    debug_log("[%s] expand table: %d->%d\n", classname, oldtable->level, newtable->level);
     free(*table_p);
     (*table_p) = newtable;
 }
@@ -467,18 +467,22 @@ mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval)
     }
 }
 
-static void override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, const char* refkey)
+static MCBool override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, const char* classname)
 {
     if (strcmp(item->key, newitem->key) == 0) {
         //only replace value!
         item->value = newitem->value;
+        item->key   = newitem->key;
+        item->hash  = newitem->hash;
         //free the new item!
+        error_log("[%s]:override-item[%d/%s]\n", classname, item->hash, item->key);
         free(newitem);
-        runtime_log("[%s]:override-item[%d/%s]\n", refkey, index, item->key);
+        return true;
     }
+    return false;
 }
 
-MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAllowOverride, const char* refkey)
+MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAllowOverride, const char* classname)
 {
     if(table_p==null || *table_p==null){
         error_log("set_item(mc_hashtable** table_p) table_p or *table_p is nill return 0\n");
@@ -494,42 +498,37 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     
     if(olditem == null){
         (*table_p)->items[index] = item;
-        (*table_p)->cache = item;
-        runtime_log("[%s]:set-item[%d/%s]\n", refkey, index, item->key);
+        runtime_log("[%s]:set-item[%d/%s]\n", classname, index, item->key);
         return index;
     }else{
         //method override
-        if (isAllowOverride) {
-            override_samekeyitem(olditem, item, refkey);
+        if (isAllowOverride && override_samekeyitem(olditem, item, classname))
             return index;
-        }
+        
         //second probe
         index = secondHashIndex(hashval, tsize, index);
         mc_hashitem* olditem = (*table_p)->items[index];
 
         if (olditem == null) {
             (*table_p)->items[index] = item;
-            (*table_p)->cache = item;
-            runtime_log("[%s]:set-item[%d/%s]\n", refkey, index, item->key);
+            runtime_log("[%s]:set-item[%d/%s]\n", classname, index, item->key);
             return index;
         } else {
             //method override
-            if (isAllowOverride) {
-                override_samekeyitem(olditem, item, refkey);
+            if (isAllowOverride && override_samekeyitem(olditem, item, classname))
                 return index;
-            }
+            
             //solve the collision by expand table
             if((*table_p)->level < MCHashTableLevelCount){//Max=5 Count=6
-                expand_table(table_p, (*table_p)->level+1);
+                expand_table(table_p, (*table_p)->level+1, classname);
                 set_item(table_p, item, isAllowOverride, null);//recursive
                 return index;
             }else{
                 //tmplevel = 5, table_p must have been expanded to level 4
                 //there still a item, use link list.
                 error_log("[%s]:item key collision can not be solved. link the new one[%s] behind the old[%s]\n",
-                          refkey, item->key, olditem->key);
+                          classname, item->key, olditem->key);
                 olditem->next = item;
-                (*table_p)->cache = item;
                 return index;
             }
         }
@@ -548,50 +547,31 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     MCHashTableSize tsize;
     
     mc_hashitem* res=null;
-    for(MCHashTableLevel level = table_p->level; level<MCHashTableLevelMax; level++){
-        tsize = get_tablesize(level);
-        //first probe
-        index = firstHashIndex(hashval, tsize);
-        if((res=get_item_byindex(table_p, index)) == null) {
-            //second probe
-            index = secondHashIndex(hashval, tsize, index);
-            if ((res=get_item_byindex(table_p, index)) == null)
-                continue;
-        }
-        //compare key
-        if (res->key != refkey)
-            continue;
-        //pass all the check
-        return res;
-    }
-    
-    //level=MCHashTableLevelMax
-    tsize = get_tablesize(MCHashTableLevelMax);
+    tsize = get_tablesize(table_p->level);
     //first probe
     index = firstHashIndex(hashval, tsize);
     if((res=get_item_byindex(table_p, index)) == null) {
         //second probe
         index = secondHashIndex(hashval, tsize, index);
-        if((res=get_item_byindex(table_p, index)) == null)
-            return null;//not found
-    }
-    //found and no chain
-    if (res->next == null) {
-        if (res->key != refkey)
+        if ((res=get_item_byindex(table_p, index)) == null)
             return null;
-        return res;
     }
     //found but have chain
-    else {
+    if (res->next) {
         for(; res!=null; res=res->next) {
             if(res->key == refkey){
                 runtime_log("key hit a item [%s] in chain\n", res->key);
+                table_p->cache = res;
                 return res;
             }
         }
     }
-    //for all the other cases
-    return null;
+    //compare key
+    if (res->key != refkey)
+        return null;
+    //pass all the check
+    table_p->cache = res;
+    return res;
 }
 
 /*
@@ -718,11 +698,12 @@ int cut(mc_blockpool* bpool, mc_block* ablock, mc_block** result)
     return res;
 }
 
-void mc_info(const char* classname, size_t size, MCLoaderPointer loader)
+void mc_info(const char* classname)
 {
-    mc_class* aclass = _load(classname, size, loader);
-    debug_log("----info[%s] used:%d/free:%d\n",
-              classname, count(&aclass->used_pool), count(&aclass->free_pool));
+    mc_class* aclass = findclass(classname);
+    if (aclass) {
+        MCObject_printDebugInfo(0, 0, aclass);
+    }
 }
 
 void mc_clear(const char* classname, size_t size, MCLoaderPointer loader)
@@ -853,10 +834,11 @@ mc_message _response_to(MCObject* obj, const char* methodname)
     mc_message tmpmsg = {null, null};
     
     //cache
-    mc_hashitem* cache = obj->isa->table->cache;
-    if (cache && cache->key == methodname) {
-        return (mc_message){cache->value.mcfuncptr, obj};
-    }
+//    mc_hashitem* cache = obj->isa->table->cache;
+//    if (cache && cache->key && methodname == cache->key) {
+//        debug_log("hit cache: %s\n", cache->key);
+//        return (mc_message){cache->value.mcfuncptr, obj};
+//    }
     
     //fast hash
     MCHash hashval = hash(methodname);
@@ -871,9 +853,9 @@ mc_message _response_to(MCObject* obj, const char* methodname)
         if (obj->nextResponder != null) {
             return _response_to(obj->nextResponder, methodname);
         }else{
-            runtime_log("self_response_to class[%s] can not response to method[%s]\n", nameof(obj), methodname);
+            error_log("Monk-C: class[%s] can not response to method[%d/%s]\n", nameof(obj), hashval, methodname);
             if (MC_STRICT_MODE == 1) {
-                printf("Monk-C: %s can not response %s\n", nameof(obj), methodname);
+                mc_info(nameof(obj));
                 exit(-1);
             }else{
                 return tmpmsg;
