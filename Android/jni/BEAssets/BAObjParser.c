@@ -114,15 +114,27 @@ void parseObj(BAObj* object, const char* file)
                     else if (MCStringEqualN(word, "f", 1)) {
                         //peek next value
                         token = tokenize(peekNext(&remain, word));
-                        if (token.type == MCTokenDate || token.type == MCTokenInteger) {
+                        if (token.type == MCTokenDate) {
                             long lbuff[LINE_MAX];
                             BAFace* f = &object->facebuff[fcursor];
                             f->vcount = nextDates(&remain, lbuff);
-                            if (f->vcount < 9) {
-                                
+                            if (f->vcount < 6) {
+                                error_log("[%s] -> detect a face have less then 3 vertex, ignore it\n", line);
+                            } else {
+                                BAFaceInit(f, lbuff, f->vcount);
+                                fcursor++;
                             }
-                            BAFaceInit(f, lbuff, f->vcount);
-                            fcursor++;
+                        }
+                        if (token.type == MCTokenInteger) {
+                            long lbuff[LINE_MAX];
+                            BAFace* f = &object->facebuff[fcursor];
+                            f->vcount = nextIntegers(&remain, lbuff);
+                            if (f->vcount < 3) {
+                                error_log("[%s] -> detect a face have less then 3 vertex, ignore it\n", line);
+                            } else {
+                                BAFaceInit(f, lbuff, f->vcount);
+                                fcursor++;
+                            }
                         }
                     }
                     else if (MCStringEqualN(word, "g", 1)) {

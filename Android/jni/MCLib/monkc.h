@@ -278,7 +278,7 @@ typedef struct
  */
 
 static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {
-    311,
+    901,
     1301,
     3101,
     13001,
@@ -519,19 +519,20 @@ MCInline MCHash hash_content(const char *s) {
 
 MCInline MCHash hash(const char *s) {
     //avoid integer overflow
-    return ((MCHash)s & MCHashMask);
+    //return ((MCHash)s & MCHashMask);
+    return ((MCHash)s);
 }
 
 MCInline MCHashTableIndex firstHashIndex(MCHash nkey, MCHashTableSize slots) {
-    //return nkey % slots;
-    return (nkey - slots * (nkey / slots));
+    return nkey % slots;
+    //return (nkey - slots * (nkey / slots));
 }
 
 MCInline MCHashTableIndex secondHashIndex(MCHash nkey, MCHashTableSize slots, MCHash first) {
-    //return (savedFirst + (1+(nkey % (slots-1)))) % slots;
-    MCHashTableSize slots_1 = slots - 1;
-    MCHash temp = first + 1 + nkey - slots_1 * (nkey / slots_1);
-    return (temp - slots * (temp / slots));
+    return (first + (1+(nkey % (slots-1)))) % slots;
+    //MCHashTableSize slots_1 = slots - 1;
+    //MCHash temp = first + 1 + nkey - slots_1 * (nkey / slots_1);
+    //return (temp - slots * (temp / slots));
 }
 
 mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval);
@@ -618,7 +619,7 @@ static inline void      MCObject_printDebugInfo(mc_message_arg(MCObject), mc_cla
     for (int i=0; i<size; i++) {
         mc_hashitem* item = mcclass->table->items[i];
         if (item && item->key) {
-            debug_log("%s - %s\n", mcclass->item->key, item->key);
+            debug_log("%s - %d/%s\n", mcclass->item->key, item->hash, item->key);
         }
     }
 }
