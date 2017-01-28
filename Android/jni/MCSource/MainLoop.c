@@ -170,7 +170,7 @@ void onSetupGL(int windowWidth, int windowHeight)
         mainScene->mainCamera->tht = 60;
         mainScene->mainCamera->fai = 45;
 
-        superof(mainScene)->nextResponder = (MCObject*)director;
+        //superof(mainScene)->nextResponder = (MCObject*)director;
 
         ff(director, pushScene, mainScene);
         
@@ -269,6 +269,16 @@ void onStartStopBtn(int startOrStop)
 {
     if (director && director->lastScene) {
         director->lastScene->cameraLock = !startOrStop;
+    }
+}
+
+void onDrawModeChange(int triangleOrWire)
+{
+    if (triangleOrWire == 1) {
+        computed(director, contextHandler)->drawMode = MCTriAngles;
+    }
+    else {
+        computed(director, contextHandler)->drawMode = MCLines;
     }
 }
 

@@ -17,8 +17,8 @@ oninit(MCMesh)
         
         var(Frame) = (MC3DFrame){0,0,0,0,0,0};
         var(useage) = GL_STATIC_DRAW;
-        var(mode) = GL_TRIANGLES;
-        
+        var(mode) = MCTriAngles;
+
         var(vertexDataPtr) = null;
         var(vertexDataSize)= 0;
         var(vertexIndexes) = null;
@@ -153,10 +153,18 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArray(obj->VAO);
-    if (var(vertexIndexes) != null) {
-        glDrawElements(var(mode), 100, GL_UNSIGNED_INT, (GLvoid*)0);
-    }else{
-        glDrawArrays(var(mode), 0, var(vertexCount));
+    //override draw mode
+    GLenum mode = var(mode);
+    if (ctx->drawMode != MCDrawNone) {
+        mode = ctx->drawMode;
+    }
+    //draw
+    if (mode != MCDrawNone) {
+        if (var(vertexIndexes) != null) {
+            glDrawElements(mode, 100, GL_UNSIGNED_INT, (GLvoid*)0);
+        }else{
+            glDrawArrays(mode, 0, var(vertexCount));
+        }
     }
     //Unbind
     glBindVertexArray(0);

@@ -11,9 +11,8 @@ oninit(MCCamera)
 {
     if (init(MC3DNode)) {
         var(ratio) = MCRatioOldTV4x3;//MCRatioCameraFilm3x2;
-        var(focal_length) = MCLensStandard50mm;//MCLensWide24mm;
         var(view_angle) = MCLensStandard50mmViewAngle;
-        var(max_distance) = 10000;//100 metres
+        var(depth_of_field) = 100;
         var(lookat) = MCVector3Make(0,0,0);
         
         //local spherical coordinate
@@ -80,10 +79,12 @@ compute(MCMatrix4, viewMatrix)
 compute(MCMatrix4, projectionMatrix)
 {
     as(MCCamera);
+    double near = cpt(Radius) - var(depth_of_field)/4;
+    double far  = cpt(Radius) + var(depth_of_field)*3/4;
     return MCMatrix4MakePerspective(MCDegreesToRadians(obj->view_angle),
                                     var(ratio),
-                                    var(focal_length),
-                                    var(max_distance));
+                                    near,
+                                    far);
 }
 
 compute(MCVector3, currentPosition)

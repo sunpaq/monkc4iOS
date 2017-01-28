@@ -37,7 +37,10 @@ void onGesturePinch(double scale);
 
 //Orientation Handling
 void onResizeScreen(int windowWidth, int windowHeight);
+
+//UI control
 void onStartStopBtn(int startOrStop);
+void onDrawModeChange(int triangleOrWire);
 
 //MCGL Errors
 void MCGLError(const char* errmsg);

@@ -39,7 +39,6 @@ class(MCMesh, MCItem,
       
       MC3DFrame  Frame;
       GLenum     useage;
-      GLenum     mode;
       
       GLuint     VAO;  //VAO
       GLuint     VBO;  //VBO
@@ -51,6 +50,7 @@ class(MCMesh, MCItem,
       GLsizei    vertexCount;
 
       MCVertexAttribute vertexAttribArray[MCVertexAttribIndexMax];
+      MCDrawMode mode;
 );
 
 method(MCMesh, void, bye, voida);

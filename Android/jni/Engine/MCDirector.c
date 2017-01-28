@@ -18,6 +18,12 @@ compute(MCCamera*, cameraHandler)
     return null;
 }
 
+compute(MCGLContext*, contextHandler)
+{
+    as(MCDirector);
+    return var(lastScene)->renderer->context;
+}
+
 oninit(MCDirector)
 {
     if (init(MCObject)) {
@@ -26,6 +32,7 @@ oninit(MCDirector)
         var(currentHeight) = 0;
         
         var(cameraHandler) = cameraHandler;
+        var(contextHandler) = contextHandler;
         
         var(skyboxThread) = new(MCThread);
         var(modelThread) = new(MCThread);
@@ -123,6 +130,7 @@ method(MCDirector, void, addModel, MC3DModel* model)
 {
     if(model && obj->lastScene && obj->lastScene->rootnode) {
         MC3DNode_addChild(0, obj->lastScene->rootnode, (MC3DNode*)model);
+        cpt(cameraHandler)->depth_of_field = computed(model, maxlength) * 2;
     }else{
         error_log("MCDirector add model(%p) failed [lastScene=%p rootnode=%p]\n",
                   model, obj->lastScene, obj->lastScene->rootnode);

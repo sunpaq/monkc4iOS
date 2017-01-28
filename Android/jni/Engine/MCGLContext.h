@@ -28,6 +28,8 @@ class(MCGLContext, MCObject,
       MCGLUniform uniforms[MAX_UNIFORM_NUM];
       MCBool uniformsDirty[MAX_UNIFORM_NUM];
       MCUInt uniformCount;
+      
+      MCDrawMode drawMode;
 );
 
 //shader

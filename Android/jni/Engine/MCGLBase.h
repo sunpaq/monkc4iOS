@@ -55,6 +55,7 @@ typedef enum {
 } MCGLFace;
 
 typedef enum {
+    MCDrawNone = -1,
     MCPoints = GL_POINTS,
     MCLines  = GL_LINES,
     MCLineLoop = GL_LINE_LOOP,

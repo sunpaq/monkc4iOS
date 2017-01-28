@@ -35,7 +35,7 @@
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    view.drawableDepthFormat = GLKViewDrawableDepthFormat16;
     view.drawableStencilFormat = GLKViewDrawableStencilFormat8;
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"MAAOn"]) {
         view.drawableMultisample = GLKViewDrawableMultisample4X;
@@ -77,6 +77,30 @@
 		[self.rotatePan setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
 		[self.rotatePan setTitle:@"Pan" forState:UIControlStateNormal];
 	}
+}
+
+-(BOOL)isTriangleOrWire
+{
+    if ([self.triangleWire.titleLabel.text isEqualToString:@"T"]) {
+        return YES;
+    }
+    else if ([self.triangleWire.titleLabel.text isEqualToString:@"W"]) {
+        return NO;
+    }
+    return YES;
+}
+
+-(void)setIsTriangleOrWire:(BOOL)b
+{
+    if (b) {
+        onDrawModeChange(1);
+        [self.triangleWire setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [self.triangleWire setTitle:@"T" forState:UIControlStateNormal];
+    }else{
+        onDrawModeChange(0);
+        [self.triangleWire setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [self.triangleWire setTitle:@"W" forState:UIControlStateNormal];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -305,6 +329,15 @@
 		//set state
 		[self setIsRotateOrPan:YES];
 	}
+}
+
+- (IBAction)triangleWireSwitch:(id)sender {
+    if ([self isTriangleOrWire] == YES) {
+        [self setIsTriangleOrWire:NO];
+    }
+    else if ([self isTriangleOrWire] == NO) {
+        [self setIsTriangleOrWire:YES];
+    }
 }
 
 @end

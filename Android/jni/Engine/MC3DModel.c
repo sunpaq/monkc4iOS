@@ -51,6 +51,17 @@ compute(MC3DFrame, frame)
     return allframe;
 }
 
+compute(double, maxlength)
+{
+    as(MC3DModel);
+    double max = 0;
+    MC3DFrame frame = cpt(frame);
+    MCMath_accumulateMaxd(&max, frame.xmax - frame.xmin);
+    MCMath_accumulateMaxd(&max, frame.ymax - frame.ymin);
+    MCMath_accumulateMaxd(&max, frame.zmax - frame.zmin);
+    return max;
+}
+
 oninit(MC3DModel)
 {
     if (init(MC3DNode)) {
@@ -59,6 +70,7 @@ oninit(MC3DModel)
         obj->textureOnOff = false;
         
         obj->frame = frame;
+        obj->maxlength = maxlength;
         obj->lastSavedFrame = (MC3DFrame){0,0,0,0,0,0};
         return obj;
     }else{

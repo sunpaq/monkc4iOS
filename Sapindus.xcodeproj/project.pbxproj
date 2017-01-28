@@ -128,6 +128,8 @@
 		FDABFFCD1DC7A62100E8F4F0 /* Ferrari2001.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCB1DC7A62100E8F4F0 /* Ferrari2001.obj */; };
 		FDABFFD01DC7A77B00E8F4F0 /* IronMan.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCE1DC7A77B00E8F4F0 /* IronMan.mtl */; };
 		FDABFFD11DC7A77B00E8F4F0 /* IronMan.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFCF1DC7A77B00E8F4F0 /* IronMan.obj */; };
+		FDB3E7301E29F02C0024E942 /* arcticcondor.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDB3E72E1E29F02C0024E942 /* arcticcondor.mtl */; };
+		FDB3E7311E29F02C0024E942 /* arcticcondor.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDB3E72F1E29F02C0024E942 /* arcticcondor.obj */; };
 		FDC988F31E0A9DB200970BAE /* arakkoa_warrior.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDC988F11E0A9DB200970BAE /* arakkoa_warrior.mtl */; };
 		FDC988F41E0A9DB200970BAE /* arakkoa_warrior.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDC988F21E0A9DB200970BAE /* arakkoa_warrior.obj */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
@@ -338,6 +340,9 @@
 		FDABFFCE1DC7A77B00E8F4F0 /* IronMan.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IronMan.mtl; sourceTree = "<group>"; };
 		FDABFFCF1DC7A77B00E8F4F0 /* IronMan.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IronMan.obj; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
+		FDB3E72E1E29F02C0024E942 /* arcticcondor.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arcticcondor.mtl; sourceTree = "<group>"; };
+		FDB3E72F1E29F02C0024E942 /* arcticcondor.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arcticcondor.obj; sourceTree = "<group>"; };
+		FDB3E7321E29F0360024E942 /* ArcticCondorGold.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = ArcticCondorGold.tga; path = Resources/models/ArcticCondorGold.tga; sourceTree = SOURCE_ROOT; };
 		FDC988F11E0A9DB200970BAE /* arakkoa_warrior.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arakkoa_warrior.mtl; sourceTree = "<group>"; };
 		FDC988F21E0A9DB200970BAE /* arakkoa_warrior.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = arakkoa_warrior.obj; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
@@ -594,6 +599,8 @@
 			children = (
 				FDC988F11E0A9DB200970BAE /* arakkoa_warrior.mtl */,
 				FDC988F21E0A9DB200970BAE /* arakkoa_warrior.obj */,
+				FDB3E72E1E29F02C0024E942 /* arcticcondor.mtl */,
+				FDB3E72F1E29F02C0024E942 /* arcticcondor.obj */,
 				FDABFFCE1DC7A77B00E8F4F0 /* IronMan.mtl */,
 				FDABFFCF1DC7A77B00E8F4F0 /* IronMan.obj */,
 				FDABFFCA1DC7A62100E8F4F0 /* Ferrari2001.mtl */,
@@ -673,6 +680,7 @@
 		FD5EFD561B0E3D9D00D2492A /* textures */ = {
 			isa = PBXGroup;
 			children = (
+				FDB3E7321E29F0360024E942 /* ArcticCondorGold.tga */,
 				FD87847D1CCE5F8C0071DAB4 /* back.jpg */,
 				FD87847E1CCE5F8C0071DAB4 /* bottom.jpg */,
 				FD87847F1CCE5F8C0071DAB4 /* front.jpg */,
@@ -828,6 +836,7 @@
 				FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */,
 				FD5EFD601B0E3D9D00D2492A /* Icon-Small.png in Resources */,
 				FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */,
+				FDB3E7311E29F02C0024E942 /* arcticcondor.obj in Resources */,
 				FD8784841CCE5F8C0071DAB4 /* bottom.jpg in Resources */,
 				FD5EFD5A1B0E3D9D00D2492A /* Icon-40@2x.png in Resources */,
 				FD5EFD5C1B0E3D9D00D2492A /* Icon-60@2x.png in Resources */,
@@ -858,6 +867,7 @@
 				FD62A9B01DA62AB600B74299 /* Avent.mtl in Resources */,
 				FD5EFD5F1B0E3D9D00D2492A /* Icon-76@2x.png in Resources */,
 				FD5EFD641B0E3D9D00D2492A /* Icon-72.png in Resources */,
+				FDB3E7301E29F02C0024E942 /* arcticcondor.mtl in Resources */,
 				FD5EFD611B0E3D9D00D2492A /* Icon-Small@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

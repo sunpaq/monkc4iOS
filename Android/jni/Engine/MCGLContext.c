@@ -17,6 +17,7 @@ oninit(MCGLContext)
     if (init(MCObject)) {
         var(pid) = glCreateProgram();
         var(uniformCount) = 0;
+        var(drawMode) = MCDrawNone;
         return obj;
     }else{
         return null;
