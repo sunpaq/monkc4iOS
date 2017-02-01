@@ -60,7 +60,10 @@ compute(MCMatrix4, boxViewMatrix)
 compute(MCMatrix4, boxProjectionMatrix)
 {
     as(MCSkyboxCamera);
-    return computed(sobj, projectionMatrix);
+    return MCMatrix4MakePerspective(MCDegreesToRadians(sobj->view_angle),
+                                    sobj->ratio,
+                                    0.1,
+                                    2);
 }
 
 compute(MCGLUniform, viewUniform)
