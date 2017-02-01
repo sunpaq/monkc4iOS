@@ -46,7 +46,7 @@ utility(BE2DTextureData, BE2DTextureData*, newWithPathType, const char* path, un
     }else{
         data->type = data->RGB;
     }
-    data->raw = SOIL_load_image(data->path, &data->width, &data->height, 0, data->type);
+    data->raw = SOIL_load_image(data->path, &data->width, &data->height, &data->channels, data->type);
     return data;
 }
 

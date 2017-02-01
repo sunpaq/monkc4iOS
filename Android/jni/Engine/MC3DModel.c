@@ -200,8 +200,10 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
         //set mtl
         if (mtl && buff->usemtlcount > 0) {
             setMaterialForNode(0, null, &model->Super, mtl);
-            if (mtl->diffuseMapName) {
-                
+            //set texture
+            if (mtl->diffuseMapName[0] && buff->usemtlcount == 1) {
+                MCTexture* tex = MCTexture_initWithFileName(0, new(MCTexture), mtl->diffuseMapName);
+                (&model->Super)->texture = tex;
             }
         }else{
             setDefaultMaterialForNode(0, null, &model->Super);
