@@ -32,6 +32,9 @@ oninit(MC3DNode)
 
 method(MC3DNode, void, bye, voida)
 {
+    release(var(material));
+    release(var(texture));
+    
     release(var(children));
     release(var(meshes));
 }
