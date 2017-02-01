@@ -137,6 +137,16 @@ method(MCDirector, void, addModel, MC3DModel* model)
     }
 }
 
+method(MCDirector, void, addNode, MC3DNode* node)
+{
+    if(node && obj->lastScene && obj->lastScene->rootnode) {
+        MC3DNode_addChild(0, obj->lastScene->rootnode, node);
+    }else{
+        error_log("MCDirector add node(%p) failed [lastScene=%p rootnode=%p]\n",
+                  node, obj->lastScene, obj->lastScene->rootnode);
+    }
+}
+
 method(MCDirector, void, cameraFocusOn, MCVector3 vertex)
 {
     MCCamera* c = computed(obj, cameraHandler);
@@ -171,6 +181,7 @@ onload(MCDirector)
         binding(MCDirector, void, popScene, voida);
         binding(MCDirector, void, resizeAllScene, int width, int height);
         binding(MCDirector, void, addModel, MC3DModel* model);
+        binding(MCDirector, void, addNode, MC3DNode* node);
         binding(MCDirector, void, cameraFocusOn, MCVector3 vertex);
         binding(MCDirector, void, printDebugInfo, voida);
 

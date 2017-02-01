@@ -19,6 +19,7 @@ oninit(MCMesh)
         var(useage) = GL_STATIC_DRAW;
         var(mode) = MCTriAngles;
 
+        var(vertexDataNeedRelease) = true;
         var(vertexDataPtr) = null;
         var(vertexDataSize)= 0;
         var(vertexIndexes) = null;
@@ -36,7 +37,7 @@ method(MCMesh, void, bye, voida)
 {
     glDeleteBuffers(1, &obj->VBO);
     glDeleteVertexArrays(1, &obj->VAO);
-    if (obj->vertexDataPtr) {
+    if (obj->vertexDataNeedRelease && obj->vertexDataPtr) {
         free(obj->vertexDataPtr);
     }
 }

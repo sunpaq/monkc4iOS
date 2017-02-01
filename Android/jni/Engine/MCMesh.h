@@ -44,6 +44,7 @@ class(MCMesh, MCItem,
       GLuint     VBO;  //VBO
       GLuint     EBO;  //EBO
       
+      MCBool     vertexDataNeedRelease;
       GLfloat*   vertexDataPtr;   //gCubeVertexData
       GLsizeiptr vertexDataSize;  //sizeof(gCubeVertexData)
       GLuint*    vertexIndexes;
