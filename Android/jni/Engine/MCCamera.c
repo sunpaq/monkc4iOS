@@ -81,6 +81,11 @@ compute(MCMatrix4, projectionMatrix)
     as(MCCamera);
     double near = cpt(Radius) - var(depth_of_field)/4;
     double far  = cpt(Radius) + var(depth_of_field)*3/4;
+    
+    if (near <= 0) {
+        near = 0.1;
+    }
+    
     return MCMatrix4MakePerspective(MCDegreesToRadians(obj->view_angle),
                                     var(ratio),
                                     near,

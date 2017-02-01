@@ -29,6 +29,8 @@
         NSString* name = [path lastPathComponent];
         [self.listData addObject:name];
     }
+    
+    [self.listData addObject:@"TESTCUBE"];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

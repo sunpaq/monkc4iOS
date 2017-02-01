@@ -56,6 +56,14 @@ void onOpenExternalFile(const char* filepath)
 
 void openFile(const char* filename)
 {
+    //test cube
+    if (MCStringEqual(filename, "TESTCUBE")) {
+        computed(director, cameraHandler)->lookat.y = 0;
+        computed(director, cameraHandler)->R_value = 30;
+        ff(director, addNode, new(MCCube));
+        return;
+    }
+    
     //model
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorf){0.8, 0.8, 0.8, 1.0});
     if (model) {
