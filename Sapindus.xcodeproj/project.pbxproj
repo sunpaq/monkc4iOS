@@ -29,6 +29,7 @@
 		FD1701FD1DCDE6BA00712203 /* MCSort.c in Sources */ = {isa = PBXBuildFile; fileRef = FD1701FB1DCDE6BA00712203 /* MCSort.c */; };
 		FD1702031DD7072600712203 /* MCSet.c in Sources */ = {isa = PBXBuildFile; fileRef = FD1702011DD7072600712203 /* MCSet.c */; };
 		FD19FC5E1E42361B006DC443 /* tex8.bmp in Resources */ = {isa = PBXBuildFile; fileRef = FD4CC1FA1C93B55100051C15 /* tex8.bmp */; };
+		FD19FC7E1E4248D6006DC443 /* ArcticCondorGold.tga in Resources */ = {isa = PBXBuildFile; fileRef = FDB3E7321E29F0360024E942 /* ArcticCondorGold.tga */; };
 		FD1E49AF1C760BED00ADCBD2 /* MCGLRenderer.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */; };
 		FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */; };
 		FD2A6E861DA75F0C00293DE1 /* monkey2.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FD2A6E851DA75F0C00293DE1 /* monkey2.mtl */; };
@@ -809,6 +810,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD19FC7E1E4248D6006DC443 /* ArcticCondorGold.tga in Resources */,
 				FD19FC5E1E42361B006DC443 /* tex8.bmp in Resources */,
 				FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */,
 				FDABFFCC1DC7A62100E8F4F0 /* Ferrari2001.mtl in Resources */,
