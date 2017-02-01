@@ -24,6 +24,7 @@ uniform lowp float material_shininess;
 
 //texture sampling must in fragment shader
 uniform sampler2D texsampler;
+uniform bool usetexture;
 
 void main()
 {
@@ -46,5 +47,10 @@ void main()
     lowp vec3 specular = (light_specular * light_color) * (specExp * material_specular);
     
     //Color Output
-    FragColor = vec4((ambient + diffuse + specular) * vertexcolor, material_dissolve);
+    if (usetexture) {
+        lowp vec4 texcolor = texture(texsampler, texturecoord);
+        FragColor = texcolor;
+    } else {
+        FragColor = vec4((ambient + diffuse + specular) * vertexcolor, material_dissolve);
+    }
 }

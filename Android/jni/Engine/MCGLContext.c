@@ -18,6 +18,7 @@ oninit(MCGLContext)
         var(pid) = glCreateProgram();
         var(uniformCount) = 0;
         var(drawMode) = MCDrawNone;
+        var(textureRef) = null;
         return obj;
     }else{
         return null;

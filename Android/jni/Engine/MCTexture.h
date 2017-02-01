@@ -12,18 +12,18 @@
 #include <stdio.h>
 #include "monkc.h"
 #include "MCGLBase.h"
-#include "MCGLContext.h"
 #include "BEAssetsManager.h"
 
 class(MCTexture, MCObject,
       GLuint Id;
-      GLenum textureUnit;
-      BE2DTextureData* rawdata;
+      unsigned textureUnit;
+      BE2DTextureData* data;
       int width;
       int height;
 );
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name);
-method(MCTexture, void, drawTexture, MCGLContext* ctx);
+method(MCTexture, void, loadToGLBuffer, GLuint pid);
+method(MCTexture, void, active, voida);
 
 #endif /* MCTexture_h */

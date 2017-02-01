@@ -111,6 +111,11 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
         MCMaterial_prepareMatrial(0, obj->material, ctx);
     }
     
+    //draw self texture
+    if (obj->texture != null) {
+        ctx->textureRef = obj->texture;
+    }
+    
     //batch setup
     MCGLContext_activateShaderProgram(0, ctx, 0);
     MCGLContext_setUniforms(0, ctx, 0);
@@ -122,10 +127,6 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
                             MCMesh_prepareMesh(0, mesh, ctx);
                             MCMesh_drawMesh(0, mesh, ctx);
                         })
-    //draw self texture
-    if (obj->texture != null) {
-        ff(obj->texture, drawTexture, ctx);
-    }
     
     //draw children
     MCLinkedListForEach(var(children),

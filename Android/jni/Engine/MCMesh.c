@@ -145,6 +145,10 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
                 MCVertexAttributeLoad(&obj->vertexAttribArray[i]);
             }
         }
+        //Texture
+        if (ctx->textureRef) {
+            MCTexture_loadToGLBuffer(0, ctx->textureRef, ctx->pid);
+        }
         //Unbind
         glBindVertexArray(0);
         var(isDataLoaded) = true;
@@ -154,6 +158,10 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
 method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArray(obj->VAO);
+    //texture
+    if (ctx->textureRef) {
+        MCTexture_active(0, ctx->textureRef, 0);
+    }
     //override draw mode
     GLenum mode = var(mode);
     if (ctx->drawMode != MCDrawNone) {

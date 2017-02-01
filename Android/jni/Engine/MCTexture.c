@@ -12,24 +12,26 @@
 oninit(MCTexture)
 {
     if (init(MCObject)) {
-        obj->textureUnit = GL_TEXTURE1;
+        obj->textureUnit = 1;
         return obj;
     }else{
         return null;
     }
 }
 
-function(unsigned char*, loadImageRawdata, const char* name)
+function(unsigned char*, loadImageRawdata, const char* path)
 {
     as(MCTexture);
-    var(rawdata) = BE2DTextureData_newWithPath(name);
-    return obj->rawdata->raw;
+    var(data) = BE2DTextureData_newWithPath(path);
+    obj->width  = obj->data->width;
+    obj->height = obj->data->height;
+    return obj->data->raw;
 }
 
 function(void, rawdataToTexbuffer, GLenum textype)
 {
     as(MCTexture);
-    glTexImage2D(textype, 0, GL_RGB, obj->width, obj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj->rawdata);
+    glTexImage2D(textype, 0, GL_RGB, obj->width, obj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj->data->raw);
     glGenerateMipmap(textype);
 }
 
@@ -45,28 +47,39 @@ function(void, setupTexParameter, GLenum textype)
 function(void, freeRawdata, voida)
 {
     as(MCTexture);
-    release(obj->rawdata);
+    release(obj->data);
 }
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name)
 {
-    glGenBuffers(1, &obj->Id);
+    char extbuff[10];
+    MCString_extensionFromFilename(name, &extbuff);
+    char pathbuff[PATH_MAX];
+    MCFileGetPath(name, extbuff, pathbuff);
+    
+    loadImageRawdata(0, obj, pathbuff);
+
+    return obj;
+}
+
+method(MCTexture, void, loadToGLBuffer, GLuint pid)
+{
+    glGenTextures(1, &obj->Id);
     MCGLEngine_activeTextureUnit(obj->textureUnit);
     MCGLEngine_bind2DTexture(obj->Id);
     
-    loadImageRawdata(0, obj, name);
     rawdataToTexbuffer(0, obj, GL_TEXTURE_2D);
     setupTexParameter(0, obj, GL_TEXTURE_2D);
     freeRawdata(0, obj, 0);
     
-    return obj;
+    glUniform1i(glGetUniformLocation(pid, "texsampler"), obj->textureUnit);
+    glUniform1i(glGetUniformLocation(pid, "usetexture"), true);
 }
 
-method(MCTexture, void, drawTexture, MCGLContext* ctx)
+method(MCTexture, void, active, voida)
 {
     MCGLEngine_activeTextureUnit(obj->textureUnit);
     MCGLEngine_bind2DTexture(obj->Id);
-    //MCGLContext_setUniformVector1(0, ctx, "texsampler", obj->textureUnit-GL_TEXTURE0);
 }
 
 onload(MCTexture)
@@ -78,7 +91,8 @@ onload(MCTexture)
         mixing(void, freeRawdata, voida);
         
         binding(MCTexture, MCTexture*, initWithFileName, const char* name);
-        binding(MCTexture, void, drawTexture, MCGLContext* ctx);
+        binding(MCTexture, void, loadToGLBuffer, GLuint pid);
+        binding(MCTexture, void, active, voida);
 
         return cla;
     }else{
