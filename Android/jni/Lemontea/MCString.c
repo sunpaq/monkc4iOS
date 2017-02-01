@@ -1,6 +1,14 @@
 #include "MCString.h"
 #include "MCMath.h"
 
+utility(MCString, MCBool, contains, const char* str, const char* instr)
+{
+    if (strstr(instr, str)) {
+        return true;
+    }
+    return false;
+}
+
 utility(MCString, size_t, replace, const char* str, const char* withstr, const char* instr, char (*buff)[])
 {
     size_t count = strlen(str);

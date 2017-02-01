@@ -38,6 +38,22 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                         continue;
                     }
                 }
+                //texture
+                else if (MCStringEqualN(word, "map_Kd", 6)) {
+                    char name[256];
+                    if (MCString_contains("\\", remain)) {
+                        char buff[1024];
+                        MCString_replace("\\", "/", remain, &buff);
+                        MCString_filenameFromPath(buff, &name);
+                    } else {
+                        MCString_filenameFromPath(remain, &name);
+                    }
+                    material = currentMaterial(lib);
+                    if (material) {
+                        MCStringFill(material->diffuseMapName, name);
+                    }
+                    return 0;//next line
+                }
                 //LSLightColor
                 //Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
                 else if (MCStringEqualN(word, "K", 1) || MCStringEqualN(word, "Tf", 2)) {

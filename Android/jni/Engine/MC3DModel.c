@@ -200,6 +200,9 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
         //set mtl
         if (mtl && buff->usemtlcount > 0) {
             setMaterialForNode(0, null, &model->Super, mtl);
+            if (mtl->diffuseMapName) {
+                
+            }
         }else{
             setDefaultMaterialForNode(0, null, &model->Super);
         }

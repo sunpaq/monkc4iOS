@@ -32,6 +32,7 @@ MCString* MCString_newWithCString(const char* cstr);
 MCString* MCString_newWithMCString(MCString* mcstr);
 MCString* MCString_newForHttp(char* cstr, int isHttps);
 
+utility(MCString, MCBool, contains, const char* str, const char* instr);
 utility(MCString, size_t, replace, const char* str, const char* withstr, const char* instr, char (*buff)[]);
 utility(MCString, size_t, reverse, const char* str, char (*buff)[]);
 

@@ -125,6 +125,8 @@ typedef struct {
 typedef struct {
     //newmtl
     char name[256];
+    //map_Kd
+    char diffuseMapName[256];
     //light color
     BALightColor lightColors[4];
     //illumination model 0->10
