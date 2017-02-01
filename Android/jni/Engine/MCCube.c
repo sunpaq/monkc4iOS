@@ -71,8 +71,8 @@ oninit(MCCube)
         mesh->vertexDataSize = sizeof(gCubeVertexData);
                 
         MCLinkedList_addItem(0, svar(meshes), (MCItem*)mesh);
-        sobj->material = new(MCMatrial);
-        sobj->texture = new(MCTexture);
+        sobj->material = new(MCMaterial);
+        sobj->texture = null;
         
         return obj;
     }else{

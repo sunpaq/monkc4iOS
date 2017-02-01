@@ -6,11 +6,11 @@
 //  Copyright © 2016年 oreisoft. All rights reserved.
 //
 
-#include "MCMatrial.h"
+#include "MCMaterial.h"
 #include "MC3DBase.h"
 #include "MCGLRenderer.h"
 
-oninit(MCMatrial)
+oninit(MCMaterial)
 {
     if (init(MCObject)) {
         obj->ambientLightColor  = MCVector3Make(1.0, 1.0, 1.0);
@@ -27,7 +27,7 @@ oninit(MCMatrial)
     }
 }
 
-method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
+method(MCMaterial, void, prepareMatrial, MCGLContext* ctx)
 {
     if (obj->dataChanged == true) {
         MCGLContext_activateShaderProgram(0, ctx, 0);
@@ -57,10 +57,10 @@ method(MCMatrial, void, prepareMatrial, MCGLContext* ctx)
     }
 }
 
-onload(MCMatrial)
+onload(MCMaterial)
 {
     if (load(MCObject)) {
-        binding(MCMatrial, void, prepareMatrial, MCGLContext* ctx);
+        binding(MCMaterial, void, prepareMatrial, MCGLContext* ctx);
         return cla;
     }else{
         return null;

@@ -193,7 +193,7 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
         size_t tricount = trianglization(triangles, faces, facecount, buff->vertexbuff);
         MCMesh* mesh = createMeshWithBATriangles(0, null, triangles, tricount, buff, color);
         
-        model->Super.material = new(MCMatrial);
+        model->Super.material = new(MCMaterial);
         model->Super.texture  = null;
         MCLinkedList_addItem(0, model->Super.meshes, (MCItem*)mesh);
         

@@ -14,7 +14,7 @@
 #include "MC3DBase.h"
 #include "MCMesh.h"
 #include "MCTexture.h"
-#include "MCMatrial.h"
+#include "MCMaterial.h"
 #include "MCTexture.h"
 #include "MCGLContext.h"
 
@@ -24,7 +24,7 @@ class(MC3DNode, MCItem,
       MCBool visible;
       MCVector3 center;
       MCMatrix4 transform;
-      MCMatrial* material;
+      MCMaterial* material;
       MCTexture* texture;
       
       MCLinkedList* meshes;
@@ -39,6 +39,9 @@ method(MC3DNode, void, copyChildrenFrom, MC3DNode* node);
 method(MC3DNode, void, cleanUnvisibleChild, voida);
 method(MC3DNode, int, childCount, voida);
 method(MC3DNode, void, setAllVisible, MCBool visible);
+
+method(MC3DNode, void, changeMatrial, MCMaterial* material);
+method(MC3DNode, void, changeTexture, MCTexture* texture);
 
 //draw
 method(MC3DNode, void, update, MCGLContext* ctx);

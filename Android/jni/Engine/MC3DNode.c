@@ -108,7 +108,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
     //material
     if (obj->material != null) {
         obj->material->dataChanged = true;
-        MCMatrial_prepareMatrial(0, obj->material, ctx);
+        MCMaterial_prepareMatrial(0, obj->material, ctx);
     }
     
     //batch setup

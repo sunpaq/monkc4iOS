@@ -49,7 +49,7 @@
 		FD44CE2F1D326CF200784EDF /* MCGLEngine.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDC51D326CF200784EDF /* MCGLEngine.c */; };
 		FD44CE301D326CF200784EDF /* MCGLRenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDC71D326CF200784EDF /* MCGLRenderer.c */; };
 		FD44CE311D326CF200784EDF /* MCLight.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDC91D326CF200784EDF /* MCLight.c */; };
-		FD44CE321D326CF200784EDF /* MCMatrial.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDCB1D326CF200784EDF /* MCMatrial.c */; };
+		FD44CE321D326CF200784EDF /* MCMaterial.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDCB1D326CF200784EDF /* MCMaterial.c */; };
 		FD44CE331D326CF200784EDF /* MCMesh.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDCD1D326CF200784EDF /* MCMesh.c */; };
 		FD44CE341D326CF200784EDF /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDCF1D326CF200784EDF /* MCOrbit.c */; };
 		FD44CE351D326CF200784EDF /* MCPanel.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDD11D326CF200784EDF /* MCPanel.c */; };
@@ -227,8 +227,8 @@
 		FD44CDC81D326CF200784EDF /* MCGLRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGLRenderer.h; sourceTree = "<group>"; };
 		FD44CDC91D326CF200784EDF /* MCLight.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCLight.c; sourceTree = "<group>"; };
 		FD44CDCA1D326CF200784EDF /* MCLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLight.h; sourceTree = "<group>"; };
-		FD44CDCB1D326CF200784EDF /* MCMatrial.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCMatrial.c; sourceTree = "<group>"; };
-		FD44CDCC1D326CF200784EDF /* MCMatrial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMatrial.h; sourceTree = "<group>"; };
+		FD44CDCB1D326CF200784EDF /* MCMaterial.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCMaterial.c; sourceTree = "<group>"; };
+		FD44CDCC1D326CF200784EDF /* MCMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMaterial.h; sourceTree = "<group>"; };
 		FD44CDCD1D326CF200784EDF /* MCMesh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCMesh.c; sourceTree = "<group>"; };
 		FD44CDCE1D326CF200784EDF /* MCMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCMesh.h; sourceTree = "<group>"; };
 		FD44CDCF1D326CF200784EDF /* MCOrbit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCOrbit.c; sourceTree = "<group>"; };
@@ -473,8 +473,8 @@
 				FD44CDC81D326CF200784EDF /* MCGLRenderer.h */,
 				FD44CDC91D326CF200784EDF /* MCLight.c */,
 				FD44CDCA1D326CF200784EDF /* MCLight.h */,
-				FD44CDCB1D326CF200784EDF /* MCMatrial.c */,
-				FD44CDCC1D326CF200784EDF /* MCMatrial.h */,
+				FD44CDCB1D326CF200784EDF /* MCMaterial.c */,
+				FD44CDCC1D326CF200784EDF /* MCMaterial.h */,
 				FD44CDCD1D326CF200784EDF /* MCMesh.c */,
 				FD44CDCE1D326CF200784EDF /* MCMesh.h */,
 				FD44CDCF1D326CF200784EDF /* MCOrbit.c */,
@@ -901,7 +901,7 @@
 				FD00C4C81CD10BAE00DCA45F /* main.m in Sources */,
 				FD44CE3E1D326CF200784EDF /* MCContext.c in Sources */,
 				FD1701FD1DCDE6BA00712203 /* MCSort.c in Sources */,
-				FD44CE321D326CF200784EDF /* MCMatrial.c in Sources */,
+				FD44CE321D326CF200784EDF /* MCMaterial.c in Sources */,
 				FD00C4CA1CD10BAE00DCA45F /* SettingsListController.m in Sources */,
 				FD44CE301D326CF200784EDF /* MCGLRenderer.c in Sources */,
 				FD44CE261D326CF200784EDF /* BAObjParser.c in Sources */,

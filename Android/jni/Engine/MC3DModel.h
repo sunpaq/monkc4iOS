@@ -14,7 +14,6 @@
 #include "MCGLBase.h"
 #include "MCMesh.h"
 #include "MCTexture.h"
-#include "MCMatrial.h"
 #include "MCIO.h"
 #include "MC3DNode.h"
 #include "MCMath.h"
