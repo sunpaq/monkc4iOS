@@ -53,7 +53,7 @@ utility(MCString, const char*, baseFromPath, const char* path, char (*buff)[])
     
     char* head = &reversebuff[count-1];
     char* tail = &reversebuff[0];
-    while (*tail != '/') {
+    while (*tail != '/' && *head != NUL) {
         tail++;
     }
     
@@ -74,7 +74,7 @@ utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[
     
     char* head = &reversebuff[0];
     char* tail = &reversebuff[0];
-    while (*head != '/') {
+    while (*head != '/' && *head != NUL) {
         head++;
     }
     head--;

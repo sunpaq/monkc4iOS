@@ -13,7 +13,7 @@ int MCFile_flushAFileCacheToDisk(int fd)
     return fsync(fd);
 }
 
-int MCFile_isFileExist(char* pathname)
+int MCFile_isPathExist(char* pathname)
 {
     //file exist test
     int res;

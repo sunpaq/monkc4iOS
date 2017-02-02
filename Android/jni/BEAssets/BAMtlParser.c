@@ -16,6 +16,8 @@
 //return face count
 MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
 {
+    //debug_log("processMtlLine:%s\n", linebuff);
+    
     //pointers
     BAMaterial* material;
     
@@ -52,6 +54,9 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     if (material) {
                         MCStringFill(material->diffuseMapName, name);
                     }
+                    return 0;//next line
+                }
+                else if (MCStringEqualN(word, "map_Ka", 6)) {
                     return 0;//next line
                 }
                 //LSLightColor

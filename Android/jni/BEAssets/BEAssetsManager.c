@@ -165,6 +165,8 @@ int MCFileGetPath(const char* filename, const char* extention, char* buffer)
 			subpath = "textures";
 		} else if (strcmp(extention, "jpg") == 0) {
 			subpath = "textures";
+        } else if (strcmp(extention, "tga") == 0) {
+            subpath = "textures";
 		} else {
 			subpath = "raw";
             error_log("can not detect use raw folder\n");
