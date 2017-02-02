@@ -48,7 +48,7 @@ void main()
     
     //Color Output
     if (usetexture) {
-        lowp vec4 texcolor = texture(texsampler, texturecoord);
+        lowp vec4 texcolor = texture(texsampler, vec2(texturecoord.x, 1.0-texturecoord.y));
         FragColor = texcolor;
     } else {
         FragColor = vec4((ambient + diffuse + specular) * vertexcolor, material_dissolve);
