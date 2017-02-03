@@ -147,7 +147,7 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
         }
         //Texture
         if (ctx->textureRef) {
-            MCTexture_loadToGLBuffer(0, ctx->textureRef, ctx->pid);
+            MCTexture_loadToGLBuffer(0, ctx->textureRef, 0);
         } else {
             glUniform1i(glGetUniformLocation(ctx->pid, "usetexture"), false);
         }
@@ -163,7 +163,7 @@ method(MCMesh, void, drawMesh, MCGLContext* ctx)
     glBindVertexArray(obj->VAO);
     //texture
     if (ctx->textureRef) {
-        MCTexture_active(0, ctx->textureRef, 0);
+        MCTexture_active(0, ctx->textureRef, ctx->pid);
     }
     //override draw mode
     GLenum mode = var(mode);

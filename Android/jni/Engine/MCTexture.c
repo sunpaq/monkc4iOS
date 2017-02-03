@@ -9,10 +9,16 @@
 #include "MCTexture.h"
 #include "MCGLEngine.h"
 
+static unsigned unitNum = 1;
+
 oninit(MCTexture)
 {
     if (init(MCObject)) {
-        obj->textureUnit = 1;
+        if (unitNum < 32) {
+            obj->textureUnit = unitNum++;
+        } else {
+            unitNum = 1;
+        }
         return obj;
     }else{
         return null;
@@ -64,7 +70,7 @@ method(MCTexture, MCTexture*, initWithFileName, const char* name)
     return obj;
 }
 
-method(MCTexture, void, loadToGLBuffer, GLuint pid)
+method(MCTexture, void, loadToGLBuffer, voida)
 {
     glGenTextures(1, &obj->Id);
     MCGLEngine_activeTextureUnit(obj->textureUnit);
@@ -73,13 +79,13 @@ method(MCTexture, void, loadToGLBuffer, GLuint pid)
     rawdataToTexbuffer(0, obj, GL_TEXTURE_2D);
     setupTexParameter(0, obj, GL_TEXTURE_2D);
     freeRawdata(0, obj, 0);
-    
-    glUniform1i(glGetUniformLocation(pid, "texsampler"), obj->textureUnit);
-    glUniform1i(glGetUniformLocation(pid, "usetexture"), true);
 }
 
-method(MCTexture, void, active, voida)
+method(MCTexture, void, active, GLuint pid)
 {
+    glUniform1i(glGetUniformLocation(pid, "texsampler"), obj->textureUnit);
+    glUniform1i(glGetUniformLocation(pid, "usetexture"), true);
+    
     MCGLEngine_activeTextureUnit(obj->textureUnit);
     MCGLEngine_bind2DTexture(obj->Id);
 }
@@ -93,8 +99,8 @@ onload(MCTexture)
         mixing(void, freeRawdata, voida);
         
         binding(MCTexture, MCTexture*, initWithFileName, const char* name);
-        binding(MCTexture, void, loadToGLBuffer, GLuint pid);
-        binding(MCTexture, void, active, voida);
+        binding(MCTexture, void, loadToGLBuffer, voida);
+        binding(MCTexture, void, active, GLuint pid);
 
         return cla;
     }else{

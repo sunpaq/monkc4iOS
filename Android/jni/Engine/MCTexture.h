@@ -23,7 +23,7 @@ class(MCTexture, MCObject,
 );
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name);
-method(MCTexture, void, loadToGLBuffer, GLuint pid);
-method(MCTexture, void, active, voida);
+method(MCTexture, void, loadToGLBuffer, voida);
+method(MCTexture, void, active, GLuint pid);
 
 #endif /* MCTexture_h */
