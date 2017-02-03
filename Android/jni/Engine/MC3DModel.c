@@ -202,15 +202,8 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
             setMaterialForNode(0, null, &model->Super, mtl);
             //set texture
             if (mtl->diffuseMapName[0] && buff->usemtlcount == 1) {
-                char extbuff[10];
-                MCString_extensionFromFilename(mtl->diffuseMapName, &extbuff);
-                char pathbuff[PATH_MAX];
-                if(MCFileGetPath(mtl->diffuseMapName, extbuff, pathbuff)) {
-                    (&model->Super)->texture = null;
-                } else {
-                    MCTexture* tex = MCTexture_initWithFileName(0, new(MCTexture), mtl->diffuseMapName);
-                    (&model->Super)->texture = tex;
-                }
+                MCTexture* tex = MCTexture_initWithFileName(0, new(MCTexture), mtl->diffuseMapName);
+                (&model->Super)->texture = tex;
             }
         }else{
             setDefaultMaterialForNode(0, null, &model->Super);

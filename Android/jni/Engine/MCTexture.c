@@ -55,10 +55,11 @@ method(MCTexture, MCTexture*, initWithFileName, const char* name)
     char extbuff[10];
     MCString_extensionFromFilename(name, &extbuff);
     char pathbuff[PATH_MAX];
-    MCFileGetPath(name, extbuff, pathbuff);
+    if (MCFileGetPath(name, extbuff, pathbuff)) {
+        return null;
+    }
     
     loadImageRawdata(0, obj, pathbuff);
-
     return obj;
 }
 
