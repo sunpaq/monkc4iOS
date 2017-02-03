@@ -201,7 +201,7 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
         if (mtl && buff->usemtlcount > 0) {
             setMaterialForNode(0, null, &model->Super, mtl);
             //set texture
-            if (mtl->diffuseMapName[0] && buff->usemtlcount == 1) {
+            if (mtl->diffuseMapName[0]) {
                 MCTexture* tex = MCTexture_initWithFileName(0, new(MCTexture), mtl->diffuseMapName);
                 (&model->Super)->texture = tex;
             }
@@ -267,8 +267,10 @@ method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorf 
 {
     if (obj) {
         MCStringFill(obj->name, name);
-        char path[PATH_MAX];
-        MCFileGetPath(name, "obj", path);
+        char path[PATH_MAX] = {};
+        if (MCFileGetPath(name, "obj", path)) {
+            return null;
+        }
         debug_log("MC3DModel - find path: %s\n", path);
         return MC3DModel_initWithFilePathColor(0, obj, path, color);
     }else{

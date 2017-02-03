@@ -101,9 +101,11 @@ utility(BECubeTextureData, BECubeTextureData*, newWithFacePaths, const char* fac
 utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6], const char* extension)
 {
     BECubeTextureData* data = new(BECubeTextureData);
-    char pathbuff[PATH_MAX];
+    char pathbuff[PATH_MAX] = {};
     for (int i=0; i<6; i++) {
-        MCFileGetPath(faces[i], extension, pathbuff);
+        if(MCFileGetPath(faces[i], extension, pathbuff)){
+            return null;
+        }
         pathbuff[PATH_MAX-1] = NUL;
         data->faces[i] = BE2DTextureData_newWithPath(pathbuff);
     }
@@ -149,7 +151,7 @@ AAssetManager* MCFileGetAssetManager()
 
 int MCFileGetPath(const char* filename, const char* extention, char* buffer)
 {
-    char buff[PATH_MAX];
+    char buff[PATH_MAX] = {};
     filename = MCString_filenameTrimExtension(filename, buff);
     
 #ifdef __ANDROID__
@@ -172,13 +174,13 @@ int MCFileGetPath(const char* filename, const char* extention, char* buffer)
             error_log("can not detect use raw folder\n");
 		}
 
-		char fullname[PATH_MAX];
+        char fullname[PATH_MAX] = {};
 		sprintf(fullname, "%s.%s", filename, extention);
 
 		AAssetDir* rootdir = AAssetManager_openDir(assetManager_, subpath);
         if (rootdir) {
             const char* name;
-            char fullpath[PATH_MAX];
+            char fullpath[PATH_MAX] = {};
             while ((name=AAssetDir_getNextFileName(rootdir)) != NULL) {
                 if (strcmp(fullname, name) == 0) {
                     sprintf(fullpath, "%s/%s", subpath, name);
@@ -209,6 +211,7 @@ int MCFileGetPath(const char* filename, const char* extention, char* buffer)
         error_log("BEAssetManager can not find path of (%s).(%s)\n", filename, extention);
         CFRelease(fname);
         CFRelease(fext);
+        pthread_mutex_unlock(&lock);
         return -1;
     }
     

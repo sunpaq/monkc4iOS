@@ -24,7 +24,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
     //MCToken token;
     MCToken token;
     
-    char word[256];
+    char word[256] = {};
     const char* remain = linebuff;
     while (!isNewLine(remain) && *remain != NUL) {
         token = tokenize(nextWord(&remain, word));
@@ -42,9 +42,9 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                 }
                 //texture
                 else if (MCStringEqualN(word, "map_Kd", 6)) {
-                    char name[256];
+                    char name[256] = {};
                     if (MCString_contains("\\", remain)) {
-                        char buff[1024];
+                        char buff[1024] = {};
                         MCString_replace("\\", "/", remain, &buff);
                         MCString_filenameFromPath(buff, &name);
                     } else {
@@ -64,16 +64,16 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                 else if (MCStringEqualN(word, "K", 1) || MCStringEqualN(word, "Tf", 2)) {
                     BALightColor* light = null;
                     if (MCStringEqualN(word, "Tf", 2)) {
-                        light = &currentMaterial(lib)->lightColors[TFilter];
+                        light = &(currentMaterial(lib)->lightColors[TFilter]);
                     }
                     else if (MCStringEqualN(word, "Ka", 2)) {
-                        light = &currentMaterial(lib)->lightColors[Ambient];
+                        light = &(currentMaterial(lib)->lightColors[Ambient]);
                     }
                     else if (MCStringEqualN(word, "Kd", 2)) {
-                        light = &currentMaterial(lib)->lightColors[Diffuse];
+                        light = &(currentMaterial(lib)->lightColors[Diffuse]);
                     }
                     else if (MCStringEqualN(word, "Ks", 2)) {
-                        light = &currentMaterial(lib)->lightColors[Specular];
+                        light = &(currentMaterial(lib)->lightColors[Specular]);
                     }
                     if (!light) {
                         error_log("BAMtlParser - currentMaterial() is null\n");
@@ -107,7 +107,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     //float value next
                     else if (token.type == MCTokenFloat || token.type == MCTokenInteger) {
                         if (light->Ctype != SpectralFile) {
-                            double buff[3];
+                            double buff[3] = {};
                             size_t n = nextNumbersAsFloat(&remain, buff);
                             if (n >= 3) {
                                 light->data.rgbxyz[0] = buff[0];
@@ -168,7 +168,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
 
 BAMtlLibrary* BAMtlLibraryNew(const char* filename)
 {
-    char path[LINE_MAX];
+    char path[LINE_MAX] = {};
     if(MCFileGetPath(filename, "mtl", path)) {
         return null;
     }

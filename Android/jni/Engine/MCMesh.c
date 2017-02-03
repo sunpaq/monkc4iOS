@@ -148,7 +148,10 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
         //Texture
         if (ctx->textureRef) {
             MCTexture_loadToGLBuffer(0, ctx->textureRef, ctx->pid);
+        } else {
+            glUniform1i(glGetUniformLocation(ctx->pid, "usetexture"), false);
         }
+
         //Unbind
         glBindVertexArray(0);
         var(isDataLoaded) = true;

@@ -178,14 +178,15 @@ utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const c
     return Id;
 }
 
-utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, const char* fname)
+utility(MCGLEngine, int, prepareShaderName, GLuint Id, const char* vname, const char* fname)
 {
-    char path[LINE_MAX];
-    MCFileGetPath(vname, "vsh", path);
-    char* vcode = (char*)MCFileCopyContentWithPath(path);
+    char vpath[PATH_MAX] = {};
+    if(MCFileGetPath(vname, "vsh", vpath)) return -1;
+    char* vcode = (char*)MCFileCopyContentWithPath(vpath);
     
-    MCFileGetPath(fname, "fsh", path);
-    char* fcode = (char*)MCFileCopyContentWithPath(path);
+    char fpath[PATH_MAX] = {};
+    if(MCFileGetPath(fname, "fsh", fpath)) return -1;
+    char* fcode = (char*)MCFileCopyContentWithPath(fpath);
     
     MCGLEngine_prepareShader(Id, vcode, fcode);
     if (vcode) {
@@ -194,7 +195,7 @@ utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, con
     if (fcode) {
         free((void*)fcode);
     }
-    return Id;
+    return 0;
 }
 
 utility(MCGLEngine, void, tryUseShaderProgram, GLuint Id)

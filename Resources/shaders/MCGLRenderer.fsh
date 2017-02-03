@@ -44,12 +44,12 @@ void main()
     lowp float specularDot = max(0.0, dot(viewDir, reflectDir));
     lowp float specExp = pow(specularDot, material_shininess);//32 material.shininess
     
-    lowp vec3 specular = (light_specular * light_color) * (specExp * material_specular);
+    lowp vec3 specular = (light_specular * light_color) * (specExp * material_specular) ;
     
     //Color Output
     if (usetexture) {
         lowp vec4 texcolor = texture(texsampler, vec2(texturecoord.x, 1.0-texturecoord.y));
-        FragColor = texcolor;
+        FragColor = vec4((ambient + diffuse) * texcolor.rgb, texcolor.a);
     } else {
         FragColor = vec4((ambient + diffuse + specular) * vertexcolor, material_dissolve);
     }

@@ -53,7 +53,7 @@ utility(MCGLEngine, void, bind2DTexture, MCUInt tid);
 //Shader
 utility(MCGLEngine, GLuint, createShader, voida);
 utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const char* fcode);
-utility(MCGLEngine, GLuint, prepareShaderName, GLuint Id, const char* vname, const char* fname);
+utility(MCGLEngine, int, prepareShaderName, GLuint Id, const char* vname, const char* fname);
 utility(MCGLEngine, void, tryUseShaderProgram, GLuint Id);
 
 //Frame Rate (FPS)
@@ -81,11 +81,10 @@ utility(MCGLEngine, int, tickFPS, MCClock* clock)
 }
 
 //Shader
-MCInline
-utility(MCGLEngine, int, compileShader, GLuint* shader, GLenum type, const GLchar *source)
+MCInline utility(MCGLEngine, MCBool, compileShader, GLuint* shader, GLenum type, const GLchar *source)
 {
     if (!source) {
-        return 0;
+        return false;
     }
     GLint status;
     
@@ -105,14 +104,13 @@ utility(MCGLEngine, int, compileShader, GLuint* shader, GLenum type, const GLcha
     glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
     if (status == 0) {
         glDeleteShader(*shader);
-        return 0;
+        return false;
     }
     
-    return 1;
+    return true;
 }
 
-MCInline
-utility(MCGLEngine, int, linkProgram, GLuint prog)
+MCInline utility(MCGLEngine, int, linkProgram, GLuint prog)
 {
     GLint status;
     glLinkProgram(prog);

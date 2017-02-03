@@ -52,9 +52,10 @@ function(void, freeRawdata, voida)
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name)
 {
-    char extbuff[10];
+    char extbuff[10] = {};
     MCString_extensionFromFilename(name, &extbuff);
-    char pathbuff[PATH_MAX];
+    
+    char pathbuff[PATH_MAX] = {};
     if (MCFileGetPath(name, extbuff, pathbuff)) {
         return null;
     }
