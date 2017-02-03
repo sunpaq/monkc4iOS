@@ -48,10 +48,10 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
                 }
                 else if (MCStringEqualN(word, "usemtl", 6)) {
                     MCToken token = tokenize(nextWord(&remain, word));
-                    if (token.type == MCTokenIdentifier) {
+                    if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
                         meta->usemtl_starts[meta->usemtl_count] = meta->face_count;
                         meta->usemtl_count++;
-                        //debug_log("usemtl %s\n", token.value.Word);
+                        debug_log("usemtl %s\n", token.value.Word);
                     }
                 }
             }
@@ -164,7 +164,7 @@ void parseObj(BAObj* object, const char* file)
                     }
                     else if (MCStringEqualN(word, "usemtl", 6)) {
                         token = tokenize(nextWord(&remain, word));
-                        if (token.type == MCTokenIdentifier) {
+                        if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
                             BAMaterial* mtl = null;
                             mtl = BAFindMaterial(current_mtllib, token.value.Word);
                             if (mtl) {

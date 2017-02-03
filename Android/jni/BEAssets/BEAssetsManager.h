@@ -28,7 +28,7 @@ class(BE2DTextureData, MCObject,
       unsigned RGBA;
       
       //input
-      unsigned type;
+      //unsigned type;
       char* path;
       
       //output

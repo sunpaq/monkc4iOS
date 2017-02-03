@@ -24,7 +24,7 @@ oninit(BE2DTextureData)
         obj->RGBA = 4;
         
         //input
-        obj->type = obj->RGB;
+        //obj->type = obj->RGB;
         obj->path = "";
         
         //output
@@ -41,12 +41,12 @@ utility(BE2DTextureData, BE2DTextureData*, newWithPathType, const char* path, un
     size_t psize = strlen(path) * sizeof(char);
     data->path = strcpy(malloc(psize), path);
 
-    if (type >= data->AUTO && type<= data->RGBA ) {
-        data->type = type;
-    }else{
-        data->type = data->RGB;
-    }
-    data->raw = SOIL_load_image(data->path, &data->width, &data->height, &data->channels, data->type);
+//    if (type >= data->AUTO && type<= data->RGBA ) {
+//        data->type = type;
+//    }else{
+//        data->type = data->RGB;
+//    }
+    data->raw = SOIL_load_image(data->path, &data->width, &data->height, &data->channels, SOIL_LOAD_AUTO);
     return data;
 }
 

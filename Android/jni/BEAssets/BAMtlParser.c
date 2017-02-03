@@ -33,7 +33,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
             case MCTokenIdentifier:
                 if (MCStringEqualN(word, "newmtl", 6)) {
                     token = tokenize(nextWord(&remain, word));
-                    if (token.type == MCTokenIdentifier) {
+                    if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
                         lib->materialCursor++;
                         material = currentMaterial(lib);
                         MCStringFill(material->name, token.value.Word);

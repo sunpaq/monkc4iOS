@@ -37,8 +37,15 @@ function(unsigned char*, loadImageRawdata, const char* path)
 function(void, rawdataToTexbuffer, GLenum textype)
 {
     as(MCTexture);
-    glTexImage2D(textype, 0, GL_RGB, obj->width, obj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj->data->raw);
-    glGenerateMipmap(textype);
+    if (obj->data->raw) {
+        if (obj->data->channels == 4) {
+            glTexImage2D(textype, 0, GL_RGBA, obj->width, obj->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, obj->data->raw);
+        }
+        if (obj->data->channels == 3) {
+            glTexImage2D(textype, 0, GL_RGB, obj->width, obj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj->data->raw);
+        }
+        glGenerateMipmap(textype);
+    }
 }
 
 //GL_TEXTURE_2D
@@ -78,7 +85,7 @@ method(MCTexture, void, loadToGLBuffer, voida)
     
     rawdataToTexbuffer(0, obj, GL_TEXTURE_2D);
     setupTexParameter(0, obj, GL_TEXTURE_2D);
-    freeRawdata(0, obj, 0);
+    //freeRawdata(0, obj, 0);
 }
 
 method(MCTexture, void, active, GLuint pid)
