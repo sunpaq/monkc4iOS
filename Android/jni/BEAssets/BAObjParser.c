@@ -47,7 +47,7 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
                     meta->mtllib_count++;
                 }
                 else if (MCStringEqualN(word, "usemtl", 6)) {
-                    MCToken token = tokenize(nextWord(&remain, word));
+                    MCToken token = tokenize(nextWordsInThisLine(&remain, word));
                     if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
                         meta->usemtl_starts[meta->usemtl_count] = meta->face_count;
                         meta->usemtl_count++;
@@ -138,19 +138,19 @@ void parseObj(BAObj* object, const char* file)
                         }
                     }
                     else if (MCStringEqualN(word, "g", 1)) {
-                        nextWord(&remain, word);
+                        nextWordsInThisLine(&remain, word);
                         continue;
                     }
                     else if (MCStringEqualN(word, "o", 1)) {
-                        token = tokenize(nextWord(&remain, word));
-                        if (token.type == MCTokenIdentifier) {
+                        token = tokenize(nextWordsInThisLine(&remain, word));
+                        if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
                             MCStringFill(object->name, token.value.Word);
                         }
                         continue;
                     }
                     else if (MCStringEqualN(word, "mtllib", 6)) {
-                        token = tokenize(nextWord(&remain, word));
-                        if (token.type == MCTokenFilename) {
+                        token = tokenize(nextWordsInThisLine(&remain, word));
+                        if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
                             if ((current_mtllib=BAMtlLibraryNew(token.value.Word)) != null) {
                                 if (!MCStringEqual(current_mtllib->name, token.value.Word)) {
                                     free(current_mtllib);
@@ -163,7 +163,7 @@ void parseObj(BAObj* object, const char* file)
                         }
                     }
                     else if (MCStringEqualN(word, "usemtl", 6)) {
-                        token = tokenize(nextWord(&remain, word));
+                        token = tokenize(nextWordsInThisLine(&remain, word));
                         if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
                             BAMaterial* mtl = null;
                             mtl = BAFindMaterial(current_mtllib, token.value.Word);

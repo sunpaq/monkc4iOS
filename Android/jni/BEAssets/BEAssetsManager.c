@@ -245,10 +245,8 @@ const char* MCFileCopyContentWithPath(const char* filepath)
     error_log("MCFileCopyContent(%s) Android assetManager_ is null\n", filepath);
     return null;
 #else
-    //char path[PATH_MAX];
-    //MCFileGetPath(filename, extention, path);
-    
-    FILE* f = fopen(filepath, "r");
+    char decodepath[PATH_MAX] = {};
+    FILE* f = fopen(MCString_percentDecode(filepath, decodepath), "r");
     if (f) {
         fseek(f, 0, SEEK_END);
         long size = ftell(f);
@@ -272,17 +270,6 @@ const char* MCFileCopyContentWithPath(const char* filepath)
 
 #endif
 }
-
-//const char* MCFileCopyContent(const char* filename)
-//{
-//    if (isFilename(filename)) {
-//        char fullpath[PATH_MAX];
-//        MCFileGetPath(filename, MCString_fi, fullpath);
-//        return MCFileCopyContentWithPath(fullpath);
-//    }else{
-//        return MCFileCopyContentWithPath(filename);
-//    }
-//}
 
 void MCFileReleaseContent(void* buff)
 {

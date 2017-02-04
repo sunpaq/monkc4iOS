@@ -38,6 +38,7 @@ typedef enum {
     Ambient = 0,
     Diffuse,
     Specular,
+    Emissive,
     //transmission filter
     TFilter
 } BALightType;
@@ -128,7 +129,7 @@ typedef struct {
     //map_Kd
     char diffuseMapName[256];
     //light color
-    BALightColor lightColors[4];
+    BALightColor lightColors[5];
     //illumination model 0->10
     int illumModelNum;
     //dissolve (d/d -halo)

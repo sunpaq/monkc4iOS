@@ -41,22 +41,23 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     }
                 }
                 //texture
+                else if (MCStringEqualN(word, "map_Ka", 6)) {
+                    return 0;//next line
+                }
                 else if (MCStringEqualN(word, "map_Kd", 6)) {
                     char name[256] = {};
-                    if (MCString_contains("\\", remain)) {
-                        char buff[1024] = {};
-                        MCString_replace("\\", "/", remain, &buff);
-                        MCString_filenameFromPath(buff, &name);
-                    } else {
-                        MCString_filenameFromPath(remain, &name);
-                    }
                     material = currentMaterial(lib);
-                    if (material) {
+                    if (material && MCString_filenameFromPath(remain, &name)) {
                         MCStringFill(material->diffuseMapName, name);
+                    } else {
+                        error_log("BAMtlParser - can not get filename form path: %s\n", remain);
                     }
                     return 0;//next line
                 }
-                else if (MCStringEqualN(word, "map_Ka", 6)) {
+                else if (MCStringEqualN(word, "map_Ks", 6)) {
+                    return 0;//next line
+                }
+                else if (MCStringEqualN(word, "map_Ke", 6)) {
                     return 0;//next line
                 }
                 //LSLightColor
@@ -75,8 +76,11 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     else if (MCStringEqualN(word, "Ks", 2)) {
                         light = &(currentMaterial(lib)->lightColors[Specular]);
                     }
+                    else if (MCStringEqualN(word, "Ke", 2)) {
+                        light = &(currentMaterial(lib)->lightColors[Emissive]);
+                    }
                     if (!light) {
-                        error_log("BAMtlParser - currentMaterial() is null\n");
+                        error_log("BAMtlParser - [%s] not light Ka/Kd/Ks\n", word);
                         return 0;
                     }
                     light->Ctype = RGB;

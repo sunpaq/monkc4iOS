@@ -38,6 +38,7 @@ static const char  MCNewLineR = '\r';
 
 #define MCCond_Digit(w)     (*w >= '0' && *w <= '9')
 #define MCCond_Alphabet(w)  (*w >= 'a' && *w <= 'z') || (*w >= 'A' && *w <= 'Z')
+#define MCCond_PathDiv(w)   (*w == '/' || *w == '\\')
 
 MCInline size_t MCLexerFill(char* const dest, const char* src)
 {
@@ -242,13 +243,15 @@ MCInline MCToken tokenize(const char* word)
         token.type = MCTokenDate;
         getDate(word, token.value.Date);
     }
-    else if (isIdentifier(word) == true) {
-        token.type = MCTokenIdentifier;
-        MCLexerFill(token.value.Word, word);
-    }
     else if (isFilename(word) == true) {
-        token.type = MCTokenFilename;
-        MCLexerFill(token.value.Word, word);
+        if (isIdentifier(word) == true) {
+            token.type = MCTokenIdentifier;
+            MCLexerFill(token.value.Word, word);
+        }
+        else {
+            token.type = MCTokenFilename;
+            MCLexerFill(token.value.Word, word);
+        }
     }
     else if (strncmp("#", word, 1) == 0) {
         token.type = MCTokenComment;
@@ -270,10 +273,32 @@ MCInline const char* readNext(const char** target_p, char buff[], MCBool isUpdat
     return buff;
 }
 
+MCInline const char* readNextInThisLine(const char** target_p, char buff[], MCBool isUpdate)
+{
+    const char* str = *target_p;
+    if (*str == MCWhiteSpace) {
+        str++;
+    }
+    int i = 0;
+    while ( !isNewLine(str) && (*str != NUL) ) {
+        buff[i++] = *str++;
+    }
+    buff[i] = NUL;
+    if (isUpdate) {
+        *target_p = str;//update remain
+    }
+    return buff;
+}
+
 //return word
 MCInline const char* nextWord(const char** target_p, char buff[])
 {
     return readNext(target_p, buff, true);
+}
+
+MCInline const char* nextWordsInThisLine(const char** target_p, char buff[])
+{
+    return readNextInThisLine(target_p, buff, true);
 }
 
 MCInline const char* peekNext(const char** target_p, char buff[])

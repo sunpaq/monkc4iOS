@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F8888AAB1E456F3D002C7822 /* Girl Blendswap.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F8888AA91E456F3D002C7822 /* Girl Blendswap.mtl */; };
+		F8888AAC1E456F3D002C7822 /* Girl Blendswap.obj in Resources */ = {isa = PBXBuildFile; fileRef = F8888AAA1E456F3D002C7822 /* Girl Blendswap.obj */; };
 		F896E7311DDEA0F5008212F1 /* MCGraph.c in Sources */ = {isa = PBXBuildFile; fileRef = F896E72F1DDEA0F5008212F1 /* MCGraph.c */; };
 		F89E8B891DF4F1C9000FB4DA /* MCTree.c in Sources */ = {isa = PBXBuildFile; fileRef = F89E8B871DF4F1C9000FB4DA /* MCTree.c */; };
 		F8C4651A1DDD8523005581D0 /* MCHeap.c in Sources */ = {isa = PBXBuildFile; fileRef = F8C465181DDD8523005581D0 /* MCHeap.c */; };
@@ -126,8 +128,6 @@
 		FD6C5CD71E44E209000E09B6 /* Alex_Color.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD6C5CD31E44E209000E09B6 /* Alex_Color.jpg */; };
 		FD6C5CD81E44E209000E09B6 /* Alex_Eyeball.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD6C5CD41E44E209000E09B6 /* Alex_Eyeball.jpg */; };
 		FD6C5CD91E44E209000E09B6 /* Alex_Specular.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD6C5CD51E44E209000E09B6 /* Alex_Specular.jpg */; };
-		FD6C5CDC1E44E67B000E09B6 /* Girl_Blendswap.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FD6C5CDA1E44E67B000E09B6 /* Girl_Blendswap.mtl */; };
-		FD6C5CDD1E44E67B000E09B6 /* Girl_Blendswap.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD6C5CDB1E44E67B000E09B6 /* Girl_Blendswap.obj */; };
 		FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD7FF8EB1CCB5FC5008106E5 /* sph.obj */; };
 		FD7FF8F01CCB6043008106E5 /* bottle_cap2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */; };
 		FD8784831CCE5F8C0071DAB4 /* back.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FD87847D1CCE5F8C0071DAB4 /* back.jpg */; };
@@ -156,6 +156,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F8888AA91E456F3D002C7822 /* Girl Blendswap.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Girl Blendswap.mtl"; sourceTree = "<group>"; };
+		F8888AAA1E456F3D002C7822 /* Girl Blendswap.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Girl Blendswap.obj"; sourceTree = "<group>"; };
 		F88C173F1D51E16A000D07BA /* MCArrayLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCArrayLinkedList.h; sourceTree = "<group>"; };
 		F896E72F1DDEA0F5008212F1 /* MCGraph.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCGraph.c; sourceTree = "<group>"; };
 		F896E7301DDEA0F5008212F1 /* MCGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGraph.h; sourceTree = "<group>"; };
@@ -345,8 +347,6 @@
 		FD6C5CD31E44E209000E09B6 /* Alex_Color.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Alex_Color.jpg; sourceTree = "<group>"; };
 		FD6C5CD41E44E209000E09B6 /* Alex_Eyeball.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Alex_Eyeball.jpg; sourceTree = "<group>"; };
 		FD6C5CD51E44E209000E09B6 /* Alex_Specular.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Alex_Specular.jpg; sourceTree = "<group>"; };
-		FD6C5CDA1E44E67B000E09B6 /* Girl_Blendswap.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Girl_Blendswap.mtl; sourceTree = "<group>"; };
-		FD6C5CDB1E44E67B000E09B6 /* Girl_Blendswap.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Girl_Blendswap.obj; sourceTree = "<group>"; };
 		FD7FF8EB1CCB5FC5008106E5 /* sph.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sph.obj; sourceTree = "<group>"; };
 		FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bottle_cap2.obj; sourceTree = "<group>"; };
 		FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = MCSkyboxShader.vsh; sourceTree = "<group>"; };
@@ -762,8 +762,8 @@
 				FD6C5CD31E44E209000E09B6 /* Alex_Color.jpg */,
 				FD6C5CD41E44E209000E09B6 /* Alex_Eyeball.jpg */,
 				FD6C5CD51E44E209000E09B6 /* Alex_Specular.jpg */,
-				FD6C5CDA1E44E67B000E09B6 /* Girl_Blendswap.mtl */,
-				FD6C5CDB1E44E67B000E09B6 /* Girl_Blendswap.obj */,
+				F8888AA91E456F3D002C7822 /* Girl Blendswap.mtl */,
+				F8888AAA1E456F3D002C7822 /* Girl Blendswap.obj */,
 			);
 			path = TeenGirl;
 			sourceTree = "<group>";
@@ -875,8 +875,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				FD6C5C491E44B987000E09B6 /* arcticcondor.obj in Resources */,
-				FD6C5CDD1E44E67B000E09B6 /* Girl_Blendswap.obj in Resources */,
 				FD6C5C581E44BAF0000E09B6 /* arcanegolem.mtl in Resources */,
+				F8888AAC1E456F3D002C7822 /* Girl Blendswap.obj in Resources */,
 				FD6C5CC61E44D839000E09B6 /* Avent.mtl in Resources */,
 				FD19FC5E1E42361B006DC443 /* tex8.bmp in Resources */,
 				FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */,
@@ -898,7 +898,6 @@
 				FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
 				FD6C5C441E44B987000E09B6 /* arakkoa_sage.mtl in Resources */,
-				FD6C5CDC1E44E67B000E09B6 /* Girl_Blendswap.mtl in Resources */,
 				FD6C5CD81E44E209000E09B6 /* Alex_Eyeball.jpg in Resources */,
 				FD4B125B1DA5024800ADCB38 /* beengine.mtl in Resources */,
 				FD8784851CCE5F8C0071DAB4 /* front.jpg in Resources */,
@@ -921,6 +920,7 @@
 				FD6C5CC71E44D839000E09B6 /* Avent.obj in Resources */,
 				FD6C5C481E44B987000E09B6 /* arcticcondor.mtl in Resources */,
 				FD5EFD681B0E3D9D00D2492A /* Icon.png in Resources */,
+				F8888AAB1E456F3D002C7822 /* Girl Blendswap.mtl in Resources */,
 				FD6C5CD61E44E209000E09B6 /* Alex_Ambient.jpg in Resources */,
 				FD6C5CD71E44E209000E09B6 /* Alex_Color.jpg in Resources */,
 				FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */,
