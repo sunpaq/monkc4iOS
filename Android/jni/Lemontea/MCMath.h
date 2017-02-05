@@ -176,21 +176,28 @@ MCInline double MCTanDegrees(double degress)       { return tan(MCDegreesToRadia
 
 MCInline float MCVector3Length(MCVector3 vector)
 {
-    return sqrt(vector.v[0] * vector.v[0] + vector.v[1] * vector.v[1] + vector.v[2] * vector.v[2]);
+    return sqrtf(fabs(vector.v[0] * vector.v[0] + vector.v[1] * vector.v[1] + vector.v[2] * vector.v[2]));
 }
 
 MCInline MCVector3 MCVector3Normalize(MCVector3 vector)
 {
-    float scale = 1.0f / MCVector3Length(vector);
-    MCVector3 v = { vector.v[0] * scale, vector.v[1] * scale, vector.v[2] * scale };
-    return v;
+    float l = MCVector3Length(vector);
+    float x = vector.v[0] / l;
+    float y = vector.v[1] / l;
+    float z = vector.v[2] / l;
+    
+    if (x!=x || y!=y || z!= z) {
+        return vector;
+    }
+
+    return (MCVector3){x,y,z};
 }
 
-MCInline MCVector3 MCVector3Make(double x, double y, double z) {
+MCInline MCVector3 MCVector3Make(float x, float y, float z) {
     return (MCVector3){x, y, z};
 }
 
-MCInline MCVector3 MCVector3MakeReverse(double x, double y, double z) {
+MCInline MCVector3 MCVector3MakeReverse(float x, float y, float z) {
     return (MCVector3){-x, -y, -z};
 }
 

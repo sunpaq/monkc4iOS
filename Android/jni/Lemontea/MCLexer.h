@@ -38,7 +38,7 @@ static const char  MCNewLineR = '\r';
 
 #define MCCond_Digit(w)     (*w >= '0' && *w <= '9')
 #define MCCond_Alphabet(w)  (*w >= 'a' && *w <= 'z') || (*w >= 'A' && *w <= 'Z')
-#define MCCond_PathDiv(w)   (*w == '/' || *w == '\\')
+#define MCCond_PathDiv(w)   (*w == '/' || *w =='\\')
 
 MCInline size_t MCLexerFill(char* const dest, const char* src)
 {
@@ -125,21 +125,11 @@ MCInline MCBool isIdentifier(const char* w)
 
 MCInline MCBool isFilename(const char* w)
 {
-    //must start with alphabet or underbar or number
-    if (MCCond_Alphabet(w) || MCCond_Digit(w) || *w == '_') {
-        w++;
-    }else{
-        return false;
+    //can start with any char except '\0'
+    if (w != NUL) {
+        return true;
     }
-    //can be end with alphabet or underbar or number
-    while (*w != NUL) {
-        if (MCCond_Alphabet(w) || MCCond_Digit(w) || *w == '_' || *w == '.' || *w == MCWhiteSpace) {
-            w++; continue;
-        } else {
-            return false;
-        }
-    }
-    return true;
+    return false;
 }
 
 MCInline MCBool isInteger(const char* n)
@@ -233,7 +223,13 @@ MCInline MCToken tokenize(const char* word)
     //don't change the order!
     if (isFloat(word) == true) {
         token.type = MCTokenFloat;
-        token.value.Double = atof(word);
+        double dval = atof(word);
+        if (dval != dval) {
+            //NaN
+            token.value.Double = 0.0f;
+        } else {
+            token.value.Double = atof(word);
+        }
     }
     else if (isInteger(word) == true) {
         token.type = MCTokenInteger;

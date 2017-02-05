@@ -42,6 +42,18 @@ method(MCMesh, void, bye, voida)
     }
 }
 
+method(MCMesh, void, allocVertexBuffer, GLsizei vertexCount)
+{
+    obj->vertexCount = vertexCount ;
+    obj->vertexDataSize = obj->vertexCount * 11 * sizeof(GLfloat);
+    if (obj->vertexDataSize != 0) {
+        obj->vertexDataPtr = (GLfloat*)malloc(obj->vertexDataSize);
+        memset(obj->vertexDataPtr, 0, obj->vertexDataSize);
+    }else{
+        obj->vertexDataPtr = null;
+    }
+}
+
 method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, GLsizei vertexCount)
 {
     //debug_log("MCMesh - initWithDefaultVertexAttributes\n");
@@ -55,28 +67,10 @@ method(MCMesh, MCMesh*, initWithDefaultVertexAttributes, GLsizei vertexCount)
         MCVertexAttribTexCoord0,2, GL_FLOAT, GL_FALSE, 44, MCBUFFER_OFFSET(36)};
     
     //alloc vertex buffer
-    obj->vertexCount = vertexCount;
-    obj->vertexDataSize = obj->vertexCount * 11 * sizeof(GLfloat);
-    if (obj->vertexDataSize != 0) {
-        obj->vertexDataPtr = (GLfloat*)malloc(obj->vertexDataSize);
-    }else{
-        obj->vertexDataPtr = null;
-    }
+    MCMesh_allocVertexBuffer(0, obj, vertexCount);
     //obj->vertexIndexes = (GLuint*)malloc(sizeof(GLuint)*obj->vforertexCount);
     
     return obj;
-}
-
-method(MCMesh, void, allocVertexBuffer, GLsizei vertexCount)
-{
-    obj->vertexCount = vertexCount ;
-    obj->vertexDataSize = obj->vertexCount * 11 * sizeof(GLfloat);
-    if (obj->vertexDataSize != 0) {
-        obj->vertexDataPtr = (GLfloat*)malloc(obj->vertexDataSize);
-        memset(obj->vertexDataPtr, 0, obj->vertexDataSize);
-    }else{
-        obj->vertexDataPtr = null;
-    }
 }
 
 method(MCMesh, void, setVertex, GLuint offset, MCMeshVertexData* data)

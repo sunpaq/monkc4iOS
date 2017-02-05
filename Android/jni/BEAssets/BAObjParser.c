@@ -43,6 +43,9 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
                     meta->group_starts[meta->group_count] = meta->face_count;
                     meta->group_count++;
                 }
+                else if (MCStringEqualN(word, "s", 1)) {
+                    //smooth group
+                }
                 else if (MCStringEqualN(word, "mtllib", 6)) {
                     meta->mtllib_count++;
                 }
@@ -68,6 +71,7 @@ void parseObj(BAObj* object, const char* file)
         size_t fcursor = 0;
         //size_t mcursor = 0;
         size_t ucursor = 0;
+        
         BAMtlLibrary* current_mtllib = null;
         
         char line[LINE_MAX]; char* c = (char*)file;
@@ -139,6 +143,16 @@ void parseObj(BAObj* object, const char* file)
                     }
                     else if (MCStringEqualN(word, "g", 1)) {
                         nextWordsInThisLine(&remain, word);
+                        continue;
+                    }
+                    else if (MCStringEqualN(word, "s", 1)) {
+                        MCToken token = tokenize(nextWord(&remain, word));
+                        if (token.type == MCTokenInteger && token.value.Integer != 0) {
+                            object->shouldCalculateNormal = true;
+                        }
+                        if (token.type == MCTokenIdentifier && !MCStringEqualN("off", token.value.Word, 3)) {
+                            object->shouldCalculateNormal = true;
+                        }
                         continue;
                     }
                     else if (MCStringEqualN(word, "o", 1)) {

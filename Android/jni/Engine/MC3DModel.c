@@ -88,6 +88,11 @@ function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, 
     MCVector3 v, n;
     MCVector2 t;
 
+    if (buff->shouldCalculateNormal) {
+        n = MCNormalOfTriangle(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1], buff->vertexbuff[e.vi+2]);
+        mesh->calculatedNormal = true;
+    }
+    
     if (e.vi <= 0) {
         error_log("MC3DFileParser: invalide vertex data!\n");
     }else{
@@ -95,8 +100,7 @@ function(void, meshLoadFaceElement, MCMesh* mesh, BAObj* buff, BAFaceElement e, 
     }
     
     if (e.ni <= 0) {
-        n = MCNormalOfTriangle(buff->vertexbuff[e.vi], buff->vertexbuff[e.vi+1], buff->vertexbuff[e.vi+2]);
-        mesh->calculatedNormal = true;
+        //
     }else{
         n = MCVector3From4(buff->normalbuff[e.ni-1]);
     }

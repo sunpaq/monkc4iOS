@@ -92,7 +92,9 @@ typedef struct BAObjStruct {
     MCVector3* vertexbuff;
     MCVector2* texcoorbuff;
     MCVector4* normalbuff;//use w record times
-    size_t  normal_count;
+    size_t normal_count;
+    MCBool shouldCalculateNormal;
+    
     //faces
     BAFace* facebuff;
     size_t  facecount;
@@ -130,6 +132,7 @@ MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
         buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (meta->texcoord_count));
         buff->normalbuff  = (MCVector4*)malloc(sizeof(MCVector4) * (meta->normal_count));
         buff->normal_count = meta->normal_count;
+        buff->shouldCalculateNormal = false;
         buff->facebuff    = (BAFace*)malloc(sizeof(BAFace)       * (meta->face_count));
         buff->facecount   = meta->face_count;
         //buff->mlibbuff    = (BAMtlLibrary*)malloc(sizeof(BAMtlLibrary) * meta->mtllib_count);
