@@ -11,6 +11,9 @@ class(MCCamera, MC3DNode,
     double view_angle;
     //double max_distance;
     MCVector3 lookat;
+    MCVector3 eye;
+    MCVector3 up;
+
     //local spherical coordinate
     //R[0,unlimited) tht[0, 180.0), fai[0, 360.0)
     double R_value;

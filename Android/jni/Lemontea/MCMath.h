@@ -71,7 +71,9 @@ typedef union {
         float w;
     };
     float v[4];
-} MCVector4;
+} MCVector4, MCQuaternion;
+
+
 
 MCInline MCBool MCVector3PositiveNonZero(MCVector3 vec3)
 {
@@ -111,6 +113,13 @@ MCInline MCBool MCVector4Equal(MCVector4 v1, MCVector4 v2)
     }
     return false;
 }
+
+MCInline MCQuaternion MCQuaternionFromVec3(MCVector3 v)
+{
+    return (MCQuaternion){v.x, v.y, v.z, 0.0f};
+}
+
+
 
 /*
  copy from Apple GLKit
@@ -226,6 +235,75 @@ MCInline MCVector3 MCVector3Cross(MCVector3 v1, MCVector3 v2) {
     return (MCVector3){v1.y*v2.z - v2.y*v1.z,
         v2.x*v1.z - v1.x*v2.z,
         v1.x*v2.y - v2.x*v1.y};
+}
+
+MCInline MCQuaternion MCQuaternionGProduct(MCQuaternion p, MCQuaternion q)
+{
+    float pscalar = p.w;
+    float qscalar = q.w;
+    
+    MCVector3 pvector = (MCVector3){p.x, p.y, p.z};
+    MCVector3 qvector = (MCVector3){q.x, q.y, q.z};
+    MCVector3 pxq = MCVector3Cross(pvector, qvector);
+    
+    return (MCQuaternion) {
+        pscalar * qvector.x + qscalar * pvector.x + pxq.x,
+        pscalar * qvector.y + qscalar * pvector.y + pxq.y,
+        pscalar * qvector.z + qscalar * pvector.z + pxq.z,
+        pscalar * qscalar - MCVector3Dot(pvector, qvector)
+    };
+}
+
+MCInline MCQuaternion MCQuaternionArrayGProduct(MCQuaternion p, MCQuaternion* qarray, int count)
+{
+    if (count < 1) {
+        return p;
+    }
+    MCQuaternion q = p;
+    for (int i=0; i<count; i++) {
+        q = MCQuaternionGProduct(q, qarray[i]);
+    }
+    return q;
+}
+
+MCInline MCQuaternion MCQuaternionConjugate(MCQuaternion q)
+{
+    return (MCQuaternion) { -q.x, -q.y, -q.z, q.w };
+}
+
+MCInline MCQuaternion MCQuaternionFromAxisAngle(MCVector3 axis, double tht)
+{
+    double tht2 = tht / 2.0f;
+    double radius = MCDegreesToRadians(tht2);
+    return (MCQuaternion) {
+        axis.x * sin(radius),
+        axis.y * sin(radius),
+        axis.z * sin(radius),
+        cos(radius)
+    };
+}
+
+MCInline MCQuaternion MCQuaternionByAxisAngles(double x, double y, double z)
+{
+    MCQuaternion xq = MCQuaternionFromAxisAngle(MCVector3Make(1.0, 0.0, 0.0), x);
+    MCQuaternion yq = MCQuaternionFromAxisAngle(MCVector3Make(0.0, 1.0, 0.0), y);
+    MCQuaternion zq = MCQuaternionFromAxisAngle(MCVector3Make(0.0, 0.0, 1.0), z);
+    
+    MCQuaternion qarray[2] = {yq, zq};
+    
+    return MCQuaternionArrayGProduct(xq, qarray, 2);
+}
+
+MCInline MCVector3 MCVector3RotateByQuaternion(MCVector3 v, MCQuaternion q)
+{
+    MCQuaternion r1 = MCQuaternionGProduct(q, (MCQuaternion){v.x, v.y, v.z, 0.0f});
+    MCQuaternion r2 = MCQuaternionGProduct(r1, MCQuaternionConjugate(q));
+    return (MCVector3){r2.x, r2.y, r2.z};
+}
+
+MCInline MCVector3 MCVector3RotateByAxisAngles(MCVector3 v, double x, double y, double z)
+{
+    return MCVector3RotateByQuaternion(v, MCQuaternionByAxisAngles(x,y,z));
 }
 
 MCInline MCVector3 MCNormalOfTriangle(MCVector3 v1, MCVector3 v2, MCVector3 v3) {
