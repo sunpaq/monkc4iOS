@@ -84,6 +84,43 @@ method(MC3DNode, void, setAllVisible, MCBool visible)
     }
 }
 
+method(MC3DNode, void, changeMatrial, MCMaterial* material)
+{
+    release(obj->material);
+    obj->material = material;
+}
+
+method(MC3DNode, void, changeTexture, MCTexture* texture)
+{
+    release(obj->texture);
+    obj->texture = texture;
+}
+
+method(MC3DNode, void, translate, MCVector3* position)
+{
+    obj->transform = MCMatrix4Multiply(MCMatrix4MakeTranslation(position->x, position->y, position->z), obj->transform);
+}
+
+method(MC3DNode, void, rotateX, double degree)
+{
+    //obj->transform = MCMatrix4Multiply(MCMatrix4MakeXAxisRotation(degree), obj->transform);
+}
+
+method(MC3DNode, void, rotateY, double degree)
+{
+    //obj->transform = MCMatrix4Multiply(MCMatrix4MakeYAxisRotation(degree), obj->transform);
+}
+
+method(MC3DNode, void, rotateZ, double degree)
+{
+    //obj->transform = MCMatrix4Multiply(MCMatrix4MakeZAxisRotation(degree), obj->transform);
+}
+
+method(MC3DNode, void, scale, MCVector3* factors)
+{
+    obj->transform = MCMatrix4Multiply(MCMatrix4MakeScale(factors->x, factors->y, factors->z), obj->transform);
+}
+
 method(MC3DNode, void, update, MCGLContext* ctx)
 {
     MCGLUniform f;
@@ -158,6 +195,13 @@ onload(MC3DNode)
         binding(MC3DNode, void, cleanUnvisibleChild, voida);
         binding(MC3DNode, int, childCount, voida);
         binding(MC3DNode, void, setAllVisible, MCBool visible);
+        binding(MC3DNode, void, changeMatrial, MCMaterial* material);
+        binding(MC3DNode, void, changeTexture, MCTexture* texture);
+        binding(MC3DNode, void, translate, MCVector3* position);
+        binding(MC3DNode, void, rotateX, double degree);
+        binding(MC3DNode, void, rotateY, double degree);
+        binding(MC3DNode, void, rotateZ, double degree);
+        binding(MC3DNode, void, scale, MCVector3* factors);
         binding(MC3DNode, void, update, voida);
         binding(MC3DNode, void, draw, voida);
         binding(MC3DNode, void, hide, voida);

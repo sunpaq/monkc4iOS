@@ -43,6 +43,12 @@ method(MC3DNode, void, setAllVisible, MCBool visible);
 method(MC3DNode, void, changeMatrial, MCMaterial* material);
 method(MC3DNode, void, changeTexture, MCTexture* texture);
 
+method(MC3DNode, void, translate, MCVector3* position);
+method(MC3DNode, void, rotateX, double degree);
+method(MC3DNode, void, rotateY, double degree);
+method(MC3DNode, void, rotateZ, double degree);
+method(MC3DNode, void, scale, MCVector3* factors);
+
 //draw
 method(MC3DNode, void, update, MCGLContext* ctx);
 method(MC3DNode, void, draw, MCGLContext* ctx);

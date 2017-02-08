@@ -175,10 +175,6 @@ void onSetupGL(int windowWidth, int windowHeight)
         }
 
         mainScene->mainCamera->R_value = 20;
-        mainScene->mainCamera->tht = 60;
-        mainScene->mainCamera->fai = 45;
-
-        //superof(mainScene)->nextResponder = (MCObject*)director;
 
         ff(director, pushScene, mainScene);
         

@@ -17,13 +17,13 @@ oninit(MCCamera)
         //local spherical coordinate
         var(R_value) = 100;
         var(R_percent) = 1.0;
-        var(tht) = 60.0;
-        var(fai) = 45.0;
+        var(tht) = 90;
+        var(fai) = 0;
         
         //view
         var(lookat) = MCVector3Make(0,0,0);
-        var(eye) = MCVector3Make(0.0,0.0,obj->R_value);
-        var(up) = MCVector3Make(0.0,1.0,0.0);
+        var(eye) = MCVector3Make(0.0,obj->R_value,0.0);
+        var(up)  = MCVector3Make(0.0,0.0,-1.0);
         
         var(Radius) = Radius;
         var(normal) = normal;
@@ -32,8 +32,14 @@ oninit(MCCamera)
         var(projectionMatrix) = projectionMatrix;
         var(currentPosition) = currentPosition;
         
-        var(isReverseMovement) = true;
-        var(isLockRotation) = false;        
+        var(isReverseMovement) = false;
+        var(isLockRotation) = false;
+        
+        //transform
+//        MCVector3 pos = {0,10,10};
+//        MC3DNode_rotateX(0, sobj, -45);
+//        MC3DNode_translate(0, sobj, &pos);
+        
         return obj;
     }else{
         return null;
@@ -62,33 +68,19 @@ compute(MCMatrix3, normal)
 compute(MCMatrix4, viewMatrix)
 {
     as(MCCamera);
-    
-    MCVector3 modelpos = var(lookat);
-//    MCVector3 eyelocal = MCVertexFromSpherical(obj->Radius(obj), var(tht), var(fai));
-//    MCVector3 eye = MCWorldCoorFromLocal(eyelocal, modelpos);
-//
-//    MCVector3 up = (MCVector3){0.0, 1.0, 0.0};
-//    if (var(tht) > 0.0 && var(tht) < 90.0) {
-//        MCVector3 Npole = MCVector3Make(0, cpt(Radius)/MCCosDegrees(var(tht)), 0);
-//        up = (MCVector3){Npole.x-eye.x, Npole.y-eye.y, Npole.z-eye.z};
-//    }
-//    else if (var(tht) > 90.0 && var(tht) < 180.0) {
-//        MCVector3 Spole = MCVector3Make(0, -cpt(Radius)/MCCosDegrees(180.0-var(tht)), 0);
-//        up = (MCVector3){eye.x-Spole.x, eye.y-Spole.y, eye.z-Spole.z};
-//    }
-    
     double R = cpt(Radius);
-    double eyeh = R * cos(M_PI_4);
     
-    MCQuaternion q = MCQuaternionByAxisAngles(obj->tht, obj->fai, 0.0);
-    obj->eye = MCVector3RotateByQuaternion(MCVector3Make(0.0, eyeh, R), q);
-    obj->up  = MCVector3RotateByQuaternion(MCVector3Make(0.0, 1.0, 0.0), q);
+    MCQuaternion q = MCQuaternionByAxisAngles(obj->tht, 0, obj->fai);
+    obj->eye = MCVector3RotateByQuaternion(MCVector3Make(0.0, R, 0.0), q);
+    obj->up  = MCVector3RotateByQuaternion(MCVector3Make(0.0, 0.0, -1.0), q);
     
+    MCVector3 lat = obj->lookat;
     MCVector3 eye = obj->eye;
     MCVector3 up  = obj->up;
     return MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
-                               modelpos.x, modelpos.y, modelpos.z,
-                               up.x, up.y, up.z);
+                               lat.x, lat.y, lat.z,
+                               up.x,  up.y,  up.z);
+    
 }
 
 compute(MCMatrix4, projectionMatrix)
@@ -110,7 +102,7 @@ compute(MCMatrix4, projectionMatrix)
 compute(MCVector3, currentPosition)
 {
     as(MCCamera);
-    return MCWorldCoorFromLocal(MCVertexFromSpherical(cpt(Radius), var(tht), var(fai)), var(lookat));
+    return obj->eye;
 }
 
 method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height)
@@ -155,31 +147,12 @@ method(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht)
     }
     
     if (var(isReverseMovement)) {
-        obj->fai += deltaFai.f;   //Left
-        obj->tht += deltaTht.f;   //Up
-    }else{
         obj->fai -= deltaFai.f;   //Left
         obj->tht -= deltaTht.f;   //Up
+    }else{
+        obj->fai += deltaFai.f;   //Left
+        obj->tht += deltaTht.f;   //Up
     }
-    
-
-
-    
-//    if (var(isReverseMovement)) {
-//        obj->fai += deltaFai.f;   //Left
-//        obj->tht += deltaTht.f;   //Up
-//    }else{
-//        obj->fai -= deltaFai.f;   //Left
-//        obj->tht -= deltaTht.f;   //Up
-//    }
-//    
-//    //keep the tht -180 ~ 180
-//    if (obj->tht < -179.99) {
-//        obj->tht = -179.99;
-//    }
-//    if (obj->tht > 179.99) {
-//        obj->tht = 179.99;
-//    }
 }
 
 method(MCCamera, void, fucus, MCFloat deltaX, MCFloat deltaY)
