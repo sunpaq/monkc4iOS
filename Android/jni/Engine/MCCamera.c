@@ -68,19 +68,7 @@ compute(MCMatrix3, normal)
 compute(MCMatrix4, viewMatrix)
 {
     as(MCCamera);
-    double R = cpt(Radius);
-    
-    MCQuaternion q = MCQuaternionByAxisAngles(obj->tht, 0, obj->fai);
-    obj->eye = MCVector3RotateByQuaternion(MCVector3Make(0.0, R, 0.0), q);
-    obj->up  = MCVector3RotateByQuaternion(MCVector3Make(0.0, 0.0, -1.0), q);
-    
-    MCVector3 lat = obj->lookat;
-    MCVector3 eye = obj->eye;
-    MCVector3 up  = obj->up;
-    return MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
-                               lat.x, lat.y, lat.z,
-                               up.x,  up.y,  up.z);
-    
+    return MCMatrix4MakeLookAtByEulerAngle_EyeUp(obj->lookat, cpt(Radius), obj->fai, obj->tht, &obj->eye, &obj->up);
 }
 
 compute(MCMatrix4, projectionMatrix)

@@ -119,7 +119,10 @@ MCInline MCQuaternion MCQuaternionFromVec3(MCVector3 v)
     return (MCQuaternion){v.x, v.y, v.z, 0.0f};
 }
 
-
+MCInline MCQuaternion MCQuaternionZero()
+{
+    return (MCQuaternion){0,0,0,0};
+}
 
 /*
  copy from Apple GLKit
@@ -271,27 +274,37 @@ MCInline MCQuaternion MCQuaternionConjugate(MCQuaternion q)
     return (MCQuaternion) { -q.x, -q.y, -q.z, q.w };
 }
 
-MCInline MCQuaternion MCQuaternionFromAxisAngle(MCVector3 axis, double tht)
+MCInline MCQuaternion MCQuaternionFromAxisAngle_Radian(MCVector3 axis, double radian)
 {
-    double tht2 = tht / 2.0f;
-    double radius = MCDegreesToRadians(tht2);
+    double r = radian / 2.0f;
     return (MCQuaternion) {
-        axis.x * sin(radius),
-        axis.y * sin(radius),
-        axis.z * sin(radius),
-        cos(radius)
+        axis.x * sin(r),
+        axis.y * sin(r),
+        axis.z * sin(r),
+        cos(r)
     };
 }
 
-MCInline MCQuaternion MCQuaternionByAxisAngles(double x, double y, double z)
+MCInline MCQuaternion MCQuaternionFromAxisAngle(MCVector3 axis, double tht)
 {
-    MCQuaternion xq = MCQuaternionFromAxisAngle(MCVector3Make(1.0, 0.0, 0.0), x);
-    MCQuaternion yq = MCQuaternionFromAxisAngle(MCVector3Make(0.0, 1.0, 0.0), y);
-    MCQuaternion zq = MCQuaternionFromAxisAngle(MCVector3Make(0.0, 0.0, 1.0), z);
+    return MCQuaternionFromAxisAngle_Radian(axis, MCDegreesToRadians(tht));
+}
+
+MCInline MCQuaternion MCQuaternionByAxisAngles_Radian(double z, double y, double x)
+{
+    //roll yaw pitch => z y x
+    MCQuaternion zq = MCQuaternionFromAxisAngle_Radian(MCVector3Make(0.0, 0.0, 1.0), z);
+    MCQuaternion yq = MCQuaternionFromAxisAngle_Radian(MCVector3Make(0.0, 1.0, 0.0), y);
+    MCQuaternion xq = MCQuaternionFromAxisAngle_Radian(MCVector3Make(1.0, 0.0, 0.0), x);
     
-    MCQuaternion qarray[2] = {yq, zq};
+    MCQuaternion qarray[2] = {yq, xq};
     
-    return MCQuaternionArrayGProduct(xq, qarray, 2);
+    return MCQuaternionArrayGProduct(zq, qarray, 2);
+}
+
+MCInline MCQuaternion MCQuaternionByAxisAngles(double z, double y, double x)
+{
+    return MCQuaternionByAxisAngles_Radian(MCDegreesToRadians(z), MCDegreesToRadians(y), MCDegreesToRadians(x));
 }
 
 MCInline MCVector3 MCVector3RotateByQuaternion(MCVector3 v, MCQuaternion q)
@@ -301,9 +314,9 @@ MCInline MCVector3 MCVector3RotateByQuaternion(MCVector3 v, MCQuaternion q)
     return (MCVector3){r2.x, r2.y, r2.z};
 }
 
-MCInline MCVector3 MCVector3RotateByAxisAngles(MCVector3 v, double x, double y, double z)
+MCInline MCVector3 MCVector3RotateByAxisAngles(MCVector3 v, double z, double y, double x)
 {
-    return MCVector3RotateByQuaternion(v, MCQuaternionByAxisAngles(x,y,z));
+    return MCVector3RotateByQuaternion(v, MCQuaternionByAxisAngles(z,y,x));
 }
 
 MCInline MCVector3 MCNormalOfTriangle(MCVector3 v1, MCVector3 v2, MCVector3 v3) {

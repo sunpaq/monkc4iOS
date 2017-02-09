@@ -192,19 +192,20 @@ void onTearDownGL()
     director = null;
 }
 
-void onUpdate(double roll, double yaw, double pitch)
+void onUpdate(double x, double y, double z, double w)
 {
     //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
     //MCLogTypeSet(MC_SILENT);
     if (director != null) {
 
     	if (computed(director->lastScene, isDrawSky)) {
+            
             if (director->currentWidth < director->currentHeight) {
-                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera,
-                                           MCFloatF(roll*360), MCFloatF((pitch-1)*45));
+                MCQuaternion q = {x,y,z,w};
+                MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
             }else{
-                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera,
-                                           MCFloatF(pitch*360), MCFloatF((roll-1)*45));
+                MCQuaternion q = {x,y,z,w};
+                MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
             }
     	}
 

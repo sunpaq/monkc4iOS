@@ -187,7 +187,7 @@
 
     if ([self.motionManager isAccelerometerAvailable]) {
         self.motionManager.deviceMotionUpdateInterval = 1.0 / 60.0;
-        [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXMagneticNorthZVertical];
+        [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
     }
 }
 
@@ -210,9 +210,9 @@
     
     //monkc update
     if (att) {
-        onUpdate(att.roll, att.yaw, att.pitch);
+        onUpdate(att.quaternion.x, att.quaternion.y, att.quaternion.z, att.quaternion.w);
     }else{
-        onUpdate(0.0, 0.0, 0.0);
+        onUpdate(0.0, 0.0, 0.0, 0.0);
     }
 }
 
