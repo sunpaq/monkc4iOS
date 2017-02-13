@@ -40,11 +40,12 @@ function(void, rawdataToTexbuffer, GLenum textype)
     if (obj->data->raw) {
         if (obj->data->channels == 4) {
             glTexImage2D(textype, 0, GL_RGBA, obj->width, obj->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, obj->data->raw);
+            glGenerateMipmap(textype);
         }
-        if (obj->data->channels == 3) {
+        else if (obj->data->channels == 3) {
             glTexImage2D(textype, 0, GL_RGB, obj->width, obj->height, 0, GL_RGB, GL_UNSIGNED_BYTE, obj->data->raw);
+            glGenerateMipmap(textype);
         }
-        glGenerateMipmap(textype);
     }
 }
 
