@@ -189,7 +189,8 @@ BAMtlLibrary* BAMtlLibraryNew(const char* filename)
         char line[LINE_MAX];
         char* c = (char*)assetbuff;
         while (*c!=NUL) {
-            if(*c == MCNewLineN || *c == MCNewLineR) {
+            //skip '\n' '\r\n' '\t' ' '
+            if (*c==MCNewLineN || *c==MCNewLineR || *c==MCTab || *c==MCWhiteSpace) {
                 c++; continue;
             }
             for (int i=0; !isNewLine(c); c++) {

@@ -32,6 +32,7 @@ typedef struct {
     MCTokenValue value;
 } MCToken;
 
+static const char  MCTab = '\t';
 static const char  MCWhiteSpace = ' ';
 static const char  MCNewLineN = '\n';
 static const char  MCNewLineR = '\r';
@@ -52,7 +53,7 @@ MCInline size_t MCLexerFill(char* const dest, const char* src)
 MCInline const char* trimWhiteSpace(const char** target_p)
 {
     const char* iter = *target_p;
-    while (*iter == MCWhiteSpace)
+    while (*iter == MCWhiteSpace || *iter == MCTab)
         iter++;
     *target_p = iter;//update remain
     return iter;
@@ -61,7 +62,7 @@ MCInline const char* trimWhiteSpace(const char** target_p)
 MCInline const char* trimWhiteSpaceNewline(const char** target_p)
 {
     const char* iter = *target_p;
-    while (*iter == MCWhiteSpace || *iter == MCNewLineN || *iter == MCNewLineR)
+    while (*iter == MCWhiteSpace || *iter == MCTab || *iter == MCNewLineN || *iter == MCNewLineR)
         iter++;
     *target_p = iter;//update remain
     return iter;
@@ -257,7 +258,7 @@ MCInline MCToken tokenize(const char* word)
 
 MCInline const char* readNext(const char** target_p, char buff[], MCBool isUpdate)
 {
-    const char* str = trimWhiteSpaceNewline(target_p);//skip whitespace
+    const char* str = trimWhiteSpace(target_p);//skip whitespace
     int i = 0;
     while ( (*str != MCWhiteSpace) && !isNewLine(str) && (*str != NUL) ) {
         buff[i++] = *str++;
@@ -271,10 +272,7 @@ MCInline const char* readNext(const char** target_p, char buff[], MCBool isUpdat
 
 MCInline const char* readNextInThisLine(const char** target_p, char buff[], MCBool isUpdate)
 {
-    const char* str = *target_p;
-    if (*str == MCWhiteSpace) {
-        str++;
-    }
+    const char* str = trimWhiteSpace(target_p);//skip whitespace
     int i = 0;
     while ( !isNewLine(str) && (*str != NUL) ) {
         buff[i++] = *str++;
@@ -306,7 +304,7 @@ MCInline const char* skipNext(const char** target_p)
 {
     const char* str = trimWhiteSpaceNewline(target_p);//skip whitespace
     const char* iter = str;
-    while (*iter != MCWhiteSpace)
+    while (*iter != MCWhiteSpace || *iter != MCTab)
         iter++;
     *target_p = iter;//update remain
     return str;

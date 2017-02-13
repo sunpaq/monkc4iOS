@@ -11,8 +11,8 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
     if (meta && buff) {
         char line[LINE_MAX]; char* c = (char*)buff;
         while (*c!=NUL) {
-            //skip '\n' when '\r\n'
-            if (*c==MCNewLineN || *c==MCNewLineR) {
+            //skip '\n' '\r\n' '\t' ' '
+            if (*c==MCNewLineN || *c==MCNewLineR || *c==MCTab || *c==MCWhiteSpace) {
                 c++; continue;
             }
             for (int i=0; !isNewLine(c); c++) {
@@ -76,8 +76,8 @@ void parseObj(BAObj* object, const char* file)
         
         char line[LINE_MAX]; char* c = (char*)file;
         while (*c != NUL && *c != EOF) {
-            //skip '\n' when '\r\n'
-            if (*c==MCNewLineN || *c==MCNewLineR) {
+            //skip '\n' '\r\n' '\t' ' '
+            if (*c==MCNewLineN || *c==MCNewLineR || *c==MCTab || *c==MCWhiteSpace) {
                 c++; continue;
             }
             for (int i=0; !isNewLine(c); c++) {

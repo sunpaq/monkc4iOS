@@ -35,9 +35,6 @@ utility(MCString, size_t, replace, const char* str, const char* withstr, const c
 
 utility(MCString, size_t, reverse, const char* str, char (*buff)[])
 {
-    if (*str == MCWhiteSpace) {
-        str++;
-    }
     size_t count = strlen(str);
     char* c = (char*)&str[count-1];
     for (int i=0; i<count; i++) {
@@ -175,10 +172,8 @@ utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[
 
 utility(MCString, const char*, filenameTrimExtension, const char* name, char* buff)
 {
+    trimWhiteSpace(&name);
     int i=0;
-    if (*name == MCWhiteSpace) {
-        i++;
-    }
     while (*name != '.' && *name != NUL) {
         buff[i++] = *name;
         name++;
