@@ -35,7 +35,7 @@
     GLKView *view = (GLKView *)self.view;
     view.context = self.context;
     view.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat16;
+    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     view.drawableStencilFormat = GLKViewDrawableStencilFormat8;
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"MAAOn"]) {
         view.drawableMultisample = GLKViewDrawableMultisample4X;
