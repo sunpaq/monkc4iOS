@@ -165,6 +165,7 @@ function(void, setDefaultMaterialForNode, MC3DNode* node)
         node->material->specularLightPower = 16.0f;
         node->material->dissolve           = 1.0f;
         node->material->hidden             = 0;
+        node->material->illum              = 2;
         
         MCStringFill(node->material->tag, "Default");
         node->material->dataChanged = true;
@@ -184,6 +185,7 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
         node->material->specularLightPower = mtl->specularExponent;
         node->material->dissolve           = mtl->dissolveFactor;
         node->material->hidden             = mtl->hidden;
+        node->material->illum              = mtl->illumModelNum;
         
         MCStringFill(node->material->tag, mtl->name);
         node->material->dataChanged = true;

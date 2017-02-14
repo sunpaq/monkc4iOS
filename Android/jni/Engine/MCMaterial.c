@@ -19,6 +19,7 @@ oninit(MCMaterial)
         obj->specularLightPower = 32.0;
         obj->dissolve = 1.0;
         obj->hidden   = 0;
+        obj->illum    = 2;
         obj->dataChanged = true;
         
         obj->tag[0] = NUL;
@@ -30,6 +31,7 @@ oninit(MCMaterial)
 
 method(MCMaterial, void, prepareMatrial, MCGLContext* ctx)
 {
+    //set up once part
     if (obj->dataChanged == true) {
         MCGLContext_activateShaderProgram(0, ctx, 0);
         
@@ -56,6 +58,9 @@ method(MCMaterial, void, prepareMatrial, MCGLContext* ctx)
 
         obj->dataChanged = false;
     }
+    //set each time
+    glUniform1i(glGetUniformLocation(ctx->pid, "illum"), obj->illum);
+
 }
 
 onload(MCMaterial)

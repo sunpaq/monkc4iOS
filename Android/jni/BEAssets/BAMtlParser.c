@@ -61,6 +61,27 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     return 0;//next line
                 }
                 //LSLightColor
+                else if (MCStringEqualN(word, "illum", 5)) {
+                    token = tokenize(nextWord(&remain, word));
+                    material = currentMaterial(lib);
+                    if (material) {
+                        if (token.type == MCTokenIdentifier) {
+                            if (MCStringEqualN(token.value.Word, "illum_", 6)) {
+                                char* num = &token.value.Word[6];
+                                int n = atoi(num);
+                                if (n >= 0 && n <= 10) {
+                                    material->illumModelNum = n;
+                                }
+                            }
+                        }
+                        else if (token.type == MCTokenInteger) {
+                            int n = (int)token.value.Integer;
+                            if (n >= 0 && n <= 10) {
+                                material->illumModelNum = n;
+                            }
+                        }
+                    }
+                }
                 //Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
                 else if (MCStringEqualN(word, "K", 1) || MCStringEqualN(word, "Tf", 2)) {
                     BALightColor* light = null;

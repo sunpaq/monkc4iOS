@@ -21,6 +21,7 @@ class(MCMaterial, MCObject,
       double      specularLightPower;
       double      dissolve;
       int         hidden;
+      int         illum;
       char        tag[256];
 );
 

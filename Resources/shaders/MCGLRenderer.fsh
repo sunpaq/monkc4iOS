@@ -25,6 +25,7 @@ uniform lowp float material_shininess;
 //texture sampling must in fragment shader
 uniform sampler2D texsampler;
 uniform bool usetexture;
+uniform int illum;
 
 void main()
 {
@@ -47,10 +48,56 @@ void main()
     lowp vec3 specular = (light_specular * light_color) * (specExp * material_specular) ;
     
     //Color Output
+    lowp vec3 color = vertexcolor;
+    lowp float alpha = 1.0;
     if (usetexture) {
         lowp vec4 texcolor = texture(texsampler, vec2(texturecoord.x, 1.0-texturecoord.y));
-        FragColor = vec4((ambient + diffuse) * texcolor.rgb, texcolor.a);
+        color = texcolor.rgb;
+        alpha = texcolor.a;
     } else {
-        FragColor = vec4((ambient + diffuse + specular) * vertexcolor, material_dissolve);
+        alpha = material_dissolve;
     }
+    
+    //Illuminate Mode
+    if (illum == 0) {
+        //color = Kd
+        FragColor = vec4((diffuse) * color, alpha);
+        return;
+    }
+    else if (illum == 1) {
+        //color = KaIa + Kd
+        FragColor = vec4((ambient + diffuse) * color, alpha);
+        return;
+    }
+    else if (illum == 2) {
+        FragColor = vec4((ambient + diffuse + specular) * color, alpha);
+        return;
+    }
+//    else if (illum == 3) {
+//        
+//    }
+//    else if (illum == 4) {
+//        
+//    }
+//    else if (illum == 5) {
+//        
+//    }
+//    else if (illum == 6) {
+//        
+//    }
+//    else if (illum == 7) {
+//        
+//    }
+//    else if (illum == 8) {
+//        
+//    }
+//    else if (illum == 9) {
+//        
+//    }
+//    else if (illum == 10) {
+//        
+//    }
+    
+    FragColor = vec4((ambient + diffuse + specular) * color, alpha);
+
 }
