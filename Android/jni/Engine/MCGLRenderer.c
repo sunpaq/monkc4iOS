@@ -132,9 +132,24 @@ method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode)
     if (rootnode != null) {
         ff(rootnode, draw, obj->context);
         //make FPS stable motion more smooth
-        MCGLEngine_flushCommandBlock(0);
-        //MCGLEngine_flushCommandAsync(0);
+        //MCGLEngine_flushCommandBlock(0);
+        MCGLEngine_flushCommandAsync(0);
     }
+}
+
+method(MCGLRenderer, void, drawMesh, MCMesh* mesh)
+{
+
+}
+
+method(MCGLRenderer, void, drawMaterial, MCMaterial* material)
+{
+    
+}
+
+method(MCGLRenderer, void, drawTexture, MCTexture* texture)
+{
+    
 }
 
 onload(MCGLRenderer)
@@ -146,6 +161,9 @@ onload(MCGLRenderer)
         binding(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader);
         binding(MCGLRenderer, void, updateNodes, MC3DNode* rootnode);
         binding(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
+        binding(MCGLRenderer, void, drawMesh, MCMesh* mesh);
+        binding(MCGLRenderer, void, drawMaterial, MCMaterial* material);
+        binding(MCGLRenderer, void, drawTexture, MCTexture* texture);
         return cla;
     }else{
         return null;

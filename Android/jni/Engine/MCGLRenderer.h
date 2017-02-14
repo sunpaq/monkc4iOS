@@ -31,6 +31,9 @@
 #include "MCGLBase.h"
 #include "MC3DNode.h"
 #include "MCGLContext.h"
+#include "MCMesh.h"
+#include "MCMaterial.h"
+#include "MCTexture.h"
 
 //uniform mat4  view.view;
 //uniform mat4  view.projection;
@@ -85,5 +88,8 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader,
 method(MCGLRenderer, void, updateNodes, MC3DNode* rootnode);
 method(MCGLRenderer, void, drawNodes, MC3DNode* rootnode);
 
+method(MCGLRenderer, void, drawMesh, MCMesh* mesh);
+method(MCGLRenderer, void, drawMaterial, MCMaterial* material);
+method(MCGLRenderer, void, drawTexture, MCTexture* texture);
 
 #endif /* MCGLRenderer_h */
