@@ -18,6 +18,7 @@ oninit(MCMaterial)
         obj->specularLightColor = MCVector3Make(1.0, 1.0, 1.0);
         obj->specularLightPower = 32.0;
         obj->dissolve = 1.0;
+        obj->hidden   = 0;
         obj->dataChanged = true;
         
         obj->tag[0] = NUL;

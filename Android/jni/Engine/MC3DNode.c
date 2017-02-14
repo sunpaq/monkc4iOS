@@ -144,6 +144,9 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
 {
     //material
     if (obj->material != null) {
+        if (obj->material->hidden == 1) {
+            return;
+        }
         obj->material->dataChanged = true;
         MCMaterial_prepareMatrial(0, obj->material, ctx);
     }

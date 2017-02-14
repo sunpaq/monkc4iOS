@@ -164,6 +164,7 @@ function(void, setDefaultMaterialForNode, MC3DNode* node)
         node->material->specularLightColor = MCVector3Make(0.5, 0.5, 0.5);
         node->material->specularLightPower = 16.0f;
         node->material->dissolve           = 1.0f;
+        node->material->hidden             = 0;
         
         MCStringFill(node->material->tag, "Default");
         node->material->dataChanged = true;
@@ -182,6 +183,7 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
         node->material->specularLightColor = specular;
         node->material->specularLightPower = mtl->specularExponent;
         node->material->dissolve           = mtl->dissolveFactor;
+        node->material->hidden             = mtl->hidden;
         
         MCStringFill(node->material->tag, mtl->name);
         node->material->dataChanged = true;
