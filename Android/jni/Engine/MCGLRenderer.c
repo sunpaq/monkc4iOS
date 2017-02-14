@@ -29,6 +29,10 @@ oninit(MCGLRenderer)
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(true);//CCW
 
+        // Enable blending
+        //glEnable(GL_BLEND);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        
         obj->context = new(MCGLContext);
 
         return obj;

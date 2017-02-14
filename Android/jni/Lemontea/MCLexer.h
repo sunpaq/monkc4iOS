@@ -304,7 +304,7 @@ MCInline const char* skipNext(const char** target_p)
 {
     const char* str = trimWhiteSpaceNewline(target_p);//skip whitespace
     const char* iter = str;
-    while (*iter != MCWhiteSpace || *iter != MCTab)
+    while (*iter != MCWhiteSpace)
         iter++;
     *target_p = iter;//update remain
     return str;
