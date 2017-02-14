@@ -145,15 +145,28 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     //state = LSScalar;
                 }
                 else if (MCStringEqualN(word, "d", 1)) {
-                    material = currentMaterial(lib);
                     token = tokenize(nextWord(&remain, word));
-                    if (token.type == MCTokenFloat) {
-                        material->dissolveFactor = (double)token.value.Double;
-                    }
-                    if (token.type == MCTokenInteger) {
-                        material->dissolveFactor = (double)token.value.Integer;
+                    material = currentMaterial(lib);
+                    if (material) {
+                        if (token.type == MCTokenFloat) {
+                            material->dissolveFactor = (double)token.value.Double;
+                        }
+                        if (token.type == MCTokenInteger) {
+                            material->dissolveFactor = (double)token.value.Integer;
+                        }
                     }
                     continue;
+                }
+                else if (MCStringEqualN(word, "ext_hidden", 10)) {
+                    token = tokenize(nextWord(&remain, word));
+                    material = currentMaterial(lib);
+                    if (material) {
+                        if (token.type == MCTokenIdentifier && MCStringEqualN(token.value.Word, "off", 3)) {
+                            material->hidden = 0;
+                        }else{
+                            material->hidden = 1;
+                        }
+                    }
                 }
                 else {
                     
