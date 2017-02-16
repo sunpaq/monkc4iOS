@@ -207,4 +207,121 @@ utility(MCGLEngine, void, tryUseShaderProgram, GLuint Id)
     }
 }
 
+utility(MCGLEngine, void, enableTransparency, MCBool enable)
+{
+    if (enable) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+    else {
+        glDisable(GL_BLEND);
+    }
+}
+
+utility(MCGLEngine, void, enablePolygonOffset, MCBool enable)
+{
+    if (enable) {
+        glEnable(GL_POLYGON_OFFSET_FILL);
+        glPolygonOffset(0, -1.0);
+    }
+    else {
+        glDisable(GL_POLYGON_OFFSET_FILL);
+    }
+}
+
+//Frame Rate (FPS)
+utility(MCGLEngine, int, tickFPS, MCClock* clock)
+{
+    static unsigned fcount = 0;
+    static clock_t elapse = 0;
+    static clock_t time, lastime;
+    
+    MCClock_getCPUClocksSinceStart(0, clock, &time);
+    if (elapse >= CLOCKS_PER_SEC ) {
+        unsigned result = fcount;
+        //reset
+        elapse = 0;
+        fcount = 0;
+        lastime = time;
+        
+        return result;
+    }else{
+        elapse += (time - lastime);
+        fcount++;
+        return -1;
+    }
+}
+
+//Shader
+utility(MCGLEngine, MCBool, compileShader, GLuint* shader, GLenum type, const GLchar *source)
+{
+    if (!source) {
+        return false;
+    }
+    GLint status;
+    
+    *shader = glCreateShader(type);
+    glShaderSource(*shader, 1, &source, NULL);
+    glCompileShader(*shader);
+    
+    GLint logLength;
+    glGetShaderiv(*shader, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetShaderInfoLog(*shader, logLength, &logLength, log);
+        printf("Shader compile log:\n%s", log);
+        free(log);
+    }
+    
+    glGetShaderiv(*shader, GL_COMPILE_STATUS, &status);
+    if (status == 0) {
+        glDeleteShader(*shader);
+        return false;
+    }
+    
+    return true;
+}
+
+utility(MCGLEngine, int, linkProgram, GLuint prog)
+{
+    GLint status;
+    glLinkProgram(prog);
+    
+    GLint logLength;
+    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetProgramInfoLog(prog, logLength, &logLength, log);
+        printf("Program link log:\n%s", log);
+        free(log);
+    }
+    
+    glGetProgramiv(prog, GL_LINK_STATUS, &status);
+    if (status == 0) {
+        return 0;
+    }
+    
+    return 1;
+}
+
+utility(MCGLEngine, int, validateProgram, GLuint prog)
+{
+    GLint logLength, status;
+    
+    glValidateProgram(prog);
+    glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0) {
+        GLchar *log = (GLchar *)malloc(logLength);
+        glGetProgramInfoLog(prog, logLength, &logLength, log);
+        printf("Program validate log:\n%s", log);
+        free(log);
+    }
+    
+    glGetProgramiv(prog, GL_VALIDATE_STATUS, &status);
+    if (status == 0) {
+        return 0;
+    }
+    
+    return 1;
+}
 

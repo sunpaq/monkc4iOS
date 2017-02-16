@@ -169,17 +169,7 @@ method(MCMesh, void, drawMesh, MCGLContext* ctx)
         if (var(vertexIndexes) != null) {
             glDrawElements(mode, 100, GL_UNSIGNED_INT, (GLvoid*)0);
         }else{
-            //Enable alpha blending
-            //glEnable(GL_BLEND);
-            //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            //Enable plygon offset handle Z-fighting problem
-            //glEnable(GL_POLYGON_OFFSET_FILL);
-            //glPolygonOffset(1.0f, -1.0f);
-            
             glDrawArrays(mode, 0, var(vertexCount));
-            
-            //glDisable(GL_BLEND);
-            //glDisable(GL_POLYGON_OFFSET_FILL);
         }
     }
     //Unbind
