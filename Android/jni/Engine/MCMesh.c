@@ -140,10 +140,13 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
             }
         }
         //Texture
-        if (ctx->textureRef) {
-            MCTexture_loadToGLBuffer(0, ctx->textureRef, 0);
+        if (ctx->diffuseTextureRef) {
+            MCTexture_loadToGLBuffer(0, ctx->diffuseTextureRef, 0);
         } else {
             glUniform1i(glGetUniformLocation(ctx->pid, "usetexture"), false);
+        }
+        if (ctx->specularTextureRef) {
+            MCTexture_loadToGLBuffer(0, ctx->specularTextureRef, 0);
         }
 
         //Unbind
@@ -156,8 +159,11 @@ method(MCMesh, void, drawMesh, MCGLContext* ctx)
 {
     glBindVertexArray(obj->VAO);
     //texture
-    if (ctx->textureRef) {
-        MCTexture_active(0, ctx->textureRef, ctx->pid);
+    if (ctx->diffuseTextureRef) {
+        MCTexture_active(0, ctx->diffuseTextureRef, ctx->pid, "diffuse_sampler");
+    }
+    if (ctx->specularTextureRef) {
+        MCTexture_active(0, ctx->diffuseTextureRef, ctx->pid, "specular_sampler");
     }
     //override draw mode
     GLenum mode = var(mode);

@@ -14,7 +14,7 @@
  Ka|Kd|Ks|Tf [xyz|spectral] rx gy bz | [file.rfl factor]
  */
 //return face count
-MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
+MCInline void processMtlLine(BAMtlLibrary* lib, const char* linebuff)
 {
     //debug_log("processMtlLine:%s\n", linebuff);
     
@@ -42,7 +42,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                 }
                 //texture
                 else if (MCStringEqualN(word, "map_Ka", 6)) {
-                    return 0;//next line
+                    return;//next line
                 }
                 else if (MCStringEqualN(word, "map_Kd", 6)) {
                     char name[256] = {};
@@ -52,13 +52,20 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     } else {
                         error_log("BAMtlParser - can not get filename form path: %s\n", remain);
                     }
-                    return 0;//next line
+                    return;//next line
                 }
                 else if (MCStringEqualN(word, "map_Ks", 6)) {
-                    return 0;//next line
+                    char name[256] = {};
+                    material = currentMaterial(lib);
+                    if (material && MCString_filenameFromPath(remain, &name)) {
+                        MCStringFill(material->specularMapName, name);
+                    } else {
+                        error_log("BAMtlParser - can not get filename form path: %s\n", remain);
+                    }
+                    return;//next line
                 }
                 else if (MCStringEqualN(word, "map_Ke", 6)) {
-                    return 0;//next line
+                    return;//next line
                 }
                 //LSLightColor
                 else if (MCStringEqualN(word, "illum", 5)) {
@@ -102,7 +109,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     }
                     if (!light) {
                         error_log("BAMtlParser - [%s] not light Ka/Kd/Ks\n", word);
-                        return 0;
+                        return;
                     }
                     light->Ctype = RGB;
                     
@@ -126,7 +133,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                                 }
                             }
                             //end line
-                            return 0;
+                            return;
                         }
                     }
                     //float value next
@@ -201,7 +208,7 @@ MCInline size_t processMtlLine(BAMtlLibrary* lib, const char* linebuff)
         }
     }
 
-    return 0;
+    return;
 }
 
 BAMtlLibrary* BAMtlLibraryNew(const char* filename)

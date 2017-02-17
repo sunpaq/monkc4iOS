@@ -89,9 +89,9 @@ method(MCTexture, void, loadToGLBuffer, voida)
     //freeRawdata(0, obj, 0);
 }
 
-method(MCTexture, void, active, GLuint pid)
+method(MCTexture, void, active, GLuint pid, const char* uniformName)
 {
-    glUniform1i(glGetUniformLocation(pid, "texsampler"), obj->textureUnit);
+    glUniform1i(glGetUniformLocation(pid, uniformName), obj->textureUnit);
     glUniform1i(glGetUniformLocation(pid, "usetexture"), true);
     
     MCGLEngine_activeTextureUnit(obj->textureUnit);
@@ -108,7 +108,7 @@ onload(MCTexture)
         
         binding(MCTexture, MCTexture*, initWithFileName, const char* name);
         binding(MCTexture, void, loadToGLBuffer, voida);
-        binding(MCTexture, void, active, GLuint pid);
+        binding(MCTexture, void, active, GLuint pid, const char* uniformName);
 
         return cla;
     }else{

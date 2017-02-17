@@ -24,6 +24,6 @@ class(MCTexture, MCObject,
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name);
 method(MCTexture, void, loadToGLBuffer, voida);
-method(MCTexture, void, active, GLuint pid);
+method(MCTexture, void, active, GLuint pid, const char* uniformName);
 
 #endif /* MCTexture_h */

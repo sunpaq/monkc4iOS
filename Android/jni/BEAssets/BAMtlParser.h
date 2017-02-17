@@ -124,6 +124,8 @@ typedef struct {
     char name[256];
     //map_Kd
     char diffuseMapName[256];
+    //map_Ks
+    char specularMapName[256];
     //light color
     BALightColor lightColors[5];
     //illumination model 0->10

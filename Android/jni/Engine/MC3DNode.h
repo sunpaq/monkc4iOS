@@ -25,8 +25,8 @@ class(MC3DNode, MCItem,
       MCVector3 center;
       MCMatrix4 transform;
       MCMaterial* material;
-      MCTexture* texture;
-      
+      MCTexture* diffuseTexture;
+      MCTexture* specularTexture;
       MCLinkedList* meshes;
       MCLinkedList* children;
 );

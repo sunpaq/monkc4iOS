@@ -18,7 +18,8 @@ oninit(MC3DNode)
         var(center) = MCVector3Make(0, 0, 0);
         var(transform) = MCMatrix4Identity();
         var(material) = null;
-        var(texture) = null;
+        var(diffuseTexture) = null;
+        var(specularTexture)= null;
         var(zorder) = -1;
         
         var(children) = new(MCLinkedList);
@@ -33,8 +34,8 @@ oninit(MC3DNode)
 method(MC3DNode, void, bye, voida)
 {
     release(var(material));
-    release(var(texture));
-    
+    release(var(diffuseTexture));
+    release(var(specularTexture));
     release(var(children));
     release(var(meshes));
 }
@@ -92,8 +93,8 @@ method(MC3DNode, void, changeMatrial, MCMaterial* material)
 
 method(MC3DNode, void, changeTexture, MCTexture* texture)
 {
-    release(obj->texture);
-    obj->texture = texture;
+    release(obj->diffuseTexture);
+    obj->diffuseTexture = texture;
 }
 
 method(MC3DNode, void, translate, MCVector3* position)
@@ -152,8 +153,11 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
     }
     
     //draw self texture
-    if (obj->texture != null) {
-        ctx->textureRef = obj->texture;
+    if (obj->diffuseTexture != null) {
+        ctx->diffuseTextureRef = obj->diffuseTexture;
+    }
+    if (obj->specularTexture != null) {
+        ctx->specularTextureRef = obj->specularTexture;
     }
     
     //batch setup

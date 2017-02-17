@@ -77,6 +77,7 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
             MCGLUniformVec1,
             
             MCGLUniformScalar,
+            MCGLUniformScalar
         },
         (const char* []){
             view_view,
@@ -98,8 +99,9 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
             material_dissolve,
             material_shininess,
             
-            texsampler
-        }, 16);
+            diffuse_sampler,
+            specular_sampler
+        }, 17);
     return obj;
 }
 

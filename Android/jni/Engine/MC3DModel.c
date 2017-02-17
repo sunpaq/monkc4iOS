@@ -206,7 +206,8 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
         MCMesh* mesh = createMeshWithBATriangles(0, null, triangles, tricount, buff, color);
         
         model->Super.material = new(MCMaterial);
-        model->Super.texture  = null;
+        model->Super.diffuseTexture  = null;
+        model->Super.specularTexture = null;
         MCLinkedList_addItem(0, model->Super.meshes, (MCItem*)mesh);
         
         //set mtl
@@ -214,7 +215,10 @@ function(MC3DModel*, initModel, BAObj* buff, size_t fcursor, size_t iusemtl, siz
             setMaterialForNode(0, null, &model->Super, mtl);
             //set texture
             if (mtl->diffuseMapName[0]) {
-                model->Super.texture = MCTexture_initWithFileName(0, new(MCTexture), mtl->diffuseMapName);
+                model->Super.diffuseTexture = MCTexture_initWithFileName(0, new(MCTexture), mtl->diffuseMapName);
+            }
+            if (mtl->specularMapName[0]) {
+                model->Super.specularTexture = MCTexture_initWithFileName(0, new(MCTexture), mtl->specularMapName);
             }
         }else{
             setDefaultMaterialForNode(0, null, &model->Super);

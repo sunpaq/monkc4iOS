@@ -37,7 +37,7 @@ color = KaIa + Kd { SUM j=1..ls, (N * Lj)Ij }
 
 color = KaIa 
 + Kd { SUM j=1..ls, (N*Lj)Ij } 
-+ Ks { SUM j=1..ls, ((H*Hj)^Ns)Ij } 
++ Ks { SUM j=1..ls, ((N*Hj)^Ns)Ij } 
 
 3 This is a diffuse and specular illumination model with reflection using Lambertian shading, Blinn's interpretation of Phong's specular illumination model (BLIN77), and a reflection term similar to that in Whitted's illumination model (WHIT80). The color includes an ambient constant term and a diffuse and specular shading term for each light source. The formula is: 
 
