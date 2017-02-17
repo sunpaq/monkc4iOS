@@ -24,10 +24,12 @@ oninit(MCGLRenderer)
 {
     if(init(MCObject)){
         MCGLEngine_featureSwith(MCGLDepthTest, true);
-        MCGLEngine_setClearScreenColor((MCColorf){0.05, 0.25, 0.35, 1.0});
+        MCGLEngine_featureSwith(MCGLStencilTest, true);
         MCGLEngine_featureSwith(MCGLCullFace, true);
+
         MCGLEngine_cullFace(MCGLBack);
         MCGLEngine_setFrontCounterClockWise(true);//CCW
+        MCGLEngine_setClearScreenColor((MCColorf){0.05, 0.25, 0.35, 1.0});
 
         // Enable blending
         //glEnable(GL_BLEND);

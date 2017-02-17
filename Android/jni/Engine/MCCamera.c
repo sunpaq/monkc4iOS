@@ -12,7 +12,7 @@ oninit(MCCamera)
     if (init(MC3DNode)) {
         var(ratio) = MCRatioHDTV16x9;//MCRatioCameraFilm3x2;
         var(view_angle) = MCLensStandard50mmViewAngle;
-        var(depth_of_field) = 100;
+        var(depth_of_field) = 10;
 
         //local spherical coordinate
         var(R_value) = 100;
@@ -78,7 +78,7 @@ compute(MCMatrix4, projectionMatrix)
     double far  = cpt(Radius) + var(depth_of_field);
     
     if (near <= 0) {
-        near = MCLensStandard50mm;
+        near = 10;
     }
     
     return MCMatrix4MakePerspective(MCDegreesToRadians(obj->view_angle),

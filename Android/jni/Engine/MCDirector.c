@@ -130,9 +130,9 @@ method(MCDirector, void, addModel, MC3DModel* model)
 {
     if(model && obj->lastScene && obj->lastScene->rootnode) {
         MC3DNode_addChild(0, obj->lastScene->rootnode, (MC3DNode*)model);
-        double df = computed(model, maxlength) * 2;
+        double df = computed(model, maxlength);
         if (df < 1) {
-            df = 100.0;
+            df = 1;
         }
         cpt(cameraHandler)->depth_of_field = df;
     }else{
