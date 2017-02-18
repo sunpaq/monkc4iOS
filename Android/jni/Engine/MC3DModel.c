@@ -250,7 +250,12 @@ method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorf 
 
     //separate model by mesh
     if (Meta.mesh_count <= 1) {
-        
+        BAMesh* m = &buff->meshbuff[0];
+        if (m) {
+            MC3DModel* model = new(MC3DModel);
+            initModel(0, model, buff, m, color);
+            MCLinkedList_addItem(0, obj->Super.children, (MCItem*)model);
+        }
     } else {
         for (size_t i=0; i<Meta.mesh_count; i++) {
             BAMesh* m = &buff->meshbuff[i];

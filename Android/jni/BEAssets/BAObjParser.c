@@ -130,12 +130,14 @@ void parseObj(BAObjModel* object, const char* file)
                     else if (MCStringEqualN(word, "f", 1)) {
                         //peek next value
                         token = tokenize(peekNext(&remain, word));
-                        if (token.type == MCTokenDate) {
+                        if (token.type == MCTokenDate || token.type == MCTokenInteger) {
+                            //common
                             if (!current_mesh) {
                                 current_mesh = &object->meshbuff[mcursor++];
                                 current_mesh->prevVertexNum  = vcursor-1;
                                 current_mesh->startFaceCount = fcursor;
                                 current_mesh->totalFaceCount = 0;
+                                current_mesh->usemtl = null;
                                 if (group_name[0]) {
                                     MCStringFill(current_mesh->group, group_name);
                                 }
@@ -146,46 +148,32 @@ void parseObj(BAObjModel* object, const char* file)
                                     current_mesh->usemtl = BAFindMaterial(object->mtllib_list, usemtl_name);
                                 }
                             }
-                            
-                            long lbuff[LINE_MAX];
-                            BAFace* f = &object->facebuff[fcursor];
-                            f->vcount = nextDates(&remain, lbuff);
-                            if (f->vcount < 6) {
-                                error_log("[%s] -> detect a face have less then 3 vertex, ignore it\n", line);
-                            } else {
-                                BAFaceInit(f, lbuff, f->vcount);
-                                current_mesh->totalFaceCount++;
-                                fcursor++;
-                            }
-                            continue;
-                        }
-                        if (token.type == MCTokenInteger) {
-                            if (!current_mesh) {
-                                current_mesh = &object->meshbuff[mcursor++];
-                                current_mesh->prevVertexNum  = vcursor-1;
-                                current_mesh->startFaceCount = fcursor;
-                                current_mesh->totalFaceCount = 0;
-                                if (group_name[0]) {
-                                    MCStringFill(current_mesh->group, group_name);
-                                }
-                                if (object_name[0]) {
-                                    MCStringFill(current_mesh->object, object_name);
-                                }
-                                if (usemtl_name[0]) {
-                                    current_mesh->usemtl = BAFindMaterial(object->mtllib_list, usemtl_name);
+                            //special
+                            if (token.type == MCTokenDate) {
+                                long lbuff[LINE_MAX];
+                                BAFace* f = &object->facebuff[fcursor];
+                                f->vcount = nextDates(&remain, lbuff);
+                                if (f->vcount < 6) {
+                                    error_log("[%s] -> detect a face have less then 3 vertex, ignore it\n", line);
+                                } else {
+                                    BAFaceInit(f, lbuff, f->vcount);
+                                    current_mesh->totalFaceCount++;
+                                    fcursor++;
                                 }
                             }
-                            
-                            long lbuff[LINE_MAX];
-                            BAFace* f = &object->facebuff[fcursor];
-                            f->vcount = nextIntegers(&remain, lbuff);
-                            if (f->vcount < 3) {
-                                error_log("[%s] -> detect a face have less then 3 vertex, ignore it\n", line);
-                            } else {
-                                BAFaceInit(f, lbuff, f->vcount);
-                                current_mesh->totalFaceCount++;
-                                fcursor++;
+                            if (token.type == MCTokenInteger) {
+                                long lbuff[LINE_MAX];
+                                BAFace* f = &object->facebuff[fcursor];
+                                f->vcount = nextIntegers(&remain, lbuff);
+                                if (f->vcount < 3) {
+                                    error_log("[%s] -> detect a face have less then 3 vertex, ignore it\n", line);
+                                } else {
+                                    BAFaceInit(f, lbuff, f->vcount);
+                                    current_mesh->totalFaceCount++;
+                                    fcursor++;
+                                }
                             }
+                            //common final
                             continue;
                         }
                     }

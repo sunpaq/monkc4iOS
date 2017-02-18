@@ -89,12 +89,12 @@ MCInline void BAObjMetaInit(BAObjMeta* meta) {
 }
 
 typedef struct BAMeshStruct {
-    char object[LINE_MAX];
-    char group[LINE_MAX];
-    BAMaterial* usemtl;
     size_t prevVertexNum;
     size_t startFaceCount;
     size_t totalFaceCount;
+    BAMaterial* usemtl;
+    char object[LINE_MAX];
+    char group[LINE_MAX];
 } BAMesh;
 
 typedef struct BAObjModelStruct {
@@ -129,7 +129,7 @@ MCInline void BAObjDumpInfo(BAObjModel* baobj)
             if (m->group[0]) {
                 printf("group:[%s] ", m->group);
             }
-            if (m->usemtl && m->usemtl->name[0]) {
+            if (baobj->mtllib_list && m->usemtl) {
                 printf("usemtl:[%s] ", m->usemtl->name);
             }
             printf("\n");
