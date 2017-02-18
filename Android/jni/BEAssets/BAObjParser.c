@@ -9,6 +9,8 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
 {
     BAObjMetaInit(meta);
     if (meta && buff) {
+        MCBool meshDetected = false;
+        
         char line[LINE_MAX]; char* c = (char*)buff;
         while (*c!=NUL) {
             //skip '\n' '\r\n' '\t' ' '
@@ -33,7 +35,12 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
                     meta->vertex_count++;
                 }
                 else if (MCStringEqualN(word, "f", 1)) {
+                    if (meshDetected == false) {
+                        meshDetected = true;
+                        meta->mesh_count++;
+                    }
                     meta->face_count++;
+                    continue;
                 }
                 else if (MCStringEqualN(word, "o", 1)) {
                     meta->object_starts[meta->object_count] = meta->face_count;
@@ -44,7 +51,8 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
                     meta->group_count++;
                 }
                 else if (MCStringEqualN(word, "s", 1)) {
-                    //smooth group
+                    //smooth group don't break a mesh
+                    continue;
                 }
                 else if (MCStringEqualN(word, "mtllib", 6)) {
                     meta->mtllib_count++;
@@ -58,21 +66,25 @@ void parseObjMeta(BAObjMeta* meta, const char* buff)
                     }
                 }
             }
-        }
+            meshDetected = false;
+        }//end while
     }
 }
 
-void parseObj(BAObj* object, const char* file)
+void parseObj(BAObjModel* object, const char* file)
 {
     if (object && file) {
         size_t vcursor = 0;
         size_t tcursor = 0;
         size_t ncursor = 0;
         size_t fcursor = 0;
-        //size_t mcursor = 0;
-        size_t ucursor = 0;
+        size_t mcursor = 0;
         
-        BAMtlLibrary* current_mtllib = null;
+        BAMesh* current_mesh = null;
+
+        char usemtl_name[LINE_MAX] = {};
+        char object_name[LINE_MAX] = {};
+        char group_name[LINE_MAX]  = {};
         
         char line[LINE_MAX]; char* c = (char*)file;
         while (*c != NUL && *c != EOF) {
@@ -119,6 +131,22 @@ void parseObj(BAObj* object, const char* file)
                         //peek next value
                         token = tokenize(peekNext(&remain, word));
                         if (token.type == MCTokenDate) {
+                            if (!current_mesh) {
+                                current_mesh = &object->meshbuff[mcursor++];
+                                current_mesh->prevVertexNum  = vcursor-1;
+                                current_mesh->startFaceCount = fcursor;
+                                current_mesh->totalFaceCount = 0;
+                                if (group_name[0]) {
+                                    MCStringFill(current_mesh->group, group_name);
+                                }
+                                if (object_name[0]) {
+                                    MCStringFill(current_mesh->object, object_name);
+                                }
+                                if (usemtl_name[0]) {
+                                    current_mesh->usemtl = BAFindMaterial(object->mtllib_list, usemtl_name);
+                                }
+                            }
+                            
                             long lbuff[LINE_MAX];
                             BAFace* f = &object->facebuff[fcursor];
                             f->vcount = nextDates(&remain, lbuff);
@@ -126,10 +154,28 @@ void parseObj(BAObj* object, const char* file)
                                 error_log("[%s] -> detect a face have less then 3 vertex, ignore it\n", line);
                             } else {
                                 BAFaceInit(f, lbuff, f->vcount);
+                                current_mesh->totalFaceCount++;
                                 fcursor++;
                             }
+                            continue;
                         }
                         if (token.type == MCTokenInteger) {
+                            if (!current_mesh) {
+                                current_mesh = &object->meshbuff[mcursor++];
+                                current_mesh->prevVertexNum  = vcursor-1;
+                                current_mesh->startFaceCount = fcursor;
+                                current_mesh->totalFaceCount = 0;
+                                if (group_name[0]) {
+                                    MCStringFill(current_mesh->group, group_name);
+                                }
+                                if (object_name[0]) {
+                                    MCStringFill(current_mesh->object, object_name);
+                                }
+                                if (usemtl_name[0]) {
+                                    current_mesh->usemtl = BAFindMaterial(object->mtllib_list, usemtl_name);
+                                }
+                            }
+                            
                             long lbuff[LINE_MAX];
                             BAFace* f = &object->facebuff[fcursor];
                             f->vcount = nextIntegers(&remain, lbuff);
@@ -137,13 +183,17 @@ void parseObj(BAObj* object, const char* file)
                                 error_log("[%s] -> detect a face have less then 3 vertex, ignore it\n", line);
                             } else {
                                 BAFaceInit(f, lbuff, f->vcount);
+                                current_mesh->totalFaceCount++;
                                 fcursor++;
                             }
+                            continue;
                         }
                     }
                     else if (MCStringEqualN(word, "g", 1)) {
-                        nextWordsInThisLine(&remain, word);
-                        continue;
+                        token = tokenize(nextWordsInThisLine(&remain, word));
+                        if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
+                            MCStringFill(group_name, token.value.Word);
+                        }
                     }
                     else if (MCStringEqualN(word, "s", 1)) {
                         MCToken token = tokenize(nextWord(&remain, word));
@@ -158,57 +208,38 @@ void parseObj(BAObj* object, const char* file)
                     else if (MCStringEqualN(word, "o", 1)) {
                         token = tokenize(nextWordsInThisLine(&remain, word));
                         if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
-                            MCStringFill(object->name, token.value.Word);
+                            MCStringFill(object_name, token.value.Word);
                         }
-                        continue;
                     }
                     else if (MCStringEqualN(word, "mtllib", 6)) {
                         token = tokenize(nextWordsInThisLine(&remain, word));
                         if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
-                            if ((current_mtllib=BAMtlLibraryNew(token.value.Word)) != null) {
-                                if (!MCStringEqual(current_mtllib->name, token.value.Word)) {
-                                    free(current_mtllib);
-                                    current_mtllib = BAMtlLibraryNew(token.value.Word);
-                                }
-                            } else {
-                                error_log("can not create mtl library: %s\n", word);
-                                current_mtllib = null;
+                            if (!BAFindMtlLibrary(object->mtllib_list, token.value.Word)) {
+                                BAAddMtlLibrary(&object->mtllib_list, token.value.Word);
                             }
                         }
                     }
                     else if (MCStringEqualN(word, "usemtl", 6)) {
                         token = tokenize(nextWordsInThisLine(&remain, word));
                         if (token.type == MCTokenIdentifier || token.type == MCTokenFilename) {
-                            BAMaterial* mtl = null;
-                            mtl = BAFindMaterial(current_mtllib, token.value.Word);
-                            if (mtl) {
-                                if (ucursor < object->usemtlcount) {
-                                    object->usemtlbuff[ucursor++] = (BAMaterial)(*mtl);
-                                }else{
-                                    break;
-                                }
-                            }
+                            MCStringFill(usemtl_name, token.value.Word);
                         }
                     }
                     else {
                         
                     }
-                    
                     break;
                 case MCTokenComment:
                 case MCTokenUnknown:
                 default:
                     break;
             }
-        }
-        //clean up
-        if (current_mtllib) {
-            free(current_mtllib);
-        }
+            current_mesh = null;
+        }//end while
     }
 }
 
-BAObj* BAObjNew(const char* filename, BAObjMeta* meta)
+BAObjModel* BAObjModelNew(const char* filename, BAObjMeta* meta)
 {
     epcount = 0;
     
@@ -231,7 +262,7 @@ BAObj* BAObjNew(const char* filename, BAObjMeta* meta)
             error_log("MC3DObjParser modle need calculate normal\n");
         }
         
-        BAObj* buff = BAObjAlloc(meta);
+        BAObjModel* buff = BAObjAlloc(meta);
         if (!buff) {
             return null;
         }
@@ -248,3 +279,34 @@ BAObj* BAObjNew(const char* filename, BAObjMeta* meta)
     }
 }
 
+static void recursiveFreeBAMtlLibrary(BAMtlLibrary* lib)
+{
+    if (!lib)
+        return;
+    if (lib->next)
+        recursiveFreeBAMtlLibrary(lib->next);
+    BAMtlLibraryRelease(lib);
+}
+
+void BAObjRelease(BAObjModel* buff)
+{
+    //recursively
+    if (buff) {
+        //clean up self
+        for (int i=0; i<buff->facecount; i++) {
+            BAFace* f = &buff->facebuff[i];
+            if (f->big) {
+                free(f->big);
+            }
+        }
+        
+        recursiveFreeBAMtlLibrary(buff->mtllib_list);
+        
+        free(buff->facebuff);
+        free(buff->meshbuff);
+        free(buff->vertexbuff);
+        free(buff->texcoorbuff);
+        free(buff->normalbuff);
+        free(buff);
+    }
+}

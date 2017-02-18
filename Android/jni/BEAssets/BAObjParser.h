@@ -57,6 +57,7 @@ typedef struct {
     size_t texcoord_count;
     size_t normal_count;
     size_t face_count;
+    size_t mesh_count;
     
     size_t object_count;
     size_t group_count;
@@ -74,7 +75,8 @@ MCInline void BAObjMetaInit(BAObjMeta* meta) {
     meta->texcoord_count  = 0;
     meta->normal_count    = 0;
     meta->face_count      = 0;
-
+    meta->mesh_count      = 0;
+    
     meta->object_count    = 0;
     meta->group_count     = 0;
     meta->usemtl_count    = 0;
@@ -86,7 +88,16 @@ MCInline void BAObjMetaInit(BAObjMeta* meta) {
     meta->mtllib_count    = 0;
 }
 
-typedef struct BAObjStruct {
+typedef struct BAMeshStruct {
+    char object[LINE_MAX];
+    char group[LINE_MAX];
+    BAMaterial* usemtl;
+    size_t prevVertexNum;
+    size_t startFaceCount;
+    size_t totalFaceCount;
+} BAMesh;
+
+typedef struct BAObjModelStruct {
     BACubeFrame Frame;
     //raw data
     MCVector3* vertexbuff;
@@ -94,38 +105,41 @@ typedef struct BAObjStruct {
     MCVector4* normalbuff;//use w record times
     size_t normal_count;
     MCBool shouldCalculateNormal;
-    
     //faces
     BAFace* facebuff;
     size_t  facecount;
-    //mtl
-    //BAMtlLibrary* mlibbuff;
-    BAMaterial* usemtlbuff;
-    //size_t mlibcount;
-    size_t usemtlcount;
+    //mesh
+    BAMesh* meshbuff;
+    size_t  meshcount;
+    //mtllib list
+    BAMtlLibrary* mtllib_list;
+    //name
     char name[256];
-} BAObj;
+} BAObjModel;
 
-MCInline void BAObjDumpInfo(BAObj* baobj)
+MCInline void BAObjDumpInfo(BAObjModel* baobj)
 {
-    for (int i=0; i<baobj->usemtlcount; i++) {
-        BAMaterial* mtl = &baobj->usemtlbuff[i];
-        debug_log("BAMaterial:%s\n", mtl->name);
+    for (int i=0; i<baobj->meshcount; i++) {
+        BAMesh* m = &baobj->meshbuff[i];
+        if (m) {
+            printf("BAObjParser - ");
+            if (m->object[0]) {
+                printf("object:[%s] ", m->object);
+            }
+            if (m->group[0]) {
+                printf("group:[%s] ", m->group);
+            }
+            if (m->usemtl && m->usemtl->name[0]) {
+                printf("usemtl:[%s] ", m->usemtl->name);
+            }
+            printf("\n");
+        }
     }
-//    BAFace* faces = &baobj->facebuff[0];
-//    for (int i=0; i<baobj->facecount; i++) {
-//        BAFace* f = &faces[i];
-//        printf("BAFace(%ld): ", f->vcount);
-//        for (int j=0; j<f->vcount; j++) {
-//            printf("%ld,", f->data[j]);
-//        }
-//        printf("\n");
-//    }
 }
 
-MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
+MCInline BAObjModel* BAObjAlloc(BAObjMeta* meta)
 {
-    BAObj* buff = (BAObj*)malloc(sizeof(BAObj));
+    BAObjModel* buff = (BAObjModel*)malloc(sizeof(BAObjModel));
     if (buff) {
         buff->Frame = (BACubeFrame){};
         buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (meta->vertex_count));
@@ -133,13 +147,14 @@ MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
         buff->normalbuff  = (MCVector4*)malloc(sizeof(MCVector4) * (meta->normal_count));
         buff->normal_count = meta->normal_count;
         buff->shouldCalculateNormal = false;
-        buff->facebuff    = (BAFace*)malloc(sizeof(BAFace)       * (meta->face_count));
-        buff->facecount   = meta->face_count;
-        //buff->mlibbuff    = (BAMtlLibrary*)malloc(sizeof(BAMtlLibrary) * meta->mtllib_count);
-        buff->usemtlbuff  = (BAMaterial*)malloc(sizeof(BAMaterial) * meta->usemtl_count);
-        //buff->mlibcount   = meta->mtllib_count;
-        buff->usemtlcount = meta->usemtl_count;
         
+        buff->facebuff    = (BAFace*)malloc(sizeof(BAFace) * (meta->face_count));
+        buff->facecount   = meta->face_count;
+
+        buff->meshbuff    = (BAMesh*)malloc(sizeof(BAMesh) * (meta->mesh_count));
+        buff->meshcount   = meta->mesh_count;
+        
+        buff->mtllib_list = null;
         if (buff->vertexbuff && buff->texcoorbuff && buff->normalbuff && buff->facebuff) {
             buff->name[0] = NUL;
             return buff;
@@ -149,27 +164,7 @@ MCInline BAObj* BAObjAlloc(BAObjMeta* meta)
     return null;
 }
 
-MCInline void BAObjRelease(BAObj* buff)
-{
-    //recursively
-    if (buff) {
-        //clean up self
-        for (int i=0; i<buff->facecount; i++) {
-            BAFace* f = &buff->facebuff[i];
-            if (f->big) {
-                free(f->big);
-            }
-        }
-        free(buff->facebuff);
-        free(buff->vertexbuff);
-        free(buff->texcoorbuff);
-        free(buff->normalbuff);
-        //free(buff->mlibbuff);
-        free(buff->usemtlbuff);
-        free(buff);
-    }
-}
-
-BAObj* BAObjNew(const char* filename, BAObjMeta* meta);
+BAObjModel* BAObjModelNew(const char* filename, BAObjMeta* meta);
+void BAObjRelease(BAObjModel* buff);
 
 #endif /* MC3DFileParser_h */

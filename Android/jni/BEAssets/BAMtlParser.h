@@ -119,7 +119,8 @@ typedef struct {
     char options[256];
 } BAReflectionMap;
 
-typedef struct {
+typedef struct BAMaterialStruct {
+    struct BAMaterialStruct* next;
     //newmtl
     char name[256];
     //map_Kd
@@ -147,6 +148,13 @@ typedef struct {
     int hidden;
 } BAMaterial;
 
+MCInline BAMaterial* BAMaterialNew(const char* name) {
+    BAMaterial* mtl = (BAMaterial*)malloc(sizeof(BAMaterial));
+    mtl->next = null;
+    MCStringFill(mtl->name, name);
+    return mtl;
+}
+
 MCInline MCVector3 BAMaterialLightColor(BAMaterial* mat, BALightType type) {
     double R = mat->lightColors[type].data.rgbxyz[0];
     double G = mat->lightColors[type].data.rgbxyz[1];
@@ -155,66 +163,56 @@ MCInline MCVector3 BAMaterialLightColor(BAMaterial* mat, BALightType type) {
 }
 
 typedef struct BAMtlLibraryStruct {
-    BAMaterial materials[256];
-    //cursors
-    int materialCursor;
-    int lightColorMapCursor;
-    int scalarMapCursor;
-    int reflectionMapCursor;
+    struct BAMtlLibraryStruct* next;
+    BAMaterial* materialsList;
     char name[256];
 } BAMtlLibrary;
 
 MCInline BAMaterial* BAFindMaterial(BAMtlLibrary* lib, const char* name) {
     if (lib && name) {
-        for (int i=0; i<256; i++) {
-            BAMaterial* mtl = &(lib->materials[i]);
-            if (MCStringEqual(mtl->name, name)) {
-                return mtl;
+        BAMaterial* iter = lib->materialsList;
+        while (iter) {
+            if (MCStringEqual(iter->name, name)) {
+                return iter;
             }
+            iter = iter->next;
         }
     }
     return null;
 }
 
-MCInline BAMtlLibrary* BAMtlLibraryAlloc() {
-    BAMtlLibrary* lib = (BAMtlLibrary*)malloc(sizeof(BAMtlLibrary));
-    if (lib) {
-        //cursors
-        lib->materialCursor = -1;
-        lib->lightColorMapCursor = -1;
-        lib->scalarMapCursor = -1;
-        lib->reflectionMapCursor = -1;
-        lib->name[0] = NUL;
-        return lib;
+MCInline void BAAddMaterial(BAMtlLibrary* lib, const char* name) {
+    if (lib && name) {
+        //insert at head
+        BAMaterial* newmtl = BAMaterialNew(name);
+        newmtl->next = lib->materialsList;
+        lib->materialsList = newmtl;
+    }
+}
+
+MCInline BAMtlLibrary* BAFindMtlLibrary(BAMtlLibrary* list, const char* name) {
+    if (list && name) {
+        BAMtlLibrary* iter = list;
+        while (iter) {
+            if (MCStringEqual(iter->name, name)) {
+                return iter;
+            }
+            iter = iter->next;
+        }
     }
     return null;
 }
 
-MCInline void BAMtlLibraryResetCursor(BAMtlLibrary* lib) {
-    if (lib->materialCursor != -1) {
-        lib->materialCursor = 0;
-    }
-    if (lib->lightColorMapCursor != -1) {
-        lib->lightColorMapCursor = 0;
-    }
-    if (lib->scalarMapCursor != -1) {
-        lib->scalarMapCursor = 0;
-    }
-    if (lib->reflectionMapCursor != -1) {
-        lib->reflectionMapCursor = 0;
-    }
-}
-
-MCInline BAMaterial* currentMaterial(BAMtlLibrary* lib) {
-    if (lib->materialCursor != -1) {
-        return &(lib->materials[lib->materialCursor]);
-    }else{
-        return null;
-    }
-}
-
 BAMtlLibrary* BAMtlLibraryNew(const char* filename);
+void BAMtlLibraryRelease(BAMtlLibrary* lib);
 
-
+MCInline void BAAddMtlLibrary(BAMtlLibrary** list, const char* name) {
+    if (list && name) {
+        //insert at head
+        BAMtlLibrary* newlib = BAMtlLibraryNew(name);
+        newlib->next = *list;
+        *list = newlib;
+    }
+}
 
 #endif /* MC3DMtlParser_h */
