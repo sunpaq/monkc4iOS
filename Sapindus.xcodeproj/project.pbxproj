@@ -143,6 +143,12 @@
 		FDABFFC81DC79EA400E8F4F0 /* SCI.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */; };
 		FDABFFC91DC79EA400E8F4F0 /* SCI.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC71DC79EA400E8F4F0 /* SCI.obj */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
+		FDFC37741E5A0520008B88AA /* blender-export.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDFC376E1E5A0520008B88AA /* blender-export.mtl */; };
+		FDFC37751E5A0520008B88AA /* blender-export.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDFC376F1E5A0520008B88AA /* blender-export.obj */; };
+		FDFC37761E5A0520008B88AA /* bulage.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDFC37701E5A0520008B88AA /* bulage.jpg */; };
+		FDFC37771E5A0520008B88AA /* gold.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDFC37711E5A0520008B88AA /* gold.jpg */; };
+		FDFC37781E5A0520008B88AA /* greenstone.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDFC37721E5A0520008B88AA /* greenstone.jpg */; };
+		FDFC37791E5A0520008B88AA /* hua_xing_qiu_yue.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDFC37731E5A0520008B88AA /* hua_xing_qiu_yue.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -364,6 +370,12 @@
 		FDABFFC71DC79EA400E8F4F0 /* SCI.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.obj; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
+		FDFC376E1E5A0520008B88AA /* blender-export.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "blender-export.mtl"; sourceTree = "<group>"; };
+		FDFC376F1E5A0520008B88AA /* blender-export.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "blender-export.obj"; sourceTree = "<group>"; };
+		FDFC37701E5A0520008B88AA /* bulage.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bulage.jpg; sourceTree = "<group>"; };
+		FDFC37711E5A0520008B88AA /* gold.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = gold.jpg; sourceTree = "<group>"; };
+		FDFC37721E5A0520008B88AA /* greenstone.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = greenstone.jpg; sourceTree = "<group>"; };
+		FDFC37731E5A0520008B88AA /* hua_xing_qiu_yue.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = hua_xing_qiu_yue.jpg; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* Sapindus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sapindus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF061D1B060BE1000064E3 /* Sapindus.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Sapindus.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -615,6 +627,7 @@
 		FD4CC1FF1C96EF6F00051C15 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				FDFC376D1E5A0520008B88AA /* blender-fbx-export */,
 				FD6C5CBC1E44D839000E09B6 /* Avent */,
 				FD6C5CBF1E44D839000E09B6 /* TeenGirl */,
 				FD6C5C521E44BAF0000E09B6 /* Arcanegolem */,
@@ -768,6 +781,19 @@
 			path = TeenGirl;
 			sourceTree = "<group>";
 		};
+		FDFC376D1E5A0520008B88AA /* blender-fbx-export */ = {
+			isa = PBXGroup;
+			children = (
+				FDFC376E1E5A0520008B88AA /* blender-export.mtl */,
+				FDFC376F1E5A0520008B88AA /* blender-export.obj */,
+				FDFC37701E5A0520008B88AA /* bulage.jpg */,
+				FDFC37711E5A0520008B88AA /* gold.jpg */,
+				FDFC37721E5A0520008B88AA /* greenstone.jpg */,
+				FDFC37731E5A0520008B88AA /* hua_xing_qiu_yue.jpg */,
+			);
+			path = "blender-fbx-export";
+			sourceTree = "<group>";
+		};
 		FDFF05F71B060BE1000064E3 = {
 			isa = PBXGroup;
 			children = (
@@ -881,7 +907,9 @@
 				FD19FC5E1E42361B006DC443 /* tex8.bmp in Resources */,
 				FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */,
 				FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */,
+				FDFC37791E5A0520008B88AA /* hua_xing_qiu_yue.jpg in Resources */,
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
+				FDFC37741E5A0520008B88AA /* blender-export.mtl in Resources */,
 				FD2A6E861DA75F0C00293DE1 /* monkey2.mtl in Resources */,
 				FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */,
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
@@ -919,10 +947,12 @@
 				FD8784881CCE5F8C0071DAB4 /* top.jpg in Resources */,
 				FD6C5CC71E44D839000E09B6 /* Avent.obj in Resources */,
 				FD6C5C481E44B987000E09B6 /* arcticcondor.mtl in Resources */,
+				FDFC37771E5A0520008B88AA /* gold.jpg in Resources */,
 				FD5EFD681B0E3D9D00D2492A /* Icon.png in Resources */,
 				F8888AAB1E456F3D002C7822 /* Girl Blendswap.mtl in Resources */,
 				FD6C5CD61E44E209000E09B6 /* Alex_Ambient.jpg in Resources */,
 				FD6C5CD71E44E209000E09B6 /* Alex_Color.jpg in Resources */,
+				FDFC37781E5A0520008B88AA /* greenstone.jpg in Resources */,
 				FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */,
 				FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */,
 				FD8784831CCE5F8C0071DAB4 /* back.jpg in Resources */,
@@ -933,6 +963,7 @@
 				FD6C5C571E44BAF0000E09B6 /* AG_Model_Mesh_ArcaneDefense.tga in Resources */,
 				FD7FF8F01CCB6043008106E5 /* bottle_cap2.obj in Resources */,
 				FD6C5CD91E44E209000E09B6 /* Alex_Specular.jpg in Resources */,
+				FDFC37751E5A0520008B88AA /* blender-export.obj in Resources */,
 				FD6C5C471E44B987000E09B6 /* Arakkoa_Sage_WhiteHead.tga in Resources */,
 				FD00C4C51CD10BAE00DCA45F /* Images.xcassets in Resources */,
 				FD4CC1F51C91C8C200051C15 /* tex5.png in Resources */,
@@ -941,6 +972,7 @@
 				FDABFFC91DC79EA400E8F4F0 /* SCI.obj in Resources */,
 				FD5EFD5B1B0E3D9D00D2492A /* Icon-40@3x.png in Resources */,
 				FD6C5C451E44B987000E09B6 /* arakkoa_sage.obj in Resources */,
+				FDFC37761E5A0520008B88AA /* bulage.jpg in Resources */,
 				FD5EFD6B1B0E3D9D00D2492A /* iTunesArtwork@2x.png in Resources */,
 				FD5EFD5F1B0E3D9D00D2492A /* Icon-76@2x.png in Resources */,
 				FD5EFD641B0E3D9D00D2492A /* Icon-72.png in Resources */,

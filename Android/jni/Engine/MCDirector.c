@@ -134,7 +134,7 @@ method(MCDirector, void, addModel, MC3DModel* model)
         if (df < 1) {
             df = 1;
         }
-        cpt(cameraHandler)->depth_of_field = df;
+        cpt(cameraHandler)->depth_of_field = df*1.5;
     }else{
         error_log("MCDirector add model(%p) failed [lastScene=%p rootnode=%p]\n",
                   model, obj->lastScene, obj->lastScene->rootnode);
