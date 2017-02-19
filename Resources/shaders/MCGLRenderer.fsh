@@ -1,5 +1,6 @@
 #version 300 es
 
+precision highp sampler3D;
 precision highp float;
 precision lowp int;
 const float Epsilon = 0.0000001;
@@ -27,11 +28,13 @@ uniform float material_dissolve;
 uniform float material_shininess;
 
 //texture sampling must in fragment shader
+uniform sampler3D diffuse_sampler3d;
 uniform sampler2D diffuse_sampler;
 uniform sampler2D specular_sampler;
 
 //uniforms not in context
 uniform bool usetexture;
+uniform bool usetexture3d;
 
 uniform int illum;
 
@@ -119,6 +122,7 @@ void main()
     float alpha = 1.0;
     if (usetexture == true) {
         vec4 texcolor = texture(diffuse_sampler, vec2(texturecoord.x, 1.0-texturecoord.y));
+        //vec4 texcolor = texture(diffuse_sampler, texturecoord);
         alpha = texcolor.a;
         color = texcolor.rgb;
     }

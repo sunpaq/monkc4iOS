@@ -143,6 +143,8 @@ method(MC3DNode, void, update, MCGLContext* ctx)
 
 method(MC3DNode, void, draw, MCGLContext* ctx)
 {
+    MCGLContext_activateShaderProgram(0, ctx, 0);
+
     //material
     if (obj->material != null) {
         if (obj->material->hidden == 1) {
@@ -155,13 +157,19 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
     //draw self texture
     if (obj->diffuseTexture != null) {
         ctx->diffuseTextureRef = obj->diffuseTexture;
+        glUniform1i(glGetUniformLocation(ctx->pid, "usetexture"), true);
+    } else {
+        ctx->diffuseTextureRef = null;
+        glUniform1i(glGetUniformLocation(ctx->pid, "usetexture"), false);
     }
+    
     if (obj->specularTexture != null) {
         ctx->specularTextureRef = obj->specularTexture;
+    } else {
+        ctx->specularTextureRef = null;
     }
     
     //batch setup
-    MCGLContext_activateShaderProgram(0, ctx, 0);
     MCGLContext_setUniforms(0, ctx, 0);
     
     //draw self meshes

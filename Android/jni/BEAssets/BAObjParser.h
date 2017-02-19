@@ -135,6 +135,7 @@ MCInline void BAObjDumpInfo(BAObjModel* baobj)
             printf("\n");
         }
     }
+    printf("total %ld meshes\n", baobj->meshcount);
 }
 
 MCInline BAObjModel* BAObjAlloc(BAObjMeta* meta)

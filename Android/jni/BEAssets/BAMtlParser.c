@@ -180,6 +180,7 @@ MCInline void processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     }
                     continue;
                 }
+                //BohdiEngine extensions
                 else if (MCStringEqualN(word, "ext_hidden", 10)) {
                     token = tokenize(nextWord(&remain, word));
                     if (lib->materialsList) {
@@ -189,6 +190,23 @@ MCInline void processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                             lib->materialsList->hidden = 1;
                         }
                     }
+                }
+                else if (MCStringEqualN(word, "ext_tex_file", 12)) {
+                    token = tokenize(nextWord(&remain, word));
+                    if(!BAFindTextureByFilename(lib, token.value.Word)) {
+                        BAAddTexture(lib, token.value.Word, null, null);
+                    }
+                }
+                else if (MCStringEqualN(word, "ext_tex_group", 13)) {
+                    token = tokenize(nextWord(&remain, word));
+                    BATexture* tex = lib->texturesList;
+                    MCStringFill(tex->attachedGroup, token.value.Word);
+                }
+                else if (MCStringEqualN(word, "ext_tex_object", 14)) {
+                    token = tokenize(nextWord(&remain, word));
+                    BATexture* tex = lib->texturesList;
+                    MCStringFill(tex->attachedObject, token.value.Word);
+                    
                 }
                 else {
                     
@@ -210,6 +228,7 @@ static BAMtlLibrary* BAMtlLibraryAlloc() {
     if (lib) {
         lib->next = null;
         lib->materialsList = null;
+        lib->texturesList = null;
         lib->name[0] = NUL;
         return lib;
     }
@@ -254,20 +273,31 @@ BAMtlLibrary* BAMtlLibraryNew(const char* filename)
     }
 }
 
-static void recursiveFree(BAMaterial* ptr)
+static void recursiveFreeBAMaterial(BAMaterial* ptr)
 {
     if (!ptr)
         return;
     if (ptr->next)
-        recursiveFree(ptr->next);
+        recursiveFreeBAMaterial(ptr->next);
+    free(ptr);
+}
+
+static void recursiveFreeBATexture(BATexture* ptr)
+{
+    if (!ptr)
+        return;
+    if (ptr->next)
+        recursiveFreeBATexture(ptr->next);
     free(ptr);
 }
 
 void BAMtlLibraryRelease(BAMtlLibrary* lib)
 {
-    BAMaterial* m = lib->materialsList;
-    if (m) {
-        recursiveFree(m);
+    if (lib->materialsList) {
+        recursiveFreeBAMaterial(lib->materialsList);
+    }
+    if (lib->texturesList) {
+        recursiveFreeBATexture(lib->texturesList);
     }
     free(lib);
 }

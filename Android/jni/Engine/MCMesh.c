@@ -142,13 +142,10 @@ method(MCMesh, void, prepareMesh, MCGLContext* ctx)
         //Texture
         if (ctx->diffuseTextureRef) {
             MCTexture_loadToGLBuffer(0, ctx->diffuseTextureRef, 0);
-        } else {
-            glUniform1i(glGetUniformLocation(ctx->pid, "usetexture"), false);
         }
         if (ctx->specularTextureRef) {
             MCTexture_loadToGLBuffer(0, ctx->specularTextureRef, 0);
         }
-
         //Unbind
         glBindVertexArray(0);
         var(isDataLoaded) = true;

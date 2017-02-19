@@ -194,16 +194,49 @@ function(void, setMaterialForNode, MC3DNode* node, BAMaterial* mtl)
     }
 }
 
+function(void, setTextureForNode, MC3DNode* node, BAObjModel* buff, BAMesh* mesh)
+{
+    //object texture
+    if (mesh->object[0]) {
+        BATexture* tex = BAFindTextureByAttachedObject(buff->mtllib_list, mesh->object);
+        if (tex && tex->filename[0]) {
+            node->diffuseTexture = MCTexture_initWithFileName(0, new(MCTexture), tex->filename);
+            return;
+        }
+    }
+    
+    //group texture
+    if (mesh->group[0]) {
+        BATexture* tex = BAFindTextureByAttachedGroup(buff->mtllib_list, mesh->group);
+        if (tex && tex->filename[0]) {
+            node->diffuseTexture = MCTexture_initWithFileName(0, new(MCTexture), tex->filename);
+            return;
+        }
+    }
+    
+    //material texture
+    BAMaterial* mtl = mesh->usemtl;
+    if (mtl) {
+        if (mtl->diffuseMapName[0]) {
+            node->diffuseTexture = MCTexture_initWithFileName(0, new(MCTexture), mtl->diffuseMapName);
+        }
+        if (mtl->specularMapName[0]) {
+            node->specularTexture = MCTexture_initWithFileName(0, new(MCTexture), mtl->specularMapName);
+        }
+    }
+
+}
+
 //size_t fcursor, BAMaterial* mtl, size_t facecount,
-function(MC3DModel*, initModel, BAObjModel* buff, BAMesh* mesh, MCColorf color)
+function(MC3DModel*, initModel, BAObjModel* buff, BAMesh* bamesh, MCColorf color)
 {
     MC3DModel* model = (MC3DModel*)any;
-    if (model && mesh) {
-        BAFace* faces = &buff->facebuff[mesh->startFaceCount];
-        BAMaterial* mtl = mesh->usemtl;
+    if (model && bamesh) {
+        BAFace* faces = &buff->facebuff[bamesh->startFaceCount];
+        BAMaterial* mtl = bamesh->usemtl;
         
-        BATriangle* triangles = createTrianglesBuffer(faces, mesh->totalFaceCount);
-        size_t tricount = trianglization(triangles, faces, mesh->totalFaceCount, buff->vertexbuff);
+        BATriangle* triangles = createTrianglesBuffer(faces, bamesh->totalFaceCount);
+        size_t tricount = trianglization(triangles, faces, bamesh->totalFaceCount, buff->vertexbuff);
         MCMesh* mesh = createMeshWithBATriangles(0, null, triangles, tricount, buff, color);
         
         model->Super.material = new(MCMaterial);
@@ -214,16 +247,14 @@ function(MC3DModel*, initModel, BAObjModel* buff, BAMesh* mesh, MCColorf color)
         //set mtl
         if (mtl) {
             setMaterialForNode(0, null, &model->Super, mtl);
-            //set texture
-            if (mtl->diffuseMapName[0]) {
-                model->Super.diffuseTexture = MCTexture_initWithFileName(0, new(MCTexture), mtl->diffuseMapName);
-            }
-            if (mtl->specularMapName[0]) {
-                model->Super.specularTexture = MCTexture_initWithFileName(0, new(MCTexture), mtl->specularMapName);
-            }
+
+
         }else{
             setDefaultMaterialForNode(0, null, &model->Super);
         }
+        
+        //set texture
+        setTextureForNode(0, null, &model->Super, buff, bamesh);
         
         //set name
         MCStringFill(model->name, buff->name);

@@ -92,8 +92,6 @@ method(MCTexture, void, loadToGLBuffer, voida)
 method(MCTexture, void, active, GLuint pid, const char* uniformName)
 {
     glUniform1i(glGetUniformLocation(pid, uniformName), obj->textureUnit);
-    glUniform1i(glGetUniformLocation(pid, "usetexture"), true);
-    
     MCGLEngine_activeTextureUnit(obj->textureUnit);
     MCGLEngine_bind2DTexture(obj->Id);
 }

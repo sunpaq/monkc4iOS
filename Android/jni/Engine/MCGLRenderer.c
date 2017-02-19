@@ -31,6 +31,8 @@ oninit(MCGLRenderer)
         MCGLEngine_setFrontCounterClockWise(true);//CCW
         MCGLEngine_setClearScreenColor((MCColorf){0.05, 0.25, 0.35, 1.0});
 
+        //glDepthFunc(GL_LESS);
+        
         // Enable blending
         //glEnable(GL_BLEND);
         //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

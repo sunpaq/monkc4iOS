@@ -162,9 +162,35 @@ MCInline MCVector3 BAMaterialLightColor(BAMaterial* mat, BALightType type) {
     return MCVector3Make(R, G, B);
 }
 
+typedef struct BATextureStruct {
+    struct BATextureStruct* next;
+    char filename[LINE_MAX];
+    char attachedGroup[LINE_MAX];
+    char attachedObject[LINE_MAX];
+} BATexture;
+
+MCInline BATexture* BATextureNew(const char* filename, const char* groupname, const char* objectname) {
+    BATexture* tex = (BATexture*)malloc(sizeof(BATexture));
+    tex->next = null;
+    tex->filename[0] = NUL;
+    tex->attachedGroup[0] = NUL;
+    tex->attachedObject[0]= NUL;
+    if (filename) {
+        MCStringFill(tex->filename, filename);
+    }
+    if (groupname) {
+        MCStringFill(tex->attachedGroup, filename);
+    }
+    if (objectname) {
+        MCStringFill(tex->attachedObject, filename);
+    }
+    return tex;
+}
+
 typedef struct BAMtlLibraryStruct {
     struct BAMtlLibraryStruct* next;
     BAMaterial* materialsList;
+    BATexture* texturesList;
     char name[256];
 } BAMtlLibrary;
 
@@ -187,6 +213,55 @@ MCInline void BAAddMaterial(BAMtlLibrary* lib, const char* name) {
         BAMaterial* newmtl = BAMaterialNew(name);
         newmtl->next = lib->materialsList;
         lib->materialsList = newmtl;
+    }
+}
+
+MCInline BATexture* BAFindTextureByFilename(BAMtlLibrary* lib, const char* filename) {
+    if (lib && filename) {
+        BATexture* iter = lib->texturesList;
+        while (iter) {
+            if (MCStringEqual(iter->filename, filename)) {
+                return iter;
+            }
+            iter = iter->next;
+        }
+    }
+    return null;
+}
+
+MCInline BATexture* BAFindTextureByAttachedGroup(BAMtlLibrary* lib, const char* group) {
+    if (lib && group) {
+        BATexture* iter = lib->texturesList;
+        while (iter) {
+            if (MCStringEqual(iter->attachedGroup, group)) {
+                return iter;
+            }
+            iter = iter->next;
+        }
+    }
+    return null;
+}
+
+MCInline BATexture* BAFindTextureByAttachedObject(BAMtlLibrary* lib, const char* object) {
+    if (lib && object) {
+        BATexture* iter = lib->texturesList;
+        while (iter) {
+            if (MCStringEqual(iter->attachedObject, object)) {
+                return iter;
+            }
+            iter = iter->next;
+        }
+    }
+    return null;
+}
+
+MCInline void BAAddTexture(BAMtlLibrary* lib, const char* filename,
+                           const char* groupname, const char* objectname) {
+    if (lib && filename) {
+        //insert at head
+        BATexture* newtex = BATextureNew(filename, groupname, objectname);
+        newtex->next = lib->texturesList;
+        lib->texturesList = newtex;
     }
 }
 
