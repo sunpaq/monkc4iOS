@@ -112,10 +112,10 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
 method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader)
 {
     char path[LINE_MAX];
-    MCFileGetPath(vshader, "vsh", path);
+    MCFileGetPath(vshader, path);
     const char* vcode = MCFileCopyContentWithPath(path);
     
-    MCFileGetPath(fshader, "fsh", path);
+    MCFileGetPath(fshader, path);
     const char* fcode = MCFileCopyContentWithPath(path);
     
     MCGLRenderer_initWithShaderCodeString(0, obj, vcode, fcode);

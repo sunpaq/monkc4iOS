@@ -160,7 +160,7 @@ method(MCMesh, void, drawMesh, MCGLContext* ctx)
         MCTexture_active(0, ctx->diffuseTextureRef, ctx->pid, "diffuse_sampler");
     }
     if (ctx->specularTextureRef) {
-        MCTexture_active(0, ctx->diffuseTextureRef, ctx->pid, "specular_sampler");
+        MCTexture_active(0, ctx->specularTextureRef, ctx->pid, "specular_sampler");
     }
     //override draw mode
     GLenum mode = var(mode);

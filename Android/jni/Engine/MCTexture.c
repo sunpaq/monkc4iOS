@@ -68,11 +68,8 @@ function(void, freeRawdata, voida)
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name)
 {
-    char extbuff[10] = {};
-    MCString_extensionFromFilename(name, &extbuff);
-    
     char pathbuff[PATH_MAX] = {};
-    if (MCFileGetPath(name, extbuff, pathbuff)) {
+    if (MCFileGetPath(name, pathbuff)) {
         return null;
     }
     
@@ -93,9 +90,11 @@ method(MCTexture, void, loadToGLBuffer, voida)
 
 method(MCTexture, void, active, GLuint pid, const char* uniformName)
 {
-    glUniform1i(glGetUniformLocation(pid, uniformName), obj->textureUnit);
-    MCGLEngine_activeTextureUnit(obj->textureUnit);
-    MCGLEngine_bind2DTexture(obj->Id);
+    if (obj) {
+        glUniform1i(glGetUniformLocation(pid, uniformName), obj->textureUnit);
+        MCGLEngine_activeTextureUnit(obj->textureUnit);
+        MCGLEngine_bind2DTexture(obj->Id);
+    }
 }
 
 onload(MCTexture)

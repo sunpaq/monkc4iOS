@@ -315,7 +315,7 @@ method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorf 
     if (obj) {
         MCStringFill(obj->name, name);
         char path[PATH_MAX] = {};
-        if (MCFileGetPath(name, "obj", path)) {
+        if (MCFileGetPath(name, path)) {
             return null;
         }
         debug_log("MC3DModel - find path: %s\n", path);

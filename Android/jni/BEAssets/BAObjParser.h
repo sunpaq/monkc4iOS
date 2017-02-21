@@ -143,17 +143,29 @@ MCInline BAObjModel* BAObjAlloc(BAObjMeta* meta)
     BAObjModel* buff = (BAObjModel*)malloc(sizeof(BAObjModel));
     if (buff) {
         buff->Frame = (BACubeFrame){};
-        buff->vertexbuff  = (MCVector3*)malloc(sizeof(MCVector3) * (meta->vertex_count));
-        buff->texcoorbuff = (MCVector2*)malloc(sizeof(MCVector2) * (meta->texcoord_count));
-        buff->normalbuff  = (MCVector4*)malloc(sizeof(MCVector4) * (meta->normal_count));
-        buff->normal_count = meta->normal_count;
-        buff->shouldCalculateNormal = false;
+        size_t sizevb = sizeof(MCVector3) * (meta->vertex_count);
+        size_t sizetb = sizeof(MCVector2) * (meta->texcoord_count);
+        size_t sizenb = sizeof(MCVector4) * (meta->normal_count);
+        size_t sizefb = sizeof(BAFace) * (meta->face_count);
+        size_t sizemb = sizeof(BAMesh) * (meta->mesh_count);
         
-        buff->facebuff    = (BAFace*)malloc(sizeof(BAFace) * (meta->face_count));
-        buff->facecount   = meta->face_count;
+        buff->vertexbuff  = (MCVector3*)malloc(sizevb);
+        buff->texcoorbuff = (MCVector2*)malloc(sizetb);
+        buff->normalbuff  = (MCVector4*)malloc(sizenb);
+        buff->facebuff    = (BAFace*)malloc(sizefb);
+        buff->meshbuff    = (BAMesh*)malloc(sizemb);
 
-        buff->meshbuff    = (BAMesh*)malloc(sizeof(BAMesh) * (meta->mesh_count));
+        memset(buff->vertexbuff, 0, sizevb);
+        memset(buff->texcoorbuff, 0, sizetb);
+        memset(buff->normalbuff, 0, sizenb);
+        memset(buff->facebuff, 0, sizefb);
+        memset(buff->meshbuff, 0, sizemb);
+        
+        buff->normal_count = meta->normal_count;
+        buff->facecount   = meta->face_count;
         buff->meshcount   = meta->mesh_count;
+
+        buff->shouldCalculateNormal = false;
         
         buff->mtllib_list = null;
         if (buff->vertexbuff && buff->texcoorbuff && buff->normalbuff && buff->facebuff) {

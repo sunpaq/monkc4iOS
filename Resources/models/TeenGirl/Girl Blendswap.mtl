@@ -85,7 +85,7 @@ d 1.000000
 illum 1
 map_Kd textures/Alex_Color.jpg
 map_Ka textures/Alex_Ambient.jpg
-map_Ks textures/Alex_Spec_col.jpg
+map_Ks textures/Alex_Specular.jpg
 
 newmtl Eye_lens
 Ns 874.999998

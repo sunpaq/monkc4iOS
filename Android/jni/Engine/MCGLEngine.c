@@ -181,11 +181,11 @@ utility(MCGLEngine, GLuint, prepareShader, GLuint Id, const char* vcode, const c
 utility(MCGLEngine, int, prepareShaderName, GLuint Id, const char* vname, const char* fname)
 {
     char vpath[PATH_MAX] = {};
-    if(MCFileGetPath(vname, "vsh", vpath)) return -1;
+    if(MCFileGetPath(vname, vpath)) return -1;
     char* vcode = (char*)MCFileCopyContentWithPath(vpath);
     
     char fpath[PATH_MAX] = {};
-    if(MCFileGetPath(fname, "fsh", fpath)) return -1;
+    if(MCFileGetPath(fname, fpath)) return -1;
     char* fcode = (char*)MCFileCopyContentWithPath(fpath);
     
     MCGLEngine_prepareShader(Id, vcode, fcode);

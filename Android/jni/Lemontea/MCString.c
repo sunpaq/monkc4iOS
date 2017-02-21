@@ -33,16 +33,15 @@ utility(MCString, size_t, replace, const char* str, const char* withstr, const c
     return b;
 }
 
-utility(MCString, size_t, reverse, const char* str, char (*buff)[])
+utility(MCString, size_t, reverse, const char* str, char *buff)
 {
     size_t count = strlen(str);
     char* c = (char*)&str[count-1];
     for (int i=0; i<count; i++) {
-        (*buff)[i] = *c;
+        buff[i] = *c;
         c--;
     }
-    (*buff)[count] = NUL;
-    
+    buff[count] = NUL;
     return count;
 }
 
@@ -109,7 +108,7 @@ utility(MCString, const char*, percentDecode, const char* str, char *buff)
     }
     char* iter = (char*)str; int b = 0;
     while (*iter != NUL) {
-        debug_log("MCString_percentDecode: %s\n", iter);
+        //debug_log("MCString_percentDecode: %s\n", iter);
         if (*iter == '%') {
             iter++;
             if (*iter == '2') {
@@ -175,7 +174,7 @@ utility(MCString, const char*, percentDecode, const char* str, char *buff)
 utility(MCString, const char*, baseFromPath, const char* path, char (*buff)[])
 {
     char reversebuff[PATH_MAX] = {};
-    size_t count = MCString_reverse(path, &reversebuff);
+    size_t count = MCString_reverse(path, reversebuff);
     
     char* head = &reversebuff[count-1];
     char* tail = &reversebuff[0];
@@ -198,7 +197,7 @@ utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[
     trimWhiteSpace(&path);
 
     char reversebuff[PATH_MAX] = {};
-    MCString_reverse(path, &reversebuff);
+    MCString_reverse(path, reversebuff);
     
     char* head = &reversebuff[0];
     char* tail = &reversebuff[0];
@@ -217,11 +216,11 @@ utility(MCString, const char*, filenameFromPath, const char* path, char (*buff)[
     return &(*buff)[0];
 }
 
-utility(MCString, const char*, filenameTrimExtension, const char* name, char* buff)
+utility(MCString, size_t, filenameTrimExtension, const char* name, char* buff)
 {
     trimWhiteSpace(&name);
     char reversebuff[PATH_MAX] = {};
-    MCString_reverse(name, &reversebuff);
+    MCString_reverse(name, reversebuff);
     
     char* head = &reversebuff[0];
     char* tail = &reversebuff[0];
@@ -246,64 +245,46 @@ utility(MCString, const char*, filenameTrimExtension, const char* name, char* bu
             head--;
         }
         buff[i] = *head;//last char
-        return buff;
+        buff[i+1] = NUL;
+        return i+1;
     }
     //no extension
     else {
-        strcpy(buff, name);
-        return name;
+        size_t szn = sizeof(name);
+        strncpy(buff, name, szn);
+        return szn;
     }
-
-        
-//    trimWhiteSpace(&name);
-//    int i=0;
-//    while (*name != '.' && *name != NUL) {
-//        buff[i++] = *name;
-//        name++;
-//    }
-//    buff[i] = NUL;
-//    return buff;
 }
 
-utility(MCString, const char*, extensionFromFilename, const char* name, char (*buff)[])
+utility(MCString, size_t, extensionFromFilename, const char* name, char* basebuff, char* extbuff)
 {
     trimWhiteSpace(&name);
-    char reversebuff[PATH_MAX] = {};
-    MCString_reverse(name, &reversebuff);
-    
-    char* head = &reversebuff[0];
-    char* tail = &reversebuff[0];
-    while (*head != '.' && *head != NUL) {
-        head++;
-    }
-    //stop at dot
-    if (*head == '.') {
-        head--;
-        int i=0;
-        while (head != tail) {
-            (*buff)[i++] = *head;
-            head--;
+    int i=0, j=0;
+    while (name[i] != NUL && name[i] != NUL) {
+        if (name[i] == '.') {
+            j = i;
         }
-        (*buff)[i] = *tail;
-        return &(*buff)[0];
-    } else {
-        return name;
+        i++;
     }
-
-//    while (*name != '.' && *name != NUL) name++;
-//    if (*name == NUL) {
-//        return null;
-//    }else{
-//        name++;//skip dot
-//        int i=0;
-//        while (*name != NUL) {
-//            (*buff)[i++] = *name;
-//            name++;
-//        }
-//        (*buff)[i] = NUL;
-//        
-//        return &(*buff)[0];
-//    }
+    //no extension
+    if (j==0) {
+        strcpy(basebuff, name);
+        extbuff[0] = NUL;
+        return 0;
+    }
+    //have extension
+    else {
+        size_t b, e, x=0;
+        for (b=0; b<j; b++) {
+            basebuff[b] = name[b];
+        }
+        for (e=j+1; e<i; e++) {
+            extbuff[x++] = name[e];
+        }
+        basebuff[b] = NUL;
+        extbuff[x]  = NUL;
+        return e;
+    }
 }
 
 utility(MCString, const char*, concate, const char** strings, size_t count, char (*buff)[])

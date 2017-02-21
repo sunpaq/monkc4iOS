@@ -27,8 +27,8 @@ static BECubeTextureData* cubtex = null;
 void onAppStart()
 {
     if (cubtex == null) {
-        const char* names[6] = {"right","left","top","bottom","back","front"};
-        cubtex = BECubeTextureData_newWithFaces(names, "jpg");
+        const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
+        cubtex = BECubeTextureData_newWithFaces(names);
     }
 }
 
@@ -255,7 +255,7 @@ static float pinch_scale = 1.0;
 void onGesturePinch(double scale)
 {
     pinch_scale *= scale;
-    pinch_scale = MAX(0.1, MIN(pinch_scale, 100.0));
+    pinch_scale = MAX(0.00001, MIN(pinch_scale, 100.0));
 
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != null && director->lastScene != null && camera != null) {

@@ -79,12 +79,12 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, uns
        const char* vname, const char* fname)
 {
     char vpath[LINE_MAX] = {};
-    if (MCFileGetPath(vname, "vsh", vpath))
+    if (MCFileGetPath(vname, vpath))
         return null;
     const char* vsource = MCFileCopyContentWithPath(vpath);
     
     char fpath[LINE_MAX] = {};
-    if (MCFileGetPath(fname, "fsh", fpath))
+    if (MCFileGetPath(fname, fpath))
         return null;
     const char* fsource = MCFileCopyContentWithPath(fpath);
     
@@ -101,7 +101,7 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, uns
 method(MC3DScene, MC3DScene*, initWithWidthHeightDefaultShader, unsigned width, unsigned height)
 {
     debug_log("MC3DScene initWithWidthHeightDefaultShader %dx%d %s\n", width, height, "MCGLRenderer");
-	return MC3DScene_initWithWidthHeightVNameFName(0, obj, width, height, "MCGLRenderer", "MCGLRenderer");
+	return MC3DScene_initWithWidthHeightVNameFName(0, obj, width, height, "MCGLRenderer.vsh", "MCGLRenderer.fsh");
 }
 
 method(MC3DScene, void, lockCamera, MCBool lock)

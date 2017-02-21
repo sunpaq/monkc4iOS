@@ -239,7 +239,7 @@ static BAMtlLibrary* BAMtlLibraryAlloc() {
 BAMtlLibrary* BAMtlLibraryNew(const char* filename)
 {
     char path[LINE_MAX] = {};
-    if(MCFileGetPath(filename, "mtl", path)) {
+    if(MCFileGetPath(filename, path)) {
         return null;
     }
     

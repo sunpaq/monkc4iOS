@@ -48,7 +48,7 @@ class(BECubeTextureData, MCObject,
 );
 
 utility(BECubeTextureData, BECubeTextureData*, newWithFacePaths, const char* facepaths[6]);
-utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6], const char* extension);
+utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6]);
 method(BECubeTextureData, void, bye, voida);
 
 //BEAssetsManager is an utility class
@@ -61,7 +61,7 @@ AAssetManager* MCFileGetAssetManager();
 #endif
 
 //return 0 if success
-int MCFileGetPath(const char* filename, const char* extention, char* buffer);
+int MCFileGetPath(const char* filename, char* buffer);
 const char* MCFileCopyContent(const char* filename);
 const char* MCFileCopyContentWithPath(const char* filepath);
 void MCFileReleaseContent(void* buff);

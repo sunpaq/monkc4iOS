@@ -78,7 +78,7 @@ compute(MCMatrix4, projectionMatrix)
     double far  = cpt(Radius) + var(depth_of_field);
     
     if (near <= 0) {
-        near = 10;
+        near = MCLensStandard50mm;
     }
     
     return MCMatrix4MakePerspective(MCDegreesToRadians(obj->view_angle),

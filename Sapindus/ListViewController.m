@@ -39,7 +39,7 @@
     NSString* filename = [self.listData objectAtIndex:i];
     if (filename && ![filename isEqualToString:@""]) {
         
-        [_gvc setFilename:[filename stringByDeletingPathExtension]];
+        [_gvc setFilename:filename];
         
     }
 }

@@ -103,12 +103,12 @@ utility(BECubeTextureData, BECubeTextureData*, newWithFacePaths, const char* fac
     return data;
 }
 
-utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6], const char* extension)
+utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6])
 {
     BECubeTextureData* data = new(BECubeTextureData);
     char pathbuff[PATH_MAX] = {};
     for (int i=0; i<6; i++) {
-        if(MCFileGetPath(faces[i], extension, pathbuff)){
+        if(MCFileGetPath(faces[i], pathbuff)){
             return null;
         }
         pathbuff[PATH_MAX-1] = NUL;
@@ -154,40 +154,40 @@ AAssetManager* MCFileGetAssetManager()
 }
 #endif
 
-int MCFileGetPath(const char* filename, const char* extention, char* buffer)
+int MCFileGetPath(const char* filename, char* buffer)
 {
-    char buff[PATH_MAX] = {};
-    filename = MCString_filenameTrimExtension(filename, buff);
+    char basename[256] = {0};
+    char extension[64] = {0};
+    
+    MCString_extensionFromFilename(filename, basename, extension);
+    printf("MCFileGetPath - filename/basename/extension -> %s/%s/%s\n", filename, basename, extension);
     
 #ifdef __ANDROID__
     if (assetManager_ != null) {
 		const char* subpath;
-		if (strcmp(extention, "fsh") == 0) {
+		if (strcmp(extension, "fsh") == 0) {
 			subpath = "shaders";
-		} else if (strcmp(extention, "vsh") == 0) {
+		} else if (strcmp(extension, "vsh") == 0) {
 			subpath = "shaders";
-		} else if (strcmp(extention, "obj") == 0 || strcmp(extention, "mtl") == 0) {
+		} else if (strcmp(extension, "obj") == 0 || strcmp(extension, "mtl") == 0) {
 			subpath = "raw";
-		} else if (strcmp(extention, "png") == 0) {
+		} else if (strcmp(extension, "png") == 0) {
 			subpath = "textures";
-		} else if (strcmp(extention, "jpg") == 0) {
+		} else if (strcmp(extension, "jpg") == 0) {
 			subpath = "textures";
-        } else if (strcmp(extention, "tga") == 0) {
+        } else if (strcmp(extension, "tga") == 0) {
             subpath = "textures";
 		} else {
 			subpath = "raw";
             error_log("can not detect use raw folder\n");
 		}
 
-        char fullname[PATH_MAX] = {};
-		sprintf(fullname, "%s.%s", filename, extention);
-
 		AAssetDir* rootdir = AAssetManager_openDir(assetManager_, subpath);
         if (rootdir) {
             const char* name;
             char fullpath[PATH_MAX] = {};
             while ((name=AAssetDir_getNextFileName(rootdir)) != NULL) {
-                if (strcmp(fullname, name) == 0) {
+                if (strcmp(filename, name) == 0) {
                     sprintf(fullpath, "%s/%s", subpath, name);
                     strcpy(buffer, fullpath);
                 }
@@ -202,20 +202,20 @@ int MCFileGetPath(const char* filename, const char* extention, char* buffer)
     static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
     pthread_mutex_lock(&lock);
     
-    CFStringRef fname = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
-    CFStringRef  fext = CFStringCreateWithCString(NULL, extention, kCFStringEncodingUTF8);
+    CFStringRef fname = CFStringCreateWithCString(NULL, basename, kCFStringEncodingUTF8);
+    CFStringRef  fext = CFStringCreateWithCString(NULL, extension, kCFStringEncodingUTF8);
     CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
     if (url) {
         CFStringRef  path = CFURLCopyPath(url);
         CFStringGetCString(path, buffer, PATH_MAX, kCFStringEncodingUTF8);
-        CFRelease(path);
-        CFRelease(url);
-        CFRelease(fname);
-        CFRelease(fext);
+        if(path) CFRelease(path);
+        if(url)  CFRelease(url);
+        if(fname)CFRelease(fname);
+        if(fext) CFRelease(fext);
     } else {
-        error_log("BEAssetManager can not find path of (%s).(%s)\n", filename, extention);
-        CFRelease(fname);
-        CFRelease(fext);
+        error_log("BEAssetManager can not find path of (%s).(%s)\n", basename, extension);
+        if(fname)CFRelease(fname);
+        if(fext) CFRelease(fext);
         pthread_mutex_unlock(&lock);
         return -1;
     }
