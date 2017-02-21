@@ -46,6 +46,7 @@ MCInline void processMtlLine(BAMtlLibrary* lib, const char* linebuff)
                     BAMaterial* material = lib->materialsList;
                     if (material && MCString_filenameFromPath(remain, &name)) {
                         MCStringFill(material->diffuseMapName, name);
+                        
                     } else {
                         error_log("BAMtlParser - can not get filename form path: %s\n", remain);
                     }

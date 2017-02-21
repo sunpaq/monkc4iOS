@@ -285,8 +285,13 @@ MCInline void BAAddMtlLibrary(BAMtlLibrary** list, const char* name) {
     if (list && name) {
         //insert at head
         BAMtlLibrary* newlib = BAMtlLibraryNew(name);
-        newlib->next = *list;
-        *list = newlib;
+        if (newlib) {
+            newlib->next = *list;
+            *list = newlib;
+        }
+        else{
+            error_log("BAMtlParser - can not add mtllib %s\n", name);
+        }
     }
 }
 

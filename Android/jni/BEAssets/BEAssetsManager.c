@@ -38,14 +38,19 @@ oninit(BE2DTextureData)
 utility(BE2DTextureData, BE2DTextureData*, newWithPathType, const char* path, unsigned type)
 {
     BE2DTextureData* data = new(BE2DTextureData);
-    size_t psize = strlen(path) * sizeof(char);
-    data->path = strcpy(malloc(psize), path);
+    
+    char decodepath[PATH_MAX] = {};
+    MCString_percentDecode(path, decodepath);
+    
+    size_t psize = strlen(decodepath) * sizeof(char);
+    data->path = strcpy(malloc(psize), decodepath);
 
 //    if (type >= data->AUTO && type<= data->RGBA ) {
 //        data->type = type;
 //    }else{
 //        data->type = data->RGB;
 //    }
+    
     data->raw = SOIL_load_image(data->path, &data->width, &data->height, &data->channels, SOIL_LOAD_AUTO);
     return data;
 }
