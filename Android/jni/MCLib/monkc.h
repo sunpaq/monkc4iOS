@@ -1,5 +1,5 @@
 /*
- Copyright (c) <2013-2016>, <Sun Yuli>
+ Copyright (c) <2013-2017>, <Sun Yuli>
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
 #include <stdarg.h>
 #include <stdio.h>
 
-#include <inttypes.h>
+//#include <inttypes.h>
 #include <string.h>
 #include <limits.h>
 
@@ -104,7 +104,7 @@ static inline unsigned monkc_version() {return __MCRuntimeVer__;}
  * first 2 are fixed into message.address and message.object
  * user can define max 6 parameters in a method()
  *
- * if you need to pass more than 6 parameters 
+ * if you need to pass more than 6 parameters
  * please design a structure/object wrap them and pass the pointer in
  * normal C functions NOT subject to these limitations
  * */
@@ -278,11 +278,12 @@ typedef struct
  */
 
 static MCHashTableSize mc_hashtable_sizes[MCHashTableLevelCount] = {
-    901,
+    //901,
     1301,
     3101,
     13001,
-    31001
+    31001,
+    130001
 };
 
 MCInline MCHashTableSize get_tablesize(const MCHashTableLevel level)
@@ -301,8 +302,8 @@ MCInline mc_hashitem* mc_hashtable_get_item(mc_hashtable* table, MCHashTableInde
 
 typedef struct mc_block_struct
 {
-	struct mc_block_struct* next;
-	void* data;
+    struct mc_block_struct* next;
+    void* data;
 }mc_block;
 MCInline mc_block* new_mc_block(void* data)
 {
@@ -314,8 +315,8 @@ MCInline mc_block* new_mc_block(void* data)
 
 typedef struct
 {
-	MCInt lock;
-	mc_block* tail;
+    MCInt lock;
+    mc_block* tail;
 }mc_blockpool;
 MCInline mc_blockpool* new_mc_blockpool()
 {
@@ -489,17 +490,11 @@ void mc_unlock(volatile MCInt* lock_p);
  Key.h
  */
 
-MCInline int mc_compare_key(const char* dest, const char* src) {
+MCInline MCBool mc_compare_key(const char* dest, const char* src) {
     if (dest && src) {
-        if (dest[0]!=NUL && src[0]!=NUL) {
-            return strcmp(dest, src);
-        }else if (dest[0]==NUL && src[0]==NUL) {
-            return 0;
-        }else{
-            return 1;
-        }
+        return (strcmp(dest, src) == 0);
     }else{
-        return 1;
+        return false;
     }
 }
 
@@ -520,7 +515,8 @@ MCInline MCHash hash_content(const char *s) {
 MCInline MCHash hash(const char *s) {
     //avoid integer overflow
     //return ((MCHash)s & MCHashMask);
-    return ((MCHash)s);
+    //return ((MCHash)s);
+    return hash_content(s);
 }
 
 MCInline MCHashTableIndex firstHashIndex(MCHash nkey, MCHashTableSize slots) {
