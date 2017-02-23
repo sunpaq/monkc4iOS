@@ -662,8 +662,8 @@
 		FD50E2211C15DE00001CC314 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
-				FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */,
 				FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */,
+				FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */,
 				FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */,
 				FD1E49AE1C760BED00ADCBD2 /* MCGLRenderer.vsh */,
 			);

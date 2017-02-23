@@ -39,7 +39,7 @@ utility(BE2DTextureData, BE2DTextureData*, newWithPathType, const char* path, un
 {
     BE2DTextureData* data = new(BE2DTextureData);
     
-    char decodepath[PATH_MAX] = {};
+    char decodepath[PATH_MAX] = {0};
     MCString_percentDecode(path, decodepath);
     
     size_t psize = strlen(decodepath) * sizeof(char);
@@ -106,7 +106,7 @@ utility(BECubeTextureData, BECubeTextureData*, newWithFacePaths, const char* fac
 utility(BECubeTextureData, BECubeTextureData*, newWithFaces, const char* faces[6])
 {
     BECubeTextureData* data = new(BECubeTextureData);
-    char pathbuff[PATH_MAX] = {};
+    char pathbuff[PATH_MAX] = {0};
     for (int i=0; i<6; i++) {
         if(MCFileGetPath(faces[i], pathbuff)){
             return null;
@@ -185,7 +185,7 @@ int MCFileGetPath(const char* filename, char* buffer)
 		AAssetDir* rootdir = AAssetManager_openDir(assetManager_, subpath);
         if (rootdir) {
             const char* name;
-            char fullpath[PATH_MAX] = {};
+            char fullpath[PATH_MAX] = {0};
             while ((name=AAssetDir_getNextFileName(rootdir)) != NULL) {
                 if (strcmp(filename, name) == 0) {
                     sprintf(fullpath, "%s/%s", subpath, name);
@@ -250,7 +250,7 @@ const char* MCFileCopyContentWithPath(const char* filepath)
     error_log("MCFileCopyContent(%s) Android assetManager_ is null\n", filepath);
     return null;
 #else
-    char decodepath[PATH_MAX] = {};
+    char decodepath[PATH_MAX] = {0};
     FILE* f = fopen(MCString_percentDecode(filepath, decodepath), "r");
     if (f) {
         fseek(f, 0, SEEK_END);

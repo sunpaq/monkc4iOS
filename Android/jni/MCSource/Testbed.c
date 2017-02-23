@@ -154,7 +154,7 @@ static void testGeometry()
             {-1.373570,0.528954,-1.027800},
         };
     
-    MCPolygon Poly = {};
+    MCPolygon Poly = {0};
     MCPolygonInit(&Poly, data, 5);
     
     MCTriangle tresult[3];
@@ -277,10 +277,10 @@ static void testsystemapi()
     CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
     
     CFStringRef  path = CFURLCopyPath(url);
-    char buffer[2048] = {};
+    char buffer[2048] = {0};
     CFStringGetCString(path, buffer, PATH_MAX, kCFStringEncodingASCII);
     
-    char decode[2048] = {};
+    char decode[2048] = {0};
     MCString_percentDecode(buffer, decode);
     
     exit(0);

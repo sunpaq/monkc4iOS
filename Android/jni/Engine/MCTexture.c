@@ -68,7 +68,7 @@ function(void, freeRawdata, voida)
 
 method(MCTexture, MCTexture*, initWithFileName, const char* name)
 {
-    char pathbuff[PATH_MAX] = {};
+    char pathbuff[PATH_MAX] = {0};
     if (MCFileGetPath(name, pathbuff)) {
         return null;
     }

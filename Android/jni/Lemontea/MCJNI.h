@@ -1,3 +1,5 @@
+#ifdef __ANDROID__
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -45,3 +47,5 @@ you can use 'env' & 'obj' access the JVM environment and Java object proxy
 */
 
 #define JavaStringFromCString(cstr) (*env)->NewStringUTF(env, cstr)
+
+#endif
