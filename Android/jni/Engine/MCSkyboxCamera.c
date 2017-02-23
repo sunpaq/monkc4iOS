@@ -27,10 +27,11 @@ oninit(MCSkyboxCamera)
         //world coordinate
         sobj->lookat = MCVector3Make(0, -1, 0);
         sobj->eye    = MCVector3Make(0, 0, 0);
-        sobj->up     = MCVector3Make(0, 0, -1);
+        sobj->up     = MCVector3Make(0, 0, 1);
 
         //attitude
-        obj->attitudeQ = MCQuaternionZero();
+        obj->upvectorAttitudeQ = MCQuaternionZero();
+        obj->rotationMat3 = MCMatrix3Identity;
         
         //uniforms
         obj->viewMatrix        = boxViewMatrix;
@@ -52,16 +53,10 @@ method(MCSkyboxCamera, void, bye, voida)
 compute(MCMatrix4, boxViewMatrix)
 {
     as(MCSkyboxCamera);
-//    MCVector3 lookat = MCVector3Make(MCSinDegrees(sobj->fai), MCSinDegrees(sobj->tht), MCCosDegrees(sobj->tht));
-//    MCVector3 up     = MCVector3Make(MCTanDegrees(sobj->fai) * MCSinDegrees(sobj->tht),
-//                                     MCCosDegrees(sobj->tht), MCSinDegrees(sobj->tht));
     
-    //swap z-x
-    MCQuaternion q = {obj->attitudeQ.x, obj->attitudeQ.y, obj->attitudeQ.z, obj->attitudeQ.w};
-    
-    MCVector3 eye = MCVector3Make(0, 0, 0);
-    MCVector3 lookat = MCVector3RotateByQuaternion(sobj->lookat, q);
-    MCVector3 up = MCVector3RotateByQuaternion(sobj->up, q);
+    MCVector3 eye    = sobj->eye;
+    MCVector3 up     = sobj->up;
+    MCVector3 lookat = sobj->lookat;
     
 //    return MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
 //                               lookat.x, lookat.y, lookat.z,
@@ -96,7 +91,13 @@ compute(MCMatrix4, boxViewMatrix)
         0,
         1.0f };
     
-    return m;
+    //MCMatrix4 m = MCMatrix4Identity;
+    
+    
+    
+    int isInvertible;
+    MCMatrix3 imat3 = MCMatrix3Invert(obj->rotationMat3, &isInvertible);
+    return MCMatrix4Multiply(MCMatrix4FromMatrix3(imat3), m);
 }
 
 compute(MCMatrix4, boxProjectionMatrix)
@@ -172,12 +173,14 @@ method(MCSkyboxCamera, void, update, MCGLContext* ctx)
 
 method(MCSkyboxCamera, void, setAttitudeR, MCVector3* rollYawPitch)
 {
-    obj->attitudeQ = MCQuaternionByAxisAngles(rollYawPitch->x, rollYawPitch->y, rollYawPitch->z);
+    obj->upvectorAttitudeQ = MCQuaternionByEuler_Radian(rollYawPitch->v[0],
+                                                        rollYawPitch->v[1],
+                                                        rollYawPitch->v[2]);
 }
 
 method(MCSkyboxCamera, void, setAttitudeQ, MCQuaternion* q)
 {
-    obj->attitudeQ = *q;
+    obj->upvectorAttitudeQ = *q;
 }
 
 onload(MCSkyboxCamera)

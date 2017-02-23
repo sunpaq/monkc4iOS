@@ -21,7 +21,7 @@ void onReceiveMemoryWarning();
 void onSetupGL(int windowWidth, int windowHeight);
 void onOpenFile(const char* filename);
 void onTearDownGL();
-void onUpdate(double x, double y, double z, double w);
+void onUpdate(float* rmat4);
 int onDraw();
 
 //File callback

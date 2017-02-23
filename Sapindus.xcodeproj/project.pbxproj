@@ -149,6 +149,13 @@
 		FDABFFC81DC79EA400E8F4F0 /* SCI.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */; };
 		FDABFFC91DC79EA400E8F4F0 /* SCI.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC71DC79EA400E8F4F0 /* SCI.obj */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
+		FDDA42441E5F1574001CF3A2 /* negx.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDDA423D1E5F1574001CF3A2 /* negx.jpg */; };
+		FDDA42451E5F1574001CF3A2 /* negy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDDA423E1E5F1574001CF3A2 /* negy.jpg */; };
+		FDDA42461E5F1574001CF3A2 /* negz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDDA423F1E5F1574001CF3A2 /* negz.jpg */; };
+		FDDA42471E5F1574001CF3A2 /* posx.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDDA42401E5F1574001CF3A2 /* posx.jpg */; };
+		FDDA42481E5F1574001CF3A2 /* posy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDDA42411E5F1574001CF3A2 /* posy.jpg */; };
+		FDDA42491E5F1574001CF3A2 /* posz.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDDA42421E5F1574001CF3A2 /* posz.jpg */; };
+		FDDA424A1E5F1574001CF3A2 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = FDDA42431E5F1574001CF3A2 /* readme.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -376,6 +383,13 @@
 		FDABFFC71DC79EA400E8F4F0 /* SCI.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.obj; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
+		FDDA423D1E5F1574001CF3A2 /* negx.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = negx.jpg; sourceTree = "<group>"; };
+		FDDA423E1E5F1574001CF3A2 /* negy.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = negy.jpg; sourceTree = "<group>"; };
+		FDDA423F1E5F1574001CF3A2 /* negz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = negz.jpg; sourceTree = "<group>"; };
+		FDDA42401E5F1574001CF3A2 /* posx.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = posx.jpg; sourceTree = "<group>"; };
+		FDDA42411E5F1574001CF3A2 /* posy.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = posy.jpg; sourceTree = "<group>"; };
+		FDDA42421E5F1574001CF3A2 /* posz.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = posz.jpg; sourceTree = "<group>"; };
+		FDDA42431E5F1574001CF3A2 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		FDFF06001B060BE1000064E3 /* Sapindus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sapindus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDFF061D1B060BE1000064E3 /* Sapindus.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Sapindus.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -719,6 +733,7 @@
 		FD5EFD561B0E3D9D00D2492A /* textures */ = {
 			isa = PBXGroup;
 			children = (
+				FDDA423C1E5F1574001CF3A2 /* DallasW */,
 				FD87847D1CCE5F8C0071DAB4 /* back.jpg */,
 				FD87847E1CCE5F8C0071DAB4 /* bottom.jpg */,
 				FD87847F1CCE5F8C0071DAB4 /* front.jpg */,
@@ -792,6 +807,21 @@
 				F8888AAA1E456F3D002C7822 /* Girl Blendswap.obj */,
 			);
 			path = TeenGirl;
+			sourceTree = "<group>";
+		};
+		FDDA423C1E5F1574001CF3A2 /* DallasW */ = {
+			isa = PBXGroup;
+			children = (
+				FDDA423D1E5F1574001CF3A2 /* negx.jpg */,
+				FDDA423E1E5F1574001CF3A2 /* negy.jpg */,
+				FDDA423F1E5F1574001CF3A2 /* negz.jpg */,
+				FDDA42401E5F1574001CF3A2 /* posx.jpg */,
+				FDDA42411E5F1574001CF3A2 /* posy.jpg */,
+				FDDA42421E5F1574001CF3A2 /* posz.jpg */,
+				FDDA42431E5F1574001CF3A2 /* readme.txt */,
+			);
+			name = DallasW;
+			path = skybox/DallasW;
 			sourceTree = "<group>";
 		};
 		FDFF05F71B060BE1000064E3 = {
@@ -906,25 +936,31 @@
 				FD6C5CC61E44D839000E09B6 /* Avent.mtl in Resources */,
 				FD19FC5E1E42361B006DC443 /* tex8.bmp in Resources */,
 				FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */,
+				FDDA42491E5F1574001CF3A2 /* posz.jpg in Resources */,
 				FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */,
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
 				F83C296D1E5BF2E5003DC021 /* Map #1.001.tga in Resources */,
 				FD2A6E861DA75F0C00293DE1 /* monkey2.mtl in Resources */,
 				FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */,
+				FDDA42461E5F1574001CF3A2 /* negz.jpg in Resources */,
 				FD5EFD661B0E3D9D00D2492A /* Icon-Small-50.png in Resources */,
 				FD5EFD581B0E3D9D00D2492A /* Contents.json in Resources */,
 				FD4CC1EF1C91B40800051C15 /* tex4.bmp in Resources */,
+				FDDA42451E5F1574001CF3A2 /* negy.jpg in Resources */,
 				FD4CC1F91C93B43D00051C15 /* tex7.bmp in Resources */,
+				FDDA424A1E5F1574001CF3A2 /* readme.txt in Resources */,
 				FD5EFD671B0E3D9D00D2492A /* Icon-Small-50@2x.png in Resources */,
 				FD5EFD651B0E3D9D00D2492A /* Icon-72@2x.png in Resources */,
 				FD00C4CC1CD10BAE00DCA45F /* Info.plist in Resources */,
 				FD8784861CCE5F8C0071DAB4 /* left.jpg in Resources */,
 				FD5EFD691B0E3D9D00D2492A /* Icon@2x.png in Resources */,
+				FDDA42471E5F1574001CF3A2 /* posx.jpg in Resources */,
 				FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */,
 				FD6C5C461E44B987000E09B6 /* Arakkoa_Sage_01Purple.tga in Resources */,
 				FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
 				FD6C5C441E44B987000E09B6 /* arakkoa_sage.mtl in Resources */,
+				FDDA42441E5F1574001CF3A2 /* negx.jpg in Resources */,
 				FD6C5CD81E44E209000E09B6 /* Alex_Eyeball.jpg in Resources */,
 				FD4B125B1DA5024800ADCB38 /* beengine.mtl in Resources */,
 				FD8784851CCE5F8C0071DAB4 /* front.jpg in Resources */,
@@ -942,6 +978,7 @@
 				FD5EFD5E1B0E3D9D00D2492A /* Icon-76.png in Resources */,
 				FD00C4C11CD10BAE00DCA45F /* LaunchScreen.xib in Resources */,
 				F83C296C1E5BF2E5003DC021 /* cstyle.obj in Resources */,
+				FDDA42481E5F1574001CF3A2 /* posy.jpg in Resources */,
 				FD00C4C21CD10BAE00DCA45F /* Main.storyboard in Resources */,
 				F83C29701E5BF2E5003DC021 /* Map #614327345.tga in Resources */,
 				FD8784871CCE5F8C0071DAB4 /* right.jpg in Resources */,

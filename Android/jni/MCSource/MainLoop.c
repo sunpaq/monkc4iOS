@@ -27,7 +27,8 @@ static BECubeTextureData* cubtex = null;
 void onAppStart()
 {
     if (cubtex == null) {
-        const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
+        //const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
+        const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
         cubtex = BECubeTextureData_newWithFaces(names);
     }
 }
@@ -192,20 +193,29 @@ void onTearDownGL()
     director = null;
 }
 
-void onUpdate(double x, double y, double z, double w)
+void onUpdate(float* rmat3)
 {
     //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
     //MCLogTypeSet(MC_SILENT);
+    
+    MCMatrix3 mat = {0};
+    if (rmat3) {
+        for (int i=0; i<9; i++) {
+            mat.m[i] = rmat3[i];
+        }
+    }
     if (director != null) {
 
     	if (computed(director->lastScene, isDrawSky)) {
             
             if (director->currentWidth < director->currentHeight) {
-                MCQuaternion q = {x,y,z,w};
-                MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
+                //MCQuaternion q = {x,y,z,w};
+                //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
+                director->lastScene->skyboxRef->camera->rotationMat3 = mat;
             }else{
-                MCQuaternion q = {x,y,z,w};
-                MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
+                //MCQuaternion q = {x,y,z,w};
+                //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
+                director->lastScene->skyboxRef->camera->rotationMat3 = mat;
             }
     	}
 

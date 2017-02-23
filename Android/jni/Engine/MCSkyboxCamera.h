@@ -19,7 +19,8 @@ class(MCSkyboxCamera, MCCamera,
       computing(MCGLUniform, viewUniform);
       computing(MCGLUniform, projectionUniform);
       //attitude
-      MCQuaternion attitudeQ;
+      MCQuaternion upvectorAttitudeQ;
+      MCMatrix3 rotationMat3;
 );
 
 //override

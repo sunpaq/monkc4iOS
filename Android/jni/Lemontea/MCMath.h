@@ -164,12 +164,12 @@ static const MCMatrix3 MCMatrix3Identity = {
     0.0f, 0.0f, 1.0f,
 };
 
-MCInline MCMatrix4 MCMatrix4Identity() {
-    return (MCMatrix4){1,0,0,0,
-        0,1,0,0,
-        0,0,1,0,
-        0,0,0,1};
-}
+static const MCMatrix4 MCMatrix4Identity = {
+    1,0,0,0,
+    0,1,0,0,
+    0,0,1,0,
+    0,0,0,1
+};
 
 MCInline double MCDegreesToRadians(double degrees) { return degrees * (M_PI / 180); }
 MCInline double MCRadiansToDegrees(double radians) { return radians * (180 / M_PI); }
@@ -285,26 +285,43 @@ MCInline MCQuaternion MCQuaternionFromAxisAngle_Radian(MCVector3 axis, double ra
     };
 }
 
+MCInline MCQuaternion MCQuaternionSwapYZ(MCQuaternion* q)
+{
+    MCVector3 axis = (MCVector3){q->x, q->y, q->z};
+    double radian = q->w;
+    
+    double r = radian / 2.0f;
+    return (MCQuaternion) {
+        axis.x * sin(r),
+        axis.z * sin(r),
+        axis.y * sin(r),
+        cos(r)
+    };
+}
+
 MCInline MCQuaternion MCQuaternionFromAxisAngle(MCVector3 axis, double tht)
 {
     return MCQuaternionFromAxisAngle_Radian(axis, MCDegreesToRadians(tht));
 }
 
-MCInline MCQuaternion MCQuaternionByAxisAngles_Radian(double z, double y, double x)
+MCInline MCQuaternion MCQuaternionByEuler_Radian(double row, double yaw, double pitch)
 {
-    //roll yaw pitch => z y x
-    MCQuaternion zq = MCQuaternionFromAxisAngle_Radian(MCVector3Make(0.0, 0.0, 1.0), z);
-    MCQuaternion yq = MCQuaternionFromAxisAngle_Radian(MCVector3Make(0.0, 1.0, 0.0), y);
-    MCQuaternion xq = MCQuaternionFromAxisAngle_Radian(MCVector3Make(1.0, 0.0, 0.0), x);
+    //roll yaw pitch => +z +y +x
+    MCQuaternion R = MCQuaternionFromAxisAngle_Radian(MCVector3Make(0.0, 0.0, 1.0), row);
+    MCQuaternion Y = MCQuaternionFromAxisAngle_Radian(MCVector3Make(0.0, 1.0, 0.0), yaw);
+    MCQuaternion P = MCQuaternionFromAxisAngle_Radian(MCVector3Make(1.0, 0.0, 0.0), pitch);
     
-    MCQuaternion qarray[2] = {yq, xq};
+    MCQuaternion qarray[2] = {Y, P};
     
-    return MCQuaternionArrayGProduct(zq, qarray, 2);
+    return MCQuaternionArrayGProduct(R, qarray, 2);
 }
 
-MCInline MCQuaternion MCQuaternionByAxisAngles(double z, double y, double x)
+MCInline MCQuaternion MCQuaternionByAxisAngles(double x, double y, double z)
 {
-    return MCQuaternionByAxisAngles_Radian(MCDegreesToRadians(z), MCDegreesToRadians(y), MCDegreesToRadians(x));
+    //roll yaw pitch => +z +y +x
+    return MCQuaternionByEuler_Radian(MCDegreesToRadians(z),
+                                      MCDegreesToRadians(y),
+                                      MCDegreesToRadians(x));
 }
 
 MCInline MCVector3 MCVector3RotateByQuaternion(MCVector3 v, MCQuaternion q)
