@@ -27,7 +27,8 @@ static BECubeTextureData* cubtex = null;
 void onAppStart()
 {
     if (cubtex == null) {
-        const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
+        //const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
+        const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
         cubtex = BECubeTextureData_newWithFaces(names);
     }
 }

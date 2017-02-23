@@ -96,6 +96,11 @@ MCInline MCMatrix4 MCMatrix4FromMatrix3(MCMatrix3 mat3)
     return m;
 }
 
+//MCInline MCMatrix3 MCMatrix3Rotate(MCMatrix3 matrix, float x, float y, float z)
+//{
+//    
+//}
+
 MCInline MCMatrix3 MCMatrix3Scale(MCMatrix3 matrix, float sx, float sy, float sz)
 {
     MCMatrix3 m = { matrix.m[0] * sx, matrix.m[1] * sx, matrix.m[2] * sx,

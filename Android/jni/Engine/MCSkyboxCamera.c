@@ -27,7 +27,7 @@ oninit(MCSkyboxCamera)
         //world coordinate
         sobj->lookat = MCVector3Make(0, -1, 0);
         sobj->eye    = MCVector3Make(0, 0, 0);
-        sobj->up     = MCVector3Make(0, 0, -1);
+        sobj->up     = MCVector3Make(0, 0, 1);
 
         //attitude
         obj->upvectorAttitudeQ = MCQuaternionZero();
@@ -82,16 +82,18 @@ compute(MCMatrix4, boxViewMatrix)
 //        dn,
 //        1.0f };
     
-//    MCMatrix4 m = {
-//        u.x, u.y, u.z, du,
-//        v.x, v.y, v.z, dv,
-//        n.x, n.y, n.z, dn,
-//        0,
-//        0,
-//        0,
-//        1.0f };
+    MCMatrix4 m = {
+        u.x, u.y, u.z, du,
+        v.x, v.y, v.z, dv,
+        n.x, n.y, n.z, dn,
+        0,
+        0,
+        0,
+        1.0f };
     
-    MCMatrix4 m = MCMatrix4Identity;
+    //MCMatrix4 m = MCMatrix4Identity;
+    
+    
     
     int isInvertible;
     MCMatrix3 imat3 = MCMatrix3Invert(obj->rotationMat3, &isInvertible);
