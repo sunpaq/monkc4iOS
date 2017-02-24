@@ -133,22 +133,22 @@ method(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht)
     if (var(isLockRotation) == true) {
         return;
     }
-    
+    //angle with x+
     if (var(isReverseMovement)) {
-        obj->fai -= deltaFai.f;   //Left
-        obj->tht -= deltaTht.f;   //Up
-    }else{
         obj->fai += deltaFai.f;   //Left
         obj->tht += deltaTht.f;   //Up
+    }else{
+        obj->fai -= deltaFai.f;   //Left
+        obj->tht -= deltaTht.f;   //Up
     }
 }
 
 method(MCCamera, void, fucus, MCFloat deltaX, MCFloat deltaY)
 {
+    //angle with x+
     if (var(isReverseMovement)) {
         obj->lookat.x += deltaX.f;
         obj->lookat.y += deltaY.f;
-        
     }else{
         obj->lookat.x -= deltaX.f;
         obj->lookat.y -= deltaY.f;
