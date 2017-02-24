@@ -117,11 +117,11 @@ MCInline MCMatrix3 MCMatrix3Transpose(MCMatrix3 matrix)
     return m;
 }
 
-MCInline MCMatrix3 MCMatrix3Invert(MCMatrix3 matrix, int* isInvertible) {
+MCInline MCMatrix3 MCMatrix3Invert(MCMatrix3 matrix, MCBool* isInvertible) {
     float determinant = (matrix.m00 * (matrix.m11 * matrix.m22 - matrix.m12 * matrix.m21)) + (matrix.m01 * (matrix.m12 * matrix.m20 - matrix.m22 * matrix.m10)) + (matrix.m02 * (matrix.m10 * matrix.m21 - matrix.m11 *matrix.m20));
     
     if (isInvertible) {
-        *isInvertible = (determinant != 0.0f)? 1 : 0;
+        *isInvertible = (determinant != 0.0f)? true : false;
     }
     
     if (!(determinant != 0.0f)) {
@@ -129,6 +129,12 @@ MCInline MCMatrix3 MCMatrix3Invert(MCMatrix3 matrix, int* isInvertible) {
     }
     
     return MCMatrix3Scale(MCMatrix3Transpose(matrix), determinant, determinant, determinant);
+}
+
+MCInline MCMatrix4 MCMatrix4Invert(MCMatrix4 matrix, MCBool* isInvertible) {
+    MCMatrix3 m3 = MCMatrix4GetMatrix3(matrix);
+    MCMatrix3 i3 = MCMatrix3Invert(m3, isInvertible);
+    return MCMatrix4FromMatrix3(i3);
 }
 
 MCInline MCMatrix3 MCMatrix3InvertAndTranspose(MCMatrix3 matrix, void* isInvertible) {
@@ -158,7 +164,8 @@ MCInline MCMatrix4 MCMatrix4MakeLookAt(float eyeX, float eyeY, float eyeZ,
     return m;
 }
 
-MCInline MCMatrix4 MCMatrix4MakeLookAtByEulerAngle_EyeUp(MCVector3 lookat, double R, double fai, double tht, MCVector3* eyeResult, MCVector3* upResult)
+MCInline MCMatrix4 MCMatrix4MakeLookAtByEulerAngle_EyeUp(MCVector3 lookat, double R, double fai, double tht,
+                                                         MCVector3* eyeResult, MCVector3* upResult)
 {
     //rotate around y-axis first then x-axis
     MCQuaternion qy = MCQuaternionFromAxisAngle(MCVector3Make(0, 1, 0), fai);
@@ -180,6 +187,16 @@ MCInline MCMatrix4 MCMatrix4MakeLookAtByEulerAngle_EyeUp(MCVector3 lookat, doubl
     return MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
                                lat.x, lat.y, lat.z,
                                up.x,  up.y,  up.z);
+}
+
+MCInline MCMatrix4 MCMakeRotationMatrix4ByUVN(MCVector3 u, MCVector3 v, MCVector3 n)
+{
+    return (MCMatrix4) {
+        u.x, u.y, u.z, 0,
+        v.x, v.y, v.z, 0,
+        n.x, n.y, n.z, 0,
+        0, 0, 0, 1
+    };
 }
 
 MCInline MCMatrix4 MCMatrix4MakeLookAtByEulerAngle(MCVector3 lookat, double R, double fai, double tht)

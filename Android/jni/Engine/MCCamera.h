@@ -26,9 +26,11 @@ class(MCCamera, MC3DNode,
     computing(MCMatrix4, viewMatrix);
     computing(MCMatrix4, projectionMatrix);
     computing(MCVector3, currentPosition);
-    
+    computing(MCMatrix3, rotationMat3);
+
     MCBool isReverseMovement;
     MCBool isLockRotation;
+    MCBool isGyroscopeMode;
 );
 
 method(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
@@ -38,6 +40,7 @@ method(MCCamera, void, pull, MCFloat deltaR);
 method(MCCamera, void, reset, voida);
 method(MCCamera, void, update, MCGLContext* ctx);//override
 method(MCCamera, void, distanceScale, MCFloat scale);
+method(MCCamera, void, setRotationMat3, float mat3[9]);
 method(MCCamera, void, printDebugInfo, voida);
 
 #define MCLensStandard50mm (0.050)

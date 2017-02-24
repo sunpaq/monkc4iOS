@@ -392,6 +392,15 @@ MCInline MCMatrix4 MCMatrix4Multiply(MCMatrix4 l, MCMatrix4 r)
     return m;
 }
 
+MCInline MCVector3 MCVector3MultiplyMat3(MCVector3 vec3, MCMatrix3 mat3)
+{
+    MCVector3 v;
+    v.x = vec3.x * mat3.m00 + vec3.y * mat3.m01 + vec3.z * mat3.m02;
+    v.y = vec3.x * mat3.m10 + vec3.y * mat3.m11 + vec3.z * mat3.m12;
+    v.z = vec3.x * mat3.m20 + vec3.y * mat3.m21 + vec3.z * mat3.m22;
+    return v;
+}
+
 //Prime
 utility(MCMath, MCBool, isPrime, int a);
 //Power of two

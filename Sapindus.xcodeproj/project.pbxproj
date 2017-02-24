@@ -469,9 +469,9 @@
 		FD44CD9D1D326CF200784EDF /* BEAssets */ = {
 			isa = PBXGroup;
 			children = (
+				FD44CDA01D326CF200784EDF /* external */,
 				FD44CD9E1D326CF200784EDF /* BEAssetsManager.c */,
 				FD44CD9F1D326CF200784EDF /* BEAssetsManager.h */,
-				FD44CDA01D326CF200784EDF /* external */,
 				FD44CDAC1D326CF200784EDF /* BAMtlParser.h */,
 				FD4B12551DA3B03000ADCB38 /* BAMtlParser.c */,
 				FD44CDAD1D326CF200784EDF /* BAObjParser.c */,

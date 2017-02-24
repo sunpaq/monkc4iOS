@@ -14,6 +14,7 @@
 #include "MC3DScene.h"
 #include "MC3DModel.h"
 #include "MCThread.h"
+#include "MCLight.h"
 
 class(MCDirector, MCObject,
       MC3DScene* lastScene;
@@ -24,8 +25,14 @@ class(MCDirector, MCObject,
       int currentWidth;
       int currentHeight;
       
+      MCBool lightFollowCamera;
+      MCBool gyroscopeMode;
+      MCMatrix3 deviceRotationMat3;
+      
+      computing(MCLight*, lightHandler);
       computing(MCCamera*, cameraHandler);
       computing(MCGLContext*, contextHandler);
+      computing(MCSkyboxCamera*, skyboxCameraHandler);
 );
 
 method(MCDirector, void, bye, voida);
@@ -46,6 +53,8 @@ method(MCDirector, void, addModelNamed, const char* name);
 
 method(MCDirector, void, cameraFocusOn, MCVector3 vertex);
 method(MCDirector, void, cameraFocusOnModel, MC3DModel* model);
+
+method(MCDirector, void, setDeviceRotationMat3, float mat3[9]);
 method(MCDirector, void, printDebugInfo, voida);
 
 //iOS callbacks

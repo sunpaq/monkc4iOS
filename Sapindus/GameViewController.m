@@ -7,8 +7,8 @@
 //
 
 #import "GameViewController.h"
-#import "MC3DiOS.h"
 #import <CoreMotion/CoreMotion.h>
+#import "MC3DiOS.h"
 
 @interface GameViewController () {
 	double _savedCameraDistance;
@@ -163,17 +163,19 @@
     onSetupGL(width, height);
     
     //Core Motion
-    if([[NSUserDefaults standardUserDefaults] valueForKey:@"SkyboxOn"]) {
-        [self startDeviceMotion];
-    }
+//    if([[NSUserDefaults standardUserDefaults] valueForKey:@"SkyboxOn"]) {
+//        [self startDeviceMotion];
+//    }
+    
+    [self startDeviceMotion];
 }
 
 - (void)tearDownGL
 {
     //Core Motion
-    if([self.motionManager isDeviceMotionActive]) {
-        [self stopDeviceMotion];
-    }
+//    if([self.motionManager isDeviceMotionActive]) {
+//        [self stopDeviceMotion];
+//    }
 
     [EAGLContext setCurrentContext:self.context];
     

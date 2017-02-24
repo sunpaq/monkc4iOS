@@ -197,13 +197,7 @@ void onUpdate(float* rmat3)
 {
     //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
     //MCLogTypeSet(MC_SILENT);
-    
-    MCMatrix3 mat = {0};
-    if (rmat3) {
-        for (int i=0; i<9; i++) {
-            mat.m[i] = rmat3[i];
-        }
-    }
+
     if (director != null) {
 
     	if (computed(director->lastScene, isDrawSky)) {
@@ -211,14 +205,21 @@ void onUpdate(float* rmat3)
             if (director->currentWidth < director->currentHeight) {
                 //MCQuaternion q = {x,y,z,w};
                 //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
-                director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                //director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                
+                MCDirector_setDeviceRotationMat3(0, director, rmat3);
+                
+                //director->mainCameraRotationMat3
             }else{
                 //MCQuaternion q = {x,y,z,w};
                 //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
-                director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                //director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                
+                MCDirector_setDeviceRotationMat3(0, director, rmat3);
             }
     	}
 
+        MCDirector_setDeviceRotationMat3(0, director, rmat3);
         MCDirector_updateAll(0, director, 0);
     }
 }

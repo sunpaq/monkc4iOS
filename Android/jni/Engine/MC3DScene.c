@@ -142,7 +142,6 @@ method(MC3DScene, void, updateScene, voida)
     
     MCCamera_update(0, obj->mainCamera, obj->renderer->context);
     MCLight_update(0, obj->light, obj->renderer->context);
-    
     MCGLRenderer_updateNodes(0, var(renderer), var(rootnode));
 }
 
