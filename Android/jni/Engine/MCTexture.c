@@ -8,6 +8,7 @@
 
 #include "MCTexture.h"
 #include "MCGLEngine.h"
+#include "BEAssetsManager.h"
 
 static unsigned unitNum = 1;
 

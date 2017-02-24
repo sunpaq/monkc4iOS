@@ -12,9 +12,8 @@
 #include <stdio.h>
 #include "monkc.h"
 #include "MC3DNode.h"
-#include "BEAssetsManager.h"
+#include "BECubeTextureData.h"
 #include "MCSkyboxCamera.h"
-
 
 class(MCSkybox, MC3DNode,
       MCSkyboxCamera* camera;

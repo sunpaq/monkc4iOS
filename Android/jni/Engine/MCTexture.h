@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "monkc.h"
 #include "MCGLBase.h"
-#include "BEAssetsManager.h"
+#include "BE2DTextureData.h"
 
 typedef enum {
     MCTextureRepeat      = GL_REPEAT,

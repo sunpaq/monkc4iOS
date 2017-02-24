@@ -17,6 +17,8 @@
 		F8888AAC1E456F3D002C7822 /* Girl Blendswap.obj in Resources */ = {isa = PBXBuildFile; fileRef = F8888AAA1E456F3D002C7822 /* Girl Blendswap.obj */; };
 		F896E7311DDEA0F5008212F1 /* MCGraph.c in Sources */ = {isa = PBXBuildFile; fileRef = F896E72F1DDEA0F5008212F1 /* MCGraph.c */; };
 		F89E8B891DF4F1C9000FB4DA /* MCTree.c in Sources */ = {isa = PBXBuildFile; fileRef = F89E8B871DF4F1C9000FB4DA /* MCTree.c */; };
+		F8ABA07A1E5FDF650094A7F8 /* BE2DTextureData.c in Sources */ = {isa = PBXBuildFile; fileRef = F8ABA0781E5FDF650094A7F8 /* BE2DTextureData.c */; };
+		F8ABA07D1E5FE1810094A7F8 /* BECubeTextureData.c in Sources */ = {isa = PBXBuildFile; fileRef = F8ABA07B1E5FE1810094A7F8 /* BECubeTextureData.c */; };
 		F8C4651A1DDD8523005581D0 /* MCHeap.c in Sources */ = {isa = PBXBuildFile; fileRef = F8C465181DDD8523005581D0 /* MCHeap.c */; };
 		F8DCDAB71D52E09E00FD3FD2 /* MCArrayLinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = F8DCDAB61D52E09E00FD3FD2 /* MCArrayLinkedList.c */; };
 		F8DCDAB91D52E44000FD3FD2 /* MCGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = F8DCDAB81D52E44000FD3FD2 /* MCGeometry.c */; };
@@ -182,6 +184,10 @@
 		F896E7301DDEA0F5008212F1 /* MCGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCGraph.h; sourceTree = "<group>"; };
 		F89E8B871DF4F1C9000FB4DA /* MCTree.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTree.c; sourceTree = "<group>"; };
 		F89E8B881DF4F1C9000FB4DA /* MCTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTree.h; sourceTree = "<group>"; };
+		F8ABA0781E5FDF650094A7F8 /* BE2DTextureData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BE2DTextureData.c; sourceTree = "<group>"; };
+		F8ABA0791E5FDF650094A7F8 /* BE2DTextureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BE2DTextureData.h; sourceTree = "<group>"; };
+		F8ABA07B1E5FE1810094A7F8 /* BECubeTextureData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BECubeTextureData.c; sourceTree = "<group>"; };
+		F8ABA07C1E5FE1810094A7F8 /* BECubeTextureData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BECubeTextureData.h; sourceTree = "<group>"; };
 		F8C465181DDD8523005581D0 /* MCHeap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCHeap.c; sourceTree = "<group>"; };
 		F8C465191DDD8523005581D0 /* MCHeap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCHeap.h; sourceTree = "<group>"; };
 		F8DCDAB51D52CF8C00FD3FD2 /* MCGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCGeometry.h; sourceTree = "<group>"; };
@@ -472,6 +478,10 @@
 				FD44CDAE1D326CF200784EDF /* BAObjParser.h */,
 				FD3111571DAC7C0700324C31 /* BATrianglization.c */,
 				FD3111581DAC7C0700324C31 /* BATrianglization.h */,
+				F8ABA0781E5FDF650094A7F8 /* BE2DTextureData.c */,
+				F8ABA0791E5FDF650094A7F8 /* BE2DTextureData.h */,
+				F8ABA07B1E5FE1810094A7F8 /* BECubeTextureData.c */,
+				F8ABA07C1E5FE1810094A7F8 /* BECubeTextureData.h */,
 			);
 			name = BEAssets;
 			path = Android/jni/BEAssets;
@@ -1079,6 +1089,7 @@
 				F89E8B891DF4F1C9000FB4DA /* MCTree.c in Sources */,
 				FD44CE411D326CF200784EDF /* MCLinkedList.c in Sources */,
 				FD44CE2B1D326CF200784EDF /* MCCamera.c in Sources */,
+				F8ABA07A1E5FDF650094A7F8 /* BE2DTextureData.c in Sources */,
 				FD44CE441D326CF200784EDF /* MCSocket.c in Sources */,
 				FD44CE581D326CF200784EDF /* monkc.c in Sources */,
 				FD00C4C91CD10BAE00DCA45F /* MasterNavController.m in Sources */,
@@ -1087,6 +1098,7 @@
 				FD44CE471D326CF200784EDF /* MCUnitTest.c in Sources */,
 				F8DCDAB91D52E44000FD3FD2 /* MCGeometry.c in Sources */,
 				FD44CE361D326CF200784EDF /* MCSkybox.c in Sources */,
+				F8ABA07D1E5FE1810094A7F8 /* BECubeTextureData.c in Sources */,
 				FD44CE3A1D326CF200784EDF /* MCWorld.c in Sources */,
 				FD44CE381D326CF200784EDF /* MCTexture.c in Sources */,
 				FD44CE5A1D326CF200784EDF /* gles3jni.c in Sources */,
