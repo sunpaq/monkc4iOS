@@ -14,14 +14,21 @@
 #include "MCGLBase.h"
 #include "BEAssetsManager.h"
 
+typedef enum {
+    MCTextureRepeat      = GL_REPEAT,
+    MCTextureClampToEdge = GL_CLAMP_TO_EDGE
+} MCTextureDisplayMode;
+
 class(MCTexture, MCObject,
       GLuint Id;
-      unsigned textureUnit;
-      BE2DTextureData* data;
       int width;
       int height;
+      unsigned textureUnit;
+      BE2DTextureData* data;
+      MCTextureDisplayMode displayMode;
 );
 
+method(MCTexture, MCTexture*, initWithFileNameMode, const char* name, MCTextureDisplayMode mode);
 method(MCTexture, MCTexture*, initWithFileName, const char* name);
 method(MCTexture, void, loadToGLBuffer, voida);
 method(MCTexture, void, active, GLuint pid, const char* uniformName);
