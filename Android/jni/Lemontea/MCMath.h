@@ -124,19 +124,7 @@ MCInline MCQuaternion MCQuaternionZero()
     return (MCQuaternion){0,0,0,0};
 }
 
-/*
- copy from Apple GLKit
- m30, m31, and m32 correspond to the translation values tx, ty, and tz, respectively.
- m[12], m[13], and m[14] correspond to the translation values tx, ty, and tz, respectively.
- #if defined(__STRICT_ANSI__)
- struct _MCMatrix4
- {
- float m[16];
- } __attribute__((aligned(16)));
- typedef struct _MCMatrix4 MCMatrix4;
- #else
- */
-
+//OpenGL use column major storage matrix m21 is 2column 1row
 typedef union {
     struct
     {
@@ -365,6 +353,7 @@ MCInline void MCMatrix4Copy(MCMatrix4* target, MCMatrix4* source)
     }
 }
 
+//OpenGL use column-order save matrix
 MCInline MCMatrix4 MCMatrix4Multiply(MCMatrix4 l, MCMatrix4 r)
 {
     MCMatrix4 m;
@@ -395,9 +384,9 @@ MCInline MCMatrix4 MCMatrix4Multiply(MCMatrix4 l, MCMatrix4 r)
 MCInline MCVector3 MCVector3MultiplyMat3(MCVector3 vec3, MCMatrix3 mat3)
 {
     MCVector3 v;
-    v.x = vec3.x * mat3.m00 + vec3.y * mat3.m01 + vec3.z * mat3.m02;
-    v.y = vec3.x * mat3.m10 + vec3.y * mat3.m11 + vec3.z * mat3.m12;
-    v.z = vec3.x * mat3.m20 + vec3.y * mat3.m21 + vec3.z * mat3.m22;
+    v.x = vec3.x * mat3.m00 + vec3.y * mat3.m10 + vec3.z * mat3.m20;
+    v.y = vec3.x * mat3.m01 + vec3.y * mat3.m11 + vec3.z * mat3.m21;
+    v.z = vec3.x * mat3.m02 + vec3.y * mat3.m12 + vec3.z * mat3.m22;
     return v;
 }
 

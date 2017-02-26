@@ -103,7 +103,8 @@ MCInline MCMatrix4 MCMatrix4FromMatrix3(MCMatrix3 mat3)
 
 MCInline MCMatrix3 MCMatrix3Scale(MCMatrix3 matrix, float sx, float sy, float sz)
 {
-    MCMatrix3 m = { matrix.m[0] * sx, matrix.m[1] * sx, matrix.m[2] * sx,
+    MCMatrix3 m = {
+        matrix.m[0] * sx, matrix.m[1] * sx, matrix.m[2] * sx,
         matrix.m[3] * sy, matrix.m[4] * sy, matrix.m[5] * sy,
         matrix.m[6] * sz, matrix.m[7] * sz, matrix.m[8] * sz };
     return m;
@@ -111,9 +112,20 @@ MCInline MCMatrix3 MCMatrix3Scale(MCMatrix3 matrix, float sx, float sy, float sz
 
 MCInline MCMatrix3 MCMatrix3Transpose(MCMatrix3 matrix)
 {
-    MCMatrix3 m = { matrix.m[0], matrix.m[3], matrix.m[6],
+    MCMatrix3 m = {
+        matrix.m[0], matrix.m[3], matrix.m[6],
         matrix.m[1], matrix.m[4], matrix.m[7],
         matrix.m[2], matrix.m[5], matrix.m[8] };
+    return m;
+}
+
+MCInline MCMatrix4 MCMatrix4Transpose(MCMatrix4 matrix)
+{
+    MCMatrix4 m = {
+        matrix.m[0], matrix.m[4], matrix.m[8], matrix.m[12],
+        matrix.m[1], matrix.m[5], matrix.m[9], matrix.m[13],
+        matrix.m[2], matrix.m[6], matrix.m[10],matrix.m[14],
+        matrix.m[3], matrix.m[7], matrix.m[11],matrix.m[15] };
     return m;
 }
 

@@ -67,29 +67,20 @@ compute(MCMatrix4, viewMatrix)
 {
     as(MCCamera);
     if (obj->isGyroscopeMode) {
-        MCVector3 eye = MCVector3Make(0.0,cpt(Radius),0.0);
+        obj->lookat = MCVector3Make(0, 0, 0);
         
-        //u v n -> x y z
-        MCVector3 u = (MCVector3){1.0,0.0,0.0};
-        MCVector3 v = (MCVector3){0.0,0.0,-1.0};
-        MCVector3 n = (MCVector3){0.0,1.0,0.0};
-        MCMatrix4 uvn = MCMakeRotationMatrix4ByUVN(u, v, n);
+        MCMatrix4 R = sobj->transform;
+        MCMatrix4 Ri = MCMatrix4Invert(R, null);
         
-        MCBool isInvertible;
-        MCMatrix4 i = MCMatrix4Invert(sobj->transform, &isInvertible);
-        MCVector3 eye2 = MCVector3MultiplyMat3(eye, MCMatrix4GetMatrix3(i));
+        MCVector3 e = obj->eye;
         
-        MCMatrix4 mat = MCMatrix4Multiply(MCMatrix4MakeTranslation(-eye2.x, -eye2.y, -eye2.z), uvn);
-        return MCMatrix4Multiply(i, mat);
+        MCMatrix4 T   = MCMatrix4MakeTranslation(-e.x, -e.y, -e.z);
+        MCMatrix4 Ti  = MCMatrix4MakeTranslation(e.x, e.y, e.z);
+        MCMatrix4 Mat = MCMatrix4Multiply(Ti, MCMatrix4Multiply(R, T));
         
-//        MCMatrix4 m = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
-//                                          lka.x, lka.y, lka.z,
-//                                          up.x, up.y, up.z);
-
+        obj->eye = MCVector3MultiplyMat3(MCVector3Make(0.0,100,0), MCMatrix4GetMatrix3(R));
         
-        
-        
-        //return MCMatrix4Multiply(i, m);
+        return Mat;
     } else {
         MCMatrix4 m = MCMatrix4MakeLookAtByEulerAngle_EyeUp(obj->lookat, cpt(Radius),
                                                             obj->fai, obj->tht,

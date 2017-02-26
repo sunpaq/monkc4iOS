@@ -213,11 +213,7 @@
     //monkc update
     if (att) {
         CMRotationMatrix mat = att.rotationMatrix;
-        float data[9] = {
-            mat.m11, mat.m12, mat.m13,
-            mat.m21, mat.m22, mat.m23,
-            mat.m31, mat.m32, mat.m33
-        };
+        float data[9] = {mat.m11, mat.m12, mat.m13, mat.m21, mat.m22, mat.m23, mat.m31, mat.m32, mat.m33};
         onUpdate(data);
     }else{
         onUpdate(nil);
