@@ -22,9 +22,12 @@ oninit(MCCamera)
         var(fai) = 0;
         
         //view
+//        sobj->lookat = MCVector3Make(0, -1, 0);
+//        sobj->eye    = MCVector3Make(0, 0, 0);
+//        sobj->up     = MCVector3Make(0, 0, 1);
         var(lookat) = MCVector3Make(0,0,0);
-        var(eye) = MCVector3Make(0.0,obj->R_value,0.0);
-        var(up)  = MCVector3Make(0.0,0.0,-1.0);
+        var(eye) = MCVector3Make(0.0,-obj->R_value,0.0);
+        var(up)  = MCVector3Make(0.0,0.0,1.0);
         
         var(Radius) = Radius;
         var(normal) = normal;
@@ -67,20 +70,25 @@ compute(MCMatrix4, viewMatrix)
 {
     as(MCCamera);
     if (obj->isGyroscopeMode) {
-        obj->lookat = MCVector3Make(0, 0, 0);
         
-        MCMatrix4 R = sobj->transform;
+        MCVector3 eye    = obj->eye;
+        MCVector3 up     = obj->up;
+        MCVector3 lookat = obj->lookat;
+        MCMatrix4 m = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
+                                          lookat.x, lookat.y, lookat.z,
+                                          up.x, up.y, up.z);
+        
+        MCMatrix4 R  = sobj->transform;
         MCMatrix4 Ri = MCMatrix4Invert(R, null);
         
-        MCVector3 e = obj->eye;
+        MCVector3 e = MCVector3MultiplyMat3(eye, MCMatrix4GetMatrix3(R));
+        //MCVector3 e = obj->eye;
         
         MCMatrix4 T   = MCMatrix4MakeTranslation(-e.x, -e.y, -e.z);
         MCMatrix4 Ti  = MCMatrix4MakeTranslation(e.x, e.y, e.z);
-        MCMatrix4 Mat = MCMatrix4Multiply(Ti, MCMatrix4Multiply(R, T));
+        //MCMatrix4 Mat = MCMatrix4Multiply(Ti, MCMatrix4Multiply(Ri, T)) ;
         
-        obj->eye = MCVector3MultiplyMat3(MCVector3Make(0.0,100,0), MCMatrix4GetMatrix3(R));
-        
-        return Mat;
+        return MCMatrix4Multiply(Ri, MCMatrix4Multiply(T, m));
     } else {
         MCMatrix4 m = MCMatrix4MakeLookAtByEulerAngle_EyeUp(obj->lookat, cpt(Radius),
                                                             obj->fai, obj->tht,

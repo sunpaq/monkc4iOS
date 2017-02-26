@@ -164,6 +164,7 @@ MCInline MCMatrix4 MCMatrix4MakeLookAt(float eyeX, float eyeY, float eyeZ,
     MCVector3 u = MCVector3Normalize(MCVector3Cross(uv, n));
     MCVector3 v = MCVector3Cross(n, u);
     
+    //column major
     MCMatrix4 m = {
         u.v[0], v.v[0], n.v[0], 0.0f,
         u.v[1], v.v[1], n.v[1], 0.0f,
