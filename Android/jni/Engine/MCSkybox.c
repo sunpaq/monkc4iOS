@@ -189,16 +189,16 @@ method(MCSkybox, void, resizeWithWidthHeight, unsigned width, unsigned height)
 
 method(MCSkybox, void, update, MCGLContext* ctx)
 {
-    ctx->boxViewMatrix = var(camera)->viewMatrix(var(camera));
-    ctx->boxProjectionMatrix = var(camera)->projectionMatrix(var(camera));
+    obj->boxViewMatrix = var(camera)->viewMatrix(var(camera));
+    obj->boxProjectionMatrix = var(camera)->projectionMatrix(var(camera));
     
-    if (ctx->boxCameraRatio != superof(obj->camera)->ratio) {
+    if (obj->boxCameraRatio != superof(obj->camera)->ratio) {
         MCGLContext_activateShaderProgram(0, var(ctx), 0);
         
         MCGLUniformData data;
-        data.mat4 = ctx->boxProjectionMatrix;
+        data.mat4 = obj->boxProjectionMatrix;
         MCGLContext_updateUniform(0, var(ctx), "boxProjectionMatrix", data);
-        ctx->boxCameraRatio = superof(var(camera))->ratio;
+        obj->boxCameraRatio = superof(var(camera))->ratio;
     }
 }
 
@@ -207,7 +207,7 @@ method(MCSkybox, void, draw, MCGLContext* ctx)
     glDepthMask(GL_FALSE);
     MCGLContext_activateShaderProgram(0, var(ctx), 0);
     MCGLUniformData data;
-    data.mat4 = ctx->boxViewMatrix;
+    data.mat4 = obj->boxViewMatrix;
     MCGLContext_updateUniform(0, var(ctx), "boxViewMatrix", data);
     MCGLContext_setUniforms(0, var(ctx), 0);
     

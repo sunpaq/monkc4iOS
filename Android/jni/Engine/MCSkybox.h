@@ -19,6 +19,10 @@ class(MCSkybox, MC3DNode,
       MCSkyboxCamera* camera;
       MCGLContext* ctx;
       
+      MCMatrix4 boxViewMatrix;
+      MCMatrix4 boxProjectionMatrix;
+      double boxCameraRatio;
+      
       //MCUInt pid;
       MCUInt vaoid;
       MCUInt vboid;

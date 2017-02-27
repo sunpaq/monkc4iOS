@@ -22,10 +22,6 @@ class(MCGLContext, MCObject,
       GLuint pid;
       double cameraRatio;
       
-      MCMatrix4 boxViewMatrix;
-      MCMatrix4 boxProjectionMatrix;
-      double boxCameraRatio;
-      
       MCGLUniform uniforms[MAX_UNIFORM_NUM];
       MCBool uniformsDirty[MAX_UNIFORM_NUM];
       MCUInt uniformCount;
