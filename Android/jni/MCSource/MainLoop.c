@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 oreisoft. All rights reserved.
 //
 
-#include <stdio.h>
+#include "monkc.h"
 #include "MC3DScene.h"
 #include "MCGLRenderer.h"
 #include "MCGLEngine.h"
@@ -17,9 +17,8 @@
 #include "MCDirector.h"
 #include "MC3DiOS.h"
 #include "MC3DiOSDriver.h"
-#include "Testbed.h"
 #include "MCThread.h"
-//#include "MCException.h"
+#include "Testbed.h"
 
 static MCDirector* director = null;
 static BECubeTextureData* cubtex = null;
@@ -27,8 +26,8 @@ static BECubeTextureData* cubtex = null;
 void onAppStart()
 {
     if (cubtex == null) {
-        //const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
-        const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
+        const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
+        //const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
         cubtex = BECubeTextureData_newWithFaces(names);
     }
 }
