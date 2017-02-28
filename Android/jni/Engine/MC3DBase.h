@@ -207,19 +207,13 @@ MCInline MCMatrix4 MCMatrix4MakeLookAtByEulerAngle_EyeUp(MCVector3 lookat, doubl
                                up.x,  up.y,  up.z);
 }
 
+//column major
 MCInline MCMatrix4 MCMakeRotationMatrix4ByUVN(MCVector3 u, MCVector3 v, MCVector3 n)
 {
     return (MCMatrix4) {
-        u.x, u.y, u.z, 0,
-        v.x, v.y, v.z, 0,
-        n.x, n.y, n.z, 0,
-        0, 0, 0, 1
-    };
-    
-    return (MCMatrix4) {
-        u.x, u.y, u.z, 0,
-        v.x, v.y, v.z, 0,
-        n.x, n.y, n.z, 0,
+        u.x, v.x, n.x, 0,
+        u.y, v.y, n.y, 0,
+        u.z, v.z, n.z, 0,
         0, 0, 0, 1
     };
 }

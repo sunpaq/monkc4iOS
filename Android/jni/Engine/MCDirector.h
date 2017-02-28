@@ -9,7 +9,6 @@
 #ifndef MCDirector_h
 #define MCDirector_h
 
-#include <stdio.h>
 #include "monkc.h"
 #include "MC3DScene.h"
 #include "MC3DModel.h"
@@ -55,6 +54,7 @@ method(MCDirector, void, cameraFocusOn, MCVector3 vertex);
 method(MCDirector, void, cameraFocusOnModel, MC3DModel* model);
 
 method(MCDirector, void, setDeviceRotationMat3, float mat3[9]);
+method(MCDirector, void, setCameraRotateMode, MCCameraRotateMode mode);
 method(MCDirector, void, printDebugInfo, voida);
 
 //iOS callbacks

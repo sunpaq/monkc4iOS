@@ -9,7 +9,6 @@
 #ifndef MC3DFileParser_h
 #define MC3DFileParser_h
 
-#include <stdio.h>
 #include "monkc.h"
 #include "MCMath.h"
 #include "MCGeometry.h"

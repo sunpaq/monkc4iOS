@@ -234,6 +234,13 @@ method(MCDirector, void, setDeviceRotationMat3, float mat3[9])
     }
 }
 
+method(MCDirector, void, setCameraRotateMode, MCCameraRotateMode mode)
+{
+    if (cpt(cameraHandler)) {
+        cpt(cameraHandler)->rotateMode = mode;
+    }
+}
+
 method(MCDirector, void, printDebugInfo, voida)
 {
     debug_log("MCDirector currentWidth=%d currentHeight=%d\n", obj->currentWidth, obj->currentHeight);
@@ -264,6 +271,7 @@ onload(MCDirector)
         binding(MCDirector, void, cameraFocusOn, MCVector3 vertex);
         binding(MCDirector, void, cameraFocusOnModel, MC3DModel* model);
         binding(MCDirector, void, setDeviceRotationMat3, float mat3[9]);
+        binding(MCDirector, void, setCameraRotateMode, MCCameraRotateMode mode);
         binding(MCDirector, void, printDebugInfo, voida);
 
         return cla;

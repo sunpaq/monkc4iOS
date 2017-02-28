@@ -9,7 +9,6 @@
 #ifndef MCTexture_h
 #define MCTexture_h
 
-#include <stdio.h>
 #include "monkc.h"
 #include "MCGLBase.h"
 #include "BE2DTextureData.h"

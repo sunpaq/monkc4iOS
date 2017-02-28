@@ -37,7 +37,7 @@ oninit(MCCamera)
         var(isReverseMovement) = false;
         var(isLockRotation) = false;
         
-        var(rotateMode)= MCCameraRotateAroundModelByGyroscope;
+        var(rotateMode)= MCCameraRotateAroundModelManual;
         
         return obj;
     }else{

@@ -9,7 +9,6 @@
 #ifndef MCGLContext_h
 #define MCGLContext_h
 
-#include <stdio.h>
 #include "monkc.h"
 #include "MCMath.h"
 #include "MCGLBase.h"

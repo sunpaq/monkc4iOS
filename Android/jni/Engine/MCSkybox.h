@@ -9,7 +9,6 @@
 #ifndef MCSkybox_h
 #define MCSkybox_h
 
-#include <stdio.h>
 #include "monkc.h"
 #include "MC3DNode.h"
 #include "BECubeTextureData.h"

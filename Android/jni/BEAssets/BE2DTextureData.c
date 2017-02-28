@@ -8,6 +8,8 @@
 
 #include "BEAssetsManager.h"
 #include "BE2DTextureData.h"
+#include "MCString.h"
+#include "SOIL.h"
 
 oninit(BE2DTextureData)
 {

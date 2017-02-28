@@ -9,11 +9,6 @@
 #ifndef BEAssetsManager_h
 #define BEAssetsManager_h
 
-#include "SOIL.h"
-#include "monkc.h"
-#include "BAObjParser.h"
-//#include "MC3DMtlParser.h"
-
 #ifdef __ANDROID__
 #include <android/native_window.h>
 #include <android/asset_manager.h>

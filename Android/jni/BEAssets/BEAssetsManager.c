@@ -11,7 +11,7 @@
 #include <pthread.h>
 #endif
 #include "BEAssetsManager.h"
-
+#include "MCString.h"
 #ifdef __ANDROID__
 static AAssetManager* assetManager_ = null;
 static ANativeWindow* window_ = null;

@@ -83,6 +83,7 @@ void openFile(const char* filename)
         //assemble
         computed(director, cameraHandler)->lookat.y = mheight / 2.0f;
         computed(director, cameraHandler)->R_value = max * 2.0f;
+        computed(director, cameraHandler)->rotateMode = MCCameraRotateAroundModelByGyroscope;
         
         ff(director, addModel, model);
 
