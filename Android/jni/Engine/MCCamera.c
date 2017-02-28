@@ -20,14 +20,10 @@ oninit(MCCamera)
         var(R_percent) = 1.0;
         var(tht) = 90;
         var(fai) = 0;
-        
-        //view
-//        sobj->lookat = MCVector3Make(0, -1, 0);
-//        sobj->eye    = MCVector3Make(0, 0, 0);
-//        sobj->up     = MCVector3Make(0, 0, 1);
+
         var(lookat) = MCVector3Make(0,0,0);
-        var(eye) = MCVector3Make(0.0,-obj->R_value,0.0);
-        var(up)  = MCVector3Make(0.0,0.0,1.0);
+        var(eye) = MCVector3Make(0.0,obj->R_value,0.0);
+        var(up)  = MCVector3Make(0.0,0.0,-1.0);
         
         var(Radius) = Radius;
         var(normal) = normal;
@@ -40,11 +36,18 @@ oninit(MCCamera)
         
         var(isReverseMovement) = false;
         var(isLockRotation) = false;
-        var(isGyroscopeMode)= true;
+        
+        var(rotateMode)= MCCameraRotateAroundModelByGyroscope;
+        
         return obj;
     }else{
         return null;
     }
+}
+
+method(MCCamera, void, bye, voida)
+{
+    MC3DNode_bye(0, sobj, 0);
 }
 
 method(MCCamera, void, printDebugInfo, voida)
@@ -66,34 +69,42 @@ compute(MCMatrix3, normal)
     return nor;
 }
 
+/*
+ Initialize Status:
+ 
+ view space coordinate orientation equal to device attitude (iphone on the table, x-right z-up)
+ world space coordinate orientation equal monitor attitude (LCD on the desk, x-right -z forward)
+ */
 compute(MCMatrix4, viewMatrix)
 {
     as(MCCamera);
-    if (obj->isGyroscopeMode) {
-        
-        MCVector3 eye    = obj->eye;
-        MCVector3 up     = obj->up;
-        MCVector3 lookat = obj->lookat;
-        MCMatrix4 m = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
-                                          lookat.x, lookat.y, lookat.z,
-                                          up.x, up.y, up.z);
-        
+    double r = cpt(Radius);
+    
+    if (obj->rotateMode == MCCameraRotateAroundModelByGyroscope) {
         MCMatrix4 R  = sobj->transform;
         MCMatrix4 Ri = MCMatrix4Invert(R, null);
+        MCMatrix4 world = Ri;
         
-        MCVector3 e = MCVector3MultiplyMat3(eye, MCMatrix4GetMatrix3(R));
-        //MCVector3 e = obj->eye;
+        MCMatrix4 m = MCMatrix4MakeLookAt(0, 0, r,
+                                          0, 0, 0,
+                                          0, 1, 0);
         
-        MCMatrix4 T   = MCMatrix4MakeTranslation(-e.x, -e.y, -e.z);
-        MCMatrix4 Ti  = MCMatrix4MakeTranslation(e.x, e.y, e.z);
-        //MCMatrix4 Mat = MCMatrix4Multiply(Ti, MCMatrix4Multiply(Ri, T)) ;
-        
-        return MCMatrix4Multiply(Ri, MCMatrix4Multiply(T, m));
-    } else {
-        MCMatrix4 m = MCMatrix4MakeLookAtByEulerAngle_EyeUp(obj->lookat, cpt(Radius),
-                                                            obj->fai, obj->tht,
-                                                            &obj->eye, &obj->up);
-        return m;
+        obj->eye = MCGetEyeFromRotationMat4(world, r);
+        return MCMatrix4Multiply(m, world);
+    }
+    else if (obj->rotateMode == MCCameraRotateAR) {
+        MCMatrix4 R  = sobj->transform;
+        MCMatrix4 Ri = MCMatrix4Invert(R, null);
+        MCVector3 e  = MCGetEyeFromRotationMat4(R, r);
+        MCMatrix4 T  = MCMatrix4MakeTranslation(-e.x, -e.y, -e.z);
+        obj->eye = e;
+        return MCMatrix4Multiply(Ri, T);
+    }
+    //default is MCCameraRotateAroundModelManual
+    else {
+        return MCMatrix4MakeLookAtByEulerAngle_EyeUp(obj->lookat, cpt(Radius),
+                                                     obj->fai, obj->tht,
+                                                     &obj->eye, &obj->up);
     }
 }
 
@@ -203,6 +214,7 @@ method(MCCamera, void, setRotationMat3, float mat3[9])
 onload(MCCamera)
 {
     if (load(MC3DNode)) {
+        binding(MCCamera, void, bye, voida);
         binding(MCCamera, MCCamera*, initWithWidthHeight, unsigned width, unsigned height);
         binding(MCCamera, void, move, MCFloat deltaFai, MCFloat deltaTht);
         binding(MCCamera, void, fucus, MCFloat deltaX, MCFloat deltaY);

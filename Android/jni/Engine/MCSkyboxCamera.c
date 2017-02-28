@@ -44,17 +44,12 @@ oninit(MCSkyboxCamera)
 compute(MCMatrix4, boxViewMatrix)
 {
     as(MCSkyboxCamera);
-
-    MCVector3 eye    = sobj->eye;
-    MCVector3 up     = sobj->up;
-    MCVector3 lookat = sobj->lookat;
-    MCMatrix4 m = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
-                                      lookat.x, lookat.y, lookat.z,
-                                      up.x, up.y, up.z);
-    MCBool isInvertible;
-    MCMatrix4 imat4 = MCMatrix4Invert(obj->Super.Super.transform, &isInvertible);
+    MCMatrix4 m = MCMatrix4MakeLookAt(0, 0,0,
+                                      0, 0,-1,
+                                      0, 1,0);
+    MCMatrix4 imat4 = MCMatrix4Invert(obj->Super.Super.transform, null);
     
-    return MCMatrix4Multiply(imat4, m);
+    return MCMatrix4Multiply(m, imat4);
 }
 
 compute(MCMatrix4, boxProjectionMatrix)

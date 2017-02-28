@@ -157,22 +157,27 @@ MCInline MCMatrix4 MCMatrix4MakeLookAt(float eyeX, float eyeY, float eyeZ,
                                            float centerX, float centerY, float centerZ,
                                            float upX, float upY, float upZ)
 {
-    MCVector3 ev = { eyeX, eyeY, eyeZ };
-    MCVector3 cv = { centerX, centerY, centerZ };
-    MCVector3 uv = { upX, upY, upZ };
-    MCVector3 n = MCVector3Normalize(MCVector3Add(ev, MCVector3Reverse(cv)));
-    MCVector3 u = MCVector3Normalize(MCVector3Cross(uv, n));
-    MCVector3 v = MCVector3Cross(n, u);
+    MCVector3 eye = { eyeX, eyeY, eyeZ };
+    MCVector3 lka = { centerX, centerY, centerZ };
+    MCVector3 upv = { upX, upY, upZ };
     
+    //uvn is unit vector of xyz in view space
+    MCVector3 v = MCVector3Normalize(upv);
+    MCVector3 n = MCVector3Normalize(MCVector3Sub(eye, lka));
+    MCVector3 u = MCVector3Normalize(MCVector3Cross(v, n));
+    
+    //-dot(u, eye) -dot(v, eye) -dot(z, eye)
+    double dup = - eye.x * u.x - eye.y * u.y - eye.z * u.z;
+    double dvp = - eye.x * v.x - eye.y * v.y - eye.z * v.z;
+    double dnp = - eye.x * n.x - eye.y * n.y - eye.z * n.z;
+
     //column major
     MCMatrix4 m = {
-        u.v[0], v.v[0], n.v[0], 0.0f,
-        u.v[1], v.v[1], n.v[1], 0.0f,
-        u.v[2], v.v[2], n.v[2], 0.0f,
-        MCVector3Dot(MCVector3Reverse(u), ev),
-        MCVector3Dot(MCVector3Reverse(v), ev),
-        MCVector3Dot(MCVector3Reverse(n), ev),
-        1.0f };
+        u.x, v.x, n.x, 0.0f,
+        u.y, v.y, n.y, 0.0f,
+        u.z, v.z, n.z, 0.0f,
+        dup, dvp, dnp, 1.0f
+    };
     
     return m;
 }
@@ -210,11 +215,23 @@ MCInline MCMatrix4 MCMakeRotationMatrix4ByUVN(MCVector3 u, MCVector3 v, MCVector
         n.x, n.y, n.z, 0,
         0, 0, 0, 1
     };
+    
+    return (MCMatrix4) {
+        u.x, u.y, u.z, 0,
+        v.x, v.y, v.z, 0,
+        n.x, n.y, n.z, 0,
+        0, 0, 0, 1
+    };
 }
 
 MCInline MCMatrix4 MCMatrix4MakeLookAtByEulerAngle(MCVector3 lookat, double R, double fai, double tht)
 {
     return MCMatrix4MakeLookAtByEulerAngle_EyeUp(lookat, R, fai, tht, null, null);
+}
+
+MCInline MCVector3 MCGetEyeFromRotationMat4(MCMatrix4 mat4, double R)
+{
+    return (MCVector3) { mat4.m[2]*R, mat4.m[6]*R, mat4.m[10]*R };
 }
 
 #endif
