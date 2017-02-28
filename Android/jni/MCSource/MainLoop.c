@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 oreisoft. All rights reserved.
 //
 
-#include <stdio.h>
+#include "monkc.h"
 #include "MC3DScene.h"
 #include "MCGLRenderer.h"
 #include "MCGLEngine.h"
@@ -17,9 +17,8 @@
 #include "MCDirector.h"
 #include "MC3DiOS.h"
 #include "MC3DiOSDriver.h"
-#include "Testbed.h"
 #include "MCThread.h"
-//#include "MCException.h"
+#include "Testbed.h"
 
 static MCDirector* director = null;
 static BECubeTextureData* cubtex = null;
@@ -27,8 +26,8 @@ static BECubeTextureData* cubtex = null;
 void onAppStart()
 {
     if (cubtex == null) {
-        //const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
-        const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
+        const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
+        //const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
         cubtex = BECubeTextureData_newWithFaces(names);
     }
 }
@@ -197,13 +196,7 @@ void onUpdate(float* rmat3)
 {
     //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
     //MCLogTypeSet(MC_SILENT);
-    
-    MCMatrix3 mat = {0};
-    if (rmat3) {
-        for (int i=0; i<9; i++) {
-            mat.m[i] = rmat3[i];
-        }
-    }
+
     if (director != null) {
 
     	if (computed(director->lastScene, isDrawSky)) {
@@ -211,14 +204,21 @@ void onUpdate(float* rmat3)
             if (director->currentWidth < director->currentHeight) {
                 //MCQuaternion q = {x,y,z,w};
                 //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
-                director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                //director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                
+                MCDirector_setDeviceRotationMat3(0, director, rmat3);
+                
+                //director->mainCameraRotationMat3
             }else{
                 //MCQuaternion q = {x,y,z,w};
                 //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
-                director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                //director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                
+                MCDirector_setDeviceRotationMat3(0, director, rmat3);
             }
     	}
 
+        MCDirector_setDeviceRotationMat3(0, director, rmat3);
         MCDirector_updateAll(0, director, 0);
     }
 }

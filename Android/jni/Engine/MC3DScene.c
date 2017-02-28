@@ -39,6 +39,8 @@ oninit(MC3DScene)
         var(cameraLock) = false;
         var(isDrawSky) = isDrawSky;
         
+        //var(worldCoordAxis) = new(MC3DAxis);
+        //ff(var(rootnode), addChild, var(worldCoordAxis));
         return obj;
     }else{
         return null;
@@ -142,7 +144,6 @@ method(MC3DScene, void, updateScene, voida)
     
     MCCamera_update(0, obj->mainCamera, obj->renderer->context);
     MCLight_update(0, obj->light, obj->renderer->context);
-    
     MCGLRenderer_updateNodes(0, var(renderer), var(rootnode));
 }
 

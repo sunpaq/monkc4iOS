@@ -17,6 +17,7 @@
 #include "MCClock.h"
 #include "MCLight.h"
 #include "MCSkybox.h"
+#include "MC3DAxis.h"
 
 class(MC3DScene, MCObject,
       struct MC3DSceneStruct* next;
@@ -35,6 +36,7 @@ class(MC3DScene, MCObject,
       MCBool        cameraLock;
       MCClock*      clock;
       
+      MC3DAxis*     worldCoordAxis;
       computing(MCBool, isDrawSky);
 );
 

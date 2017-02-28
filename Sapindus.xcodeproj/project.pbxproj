@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F822F3E01E63B94000081C19 /* MC3DAxis.c in Sources */ = {isa = PBXBuildFile; fileRef = F822F3DE1E63B94000081C19 /* MC3DAxis.c */; };
 		F83C296B1E5BF2E5003DC021 /* cstyle.mtl in Resources */ = {isa = PBXBuildFile; fileRef = F83C29651E5BF2E5003DC021 /* cstyle.mtl */; };
 		F83C296C1E5BF2E5003DC021 /* cstyle.obj in Resources */ = {isa = PBXBuildFile; fileRef = F83C29661E5BF2E5003DC021 /* cstyle.obj */; };
 		F83C296D1E5BF2E5003DC021 /* Map #1.001.tga in Resources */ = {isa = PBXBuildFile; fileRef = F83C29671E5BF2E5003DC021 /* Map #1.001.tga */; };
@@ -171,6 +172,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F822F3DE1E63B94000081C19 /* MC3DAxis.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MC3DAxis.c; sourceTree = "<group>"; };
+		F822F3DF1E63B94000081C19 /* MC3DAxis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MC3DAxis.h; sourceTree = "<group>"; };
 		F83C29651E5BF2E5003DC021 /* cstyle.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cstyle.mtl; sourceTree = "<group>"; };
 		F83C29661E5BF2E5003DC021 /* cstyle.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cstyle.obj; sourceTree = "<group>"; };
 		F83C29671E5BF2E5003DC021 /* Map #1.001.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Map #1.001.tga"; sourceTree = "<group>"; };
@@ -469,9 +472,9 @@
 		FD44CD9D1D326CF200784EDF /* BEAssets */ = {
 			isa = PBXGroup;
 			children = (
+				FD44CDA01D326CF200784EDF /* external */,
 				FD44CD9E1D326CF200784EDF /* BEAssetsManager.c */,
 				FD44CD9F1D326CF200784EDF /* BEAssetsManager.h */,
-				FD44CDA01D326CF200784EDF /* external */,
 				FD44CDAC1D326CF200784EDF /* BAMtlParser.h */,
 				FD4B12551DA3B03000ADCB38 /* BAMtlParser.c */,
 				FD44CDAD1D326CF200784EDF /* BAObjParser.c */,
@@ -557,6 +560,8 @@
 				FD44CDD91D326CF200784EDF /* MCUIBase.h */,
 				FD44CDDC1D326CF200784EDF /* MCWorld.c */,
 				FD44CDDD1D326CF200784EDF /* MCWorld.h */,
+				F822F3DE1E63B94000081C19 /* MC3DAxis.c */,
+				F822F3DF1E63B94000081C19 /* MC3DAxis.h */,
 			);
 			name = Engine;
 			path = Android/jni/Engine;
@@ -1049,6 +1054,7 @@
 				FD44CE421D326CF200784EDF /* MCMath.c in Sources */,
 				F8C4651A1DDD8523005581D0 /* MCHeap.c in Sources */,
 				FD44CE251D326CF200784EDF /* stb_image_aug.c in Sources */,
+				F822F3E01E63B94000081C19 /* MC3DAxis.c in Sources */,
 				FD44CE241D326CF200784EDF /* SOIL.c in Sources */,
 				FD44CE281D326CF200784EDF /* MC3DModel.c in Sources */,
 				FD00C4C71CD10BAE00DCA45F /* ListViewController.m in Sources */,

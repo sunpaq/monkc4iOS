@@ -14,6 +14,7 @@
 #include "MC3DNode.h"
 
 class(MCLight, MC3DNode,
+      struct MCLightStruct *next;
       MCBool    dataChanged;
       MCVector3 ambientLightStrength;
       MCVector3 diffuseLightStrength;

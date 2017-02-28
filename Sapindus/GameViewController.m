@@ -7,8 +7,8 @@
 //
 
 #import "GameViewController.h"
-#import "MC3DiOS.h"
 #import <CoreMotion/CoreMotion.h>
+#import "MC3DiOS.h"
 
 @interface GameViewController () {
 	double _savedCameraDistance;
@@ -17,6 +17,7 @@
 
 @property (strong, nonatomic) EAGLContext *context;
 @property CMMotionManager* motionManager;
+@property CMAttitude* referenceAttitude;
 
 - (void)tearDownGL;
 @end
@@ -106,6 +107,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+    
 	//register rootview
 	if (self.uiview) {
 		onRootViewLoad((__bridge void *)(self.uiview));
@@ -163,17 +165,22 @@
     onSetupGL(width, height);
     
     //Core Motion
-    if([[NSUserDefaults standardUserDefaults] valueForKey:@"SkyboxOn"]) {
-        [self startDeviceMotion];
-    }
+//    if([[NSUserDefaults standardUserDefaults] valueForKey:@"SkyboxOn"]) {
+//        [self startDeviceMotion];
+//    }
+    
+    [self startDeviceMotion];
+    
+    //save reference attitude frame
+    [self saveReferenceFrame];
 }
 
 - (void)tearDownGL
 {
     //Core Motion
-    if([self.motionManager isDeviceMotionActive]) {
-        [self stopDeviceMotion];
-    }
+//    if([self.motionManager isDeviceMotionActive]) {
+//        [self stopDeviceMotion];
+//    }
 
     [EAGLContext setCurrentContext:self.context];
     
@@ -188,6 +195,7 @@
     if ([self.motionManager isAccelerometerAvailable]) {
         self.motionManager.deviceMotionUpdateInterval = 1.0 / 60.0;
         [self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical];
+        //[self.motionManager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXTrueNorthZVertical];
     }
 }
 
@@ -195,14 +203,25 @@
 {
     if ([self.motionManager isAccelerometerAvailable]) {
         [self.motionManager stopDeviceMotionUpdates];
+        self.referenceAttitude = nil;
         self.motionManager = nil;
     }
 }
+
+- (void)saveReferenceFrame
+{
+    self.referenceAttitude = self.motionManager.deviceMotion.attitude;
+}
+
 
 #pragma mark - GLKView and GLKViewController delegate methods
 
 - (void)update
 {
+    if (!self.referenceAttitude) {
+        [self saveReferenceFrame];
+    }
+    
     CMAttitude* att = nil;
     
     //Core Motion
@@ -210,12 +229,10 @@
     
     //monkc update
     if (att) {
+        [att multiplyByInverseOfAttitude:self.referenceAttitude];
+
         CMRotationMatrix mat = att.rotationMatrix;
-        float data[9] = {
-            mat.m11, mat.m12, mat.m13,
-            mat.m21, mat.m22, mat.m23,
-            mat.m31, mat.m32, mat.m33
-        };
+        float data[9] = {mat.m11, mat.m12, mat.m13, mat.m21, mat.m22, mat.m23, mat.m31, mat.m32, mat.m33};
         onUpdate(data);
     }else{
         onUpdate(nil);
