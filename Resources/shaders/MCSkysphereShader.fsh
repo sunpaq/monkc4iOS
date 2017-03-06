@@ -6,7 +6,7 @@ precision lowp int;
 const float Epsilon = 0.0000001;
 
 //input
-in vec3 TexCoords;
+in vec2 TexCoords;
 
 //uniforms
 uniform sampler2D sampler;

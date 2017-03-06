@@ -6,10 +6,10 @@ precision lowp int;
 const float Epsilon = 0.0000001;
 
 //input
-in vec3 TexCoords;
+in vec2 TexCoords;
 
 //uniforms
-uniform samplerCube cubeSampler;
+uniform sampler2D cubeSampler;
 
 //output
 out vec4 color;
@@ -17,4 +17,5 @@ out vec4 color;
 void main()
 {
     color = texture(cubeSampler, TexCoords);
+    //color = vec4(0.5,0.0,0.0,1.0);
 }

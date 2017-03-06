@@ -16,7 +16,7 @@ oninit(MCSkysphereCamera)
     if (init(MCCamera)) {
         //super
         sobj->ratio = MCRatioHDTV16x9;
-        sobj->R_value = 1.0;
+        sobj->R_value = 10.0;
         sobj->R_percent = 1.0;
         sobj->tht = 0;
         sobj->fai = 90;

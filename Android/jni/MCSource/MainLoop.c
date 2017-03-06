@@ -14,6 +14,7 @@
 #include "MCPanel.h"
 #include "MC3DModel.h"
 #include "MCSkybox.h"
+#include "MCSkysphere.h"
 #include "MCDirector.h"
 #include "MC3DiOS.h"
 #include "MC3DiOSDriver.h"
@@ -22,6 +23,7 @@
 
 static MCDirector* director = null;
 static BECubeTextureData* cubtex = null;
+static BE2DTextureData* sphtex = null;
 
 void onAppStart()
 {
@@ -30,6 +32,10 @@ void onAppStart()
         //const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
         cubtex = BECubeTextureData_newWithFaces(names);
     }
+    
+//    if (sphtex == null) {
+//        sphtex = BE2DTextureData_newWithFilename("skysphtex.jpg");
+//    }
 }
 
 void onRootViewLoad(void* rootview)
@@ -60,7 +66,12 @@ void openFile(const char* filename)
     if (MCStringEqual(filename, "TESTCUBE")) {
         computed(director, cameraHandler)->lookat.y = 0;
         computed(director, cameraHandler)->R_value = 30;
-        ff(director, addNode, new(MCCube));
+        //ff(director, addNode, new(MCCube));
+        
+        ff(director, addModelNamed, "skysphere.obj");
+        computed(director, cameraHandler)->lookat = (MCVector3){0,0,1};
+        computed(director, cameraHandler)->R_value = 0;
+        
         return;
     }
     
@@ -169,12 +180,25 @@ void onSetupGL(int windowWidth, int windowHeight)
                                   director->currentWidth, director->currentHeight);
         debug_log("onSetupGL main scene created current screen size: %dx%d\n", windowWidth, windowHeight);
         
-        mainScene->skyboxShow = getSkyboxOn();
-        if (cubtex != null && mainScene->skyboxShow) {
-            MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
-            mainScene->skyboxRef = skybox;
+        //skybox
+        if (getSkyboxOn()) {
+            double ratio = MCRatioMake(windowWidth, windowHeight);
+            if (cubtex != null) {
+                MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, ratio);
+                mainScene->skyboxRef = skybox;
+                mainScene->skysphRef = null;
+                mainScene->combineMode = MC3DSceneModelWithSkybox;
+            }
+            if (sphtex != null) {
+                MCSkysphere* skysph = MCSkysphere_initWithBE2DTexture(0, new(MCSkysphere), sphtex, ratio);
+                mainScene->skysphRef = skysph;
+                mainScene->skyboxRef = null;
+                mainScene->combineMode = MC3DSceneModelWithSkysph;
+                
+                
+            }
         }
-
+        
         mainScene->mainCamera->R_value = 20;
 
         ff(director, pushScene, mainScene);
@@ -255,8 +279,10 @@ void onGesturePan(double x, double y)
         }else{
             MCCamera_move(0, camera, MCFloatF(x*sign), MCFloatF(y*sign));
             if (computed(director->lastScene, isDrawSky)) {
-                MCCamera* cam2 = superof(director->lastScene->skyboxRef->camera);
-                MCCamera_move(0, cam2, MCFloatF(x*sign / 5), MCFloatF(y*sign / 5));
+                if (director->lastScene->skyboxRef) {
+                    MCCamera* cam2 = superof(director->lastScene->skyboxRef->camera);
+                    MCCamera_move(0, cam2, MCFloatF(x*sign / 5), MCFloatF(y*sign / 5));
+                }
             }
         }
     }

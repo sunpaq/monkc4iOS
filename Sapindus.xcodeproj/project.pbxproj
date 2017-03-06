@@ -149,6 +149,9 @@
 		FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */; };
 		FD91F74C1DF39E7700E28829 /* MCBits.c in Sources */ = {isa = PBXBuildFile; fileRef = FD91F74A1DF39E7700E28829 /* MCBits.c */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
+		FDA9ED5F1E6BC57A00604AD9 /* skysphere.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDA9ED5E1E6BC57A00604AD9 /* skysphere.obj */; };
+		FDA9ED611E6BCE4C00604AD9 /* skysphtex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA9ED601E6BCE4C00604AD9 /* skysphtex.jpg */; };
+		FDA9ED631E6D20BF00604AD9 /* skysphtex2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA9ED621E6D20BF00604AD9 /* skysphtex2.jpg */; };
 		FDABFFC81DC79EA400E8F4F0 /* SCI.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */; };
 		FDABFFC91DC79EA400E8F4F0 /* SCI.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC71DC79EA400E8F4F0 /* SCI.obj */; };
 		FDB1AE541E6AD0FF004B5BCC /* MCSkysphere.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB1AE521E6AD0FF004B5BCC /* MCSkysphere.c */; };
@@ -392,6 +395,9 @@
 		FD91F74A1DF39E7700E28829 /* MCBits.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCBits.c; sourceTree = "<group>"; };
 		FD91F74B1DF39E7700E28829 /* MCBits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBits.h; sourceTree = "<group>"; };
 		FDA3DCDD1C9056BC0044965D /* tex1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tex1.jpg; sourceTree = "<group>"; };
+		FDA9ED5E1E6BC57A00604AD9 /* skysphere.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skysphere.obj; sourceTree = "<group>"; };
+		FDA9ED601E6BCE4C00604AD9 /* skysphtex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = skysphtex.jpg; sourceTree = "<group>"; };
+		FDA9ED621E6D20BF00604AD9 /* skysphtex2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = skysphtex2.jpg; sourceTree = "<group>"; };
 		FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.mtl; sourceTree = "<group>"; };
 		FDABFFC71DC79EA400E8F4F0 /* SCI.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.obj; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
@@ -697,6 +703,7 @@
 				FD4CC2021C99AC0F00051C15 /* monkey2.obj */,
 				FD7FF8EB1CCB5FC5008106E5 /* sph.obj */,
 				FD7FF8EF1CCB6043008106E5 /* bottle_cap2.obj */,
+				FDA9ED5E1E6BC57A00604AD9 /* skysphere.obj */,
 			);
 			name = models;
 			path = Resources/models;
@@ -782,6 +789,8 @@
 				FD4CC1F81C93B43D00051C15 /* tex7.bmp */,
 				FD4CC1FA1C93B55100051C15 /* tex8.bmp */,
 				FD4CC1F21C91BD8300051C15 /* jongkhurun.png */,
+				FDA9ED601E6BCE4C00604AD9 /* skysphtex.jpg */,
+				FDA9ED621E6D20BF00604AD9 /* skysphtex2.jpg */,
 			);
 			path = textures;
 			sourceTree = "<group>";
@@ -968,6 +977,7 @@
 				FD19FC5E1E42361B006DC443 /* tex8.bmp in Resources */,
 				FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */,
 				FDDA42491E5F1574001CF3A2 /* posz.jpg in Resources */,
+				FDA9ED611E6BCE4C00604AD9 /* skysphtex.jpg in Resources */,
 				FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */,
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
 				FDB1AE5B1E6AE5A3004B5BCC /* MCSkysphereShader.vsh in Resources */,
@@ -1001,6 +1011,7 @@
 				FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */,
 				FD4CC1F31C91BD8300051C15 /* jongkhurun.png in Resources */,
 				FD4CC1F11C91B40F00051C15 /* tex3.png in Resources */,
+				FDA9ED631E6D20BF00604AD9 /* skysphtex2.jpg in Resources */,
 				FD5EFD601B0E3D9D00D2492A /* Icon-Small.png in Resources */,
 				FD5EFD6A1B0E3D9D00D2492A /* iTunesArtwork.png in Resources */,
 				FD8784841CCE5F8C0071DAB4 /* bottom.jpg in Resources */,
@@ -1027,6 +1038,7 @@
 				FD4CC1F71C91C9D600051C15 /* tex5.bmp in Resources */,
 				FD1E49B01C760BED00ADCBD2 /* MCGLRenderer.vsh in Resources */,
 				FD8784831CCE5F8C0071DAB4 /* back.jpg in Resources */,
+				FDA9ED5F1E6BC57A00604AD9 /* skysphere.obj in Resources */,
 				FD5EFD5D1B0E3D9D00D2492A /* Icon-60@3x.png in Resources */,
 				FD5EFD631B0E3D9D00D2492A /* Icon-60.png in Resources */,
 				FD4CC1ED1C917F2D00051C15 /* tex2.bmp in Resources */,
