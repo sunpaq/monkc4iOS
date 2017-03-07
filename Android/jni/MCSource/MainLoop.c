@@ -38,6 +38,14 @@ void onAppStart()
     }
 }
 
+void onGyroscopeNotAvailable()
+{
+    if (director) {
+        director->gyroscopeMode = false;
+        //computed(director, cameraHandler)->rotateMode = MCCameraRotateAroundModelManual;
+    }
+}
+
 void onRootViewLoad(void* rootview)
 {
     //put the test code into Testbed.c
@@ -211,6 +219,12 @@ void onTearDownGL()
 {
     release(director);
     director = null;
+    
+    release(cubtex);
+    cubtex = null;
+    
+    release(sphtex);
+    sphtex = null;
 }
 
 void onUpdate(float* rmat3)

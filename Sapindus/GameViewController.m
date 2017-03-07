@@ -178,9 +178,9 @@
 - (void)tearDownGL
 {
     //Core Motion
-//    if([self.motionManager isDeviceMotionActive]) {
-//        [self stopDeviceMotion];
-//    }
+    if([self.motionManager isDeviceMotionActive]) {
+        [self stopDeviceMotion];
+    }
 
     [EAGLContext setCurrentContext:self.context];
     

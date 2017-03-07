@@ -98,6 +98,12 @@ method(MCDirector, void, updateAll, voida)
             MCCamera_setRotationMat3(0, cpt(cameraHandler), obj->deviceRotationMat3.m);
             MC3DScene_setRotationMat3(0, var(lastScene), obj->deviceRotationMat3.m);
         }
+        else {
+            if (cpt(cameraHandler)) {
+                cpt(cameraHandler)->rotateMode = MCCameraRotateAroundModelManual;
+            }
+        }
+        //light follow camera
         if (var(lightFollowCamera) && cpt(lightHandler) && cpt(cameraHandler)) {
             cpt(lightHandler)->lightPosition = computed(cpt(cameraHandler), currentPosition);
             cpt(lightHandler)->dataChanged = true;
