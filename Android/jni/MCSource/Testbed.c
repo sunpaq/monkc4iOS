@@ -6,6 +6,11 @@
 //  Copyright © 2016年 oreisoft. All rights reserved.
 //
 
+#ifdef __APPLE__
+#include <CoreFoundation/CoreFoundation.h>
+#include <pthread.h>
+#endif
+
 #include "Testbed.h"
 #include "MCLinkedList.h"
 #include "MCGeometry.h"
@@ -149,7 +154,7 @@ static void testGeometry()
             {-1.373570,0.528954,-1.027800},
         };
     
-    MCPolygon Poly = {};
+    MCPolygon Poly = {0};
     MCPolygonInit(&Poly, data, 5);
     
     MCTriangle tresult[3];
@@ -265,6 +270,22 @@ static void teststring()
     exit(0);
 }
 
+static void testsystemapi()
+{
+    CFStringRef fname = CFStringCreateWithCString(NULL, "Girl Blendswap", kCFStringEncodingUTF8);
+    CFStringRef  fext = CFStringCreateWithCString(NULL, "obj", kCFStringEncodingUTF8);
+    CFURLRef      url = CFBundleCopyResourceURL(CFBundleGetMainBundle(), fname, fext, NULL);
+    
+    CFStringRef  path = CFURLCopyPath(url);
+    char buffer[2048] = {0};
+    CFStringGetCString(path, buffer, PATH_MAX, kCFStringEncodingASCII);
+    
+    char decode[2048] = {0};
+    MCString_percentDecode(buffer, decode);
+    
+    exit(0);
+}
+
 void starttest()
 {
     //testBasics();
@@ -278,4 +299,6 @@ void starttest()
     //testmath();
     //testtree();
     //teststring();
+    
+    //testsystemapi();
 }

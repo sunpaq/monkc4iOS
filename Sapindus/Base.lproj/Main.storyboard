@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UZq-sT-cfX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="UZq-sT-cfX">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -36,7 +36,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="28"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nIc-9f-259" id="2If-SS-rhL">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="27.666666666666668"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="27.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </tableViewCellContentView>
@@ -79,7 +79,7 @@
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mHh-hF-Ztp" id="l0A-Yl-cmu">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -150,7 +150,7 @@
                                 <items>
                                     <barButtonItem style="plain" id="Fh0-yG-x96">
                                         <switch key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="MaY-Jg-9Zx">
-                                            <rect key="frame" x="20" y="6.6666666666666679" width="51" height="31.000000000000004"/>
+                                            <rect key="frame" x="20" y="7" width="51" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <connections>
                                                 <action selector="startStopBtnClicked:" destination="BV1-FR-VrT" eventType="valueChanged" id="91L-ei-FuH"/>
@@ -158,6 +158,16 @@
                                         </switch>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="OyQ-PU-eR6"/>
+                                    <barButtonItem style="plain" id="Kr7-hL-ivj">
+                                        <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="RCa-eG-5VG">
+                                            <rect key="frame" x="204" y="7" width="30" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="T"/>
+                                            <connections>
+                                                <action selector="triangleWireSwitch:" destination="BV1-FR-VrT" eventType="touchUpInside" id="5lQ-iE-Yef"/>
+                                            </connections>
+                                        </button>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" id="7PE-gT-yZk">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zMl-VM-nuq">
                                             <rect key="frame" x="244" y="7" width="46" height="30"/>
@@ -170,7 +180,7 @@
                                     </barButtonItem>
                                     <barButtonItem style="plain" id="TUE-Di-XPr">
                                         <stepper key="customView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" maximumValue="200" stepValue="5" id="CIl-pj-ZRi">
-                                            <rect key="frame" x="300" y="7.6666666666666679" width="94" height="29.000000000000004"/>
+                                            <rect key="frame" x="300" y="8" width="94" height="29"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <connections>
                                                 <action selector="steperValueChange:" destination="BV1-FR-VrT" eventType="valueChanged" id="HUL-3j-P3z"/>
@@ -210,6 +220,7 @@
                         <outlet property="rotatePan" destination="zMl-VM-nuq" id="Tk3-p9-JJl"/>
                         <outlet property="stepper" destination="CIl-pj-ZRi" id="WJx-zK-4MJ"/>
                         <outlet property="toolbar" destination="Gng-4v-g6q" id="rgr-GX-VKY"/>
+                        <outlet property="triangleWire" destination="RCa-eG-5VG" id="NTl-64-PKb"/>
                         <outlet property="uiview" destination="3se-qz-xqx" id="muW-VD-NN7"/>
                     </connections>
                 </viewController>

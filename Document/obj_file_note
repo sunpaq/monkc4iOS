@@ -11,6 +11,7 @@ Notice:
 7. vn i j k   -> normal
 8. vt u v w   -> texture (depth of the texture) w default=0
 
+9. o is not processed by software. user defined name for a collection of elements
 
 ---------------------------------KEYWORDS------------------------------------
 Vertex data

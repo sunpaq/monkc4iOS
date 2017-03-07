@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UINavigationItem *naviItem;
 @property (weak, nonatomic) IBOutlet UILabel *camDistance;
 @property (weak, nonatomic) IBOutlet UIButton *rotatePan;
+@property (weak, nonatomic) IBOutlet UIButton *triangleWire;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
 
 @property (strong, atomic) NSString* filename;

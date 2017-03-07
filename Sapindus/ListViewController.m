@@ -29,6 +29,8 @@
         NSString* name = [path lastPathComponent];
         [self.listData addObject:name];
     }
+    
+    [self.listData addObject:@"TESTCUBE"];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -37,7 +39,7 @@
     NSString* filename = [self.listData objectAtIndex:i];
     if (filename && ![filename isEqualToString:@""]) {
         
-        [_gvc setFilename:[filename stringByDeletingPathExtension]];
+        [_gvc setFilename:filename];
         
     }
 }

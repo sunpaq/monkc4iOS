@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 oreisoft. All rights reserved.
 //
 
-#include <stdio.h>
+#include "monkc.h"
 #include "MC3DScene.h"
 #include "MCGLRenderer.h"
 #include "MCGLEngine.h"
@@ -14,21 +14,27 @@
 #include "MCPanel.h"
 #include "MC3DModel.h"
 #include "MCSkybox.h"
+#include "MCSkysphere.h"
 #include "MCDirector.h"
 #include "MC3DiOS.h"
 #include "MC3DiOSDriver.h"
-#include "Testbed.h"
 #include "MCThread.h"
-//#include "MCException.h"
+#include "Testbed.h"
 
 static MCDirector* director = null;
 static BECubeTextureData* cubtex = null;
+static BE2DTextureData* sphtex = null;
 
 void onAppStart()
 {
     if (cubtex == null) {
-        const char* names[6] = {"right","left","top","bottom","back","front"};
-        cubtex = BECubeTextureData_newWithFaces(names, "jpg");
+        const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
+        //const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
+        cubtex = BECubeTextureData_newWithFaces(names);
+    }
+    
+    if (sphtex == null) {
+        sphtex = BE2DTextureData_newWithFilename("panorama360.jpg");
     }
 }
 
@@ -56,6 +62,14 @@ void onOpenExternalFile(const char* filepath)
 
 void openFile(const char* filename)
 {
+    //test cube
+    if (MCStringEqual(filename, "TESTCUBE")) {
+        computed(director, cameraHandler)->lookat.y = 0;
+        computed(director, cameraHandler)->R_value = 30;
+        ff(director, addNode, new(MCCube));
+        return;
+    }
+    
     //model
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorf){0.8, 0.8, 0.8, 1.0});
     if (model) {
@@ -75,6 +89,7 @@ void openFile(const char* filename)
         //assemble
         computed(director, cameraHandler)->lookat.y = mheight / 2.0f;
         computed(director, cameraHandler)->R_value = max * 2.0f;
+        computed(director, cameraHandler)->rotateMode = MCCameraRotateAroundModelByGyroscope;
         
         ff(director, addModel, model);
 
@@ -160,17 +175,27 @@ void onSetupGL(int windowWidth, int windowHeight)
                                   director->currentWidth, director->currentHeight);
         debug_log("onSetupGL main scene created current screen size: %dx%d\n", windowWidth, windowHeight);
         
-        mainScene->skyboxShow = getSkyboxOn();
-        if (cubtex != null && mainScene->skyboxShow) {
-            MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, MCRatioMake(windowWidth, windowHeight));
-            mainScene->skyboxRef = skybox;
+        //skybox
+        double ratio = MCRatioMake(windowWidth, windowHeight);
+        if (getSkyboxOn() == 1) {
+            if (cubtex != null) {
+                MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, ratio);
+                mainScene->skyboxRef = skybox;
+                mainScene->skysphRef = null;
+                mainScene->combineMode = MC3DSceneModelWithSkybox;
+            }
+
         }
-
+        if (getSkyboxOn() == 2) {
+            if (sphtex != null) {
+                MCSkysphere* skysph = MCSkysphere_initWithBE2DTexture(0, new(MCSkysphere), sphtex, ratio);
+                mainScene->skysphRef = skysph;
+                mainScene->skyboxRef = null;
+                mainScene->combineMode = MC3DSceneModelWithSkysph;
+            }
+        }
+        
         mainScene->mainCamera->R_value = 20;
-        mainScene->mainCamera->tht = 60;
-        mainScene->mainCamera->fai = 45;
-
-        superof(mainScene)->nextResponder = (MCObject*)director;
 
         ff(director, pushScene, mainScene);
         
@@ -188,22 +213,33 @@ void onTearDownGL()
     director = null;
 }
 
-void onUpdate(double roll, double yaw, double pitch)
+void onUpdate(float* rmat3)
 {
     //printf("sensor data: roll=%f yaw=%f pitch=%f\n", roll, yaw, pitch);
     //MCLogTypeSet(MC_SILENT);
+
     if (director != null) {
 
     	if (computed(director->lastScene, isDrawSky)) {
+            
             if (director->currentWidth < director->currentHeight) {
-                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera,
-                                           MCFloatF(roll*360), MCFloatF((pitch-1)*45));
+                //MCQuaternion q = {x,y,z,w};
+                //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
+                //director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                
+                MCDirector_setDeviceRotationMat3(0, director, rmat3);
+                
+                //director->mainCameraRotationMat3
             }else{
-                MCSkyboxCamera_setAttitude(0, director->lastScene->skyboxRef->camera,
-                                           MCFloatF(pitch*360), MCFloatF((roll-1)*45));
+                //MCQuaternion q = {x,y,z,w};
+                //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
+                //director->lastScene->skyboxRef->camera->rotationMat3 = mat;
+                
+                MCDirector_setDeviceRotationMat3(0, director, rmat3);
             }
     	}
 
+        MCDirector_setDeviceRotationMat3(0, director, rmat3);
         MCDirector_updateAll(0, director, 0);
     }
 }
@@ -239,8 +275,10 @@ void onGesturePan(double x, double y)
         }else{
             MCCamera_move(0, camera, MCFloatF(x*sign), MCFloatF(y*sign));
             if (computed(director->lastScene, isDrawSky)) {
-                MCCamera* cam2 = superof(director->lastScene->skyboxRef->camera);
-                MCCamera_move(0, cam2, MCFloatF(x*sign / 5), MCFloatF(y*sign / 5));
+                if (director->lastScene->skyboxRef) {
+                    MCCamera* cam2 = superof(director->lastScene->skyboxRef->camera);
+                    MCCamera_move(0, cam2, MCFloatF(x*sign / 5), MCFloatF(y*sign / 5));
+                }
             }
         }
     }
@@ -250,7 +288,7 @@ static float pinch_scale = 1.0;
 void onGesturePinch(double scale)
 {
     pinch_scale *= scale;
-    pinch_scale = MAX(0.1, MIN(pinch_scale, 100.0));
+    pinch_scale = MAX(0.00001, MIN(pinch_scale, 100.0));
 
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != null && director->lastScene != null && camera != null) {
@@ -269,6 +307,16 @@ void onStartStopBtn(int startOrStop)
 {
     if (director && director->lastScene) {
         director->lastScene->cameraLock = !startOrStop;
+    }
+}
+
+void onDrawModeChange(int triangleOrWire)
+{
+    if (triangleOrWire == 1) {
+        computed(director, contextHandler)->drawMode = MCTriAngles;
+    }
+    else {
+        computed(director, contextHandler)->drawMode = MCLines;
     }
 }
 

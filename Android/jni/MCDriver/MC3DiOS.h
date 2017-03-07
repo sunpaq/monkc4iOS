@@ -21,7 +21,7 @@ void onReceiveMemoryWarning();
 void onSetupGL(int windowWidth, int windowHeight);
 void onOpenFile(const char* filename);
 void onTearDownGL();
-void onUpdate(double roll, double yaw, double pitch);
+void onUpdate(float* rmat4);
 int onDraw();
 
 //File callback
@@ -37,7 +37,10 @@ void onGesturePinch(double scale);
 
 //Orientation Handling
 void onResizeScreen(int windowWidth, int windowHeight);
+
+//UI control
 void onStartStopBtn(int startOrStop);
+void onDrawModeChange(int triangleOrWire);
 
 //MCGL Errors
 void MCGLError(const char* errmsg);

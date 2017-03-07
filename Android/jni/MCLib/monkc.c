@@ -112,11 +112,11 @@ static const char* BCOLOR = BBLACK;
 int printc(const char* fmt, ...)
 {
     int ret;
-    char log_buf[LINE_MAX];
+    char log_buf[LINE_MAX] = {0};
     
     va_list ap;
     va_start(ap, fmt);
-    log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
+    log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
     ret = printf("%s%s%s%s", FCOLOR, BCOLOR, log_buf, NONE);
     va_end(ap);
     return ret;
@@ -125,12 +125,12 @@ int printc(const char* fmt, ...)
 void error_log(const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX];
+    char log_buf[LINE_MAX] = {0};
     
     if(LOG_LEVEL != MC_SILENT){
         printf(LOG_FMT, LOG_COLOR_RED, "[Error] - ");
         va_start(ap, fmt);
-        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
+        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -139,13 +139,13 @@ void error_log(const char* fmt, ...)
 void debug_log(const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX];
+    char log_buf[LINE_MAX] = {0};
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY){
         printf(LOG_FMT, LOG_COLOR_LIGHT_BLUE, "[Debug] - ");
         va_start(ap, fmt);
-        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
+        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -154,14 +154,14 @@ void debug_log(const char* fmt, ...)
 void runtime_log(const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX];
+    char log_buf[LINE_MAX] = {0};
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY
        &&LOG_LEVEL != MC_DEBUG){
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, "[RTime] - ");
         va_start(ap, fmt);
-        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
+        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -170,13 +170,13 @@ void runtime_log(const char* fmt, ...)
 void error_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX];
+    char log_buf[LINE_MAX] = {0};
     
     if(LOG_LEVEL != MC_SILENT){
         printf(LOG_FMT, LOG_COLOR_RED, "[Error] - ");
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, tag);
         va_start(ap, fmt);
-        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
+        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -185,14 +185,14 @@ void error_logt(const char* tag, const char* fmt, ...)
 void debug_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX];
+    char log_buf[LINE_MAX] = {0};
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY){
         printf(LOG_FMT, LOG_COLOR_LIGHT_BLUE, "[Debug] - ");
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, tag);
         va_start(ap, fmt);
-        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
+        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -201,7 +201,7 @@ void debug_logt(const char* tag, const char* fmt, ...)
 void runtime_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX];
+    char log_buf[LINE_MAX] = {0};
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY
@@ -209,7 +209,7 @@ void runtime_logt(const char* tag, const char* fmt, ...)
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, "[RTime] - ");
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, tag);
         va_start(ap, fmt);
-        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
+        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -221,102 +221,102 @@ static mc_hashtable* mc_global_classtable = null;
 
 void trylock_global_classtable()
 {
-	mc_trylock(&(mc_global_classtable->lock));
+    mc_trylock(&(mc_global_classtable->lock));
 }
 
 void unlock_global_classtable()
 {
-	mc_unlock(&(mc_global_classtable->lock));
+    mc_unlock(&(mc_global_classtable->lock));
 }
 
 /*
-for method binding
-*/
+ for method binding
+ */
 
 MCHashTableIndex _binding(mc_class* const aclass, const char* methodname, MCFuncPtr value)
 {
-	if(aclass==null){
-		error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
-		return 0;
-	}
-	MCHashTableIndex res = set_item(&(aclass->table),
-		new_item(methodname, MCGenericFp(value), hash(methodname)),
-		true, nameofc(aclass));//will override
-	return res;
+    if(aclass==null){
+        error_log("_binding_h(mc_class* aclass) aclass is nill return 0\n");
+        return 0;
+    }
+    MCHashTableIndex res = set_item(&(aclass->table),
+                                    new_item(methodname, MCGenericFp(value), hash(methodname)),
+                                    true, nameofc(aclass));//will override
+    return res;
 }
 
 static inline mc_class* findclass(const char* name)
 {
-	//create a class hashtable
-	if(mc_global_classtable == null)
-		mc_global_classtable = new_table(MCHashTableLevel1);
+    //create a class hashtable
+    if(mc_global_classtable == null)
+        mc_global_classtable = new_table(MCHashTableLevel1);
     
     //cache
-//    mc_hashitem* cache = mc_global_classtable->cache;
-//    if (cache && cache->key == name) {
-//        return (mc_class*)(cache->value.mcvoidptr);
-//    }
+    //    mc_hashitem* cache = mc_global_classtable->cache;
+    //    if (cache && cache->key == name) {
+    //        return (mc_class*)(cache->value.mcvoidptr);
+    //    }
     
-	mc_hashitem* item=get_item_byhash(mc_global_classtable, hash(name), name);
-	if (item == null)
-		return null;
-	else
-		runtime_log("findClass item key:%s, value:%p\n", item->key, item->value.mcvoidptr);
-	return (mc_class*)(item->value.mcvoidptr);
+    mc_hashitem* item=get_item_byhash(mc_global_classtable, hash(name), name);
+    if (item == null)
+        return null;
+    else
+        runtime_log("findClass item key:%s, value:%p\n", item->key, item->value.mcvoidptr);
+    return (mc_class*)(item->value.mcvoidptr);
 }
 
 mc_class* _load(const char* name, size_t objsize, MCLoaderPointer loader)
 {
-	mc_class* aclass = findclass(name);
-	//try lock spin lock
-	trylock_global_classtable();
-	if(aclass == null){
-		//new a item
-		aclass = alloc_mc_class(objsize);
+    mc_class* aclass = findclass(name);
+    //try lock spin lock
+    trylock_global_classtable();
+    if(aclass == null){
+        //new a item
+        aclass = alloc_mc_class(objsize);
         mc_hashitem* item = new_item(name, (MCGeneric){.mcvoidptr=null}, hash(name));//nil first
-		package_by_item(item, aclass);
-		(*loader)(aclass);
-		//set item
+        package_by_item(item, aclass);
+        (*loader)(aclass);
+        //set item
         //MCBool isOverride, MCBool isFreeValue
-		set_item(&mc_global_classtable, item, false, name);
-		runtime_log("load a class[%s]\n", name);
-	}else{
-		runtime_log("find a class[%s]\n", name);
-	}
-	//unlock
-	unlock_global_classtable();
-	return aclass;
+        set_item(&mc_global_classtable, item, false, name);
+        runtime_log("load a class[%s]\n", name);
+    }else{
+        runtime_log("find a class[%s]\n", name);
+    }
+    //unlock
+    unlock_global_classtable();
+    return aclass;
 }
 
 MCObject* _new(MCObject* const obj, MCIniterPointer initer)
 {
-	//block, isa, saved_isa is setted at _alloc()
+    //block, isa, saved_isa is setted at _alloc()
     obj->nextResponder = null;
-	obj->ref_count = 1;
-	(*initer)(obj);
-	return obj;
+    obj->ref_count = 1;
+    (*initer)(obj);
+    return obj;
 }
 
 static int ref_count_down(MCObject* const this)
 {
-	for(;;){
-		if(this == null){
-			error_log("recycle/release(null) do nothing.\n");
-			return REFCOUNT_ERR;
-		}
-		if(this->ref_count == 0)
-		{
-			runtime_log("recycle/release(%s) count=0 return\n", nameof(this));
-			return REFCOUNT_ERR;
-		}
-		if(this->ref_count == REFCOUNT_NO_MM){
-			debug_log("ref_count is REFCOUNT_NO_MM manage by runtime. do nothing\n");
-			return REFCOUNT_NO_MM;
-		}
-		if(this->isa == null){
-			error_log("recycle/release(obj) obj have no class linked. do nothing.\n");
-			return REFCOUNT_ERR;
-		}
+    for(;;){
+        if(this == null){
+            error_log("recycle/release(null) do nothing.\n");
+            return REFCOUNT_ERR;
+        }
+        if(this->ref_count == 0)
+        {
+            runtime_log("recycle/release(%s) count=0 return\n", nameof(this));
+            return REFCOUNT_ERR;
+        }
+        if(this->ref_count == REFCOUNT_NO_MM){
+            debug_log("ref_count is REFCOUNT_NO_MM manage by runtime. do nothing\n");
+            return REFCOUNT_NO_MM;
+        }
+        if(this->isa == null){
+            error_log("recycle/release(obj) obj have no class linked. do nothing.\n");
+            return REFCOUNT_ERR;
+        }
 #ifdef NO_ATOMIC
         this->ref_count--; break;
 #else
@@ -330,16 +330,16 @@ static int ref_count_down(MCObject* const this)
         if(!mc_atomic_set_integer(addr, oldcount, newcount))
             break;
 #endif
-	}
-	return this->ref_count;
+    }
+    return this->ref_count;
 }
 
 void _recycle(MCObject* const this)
 {
-	if(ref_count_down(this) == 0){
+    if(ref_count_down(this) == 0){
         ff(this, bye, 0);                        //call the "bye" method on object
         mc_dealloc(this, 1);                          //free memory
-	}
+    }
 }
 
 void _release(MCObject* const this)
@@ -347,38 +347,38 @@ void _release(MCObject* const this)
     if(ref_count_down(this) == 0){
         ff(this, bye, 0);
         mc_dealloc(this, 0);
-	}
+    }
 }
 
 MCObject* _retain(MCObject* const this)
 {
-
-	for(;;){
-		if(this == null){
-			error_log("retain(nil) do nothing.\n");
-			return this;
-		}
-		if(this->ref_count == REFCOUNT_NO_MM){
-			debug_log("ref_count is REFCOUNT_NO_MM manage by runtime. do nothing\n");
-			return this;
-		}
-		if(this->isa == null){
-			error_log("release(obj) obj have no class linked. do nothing.\n");
-			return this;
-		}
+    
+    for(;;){
+        if(this == null){
+            error_log("retain(nil) do nothing.\n");
+            return this;
+        }
+        if(this->ref_count == REFCOUNT_NO_MM){
+            debug_log("ref_count is REFCOUNT_NO_MM manage by runtime. do nothing\n");
+            return this;
+        }
+        if(this->isa == null){
+            error_log("release(obj) obj have no class linked. do nothing.\n");
+            return this;
+        }
 #ifdef NO_ATOMIC
         this->ref_count++; break;
 #else
         int* rcountaddr;
         int oldcount;
-		rcountaddr = &(this->ref_count);
-		oldcount = mc_atomic_get_integer(rcountaddr);
-		if(!mc_atomic_set_integer(rcountaddr, oldcount, oldcount+1))
-			break;
+        rcountaddr = &(this->ref_count);
+        oldcount = mc_atomic_get_integer(rcountaddr);
+        if(!mc_atomic_set_integer(rcountaddr, oldcount, oldcount+1))
+            break;
 #endif
-	}
-	runtime_log("%s - ref_count:%d\n", nameof(this), this->ref_count);
-	return this;
+    }
+    runtime_log("%s - ref_count:%d\n", nameof(this), this->ref_count);
+    return this;
 }
 
 /*
@@ -419,7 +419,7 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
 {
     //alloc
     mc_hashtable* atable = (mc_hashtable*)malloc(sizeof(mc_hashtable)
-        +get_tablesize(initlevel)*sizeof(mc_hashitem*));
+                                                 +get_tablesize(initlevel)*sizeof(mc_hashitem*));
     //init
     atable->lock = 0;
     atable->level = initlevel;
@@ -475,7 +475,7 @@ static MCBool override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, cons
         item->key   = newitem->key;
         item->hash  = newitem->hash;
         //free the new item!
-        error_log("[%s]:override-item[%d/%s]\n", classname, item->hash, item->key);
+        runtime_log("[%s]:override-item[%d/%s]\n", classname, item->hash, item->key);
         free(newitem);
         return true;
     }
@@ -491,7 +491,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
     
     MCHash hashval = item->hash;
     MCHashTableSize tsize = get_tablesize((*table_p)->level);
-
+    
     //first probe
     MCHashTableIndex index = firstHashIndex(hashval, tsize);
     mc_hashitem* olditem = (*table_p)->items[index];
@@ -508,7 +508,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
         //second probe
         index = secondHashIndex(hashval, tsize, index);
         mc_hashitem* olditem = (*table_p)->items[index];
-
+        
         if (olditem == null) {
             (*table_p)->items[index] = item;
             runtime_log("[%s]:set-item[%d/%s]\n", classname, index, item->key);
@@ -559,7 +559,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
     //found but have chain
     if (res->next) {
         for(; res!=null; res=res->next) {
-            if(res->key == refkey){
+            if(mc_compare_key(refkey, res->key)){
                 runtime_log("key hit a item [%s] in chain\n", res->key);
                 table_p->cache = res;
                 return res;
@@ -567,7 +567,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
         }
     }
     //compare key
-    if (res->key != refkey)
+    if (!mc_compare_key(refkey, res->key))
         return null;
     //pass all the check
     table_p->cache = res;
@@ -579,7 +579,7 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
  */
 
 //	Memory Allocators
-// 
+//
 //	alternative allocators in APUE
 //	1. libmalloc
 //	2. vmalloc
@@ -834,15 +834,15 @@ mc_message _response_to(MCObject* obj, const char* methodname)
     mc_message tmpmsg = {null, null};
     
     //cache
-//    mc_hashitem* cache = obj->isa->table->cache;
-//    if (cache && cache->key && methodname == cache->key) {
-//        debug_log("hit cache: %s\n", cache->key);
-//        return (mc_message){cache->value.mcfuncptr, obj};
-//    }
+    //    mc_hashitem* cache = obj->isa->table->cache;
+    //    if (cache && cache->key && methodname == cache->key) {
+    //        debug_log("hit cache: %s\n", cache->key);
+    //        return (mc_message){cache->value.mcfuncptr, obj};
+    //    }
     
     //fast hash
     MCHash hashval = hash(methodname);
-
+    
     mc_hashitem* res = null;
     if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != null){
         tmpmsg.object = obj;
@@ -925,7 +925,7 @@ mc_message _response_to_i(MCObject* obj, MCHashTableIndex index)
  
  machine architecher macros:
  use "<compiler> -E -dM - < /dev/null" to show compiler predefined macros
-
+ 
  Apple: __APPLE__ && __MACH__
  Mac OSX: TARGET_OS_MAC == 1
  iOS sim: TARGET_IPHONE_SIMULATOR == 1
