@@ -10,8 +10,6 @@
 
 compute(MCMatrix4, boxViewMatrix);
 compute(MCMatrix4, boxProjectionMatrix);
-compute(MCGLUniform, viewUniform);
-compute(MCGLUniform, projectionUniform);
 
 //current positon always 0,0,0
 oninit(MCSkyboxCamera)
@@ -32,8 +30,6 @@ oninit(MCSkyboxCamera)
         //uniforms
         obj->viewMatrix        = boxViewMatrix;
         obj->projectionMatrix  = boxProjectionMatrix;
-        obj->viewUniform       = viewUniform;
-        obj->projectionUniform = projectionUniform;
         
         return obj;
     }else{
@@ -55,13 +51,13 @@ compute(MCMatrix4, boxViewMatrix)
 compute(MCMatrix4, boxProjectionMatrix)
 {
     as(MCSkyboxCamera);
-    return MCMatrix4MakePerspective(MCDegreesToRadians(sobj->view_angle),
+    return MCMatrix4MakePerspective(M_PI * 1/2,
                                     sobj->ratio,
-                                    0.1,
-                                    2);
+                                    0.001,
+                                    200.0);
 }
 
-compute(MCGLUniform, viewUniform)
+function(MCGLUniform, viewUniform, voida)
 {
     as(MCSkyboxCamera);
     MCGLUniform uniform;
@@ -70,7 +66,7 @@ compute(MCGLUniform, viewUniform)
     return uniform;
 }
 
-compute(MCGLUniform, projectionUniform)
+function(MCGLUniform, projectionUniform, voida)
 {
     as(MCSkyboxCamera);
     MCGLUniform uniform;
@@ -96,9 +92,9 @@ method(MCSkyboxCamera, void, update, MCGLContext* ctx)
 {
     //change value
     MCGLContext_activateShaderProgram(0, ctx, 0);
-    
-    MCGLUniform uv = computed(obj, viewUniform);
-    MCGLUniform up = computed(obj, projectionUniform);
+
+    MCGLUniform uv = viewUniform(0, obj, 0);
+    MCGLUniform up = projectionUniform(0, obj, 0);
 
     MCGLContext_updateUniform(0, ctx, "boxViewMatrix", uv.data);
     MCGLContext_updateUniform(0, ctx, "boxProjectionMatrix", up.data);

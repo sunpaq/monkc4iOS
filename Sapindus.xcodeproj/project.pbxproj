@@ -149,8 +149,13 @@
 		FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */; };
 		FD91F74C1DF39E7700E28829 /* MCBits.c in Sources */ = {isa = PBXBuildFile; fileRef = FD91F74A1DF39E7700E28829 /* MCBits.c */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
+		FDA9ED611E6BCE4C00604AD9 /* skysphtex.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA9ED601E6BCE4C00604AD9 /* skysphtex.jpg */; };
 		FDABFFC81DC79EA400E8F4F0 /* SCI.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */; };
 		FDABFFC91DC79EA400E8F4F0 /* SCI.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDABFFC71DC79EA400E8F4F0 /* SCI.obj */; };
+		FDB1AE541E6AD0FF004B5BCC /* MCSkysphere.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB1AE521E6AD0FF004B5BCC /* MCSkysphere.c */; };
+		FDB1AE571E6AD4A6004B5BCC /* MCSkysphereCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB1AE551E6AD4A6004B5BCC /* MCSkysphereCamera.c */; };
+		FDB1AE591E6AE58A004B5BCC /* MCSkysphereShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDB1AE581E6AE58A004B5BCC /* MCSkysphereShader.fsh */; };
+		FDB1AE5B1E6AE5A3004B5BCC /* MCSkysphereShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FDB1AE5A1E6AE5A3004B5BCC /* MCSkysphereShader.vsh */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
 		FDDA42441E5F1574001CF3A2 /* negx.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDDA423D1E5F1574001CF3A2 /* negx.jpg */; };
 		FDDA42451E5F1574001CF3A2 /* negy.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDDA423E1E5F1574001CF3A2 /* negy.jpg */; };
@@ -388,9 +393,16 @@
 		FD91F74A1DF39E7700E28829 /* MCBits.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCBits.c; sourceTree = "<group>"; };
 		FD91F74B1DF39E7700E28829 /* MCBits.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCBits.h; sourceTree = "<group>"; };
 		FDA3DCDD1C9056BC0044965D /* tex1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tex1.jpg; sourceTree = "<group>"; };
+		FDA9ED601E6BCE4C00604AD9 /* skysphtex.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = skysphtex.jpg; sourceTree = "<group>"; };
 		FDABFFC61DC79EA400E8F4F0 /* SCI.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.mtl; sourceTree = "<group>"; };
 		FDABFFC71DC79EA400E8F4F0 /* SCI.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCI.obj; sourceTree = "<group>"; };
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
+		FDB1AE521E6AD0FF004B5BCC /* MCSkysphere.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkysphere.c; sourceTree = "<group>"; };
+		FDB1AE531E6AD0FF004B5BCC /* MCSkysphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkysphere.h; sourceTree = "<group>"; };
+		FDB1AE551E6AD4A6004B5BCC /* MCSkysphereCamera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkysphereCamera.c; sourceTree = "<group>"; };
+		FDB1AE561E6AD4A6004B5BCC /* MCSkysphereCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkysphereCamera.h; sourceTree = "<group>"; };
+		FDB1AE581E6AE58A004B5BCC /* MCSkysphereShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCSkysphereShader.fsh; sourceTree = "<group>"; };
+		FDB1AE5A1E6AE5A3004B5BCC /* MCSkysphereShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCSkysphereShader.vsh; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
 		FDDA423D1E5F1574001CF3A2 /* negx.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = negx.jpg; sourceTree = "<group>"; };
 		FDDA423E1E5F1574001CF3A2 /* negy.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = negy.jpg; sourceTree = "<group>"; };
@@ -555,6 +567,10 @@
 				FD44CDD41D326CF200784EDF /* MCSkybox.h */,
 				FD44CDD51D326CF200784EDF /* MCSkyboxCamera.c */,
 				FD44CDD61D326CF200784EDF /* MCSkyboxCamera.h */,
+				FDB1AE521E6AD0FF004B5BCC /* MCSkysphere.c */,
+				FDB1AE531E6AD0FF004B5BCC /* MCSkysphere.h */,
+				FDB1AE551E6AD4A6004B5BCC /* MCSkysphereCamera.c */,
+				FDB1AE561E6AD4A6004B5BCC /* MCSkysphereCamera.h */,
 				FD44CDD71D326CF200784EDF /* MCTexture.c */,
 				FD44CDD81D326CF200784EDF /* MCTexture.h */,
 				FD44CDD91D326CF200784EDF /* MCUIBase.h */,
@@ -691,6 +707,8 @@
 		FD50E2211C15DE00001CC314 /* shaders */ = {
 			isa = PBXGroup;
 			children = (
+				FDB1AE581E6AE58A004B5BCC /* MCSkysphereShader.fsh */,
+				FDB1AE5A1E6AE5A3004B5BCC /* MCSkysphereShader.vsh */,
 				FD87847C1CCE41EA0071DAB4 /* MCSkyboxShader.fsh */,
 				FD87847B1CCE41DC0071DAB4 /* MCSkyboxShader.vsh */,
 				FD1E49AD1C760BED00ADCBD2 /* MCGLRenderer.fsh */,
@@ -766,6 +784,7 @@
 				FD4CC1F81C93B43D00051C15 /* tex7.bmp */,
 				FD4CC1FA1C93B55100051C15 /* tex8.bmp */,
 				FD4CC1F21C91BD8300051C15 /* jongkhurun.png */,
+				FDA9ED601E6BCE4C00604AD9 /* skysphtex.jpg */,
 			);
 			path = textures;
 			sourceTree = "<group>";
@@ -952,8 +971,10 @@
 				FD19FC5E1E42361B006DC443 /* tex8.bmp in Resources */,
 				FD8784891CCE624B0071DAB4 /* MCSkyboxShader.vsh in Resources */,
 				FDDA42491E5F1574001CF3A2 /* posz.jpg in Resources */,
+				FDA9ED611E6BCE4C00604AD9 /* skysphtex.jpg in Resources */,
 				FD87848A1CCE624B0071DAB4 /* MCSkyboxShader.fsh in Resources */,
 				FDD87E061CCC979A00D292D3 /* 2.obj in Resources */,
+				FDB1AE5B1E6AE5A3004B5BCC /* MCSkysphereShader.vsh in Resources */,
 				F83C296D1E5BF2E5003DC021 /* Map #1.001.tga in Resources */,
 				FD2A6E861DA75F0C00293DE1 /* monkey2.mtl in Resources */,
 				FD7FF8EC1CCB5FC5008106E5 /* sph.obj in Resources */,
@@ -973,6 +994,7 @@
 				FD5EFD591B0E3D9D00D2492A /* Icon-40.png in Resources */,
 				FD6C5C461E44B987000E09B6 /* Arakkoa_Sage_01Purple.tga in Resources */,
 				FD4CC2031C99AC0F00051C15 /* monkey2.obj in Resources */,
+				FDB1AE591E6AE58A004B5BCC /* MCSkysphereShader.fsh in Resources */,
 				FD5EFD621B0E3D9D00D2492A /* Icon-Small@3x.png in Resources */,
 				FD6C5C441E44B987000E09B6 /* arakkoa_sage.mtl in Resources */,
 				FDDA42441E5F1574001CF3A2 /* negx.jpg in Resources */,
@@ -1079,6 +1101,7 @@
 				FD44CE3D1D326CF200784EDF /* MCClock.c in Sources */,
 				FD44CE3B1D326CF200784EDF /* MCArray.c in Sources */,
 				FD3111591DAC7C0700324C31 /* BATrianglization.c in Sources */,
+				FDB1AE571E6AD4A6004B5BCC /* MCSkysphereCamera.c in Sources */,
 				FD00C4C31CD10BAE00DCA45F /* DetailNavController.m in Sources */,
 				FD44CE2A1D326CF200784EDF /* MC3DScene.c in Sources */,
 				FD44CE351D326CF200784EDF /* MCPanel.c in Sources */,
@@ -1106,6 +1129,7 @@
 				FD44CE361D326CF200784EDF /* MCSkybox.c in Sources */,
 				F8ABA07D1E5FE1810094A7F8 /* BECubeTextureData.c in Sources */,
 				FD44CE3A1D326CF200784EDF /* MCWorld.c in Sources */,
+				FDB1AE541E6AD0FF004B5BCC /* MCSkysphere.c in Sources */,
 				FD44CE381D326CF200784EDF /* MCTexture.c in Sources */,
 				FD44CE5A1D326CF200784EDF /* gles3jni.c in Sources */,
 				FD44CE491D326CF200784EDF /* MC3DiOSDriver.m in Sources */,
