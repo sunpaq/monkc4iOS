@@ -50,6 +50,11 @@ utility(BE2DTextureData, BE2DTextureData*, newWithPathnameType, const char* path
     //    }
     
     data->raw = SOIL_load_image(data->path, &data->width, &data->height, &data->channels, SOIL_LOAD_AUTO);
+    if (!data->raw) {
+        error_log("BE2DTextureData - load texture failed: %s\n", SOIL_last_result());
+        release(data);
+        return null;
+    }
     return data;
 }
 

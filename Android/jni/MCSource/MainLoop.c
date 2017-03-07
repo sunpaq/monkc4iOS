@@ -33,9 +33,9 @@ void onAppStart()
         cubtex = BECubeTextureData_newWithFaces(names);
     }
     
-//    if (sphtex == null) {
-//        sphtex = BE2DTextureData_newWithFilename("wood.jpg");
-//    }
+    if (sphtex == null) {
+        sphtex = BE2DTextureData_newWithFilename("panorama360.jpg");
+    }
 }
 
 void onRootViewLoad(void* rootview)
@@ -66,12 +66,7 @@ void openFile(const char* filename)
     if (MCStringEqual(filename, "TESTCUBE")) {
         computed(director, cameraHandler)->lookat.y = 0;
         computed(director, cameraHandler)->R_value = 30;
-        //ff(director, addNode, new(MCCube));
-        
-        ff(director, addModelNamed, "skysphere.obj");
-        computed(director, cameraHandler)->lookat = (MCVector3){0,0,1};
-        computed(director, cameraHandler)->R_value = 0;
-        
+        ff(director, addNode, new(MCCube));
         return;
     }
     
@@ -181,21 +176,22 @@ void onSetupGL(int windowWidth, int windowHeight)
         debug_log("onSetupGL main scene created current screen size: %dx%d\n", windowWidth, windowHeight);
         
         //skybox
-        if (getSkyboxOn()) {
-            double ratio = MCRatioMake(windowWidth, windowHeight);
+        double ratio = MCRatioMake(windowWidth, windowHeight);
+        if (getSkyboxOn() == 1) {
             if (cubtex != null) {
                 MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, ratio);
                 mainScene->skyboxRef = skybox;
                 mainScene->skysphRef = null;
                 mainScene->combineMode = MC3DSceneModelWithSkybox;
             }
+
+        }
+        if (getSkyboxOn() == 2) {
             if (sphtex != null) {
                 MCSkysphere* skysph = MCSkysphere_initWithBE2DTexture(0, new(MCSkysphere), sphtex, ratio);
                 mainScene->skysphRef = skysph;
                 mainScene->skyboxRef = null;
-                mainScene->combineMode = MC3DSceneSkysphOnly;
-                
-                
+                mainScene->combineMode = MC3DSceneModelWithSkysph;
             }
         }
         

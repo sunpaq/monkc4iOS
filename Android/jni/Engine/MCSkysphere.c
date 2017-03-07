@@ -103,7 +103,6 @@ method(MCSkysphere, MCSkysphere*, initWithBE2DTexture, BE2DTextureData* tex, dou
     //Unbind
     glBindVertexArray(0);
     
-    release(tex);
     return obj;
 }
 

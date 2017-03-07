@@ -50,7 +50,7 @@ compute(MCMatrix4, sphViewMatrix)
 compute(MCMatrix4, sphProjectionMatrix)
 {
     as(MCSkysphereCamera);
-    return MCMatrix4MakePerspective(M_PI * 1/2,
+    return MCMatrix4MakePerspective(M_PI * 0.55,
                                     sobj->ratio,
                                     0.001,
                                     200.0);

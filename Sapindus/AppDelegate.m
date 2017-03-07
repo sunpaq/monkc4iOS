@@ -14,6 +14,9 @@ int getSkyboxOn()
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SkyboxOn"]) {
         return 1;
     }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SkysphOn"]) {
+        return 2;
+    }
     return 0;
 }
 
