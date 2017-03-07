@@ -14,20 +14,22 @@
 #include "BE2DTextureData.h"
 
 class(MCSkysphere, MC3DNode,
-//      MCSkysphereCamera* camera;
+      MCSkysphereCamera* camera;
       MCGLContext* ctx;
-//      MCTexture* tex;
-//      MCMesh* mesh;
-//      
-//      MCMatrix4 sphViewMatrix;
-//      MCMatrix4 sphProjectionMatrix;
-//      double sphCameraRatio;
       
-      MCMatrix3 rotationMat3;
+      MCMatrix4 sphViewMatrix;
+      MCMatrix4 sphProjectionMatrix;
+      double sphCameraRatio;
+            
+      size_t   vertices_size;
+      size_t   indices_size;
+      GLfloat* vertices;
+      GLuint*  indices;
+      GLuint   ic;
       
-      //MCUInt pid;
       MCUInt vaoid;
       MCUInt vboid;
+      MCUInt eboid;
       MCUInt texid);
 
 method(MCSkysphere, void, bye, voida);

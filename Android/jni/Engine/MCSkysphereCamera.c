@@ -50,10 +50,10 @@ compute(MCMatrix4, sphViewMatrix)
 compute(MCMatrix4, sphProjectionMatrix)
 {
     as(MCSkysphereCamera);
-    return MCMatrix4MakePerspective(MCDegreesToRadians(sobj->view_angle),
+    return MCMatrix4MakePerspective(M_PI * 1/2,
                                     sobj->ratio,
-                                    0.1,
-                                    2);
+                                    0.001,
+                                    200.0);
 }
 
 function(MCGLUniform, viewUniform, voida)

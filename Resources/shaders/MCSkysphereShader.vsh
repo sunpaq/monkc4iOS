@@ -17,5 +17,5 @@ out vec2 TexCoords;
 void main()
 {
     gl_Position = sphProjectionMatrix * sphViewMatrix * vec4(position, 1.0);
-    TexCoords = position.xy;
+    TexCoords = texcoord;
 }

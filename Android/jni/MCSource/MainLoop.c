@@ -27,15 +27,15 @@ static BE2DTextureData* sphtex = null;
 
 void onAppStart()
 {
-    if (cubtex == null) {
-        const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
-        //const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
-        cubtex = BECubeTextureData_newWithFaces(names);
-    }
-    
-//    if (sphtex == null) {
-//        sphtex = BE2DTextureData_newWithFilename("skysphtex.jpg");
+//    if (cubtex == null) {
+//        const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
+//        //const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
+//        cubtex = BECubeTextureData_newWithFaces(names);
 //    }
+    
+    if (sphtex == null) {
+        sphtex = BE2DTextureData_newWithFilename("wood.jpg");
+    }
 }
 
 void onRootViewLoad(void* rootview)
@@ -193,7 +193,7 @@ void onSetupGL(int windowWidth, int windowHeight)
                 MCSkysphere* skysph = MCSkysphere_initWithBE2DTexture(0, new(MCSkysphere), sphtex, ratio);
                 mainScene->skysphRef = skysph;
                 mainScene->skyboxRef = null;
-                mainScene->combineMode = MC3DSceneModelWithSkysph;
+                mainScene->combineMode = MC3DSceneSkysphOnly;
                 
                 
             }
