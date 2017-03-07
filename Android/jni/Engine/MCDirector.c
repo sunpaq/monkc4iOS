@@ -223,6 +223,11 @@ method(MCDirector, void, cameraFocusOnModel, MC3DModel* model)
     cpt(cameraHandler)->R_value = max * 2.0f;
 }
 
+method(MCDirector, void, moveModelToOrigin, MC3DModel* model)
+{
+    MC3DModel_translateToOrigin(0, model, 0);
+}
+
 method(MCDirector, void, setDeviceRotationMat3, float mat3[9])
 {
     if (mat3) {
@@ -268,6 +273,7 @@ onload(MCDirector)
         binding(MCDirector, void, addModelNamed, const char* name);
         binding(MCDirector, void, cameraFocusOn, MCVector3 vertex);
         binding(MCDirector, void, cameraFocusOnModel, MC3DModel* model);
+        binding(MCDirector, void, moveModelToOrigin, MC3DModel* model);
         binding(MCDirector, void, setDeviceRotationMat3, float mat3[9]);
         binding(MCDirector, void, setCameraRotateMode, MCCameraRotateMode mode);
         binding(MCDirector, void, printDebugInfo, voida);
