@@ -1,3 +1,5 @@
+### run on simulator have some crash issues. please run it on a iOS device!
+
 # BohdiEngine
 
 	this is an 3D model renderer written use Monk-C
