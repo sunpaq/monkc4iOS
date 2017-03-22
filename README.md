@@ -1,5 +1,10 @@
 ### run on simulator have some crash issues. please run it on a iOS device!
 
+# Demo Video
+	
+	here have a short video shows the Engine demo:
+	https://youtu.be/eP9lhH4Bc4M
+	
 # BohdiEngine
 
 	this is an 3D model renderer written use Monk-C
