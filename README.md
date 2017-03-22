@@ -33,5 +33,8 @@
 
 	- MCSource : user code
 
+### Cocoapods:
 
+        I had wrapped the Engine part into a cocoapod. please refer to the following repo:
+        https://github.com/sunpaq/BohdiEngine-pod
 
