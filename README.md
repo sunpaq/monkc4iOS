@@ -20,6 +20,12 @@
 	./build
 	if you have a Android device pluged in ./build install to install apk
 	(not tested on Android simulator. please run it on a Android device!)
+	
+	this repo is mainly for iOS and build android apk feature is just for test the Engine 
+	consistency on both platform.
+	
+	for develop Android app/game, a separate AndroidStudio project also created. 
+	it is far more easy to use and modify: https://github.com/sunpaq/monkc4Android
 
 ### Code Structure:
 
