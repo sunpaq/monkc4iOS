@@ -21,6 +21,8 @@
 
 ### Code Structure:
 
+  - Android/jni
+  
 	- BEAssets : BohdiEnging Assets Manager
 	- Engine   : the 3D engine
 	- Lemontea : the standard library of Monk-C
