@@ -149,10 +149,15 @@ void MCGLStopLoading()
             self.indicator.center = _rootUIView.center;
             [_rootUIView addSubview:self.indicator];
         }
-        [self.indicator startAnimating];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.indicator startAnimating];
+        });
     }else{
         if (self.indicator != nil) {
-            [self.indicator stopAnimating];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.indicator stopAnimating];
+            });
         }
     }
 }
