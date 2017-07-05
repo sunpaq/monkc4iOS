@@ -93,6 +93,39 @@ MCInline MCMatrix4 MCMatrix4MakeScale(float sx, float sy, float sz)
     return m;
 }
 
+MCInline MCMatrix3 MCMatrix3MakeXAxisRotation(double degree)
+{
+    double SIN = sin(degree);
+    double COS = cos(degree);
+    return (MCMatrix3) {
+        1,    0,   0,
+        0,  COS, SIN,
+        0, -SIN, COS
+    };
+}
+
+MCInline MCMatrix3 MCMatrix3MakeYAxisRotation(double degree)
+{
+    double SIN = sin(degree);
+    double COS = cos(degree);
+    return (MCMatrix3) {
+         COS, 0, -SIN,
+           0, 1, 0,
+         SIN, 0, COS
+    };
+}
+
+MCInline MCMatrix3 MCMatrix3MakeZAxisRotation(double degree)
+{
+    double SIN = sin(degree);
+    double COS = cos(degree);
+    return (MCMatrix3) {
+         COS, SIN, 0,
+        -SIN, COS, 0,
+           0,   0, 1
+    };
+}
+
 MCInline MCMatrix3 MCMatrix4GetMatrix3(MCMatrix4 mat4)
 {
     MCMatrix3 m = {
@@ -219,9 +252,16 @@ MCInline MCMatrix4 MCMatrix4MakeLookAtByEulerAngle_EyeUp(MCVector3 lookat, doubl
         *upResult  = up;
     }
     
-    return MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
-                               lat.x, lat.y, lat.z,
-                               up.x,  up.y,  up.z);
+//    return MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
+//                               lat.x, lat.y, lat.z,
+//                               up.x,  up.y,  up.z);
+    
+    MCMatrix4 rotation = MCMatrix4MakeLookAt(eye.x, eye.y, eye.z,
+                                             0, 0, 0,
+                                             up.x,  up.y,  up.z);
+    
+    //first translate then rotate
+    return MCMatrix4Multiply(rotation, MCMatrix4MakeTranslation(lat.x, lat.y, lat.z));
 }
 
 //column major
@@ -243,6 +283,30 @@ MCInline MCMatrix4 MCMatrix4MakeLookAtByEulerAngle(MCVector3 lookat, double R, d
 MCInline MCVector3 MCGetEyeFromRotationMat4(MCMatrix4 mat4, double R)
 {
     return (MCVector3) { mat4.m[2]*R, mat4.m[6]*R, mat4.m[10]*R };
+}
+
+MCInline MCVector3 MCGetTranslateFromCombinedMat4(MCMatrix4 mat4)
+{
+    return (MCVector3) { mat4.m[12], mat4.m[13], mat4.m[14] };
+}
+
+MCInline MCMatrix3 MCGetRotateFromCombinedMat4(MCMatrix4 mat4)
+{
+    return (MCMatrix3) {
+        mat4.m[0], mat4.m[1], mat4.m[2],
+        mat4.m[4], mat4.m[5], mat4.m[6],
+        mat4.m[8], mat4.m[9], mat4.m[10]
+    };
+}
+
+MCInline MCMatrix4 MCMatrix4CombineRT(MCMatrix3 R, MCVector3 T)
+{
+    return (MCMatrix4) {
+        R.m[0], R.m[1], R.m[2], 0,
+        R.m[3], R.m[4], R.m[5], 0,
+        R.m[6], R.m[7], R.m[8], 0,
+        T.v[0], T.v[1], T.v[2], 1,
+    };
 }
 
 #endif

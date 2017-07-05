@@ -95,8 +95,8 @@
 #define NONE        "\033[0m"
 
 /*
-	Logs with color tags
-	we use the same syntex with printf
+ Logs with color tags
+ we use the same syntex with printf
  */
 static int LOG_LEVEL = MC_DEBUG;
 extern void MCLogTypeSet(MCLogType type)
@@ -112,11 +112,11 @@ static const char* BCOLOR = BBLACK;
 int printc(const char* fmt, ...)
 {
     int ret;
-    char log_buf[LINE_MAX] = {0};
+    char log_buf[LINE_MAX];
     
     va_list ap;
     va_start(ap, fmt);
-    log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
+    log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
     ret = printf("%s%s%s%s", FCOLOR, BCOLOR, log_buf, NONE);
     va_end(ap);
     return ret;
@@ -125,12 +125,12 @@ int printc(const char* fmt, ...)
 void error_log(const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX] = {0};
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT){
         printf(LOG_FMT, LOG_COLOR_RED, "[Error] - ");
         va_start(ap, fmt);
-        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
+        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -139,13 +139,13 @@ void error_log(const char* fmt, ...)
 void debug_log(const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX] = {0};
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY){
         printf(LOG_FMT, LOG_COLOR_LIGHT_BLUE, "[Debug] - ");
         va_start(ap, fmt);
-        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
+        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -154,14 +154,14 @@ void debug_log(const char* fmt, ...)
 void runtime_log(const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX] = {0};
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY
        &&LOG_LEVEL != MC_DEBUG){
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, "[RTime] - ");
         va_start(ap, fmt);
-        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
+        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -170,13 +170,13 @@ void runtime_log(const char* fmt, ...)
 void error_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX] = {0};
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT){
         printf(LOG_FMT, LOG_COLOR_RED, "[Error] - ");
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, tag);
         va_start(ap, fmt);
-        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
+        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -185,14 +185,14 @@ void error_logt(const char* tag, const char* fmt, ...)
 void debug_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX] = {0};
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY){
         printf(LOG_FMT, LOG_COLOR_LIGHT_BLUE, "[Debug] - ");
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, tag);
         va_start(ap, fmt);
-        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
+        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -201,7 +201,7 @@ void debug_logt(const char* tag, const char* fmt, ...)
 void runtime_logt(const char* tag, const char* fmt, ...)
 {
     va_list ap;
-    char log_buf[LINE_MAX] = {0};
+    char log_buf[LINE_MAX];
     
     if(LOG_LEVEL != MC_SILENT
        &&LOG_LEVEL != MC_ERROR_ONLY
@@ -209,7 +209,7 @@ void runtime_logt(const char* tag, const char* fmt, ...)
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, "[RTime] - ");
         printf(LOG_FMT, LOG_COLOR_DARK_GRAY, tag);
         va_start(ap, fmt);
-        log_buf[vsnprintf(log_buf, sizeof(log_buf), fmt, ap)]=NUL;
+        log_buf[vsprintf(log_buf, fmt, ap)]=NUL;
         printf("%s", log_buf);
         va_end(ap);
     }
@@ -273,7 +273,7 @@ mc_class* _load(const char* name, size_t objsize, MCLoaderPointer loader)
     if(aclass == null){
         //new a item
         aclass = alloc_mc_class(objsize);
-        mc_hashitem* item = new_item(name, (MCGeneric){.mcvoidptr=null}, hash(name));//nil first
+        mc_hashitem* item = new_item(name, MCGenericVp(null), hash(name));//nil first
         package_by_item(item, aclass);
         (*loader)(aclass);
         //set item
@@ -423,17 +423,29 @@ mc_hashtable* new_table(const MCHashTableLevel initlevel)
     //init
     atable->lock = 0;
     atable->level = initlevel;
+    atable->cache_count = 0;
     //set all the slot to nil
     for (int i = 0; i < get_tablesize(initlevel); i++)
         atable->items[i] = null;
+    //set all the cache slot to nil
+    for (int j = 0; j < MAX_ITEM_CACHE; j++)
+        atable->cache[j] = null;
     return atable;
 }
 
-static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel tolevel, const char* classname)
+void release_table(const mc_hashtable* table)
+{
+    //release all items
+    for (int i = 0; i < get_tablesize(table->level); i++) {
+        free((void*)table->items[i]);
+    }
+    free((void*)table);
+}
+
+static inline mc_hashtable* expand_table(const mc_hashtable* oldtable, MCHashTableLevel tolevel, const char* classname)
 {
     //realloc
     mc_hashtable* newtable = new_table(tolevel);
-    mc_hashtable* oldtable = (*table_p);
     MCHashTableSize osize = get_tablesize(oldtable->level);
     
     mc_hashitem* item;
@@ -446,8 +458,8 @@ static inline void expand_table(mc_hashtable** const table_p, MCHashTableLevel t
     }
     
     debug_log("[%s] expand table: %d->%d\n", classname, oldtable->level, newtable->level);
-    free(*table_p);
-    (*table_p) = newtable;
+    free((void*)oldtable);
+    return newtable;
 }
 
 mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval)
@@ -456,9 +468,9 @@ mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval)
     if (aitem != null) {
         aitem->next = null;
         aitem->hash = hashval;
-        //strcpy(aitem->key, key);
-        //aitem->key[MAX_KEY_CHARS] = NUL;
-        aitem->key = (char*)key;
+        strncpy(aitem->key, key, strlen(key));
+        aitem->key[MAX_KEY_CHARS-1] = NUL;
+        //aitem->key = key;
         aitem->value = value;
         return aitem;
     }else{
@@ -470,10 +482,10 @@ mc_hashitem* new_item(const char* key, MCGeneric value, MCHash hashval)
 static MCBool override_samekeyitem(mc_hashitem* item, mc_hashitem* newitem, const char* classname)
 {
     if (strcmp(item->key, newitem->key) == 0) {
-        //only replace value!
+        //replace
         item->value = newitem->value;
-        item->key   = newitem->key;
         item->hash  = newitem->hash;
+        strncpy(item->key, classname, strlen(classname));
         //free the new item!
         runtime_log("[%s]:override-item[%d/%s]\n", classname, item->hash, item->key);
         free(newitem);
@@ -520,7 +532,7 @@ MCHashTableIndex set_item(mc_hashtable** table_p, mc_hashitem* item, MCBool isAl
             
             //solve the collision by expand table
             if((*table_p)->level < MCHashTableLevelCount){//Max=5 Count=6
-                expand_table(table_p, (*table_p)->level+1, classname);
+                (*table_p) = expand_table(*table_p, (*table_p)->level+1, classname);
                 set_item(table_p, item, isAllowOverride, null);//recursive
                 return index;
             }else{
@@ -541,36 +553,62 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
         error_log("get_item_byhash(table_p) table_p is nil return nil\n");
         return null;
     }
-    
-    //level<MCHashTableLevelMax
-    MCHashTableIndex index;
-    MCHashTableSize tsize;
-    
-    mc_hashitem* res=null;
-    tsize = get_tablesize(table_p->level);
-    //first probe
-    index = firstHashIndex(hashval, tsize);
-    if((res=get_item_byindex(table_p, index)) == null) {
-        //second probe
-        index = secondHashIndex(hashval, tsize, index);
-        if ((res=get_item_byindex(table_p, index)) == null)
-            return null;
-    }
-    //found but have chain
-    if (res->next) {
-        for(; res!=null; res=res->next) {
-            if(mc_compare_key(refkey, res->key)){
-                runtime_log("key hit a item [%s] in chain\n", res->key);
-                table_p->cache = res;
-                return res;
+    //look up in cache
+    if (table_p->cache_count > 0) {
+        for (int i=0; i<MAX_ITEM_CACHE; i++) {
+            mc_hashitem* item = table_p->cache[i];
+            if (item && item->hash == hashval) {
+                //have collision
+                if (item->next) {
+                    if(strncmp(refkey, item->key, strlen(refkey)) != 0){
+                        continue;
+                    }
+                }
+                //debug_log("key hit a cached item [%s]\n", refkey);
+                return item;
             }
         }
     }
-    //compare key
-    if (!mc_compare_key(refkey, res->key))
+    //level<MCHashTableLevelMax
+    MCHashTableSize tsize = get_tablesize(table_p->level);
+    MCHashTableIndex firsti = firstHashIndex(hashval, tsize);
+    mc_hashitem* res = get_item_byindex(table_p, firsti);
+    //first probe
+    if (res == null) {
+        res = get_item_byindex(table_p, secondHashIndex(hashval, tsize, firsti));
+    }
+    //second probe
+    if (res == null) {
         return null;
+    }
+    //found but have chain (only need to compare key when chain detected)
+    if (res->next) {
+        for(; res!=null; res=res->next) {
+            if (hashval == res->hash) {
+                if(strncmp(refkey, res->key, strlen(refkey)) != 0){
+                    continue;
+                } else {
+                    runtime_log("key hit a item [%s] in chain\n", res->key);
+                }
+            }
+        }
+    }
+    //res may become null when walking through the chain
+    if (res) {
+        //compare hash
+        if (res->hash == hashval) {
+            //cache
+            if (table_p->cache_count < MAX_ITEM_CACHE) {
+                table_p->cache[table_p->cache_count++] = res;
+            } else {
+                table_p->cache_count = 0;
+                table_p->cache[table_p->cache_count++] = res;
+            }
+        } else {
+            res = null;
+        }
+    }
     //pass all the check
-    table_p->cache = res;
     return res;
 }
 
@@ -578,13 +616,13 @@ mc_hashitem* get_item_byhash(mc_hashtable* const table_p, const MCHash hashval, 
  ObjectManage
  */
 
-//	Memory Allocators
+//    Memory Allocators
 //
-//	alternative allocators in APUE
-//	1. libmalloc
-//	2. vmalloc
-//	3. quick-fit
-//	4. alloca ---> can alloc mem on stack
+//    alternative allocators in APUE
+//    1. libmalloc
+//    2. vmalloc
+//    3. quick-fit
+//    4. alloca ---> can alloc mem on stack
 
 void pushToTail(mc_blockpool* bpool, mc_block* ablock)
 {
@@ -702,7 +740,7 @@ void mc_info(const char* classname)
 {
     mc_class* aclass = findclass(classname);
     if (aclass) {
-        MCObject_printDebugInfo(0, 0, aclass);
+        MCObject_printDebugInfo(0, aclass);
     }
 }
 
@@ -823,67 +861,65 @@ void mc_dealloc(MCObject* aobject, int is_recycle)
 /*
  Messaging
  */
-mc_message _response_to(MCObject* obj, const char* methodname)
+MCObject* response_to(MCObject* obj, const char* methodname)
 {
     if(obj == null || obj->isa == null){
-        //no need to warning user
-        return (mc_message){null, null};
+        return null;
     }
-    
-    //we will return a struct
-    mc_message tmpmsg = {null, null};
-    
-    //cache
-    //    mc_hashitem* cache = obj->isa->table->cache;
-    //    if (cache && cache->key && methodname == cache->key) {
-    //        debug_log("hit cache: %s\n", cache->key);
-    //        return (mc_message){cache->value.mcfuncptr, obj};
-    //    }
-    
     //fast hash
     MCHash hashval = hash(methodname);
-    
     mc_hashitem* res = null;
     if((res=get_item_byhash(obj->isa->table, hashval, methodname)) != null){
-        tmpmsg.object = obj;
-        tmpmsg.address = res->value.mcfuncptr;
+        while (obj->address) {
+            //wait
+        }
+        obj->address = res->value.mcfuncptr;
         //runtime_log("return a message[%s/%s]\n", nameof(obj), methodname);
-        return tmpmsg;
+        return obj;
     }else{
         if (obj->nextResponder != null) {
-            return _response_to(obj->nextResponder, methodname);
+            return response_to(obj->nextResponder, methodname);
         }else{
             error_log("Monk-C: class[%s] can not response to method[%d/%s]\n", nameof(obj), hashval, methodname);
             if (MC_STRICT_MODE == 1) {
                 mc_info(nameof(obj));
                 exit(-1);
-            }else{
-                return tmpmsg;
             }
         }
     }
+    return null;
 }
 
-MCBool _response_test(MCObject* obj, const char* methodname)
+MCBool response_test(MCObject* obj, const char* methodname)
 {
     if (get_item_byhash(obj->isa->table, hash(methodname), methodname) != null) {
         return true;
     }else{
         if (obj->nextResponder)
-            return _response_test(obj->nextResponder, methodname);
+            return response_test(obj->nextResponder, methodname);
     }
     return false;
 }
 
-mc_message _response_to_i(MCObject* obj, MCHashTableIndex index)
+MCObject* response_to_i(MCObject* obj, MCHashTableIndex index)
 {
-    mc_message msg = {null, null};
     mc_hashitem* item = obj->isa->table->items[index];
     if (item) {
-        msg.object = obj;
-        msg.address = item->value.mcfuncptr;
+        obj->address = item->value.mcfuncptr;
+        return obj;
     }
-    return msg;
+    return null;
+}
+
+/*
+ Root Class MCObject
+ */
+
+MCObject* MCObject_init(MCObject* const obj)
+{
+    obj->address = null;
+    obj->nextResponder = null;
+    return obj;
 }
 
 /*
@@ -894,18 +930,18 @@ mc_message _response_to_i(MCObject* obj, MCHashTableIndex index)
  
  infos about ARM 32 platform (armv6 armv7):
  
- stack-align: 	method(8byte) non-method(4byte)
+ stack-align:     method(8byte) non-method(4byte)
  frame-pointer:  fp is r11 in ARM mode / r7 in thumb mode
- keep-fp:		-mapcs-frame will keep the fp not to be optimized out
+ keep-fp:        -mapcs-frame will keep the fp not to be optimized out
  
  iOS exception:
- stack-align: 	method(4byte)
+ stack-align:     method(4byte)
  
  infos about ARM 64 platform (arm64):
  
- stack-align: 	public (16byte) non-public (16byte)
- frame-pointer: 	fp is r11 in ARM mode / r7 in thumb mode
- keep-fp:		-mapcs-frame will keep the fp not to be optimized out
+ stack-align:     public (16byte) non-public (16byte)
+ frame-pointer:     fp is r11 in ARM mode / r7 in thumb mode
+ keep-fp:        -mapcs-frame will keep the fp not to be optimized out
  
  r0 r1 r2 r3 r4 r5 r6 r7 r8 r9 r10 r11   r30
  w0 w1 w2 w3 w4 w5 w6 w7 w8 w9 w10 w11   w30 (32bit context)
@@ -915,7 +951,7 @@ mc_message _response_to_i(MCObject* obj, MCHashTableIndex index)
  .p2align 4 : 16-byte aligned
  
  infos about PowerPC 64 platform: (from IBM Knowledge Center)
-	
+ 
  link register --> r3 r4
  
  ldarx  RT, RA, RB --> data, RA+RB=EA (effective-address)
@@ -961,9 +997,11 @@ asm(".globl _push_jump");
 asm(".p2align 4, 0x00");
 asm("_push_jump:");
 #endif
-asm("cmpq $0, %rdi");
+asm("movq (%rdi), %r11"); //%rbp %rbx %r12-r15 belong to caller
+asm("movq $0, (%rdi)");
+asm("cmpq $0, %r11");
 asm("je 0f");
-asm("jmp *%rdi");
+asm("jmp *%r11");
 asm("0:");
 asm("ret");
 #endif
@@ -979,9 +1017,11 @@ asm(".globl _push_jump");
 asm(".p2align 2, 0x00");
 asm("_push_jump:");
 #endif
-asm("cmpl $0, 0(%esp)");
+asm("mov (%esp), %edx");
+//asm("movw $0, (%esp)");
+asm("cmpl $0, %edx");
 asm("je 0f");
-asm("jmp *0(%esp)");
+asm("jmp *%edx");
 asm("0:");
 asm("ret");
 #endif
@@ -997,15 +1037,19 @@ asm(".globl _push_jump");
 asm(".p2align 4, 0x00");
 asm("_push_jump:");
 #endif
-asm("cmp x0, #0");
+asm("ldr x15, [x0]"); //x9-x15 temporary regs
+asm("mov x14, #0");
+asm("str x14, [x0]");
+asm("cmp x15, #0");
 asm("beq 0f");
 #if defined(__MACH__)
-asm("ldp x2, x3, [sp]");
-asm("ldp x4, x5, [sp, #16]");
-asm("ldp x6, x7, [sp, #32]");
-asm("br x0");
+asm("ldp x1, x2, [sp]");
+asm("ldp x3, x4, [sp, #16]");
+asm("ldp x5, x6, [sp, #32]");
+asm("ldr x7, [sp, #48]");
+asm("br x15");
 #else
-asm("br x0");
+asm("br x15");
 #endif
 asm("0:");
 asm("ret");
@@ -1048,3 +1092,5 @@ asm("blr");
 #endif
 
 #endif
+
+
