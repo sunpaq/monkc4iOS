@@ -19,7 +19,6 @@
 #include "MC3DiOS.h"
 #include "MC3DiOSDriver.h"
 #include "MCThread.h"
-#include "Testbed.h"
 
 static MCDirector* director = null;
 static BECubeTextureData* cubtex = null;
@@ -40,9 +39,6 @@ void onAppStart()
 
 void onRootViewLoad(void* rootview)
 {
-    //put the test code into Testbed.c
-    starttest();
-
 #ifdef __APPLE__
     MCUIRegisterRootUIView(rootview);
 #endif
@@ -144,10 +140,10 @@ void onReceiveMemoryWarning()
 void onOpenFile(const char* filename)
 {
     if (filename != null) {
-        if (director->lastScene->skyboxRef != null) {
+        //if (director->lastScene->skyboxRef != null) {
             //ff(director->skyboxThread, initWithFPointerArgument, asyncReadSkybox, null);
             //ff(director->skyboxThread, start, 0);
-        }
+        //}
 
 #ifdef __ANDROID__
         openFile(filename);
@@ -179,18 +175,18 @@ void onSetupGL(int windowWidth, int windowHeight)
         double ratio = MCRatioMake(windowWidth, windowHeight);
         if (getSkyboxOn() == 1) {
             if (cubtex != null) {
-                MCSkybox* skybox = MCSkybox_initWithCubeTexture(0, new(MCSkybox), cubtex, ratio);
-                mainScene->skyboxRef = skybox;
-                mainScene->skysphRef = null;
+                MCSkybox* skybox = MCSkybox_initWithCubeTexture(new(MCSkybox), cubtex);
+                //mainScene->skyboxRef = skybox;
+                //mainScene->skysphRef = null;
                 mainScene->combineMode = MC3DSceneModelWithSkybox;
             }
 
         }
         if (getSkyboxOn() == 2) {
             if (sphtex != null) {
-                MCSkysphere* skysph = MCSkysphere_initWithBE2DTexture(0, new(MCSkysphere), sphtex, ratio);
-                mainScene->skysphRef = skysph;
-                mainScene->skyboxRef = null;
+                MCSkysphere* skysph = MCSkysphere_initWithBE2DTexture(new(MCSkysphere), sphtex);
+                //mainScene->skysphRef = skysph;
+                //mainScene->skyboxRef = null;
                 mainScene->combineMode = MC3DSceneModelWithSkysph;
             }
         }
@@ -200,8 +196,8 @@ void onSetupGL(int windowWidth, int windowHeight)
         ff(director, pushScene, mainScene);
         
         //kick off
-        MCDirector_updateAll(0, director, 0);
-        MCDirector_drawAll(0, director, 0);
+        MCDirector_updateAll(director, 0);
+        MCDirector_drawAll(director, 0);
         
         debug_log("onSetupGL main scene pushed into director\n");
     }
@@ -224,23 +220,23 @@ void onUpdate(float* rmat3)
             
             if (director->currentWidth < director->currentHeight) {
                 //MCQuaternion q = {x,y,z,w};
-                //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
+                //MCSkyboxCamera_setAttitudeQ(director->lastScene->skyboxRef->camera, &q);
                 //director->lastScene->skyboxRef->camera->rotationMat3 = mat;
                 
-                MCDirector_setDeviceRotationMat3(0, director, rmat3);
+                MCDirector_setDeviceRotationMat3(director, rmat3);
                 
                 //director->mainCameraRotationMat3
             }else{
                 //MCQuaternion q = {x,y,z,w};
-                //MCSkyboxCamera_setAttitudeQ(0, director->lastScene->skyboxRef->camera, &q);
+                //MCSkyboxCamera_setAttitudeQ(director->lastScene->skyboxRef->camera, &q);
                 //director->lastScene->skyboxRef->camera->rotationMat3 = mat;
                 
-                MCDirector_setDeviceRotationMat3(0, director, rmat3);
+                MCDirector_setDeviceRotationMat3(director, rmat3);
             }
     	}
 
-        MCDirector_setDeviceRotationMat3(0, director, rmat3);
-        MCDirector_updateAll(0, director, 0);
+        MCDirector_setDeviceRotationMat3(director, rmat3);
+        MCDirector_updateAll(director, 0);
     }
 }
 
@@ -248,7 +244,7 @@ int onDraw()
 {
     int fps = -1;
     if (director != null) {
-        fps = MCDirector_drawAll(0, director, 0);
+        fps = MCDirector_drawAll(director, 0);
     }
 
     MCLogTypeSet(MC_DEBUG);
@@ -259,7 +255,7 @@ int onDraw()
 void onGestureSwip()
 {
     if (director != null && director->lastScene != null) {
-        //MCDirector_popScene(0, director, 0);
+        //MCDirector_popScene(director, 0);
     }
 }
 
@@ -271,15 +267,15 @@ void onGesturePan(double x, double y)
         double sign = camera->isReverseMovement == true? -1.0f : 1.0f;
         if (camera->isLockRotation == true) {
             double factor = 0.01;
-            MCCamera_fucus(0, camera, MCFloatF(x*sign*factor), MCFloatF(y*sign*factor));
+            MCCamera_fucus(camera, MCFloatF(x*sign*factor), MCFloatF(y*sign*factor));
         }else{
-            MCCamera_move(0, camera, MCFloatF(x*sign), MCFloatF(y*sign));
-            if (computed(director->lastScene, isDrawSky)) {
-                if (director->lastScene->skyboxRef) {
-                    MCCamera* cam2 = superof(director->lastScene->skyboxRef->camera);
-                    MCCamera_move(0, cam2, MCFloatF(x*sign / 5), MCFloatF(y*sign / 5));
-                }
-            }
+            MCCamera_move(camera, MCFloatF(x*sign), MCFloatF(y*sign));
+//            if (computed(director->lastScene, isDrawSky)) {
+//                if (director->lastScene->skyboxRef) {
+//                    MCCamera* cam2 = superof(director->lastScene->skyboxRef->camera);
+//                    MCCamera_move(0, cam2, MCFloatF(x*sign / 5), MCFloatF(y*sign / 5));
+//                }
+//            }
         }
     }
 }
@@ -292,7 +288,7 @@ void onGesturePinch(double scale)
 
     MCCamera* camera = director->lastScene->mainCamera;
     if (director != null && director->lastScene != null && camera != null) {
-        MCCamera_distanceScale(0, camera, MCFloatF(1.0/pinch_scale));
+        MCCamera_distanceScale(camera, MCFloatF(1.0/pinch_scale));
     }
 }
 
@@ -331,11 +327,11 @@ void cameraCommand(MC3DiOS_CameraCmd* cmd)
     if (director != null && director->lastScene != null) {
         MCCamera* camera = computed(director, cameraHandler);
         MCCamera* cam2 = null;
-        if (computed(director->lastScene, isDrawSky)) {
-            MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
-            cam2 = superof(sbcam);
-        }
-
+//        if (computed(director->lastScene, isDrawSky)) {
+//            MCSkyboxCamera* sbcam = director->lastScene->skyboxRef->camera;
+//            cam2 = superof(sbcam);
+//        }
+        
         if (camera != null) {
             switch (cmd->type) {
                 case MC3DiOS_CameraLookAt:

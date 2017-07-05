@@ -66,7 +66,6 @@
 		FD44CE341D326CF200784EDF /* MCOrbit.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDCF1D326CF200784EDF /* MCOrbit.c */; };
 		FD44CE351D326CF200784EDF /* MCPanel.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDD11D326CF200784EDF /* MCPanel.c */; };
 		FD44CE361D326CF200784EDF /* MCSkybox.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDD31D326CF200784EDF /* MCSkybox.c */; };
-		FD44CE371D326CF200784EDF /* MCSkyboxCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDD51D326CF200784EDF /* MCSkyboxCamera.c */; };
 		FD44CE381D326CF200784EDF /* MCTexture.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDD71D326CF200784EDF /* MCTexture.c */; };
 		FD44CE3A1D326CF200784EDF /* MCWorld.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDDC1D326CF200784EDF /* MCWorld.c */; };
 		FD44CE3B1D326CF200784EDF /* MCArray.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDDF1D326CF200784EDF /* MCArray.c */; };
@@ -88,7 +87,6 @@
 		FD44CE581D326CF200784EDF /* monkc.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE0F1D326CF200784EDF /* monkc.c */; };
 		FD44CE5A1D326CF200784EDF /* gles3jni.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE131D326CF200784EDF /* gles3jni.c */; };
 		FD44CE5C1D326CF200784EDF /* MainLoop.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE171D326CF200784EDF /* MainLoop.c */; };
-		FD44CE5E1D326CF200784EDF /* Testbed.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1A1D326CF200784EDF /* Testbed.c */; };
 		FD44CE5F1D326CF200784EDF /* MCNode.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CE1E1D326CF200784EDF /* MCNode.c */; };
 		FD4B12561DA3B03000ADCB38 /* BAMtlParser.c in Sources */ = {isa = PBXBuildFile; fileRef = FD4B12551DA3B03000ADCB38 /* BAMtlParser.c */; };
 		FD4B125B1DA5024800ADCB38 /* beengine.mtl in Resources */ = {isa = PBXBuildFile; fileRef = FD4B125A1DA5024800ADCB38 /* beengine.mtl */; };
@@ -141,7 +139,6 @@
 		FD91F74C1DF39E7700E28829 /* MCBits.c in Sources */ = {isa = PBXBuildFile; fileRef = FD91F74A1DF39E7700E28829 /* MCBits.c */; };
 		FDA3DCDE1C9056BC0044965D /* tex1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FDA3DCDD1C9056BC0044965D /* tex1.jpg */; };
 		FDB1AE541E6AD0FF004B5BCC /* MCSkysphere.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB1AE521E6AD0FF004B5BCC /* MCSkysphere.c */; };
-		FDB1AE571E6AD4A6004B5BCC /* MCSkysphereCamera.c in Sources */ = {isa = PBXBuildFile; fileRef = FDB1AE551E6AD4A6004B5BCC /* MCSkysphereCamera.c */; };
 		FDB1AE591E6AE58A004B5BCC /* MCSkysphereShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = FDB1AE581E6AE58A004B5BCC /* MCSkysphereShader.fsh */; };
 		FDB1AE5B1E6AE5A3004B5BCC /* MCSkysphereShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = FDB1AE5A1E6AE5A3004B5BCC /* MCSkysphereShader.vsh */; };
 		FDD87E061CCC979A00D292D3 /* 2.obj in Resources */ = {isa = PBXBuildFile; fileRef = FDD87E001CCC979A00D292D3 /* 2.obj */; };
@@ -167,6 +164,10 @@
 		F844669F1E6E8DD20031B993 /* left.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = left.jpg; sourceTree = "<group>"; };
 		F84466A01E6E8DD20031B993 /* right.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = right.jpg; sourceTree = "<group>"; };
 		F84466A11E6E8DD20031B993 /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = top.jpg; sourceTree = "<group>"; };
+		F85232771F0CC776008040A0 /* MCMap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCMap.h; sourceTree = "<group>"; };
+		F85232781F0CC776008040A0 /* MCMap.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MCMap.c; sourceTree = "<group>"; };
+		F85232791F0CCA7D008040A0 /* MC3DModelCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MC3DModelCache.h; sourceTree = "<group>"; };
+		F852327A1F0CCA7D008040A0 /* MC3DModelCache.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MC3DModelCache.c; sourceTree = "<group>"; };
 		F8888AA91E456F3D002C7822 /* Girl Blendswap.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Girl Blendswap.mtl"; sourceTree = "<group>"; };
 		F8888AAA1E456F3D002C7822 /* Girl Blendswap.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Girl Blendswap.obj"; sourceTree = "<group>"; };
 		F88C173F1D51E16A000D07BA /* MCArrayLinkedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCArrayLinkedList.h; sourceTree = "<group>"; };
@@ -263,8 +264,6 @@
 		FD44CDD21D326CF200784EDF /* MCPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCPanel.h; sourceTree = "<group>"; };
 		FD44CDD31D326CF200784EDF /* MCSkybox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkybox.c; sourceTree = "<group>"; };
 		FD44CDD41D326CF200784EDF /* MCSkybox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkybox.h; sourceTree = "<group>"; };
-		FD44CDD51D326CF200784EDF /* MCSkyboxCamera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkyboxCamera.c; sourceTree = "<group>"; };
-		FD44CDD61D326CF200784EDF /* MCSkyboxCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkyboxCamera.h; sourceTree = "<group>"; };
 		FD44CDD71D326CF200784EDF /* MCTexture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCTexture.c; sourceTree = "<group>"; };
 		FD44CDD81D326CF200784EDF /* MCTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCTexture.h; sourceTree = "<group>"; };
 		FD44CDD91D326CF200784EDF /* MCUIBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCUIBase.h; sourceTree = "<group>"; };
@@ -306,8 +305,6 @@
 		FD44CE101D326CF200784EDF /* monkc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = monkc.h; sourceTree = "<group>"; };
 		FD44CE131D326CF200784EDF /* gles3jni.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gles3jni.c; sourceTree = "<group>"; };
 		FD44CE171D326CF200784EDF /* MainLoop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainLoop.c; sourceTree = "<group>"; };
-		FD44CE1A1D326CF200784EDF /* Testbed.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Testbed.c; sourceTree = "<group>"; };
-		FD44CE1B1D326CF200784EDF /* Testbed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Testbed.h; sourceTree = "<group>"; };
 		FD44CE1D1D326CF200784EDF /* MCAccessble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCAccessble.h; sourceTree = "<group>"; };
 		FD44CE1E1D326CF200784EDF /* MCNode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCNode.c; sourceTree = "<group>"; };
 		FD44CE1F1D326CF200784EDF /* MCNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCNode.h; sourceTree = "<group>"; };
@@ -368,8 +365,6 @@
 		FDAE48171C7E0943009DEE97 /* mcicon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mcicon.jpg; sourceTree = "<group>"; };
 		FDB1AE521E6AD0FF004B5BCC /* MCSkysphere.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkysphere.c; sourceTree = "<group>"; };
 		FDB1AE531E6AD0FF004B5BCC /* MCSkysphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkysphere.h; sourceTree = "<group>"; };
-		FDB1AE551E6AD4A6004B5BCC /* MCSkysphereCamera.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MCSkysphereCamera.c; sourceTree = "<group>"; };
-		FDB1AE561E6AD4A6004B5BCC /* MCSkysphereCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCSkysphereCamera.h; sourceTree = "<group>"; };
 		FDB1AE581E6AE58A004B5BCC /* MCSkysphereShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCSkysphereShader.fsh; sourceTree = "<group>"; };
 		FDB1AE5A1E6AE5A3004B5BCC /* MCSkysphereShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = MCSkysphereShader.vsh; sourceTree = "<group>"; };
 		FDD87E001CCC979A00D292D3 /* 2.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.obj; sourceTree = "<group>"; };
@@ -505,6 +500,8 @@
 				FD44CDB21D326CF200784EDF /* MC3DBase.h */,
 				FD44CDB31D326CF200784EDF /* MC3DModel.c */,
 				FD44CDB41D326CF200784EDF /* MC3DModel.h */,
+				F852327A1F0CCA7D008040A0 /* MC3DModelCache.c */,
+				F85232791F0CCA7D008040A0 /* MC3DModelCache.h */,
 				FD44CDB61D326CF200784EDF /* MC3DNode.c */,
 				FD44CDB71D326CF200784EDF /* MC3DNode.h */,
 				FD44CDB91D326CF200784EDF /* MC3DScene.c */,
@@ -535,12 +532,8 @@
 				FD44CDD21D326CF200784EDF /* MCPanel.h */,
 				FD44CDD31D326CF200784EDF /* MCSkybox.c */,
 				FD44CDD41D326CF200784EDF /* MCSkybox.h */,
-				FD44CDD51D326CF200784EDF /* MCSkyboxCamera.c */,
-				FD44CDD61D326CF200784EDF /* MCSkyboxCamera.h */,
 				FDB1AE521E6AD0FF004B5BCC /* MCSkysphere.c */,
 				FDB1AE531E6AD0FF004B5BCC /* MCSkysphere.h */,
-				FDB1AE551E6AD4A6004B5BCC /* MCSkysphereCamera.c */,
-				FDB1AE561E6AD4A6004B5BCC /* MCSkysphereCamera.h */,
 				FD44CDD71D326CF200784EDF /* MCTexture.c */,
 				FD44CDD81D326CF200784EDF /* MCTexture.h */,
 				FD44CDD91D326CF200784EDF /* MCUIBase.h */,
@@ -576,6 +569,8 @@
 				F8DCDAB61D52E09E00FD3FD2 /* MCArrayLinkedList.c */,
 				FD44CDEE1D326CF200784EDF /* MCMath.c */,
 				FD44CDEF1D326CF200784EDF /* MCMath.h */,
+				F85232781F0CC776008040A0 /* MCMap.c */,
+				F85232771F0CC776008040A0 /* MCMap.h */,
 				F8DCDAB51D52CF8C00FD3FD2 /* MCGeometry.h */,
 				F8DCDAB81D52E44000FD3FD2 /* MCGeometry.c */,
 				FD44CDF01D326CF200784EDF /* MCProcess.c */,
@@ -633,8 +628,6 @@
 			children = (
 				FD44CE131D326CF200784EDF /* gles3jni.c */,
 				FD44CE171D326CF200784EDF /* MainLoop.c */,
-				FD44CE1A1D326CF200784EDF /* Testbed.c */,
-				FD44CE1B1D326CF200784EDF /* Testbed.h */,
 				FD44CE1C1D326CF200784EDF /* UI */,
 			);
 			name = MCSource;
@@ -861,7 +854,7 @@
 		FDFF05F81B060BE1000064E3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = oreisoft;
 				TargetAttributes = {
 					FDFF05FF1B060BE1000064E3 = {
@@ -986,7 +979,6 @@
 				FD44CE231D326CF200784EDF /* image_helper.c in Sources */,
 				FD44CE461D326CF200784EDF /* MCThread.c in Sources */,
 				FD44CE211D326CF200784EDF /* BEAssetsManager.c in Sources */,
-				FD44CE371D326CF200784EDF /* MCSkyboxCamera.c in Sources */,
 				FD44CE431D326CF200784EDF /* MCProcess.c in Sources */,
 				FD44CE421D326CF200784EDF /* MCMath.c in Sources */,
 				F8C4651A1DDD8523005581D0 /* MCHeap.c in Sources */,
@@ -1016,7 +1008,6 @@
 				FD44CE3D1D326CF200784EDF /* MCClock.c in Sources */,
 				FD44CE3B1D326CF200784EDF /* MCArray.c in Sources */,
 				FD3111591DAC7C0700324C31 /* BATrianglization.c in Sources */,
-				FDB1AE571E6AD4A6004B5BCC /* MCSkysphereCamera.c in Sources */,
 				FD00C4C31CD10BAE00DCA45F /* DetailNavController.m in Sources */,
 				FD44CE2A1D326CF200784EDF /* MC3DScene.c in Sources */,
 				FD44CE351D326CF200784EDF /* MCPanel.c in Sources */,
@@ -1037,7 +1028,6 @@
 				FD44CE441D326CF200784EDF /* MCSocket.c in Sources */,
 				FD44CE581D326CF200784EDF /* monkc.c in Sources */,
 				FD00C4C91CD10BAE00DCA45F /* MasterNavController.m in Sources */,
-				FD44CE5E1D326CF200784EDF /* Testbed.c in Sources */,
 				FD44CE481D326CF200784EDF /* MC3DAndroidDriver.c in Sources */,
 				FD44CE471D326CF200784EDF /* MCUnitTest.c in Sources */,
 				F8DCDAB91D52E44000FD3FD2 /* MCGeometry.c in Sources */,
@@ -1101,14 +1091,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1150,14 +1146,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

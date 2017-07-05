@@ -130,9 +130,9 @@ void MCGLStopLoading()
 - (void) onButtonClicked:(id)sender
 {
     UIButton* btn = (UIButton*)sender;
-    if (onButtonClickMsg.address) {
-        _push_jump(onButtonClickMsg, (MCInt)btn.tag);
-    }
+//    if (onButtonClickMsg.address) {
+//        _push_jump(onButtonClickMsg, (MCInt)btn.tag);
+//    }
 }
 
 - (void) handleMCGLError:(const char*)errmsg

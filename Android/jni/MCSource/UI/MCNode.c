@@ -60,7 +60,7 @@ method(MCNode, MCNode*, addChild, MCNode* child)
 {
     retain(child);
     child->parent = obj;
-    MCArray_addItem(0, var(children), MCGenericO(cast(MCObject*, child)));
+    MCArray_addItem(var(children), MCGenericO(cast(MCObject*, child)));
     return child;
 }
 
@@ -94,9 +94,9 @@ method(MCNode, void, draw, voida)
     int i;
     for(i=0; i<var(children)->count; i++)
     {
-        MCNode* child = (MCNode*)MCArray_getItemByIndex(0, var(children), i)->mcobject;
+        MCNode* child = (MCNode*)MCArray_getItemByIndex(var(children), i)->mcobject;
         if(child)
-            MCNode_draw(0, child, 0);
+            MCNode_draw(child, 0);
     }
 
     //MCXCBContext_flush();
