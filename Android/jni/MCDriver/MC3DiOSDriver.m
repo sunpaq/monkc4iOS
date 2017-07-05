@@ -13,7 +13,7 @@
 
 static UIView* _rootUIView = nil;
 static UIEventHandler* _handler = nil;
-static mc_message onButtonClickMsg = {nil, nil};
+//static mc_message onButtonClickMsg = {null, null};
 
 void MCUIRegisterRootUIView(void* rootview)
 {
@@ -78,7 +78,7 @@ void MCUILabelTextUpdate(const char* newtext, MCInt tag)
 
 void MCUIButtonRegisterCallback(mc_message msg)
 {
-    onButtonClickMsg = msg;
+    //onButtonClickMsg = msg;
 }
 
 void MCGLError(const char* errmsg)

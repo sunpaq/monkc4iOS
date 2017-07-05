@@ -47,8 +47,8 @@ void onRootViewLoad(void* rootview)
 void onOpenExternalFile(const char* filepath)
 {
     MC3DModel* model = ff(new(MC3DModel), initWithFilePathColor, filepath, (MCColorf){1.0, 1.0, 1.0, 1.0});
-    ff(director->lastScene->rootnode, setAllVisible, false);
-    ff(director, addModel, model);
+    MC3DNode_setAllVisible(director->lastScene->rootnode, false);
+    MCDirector_addModel(director, model, MCFloatF(10.0));
 }
 
 //static void asyncReadSkybox()
@@ -70,25 +70,10 @@ void openFile(const char* filename)
     MC3DModel* model = ff(new(MC3DModel), initWithFileNameColor, filename, (MCColorf){0.8, 0.8, 0.8, 1.0});
     if (model) {
         debug_log("Create MC3DModel success:%s\n", model->name);
-
-        MC3DFrame frame = model->lastSavedFrame;
-        double mheight = frame.ymax - frame.ymin;
-        double mwidth  = frame.xmax - frame.xmin;
-        double mdepth  = frame.zmax - frame.zmin;
+        computed(director, cameraHandler)->rotateMode = MCCameraRotateAroundModelManual;
         
-        double _max = (mheight > mwidth) ? mheight : mwidth;
-        double max = (mdepth > _max) ? mdepth : _max;
-
-        //wait skybox loading
-        //MCThread_joinThread(director->skyboxThread->tid);
-
-        //assemble
-        computed(director, cameraHandler)->lookat.y = mheight / 2.0f;
-        computed(director, cameraHandler)->R_value = max * 2.0f;
-        computed(director, cameraHandler)->rotateMode = MCCameraRotateAroundModelByGyroscope;
+        MCDirector_addModel(director, model, MCFloatF(10.0));
         
-        ff(director, addModel, model);
-
     } else {
         error_log("Can not create MC3DModel:%s\n", filename);
         exit(-1);
@@ -172,24 +157,24 @@ void onSetupGL(int windowWidth, int windowHeight)
         debug_log("onSetupGL main scene created current screen size: %dx%d\n", windowWidth, windowHeight);
         
         //skybox
-        double ratio = MCRatioMake(windowWidth, windowHeight);
-        if (getSkyboxOn() == 1) {
-            if (cubtex != null) {
-                MCSkybox* skybox = MCSkybox_initWithCubeTexture(new(MCSkybox), cubtex);
-                //mainScene->skyboxRef = skybox;
-                //mainScene->skysphRef = null;
-                mainScene->combineMode = MC3DSceneModelWithSkybox;
-            }
-
-        }
-        if (getSkyboxOn() == 2) {
-            if (sphtex != null) {
-                MCSkysphere* skysph = MCSkysphere_initWithBE2DTexture(new(MCSkysphere), sphtex);
-                //mainScene->skysphRef = skysph;
-                //mainScene->skyboxRef = null;
-                mainScene->combineMode = MC3DSceneModelWithSkysph;
-            }
-        }
+//        double ratio = MCRatioMake(windowWidth, windowHeight);
+//        if (getSkyboxOn() == 1) {
+//            if (cubtex != null) {
+//                MCSkybox* skybox = MCSkybox_initWithCubeTexture(new(MCSkybox), cubtex);
+//                //mainScene->skyboxRef = skybox;
+//                //mainScene->skysphRef = null;
+//                mainScene->combineMode = MC3DSceneModelWithSkybox;
+//            }
+//
+//        }
+//        if (getSkyboxOn() == 2) {
+//            if (sphtex != null) {
+//                MCSkysphere* skysph = MCSkysphere_initWithBE2DTexture(new(MCSkysphere), sphtex);
+//                //mainScene->skysphRef = skysph;
+//                //mainScene->skyboxRef = null;
+//                mainScene->combineMode = MC3DSceneModelWithSkysph;
+//            }
+//        }
         
         mainScene->mainCamera->R_value = 20;
 

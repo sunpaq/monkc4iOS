@@ -10,19 +10,19 @@
 #define MC3DiOS_h
 
 //App lifecycle
-void onAppStart();
+void onAppStart(void);
 
 //User Settings
-int getSkyboxOn();
+int getSkyboxOn(void);
 
 //GL callback
 void onRootViewLoad(void* rootview);
-void onReceiveMemoryWarning();
+void onReceiveMemoryWarning(void);
 void onSetupGL(int windowWidth, int windowHeight);
 void onOpenFile(const char* filename);
-void onTearDownGL();
+void onTearDownGL(void);
 void onUpdate(float* rmat4);
-int onDraw();
+int onDraw(void);
 
 //File callback
 void onOpenExternalFile(const char* filepath);
@@ -31,7 +31,7 @@ void onOpenFileAsync(const char* filename);
 void onOpenFileAndExitThread(const char* filename);
 
 //Gesture callback
-void onGestureSwip();
+void onGestureSwip(void);
 void onGesturePan(double x, double y);
 void onGesturePinch(double scale);
 
@@ -44,8 +44,8 @@ void onDrawModeChange(int triangleOrWire);
 
 //MCGL Errors
 void MCGLError(const char* errmsg);
-void MCGLStartLoading();
-void MCGLStopLoading();
+void MCGLStartLoading(void);
+void MCGLStopLoading(void);
 
 typedef enum {
     MC3DiOS_CameraLookAt,

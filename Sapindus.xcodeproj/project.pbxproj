@@ -22,6 +22,8 @@
 		F8ABA07A1E5FDF650094A7F8 /* BE2DTextureData.c in Sources */ = {isa = PBXBuildFile; fileRef = F8ABA0781E5FDF650094A7F8 /* BE2DTextureData.c */; };
 		F8ABA07D1E5FE1810094A7F8 /* BECubeTextureData.c in Sources */ = {isa = PBXBuildFile; fileRef = F8ABA07B1E5FE1810094A7F8 /* BECubeTextureData.c */; };
 		F8C4651A1DDD8523005581D0 /* MCHeap.c in Sources */ = {isa = PBXBuildFile; fileRef = F8C465181DDD8523005581D0 /* MCHeap.c */; };
+		F8CD8F5A1F0CCCE0009622FD /* MC3DModelCache.c in Sources */ = {isa = PBXBuildFile; fileRef = F852327A1F0CCA7D008040A0 /* MC3DModelCache.c */; };
+		F8CD8F5B1F0CCCF8009622FD /* MCMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F85232781F0CC776008040A0 /* MCMap.c */; };
 		F8DCDAB71D52E09E00FD3FD2 /* MCArrayLinkedList.c in Sources */ = {isa = PBXBuildFile; fileRef = F8DCDAB61D52E09E00FD3FD2 /* MCArrayLinkedList.c */; };
 		F8DCDAB91D52E44000FD3FD2 /* MCGeometry.c in Sources */ = {isa = PBXBuildFile; fileRef = F8DCDAB81D52E44000FD3FD2 /* MCGeometry.c */; };
 		FD00C4C01CD10BAE00DCA45F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD00C4A91CD10BAE00DCA45F /* AppDelegate.m */; };
@@ -46,9 +48,9 @@
 		FD3111591DAC7C0700324C31 /* BATrianglization.c in Sources */ = {isa = PBXBuildFile; fileRef = FD3111571DAC7C0700324C31 /* BATrianglization.c */; };
 		FD44CE211D326CF200784EDF /* BEAssetsManager.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CD9E1D326CF200784EDF /* BEAssetsManager.c */; };
 		FD44CE221D326CF200784EDF /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA21D326CF200784EDF /* image_DXT.c */; };
-		FD44CE231D326CF200784EDF /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA41D326CF200784EDF /* image_helper.c */; };
-		FD44CE241D326CF200784EDF /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA61D326CF200784EDF /* SOIL.c */; };
-		FD44CE251D326CF200784EDF /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA81D326CF200784EDF /* stb_image_aug.c */; };
+		FD44CE231D326CF200784EDF /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA41D326CF200784EDF /* image_helper.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		FD44CE241D326CF200784EDF /* SOIL.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA61D326CF200784EDF /* SOIL.c */; settings = {COMPILER_FLAGS = "-w"; }; };
+		FD44CE251D326CF200784EDF /* stb_image_aug.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDA81D326CF200784EDF /* stb_image_aug.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		FD44CE261D326CF200784EDF /* BAObjParser.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDAD1D326CF200784EDF /* BAObjParser.c */; };
 		FD44CE271D326CF200784EDF /* MC2DTex.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDB01D326CF200784EDF /* MC2DTex.c */; };
 		FD44CE281D326CF200784EDF /* MC3DModel.c in Sources */ = {isa = PBXBuildFile; fileRef = FD44CDB31D326CF200784EDF /* MC3DModel.c */; };
@@ -976,6 +978,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F8CD8F5B1F0CCCF8009622FD /* MCMap.c in Sources */,
+				F8CD8F5A1F0CCCE0009622FD /* MC3DModelCache.c in Sources */,
 				FD44CE231D326CF200784EDF /* image_helper.c in Sources */,
 				FD44CE461D326CF200784EDF /* MCThread.c in Sources */,
 				FD44CE211D326CF200784EDF /* BEAssetsManager.c in Sources */,
