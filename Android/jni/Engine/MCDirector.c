@@ -96,6 +96,12 @@ method(MCDirector, void, updateAll, voida)
             || cpt(cameraHandler)->rotateMode == MCCameraRotateAroundModelByGyroscopeReverse) {
             MC3DScene_setRotationMat3(var(lastScene), obj->deviceRotationMat3.m);
         }
+        else {
+            if (cpt(cameraHandler)) {
+                cpt(cameraHandler)->rotateMode = MCCameraRotateAroundModelManual;
+            }
+        }
+        //light follow camera
         if (var(lightFollowCamera) && cpt(lightHandler) && cpt(cameraHandler)) {
             cpt(lightHandler)->lightPosition = computed(cpt(cameraHandler), currentPosition);
             cpt(lightHandler)->dataChanged = true;

@@ -80,6 +80,7 @@ oninit(MC3DModel)
         obj->defaultColor = (MCColorf){0.9, 0.9, 0.9, 1.0};
         obj->defaultExtension = "obj";
         obj->textureOnOff = false;
+        
         obj->fitted = false;
         
         obj->frame = frame;

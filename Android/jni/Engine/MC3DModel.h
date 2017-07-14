@@ -39,6 +39,7 @@ method(MC3DModel, MC3DModel*, initWithFileName, const char* name);
 method(MC3DModel, MC3DModel*, initWithFilePathColor, const char* path, MCColorf color);
 method(MC3DModel, MC3DModel*, initWithFileNameColor, const char* name, MCColorf color);
 method(MC3DModel, void, translateToOrigin, voida);
+
 //rotate self (counter clock wise is positive)
 method(MC3DModel, void, rotateAroundSelfAxisX, double ccwRadian);
 method(MC3DModel, void, rotateAroundSelfAxisY, double ccwRadian);

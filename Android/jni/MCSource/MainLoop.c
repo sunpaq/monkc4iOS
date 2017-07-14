@@ -29,11 +29,19 @@ void onAppStart()
     if (cubtex == null) {
         const char* names[6] = {"right.jpg","left.jpg","top.jpg","bottom.jpg","back.jpg","front.jpg"};
         //const char* names[6] = {"posx.jpg","negx.jpg","posy.jpg","negy.jpg","posz.jpg","negz.jpg"};
-        cubtex = BECubeTextureData_newWithFaces(names);
+        //cubtex = BECubeTextureData_newWithFaces(names);
     }
     
     if (sphtex == null) {
-        sphtex = BE2DTextureData_newWithFilename("panorama360.jpg");
+        //sphtex = BE2DTextureData_newWithFilename("panorama360.jpg");
+    }
+}
+
+void onGyroscopeNotAvailable()
+{
+    if (director) {
+        //director->gyroscopeMode = false;
+        //computed(director, cameraHandler)->rotateMode = MCCameraRotateAroundModelManual;
     }
 }
 
@@ -192,6 +200,12 @@ void onTearDownGL()
 {
     release(director);
     director = null;
+    
+    release(cubtex);
+    cubtex = null;
+    
+    release(sphtex);
+    sphtex = null;
 }
 
 void onUpdate(float* rmat3)
