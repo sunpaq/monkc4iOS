@@ -260,7 +260,7 @@ utility(MCString, size_t, extensionFromFilename, const char* name, char* basebuf
 {
     trimWhiteSpace(&name);
     int i=0, j=0;
-    while (name[i] != NUL && name[i] != NUL) {
+    while (name[i] != NUL && name[j] != NUL) {
         if (name[i] == '.') {
             j = i;
         }

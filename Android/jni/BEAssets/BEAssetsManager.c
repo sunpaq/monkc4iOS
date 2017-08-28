@@ -38,8 +38,11 @@ int MCFileGetPathFromBundle(const char* bundlename, const char* filename, char* 
     char basename[256] = {0};
     char extension[64] = {0};
     
-    MCString_extensionFromFilename(filename, basename, extension);
-    printf("MCFileGetPath - filename/basename/extension -> %s/%s/%s\n", filename, basename, extension);
+    if (MCString_extensionFromFilename(filename, basename, extension) > 0) {
+        printf("MCFileGetPath - filename/basename/extension -> %s/%s/%s\n", filename, basename, extension);
+    } else {
+        printf("MCFileGetPath - filename/basename/no extension -> %s/%s\n", filename, basename);
+    }
     
 #ifdef __ANDROID__
     if (assetManager_ != null) {
