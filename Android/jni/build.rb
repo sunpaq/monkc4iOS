@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 require "mcbuild"
 
-$NDKHOME = "~/Library/Android/android-ndk-r11c"
+$NDKHOME = "~/Library/Android/sdk/ndk-bundle"
 $TOOLCHAIN = "/toolchains/arm-linux-androideabi-4.9/prebuilt/darwin-x86_64/bin"
 $CC = $NDKHOME + $TOOLCHAIN + "/arm-linux-androideabi-gcc"
 $AR = $NDKHOME + $TOOLCHAIN + "/arm-linux-androideabi-ar"
@@ -33,13 +33,15 @@ $app = MCBuild.new($LOCAL + "/MCSource").set_name('gles3jni')
 libs = [$monkc, $lemontea, $driver, $beassets, $engine]
 blocks = [$monkc, $lemontea, $driver, $beassets, $engine, $app]
 
-MCBuild.waitArg('clean') do
+build = MCBuild.new($LOCAL)
+
+build.command 'clean' do
 	blocks.each { |b|
 		b.clean
 	}
 end
 
-MCBuild.waitArg('build') do
+build.command 'build' do
 	blocks.each { |b|
 		b.set_compiler($CC)
 		 .set_archiver($AR)
@@ -55,4 +57,4 @@ MCBuild.waitArg('build') do
 	$app.compile.archive_so.copy_so_to("../../libs/armeabi-v7a")
 end
 
-MCBuild.printArgs(['clean', 'build'])
+build.print ['clean', 'build']
