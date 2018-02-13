@@ -2,7 +2,7 @@
 
 #you have to make sure the following tools
 NDK_BUILD='ndk-build'
-SDK_BUILD='ant'
+SDK_BUILD='gradle'
 PKG='com.android.gles3jni'
 
 function clean {
@@ -22,7 +22,7 @@ function build {
 	#cd jni
 	#./build.rb build
 	#cd ..
-	#$SDK_BUILD debug
+	$SDK_BUILD debug
 }
 
 function install {

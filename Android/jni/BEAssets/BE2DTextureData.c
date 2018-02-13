@@ -60,7 +60,9 @@ utility(BE2DTextureData, BE2DTextureData*, newWithPathname, const char* path)
 utility(BE2DTextureData, BE2DTextureData*, newWithFilename, const char* file)
 {
     char path[PATH_MAX] = {0};
-    MCFileGetPath(file, path);
+    if(MCFileGetPath(file, path)) {
+        return null;
+    }
     if (path[0]) {
         return BE2DTextureData_newWithPathname(path);
     }

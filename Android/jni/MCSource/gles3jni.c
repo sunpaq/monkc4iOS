@@ -63,7 +63,7 @@ java(void, resize, jint width, jint height)
 
 java(void, step, voida)
 {
-	onUpdate(0,0,0);
+	onUpdate(null);
 	onDraw();
 }
 

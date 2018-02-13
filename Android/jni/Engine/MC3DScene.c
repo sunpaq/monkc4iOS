@@ -90,12 +90,12 @@ method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFName, unsigned width, uns
 
 method(MC3DScene, MC3DScene*, initWithWidthHeightVNameFNameInBundle, unsigned width, unsigned height, const char* bundleId, const char* vname, const char* fname)
 {
-    char vpath[LINE_MAX] = {0};
+    char vpath[PATH_MAX] = {0};
     if (MCFileGetPathFromBundle(bundleId, vname, vpath))
         return null;
     const char* vsource = MCFileCopyContentWithPath(vpath);
     
-    char fpath[LINE_MAX] = {0};
+    char fpath[PATH_MAX] = {0};
     if (MCFileGetPathFromBundle(bundleId, fname, fpath))
         return null;
     const char* fsource = MCFileCopyContentWithPath(fpath);

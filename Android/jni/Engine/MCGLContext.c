@@ -65,12 +65,12 @@ method(MCGLContext, MCGLContext*, initWithShaderCode, const char* vcode, const c
 method(MCGLContext, MCGLContext*, initWithShaderName, const char* vname, const char* fname,
        const char* attribs[], size_t acount, MCGLUniformType types[], const char* uniforms[], size_t ucount)
 {
-    char vpath[LINE_MAX] = {0};
+    char vpath[PATH_MAX] = {0};
     if(MCFileGetPath(vname, vpath))
         return null;
     const char* vcode = MCFileCopyContentWithPath(vpath);
     
-    char fpath[LINE_MAX] = {0};
+    char fpath[PATH_MAX] = {0};
     if(MCFileGetPath(fname, fpath))
         return null;
     const char* fcode = MCFileCopyContentWithPath(fpath);
