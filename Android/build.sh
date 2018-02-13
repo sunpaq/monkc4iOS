@@ -22,7 +22,7 @@ function build {
 	#cd jni
 	#./build.rb build
 	#cd ..
-	#$SDK_BUILD debug
+	$SDK_BUILD debug
 }
 
 function install {
