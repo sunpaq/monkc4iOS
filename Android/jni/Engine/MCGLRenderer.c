@@ -368,15 +368,15 @@ method(MCGLRenderer, MCGLRenderer*, initWithShaderCodeString, const char* vcode,
 
 method(MCGLRenderer, MCGLRenderer*, initWithShaderFileName, const char* vshader, const char* fshader)
 {
-    char path[LINE_MAX];
-    MCFileGetPath(vshader, path);
-    const char* vcode = MCFileCopyContentWithPath(path);
-    
-    MCFileGetPath(fshader, path);
-    const char* fcode = MCFileCopyContentWithPath(path);
-    
+    char vpath[PATH_MAX];
+    char fpath[PATH_MAX];
+    if(MCFileGetPath(vshader, vpath) || MCFileGetPath(fshader, fpath)) {
+        error_log("MCGLRenderer init failed. vpath=%s fpath=%s\n", vpath, fpath);
+        return obj;
+    }
+    const char* vcode = MCFileCopyContentWithPath(vpath);
+    const char* fcode = MCFileCopyContentWithPath(fpath);
     MCGLRenderer_initWithShaderCodeString(obj, vcode, fcode);
-    
     free((void*)vcode);
     free((void*)fcode);
     return obj;
