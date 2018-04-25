@@ -176,7 +176,7 @@ method(MC3DNode, void, update, MCGLContext* ctx)
                         MC3DNode* node = (MC3DNode*)item;
                         if (node != null && node->visible != false) {
                             ff(node, update, ctx);
-                            //ff(node, update, ctx);
+                            //MC3DNode_update(node, ctx);
                         })
 }
 
@@ -234,6 +234,7 @@ method(MC3DNode, void, draw, MCGLContext* ctx)
                         MC3DNode* node = (MC3DNode*)item;
                         if (node != null && node->visible != false) {
                             ff(node, draw, ctx);
+                            //MC3DNode_draw(node, ctx);
                         })
     
     //ff(ctx, printUniforms, 0);

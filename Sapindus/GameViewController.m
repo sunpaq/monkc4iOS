@@ -8,7 +8,10 @@
 
 #import "GameViewController.h"
 #import <CoreMotion/CoreMotion.h>
+#import <GameController/GameController.h>
 #import "MC3DiOS.h"
+
+static GCController* controller;
 
 @interface GameViewController () {
 	double _savedCameraDistance;
@@ -18,6 +21,7 @@
 @property (strong, nonatomic) EAGLContext *context;
 @property CMMotionManager* motionManager;
 @property CMAttitude* referenceAttitude;
+
 
 - (void)tearDownGL;
 @end
@@ -53,6 +57,19 @@
     }
 	
     self.naviItem.title = self.filename;
+    
+//    [GCController startWirelessControllerDiscoveryWithCompletionHandler:^{
+//        GCController* controller = [[GCController controllers] objectAtIndex:0];
+
+//    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onGameControllerDiscovered:)
+                                                 name:GCControllerDidConnectNotification object:nil];
+}
+
+-(void)onGameControllerDiscovered:(NSNotification*)noti
+{
+     controller = noti.object;
 }
 
 -(BOOL)isRotateOrPan
@@ -223,6 +240,12 @@
     }
     
     CMAttitude* att = nil;
+    
+    //controller
+    GCExtendedGamepad* profile = controller.extendedGamepad;
+    float x = profile.leftThumbstick.xAxis.value;
+    float y = profile.leftThumbstick.yAxis.value;
+    onGesturePan(x * 10, y * 10);
     
     //Core Motion
     att = self.motionManager.deviceMotion.attitude;
